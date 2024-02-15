@@ -1,0 +1,34 @@
+# ignore from espA32
+demesh/sdkconfig
+demesh/sdkconfig.old
+demesh/build
+
+
+# ignore emacs backups
+*~
+*.bak
+*._*
+
+# ignore c build
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.lib
+
+# ignore build dirs
+doc
+obj
+bin
+dist
+
+# ignore test cases
+tmp_*
+
+# osx irritations
+**/.DS_Store
+**/pd_Logfile.txt
+
+# local archive
+local
