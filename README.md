@@ -37,7 +37,7 @@ https://fgdes.tf.fau.de/faudes/faudes_build.html
 
 libFAUDES is distributed under terms of the LGPL v2.1. Over time, many students and colleguous have contributed to the code base; see  https://fgdes.tf.fau.de/faudes for a complete list.
 
-Copyright (C) 2006, Bernd Opitz.
-Copyright (C) 2008 - 2010, Thomas Moor, Klaus Schmidt, Sebastian Perk. 
-Copyright (C) 2011 - 2024, Thomas Moor, Klaus Schmidt
+- Copyright (C) 2006, Bernd Opitz.
+- Copyright (C) 2008 - 2010, Thomas Moor, Klaus Schmidt, Sebastian Perk. 
+- Copyright (C) 2011 - 2024, Thomas Moor, Klaus Schmidt
 
