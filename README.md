@@ -24,11 +24,11 @@ accessed via ./doc/index.html. An online version is available at
 
 https://fgdes.tf.fau.de/faudes
 
-We distribute precompiled binaries for your convenience at
+For your convenience, precompiled binaries are distributed at
 
 https://fgdes.tf.fau.de/download.html
 
-If you want to build your, see the buld process documentation
+If you want to build your own, see the build process documentation
 
 https://fgdes.tf.fau.de/faudes/faudes_build.html
 
