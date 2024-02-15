@@ -1,0 +1,36 @@
+** cbreindl 200707
+
+1)
+
+Schmidt-Plugin created on 24.07.2007 with files
+liveness.h lnb.cpp mc.h msa.h msc.h observer.h schmidt.h and 
+liveness.cpp lnb.cpp mc.cpp msa.cpp msc.cpp observer.cpp
+from Klaus Schmidt
+and files 
+observer_2.h observertree.h partition.h bisimulation.h debug_SP.h
+observer_2.cpp observertree.cpp partition.cpp bisimulation.cpp
+from Diploma Thesis Christian Breindl
+
+2)
+
+observer-plugin created on 28.04.2008 by extracting the files
+observer.h debug_OP.h mc.h  partition.h bisimulation.h
+obserververification.h observercomputation.h
+mc.cpp  partition.cpp bisimulation.cpp
+obserververification.cpp observercomputation.cpp
+from the former schmidt-plugin. 
+In observercomputation.cpp new routines addressing 
+local control consistency (LCC) are defined
+kschmidt 200804
+
+3) 
+
+src file names in the observer-plugin get a unified file name 
+starting with op_:
+op_mc.h (.cpp), op_debug.h, op_observer.h, op_partition.h (.cpp),
+op_bisimulation.h (.cpp), op_observercomputation.h (.cpp),
+op_obserververification.h (.cpp). 
+The tutorials have been updated and also comply with the 
+naming convention:
+op_ex_mc.cpp, op_ex_bisim.cpp, op_ex_verification.cpp, op_ex_synthesis.cpp. 
+

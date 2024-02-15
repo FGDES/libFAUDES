@@ -1,0 +1,81 @@
+#
+# makefile for libfaudes hiosys plugin
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += hiosys
+#
+
+
+#
+# set up paths for hiosys plugin
+
+HIO_NAME   = hiosys
+HIO_BASE   = ./plugins/$(HIO_NAME)
+HIO_SRCDIR = $(HIO_BASE)/src
+
+#
+# list source files
+
+HIO_CPPFILES = hio_attributes.cpp hio_constraint.cpp  hio_plant.cpp  hio_controller.cpp  \
+  hio_environment.cpp  hio_module.cpp  hio_functions.cpp
+
+HIO_INCLUDE = hio_include.h
+
+HIO_RTIDEFS = hio_definitions.rti
+
+HIO_RTIFREF = hiosys_index.fref hiosys_types.fref hiosys_controllerport.fref \
+ hiosys_plant.fref hiosys_controller.fref hiosys_environment.fref hiosys_constraint.fref \
+ hiosys_test.fref hiosys_synth.fref hiosys_under_construction.fref hiosys_liveness.fref\
+ hiosys_conveyorbelts.fref hiosys_abstractionbased.fref  hiosys_stepbystep.fref\
+ hiosys_stepbystep_2.fref hiosys_plantdesign.fref hiosys_tu_envconstr.fref \
+ hiosys_tu_opconstr.fref hiosys_marking.fref hiosys_tu_spec.fref hiosys_tu_controller.fref \
+ hiosys_stepbystep_3.fref  hiosys_stepbystep_4.fref hiosys_stepbystep_5.fref \
+  hiosys_stepbystep_6.fref hiosys_shuffle.fref
+
+
+#
+# fix directories
+
+HIO_HEADERS = $(HIO_CPPFILES:.cpp=.h) $(HIO_INCLUDE)
+HIO_SOURCES = $(HIO_CPPFILES:%=$(HIO_SRCDIR)/%)
+HIO_OBJECTS = $(HIO_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+HIO_RTIDEFS := $(HIO_RTIDEFS:%=$(HIO_SRCDIR)/registry/%)
+HIO_RTIFREF := $(HIO_RTIFREF:%=$(HIO_SRCDIR)/registry/%)
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(HIO_INCLUDE): $(HIO_SRCDIR)/$(HIO_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(HIO_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* hiosys configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_HIO" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(HIO_SOURCES)
+OBJECTS += $(HIO_OBJECTS)
+HEADERS += $(HIO_HEADERS)
+VPATH   += $(HIO_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(HIO_NAME)
+RTIDEFS += $(HIO_RTIDEFS)
+RTIFREF += $(HIO_RTIFREF)
+
+#
+# advertise plugin: bindings
+SWGINTERFACES += $(HIO_SRCDIR)/registry/hio_interface.i 
+SWGMODULES += $(HIO_NAME)
+
+#
+# include tutorial
+
+include $(HIO_BASE)/Makefile.tutorial
+

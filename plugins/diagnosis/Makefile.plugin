@@ -1,0 +1,90 @@
+#
+# Makefile for the libfaudes diagnosis plug-in, T.Barthel 2009
+#
+# Included by faudes Makefile
+#
+# Insert the following line in main Makefile to activate plug-in
+#
+# FAUDES_PLUGINS += diagnosis
+#
+
+#
+# Print diagnosis debug messages
+#FAUDES_DEBUG += diag_functions
+
+#
+# set up paths relative to faudes path
+
+DIAG_NAME = diagnosis
+DIAG_BASE =   ./plugins/$(DIAG_NAME)
+DIAG_SRCDIR = $(DIAG_BASE)/src
+
+#
+# list source files
+
+DIAG_CPPFILES = diag_attrdiagstate.cpp diag_attrfailureevents.cpp diag_attrfailuretypes.cpp \
+  diag_attrlabelset.cpp diag_generator.cpp diag_eventdiagnosis.cpp diag_languagediagnosis.cpp \
+  diag_modulardiagnosis.cpp diag_decentralizeddiagnosis.cpp
+DIAG_INCLUDE = diag_include.h
+DIAG_DEBUG = diag_debug.h
+DIAG_RTIDEFS = diag_definitions.rti
+DIAG_RTIFREF = diagnosis_index.fref diagnosis_event.fref diagnosis_language.fref \
+  diagnosis_modular.fref diagnosis_application.fref diagnosis_decentralized.fref
+
+
+#
+# utility executable
+
+DIAG_EXES = diag2dot
+
+#
+# fix directories
+
+DIAG_HEADERS = $(DIAG_CPPFILES:.cpp=.h) $(DIAG_INCLUDE) $(DIAG_DEBUG) 
+DIAG_SOURCES = $(DIAG_CPPFILES:%=$(DIAG_SRCDIR)/%)
+DIAG_OBJECTS = $(DIAG_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+DIAG_RTIDEFS := $(DIAG_RTIDEFS:%=$(DIAG_SRCDIR)/registry/%)
+DIAG_RTIFREF := $(DIAG_RTIFREF:%=$(DIAG_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(DIAG_INCLUDE): $(DIAG_SRCDIR)/$(DIAG_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(DIAG_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* diagnosis configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_DIAGNOSIS" >> $(INCLUDEDIR)/configuration.h
+ifeq (diag_function,$(findstring diag_function,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_DIAGNOSIS" >> $(INCLUDEDIR)/configuration.h
+endif
+	echo " " >> $(INCLUDEDIR)/configuration.h 
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(DIAG_SOURCES)
+OBJECTS += $(DIAG_OBJECTS)
+HEADERS += $(DIAG_HEADERS)
+VPATH   += $(DIAG_SRCDIR)
+EXECUTABLES += $(DIAG_EXES:%=$(BINDIR)/%$(DOT_EXE))
+
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(DIAG_NAME)
+RTIDEFS += $(DIAG_RTIDEFS)
+RTIFREF += $(DIAG_RTIFREF)
+
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(DIAG_SRCDIR)/registry/diag_interface.i 
+SWGMODULES += $(DIAG_NAME)
+
+
+#
+# include tutorial
+
+include $(DIAG_BASE)/Makefile.tutorial

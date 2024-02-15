@@ -1,0 +1,64 @@
+<Generator>
+"SupConNB((cb5[0]),(cb5[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((cb5[0]),(cb5[0]_spec))
+% 
+%  States:        22
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   24
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb5-12"      +C+           "cb5-13"      +C+           "cb12-5"      +C+           
+"cb13-5"      +C+           "cb5+x"       +C+           "cb5-x"       +C+           
+"cb5stp"      +C+           "cb5wpar"     "cb5wplv12"   "cb5wplv13"   "t_cb5"       
++C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             22            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb12-5"      2             
+1             "cb13-5"      3             
+2             "cb5+x"       19            
+3             "cb5-x"       4             
+4             "t_cb5"       5             
+5             "cb5wpar"     6             
+6             "cb5stp"      7             
+7             "t_cb5"       8             
+8             "cb5-12"      9             
+8             "cb5-13"      10            
+9             "cb5-x"       15            
+10            "cb5+x"       11            
+11            "t_cb5"       12            
+12            "cb5wplv13"   13            
+13            "cb5stp"      14            
+14            "t_cb5"       1             
+15            "t_cb5"       16            
+16            "cb5wplv12"   17            
+17            "cb5stp"      18            
+18            "t_cb5"       1             
+19            "t_cb5"       20            
+20            "cb5wpar"     21            
+21            "cb5stp"      22            
+22            "t_cb5"       8             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

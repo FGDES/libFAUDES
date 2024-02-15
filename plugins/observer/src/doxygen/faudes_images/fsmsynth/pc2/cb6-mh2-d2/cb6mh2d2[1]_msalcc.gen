@@ -1,0 +1,79 @@
+<Generator>
+"Project(SupConNB((mh2[0]||d2[0]),(m...t(SupConNB((cb6[0]),(cb6[0]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((mh2[0]||d2[0]),(m...t(SupConNB((cb6[0]),(cb6[0]_spec)))
+% 
+%  States:        16
+%  Init/Marked:   1/1
+%  Events:        8
+%  Transitions:   40
+%  StateSymbols:  0
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+"cb14-6"      +C+           "cb6-14"      +C+           "cb13-6"      +C+           
+"cb6-13"      +C+           "cb6stp"      +C+           "mh2end"      "mh2start"    
++C+           "mh2stp"      +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             16            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb14-6"      3             
+1             "cb13-6"      3             
+1             "mh2start"    2             
+2             "cb14-6"      4             
+2             "cb13-6"      4             
+2             "mh2stp"      11            
+3             "cb6stp"      5             
+3             "mh2start"    4             
+4             "cb6stp"      6             
+4             "mh2stp"      13            
+5             "cb6-14"      7             
+5             "cb6-13"      7             
+5             "mh2start"    6             
+6             "cb6-14"      8             
+6             "cb6-13"      8             
+6             "mh2stp"      15            
+7             "cb6stp"      1             
+7             "mh2start"    8             
+8             "cb6stp"      2             
+8             "mh2stp"      9             
+9             "cb6stp"      11            
+9             "mh2stp"      10            
+10            "cb6stp"      12            
+10            "mh2end"      7             
+11            "cb14-6"      13            
+11            "cb13-6"      13            
+11            "mh2stp"      12            
+12            "cb14-6"      14            
+12            "cb13-6"      14            
+12            "mh2end"      1             
+13            "cb6stp"      15            
+13            "mh2stp"      14            
+14            "cb6stp"      16            
+14            "mh2end"      3             
+15            "cb6-14"      9             
+15            "cb6-13"      9             
+15            "mh2stp"      16            
+16            "cb6-14"      10            
+16            "cb6-13"      10            
+16            "mh2end"      5             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

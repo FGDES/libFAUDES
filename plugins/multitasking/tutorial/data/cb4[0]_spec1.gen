@@ -1,0 +1,60 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        11
+%  Init/Marked:   1/0
+%  Events:        11
+%  Transitions:   24
+%  StateSymbols:  11
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+"cb4+x"       +C+           "cb4-x"       +C+           "cb4stp"      +C+           
+"t_cb4"       "cb4wpar"     "cb4wplv11"   "cb4wplv12"   "cb11-cb4"    +C+           
+"cb12-cb4"    +C+           "cb4-cb11"    +C+           "cb4-cb12"    +C+           
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           "5"           "6"           
+"7"           "8"           "9"           "10"          "11"          
+</States>
+
+<TransRel>
+"1"           "t_cb4"       "1"           
+"1"           "cb11-cb4"    "2"           
+"1"           "cb12-cb4"    "3"           
+"2"           "cb4+x"       "4"           
+"2"           "t_cb4"       "2"           
+"3"           "cb4-x"       "4"           
+"3"           "t_cb4"       "3"           
+"4"           "t_cb4"       "4"           
+"4"           "cb4wpar"     "5"           
+"5"           "cb4stp"      "6"           
+"5"           "t_cb4"       "5"           
+"6"           "t_cb4"       "6"           
+"6"           "cb4-cb11"    "7"           
+"6"           "cb4-cb12"    "9"           
+"7"           "cb4-x"       "8"           
+"7"           "t_cb4"       "7"           
+"8"           "t_cb4"       "8"           
+"8"           "cb4wplv11"   "11"          
+"9"           "cb4+x"       "10"          
+"9"           "t_cb4"       "9"           
+"10"          "t_cb4"       "10"          
+"10"          "cb4wplv12"   "11"          
+"11"          "cb4stp"      "1"           
+"11"          "t_cb4"       "11"          
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

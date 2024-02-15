@@ -1,0 +1,31 @@
+<Generator>
+"wPlant1"
+
+<Alphabet>
+"a" +C+       "b" +C+  
+"c"           "d"          
+</Alphabet>
+
+<States>
+"L1" "L2" "A" "B" 
+</States>
+
+<TransRel>
+"L1" "d" "L2"
+"L2" "d" "L1"
+"L1" "b" "B"
+"B"  "d" "L1"
+
+"L2" "a" "A"
+"A"  "c" "L1"
+</TransRel>
+
+<InitStates>
+"L1"        
+</InitStates>
+
+<MarkedStates>
+"A"  "B"        
+</MarkedStates>
+
+</Generator>

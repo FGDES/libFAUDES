@@ -1,0 +1,281 @@
+%%% test mark: deterministic [at 3_functions.cpp:53]
+% 
+%  Statistics for Det(g_nondet)
+% 
+%  States:        6
+%  Init/Marked:   1/2
+%  Events:        11
+%  Transitions:   9
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: minimal [at 3_functions.cpp:76]
+% 
+%  Statistics for g_nonmin [minstate]
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: project [at 3_functions.cpp:107]
+% 
+%  Statistics for Project(g) [minstate]
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   7
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: parallel [at 3_functions.cpp:155]
+% 
+%  Statistics for G1||G2
+% 
+%  States:        6
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   14
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: wparallel [at 3_functions.cpp:156]
+% 
+%  Statistics for very simple machine 1|||very simple machine 2
+% 
+%  States:        10
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   20
+%  StateSymbols:  10
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: boolean union [at 3_functions.cpp:238]
+% 
+%  Statistics for Union(g1,g2)
+% 
+%  States:        9
+%  Init/Marked:   1/4
+%  Events:        6
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: boolean inter [at 3_functions.cpp:239]
+% 
+%  Statistics for Intersection(g1,g2)
+% 
+%  States:        3
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: boolean compl [at 3_functions.cpp:240]
+% 
+%  Statistics for Complement(g1)
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        5
+%  Transitions:   20
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: boolean equal [at 3_functions.cpp:241]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: difference [at 3_functions.cpp:269]
+% 
+%  Statistics for Intersection(languagedifference_g1,...nt(languagedifference_g2,Alphabet))
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: concat  [at 3_functions.cpp:336]
+% 
+%  Statistics for Concatenate(g5,g6)
+% 
+%  States:        5
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   6
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: kleene closure  [at 3_functions.cpp:402]
+% 
+%  Statistics for KleeneClosure(g1)
+% 
+%  States:        5
+%  Init/Marked:   1/4
+%  Events:        4
+%  Transitions:   7
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: kleene closure  [at 3_functions.cpp:421]
+% 
+%  Statistics for KleeneClosureNonDet(g2)
+% 
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        1
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: prefix closure [at 3_functions.cpp:457]
+% 
+%  Statistics for PrefixClosure(g)
+% 
+%  States:        4
+%  Init/Marked:   1/4
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: omega closure [at 3_functions.cpp:494]
+% 
+%  Statistics for OmegaClosure(g)
+% 
+%  States:        5
+%  Init/Marked:   1/5
+%  Events:        4
+%  Transitions:   7
+%  StateSymbols:  5
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: nonblocking 0 [at 3_functions.cpp:557]
+% 
+%  Statistics for noblo_ae
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   1
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: nonblocking 1 [at 3_functions.cpp:578]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: nonblocking 2 [at 3_functions.cpp:596]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: nonblocking 3 [at 3_functions.cpp:614]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: nonblocking 4 [at 3_functions.cpp:631]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: nonblocking 9a [at 3_functions.cpp:716]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: nonblocking 9b [at 3_functions.cpp:726]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+

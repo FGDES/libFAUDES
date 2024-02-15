@@ -1,0 +1,58 @@
+=============================================================
+
+Tutorial applications
+
+=============================================================
+
+* exefaudes
+
+Very simple tool to execute a plain generator interactively, ie
+to "manually execute" transtitions and thereby to "walk through" 
+states.
+
+* simfaudes
+
+Still simple but quite useful tool to simulate the synchronous
+product of generators, e.g. closed loop behaviour. It uses the 
+logging facilities from the LoggingExecutor for both actual logging 
+and condition monitorinng. It uses the ProposingExecutor for 
+non-interactive simulation via priorities or stochastic execution. 
+It uses the iodevice plugin (if installed) to synchronise with device 
+event and time. Call with command line option "-h" for further information.
+
+
+
+=============================================================
+
+Tutorial data
+
+=============================================================
+
+The tutorial provides three simulation setups as *.sim-files
+plus the relevant *.gen-files. All are variations of the simple
+machine example. They can be executed via the simfaudes 
+application or via the conveience script runsim.sh; examples
+
+
+~/libfaudes/plugins/simulator/tutorial> . ./runsim.sh data/gausstest.sim
+
+~/libfaudes/plugins/simulator/tutorial> . ./runsim.sh data/gausstest.sim -q -bs 10000
+
+~/libfaudes/plugins/simulator/tutorial> ../../../bin/simfaudes data/gausstest.sim 
+
+
+* gausstest.sim
+
+A very simple basic test with gaussian distributed alpha and beta
+events.
+
+
+* stochtest.sim
+
+More advanced test that involves delay and trigger type events
+for break down and workpiece processing.
+
+* machines.sim
+
+Almost realistic scenario of two machines with a one-place buffer.
+

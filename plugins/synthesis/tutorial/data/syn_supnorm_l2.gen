@@ -1,0 +1,39 @@
+<Generator>
+"platn_1||LanguageDifference(Project...nstate]),Project(plant [minstate]))" 
+
+% 
+%  Statistics for platn_1||LanguageDifference(Project...nstate]),Project(plant [minstate]))
+% 
+%  States:        5
+%  Init/Marked:   1/5
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  5
+%  Attrib. E/S/T: 1/0/0
+% 
+
+<Alphabet>
+t1            t             c             a1            +C+          
+</Alphabet>
+
+<States>
+"1|1"         "2|2"         "4|1"         "5|3"         "3|3"        
+</States>
+
+<TransRel>
+"1|1"         t1            "2|2"        
+"1|1"         a1            "4|1"        
+"2|2"         c             "3|3"        
+"4|1"         t             "5|3"        
+</TransRel>
+
+<InitStates>
+"1|1"        
+</InitStates>
+
+<MarkedStates>
+"1|1"         "2|2"         "4|1"         "5|3"         "3|3"        
+</MarkedStates>
+
+
+</Generator>

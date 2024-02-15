@@ -1,0 +1,44 @@
+<Generator name="SupConNB((Project(SupConNB((pu1[0]|...(sf[0]),(sf[0]_spec))) [minstate]))">
+
+% 
+%  Statistics for SupConNB((Project(SupConNB((pu1[0]|...(sf[0]),(sf[0]_spec))) [minstate]))
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   8
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+sf-cb1        +C+           sf-2          +C+           cb1-3         +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              7             
+</Consecutive>
+</States>
+
+<TransRel>
+1              sf-cb1        2             
+2              sf-cb1        3             
+2              cb1-3         4             
+3              cb1-3         5             
+4              sf-cb1        5             
+5              cb1-3         6             
+6              sf-cb1        7             
+7              sf-2          1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

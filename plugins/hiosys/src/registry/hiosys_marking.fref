@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Marking">
+
+<h1>
+HioSys PlugIn 
+</h1>
+
+<p>
+In this version of HioSys, we consider <strong>only prefix-closed systems</strong>,
+i.e. systems <fimath>S=(\Sigma,L)</fimath> with a prefix-closed language <fimath>L</fimath>.
+Hence, all states of an I/O generator have to be marked in its finalized version.
+</p>
+
+<p>
+In order to augment the expressiveness of the system models, ongoing research 
+addresses non-prefix-closed systems with the instantaneous behaviour 
+<fimath>\Closure{L}</fimath> and the infinite time behaviour 
+<fimath>L^\infty</fimath> (rather than <fimath>{\Closure{L}}^\infty</fimath>).
+Technicaly, the main task is to establish conditions for the marking 
+to be compatible with the abstraction based control approach.
+</p>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a>
+</p>
+</ReferencePage>
+
+  

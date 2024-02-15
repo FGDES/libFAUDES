@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type HioConstraint -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="HioSys::HioConstraint" ctype="faudes::HioConstraint"> 
+
+<Documentation ref="hiosys_types.html#constraint"> 
+Generator with I/O-constraint state and event attributes.
+</Documentation> 
+<Keywords> 
+HioSys        "io systems"  "constraint model"  generator     
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type HioController -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="HioSys::HioController" ctype="faudes::HioController"> 
+
+<Documentation ref="hiosys_types.html#controller"> 
+Generator with I/O-controller state and event attributes.
+</Documentation> 
+<Keywords> 
+HioSys        "io systems"  "controller model"  generator     
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type HioEnvironment -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="HioSys::HioEnvironment" ctype="faudes::HioEnvironment"> 
+
+<Documentation ref="hiosys_types.html#environment"> 
+Generator with I/O-environment state and event attributes.
+</Documentation> 
+<Keywords> 
+HioSys        "io systems"  "environment model"  generator     
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type HioEventFlags -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="HioSys::HioEventFlags" ctype="faudes::HioEventFlags"> 
+
+<Keywords> 
+HioSys        
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type HioPlant -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="HioSys::HioPlant" ctype="faudes::HioPlant"> 
+
+<Documentation ref="hiosys_types.html#plant"> 
+Generator with I/O-plant state and event attributes.
+</Documentation> 
+<Keywords> 
+HioSys        "io systems"  "plant model"  generator     
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type HioStateFlags -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="HioSys::HioStateFlags" ctype="faudes::HioStateFlags"> 
+
+<Keywords> 
+HioSys        
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function HioFreeInput -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::HioFreeInput" ctype="faudes::HioFreeInput"> 
+
+<Documentation ref="hiosys_test.html#HioFreeInput"> 
+Enforces free input for I/O dynamics by adding error behaviour.
+</Documentation> 
+<Keywords> 
+HioSys        "io form"     input         
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="HioFreeInput(Plant)"> 
+<Parameter name="GArg" ftype="HioPlant" access="InOut"/> 
+</Signature> 
+
+<Signature name="HioFreeInput(Controller)"> 
+<Parameter name="GArg" ftype="HioController" access="InOut"/> 
+</Signature> 
+
+<Signature name="HioFreeInput(Environment)"> 
+<Parameter name="GArg" ftype="HioEnvironment" access="InOut"/> 
+</Signature> 
+
+<Signature name="HioFreeInput(Constraint)"> 
+<Parameter name="GArg" ftype="HioConstraint" access="InOut"/> 
+</Signature> 
+
+<Signature name="HioFreeInput(GArg,U,Y,GRes,StrErr1,StrErr2)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="U" ftype="EventSet" access="In"/> 
+<Parameter name="Y" ftype="EventSet" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+<Parameter name="StrErr1" ftype="String" access="In"/> 
+<Parameter name="StrErr2" ftype="String" access="In"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function HioShuffle -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::HioShuffle" ctype="faudes::HioShuffle"> 
+
+<Documentation ref="hiosys_shuffle.html"> 
+Shuffle-composition of two HioPlant systems.
+</Documentation> 
+<Keywords> 
+HioSys        composition   shuffle       "io plant"    
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="GRes =  GArg1 ||_io GArg2"> 
+<Parameter name="GArg1" ftype="HioPlant" access="In"/> 
+<Parameter name="GArg2" ftype="HioPlant" access="In"/> 
+<Parameter name="GRes" ftype="HioPlant" access="Out"/> 
+</Signature> 
+
+<Signature name="GRes =  HioShuffle(...)"> 
+<Parameter name="GArg1" ftype="Generator" access="In"/> 
+<Parameter name="GArg2" ftype="Generator" access="In"/> 
+<Parameter name="Yp" ftype="EventSet" access="In"/> 
+<Parameter name="Up" ftype="EventSet" access="In"/> 
+<Parameter name="Ye" ftype="EventSet" access="In"/> 
+<Parameter name="Ue" ftype="EventSet" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function HioStatePartition -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::HioStatePartition" ctype="faudes::HioStatePartition"> 
+
+<Keywords> 
+HioSys        
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="HioStatePartition(Plant)"> 
+<Parameter name="GArg" ftype="HioPlant" access="InOut"/> 
+</Signature> 
+
+<Signature name="HioStatePartition(Controller)"> 
+<Parameter name="GArg" ftype="HioController" access="InOut"/> 
+</Signature> 
+
+<Signature name="HioStatePartition(Environment)"> 
+<Parameter name="GArg" ftype="HioEnvironment" access="InOut"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function HioSynth -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::HioSynth" ctype="faudes::HioSynth"> 
+
+<Documentation ref="hiosys_synth.html#HioSynth"> 
+Basic I/O controller synthesis procedure, without   parameter check.
+</Documentation> 
+<Keywords> 
+HioSys        synthesis     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Core Synthesis Algorithm"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GConstr" ftype="Generator" access="In"/> 
+<Parameter name="GConstrLoc" ftype="Generator" access="In"/> 
+<Parameter name="Yc" ftype="EventSet" access="In"/> 
+<Parameter name="Uc" ftype="EventSet" access="In"/> 
+<Parameter name="Yp" ftype="EventSet" access="In"/> 
+<Parameter name="Up" ftype="EventSet" access="In"/> 
+<Parameter name="Yel" ftype="EventSet" access="In"/> 
+<Parameter name="Uel" ftype="EventSet" access="In"/> 
+<Parameter name="GController" ftype="Generator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function HioSynthHierarchical -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::HioSynthHierarchical" ctype="faudes::HioSynthHierarchical"> 
+
+<Documentation ref="hiosys_synth.html#HioSynthHierarchical"> 
+I/O-Controller synthesis, hierarchical version.
+</Documentation> 
+<Keywords> 
+HioSys        synthesis     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Hierarchical synthesis"> 
+<Parameter name="GPlant" ftype="HioPlant" access="In"/> 
+<Parameter name="GEnv" ftype="HioEnvironment" access="In"/> 
+<Parameter name="GSpec" ftype="HioPlant" access="In"/> 
+<Parameter name="GConstrInt" ftype="Generator" access="In"/> 
+<Parameter name="GConstrC" ftype="HioConstraint" access="In"/> 
+<Parameter name="GConstrL" ftype="HioConstraint" access="In"/> 
+<Parameter name="GController" ftype="HioController" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function HioSynthMonolithic -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::HioSynthMonolithic" ctype="faudes::HioSynthMonolithic"> 
+
+<Documentation ref="hiosys_synth.html#HioSynthMonolithic"> 
+I/O-Controller synthesis, monolithic version.
+</Documentation> 
+<Keywords> 
+HioSys        synthesis     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Monolithic Synthesis"> 
+<Parameter name="GPlant" ftype="HioPlant" access="In"/> 
+<Parameter name="GSpec" ftype="HioPlant" access="In"/> 
+<Parameter name="GConstrC" ftype="HioConstraint" access="In"/> 
+<Parameter name="GConstrP" ftype="HioConstraint" access="In"/> 
+<Parameter name="GConstrE" ftype="HioConstraint" access="In"/> 
+<Parameter name="GController" ftype="HioController" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsHioConstraintForm -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::IsHioConstraintForm" ctype="faudes::IsHioConstraintForm"> 
+
+<Documentation ref="hiosys_test.html#IsHioConstraintForm"> 
+Test for dynamics compatible with the formal definition of I/O constraints.
+</Documentation> 
+<Keywords> 
+HioSys        "io form"     "constraint model"  generator     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsHioConstraintForm(GArg,BRes)"> 
+<Parameter name="GArg" ftype="HioConstraint" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsHioControllerForm -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::IsHioControllerForm" ctype="faudes::IsHioControllerForm"> 
+
+<Documentation ref="hiosys_test.html#IsHioControllerForm"> 
+Test for dynamics compatible  the formal definition of I/O controllers.
+</Documentation> 
+<Keywords> 
+HioSys        "io form"     "plant model"  generator     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsHioControllerForm(GArg,BRes)"> 
+<Parameter name="GArg" ftype="HioController" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsHioEnvironmentForm -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::IsHioEnvironmentForm" ctype="faudes::IsHioEnvironmentForm"> 
+
+<Documentation ref="hiosys_test.html#IsHioEnvironmentForm"> 
+Test for dynamics compatible  the formal definition of the I/O environments.
+</Documentation> 
+<Keywords> 
+HioSys        "io form"     "environment model"  generator     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsHioEnvironmentForm(GArg,BRes)"> 
+<Parameter name="GArg" ftype="HioEnvironment" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsHioPlantForm -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="HioSys::IsHioPlantForm" ctype="faudes::IsHioPlantForm"> 
+
+<Documentation ref="hiosys_test.html#IsHioPlantForm"> 
+Test for dynamics compatible with the formal definition of I/O plants.
+</Documentation> 
+<Keywords> 
+HioSys        "io form"     "plant model"  generator     
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsHioPlantForm(GArg,ErrStr,BRes)"> 
+<Parameter name="GArg" ftype="HioPlant" access="InOut"/> 
+<Parameter name="ReportStr" ftype="String" access="Out"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+<Signature name="IsHioPlantForm(GArg,BRes)"> 
+<Parameter name="GArg" ftype="HioPlant" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+<Signature name="IsHioPlantForm(GArg,Qxx,ErrStr,BRes)"> 
+<Parameter name="GArg" ftype="HioPlant" access="InOut"/> 
+<Parameter name="QYpYe" ftype="StateSet" access="Out"/> 
+<Parameter name="QUp" ftype="StateSet" access="Out"/> 
+<Parameter name="QUe" ftype="StateSet" access="Out"/> 
+<Parameter name="ErrEv" ftype="EventSet" access="Out"/> 
+<Parameter name="ErrTr" ftype="TransSet" access="Out"/> 
+<Parameter name="ErrSt" ftype="StateSet" access="Out"/> 
+<Parameter name="ReportStr" ftype="String" access="Out"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry> 

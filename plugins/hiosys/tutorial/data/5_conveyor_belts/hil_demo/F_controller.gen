@@ -1,0 +1,109 @@
+<Generator>
+"HioSynth(plant_A,spec_A)_F_" 
+
+% 
+%  Statistics for HioSynth(plant_A,spec_A)_F_
+% 
+%  States:        27
+%  Init/Marked:   1/27
+%  Events:        14
+%  Transitions:   58
+%  StateSymbols:  0
+%  Attrib. E/S/T: 14/27/0
+% 
+
+<Alphabet>
+"F_r"         +UP+          "F_l"         +UP+          "F_stp"       +UP+          
+"F_wait"      +YP+          "F_full"      +YP+          "F_arrtl"     +YP+          
+"F_arrtr"     +YP+          "F_STP"       +UC+          "F_TR"        +UC+          
+"F_FL"        +UC+          "F_WAIT"      +YC+          "F_FULL"      +YC+          
+"F_ARRTL"     +YC+          "F_ARRTR"     +YC+          
+</Alphabet>
+
+<States>
+1             +QYp+         2             +QUp+         3             +QUp+         
+4             +QUp+         5             +QYp+         6             +QYcUp+       
+7             +QUc+         8             +QYcUp+       9             +QUc+         
+10            +QUc+         11            +QYcUp+       12            +QYcUp+       
+13            +QYcUp+       14            +QUp+         15            +QYp+         
+16            +QYp+         17            +QYp+         18            +QYp+         
+19            +QYp+         20            +QUc+         21            +QYcUp+       
+22            +QYp+         23            +QUp+         24            +QUp+         
+25            +QUc+         26            +QUp+         27            +QUc+         
+</States>
+
+<TransRel>
+2             "F_r"         5             
+2             "F_l"         5             
+2             "F_stp"       5             
+3             "F_stp"       15            
+4             "F_r"         19            
+4             "F_stp"       22            
+5             "F_wait"      2             
+5             "F_full"      2             
+5             "F_arrtl"     2             
+5             "F_arrtr"     2             
+6             "F_r"         18            
+6             "F_FULL"      20            
+7             "F_STP"       3             
+7             "F_TR"        4             
+8             "F_WAIT"      7             
+9             "F_STP"       23            
+9             "F_FL"        26            
+10            "F_STP"       23            
+11            "F_FULL"      27            
+12            "F_r"         19            
+12            "F_ARRTR"     25            
+13            "F_ARRTR"     10            
+14            "F_r"         16            
+15            "F_wait"      8             
+15            "F_full"      2             
+15            "F_arrtl"     2             
+15            "F_arrtr"     2             
+16            "F_wait"      14            
+16            "F_full"      3             
+16            "F_arrtl"     2             
+16            "F_arrtr"     2             
+17            "F_wait"      24            
+17            "F_full"      2             
+17            "F_arrtl"     2             
+17            "F_arrtr"     23            
+18            "F_wait"      6             
+18            "F_full"      11            
+18            "F_arrtl"     2             
+18            "F_arrtr"     2             
+19            "F_wait"      12            
+19            "F_full"      2             
+19            "F_arrtl"     2             
+19            "F_arrtr"     13            
+20            "F_STP"       14            
+21            "F_WAIT"      9             
+22            "F_wait"      12            
+22            "F_full"      2             
+22            "F_arrtl"     2             
+22            "F_arrtr"     2             
+1             "F_wait"      21            
+1             "F_full"      2             
+1             "F_arrtl"     2             
+1             "F_arrtr"     2             
+23            "F_stp"       1             
+24            "F_r"         17            
+25            "F_STP"       24            
+26            "F_r"         18            
+27            "F_STP"       3             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3             4             5             6             
+7             8             9             10            11            12            
+13            14            15            16            17            18            
+19            20            21            22            23            24            
+25            26            27            
+</MarkedStates>
+
+
+</Generator>

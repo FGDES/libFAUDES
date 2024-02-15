@@ -1,0 +1,80 @@
+#
+# makefile for libfaudes iosystem plugin
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += iosystem
+#
+
+
+#
+# Print miscellenous debug messages
+# FAUDES_DEBUG += ios_misc
+
+IOS_NAME        = iosystem
+IOS_BASE	= ./plugins/$(IOS_NAME)
+IOS_SRCDIR	= $(IOS_BASE)/src
+
+#
+# list source files
+
+IOS_CPPFILES = ios_system.cpp ios_attributes.cpp ios_algorithms.cpp  
+IOS_INCLUDE = ios_include.h
+IOS_RTIDEFS = ios_definitions.rti
+IOS_RTIFREF = iosystem_index.fref iosystem_sysdef.fref iosystem_synth.fref 
+
+# iosystem_macros.fref
+
+#
+# fix directories
+
+IOS_HEADERS = $(IOS_CPPFILES:.cpp=.h) $(IOS_INCLUDE)
+IOS_SOURCES = $(IOS_CPPFILES:%=$(IOS_SRCDIR)/%)
+IOS_OBJECTS = $(IOS_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+IOS_RTIDEFS := $(IOS_RTIDEFS:%=$(IOS_SRCDIR)/registry/%)
+IOS_RTIFREF := $(IOS_RTIFREF:%=$(IOS_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(IOS_INCLUDE): $(IOS_SRCDIR)/$(IOS_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(IOS_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* iosystem plugin configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_IOSYSTEM" >> $(INCLUDEDIR)/configuration.h
+ifeq (ios_misc,$(findstring ios_misc,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_IOSYSTEM" >> $(INCLUDEDIR)/configuration.h
+endif
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+	
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(IOS_SOURCES)
+OBJECTS += $(IOS_OBJECTS)
+HEADERS += $(IOS_HEADERS)
+VPATH   += $(IOS_SRCDIR)
+
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(IOS_NAME)
+RTIDEFS += $(IOS_RTIDEFS)
+RTIFREF += $(IOS_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(IOS_SRCDIR)/registry/ios_interface.i 
+SWGMODULES += $(IOS_NAME)
+
+
+#
+# include tutorial 
+
+include $(IOS_BASE)/Makefile.tutorial

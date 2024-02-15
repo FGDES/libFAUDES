@@ -1,0 +1,51 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        12
+%  Init/Marked:   1/0
+%  Events:        11
+%  Transitions:   12
+%  StateSymbols:  12
+%  Attrib. E/S/T: 6/1/0
+% 
+
+<Alphabet>
+"mh1mv+z"     +C+           "mh1mv-z"     +C+           "mh1stp"      +C+           
+"mh1ar+z"     "mh1ar-z"     "mh1lv+z"     "mh1lv-z"     "dr1run"      +C+           
+"dr1stp"      +C+           "mh1start"    +C+           "mh1end"      
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           "5"           "6"           
+"7"           "8"           "9"           "10"          "11"          "12"          
+<Colors>
+"wpdrilled"   
+</Colors>
+</States>
+
+<TransRel>
+"1"           "mh1start"    "2"           
+"2"           "mh1mv-z"     "3"           
+"3"           "mh1lv+z"     "4"           
+"4"           "mh1ar-z"     "5"           
+"5"           "mh1stp"      "6"           
+"6"           "dr1run"      "7"           
+"7"           "dr1stp"      "8"           
+"8"           "mh1mv+z"     "9"           
+"9"           "mh1lv-z"     "10"          
+"10"          "mh1ar+z"     "11"          
+"11"          "mh1stp"      "12"          
+"12"          "mh1end"      "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

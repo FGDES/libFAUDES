@@ -1,0 +1,569 @@
+##########
+
+We list changes in the interface/semantics of libFAUDES
+that we expect to affect plugins/applications/Lua-scripts. 
+
+We are aware that this may cause some inconvenience for
+external developers. However, sometimes we feel that 
+a re-design is the most appropriate way to go. Let us know 
+about incompatibilities that affect your application/plug-in, 
+so we can provide assistence in the transition to a new 
+libFAUDES version.
+
+##########
+
+Relative to 2.30b
+
+***
+
+Performance improvements for Product (used in LanguageIntersection,
+Languagedifference, and may more)
+
+***
+
+Bugfixes for IsLCC and  KleeneClosureNonDet
+
+***
+
+Re-design of compositional verification (incl. bugfixes)
+
+##########
+
+Relative to 2.27a
+
+***
+
+Various refinements to reflect compiler warnings raised
+by recent LLVM/clangc++ 7.3.0. This mainly effects the
+assignment methods of the faudes type hierarchy. 
+
+*** 
+
+Reworked serialisation basics to be strictly XML compliant
+and to have a more consistent API. This should only affect
+plug-ins that implement non-std-faudes token formats by
+pre/post processing XML character data. Currently theese
+are only the libFAUDES configuration tools ref2html and
+flxinstall. Both have been updated accordingly.
+
+
+##########
+
+Relative to 2.26a
+
+***
+
+Re-design of the build process to use shared objects by default.
+We use explicit decrlaration of exported/imported symbols by
+the FAUDES_API macro. If you experience linkage errors, 
+use FAUDES_API to export the missing symbol.
+
+***
+
+Re-design of the class hierarchy to circumvent diomond-shape 
+inheritance relationships for attributed sets. The former construct 
+also used covariant return types and templates, which caused serious 
+issues when compiling with MS compilers. These changes only affect classes 
+that used to first virtualy inherit TaBaseSet and TBaseSet, e.g,
+TaNameSet. Further derivatives should not be affected as long as they
+access child members not directly from TaBaseSet.
+
+***
+
+In course of the above redesign I dropped the prehistoric
+member functions SetUnion and SetIntersection in favor of InsertSet,
+EraseSet, RestrictSet that exhibt a consisten behaviour w.r.t.
+Attriputes. The plain set "operators +,=,*" are still supported.
+
+***
+
+Former tpTime::Type is now Time::Type; should redesign the basic
+numeric types in STL fashion some day
+
+
+ 
+##########
+
+Relative to 2.25a
+
+***
+
+Revision/further development of conflict equivalent abstraction,
+now including observation equivalence. Performance benefits about
+factor 20 for our test cases.
+
+***
+
+Revision of bisimlation code, formerly part of the observer plug-in,
+now part of core library. Performance benefits depending on input data
+is about factor 10 (for generators with about 100000 states)
+
+***
+
+Revision of state minimization code. Performance benefits depending on 
+input data is about factor 10 (for generators with about 100000 states)
+
+
+##########
+
+Relative to 2.24a
+
+***
+
+Various adjustments in SWIG generated luabindings to go
+with SWIG 3.0.
+
+
+##########
+
+Relative to 2.23a
+
+***
+
+There have been performance issues with ProjectNonDet for 
+large generators. We have carefully improved the previous
+implementation to be more efficient. The re-design was validated 
+against all registered test cases, it should be fine --- please
+run your tests and report. 
+
+We have also added a completely new implementation ProjectNonDetScc
+that should be of linear complexity. We did not make it the default
+because it may need more testing. But it is really fast, so you
+may give it a try and report back.
+
+***
+
+The previous "SignedIdx" is replaced by "Int" to have more 
+systematic typedefs to behave well on LP64-Bit platforms for
+libFAUDES external basic types:
+- Idx   (=uint32_t, used as index of items, max 4G)
+- Int   (=long int, used in integer for arithmetic) 
+- Float (=double, used as pseudo real for arithmetic)
+Other occurences of "int" and "long int" have been (should
+be) substituted by a more specific type from the C++ std, 
+e.g. std::size_t.
+
+We are planning to use 64-bit precompiled binaries for
+our distribitions in due course. Let us know, if you rely
+on 32-bit binary distributions.
+
+***
+
+Minor adjustment in signal based io devices for 2.23g, 
+including a copy of the process image to improve performance 
+in Comedi based edge detection. This may have unintended 
+side effects for other signal based devices, please report 
+back if you experience undesired behaviour.
+
+***
+
+The generator method "RestrictAlphabet" now also removes
+resp. transitions. This is consistent with the method 
+"RestrictStates". If previous behaviour can be mimiced
+with "InjectAlphabet(Alphabet() * EventSet)"
+
+***
+
+Cosmetic change in the interface of TransSet to have 
+consistent variants with set values arguments. Objective: 
+have more convenient Lua bindings. 
+
+StateSpace         becomes  States
+StateSpaceX2       becomes  SuccessorStates
+
+Consequently, for the generator
+
+TransRelStateSpace becomes  TransRelStates()
+
+with additional methods
+  SuccessorStates(x1)
+  SuccessorStates(x1,ev)
+
+##########
+
+Relative to 2.22a
+
+***
+
+Bugfixes in the memory management of the base container class,
+and in the functions OmegaParallel and SupconParallel. 
+
+***
+
+Renamed the functions SupCon, SupConNorm, and SupConNormCompl
+by adding the suffix "Closed", e.g., "SupCon" becomes "SupConClosed".
+Reasoning: the respective function actually compute supremal closed
+sublanguages of their arguments. Further down the track, 
+it is planned to drop the suffix "NB" in the corresponding
+functions that addresses not necessarily closed languages. 
+
+***
+
+Made the call of "StateMin" within "Project" conditional
+for small automata (state count not exceeding 20). 
+Allthough state minimization is of order n-log-n, it 
+can become quite expensive for certain input data. Thus, it 
+is now left to the user to call "StateMin" explicitly. 
+
+***
+
+Fixed some bugs that stem form allowing for the empty
+generator as of 2.19 (in order to have a deterministic
+generator that generates the empty language). Thanks to
+Tomas Masopust for his bug reports.
+
+***
+
+Minimalistic C-style portability layer for system time, 
+network sockets and threads, see cfl_plattform.cpp/h. 
+These features are currently used the iodevice plug-in.
+The interface is a small subset of POSIX, with faudes_
+prefixed symbols. Transition should be straight forward.
+No need to link with w32pthread.dll on Windows anymore.
+
+***
+
+Due to required fixes in the design of the nDevice
+network protocol, there may by operational incompatibilities 
+with earlier version. The most recent fallback running
+the old protocol is 2.22h. Please report back to us.
+
+***
+
+New directory layout for reference documentation, incl.
+adapted tool flxinstall. Source locations and fileformats
+did not change, so plug-ins should not be affected.
+However, it is crucial to use the flxinstall that matches 
+the respective libFAUDES version.
+
+
+##########
+
+Relative to 2.21a
+
+***
+
+We renamed SupConComplete in SupConCmpl. There are 
+more functions Sup* that have an historic name and 
+that should be renamed. However, we don't want to 
+invalidate too many existing scripts. 
+
+**** 
+
+Functions that perform a parallel composition (SupCon etc) and 
+return a composition map, are supposed to restrict the range to
+the state set of the resulting generator. However, functions
+that are tagged "internal" (SupConUnchecked, SupconParallel etc)
+will not restric their compositions map. 
+
+
+Relative to 2.20a
+
+***
+
+Sorted ClearStateNames() / StateNamesEnabled(bool)
+
+ClearStateNames() now just clears the current state symboltable
+(and does not disable statename generation anymore.
+StateNamesEnabled(false) disables autogenerated names and
+clears all existing names. Thus, functions that used to
+do a ClearStateNames() to prevent any future generation of
+state names must now use a StateNamesEnabled(false) instead.
+Plug-in developers are asked to run a "grep ClearStateNames"
+on their sources.
+
+
+***
+
+Reconsidered the generator re-indexing on I/O issue
+
+The plain faudes format produced by Write() requires re-indexing 
+in order to be able to read the data back consistently. This is 
+inconvenient and sometimes disturbing. As of 2.20j, 
+states are allowed to have an explict index attached 
+for token output (format name#index). Thus, re-indexing is
+not mandatory anymore.
+
+In contrast to pre 2.20, where re-indexing was automatic and
+depended on the destination (file, console etc), re-indexing
+is now by configuration ReindexOnWrite(bool). The default is
+not to re-index. Users may be irritated by the new output,
+however, the old format is still read, so we should be fine.
+
+***
+
+Rename functions from the diagnoser plug-in to drop
+the "Compute" prefix (for consistentcy with all other plug-ins)
+
+***
+
+Reimplementation of IsControllable(): the previous implementation
+produced false-negatives on non-accessible realisations; it was
+completely broken for supervisor candidates with "too small" 
+state stpaces, i.e. state spaces that have been not obtained 
+by parallel composition of specification and plant and thus inducing a 
+string-equivalence which is not at least as fine as the Nerode 
+equivalence of the plant.
+
+
+***
+
+The C++ naming conventions used within libFAUDES do not
+match the naming conventions from the run-time interface.
+This is for historical reasons, however, it can be irritating
+for a user, e.g., when Lua type-mismatch errors refer to C++
+types rather than to faudes types. We therefore started to rename
+C++ class names for user data. For compatibility, we provide the
+old C++ class name as a typedef. 
+
+faudes::vGenerator     -->  faudes::Generator
+faudes::cGenerator     -->  faudes::System
+faudes::cEventSet      -->  faudes::Alphabet
+faudes::tGenerator     -->  faudes::TimedSystem
+faudes::mtcGenerator   -->  faudes::MtcSystem
+faudes::diagGenerator  -->  faudes::Diagnoser
+
+Note that, C++-only class names remain unaffected (i.e. TxxxGenerator).
+
+***
+
+Generator file-i/o used an automatic state re-indexing in order 
+to have consecutively enumerated states. This feature can now be 
+configured (i.e. turned off for DESTool export).
+
+##########
+
+Relative to 2.19a
+
+***
+
+Semantics of deterministic changed: allow for zero or
+one initial-state.
+
+***
+
+The former test cases in ./tools/test have been re-implemented as
+a make target "test".
+
+***
+
+Special case for parallel composition with empty alphabet 
+argument(s) is now treated correctly; see user reference of Parallel. 
+A side effect is that default-constructed generators with
+empty set marked language are no longer the neutral elemets 
+w.r.t. parallel composition. 
+
+***
+
+During 2.19*, the target is to clean-up XML documentation (*.fref
+files). Please notify us, if you're in process of creating/editing
+user documentation.
+
+
+##########
+
+Relative to 2.18a
+
+***
+
+The semantics of SeekBegin()/SeekEnd() changed in course of the
+more strict XML format. SeekBegin() still exists, but seeks until
+just before rhe requested begin token. SeekEnd() is not supported any
+more, but there is now a Recover(level) and Level() interface. If you
+experience compiletime errors on the missing symbol SeekEnd(), you most
+likely want to replace previous SeekBegin/SeekEnd pairs in ReadBegin/ReadEnd.
+In the case you need to maintain the old behavior exactly, use
+a SeekBegin(); lev=Level(); ReadBegin(); ... ReadEnd();Recover(level)
+construct.
+
+***
+
+The user reference (RTI generated documentation) now uses an XML compliant
+file format (*.fref files). The new format is not compatible to the
+old GTML format. Older plug-ins still compile, but no documentation
+will be generated. If you have a base of *.gtml files to convert, please
+let us know.
+
+***
+
+Calling conventions for LuaExtensions changed to more closely match
+the SWIG generated std interface. Rather than to return all parameters, 
+only +Out+ +CReturn+ parameters of elementary type (integer, bool, string) 
+must be returned. Furthermore, parameters of non-elementary type are
+passed by reference. See the C++ API documentation of LuaFunctionDefinition 
+for details.
+
+
+
+##########
+
+Relative to 2.16b
+
+***
+
+The RTI registry now uses an XML compliant file format. It is
+not compatible with pre 2.16c libFAUDES. There is a conversion 
+tool "fts2ftx" to migrate existing files. 
+
+***
+
+Additional virtual function interface DoXWrite() for faudes Typed 
+variables to support an alternative XML file format. The intend is 
+to have a file format that can be properly described by an XML schmema 
+and hence can be edited by XML editors. This is of particular interest 
+for configuration files like thr RTI registry. In the long term,
+configuration files will exclusively support an XML editor friendly
+format. For the transition phase, DoRead() should support both
+formats for classes with a DoXWRite() implementation.
+
+***
+
+Changes is Token/TokenReader/TokenWriter to improve elementary
+XML compliance. The goal is (1) to stream any XML file while 
+gracefully ignoring any features that are not relevant for
+the faudes token stream and (2) to write XML compliant output. 
+Thus, libFAUDES applications may use an XML fileformat 
+and embedd a token stream. PlugIns are affected as follows:
+
+- a token can be of multiple types; rather than "token.Type()==Token::Option" 
+  we now use the construct "token.IsOption()", etc; to access the option value,
+  use of "token.OptionValue()" is now mandatory; 
+- string tokens, that start with a A-Z or a-z are written without 
+  quotes 
+- the XML markup charcters <, >, & must be properly quoted, i.e.,
+  &lt; &gt; &amp; post 2.16c tokenwrite/tokenreader will take care,
+  but will fail on not properly escaped pre 2.16c files
+
+***
+
+The virtual function interface DoAssign() changed to return "void". 
+
+***
+
+The iodevice now uses the terminology Input/Output rather than
+Sensor/Actuator.
+
+***
+
+
+##########
+
+Relative to 2.14e
+
+***
+
+We now have two versions of the type implementation macro,
+one for std context FAUDES_TYPE_IMPLEMENTAION(type,base) and one for
+use within templates FAUDES_TYPE_TIMPLEMENTAION(type,base,temp). 
+
+***
+
+IsAccessible and IsCoaccessible now returns true for
+generators with empty state set.
+
+*** 
+
+Documentation update 
+
+*** 
+
+Pseudo virtual base class vBaseVector to all template based vector classes; 
+should not affect any plug-ins.
+
+***
+
+Introduced optional loop callback for applications to cancel faudes functions.
+You may extend your function to invoke LoopCallback() whenever it may be
+canceled by the application. 
+
+##########
+
+Relative to 2.13a
+
+##########
+
+***
+
+Attributes within sets became more fragile due to the extended deferred copy 
+mechanism. In particlular, retrieving a const ref to an attribute within
+a loop that manipulates the set is not safe.
+
+***
+
+Generator and derived classes use Assign() interface rather than Copy()
+
+****
+
+RTI now distinguished between type "Generator" that correspond to vGenerator
+and "System" that corresponds to cGenerator. This change also affects 
+luafaudes. Similarly, there is a plain EventSet and an Alphabet, the
+latter corresponds to the cEventSet.
+
+****
+
+faudes Types need to implement equality test DoEqual
+
+***
+
+WriteStatistics becomes SWrite and has been moved to the
+base class faudes::Type. It will become the basis for a 
+simple test scheme. 
+
+***
+
+The deferred copy (copy on write) of basic containers TBaseSet
+now includes attributes. The class hierarchy has been adapted for 
+the base set TaBaseSet to manage attributes internally as pointers. 
+Idealy, this will not affect plugins/applications ...
+
+***
+
+Attributes must be "proper" Type derivative, where "proper"  now means
+
+- use the type derivate macro for New, Cast and Assign methods
+- have Assign(Src) rather than Copy(Dest) interface  
+
+***
+
+Name(void) on faudes objects returns a "const std:string&"
+
+***
+
+Sets (IndexSet, NameSet etc) use the Assign(src) rather than
+the Copy(Dest) interface.
+
+***
+
+Plugin "synthesis" provides std RW synthesis functions
+
+***
+
+IsComplete moved to core faudes. Note: the method consideres
+all states, not only co/reachable states. The rational is: for trim
+generators, the test corresponds to completeness of the marked language.
+For reachable generators with "dont mind marking", the test corresponds
+to completeness of the generated language.
+
+***
+
+IsNormal now takes args as IsControllable, ie 
+IsNormal(plant,obs_events,supervisor_candidat).
+
+***
+
+RTI definition files now use "PlugIn::Type" as entity name.
+
+***
+
+Changed "bool EmptyLanguage(gen)" to "bool IsEmptyLanguage(gen)".
+Changed "EmptyLanguage(alph,gen)" to produce Lm=0 and L={eps}.
+
+***
+
+Minor changes to the multitasking plugin for a more consistent
+API: Colors(state) rather than StateColors(state); StateAttributep(state)
+rather than Attributep(state); etc. Also using Mtc prefix rather than
+function overloading eg mtcParallel rather than Parallel(), etc.
+
+***
+

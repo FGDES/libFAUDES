@@ -1,0 +1,38 @@
+<Generator>
+"cb4mh1d1rt1cb11cb7[2]_spec" 
+
+% 
+%  Statistics for cb4mh1d1rt1cb11cb7[2]_spec
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 1/0/0
+% 
+
+<Alphabet>
+"cb7-15"   +C+   "cb12-4"      +C+           
+</Alphabet>
+
+<States>
+1             2             3             
+</States>
+
+<TransRel>
+1             "cb12-4"      2             
+2             "cb7-15"      1             
+2             "cb12-4"      3             
+3             "cb7-15"      2             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

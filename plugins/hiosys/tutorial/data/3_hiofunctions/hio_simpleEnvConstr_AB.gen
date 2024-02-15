@@ -1,0 +1,34 @@
+<Generator> "hio - simple environment constraint AB" 
+
+% Simple machine example for hiosys-tutorial.
+% Environment constraint:
+% Processed resources are always accepted as provided.
+
+<Alphabet>
+"AB_prov" +YL+
+"AB_nack" +UL+ "AB_pack" +UL+
+</Alphabet>
+
+<States>
+<Consecutive>
+1             2
+</Consecutive>
+</States>
+
+<TransRel>
+1 "AB_prov" 2
+2 "AB_pack" 1
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1             2
+</Consecutive>
+</MarkedStates>
+
+</Generator>
+

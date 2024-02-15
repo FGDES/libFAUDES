@@ -1,0 +1,99 @@
+%%% test mark: parallel [at pbp_4_composition.py]
+% 
+%  Statistics for very simple machine_1||very simple machine_2
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: parallel incl. attr. [at pbp_4_composition.py]
+% 
+%  Statistics for very simple machine_1||very simple machine_2
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  4
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: parallel incl. comp. map a [at pbp_4_composition.py]
+<Integer>
+2             
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: parallel incl. comp. map b [at pbp_4_composition.py]
+<Integer>
+1             
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: parallel incl. comp. map c [at pbp_4_composition.py]
+<Integer>
+2             
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: omegaparallel incl. attr. [at pbp_4_composition.py]
+% 
+%  Statistics for very simple machine_1|||very simple machine_2
+% 
+%  States:        10
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   20
+%  StateSymbols:  10
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: parallel empty alphabet a [at pbp_4_composition.py]
+% 
+%  Statistics for very simple machine_1||very simple machine_2
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: parallel empty alphabet b [at pbp_4_composition.py]
+% 
+%  Statistics for very simple machine_1||very simple machine_2
+% 
+%  States:        2
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+

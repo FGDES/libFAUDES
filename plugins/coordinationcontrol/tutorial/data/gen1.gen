@@ -1,0 +1,26 @@
+<Generator> 
+platn_1
+
+<Alphabet> 
+r1	a1	e1
+</Alphabet> 
+
+<States> 
+1	2	3	4
+</States> 
+
+<TransRel>
+1	r1	2
+2	a1	3
+3	e1	4
+</TransRel> 
+
+<InitStates> 
+1
+</InitStates> 
+
+<MarkedStates>
+1	2	3	4
+</MarkedStates> 
+
+</Generator> 

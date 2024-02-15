@@ -1,0 +1,27 @@
+<Generator>
+"phys_no_arrtl"
+
+
+
+<Alphabet>
+"A_arrtl" "B_arrtl" "C_arrtl" "D_arrtl" "E_arrtl" "F_arrtl" "G_arrtl" "H_arrtl"
+</Alphabet>
+
+<States>
+1
+</States>
+
+<TransRel>
+
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

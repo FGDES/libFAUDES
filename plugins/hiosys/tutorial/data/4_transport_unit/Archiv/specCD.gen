@@ -1,0 +1,47 @@
+<Generator>
+"specCD"      
+
+<Alphabet>
+"req_fl_CD"   "req_tr_CD"   "nack_CD"  "pack_CD"  "idle_CD"     "busy_CD"     
+"l2r_CD"      "stby_CD"     "clr_tr_CD"   
+</Alphabet>
+
+<States>
+"Empty"       "aw_mode"     "aw_mode2"    "one_wp"      "0_right_Y"   "1_right_Y"   
+"1_tr_right_Y" "0_right_U"   "1fl_right_U" "2_right_Y"   "2_right_U"   "1tr_right_U"  
+</States>
+
+<TransRel>
+"Empty"       "idle_CD"     "aw_mode"     
+"aw_mode"     "l2r_CD"      "0_right_Y"   
+"aw_mode"     "stby_CD"     "Empty"       
+"aw_mode"     "clr_tr_CD"   "Empty"     
+"aw_mode2"    "l2r_CD"      "1_right_Y"   
+"aw_mode2"    "stby_CD"     "one_wp"      
+"aw_mode2"    "clr_tr_CD"   "1_tr_right_Y" 
+"one_wp"      "busy_CD"     "aw_mode2"    
+"0_right_Y"   "req_fl_CD"   "0_right_U"   
+"1_right_Y"   "req_fl_CD"   "1fl_right_U" 
+"1_tr_right_Y" "req_tr_CD"   "1tr_right_U" 
+"0_right_U"   "nack_CD"  "Empty"       
+"0_right_U"   "pack_CD"  "one_wp"      
+"1fl_right_U" "nack_CD"  "one_wp"      
+"1fl_right_U" "pack_CD"  "2_right_Y"   
+"2_right_Y"   "req_tr_CD"   "2_right_U"   
+"2_right_U"   "nack_CD"  "2_right_Y"   
+"2_right_U"   "pack_CD"  "one_wp"      
+"1tr_right_U" "nack_CD"  "one_wp"      
+"1tr_right_U" "pack_CD"  "Empty"         
+</TransRel>
+
+<InitStates>
+"Empty"       
+</InitStates>
+
+<MarkedStates>
+"Empty"       "aw_mode"     "aw_mode2"    "one_wp"      "0_right_Y"   "1_right_Y"   
+"1_tr_right_Y" "0_right_U"   "1fl_right_U" "2_right_Y"   "2_right_U"   "1tr_right_U"    
+</MarkedStates>
+
+
+</Generator>

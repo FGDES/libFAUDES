@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="01_Generators" title="CoreFaudes - Generators">
+
+<h1>
+<a id="Generator">
+Generator
+</a>
+</h1>
+
+<p>
+A generator is a finite representation of a (regular) formal language. 
+In the context of discrete event systems, generators are used to model the dynamic behaviour 
+in the sense that the corresponding language consists of all strings of events which 
+the system can exhibit. 
+</p>
+
+<p>
+libFAUDES provides the plain <ftype>Generator</ftype> and the derived type
+<ftype>System</ftype>. The latter attaches controllability attributes to individual events
+to implement various decompositions of the alphabet from a control system perspective.  
+Plug-ins may provide further specialized generator models. 
+</p>
+
+<h2>
+Definition
+</h2>
+
+
+<p>
+A generator is a tuple 
+<fimath>G = (Q,\ \Sigma,\ \delta,\ Q_o,\ Q_m)</fimath>, with
+</p>
+<ul class="l2">
+<li><p> the <i>alphabet</i> <fimath>\Sigma</fimath>; </p></li>
+<li><p> the <i>state set</i> <fimath>Q</fimath>; </p></li>
+<li><p> the <i>transition relation</i> <fimath>\delta</fimath> with transitions from <fimath>Q\times\Sigma\times Q</fimath>; </p></li>
+<li><p> the set of <i>initial states</i> <fimath>Q_o</fimath>; </p></li>
+<li><p> the set of <i>marked states</i> <fimath>Q_m</fimath>. </p></li>
+</ul>
+
+<p>
+The relation <fimath>\delta</fimath> can be conveniently re-interpreted as a set-valued map 
+on the domain <fimath>Q\times \Sigma</fimath> and extended to strings in its second argument. 
+For <fimath>\sigma\in\Sigma</fimath> and <fimath>s\in\Sigma^*</fimath> let
+<br />
+<br />
+<fdmath>\delta(q,o) \ :=\  \{q' \in Q\ |\  (q,o,q') \in \delta\}</fdmath>, and
+<br />
+<fdmath>\delta(q,so) \ :=\  \delta(\delta(q,s),o)</fdmath>.
+</p>
+
+<p>
+The generated and marked languages <fimath>L(G)</fimath> and <fimath>Lm(G)</fimath>, respectively, are defined by:
+<br />
+<br />
+<fdmath>L(G)\ :=\ \{s\in\Sigma^* \ |\ \delta(Q_o,s) \neq \emptyset \}</fdmath>, and 
+<br />
+<fdmath>L_m(G)\ :=\ \{s\in\Sigma^* \ |\ \delta(Q_o,s)\ \cap\ Q_m \neq\emptyset\ \}</fdmath>.
+</p>
+
+<p>
+When infinite length strings are to be considered, we may refer to 
+the omega languages
+<br />
+<br />
+<fdmath>B(G)\ :=\ \{w \in \Sigma^w \ |\ \text{all prefixes } s\lt w \text{ are in } L(G)\ \}</fdmath> ,
+<br />
+<fdmath>Bm(G)\ :=\ \{w \in \Sigma^w \ |\ \text{there ex. a corresponding state sequence with inf. many states in }Q_m\  \}
+</fdmath> .
+<br />
+<br />
+The latter is refered to as <i>Buechi acceptance condition</i>. 
+For deterministic generators, 
+<fimath>Bm(G)</fimath> can be expressed as the limit of <fimath>Lm(G)</fimath>:
+<br />
+<br />
+<fdmath>Bm(G)\ =\ B(Lm(G))\ :=\ \{w \in \Sigma^w \ |\ \text{infinitely many prefixes } s\lt w \text{ are in } Lm(G)\ \}</fdmath> .
+<br />
+<br />
+In particular, for deterministic generators <fimath>G_1</fimath> and <fimath>G_2</fimath>
+with <fimath>Lm(G_1)=Lm(G_2)</fimath> we have <fimath>Bm(G_1)=Bm(G_2)</fimath>.
+</p>
+
+
+<h2>
+Example
+</h2>
+
+<p>
+The <i>simple machine</i> can 
+</p>
+<ul class="l2">
+<li><p>pick up a workpiece to process it (event <tt>alpha</tt>); </p></li>
+<li><p>dump a workpiece after processing it (event <tt>beta</tt>); </p></li>
+<li><p>break down while processing a workpiece (event <tt>mue</tt>); </p></li>
+<li><p>be serviced after break-down (event <tt>lambda</tt>). </p></li>
+</ul>
+<p>
+Our generator model refers to the alphabet 
+Sigma={<tt>alpha</tt>, <tt>beta</tt>, <tt>mue</tt>, <tt>lambda</tt>} and utilises
+the states 
+Q={<tt>idle</tt>, <tt>busy</tt>, <tt>down</tt>}. Transitions are given by the below graph. 
+</p>
+<table class="plain">
+<tr><td>Example <i>simple machine</i></td> </tr> 
+<tr><td><fimage fsrc="tmp_simplemachine"/> </td> </tr>
+</table> 
+<p>
+We decided to have <tt>idle</tt> as the only initial state,
+i.e. Qo={<tt>idle</tt>}. Thus, in our model we assume that the machine is
+initially idle and that any sequence of events to be observed therefore
+starts with the event <tt>alpha</tt>. This applies to both the generated and marked
+languages <fimath>L(G)</fimath> and <fimath>Lm(G)</fimath>, respectively. 
+</p>
+
+<p>
+Furthermore, We have chosen  Qm={<tt>idle</tt>}. In doing so, we consider
+only strings that run the machine into the idle state as relevant operations.
+The choice of <fimath>Q_m</fimath> only affects the marked language
+<fimath>Lm(G)</fimath>. The interpretation of the marked language as a model of
+a phenomenen is twofold: one can think of the marking to indicate
+a property that the phenomenon is known to satisfy, or as a condition 
+which the environment of the phenomenon is meant to satisfy.
+In our example, we chose not to mark the state <tt>busy</tt>
+in order to express the fact that once the machine became busy, it 
+is known that it eventually either dumps the workpiece or breaks down. For the simple machine,
+it is considered not posible that no more events occurs once it is in state <tt>busy</tt>.
+In contrast, consider the state <tt>down</tt>, which we also chose not to mark. 
+Of course, we can imagine that no one cares about the machine once it is down and, hence,
+the event <tt>lambda</tt> will never occur.
+Here, we express the requirement that the machine needs to be serviced. A string that
+ends with a <tt>mue</tt> event is not considered to represent a legal operation of the machine.
+</p>
+
+
+<h2>
+Token IO
+</h2>
+
+<p> 
+Token-IO example for a <ftype>Generator</ftype> that models the <i>simple machine</i>:
+</p>
+<pre>
+&lt;Generator&gt;
+% libFAUDES Generator for the simple machine
+"simple machine"                   
+
+&lt;Alphabet&gt;                         
+alpha beta mue lambda      
+&lt;/Alphabet&gt;
+
+&lt;States&gt;                           
+idle busy down
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+idle  alpha  busy
+busy  beta   idle
+busy  mue    down
+down  lambda idle
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+idle
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+idle
+&lt;/MarkedStates&gt;
+&lt;/Generator&gt;
+</pre>
+
+
+<p><b>Technical Detail:</b> 
+Both, states and events are internaly represented as indices (non-negative integer).
+The correspondance between indices and symbolic names is managed
+transparenty by symbol tables. 
+Valid symbolic names are strings of printable ASCII characters, excluding 
+the double quote <tt>&quot;</tt>, the hash <tt>#</tt> and any white space. 
+It is not recommended to not use symbolic names that can be misinterpreted
+as number, i.e., consists of digits only.
+For events, symbolic names are mandatory, and the respective symbol table
+is global. 
+For states, symbolic names are considered optional and the
+respective symbol table is local to the generator.
+</p>
+
+
+<p><b>Technical Detail:</b> 
+Since symbolic state names are optional,
+states may be directly represented by an index. 
+In order to consitently read a generator from a token stream, the convention
+is to index states consecutively starting from 1. 
+For generators, which do not comply to this convetion,
+explicit state indices are given in the format <tt>symbol#index</tt>. 
+In the above example, the three states are indexed 1, 2, and 3. If they
+were indexed 7, 8, and 9, the token format would be as follows.
+</p>
+
+<pre>
+...
+&lt;States&gt;                           
+idle#7 busy#8 down#9
+&lt;/States&gt;
+...
+</pre>
+
+
+<p><b>Technical Detail:</b> 
+The generator name is optional and defaults to <tt>generator</tt>. The alphabet and the 
+state set are extracted from the transition relation, when not specified explicitly. 
+Furthermore, the inner tags can be abreviated by the respective first letter, e.g.
+<tt>&lt;T&gt;</tt> for <tt>&lt;TransRel&gt;</tt>. Thus, the simple machine 
+can be alternatively reresented as follows:
+</p>
+
+<pre>
+&lt;Generator&gt;
+&lt;T&gt;
+idle  alpha  busy
+busy  beta   idle
+busy  mue    down
+down  lambda idle
+&lt;/T&gt;
+&lt;I&gt; idle &lt;/I&gt;
+&lt;M&gt; idle &lt;/M&gt;
+&lt;/Generator&gt;
+</pre>
+
+
+
+<!-- ==================================================================================== -->
+<!-- ==================================================================================== -->
+<!-- ==================================================================================== -->
+<!-- ==================================================================================== -->
+
+
+<h2>
+<a id="System">
+System
+</a>
+</h2>
+
+<p>
+A <ftype>System</ftype> is a <ftype>Generator</ftype> with a controllability attribute attached 
+to each individual event. The attribute is used to indicate
+controllability, observability, forcibility and whether or not the respective event 
+is regarded a high-level event. 
+Thus, attributes implement four disjoint union decompositions of the
+generator's alphabet <fimath>\Sigma</fimath>:
+</p>
+<ul class="l2">
+<li><p>
+<fimath>\Sigma=\Sigma_c\ \cup\ \Sigma_{uc}</fimath>,
+</p></li>
+<li><p>
+<fimath>\Sigma=\Sigma_o\ \cup\ \Sigma_{uo}</fimath>,
+</p></li>
+<li><p>
+<fimath>\Sigma=\Sigma_f\ \cup\ \Sigma_{uf}</fimath> and
+</p></li>
+<li><p>
+<fimath>\Sigma=\Sigma_{hi}\ \cup\ \Sigma_{lo}</fimath>.
+</p></li>
+</ul>
+
+
+<p>
+Functions, that expect <ftype>Generator</ftype>-typed arguments (are meant to) 
+also accept <ftype>System</ftype>s instead. When indicated by the documentation,
+such functions will interpret the respective attributes appropriately. Otherwise
+they are simply ignored. If attributes are not relevant to your application,
+it is recommended to stick to <ftype>Generator</ftype>-typed variables.
+</p>
+
+<p> 
+When reading or writing a <ftype>System</ftype> from/to a token stream,
+each event specified in the <tt>Alphabet</tt> section is optionally followed by
+a token of the form <tt>+xyz+</tt>, where
+each letter in <tt>xyz</tt> indicates membership in one of the above sets:
+</p>
+
+<table class="plain">
+<tr>
+<td>
+<table class="small_table">
+<tr><td> controllable </td>   <td><tt>+C+</tt></td></tr>
+<tr><td> uncontrollable </td> <td><tt>+c+</tt></td></tr>
+</table>
+</td>
+<td>
+<table class="small_table">
+<tr><td> observable </td>   <td><tt>+O+</tt></td></tr>
+<tr><td> unobservable </td> <td><tt>+o+</tt></td></tr>
+</table>
+</td>
+<td>
+<table class="small_table">
+<tr><td> forcible </td>   <td><tt>+F+</tt></td></tr>
+<tr><td> unforcible </td> <td><tt>+f+</tt></td></tr>
+</table>
+</td>
+<td>
+<table class="small_table">
+<tr><td> high-level </td>   <td><tt>+A+</tt></td></tr>
+<tr><td> low-level </td> <td><tt>+a+</tt></td></tr>
+</table>
+</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+
+<p>
+The default amounts to <tt>+cOfA+</tt>, i.e. 
+<fimath>\sigma \in \Sigma_{uc} \ \cap\ \Sigma_o \ \cap\ \Sigma_{uf} \ \cap\ \Sigma_{hi}</fimath>.
+</p>
+
+<p> 
+Token-IO example for a <ftype>System</ftype> that models the <i>simple machine</i>:
+</p>
+<pre>
+&lt;Generator&gt;
+% libFAUDES Generator for the simple machine with controllability attributes
+"simple machine"                   
+
+&lt;Alphabet&gt;                         
+alpha  +C+  % controllable event alpha
+beta        % default, i.e. +cOfA+
+mue 
+lambda +CO+ % controllable and observable, same as +C+ since +O+ is default    
+&lt;/Alphabet&gt;
+
+[ ... same as above generator example ... ]
+
+&lt;/Generator&gt;
+</pre>
+
+<p>
+The token-IO format of <ftype>System</ftype>s is compatible to <ftype>Generator</ftype>s.
+I.e., a <ftype>System</ftype> can be configured from a tokenized <ftype>Generator</ftype> where 
+attributes take a default value, and, vice versa, 
+a <ftype>Generator</ftype> can be configured from a <ftype>System</ftype>,
+where attributes are ignored.
+</p>
+
+
+
+
+
+</ReferencePage>
+
+  

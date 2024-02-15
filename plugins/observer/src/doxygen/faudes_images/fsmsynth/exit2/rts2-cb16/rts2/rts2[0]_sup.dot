@@ -1,0 +1,38 @@
+digraph "SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec))" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+  "10";
+  "11";
+  "12";
+
+  // transition relation
+  "1" -> "2" [label="rts2_5-6"];
+  "2" -> "3" [label="rts2+x"];
+  "3" -> "4" [label="rts2lv5"];
+  "4" -> "5" [label="rts2ar6"];
+  "5" -> "6" [label="rts2stp"];
+  "6" -> "7" [label="rts2_6"];
+  "7" -> "8" [label="rts2_6-5"];
+  "8" -> "9" [label="rts2-x"];
+  "9" -> "10" [label="rts2lv6"];
+  "10" -> "11" [label="rts2ar5"];
+  "11" -> "12" [label="rts2stp"];
+  "12" -> "1" [label="rts2_5"];
+};

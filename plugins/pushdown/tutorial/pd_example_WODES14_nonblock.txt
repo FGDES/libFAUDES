@@ -1,0 +1,449 @@
+<Generator>
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        5
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  5
+%  Attrib. E/S/T: 3/0/8
+% 
+
+<Alphabet>
+a             +C+           b             +C+           d             +C+          
+lambda       
+</Alphabet>
+
+<States>
+q0            q1            q2            q3            q4           
+</States>
+
+<TransRel>
+q0            a             q0           
+<PopPushes>
+<PopPush>
+<Pop name="dot"/>
+<Push name="dot"/>
+<Push name="dot"/>
+</PopPush>
+<PopPush>
+<Pop name="square"/>
+<Push name="dot"/>
+<Push name="square"/>
+</PopPush>
+</PopPushes>
+q0            b             q1           
+<PopPushes>
+<PopPush>
+<Pop name="dot"/>
+<Push name="dot"/>
+</PopPush>
+<PopPush>
+<Pop name="square"/>
+<Push name="square"/>
+</PopPush>
+</PopPushes>
+q1            b             q2           
+<PopPushes>
+<PopPush>
+<Pop name="dot"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+q1            lambda        q3           
+<PopPushes>
+<PopPush>
+<Pop name="square"/>
+<Push name="dot"/>
+<Push name="square"/>
+</PopPush>
+</PopPushes>
+q2            d             q1           
+<PopPushes>
+<PopPush>
+<Pop name="dot"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+q2            lambda        q2           
+<PopPushes>
+<PopPush>
+<Pop name="square"/>
+<Push name="square"/>
+</PopPush>
+</PopPushes>
+q3            a             q4           
+<PopPushes>
+<PopPush>
+<Pop name="square"/>
+<Push name="square"/>
+</PopPush>
+</PopPushes>
+q3            lambda        q1           
+<PopPushes>
+<PopPush>
+<Pop name="square"/>
+<Push name="dot"/>
+<Push name="square"/>
+</PopPush>
+</PopPushes>
+</TransRel>
+
+<InitStates>
+q0           
+</InitStates>
+
+<MarkedStates>
+q3            q4           
+</MarkedStates>
+
+<StackSymbols>
+<Element name="lambda"/>
+<Element name="dot"/>
+<Element name="square"/>
+</StackSymbols>
+<StackBottom name="square"/>
+
+</Generator>
+***************** RESULT *****************
+<Generator>
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        20
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   24
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/20/68
+% 
+
+<Alphabet>
+a             +C+           b             +C+           d             +C+          
+lambda       
+</Alphabet>
+
+<States>
+38            
+<!-- MergeStateAnnotation: old, 38 -->
+47            
+<!-- MergeStateAnnotation: old, 47 -->
+84            
+<!-- MergeStateAnnotation: old, 84 -->
+89            
+<!-- MergeStateAnnotation: old, 89 -->
+99            
+<!-- MergeStateAnnotation: old, 99 -->
+104           
+<!-- MergeStateAnnotation: old, 104 -->
+119           
+<!-- MergeStateAnnotation: old, 119 -->
+124           
+<!-- MergeStateAnnotation: old, 124 -->
+129           
+<!-- MergeStateAnnotation: old, 129 -->
+139           
+<!-- MergeStateAnnotation: old, 139 -->
+144           
+<!-- MergeStateAnnotation: old, 144 -->
+149           
+<!-- MergeStateAnnotation: old, 149 -->
+150           
+<!-- MergeStateAnnotation: old, 150 -->
+151           
+<!-- MergeStateAnnotation: old, 151 -->
+152           
+<!-- MergeStateAnnotation: old, 152 -->
+153           
+<!-- MergeStateAnnotation: old, 153 -->
+154           
+<!-- MergeStateAnnotation: old, 154 -->
+155           
+<!-- MergeStateAnnotation: old, 155 -->
+156           
+<!-- MergeStateAnnotation: old, 156 -->
+157           
+<!-- MergeStateAnnotation: new, 139 -->
+</States>
+
+<TransRel>
+38             lambda        153           
+<PopPushes>
+<PopPush>
+<Pop name="old-20"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+47             lambda        154           
+<PopPushes>
+<PopPush>
+<Pop name="old-22"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+84             b             89            
+<PopPushes>
+<PopPush>
+<Pop name="old-31"/>
+<Push name="old-19"/>
+<Push name="old-31"/>
+</PopPush>
+<PopPush>
+<Pop name="old-32"/>
+<Push name="old-19"/>
+<Push name="old-32"/>
+</PopPush>
+</PopPushes>
+89             d             38            
+<PopPushes>
+<PopPush>
+<Pop name="old-19"/>
+<Push name="old-20"/>
+<Push name="old-19"/>
+</PopPush>
+<PopPush>
+<Pop name="old-21"/>
+<Push name="old-20"/>
+<Push name="old-21"/>
+</PopPush>
+</PopPushes>
+99             b             47            
+<PopPushes>
+<PopPush>
+<Pop name="old-24"/>
+<Push name="old-22"/>
+<Push name="old-24"/>
+</PopPush>
+</PopPushes>
+119            a             144           
+<PopPushes>
+<PopPush>
+<Pop name="old-31"/>
+<Push name="old-26"/>
+<Push name="old-31"/>
+</PopPush>
+<PopPush>
+<Pop name="old-32"/>
+<Push name="old-26"/>
+<Push name="old-32"/>
+</PopPush>
+</PopPushes>
+124            a             149           
+<PopPushes>
+<PopPush>
+<Pop name="old-30"/>
+<Push name="old-27"/>
+<Push name="old-30"/>
+</PopPush>
+</PopPushes>
+139            a             124           
+<PopPushes>
+<PopPush>
+<Pop name="old-0"/>
+<Push name="old-30"/>
+<Push name="old-0"/>
+</PopPush>
+</PopPushes>
+139            b             129           
+<PopPushes>
+<PopPush>
+<Pop name="old-0"/>
+<Push name="old-30"/>
+<Push name="old-0"/>
+</PopPush>
+</PopPushes>
+144            a             119           
+<PopPushes>
+<PopPush>
+<Pop name="old-26"/>
+<Push name="old-31"/>
+<Push name="old-26"/>
+</PopPush>
+</PopPushes>
+144            b             84            
+<PopPushes>
+<PopPush>
+<Pop name="old-26"/>
+<Push name="old-31"/>
+<Push name="old-26"/>
+</PopPush>
+</PopPushes>
+149            a             119           
+<PopPushes>
+<PopPush>
+<Pop name="old-27"/>
+<Push name="old-32"/>
+<Push name="old-27"/>
+</PopPush>
+</PopPushes>
+149            b             84            
+<PopPushes>
+<PopPush>
+<Pop name="old-27"/>
+<Push name="old-32"/>
+<Push name="old-27"/>
+</PopPush>
+</PopPushes>
+150            lambda        89            
+<PopPushes>
+<PopPush>
+<Pop name="old-26"/>
+<Push name="old-21"/>
+<Push name="old-26"/>
+</PopPush>
+</PopPushes>
+151            lambda        99            
+<PopPushes>
+<PopPush>
+<Pop name="old-31"/>
+<Push name="old-24"/>
+<Push name="old-31"/>
+</PopPush>
+</PopPushes>
+151            lambda        104           
+<PopPushes>
+<PopPush>
+<Pop name="old-32"/>
+<Push name="old-25"/>
+<Push name="old-32"/>
+</PopPush>
+</PopPushes>
+152            lambda        99            
+<PopPushes>
+<PopPush>
+<Pop name="old-31"/>
+<Push name="old-24"/>
+<Push name="old-31"/>
+</PopPush>
+</PopPushes>
+152            lambda        104           
+<PopPushes>
+<PopPush>
+<Pop name="old-32"/>
+<Push name="old-25"/>
+<Push name="old-32"/>
+</PopPush>
+</PopPushes>
+153            lambda        152           
+<PopPushes>
+<PopPush>
+<Pop name="old-19"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+153            lambda        156           
+<PopPushes>
+<PopPush>
+<Pop name="old-21"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+154            lambda        155           
+<PopPushes>
+<PopPush>
+<Pop name="old-24"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+155            lambda        150           
+<PopPushes>
+<PopPush>
+<Pop name="old-31"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+156            lambda        151           
+<PopPushes>
+<PopPush>
+<Pop name="old-26"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+157            lambda        139           
+<PopPushes>
+<PopPush>
+<Pop name="new-0"/>
+<Push name="old-0"/>
+<Push name="new-0"/>
+</PopPush>
+</PopPushes>
+</TransRel>
+
+<InitStates>
+157           
+</InitStates>
+
+<MarkedStates>
+104            129           
+</MarkedStates>
+
+<StackSymbols>
+<Element name="lambda"/>
+<Element name="old-2"/>
+<Element name="old-4"/>
+<Element name="old-5"/>
+<Element name="old-6"/>
+<Element name="old-7"/>
+<Element name="old-8"/>
+<Element name="old-9"/>
+<Element name="old-10"/>
+<Element name="old-11"/>
+<Element name="old-12"/>
+<Element name="old-13"/>
+<Element name="old-14"/>
+<Element name="old-15"/>
+<Element name="old-16"/>
+<Element name="old-17"/>
+<Element name="old-18"/>
+<Element name="old-19"/>
+<Element name="old-20"/>
+<Element name="old-21"/>
+<Element name="old-22"/>
+<Element name="old-23"/>
+<Element name="old-24"/>
+<Element name="old-25"/>
+<Element name="old-26"/>
+<Element name="old-27"/>
+<Element name="old-28"/>
+<Element name="old-29"/>
+<Element name="old-30"/>
+<Element name="old-31"/>
+<Element name="old-32"/>
+<Element name="old-0"/>
+<Element name="new-0"/>
+</StackSymbols>
+<StackBottom name="new-0"/>
+
+</Generator>
+found the following words while traversing at most 50 transitions:
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b d  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b d  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b d b  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b d b  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b d b  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a a a b b d b d b d  ...?
+a a a a a a a a a a a a a a a a a a a a a a a a b b d b d b d  ...?
+a a a a a a a a a a a a a a a a a a a a a a b b d b d b d b  ...?
+a a a a a a a a a a a a a a a a a a a a b b d b d b d b  ...?
+a a a a a a a a a a a a a a a a a a b b d b d b d b  ...?
+a a a a a a a a a a a a a a a a b b d b d b d b d  ...?
+a a a a a a a a a a a a a a b b d b d b d b d  ...?
+a a a a a a a a a a a a b b d b d b d b d b  ...?
+a a a a a a a a a a b b d b d b d b d b  ...?
+a a a a a a a a b b d b d b d b d 
+a a a a a a b b d b d b d 
+a a a a b b d b d 
+a a b b d 
+b 

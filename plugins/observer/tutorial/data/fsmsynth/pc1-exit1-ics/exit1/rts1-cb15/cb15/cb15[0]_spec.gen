@@ -1,0 +1,63 @@
+<Generator>
+"cb15[0]_spec" 
+
+% 
+%  Statistics for cb15[0]_spec
+%  States:        14
+%  Init/Marked:   1/1
+%  Events:        21
+%  Transitions:   29
+%  StateSymbols:  14
+%  Attrib. E/S/T: 10/0/0
+% 
+
+<Alphabet>
+"cb15+y"      +C+           "cb15-8"      +C+           "cb15-9"      +C+           
+"cb15-rc1"    +C+           "cb15-y"      +C+           "cb15stp"     +C+           
+"cb15wpar"    "cb15wplv7"   "cb15wplv8"   "cb15wplv9"   "cb15wplvrc1" "cb7-15"      
++C+           "cb8-15"      +C+           "cb9-15"      +C+           "t_modul5\rts1_cb15\cb15" 
++C+           
+</Alphabet>
+
+<States>
+"1"                    "11"          "12"          "13"                    
+"2"           "3"           "4"                   "6"           "7"           
+"8"           "9"           
+</States>
+
+<TransRel>
+"1"           "cb7-15"      "2"           
+"1"           "t_modul5\rts1_cb15\cb15" "1"                            
+"11"          "cb15+y"      "12"          
+"11"          "t_modul5\rts1_cb15\cb15" "11"          
+"12"          "cb15wplvrc1" "13"          
+"12"          "t_modul5\rts1_cb15\cb15" "12"          
+"13"          "cb15stp"     "1"          
+"13"          "t_modul5\rts1_cb15\cb15" "13"                         
+"2"           "cb15-y"      "3"           
+"2"           "t_modul5\rts1_cb15\cb15" "2"           
+"3"           "cb15wpar"    "4"           
+"3"           "t_modul5\rts1_cb15\cb15" "3"           
+"4"           "cb15stp"     "6"           
+"4"           "t_modul5\rts1_cb15\cb15" "4"                 
+"6"           "cb15-9"      "7"                    
+"6"           "t_modul5\rts1_cb15\cb15" "6"    
+"6"		"cb15-rc1"		"11"       
+"7"           "cb15+y"      "8"           
+"7"           "t_modul5\rts1_cb15\cb15" "7"           
+"8"           "cb15wplv9"   "9"           
+"8"           "t_modul5\rts1_cb15\cb15" "8"           
+"9"           "cb15stp"     "1"          
+"9"           "t_modul5\rts1_cb15\cb15" "9"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

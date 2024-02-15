@@ -1,0 +1,215 @@
+<Generator>
+"specA_P"     
+
+<Alphabet>
+"req_fl_A_P"  "req_tr_A_P"  "nack_A_P" "pack_A_P" "idle_A_P"    "busy_A_P"    
+"l2r_A_P"     "stby_A_P"    "clr_tr_A_P"  
+</Alphabet>
+
+<States>
+"Empty"       "aw_mode0"    "aw_mode1"    "one_wp"      "0_right_Y"   "1_right_Y"   
+"0_right_U"   "1fl_right_U" "2_right_Y"   "2tr_right_U" "1tr_right_U" "2fl_right_U" 
+"3_wp"        "aw_mode2"    "3_right_Y"   "3fl_right_U" "3tr_right_U" "4_wp"        
+"two_wp"      "aw_mode2"    "1tr_right_Y" "2tr_right_Y" "3tr_right_Y" "aw_mode3"    
+"aw_mode4"    "4tr_right_Y" "4tr_right_U" "4_right_Y"   "4fl_right_U" "5_wp"        
+"aw_mode5"    "5tr_right_Y" "5tr_right_U" "5_right_Y"   "5fl_right_U" "6_wp"        
+"aw_mode6"    "6tr_right_Y" "6tr_right_U" "6_right_Y"   "6fl_right_U" "7_wp"        
+"aw_mode7"    "7tr_right_Y" "7tr_right_U" "7_right_Y"   "7fl_right_U" "8_wp"        
+"aw_mode8"    "8tr_right_Y" "8tr_right_U" "8_right_Y"   "8fl_right_U" "9_wp"        
+"aw_mode9"    "9tr_right_Y" "9tr_right_U" "9_right_Y"   "9fl_right_U" "10_wp"       
+"aw_mode10"   "10tr_right_Y" "10tr_right_U" "10_right_Y"  "10fl_right_U" "11_wp"       
+"aw_mode11"   "11tr_right_Y" "11tr_right_U" "11_right_Y"  "11fl_right_U" "12_wp"       
+"aw_mode12"   "12tr_right_Y" "12tr_right_U" "12_right_Y"  "12fl_right_U" "13_wp"       
+"aw_mode13"   "13tr_right_Y" "13tr_right_U" "13_right_Y"  "13fl_right_U" "14_wp"       
+"aw_mode14"   "14tr_right_Y" "14tr_right_U" "14_right_Y"  "14fl_right_U" "15_wp"       
+"aw_mode15"   "15tr_right_Y" "15tr_right_U" "15_right_Y"  "15fl_right_U" "16_wp"       
+"16tr_right_U" 
+</States>
+
+<TransRel>
+1             "idle_A_P"    2             
+2             "l2r_A_P"     5             
+2             "stby_A_P"    1             
+2             "clr_tr_A_P"  1             
+3             "l2r_A_P"     6             
+3             "stby_A_P"    4             
+3             "clr_tr_A_P"  21            
+4             "busy_A_P"    3             
+5             "req_fl_A_P"  7             
+6             "req_fl_A_P"  8             
+7             "nack_A_P" 1             
+7             "pack_A_P" 4             
+8             "nack_A_P" 4             
+8             "pack_A_P" 19            
+9             "req_fl_A_P"  12            
+10            "nack_A_P" 19            
+10            "pack_A_P" 4             
+11            "pack_A_P" 1             
+12            "nack_A_P" 19            
+12            "pack_A_P" 13            
+13            "busy_A_P"    24            
+15            "req_fl_A_P"  16            
+16            "nack_A_P" 13            
+16            "pack_A_P" 18            
+17            "nack_A_P" 13            
+17            "pack_A_P" 19            
+18            "busy_A_P"    25            
+19            "busy_A_P"    20            
+20            "l2r_A_P"     9             
+20            "stby_A_P"    19            
+20            "clr_tr_A_P"  22            
+21            "req_tr_A_P"  11            
+22            "req_tr_A_P"  10            
+23            "req_tr_A_P"  17            
+24            "l2r_A_P"     15            
+24            "stby_A_P"    13            
+24            "clr_tr_A_P"  23            
+25            "l2r_A_P"     28            
+25            "stby_A_P"    18            
+25            "clr_tr_A_P"  26            
+26            "req_tr_A_P"  27            
+27            "nack_A_P" 18            
+27            "pack_A_P" 13            
+28            "req_fl_A_P"  29            
+29            "nack_A_P" 18            
+29            "pack_A_P" 30            
+30            "busy_A_P"    31            
+31            "l2r_A_P"     34            
+31            "stby_A_P"    30            
+31            "clr_tr_A_P"  32            
+32            "req_tr_A_P"  33            
+33            "nack_A_P" 30            
+33            "pack_A_P" 18            
+34            "req_fl_A_P"  35            
+35            "nack_A_P" 30            
+35            "pack_A_P" 36            
+36            "busy_A_P"    37            
+37            "l2r_A_P"     40            
+37            "stby_A_P"    36            
+37            "clr_tr_A_P"  38            
+38            "req_tr_A_P"  39            
+39            "nack_A_P" 36            
+39            "pack_A_P" 30            
+40            "req_fl_A_P"  41            
+41            "nack_A_P" 36            
+41            "pack_A_P" 42            
+42            "busy_A_P"    43            
+43            "l2r_A_P"     46            
+43            "stby_A_P"    42            
+43            "clr_tr_A_P"  44            
+44            "req_tr_A_P"  45            
+45            "nack_A_P" 42            
+45            "pack_A_P" 36            
+46            "req_fl_A_P"  47            
+47            "nack_A_P" 42            
+47            "pack_A_P" 48            
+48            "busy_A_P"    49            
+49            "l2r_A_P"     52            
+49            "stby_A_P"    48            
+49            "clr_tr_A_P"  50            
+50            "req_tr_A_P"  51            
+51            "nack_A_P" 48            
+51            "pack_A_P" 42            
+52            "req_fl_A_P"  53            
+53            "nack_A_P" 48            
+53            "pack_A_P" 54            
+54            "busy_A_P"    55            
+55            "l2r_A_P"     58            
+55            "stby_A_P"    54            
+55            "clr_tr_A_P"  56            
+56            "req_tr_A_P"  57            
+57            "nack_A_P" 54            
+57            "pack_A_P" 48            
+58            "req_fl_A_P"  59            
+59            "nack_A_P" 54            
+59            "pack_A_P" 60            
+60            "busy_A_P"    61            
+61            "l2r_A_P"     64            
+61            "stby_A_P"    60            
+61            "clr_tr_A_P"  62            
+62            "req_tr_A_P"  63            
+63            "nack_A_P" 60            
+63            "pack_A_P" 54            
+64            "req_fl_A_P"  65            
+65            "nack_A_P" 60            
+65            "pack_A_P" 66            
+66            "busy_A_P"    67            
+67            "l2r_A_P"     70            
+67            "stby_A_P"    66            
+67            "clr_tr_A_P"  68            
+68            "req_tr_A_P"  69            
+69            "nack_A_P" 66            
+69            "pack_A_P" 60            
+70            "req_fl_A_P"  71            
+71            "nack_A_P" 66            
+71            "pack_A_P" 72            
+72            "busy_A_P"    73            
+73            "l2r_A_P"     76            
+73            "stby_A_P"    72            
+73            "clr_tr_A_P"  74            
+74            "req_tr_A_P"  75            
+75            "nack_A_P" 72            
+75            "pack_A_P" 66            
+76            "req_fl_A_P"  77            
+77            "nack_A_P" 72            
+77            "pack_A_P" 78            
+78            "busy_A_P"    79            
+79            "l2r_A_P"     82            
+79            "stby_A_P"    78            
+79            "clr_tr_A_P"  80            
+80            "req_tr_A_P"  81            
+81            "nack_A_P" 78            
+81            "pack_A_P" 72            
+82            "req_fl_A_P"  83            
+83            "nack_A_P" 78            
+83            "pack_A_P" 84            
+84            "busy_A_P"    85            
+85            "l2r_A_P"     88            
+85            "stby_A_P"    84            
+85            "clr_tr_A_P"  86            
+86            "req_tr_A_P"  87            
+87            "nack_A_P" 84            
+87            "pack_A_P" 78            
+88            "req_fl_A_P"  89            
+89            "nack_A_P" 84            
+89            "pack_A_P" 90            
+90            "busy_A_P"    91            
+91            "l2r_A_P"     94            
+91            "stby_A_P"    90            
+91            "clr_tr_A_P"  92            
+92            "req_tr_A_P"  93            
+93            "nack_A_P" 90            
+93            "pack_A_P" 84            
+94            "req_fl_A_P"  95            
+95            "nack_A_P" 90            
+95            "pack_A_P" 96            
+96            "req_tr_A_P"  97            
+97            "nack_A_P" 96            
+97            "pack_A_P" 90            
+</TransRel>
+
+<InitStates>
+"Empty"       
+</InitStates>
+
+<MarkedStates>
+"Empty"       "aw_mode0"    "aw_mode1"    "one_wp"      "0_right_Y"   "1_right_Y"   
+"0_right_U"   "1fl_right_U" "2_right_Y"   "2tr_right_U" "1tr_right_U" "2fl_right_U" 
+"3_wp"        "3_right_Y"   "3fl_right_U" "3tr_right_U" "4_wp"        "two_wp"      
+"aw_mode2"    "1tr_right_Y" "2tr_right_Y" "3tr_right_Y" "aw_mode3"    "aw_mode4"    
+"4tr_right_Y" "4tr_right_U" "4_right_Y"   "4fl_right_U" "5_wp"        "aw_mode5"    
+"5tr_right_Y" "5tr_right_U" "5_right_Y"   "5fl_right_U" "6_wp"        "aw_mode6"    
+"6tr_right_Y" "6tr_right_U" "6_right_Y"   "6fl_right_U" "7_wp"        "aw_mode7"    
+"7tr_right_Y" "7tr_right_U" "7_right_Y"   "7fl_right_U" "8_wp"        "aw_mode8"    
+"8tr_right_Y" "8tr_right_U" "8_right_Y"   "8fl_right_U" "9_wp"        "aw_mode9"    
+"9tr_right_Y" "9tr_right_U" "9_right_Y"   "9fl_right_U" "10_wp"       "aw_mode10"   
+"10tr_right_Y" "10tr_right_U" "10_right_Y"  "10fl_right_U" "11_wp"       "aw_mode11"   
+"11tr_right_Y" "11tr_right_U" "11_right_Y"  "11fl_right_U" "12_wp"       "aw_mode12"   
+"12tr_right_Y" "12tr_right_U" "12_right_Y"  "12fl_right_U" "13_wp"       "aw_mode13"   
+"13tr_right_Y" "13tr_right_U" "13_right_Y"  "13fl_right_U" "14_wp"       "aw_mode14"   
+"14tr_right_Y" "14tr_right_U" "14_right_Y"  "14fl_right_U" "15_wp"       "aw_mode15"   
+"15tr_right_Y" "15tr_right_U" "15_right_Y"  "15fl_right_U" "16_wp"       "16tr_right_U" 
+</MarkedStates>
+
+
+</Generator>

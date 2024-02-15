@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Example" page="Index" title="Example PlugIn"> 
+
+<h1>
+Example PlugIn 
+</h1>
+
+<fsummary>
+Example plug-in for demonstration purposes, may be used
+as a template for plug-in development (and should not be part
+of the standard libFAUDES distribution).
+</fsummary>
+
+
+<p>
+The example plug-in addresses developers who whish to integrate their
+functions and data-types with the libFAUDES <fcite name="X1"/> build system.
+It uses an alternative implementation of the function Accessible()
+to illustrate the the following options:
+</p>
+<ul class="l2">
+<li><p>
+implementation of the respective algorithms via the
+libFAUDES C++ API; this includes technical documentation with
+<tt>doxygen</tt> tagged C++ code that integrates with the
+libFAUDES C++ API documentation;
+</p></li>
+<li><p>
+organisation of the C++ sources as libFAUDES plug-in;
+this step announces the source files to the build system.
+</p></li>
+<li><p>
+integration of the algorithm to the libFAUDES run-time interface;
+this step registers the new function in the  function registry
+and introduces corresponding HTML documentation to the libFAUDES
+dictionary;
+</p></li>
+<li><p>
+automatic generation of corresponding luabindings using
+the interface egenerator <tt>swig</tt>; this step provides access
+to the new functions and data-types for 
+<tt>luafaudes</tt> scripts;
+</p></li>
+</ul>
+<p>
+The sources relevant for this example plug-in are discussed 
+in plug-in how-to section of the <a href="../faudes_algorithm_example.html">developer pages</a>.
+</p>
+
+
+<ffnct_reference name="AltAccessible">
+
+<fdetails/>
+
+<p>
+The function <ffnct>AltAccessible</ffnct> is an alternative implementation of
+<ffnct>Accessible</ffnct>. It converts a given generator to an accessible generator 
+without affecting the closed and marked languages. This is done by removing all states that cannot 
+be reached from any initial state. 
+</p>
+
+
+</ffnct_reference>
+
+
+
+<h2>
+<a id="literature">
+Literature
+</a>
+</h2>
+<p> 
+For the purpose of demonstration only, we add a literature reference.
+</p>
+
+<fliterature name="X1">
+<fauthors>T.&nbsp;Moor, S.&nbsp;Perk, K.&nbsp;Schmidt</fauthors>
+<ftitle>libFAUDES - An Open Source C++ Library for Discrete Event Systems</ftitle>   
+<fjournal>Workshop on Discrete Event Systems, Goeteborg, Sweden</fjournal>
+<fyear>2008</fyear>
+</fliterature>
+
+
+</ReferencePage>
+
+  

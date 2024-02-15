@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Step 6">
+
+<h1>
+HioSys PlugIn
+</h1>
+<h2>
+The I/O-Based Approach - Step by Step
+</h2>
+
+<p>
+<ul class="l2">
+<li><a href="hiosys_stepbystep.html#step1">Step 1: Component-Wise Plant Modeling</a></li>
+<li><a href="hiosys_stepbystep_2.html">Step 2: Component-Wise Specification and Controller Design</a></li>
+<li><a href="hiosys_stepbystep_3.html">Step 3: Abstraction</a></li>
+<li><a href="hiosys_stepbystep_4.html">Step 4: Subsystem Composition</a></li>
+<li><a href="hiosys_stepbystep_5.html">Step 5: Environment Modeling</a></li>
+<li><a href="hiosys_stepbystep_6.html">Step 6: Superposed Specification and Controller Design</a></li>
+</ul>
+</p>
+
+<h3 id="step6">
+Step 6: Superposed Specification and Controller Design
+</h3>
+
+<p>
+This step applies to those plant components only that are merged to an I/O shuffle provided with
+an I/O environment. For those plant components of the current hierarchical level that are not
+a member of any such group, <a href="hiosys_stepbystep_2.html">Step 2</a> applies instead of Step 6.
+</p>
+
+<p>
+For each group of plant components with environment, and a specification for each group, we synthesize a
+superposed controller that respects Theorem V.7 in <fcite name="H1"/>, i.e. that meets the local operator
+constraints of each plant component of the group and
+enforces the local environment constraints that were replaced by the environment in Step 5,
+by only requesting resources when available.
+
+Analogously to Step 2, an operator constraint <fimath>S_C</fimath> can be introduced along with the
+specification <fimath>S_{specCL}</fimath>. As in Step 2, the specification is reasonably designed as
+an I/O-plant model of the desired external behaviour of the controlled group which is complete and
+<fimath>Y_C</fimath>-live w.r.t. <fimath>S_{C}</fimath> and the user-designed constraint <fimath>S_{L}</fimath> on the
+remaining environment.
+
+To synthesize an I/O controller for the compound plant, the synthesis function
+<ffnct>HioSynthHierarchical</ffnct> is provided with the
+I/O-shuffle compound of the plant components, the corresponding environment model, the parallel
+composition (<ffnct>Parallel</ffnct>) of all local constraints of the components and the specification
+ together with the
+external constraints <fimath>S_{P}</fimath> and <fimath>S_{L}</fimath>:
+</p>
+<p>
+<table border="0">
+<tr> <td valign="bottom"> <img fsrc="FAUDES_IMAGES/hio_synthesis_problem_compound.png"/></td>
+</tr>
+<tr> <td align="center"> <i>Synthesis problem, monolithic</i> </td> </tr>
+</table>
+</p>
+<small>
+<p>
+<strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+A specification for the group of two TU&apos;s is easily obtained, if we require the two TU&apos;s to behave as if they
+were one single TU. In this case, the specification is a versioned copy of the specification for one TU
+(see Step 2):
+</p>
+<p>
+<table class="plain">
+<tr><td><fimage fsrc="tmp_hio_tu_specAB"/></td></tr>
+<tr><td align="center"> <i> <small>specification for compound of TU A and B</small></i> </td></tr>
+</table>
+</p>
+<p>
+The resulting I/O controller, however, is more complex than the one for a single TU, as it has to control
+the internal transfer of the workpiece:
+</p>
+<p>
+<table class="plain">
+<tr><td>  <fimage fsrc="tmp_hio_tu_IOcontrollerAB" /> </td></tr>
+<tr><td align="center"> <i> <small>controller for compound of TU A and B</small></i> </td></tr>
+</table>
+</p>
+</small>
+
+<p>
+  As again, the external view on the closed loop of superposed controller and compound group is an I/O plant,
+  we end up with a new level of n&apos; &lt; n plant components, one per group.
+  By abstraction using
+  the specifications designed in this step, we proceed with Step 3. This procedure is repeated until a single I/O
+  controller is designed for the abstract model of the overall plant.
+</p>
+
+<p>
+  <img fsrc="FAUDES_IMAGES/hio_tu_example_superposed.png" />
+</p>
+
+<p>
+<small>
+<strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+Keeping up the same specification also for groups of 4, 8,... TU&apos;s leads to a hierarchy of structurally
+identical I/O controllers as in the above figure, as, by abstraction, the plant components remain structurally
+identical at each hierarchical level. The interaction between two groups of TU&apos;s is the same
+as between two single TU&apos;s, and hence the I/O environment, too, remains identical. All in all, we receive a
+hierarchy of controllers and environments with a complexity (overall sum of automata states) that grows linear in
+the number of transport units.
+</small>
+</p>
+
+<p>
+<img fsrc="FAUDES_IMAGES/hio_tu_example_final.png"/>
+</p>
+
+<p>
+<table class="plain" >
+  <colgroup>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+  </colgroup>
+<tr>
+  <td><a href="hiosys_stepbystep_5.html">&lt;&lt; Step5</a> </td>
+  <td><a href="hiosys_index.html">HioSys Home</a></td>
+  <td>&nbsp; </td>
+</tr>
+</table>
+</p></ReferencePage>
+
+  

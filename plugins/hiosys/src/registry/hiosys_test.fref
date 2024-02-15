@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Verification">
+
+<h2>
+HioSys I/O Tests
+</h2>
+
+<p>
+The data-types <ftype>HioPlant</ftype>, <ftype>HioController</ftype>, 
+<ftype>HioEnvironment</ftype> and <ftype>HioConstraint</ftype>
+model specific I/O systems, which impose
+certain conditions on the discrete event dynamic.
+The below test functions verify these conditions. They also
+set state attributes to represent the I/O form state decomposition.
+Hence, the argument is of type +InOut+.
+</p>
+
+<ffnct_reference name="IsHioPlantForm">
+</ffnct_reference>
+
+<ffnct_reference name="IsHioControllerForm">
+</ffnct_reference>
+
+<ffnct_reference name="IsHioEnvironmentForm">
+</ffnct_reference>
+
+<ffnct_reference name="IsHioConstraintForm">
+</ffnct_reference>
+
+<ffnct_reference name="HioFreeInput">
+</ffnct_reference>
+
+</ReferencePage>
+
+  

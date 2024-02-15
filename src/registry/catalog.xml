@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE catalog SYSTEM "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+<system 
+  systemId="http://www.faudes.org/dtd/1.0/registry.dtd" 
+  uri="registry.dtd" 
+/>
+<system 
+  systemId="http://www.faudes.org/dtd/1.0/referencepage.dtd" 
+  uri="referencepage.dtd" 
+/>
+<system 
+  systemId="http://www.faudes.org/dtd/1.0/generator.dtd" 
+  uri="generator.dtd" 
+/>
+<system 
+  systemId="http://www.faudes.org/dtd/1.0/system.dtd" 
+  uri="system.dtd" 
+/>
+</catalog>
+

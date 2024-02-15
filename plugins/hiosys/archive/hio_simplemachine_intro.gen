@@ -1,0 +1,39 @@
+<Generator>
+"Simple Machine"   
+
+% 
+%  Statistics for Simple Machine
+%  States:        3
+%  Init/Marked:   1/3
+%  Events:        6
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"alpha"     +UP+          "beta"      +YP+          "dye"        +YE+          
+"due"        +UE+          "no_op"     +UP+          "idle"      +YP+          
+</Alphabet>
+
+<States>
+"I_Y"        "I_U"        "B_Y"        
+</States>
+
+<TransRel>
+"I_Y"        "idle"      "I_U"        
+"I_U"        "alpha"     "B_Y"        
+"I_U"        "no_op"     "I_Y"        
+"B_Y"        "beta"      "I_U"        
+</TransRel>
+
+<InitStates>
+"I_Y"        
+</InitStates>
+
+<MarkedStates>
+"I_Y"        "I_U"        "B_Y"      
+</MarkedStates>
+
+
+</Generator>

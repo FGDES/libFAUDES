@@ -1,0 +1,44 @@
+<Generator> "simple machine A" 
+
+% Simple machine example for hiosys-tutorial.
+% -- plain generator version without hio-attributes --
+% Machine sends YP-event "A_wait" to operator.
+% Does nothing after UP-event "A_stp", or executes
+% the process "A_do", which requires a shared
+% resource from the environment, modelled by
+% "A_req". The environment may provide or
+% deny access to the resource ("A_pack" or
+% "A_nack", respectively).
+
+<Alphabet>
+"A_do"   "A_stp"
+"A_wait"
+"A_req"
+"A_nack"      "A_pack"      
+</Alphabet>
+
+<States>
+<Consecutive>
+1             4
+</Consecutive>
+</States>
+
+<TransRel>
+1 "A_wait" 2
+2 "A_stp" 1
+2 "A_do" 3
+3 "A_req" 4
+4 "A_nack" 3
+4 "A_pack" 1
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+1 2 3 4
+</MarkedStates>
+
+</Generator>
+

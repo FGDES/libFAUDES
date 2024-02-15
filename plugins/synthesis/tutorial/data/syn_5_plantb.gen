@@ -1,0 +1,34 @@
+<Generator name="Plant B">
+
+<Alphabet>
+e12           e51           +C+           e14           e55           +C+          
+e52           +o+           e53           +C+           e57           +C+          
+e54           +o+          
+</Alphabet>
+
+<States>
+s0#1          s2#3          s5#5          s4#6          s8#9         
+</States>
+
+<TransRel>
+s0            e51           s2           
+s2            e55           s5           
+s2            e52           s4           
+s5            e51           s2           
+s5            e53           s8           
+s4            e53           s8           
+s8            e57           s5           
+s8            e54           s0           
+</TransRel>
+
+<InitStates>
+s0           
+</InitStates>
+
+<MarkedStates>
+s0           
+</MarkedStates>
+
+
+</Generator>
+

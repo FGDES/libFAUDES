@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="" page="3_Literature" title="libFAUDES - Literature">
+
+<h1>
+Literature
+</h1>
+
+<p>
+The following list of references is assembled from the 
+plug-ins available in this copy of libFAUDES. It is meant to acknowledge
+research contributions relevant to the implemented algorithms and
+may serve as a starting point for a deeper literature review.
+</p>
+
+
+<falllit/>
+
+</ReferencePage>

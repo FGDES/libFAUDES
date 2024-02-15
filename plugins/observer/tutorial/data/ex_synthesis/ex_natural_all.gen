@@ -1,0 +1,57 @@
+<Generator>
+"observer_verification1" 
+
+%
+% Statistics for Bisimulation
+% States:        6
+% Init/Marked:   1/3
+% Events:        4
+% Transitions:   17
+% StateSymbols:  0
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"alpha"      "beta"        "gamma"     "delta" "a" +C+	"b"	"c"  
+"d"  "e" 	"f"	+C+ "g"  +C+	"h"  +C+ "i"
+</Alphabet>
+
+<States>
+1             2             3             4             5             6		7	8
+9	10	11	12
+</States>
+
+<TransRel>
+1	"delta"	2
+2	"c"	3
+2	"b"	4
+3	"i"	5
+4	"b"	5
+5	"alpha"	6
+6	"a"	7
+6	"e"	9
+7	"c"	10
+7	"b"	8
+7	"e"	9
+8	"c"	7
+8	"f"	11
+8	"beta"	1
+9	"g"	10
+9	"f"	11
+9	"h"	12
+10	"b"	7
+10	"d"	8
+11	"g"	8
+11	"h"	12
+12	"gamma"	1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1
+</MarkedStates>
+
+</Generator>

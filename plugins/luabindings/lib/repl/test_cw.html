@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>codemirror</title>
+    <script src="codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror.css">
+    <script src="codemirror_luamode.js"></script>
+    <script>
+      function start() {
+        var editor = document.getElementById('editor');
+        var cm = CodeMirror.fromTextArea(editor,  {
+          mode:  "lua",
+          lineNumbers: true
+        });
+        cm.setValue("see this");
+        
+      }
+      window.onload = start;
+    </script>
+  </head>
+  <body>
+    <h1>cm testing</h1>
+    <textarea id="editor"></textarea>
+  </body>
+</html>

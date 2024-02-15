@@ -1,0 +1,30 @@
+% Elevator example, operator buttons
+
+<Generator>
+"operator buttons"	
+
+<Alphabet>
+"o_upb"
+"o_lwb" 						
+</Alphabet>
+
+<States>
+"Idle"	
+</States>
+
+<TransRel>
+"Idle" "o_upb" "Idle"
+"Idle" "o_lwb" "Idle"
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>							
+"Idle"
+</MarkedStates>
+
+</Generator>
+
+

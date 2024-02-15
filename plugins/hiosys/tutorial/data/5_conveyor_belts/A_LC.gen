@@ -1,0 +1,46 @@
+<Generator>
+"LC_A"
+
+<Alphabet>
+"A_STP" +U+      "A_TR" +U+       "A_FL" +U+
+"A_WAIT" +Y+      "A_FULL" +Y+    "A_ARRTR" +Y+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1             6            
+</Consecutive>
+"Err"
+</States>
+
+<TransRel>
+1             "A_WAIT"      2
+1             "A_FULL"      3
+1             "A_ARRTR"     6
+2             "A_STP"       1
+2             "A_FL"        1
+3             "A_STP"       4
+4             "A_WAIT"      5
+4             "A_FULL"      "Err"
+4             "A_ARRTR"     "Err"
+5             "A_STP"       4
+5             "A_TR"        1
+6             "A_STP"       1
+"Err"         "A_STP"       4
+"Err"         "A_FL"        4
+"Err"         "A_TR"        4
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1             6          
+</Consecutive>
+"Err"
+</MarkedStates>
+
+
+</Generator>

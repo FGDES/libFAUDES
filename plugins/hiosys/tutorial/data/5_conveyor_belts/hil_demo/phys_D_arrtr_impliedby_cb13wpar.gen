@@ -1,0 +1,33 @@
+<Generator>
+"phys_D_arrtr_impliedby_cb13wpar"
+
+
+
+<Alphabet>
+
+"cb13wpar" "D_arrtr"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb13wpar" 2
+2            "D_arrtr"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

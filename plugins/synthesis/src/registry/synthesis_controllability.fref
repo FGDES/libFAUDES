@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Synthesis" page="1_Controllability" title="Synthesis - Controllability">
+
+<h1>
+Controllable Sublanguages
+</h1>
+
+<fsummary>
+Plain supervisoty control, i.e., controllable sublanguages, relative closed sublanguages.
+</fsummary>
+
+<p>
+Functions related to the notion of controllability and (basic) supervisory control.
+</p>
+
+
+<h2>
+Definition of Controllability
+</h2>
+
+<p>
+The notion of controllability was originally introduced by P.J. Ramadge and W.M. Wonham,
+e.g. <fcite name="S1"/>:
+</p>
+
+
+<p>
+Consider two languages <fimath>L</fimath> and <fimath>K</fimath> over a common alphabet <fimath>\Sigma</fimath>,
+and a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+Then <fimath>K</fimath> is said to be <i>controllable w.r.t. <fimath>(L,\Sigma_{uc})</fimath></i> iff
+<br/>
+<br/>
+<fdmath>\Closure{K} \Sigma_{uc} \, \cap\, \Closure{L} \ \subseteq \ \Closure{K}</fdmath>
+<br/>
+</p>
+
+<p>
+The definition addresses the situation where <fimath>K</fimath> is the closed-loop behaviour
+that has been achieved by supervision of a plant <fimath>L</fimath>.
+Whenever, after some past string <fimath>s\in \Closure{K}</fimath>, the
+uncontrollable event <fimath>\sigma \in \Sigma_{uc}</fimath> is accepted by the plant 
+<fimath>\Closure{L}</fimath>, it must also be accepted by the controller and, hence,
+cannot be rejected in the closed loop <fimath>\Closure{K}</fimath>. 
+</p>
+
+
+<h2>
+Controller Synthesis
+</h2>
+
+<p>
+For the purpose of controller synthesis,
+consider a plant <fimath>L\subseteq \Sigma^*</fimath>, 
+a specification <fimath>E\subseteq \Sigma^*</fimath>, and,
+uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+The task then is to find a prefix closed controller <fimath>H\subseteq \Sigma^*</fimath>, 
+such that
+</p>
+
+<p>
+(1) &nbsp; &nbsp;
+<fimath>L</fimath> and <fimath>H</fimath> are non-blocking, i.e., 
+<fimath>\Closure{L \,\cap\, H } = \Closure{L}\; \cap \; H</fimath> ;
+<br/>
+(2) &nbsp; &nbsp;
+the controller <fimath>H</fimath> is controllable w.r.t. <fimath>(L,\Sigma_{uc})</fimath> ; and,
+<br/>
+(3) &nbsp; &nbsp;
+the closed-loop behaviour satisfies the specification, i.e., <fimath>L\, \cap \, H \subseteq E</fimath>.
+</p>
+<p>
+For any prefix closed controller <fimath>H</fimath> which satisfies the above conditions, the closed loop 
+<fimath>K = L\, \cap \, H</fimath> exhibits the following properties:
+</p>
+<p>
+(a) &nbsp; &nbsp;
+<fimath>K</fimath> is relatively closed w.r.t. <fimath>L</fimath>, i.e., <fimath>K=L\;\cap\;\Closure{K}</fimath>;
+<br/>
+(b) &nbsp; &nbsp;
+<fimath>K</fimath> is controllable w.r.t. <fimath>(L,\Sigma_{uc})</fimath>;
+<br/>
+(c) &nbsp; &nbsp;
+<fimath>K\subseteq E</fimath>.
+</p>
+<p>
+Moreover, if a language <fimath>K</fimath> satisfies
+(a)-(c), the controller <fimath>H = \Closure{K}</fimath> solves
+the synthesis problem. 
+</p>
+<p>
+A fundamental result presented in <fcite name="S1"/> is that
+all of the conditions (a)-(c) are retained under
+arbitrary union. Thus, the set of all achievable closed-loop behaviours
+forms a complete upper semi-lattice. In particular,
+the supremum
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq E\ |\ K \text{ is controllable w.r.t. } (L,\Sigma_{uc})\ \text{and}
+\ K \text{ is relatively closed w.r.t.}\ L\}</fdmath> 
+<br/>
+<br/>
+exists uniquely and itselfs satisfies conditions (a)-(c). 
+It is referred to as the <i>closed-loop behaviour under minimal
+restrictive supervision</i> 
+and it is commonly used to implement the
+<i>least restrictive controller</i>
+<fimath>H^\uparrow = \Closure{K^\uparrow}</fimath>.
+</p>
+
+
+<p>
+An example is
+given at the main page of the 
+<a href="synthesis_index.html">Synthesis plug-in</a>.
+</p>
+
+<p>
+<b>Note 1:</b> 
+In the literature
+the supervisor is commonly represented by a map <fimath>V</fimath>
+that maps past observations <fimath>s\in\Closure{L}</fimath> to control patterns 
+<fimath>V(s)=\gamma,\ \Sigma_uc \subseteq \gamma\subseteq\Sigma</fimath>. 
+The closed-loop behaviour of <fimath>L</fimath> under supervison <fimath>V</fimath>
+is then defined by the condition, that at each instance of time an event can only occur
+if it complies with the plant behaviour and the current control pattern. 
+However, for the scope of this documentation, we feel
+that a simplified presentation purely in terms of languages is 
+preferable.
+</p>
+
+<p>
+<b>Note 2:</b> 
+For the above problem of controller synthesis the plant is represented
+as a single language <fimath>L</fimath>. 
+For the situation, where the plant is more adequatly modelled by a generator 
+that fails to be nonblocking, i.e. <fimath>L(G)\neq \Closure{Lm(G)}</fimath>, one may  
+proceed with <fimath>L=L(G)</fimath> and employ a specification
+<fimath>E\subseteq Lm(G)</fimath> to design a marking controller that avoids 
+blocking; see also <ffnct>SupConNB</ffnct>.
+</p>
+
+
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="IsControllable">
+
+<fdetails/>
+<p>
+This function tests controllability of <fimath>L(GCand)</fimath> w.r.t.
+<fimath>(L(GPlant),\Sigma_{uc})</fimath>.
+The set of uncontrollable events <fimath>\Sigma_{uc}</fimath> is
+either taken from the plant event attributes or
+specified as the complement of the parameter <i>ACntrl</i>.
+</p>
+<p>
+Since the definition of controllability exclusively refers to the closure of
+the relevant languages, this function can be also used to test
+controllability of <fimath>Lm(GCand)</fimath> w.r.t.
+<fimath>(Lm(GPlant),\Sigma_{uc})</fimath>, provided that the specified generators
+are nonblocking. This can be achieved by applying <ffnct>Trim</ffnct> before
+calling <ffnct>IsControllable</ffnct>.
+</p>
+<p>
+The current implementation performs the test by inspecting the transitions in
+the product composition <fimath>GPlant \times GCand</fimath>. 
+If <i>GCand</i> disables a transition in <i>GPlant</i> 
+that is labled with an uncontrollable event, the function returns "false".
+Else, it returns "true".
+</p>
+
+<fexample/>
+
+<p>
+Consider the <a href="synthesis_index.html#example">very simple machine scenario</a>. We have
+</p>
+<table class="plain"> 
+<tr> <td> Overall Plant GPlant</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_plant"/> </td></tr>
+<tr> <td> Product(GPlant,GSpec)</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_product"/> </td> </tr>
+</table> 
+
+<p>
+In the product composition, the state <tt>B|B|F</tt> disables the uncontrollable
+event <tt>beta_1</tt> since the buffer is full and cannot take any workpiece.
+However, in the corresponding plant state <tt>B|B</tt>, the event <tt>beta_1</tt>
+is enabled, since machine M1 is busy and may on completion pass on the
+workpiece. Thus, the specification is not controllable w.r.t. the plant and
+the function <ffnct>IsControllable</ffnct> returns "false" when applied to GPlant and GSpec.
+</p>
+
+
+
+<fconditions/>
+<p>
+This implementation requires the alphabets of plant and specification
+to match. 
+Furthermore, both generators must be deterministic. 
+Effectively, the specification is intersected with the plant
+language. 
+</p>
+
+</ffnct_reference>
+
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="SupConClosed">
+<fdetails/>
+
+<p>
+Given a plant <fimath>L=L(GPlant)</fimath> and a specification <fimath>E=L(GSpec)</fimath>, 
+this function computes the supremal controllable and closed sublanguage <fimath>K\subseteq E \cap L</fimath>:
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq E\cap L\ |\ K \text{ is controllable w.r.t. } (L,\Sigma_{uc})\ 
+\ \text{and prefix closed }\}</fdmath> .
+<br/>
+<br/>
+Note that, since <fimath>E</fimath> is prefix closed, the above supremum
+is equivalently characterised by
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq E\cap L\ |\ K \text{ is controllable w.r.t. } (L,\Sigma_{uc})\ \}
+</fdmath> .
+<br/>
+<br/>
+The result is returned as an accessible and deterministic (but in general 
+blocking) generator GSupervisor that generates <fimath> K^\uparrow </fimath>. 
+The set of uncontrollable events <fimath>\Sigma_{uc}</fimath> is
+either taken from the plant generator's event attributes or
+specified as the complement of the parameter <i>ACntrl</i>.
+See e.g. <fcite name="C2"/> for the base algorithm used in the implementation 
+of this function.
+</p>
+
+<p>
+Clearly, <fimath> K^\uparrow </fimath> satisfies
+the closed-loop conditions (a)-(c). In particular, <fimath>H=K^\uparrow</fimath> 
+solves the synthesis problem.
+</p> 
+
+<fexample/>
+
+<p>
+For <a href="synthesis_index.html#example">very-simple machine example</a>, 
+it happens that <ffnct>SupConClosed</ffnct> returns the same generator as
+<ffnct>SupConNB</ffnct> does. However, for
+<ffnct>SupConClosed</ffnct> the result is interpreted as the generated language.
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of plant and specification
+to match. Furthermore, both generators must be deterministic. 
+Effectively, the specification is intersected with the plant
+language. 
+</p>
+
+</ffnct_reference>
+
+
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupConNB">
+<fdetails/>
+
+<p>
+Given a plant realisation <fimath>G</fimath> (argument <i>GPlant</i>) and a 
+specification <fimath>E=Lm(GSpec)</fimath>, this function
+computes the supremal controllable sublanguage <fimath>K^\uparrow \subseteq E \cap Lm(G)</fimath>:
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq E\cap Lm(G)\ |\ K \text{ is controllable w.r.t. } 
+(L(GPlant), \Sigma_{uc})\ \}</fdmath> .
+<br/>
+<br/>
+Note that, if  <fimath>G</fimath> is non-blocking, 
+the above supremum is equivalently characterised by
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq E\cap Lm(G)\ |\ K \text{ is controllable w.r.t. } (Lm(G),\Sigma_{uc})\ \}
+</fdmath> .
+<br/>
+<br/>
+The result is returned as a trim deterministic generator <i>GSupervisor</i>
+that marks <fimath>K^\uparrow</fimath>.
+The set of uncontrollable events <fimath>\Sigma_{uc}</fimath> is
+either taken from the plant generator's event attributes or
+specified as the complement of the parameter <i>ACntrl</i>.
+See e.g. <fcite name="C2"/> for the base algorithm used in the implementation 
+of this function.
+</p>
+
+<p>
+For the synthesis problem in this documentation, we assume that <fimath>G</fimath> is non-blocking.
+Here, <fimath> K^\uparrow </fimath> satisfies the closed-loop conditions (b) and (c). 
+In addition, <fimath>K^\uparrow</fimath> can be observed to be relatively prefix-closed w.r.t. <fimath>E</fimath>. 
+If the specification <fimath>E</fimath> is relatively marked w.r.t. the plant <fimath>Lm(G)</fimath> 
+(see also <ffnct>IsRelativelyMarked</ffnct>), this implies that <fimath>K^\uparrow</fimath> is
+relatively prefix-closed w.r.t. <fimath>Lm(G)</fimath>, i.e., <fimath>K^\uparrow</fimath> 
+also fulfills the closed-loop condition (a) and the controller <fimath>H=\Closure{K^\uparrow}</fimath> solves 
+the synthesis problem.
+</p>
+
+
+<p>
+If the specification <fimath>E</fimath> fails to be relatively marked w.r.t. the plant <fimath>L</fimath>, 
+one may replace <fimath>E</fimath> with the supremal sublanguage that is relatively closed
+(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupConNB</ffnct>,
+to obtain
+<br/>
+<br/>
+<fdmath> E^\Uparrow = \sup \{ \ K \subseteq E\ |\ K \text{ is relatively closed w.r.t. } Lm(G)\ \}</fdmath> 
+<br/>
+<fdmath> K^\Uparrow = \sup \{ \ K \subseteq E^\Uparrow\ \cap Lm(G)\ |\ K \text{ is controllable w.r.t. } (Lm(G),\Sigma_{uc})\ \}</fdmath> .
+<br/>
+<br/>
+By the above considerations, this will result in the supremal language <fimath>K^\Uparrow</fimath>,
+that satisfies all three closed-loop conditions (a)-(c).
+</p>
+
+<p>
+Alternatively, one may resort to a so called <i>marking supervisor</i>
+<fimath>H=K^\uparrow</fimath> that only satisfies conditions (b) and (c). 
+From <fimath>H\subseteq L</fimath>,
+the marking of the supervisor implies the marking of the plant
+and we can implement the closed loop as the intersection
+<fimath>\Closure{L}\cap H</fimath>, hence
+the notion of a <i>marking supervisor</i>.
+The nonblocking condition then becomes formally
+<fimath>\Closure{Closure(L)\cap H}= \Closure{L}\cap \Closure{H}</fimath>,  <!-- FIX TeX processing -->
+which, by <fimath>H\subseteq L</fimath>, is trivially satisfied.
+</p>
+
+<fexample/>
+
+<p>
+The supervisor given for the <a href="synthesis_index.html#example">very-simple machine example</a> 
+has been obtained by <ffnct>SupConNB</ffnct>. It failes to be relatively-closed
+and thus is interpreted as a marking supervisor.
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of plant and specification
+to match. Furthermore, both generators must be deterministic. 
+Effectively, the specification is intersected with the plant
+language. 
+</p>
+
+</ffnct_reference>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+
+<ffnct_reference name="IsRelativelyPrefixClosed">
+<fdetails/>
+
+<p>
+A language <fimath>K</fimath> is relatively closed w.r.t. a language
+<fimath>L</fimath>, if <fimath>K</fimath> can be recovered from its closure and <fimath>L</fimath>.
+Formally:
+<br/>
+<br/>
+<fdmath>K= \Closure{K}\,\cap\,L</fdmath> .
+<br/>
+<br/>
+This function tests, whether
+<br/>
+<br/>
+<fdmath>Lm(GCand)= L(GCand) \,\cap\,Lm(GPlant)</fdmath> 
+<br/>
+<br/>
+by performing the product composition of the two generators in order to verify the
+following two conditions:
+</p>
+<ul class="l2">
+<li><p>
+<fimath>L(GCand) \subseteq  L(GPlant)</fimath>, and
+</p></li>
+<li><p>
+<fimath>( \forall \text{ accessible states } (qPlant,qCand) )\, [ \ qCand \in QCand_m \ \ \Leftrightarrow \ \  qPlant\in QPlant_m \  ]</fimath> .
+</p></li>
+</ul>
+<p>
+Here, <fimath>QPlant_m</fimath> and <fimath>QCand_m</fimath> refer to the marked states of GPlant and GCand, respectively.
+The function returns "true" if both conditions are fulfilled.
+</p>
+
+
+<fexample/>
+
+<p>
+Consider the <a href="synthesis_index.html#example">very simple machine scenario</a>.
+</p>
+
+<table class="plain"> 
+<tr> <td> Overall Plant GPlant</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_plant"/> </td></tr> 
+<tr> <td> Supervisor GSupervisor</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_super"/> </td> </tr>
+</table> 
+
+<p>
+The string <tt>alpha_1 beta_1</tt> is within the languages generated 
+by the supervisor and the plant respectively.
+It is not within the language marked by the supervisor,
+since that language is a subset of the language marked by the specification
+and thus requires the buffer to be empty.
+In particular, the string <tt>alpha_1 beta_1</tt> witnesses a violation
+of relative closedness condition and
+the function <ffnct>IsRelativelyPrefixClosed</ffnct> returns "false" when applied to 
+GPlant and GSupervisor.
+</p>
+
+
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of both generators to match. 
+Furthermore, both specified generators must be deterministic
+and nonblocking.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+
+
+<ffnct_reference name="IsRelativelyMarked">
+<fdetails/>
+
+<p>
+A language <fimath>K</fimath> is relatively marked w.r.t. a language
+<fimath>L</fimath>, if its marking is implied by <fimath>L</fimath>.
+Formally:
+<br/>
+<br/>
+<fdmath>K\supseteq \Closure{K}\,\cap\,L</fdmath> .
+<br/>
+<br/>
+This function tests, whether
+<br/>
+<br/>
+<fdmath>Lm(GCand) \supseteq L(GCand) \,\cap\,Lm(GPlant)</fdmath> 
+<br/>
+<br/>
+by performing the product composition of the two generators in order to verify the
+following condition:
+</p>
+<ul class="l2">
+<li><p>
+<fimath>( \forall \text{ accessible states } (qPlant,qCand) )\, [ \ qCand \in QCand_m \ \ \Leftarrow \ \  qPlant\in QPlant_m \  ]</fimath> .
+</p></li>
+</ul>
+<p>
+Here, <fimath>QPlant_m</fimath> and <fimath>QCand_m</fimath> refer to the marked states of GPlant and GCand, respectively.
+The function returns "true" if the condition is fulfilled.
+</p>
+
+
+<fexample/>
+
+<p>
+Consider the <a href="synthesis_index.html#example">very simple machine scenario</a>;
+see also <ffnct>IsControllable</ffnct>.
+</p>
+
+<p>
+In the product composition of plant and specification
+the state <tt>I|I|F</tt> is not marked, since
+the specification required the buffer to be empty.
+However, the corresponding <tt>I|I</tt> plant state is
+marked. The string <tt>alpha_1 beta_1</tt> therefore 
+is in <fimath>Lm(GPlant)\cap L(GSpec)</fimath> but not in
+<fimath>Lm(GSpec)</fimath>. Thus, the condition is violated
+and
+the function <ffnct>IsRelativelyMarked</ffnct> returns "false" when applied to GPlant and GSpec.
+</p>
+
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of both generators to match. 
+Furthermore, both specified generators must be deterministic
+and nonblocking.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+
+<ffnct_reference name="SupRelativelyPrefixClosed">
+<fdetails/>
+
+<p>
+Given a plant <fimath>L=Lm(GPlant)</fimath> and a 
+specification <fimath>E=Lm(GSpec)</fimath>, this function
+computes the supremal sublanguage <fimath>K^\uparrow \subseteq E</fimath> that
+is relatively prefix-closed w.r.t. <fimath>L</fimath>:
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq E |\ K= \Closure{K}\,\cap\,L\ \}</fdmath> .
+<br/>
+<br/>
+Note that <fimath>K^\uparrow\subseteq L\cap E</fimath>.
+The current implementation starts with the product <fimath>GPlant\times GSpec</fimath>
+as a first candidate. It then subsequently removes states that correspond to a marked state 
+in <fimath>GPlant</fimath> and to an unmarked state in <fimath>GSpec</fimath>.
+The result is returned as a trim deterministic generator <i>GRes</i>
+that marks <fimath>K^\uparrow</fimath>.
+</p>
+<p>
+For a formal discussion on relative-closedness in the context of supervisory control,
+including a formula for the supremal relatively closed sublanguage, see <fcite name="S9"/>.
+</p>
+
+
+<fexample/>
+
+<table class="plain"> 
+<tr> 
+<td> Plant  <fimath>L</fimath></td> 
+<td> Specification <fimath>E</fimath></td> 
+<td> Result <fimath>K^\uparrow</fimath></td> 
+</tr>
+<tr> 
+<td> <fimage fsrc="tmp_syn_suprpc_l"/> </td>
+<td> <fimage fsrc="tmp_syn_suprpc_e"/> </td>
+<td> <fimage fsrc="tmp_syn_suprpc_k"/> </td>
+</tr>
+</table> 
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of both generators to match. 
+Furthermore, both specified generators must be deterministic.
+</p>
+
+</ffnct_reference>
+
+
+
+</ReferencePage>
+
+  

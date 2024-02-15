@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Observer" page="0_Index" title="Observer - About">
+
+<h1>
+Observers
+</h1>
+
+<fsummary>
+Functions for the synthesis and for the verification of the natural observer property and
+variations thereof, addressing the design of hierarchical and modular control architectures.
+</fsummary>
+
+<p>
+This plug-in implements algorithms that support the hierarchical supervisor synthesis with the aim of reducing the computational synthesis effort for large-scale discrete event systems. In this regard, the plug-in employs different variants of the observer property for natural projections introduced in <fcite name="O1"/> for the nonblocking hierarchical supervisory control. Both <a href="observer_test.html">verification algorithms</a> for the observer property and algorithms for the <a href="observer_calc.html">computation of natural projections</a> that possess the observer property are provided. In addition, the plug-in integrates the local control consistency (LCC) condition <fcite name="O2"/>,<fcite name="O5"/> for the maximally permissive hierarchical supervisory control. 
+</p>
+
+<p>
+We provide an introduction to this plug-in by means of the below basic hierarchical supervisor design flow. 
+Advanced ussage is illustrated by a large-scale <a href="observer_example.html">laboratory setup</a> 
+<fcite name="O4"/>. 
+</p>
+
+<p>
+The remainder of this section is organised as follows: 
+</p>
+<ul class="l2">
+<li><p> 
+<a href="observer_index.html">Introduction (see Example below)</a>
+</p></li>
+<li><p> 
+<a href="observer_test.html">Verification of Observer Properties</a>
+</p></li>
+<li><p> 
+<a href="observer_calc.html">Synthesis of Observers</a>
+</p></li>
+<li><p> 
+<a href="observer_example.html">Large-Scale Example</a>
+</p></li>
+</ul>
+
+<p>
+<br></br>
+<br></br>
+Copyright (c) 2006, Bernd Opitz<br/>
+Copyright (c) 2008, Christian Breindl, Klaus Schmidt. <br></br>
+<br></br>
+<br></br>
+</p>
+ 
+
+<h2>
+Local Control and Hierarchial Abstraction -- Example
+</h2>
+
+<p>
+We illustrate the hierarchical synthesis by the rotary table component T2 of a larger manufacturing system model in the figure below. We first present a detailed automata model <fimath>G_{T2}</fimath> of the rotary table T2. The rotary table has two defined positions (x-position and y-position) that are indicated by switch-keys which are pressed whenever the respective position is taken. In our model, the sensor events <tt>t2ax/t2lx</tt> occur when T2 arrives at/leaves the x-position and <tt>t2ay/t2ly</tt> occur when T2 arrives at/leaves the y-position. Furthermore, T2 can rotate as shown by the arrows in the figure, whereby the motion is triggered by the actuator events <tt>t2mvx</tt> ("move to the x-position") and <tt>t2mvy</tt> ("move to the y-position"), and T2 stops when <tt>t2s</tt> occurs. Moreover, the additional event <tt>t_T2</tt> represents the passage of time, <tt>t2f</tt> indicates the system failure that happens if the rotary table overruns one of the switch-keys, and the logical events <tt>t2xy</tt> and <tt>t2yx</tt> are supposed to initiate the motion of T2. Considering the event attributes, all sensor events and <tt>t2f</tt> are uncontrollable, all actuator events, logical events and <tt>t_T2</tt> are controllable. 
+Finally, it is assumed that T2 initially holds the y-position, and the marking captures that is is always desired to reach one of the defined positions.
+</p>
+
+<p>
+<img class="faudes_image" fsrc="FAUDES_IMAGES/op_rotary_table.png"/>
+</p>
+<p>
+<img class="faudes_image" fsrc="FAUDES_IMAGES/op_rotary_table_automaton.png"/>
+</p>
+
+<p>
+We now compute a local supervisor for the rotary table T2. The specification <fimath>C_{T2}</fimath> is shown in the figure below. It states that T2 has to move between its defined positions without stopping or changing the direction of motion. Then, <fimath>R_{T2}</fimath> in the subsequent figure represents the nonblocking and maximally permissive closed-loop that is computed by invoking <ffnct>SupConNB</ffnct>(<fimath>G_{T2},C_{T2},R_{T2}</fimath>).   
+</p>
+
+<p>
+<img class="faudes_image" fsrc="FAUDES_IMAGES/op_rotary_table_synthesis.png"/>
+</p>
+
+<p>
+The operation of the rotary table T2 is directly dependend on the operation of the conveyor belt CB12 that is mounted on T2. That is, a supervisor for the joint behavior of T2 and CB12 has to be computed. In particular, it is desired that T2 does not move while CB12 is transporting workpieces and T2 should always have the correct (x or y)-position for the transport of workpieces by CB12. Noting that the relevant information of T2 is encoded in the occurrence of the events <tt>t2yx,t2xy</tt> and <tt>t2s</tt>, it is sufficient to use an abstraction of the behavior of <fimath>R_{T2}</fimath> to the alphabet <fimath>\hat \Sigma_{T2}</fimath> = {<tt>t2yx,t2xy,ts</tt>} for the supervisor synthesis. Natural projections that possess the natural observer or the marked string accepting observer condition are suitable for this purpose. For T2, we verify that both conditions are fulfilled by using the observer plug-in functions <ffnct>IsNaturalObserver</ffnct>(<fimath>R_{T2},\hat \Sigma_{T2}</fimath>) and <ffnct>IsMsaObserver</ffnct>(<fimath>R_{T2},\hat \Sigma_{T2}</fimath>), respectively. (Note that an appropriate extension of <fimath>\hat \Sigma_{T2}</fimath> can be computed by <ffnct>NaturalObserverExtension</ffnct>(<fimath>R_{T2},\hat \Sigma_T2</fimath>) and <ffnct>MsaObserver</ffnct>(<fimath>R_{T2},\hat \Sigma_T2</fimath>) if the respective conditions are violated by <fimath>\hat \Sigma_{T2}</fimath>). In addition, it can be verified by the function <ffnct>IsLocallyControlConsistent</ffnct>(<fimath>R_{T2},\hat \Sigma_{T2}</fimath>) that the natural projection of <fimath>R_{T2}</fimath>  to the alphabet <fimath>\Sigma_{T2}</fimath> is locally control consistent as a sufficient condition for maximally permissive control. 
+</p>
+<p>
+After the successful verification, we abstract the obtained closed-loop <fimath>R_{T2}</fimath>. We use the natural projection <fimath>p_{T2}:\Sigma_{T2}^* \rightarrow \hat\Sigma_{T2}^*</fimath>  from the original alphabet of <fimath>G_{T2}</fimath> to the abstraction alphabet <fimath>\hat\Sigma_{T2} =</fimath> {<tt>rtyx, rtxy, rs</tt>}, resulting in <fimath>G_{T2}^{(1)}</fimath> in the figure below. 
+</p>
+
+<p>
+<img class="faudes_image" fsrc="FAUDES_IMAGES/op_rotary_table_abstraction.png"/>
+</p>
+
+
+<p>
+In addition to the abstracted model <fimath>G_{T2}^{(1)}</fimath>, the above figure shows an abstraction <fimath>G_{CB12}^{(1)}</fimath> of the conveyor belt CB12 that is already locally controlled by a supervisor <fimath>R_{CB12}</fimath>. Here, the events <tt>c3-12,c5-12,c12-4</tt> symbolize the transport of a workpiece to/from neighboring components while the event <tt>c12s</tt> occurs when CB12 stops. Using the parallel composition <fimath>G_{T2}^{(1)} || G_{CB12}^{(1)}</fimath>, it is now possible to compute a supervisor for the specified joint action of T2 and CB12 as described above and formalized by the automaton <fimath>C_{T2CB12}^{(1)}</fimath>. The required operation is <ffnct>SupConNB</ffnct>(<fimath>G_{T2}^{(1)} || G_{CB12}^{(1)}, C_{T2CB12}^{(1)}, R_{T2CB12}^{(1)}</fimath>). Together, the synthesis for T2 and CB12 yields two local supervisors with 12 and 17 states, respectively, and one coordinating high-level supervisor with 10 states, whereby the largest automaton in the computation has 47 states. In contrast, a monolithic supervisor has 73 states and requires the enumeration of an automaton with 752 states. 
+
+As an extension of this preliminary example, please consult the hierarchical supervisor synthesis for a large-scale <a href="observer_example.html">laboratory setup</a>. 
+</p>
+
+<h2>
+Literature
+</h2>
+
+<fliterature name="O1">
+<fauthors>K.C.&nbsp;Wong and W.M.&nbsp;Wonham</fauthors>
+<ftitle>On the computation of observers in discrete event systems</ftitle>   
+<fjournal>Discrete Event Dynamic Systems, vol. 14, no. 1, pp. 55-107</fjournal>
+<fyear>2004</fyear>
+</fliterature>
+
+<fliterature name="O2">
+<fauthors>K.&nbsp;Schmidt and C.&nbsp;Breindl</fauthors>
+<ftitle>On maximal permissiveness of hierarchical and modular supervisory control approaches for Discrete Event Systems</ftitle>
+<fjournal>Workshop on Discrete Event Systems</fjournal>
+<fyear>2008</fyear>
+</fliterature>
+
+<fliterature name="O3">
+<fauthors>K.&nbsp;Schmidt, Th.&nbsp;Moor, S.&nbsp;Perk</fauthors>
+<ftitle>Nonblocking hierarchical control of decentralized discrete event systems</ftitle>   
+<fjournal>IEEE Transactions on Automatic Control,  53(10):2252-2265</fjournal>
+<fyear>2008</fyear>
+</fliterature>
+
+<fliterature name="O4">
+<fauthors>Th.&nbsp;Moor, K.&nbsp;Schmidt, S.&nbsp;Perk</fauthors>
+<ftitle>Applied Supervisory Control for a Flexible Manufacturing System</ftitle>   
+<fjournal>Workshop on Discrete Event Systems</fjournal>
+<fyear>2010</fyear>
+</fliterature>
+
+<fliterature name="O5">
+<fauthors>K.&nbsp;Schmidt, Ch.&nbsp;Breindl</fauthors>
+<ftitle>Maximally Permissive Hierarchical Control of Decentralized Discrete Event Systems</ftitle>   
+<fjournal>available at <a href="http://ieeexplore.ieee.org">IEEE Transactions on Automatic Control</a>,56(5)</fjournal>
+<fyear>2011</fyear>
+</fliterature>
+
+<fliterature name="O6">
+<fauthors>L.&nbsp;Feng and W.&nbsp;Wonham</fauthors>
+<ftitle>On the computation of natural observers in discrete-event systems</ftitle>   
+<fjournal> available at <a href="http://www.springer.com/mathematics/applications/journal/10626">Discrete Event Dynamic Systems: Theory and Applications</a>, 20(1):63-102</fjournal>
+<fyear>2010</fyear>
+</fliterature>
+
+
+</ReferencePage>
+
+  

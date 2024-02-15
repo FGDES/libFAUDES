@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Example Data">
+
+<!-- generator data simple layout -->
+
+<h1>
+Example Data: hio_tu_constrE.gen
+</h1>
+
+<h3>
+Graph as png-image
+</h3>
+
+<p>
+<img fsrc="FAUDES_IMAGES/hio_transport_unit_envconstr.png"/>
+</p>
+
+<h3>
+Token IO 
+</h3>
+<pre>
+    &lt;Generator&gt;
+    "Environment Constraint" 
+
+    &lt;Alphabet&gt;
+    "req_fl" +U+
+    "req_tr" +U+
+    "nack" +Y+
+    "pack" +Y+
+    &lt;/Alphabet&gt;
+
+    &lt;States&gt;
+    "1" "2"
+    &lt;/States&gt;
+
+    &lt;TransRel&gt;
+    "1" "req_fl" "2"
+    "1" "req_tr" "2"
+    "2" "pack" "1"
+    &lt;/TransRel&gt;
+
+    &lt;InitStates&gt;
+    "1"            
+    &lt;/InitStates&gt;
+
+    &lt;MarkedStates&gt;
+    "1" "2"
+    &lt;/MarkedStates&gt;
+
+    &lt;/Generator&gt;
+</pre>
+
+
+
+  
+</ReferencePage>
+
+  

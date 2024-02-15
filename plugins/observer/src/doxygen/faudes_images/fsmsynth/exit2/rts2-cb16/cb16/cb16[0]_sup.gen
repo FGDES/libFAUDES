@@ -1,0 +1,49 @@
+<Generator>
+"SupConNB((cb16[0]),(cb16[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((cb16[0]),(cb16[0]_spec))
+% 
+%  States:        8
+%  Init/Marked:   1/1
+%  Events:        17
+%  Transitions:   8
+%  StateSymbols:  0
+%  Attrib. E/S/T: 11/0/0
+% 
+
+<Alphabet>
+"cb10-16"     +C+           "cb16-10"     +C+           "cb16+y"      +C+           
+"cb16-9"      +C+           "cb16-8"      +C+           "cb16-rc2"    +C+           
+"cb16-y"      +C+           "cb16f"       "cb16stp"     +C+           "cb16wpar"    
+"cb16wplv10"  "cb16wplv9"   "cb16wplv8"   "cb16wplvrc2" "cb9-16"      +C+           
+"cb8-16"      +C+           "t_cb16"      +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             8             
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb10-16"     2             
+2             "cb16-y"      3             
+3             "cb16wpar"    4             
+4             "cb16stp"     5             
+5             "cb16-rc2"    6             
+6             "cb16+y"      7             
+7             "cb16wplvrc2" 8             
+8             "cb16stp"     1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,46 @@
+<Generator>
+"simple supervisor" 
+
+% This is a model of a trivial supervisor for the simple
+% machine. It feeds the machine with new jobs as soon
+% as the machine is idle, and provides service, whenever
+% the machine breaks.
+%
+
+% The example includes a typical networking issue, namely
+% lambda to be followed by alpha immediately. 
+
+<Alphabet>
+"alpha"        
+"beta"        
+"mue"         
+"lambda"       
+</Alphabet>
+
+<States>
+"idle"        
+"busy"        
+"down" 
+</States>
+
+<TransRel>
+"idle"        "alpha"       "busy"    
+"busy"        "beta"        "idle"        
+"busy"        "mue"         "down"        
+"down"        "lambda"      "idle"        
+</TransRel>
+
+<InitStates>
+"idle"        
+</InitStates>
+
+<MarkedStates>
+"idle"        
+</MarkedStates>
+
+<Clocks>
+"cDelay" 
+</Clocks>
+
+</Generator>
+

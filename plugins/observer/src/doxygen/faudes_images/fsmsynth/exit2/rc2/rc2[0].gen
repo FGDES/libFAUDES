@@ -1,0 +1,37 @@
+<Generator>
+"rc2[0]"      
+
+% 
+%  Statistics for rc2[0]
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 1/0/0
+% 
+
+<Alphabet>
+"rc2wpar"     "rc2wplv"    "cb16-rc2"
+</Alphabet>
+
+<States>
+"1"           "2"        "3"   
+</States>
+
+<TransRel>
+"1"		"cb16-rc2"		"2"
+"2"           "rc2wpar"     "3"           
+"3"           "rc2wplv"     "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

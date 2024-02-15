@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type EventRelabelMap -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Observer::EventRelabelMap" ctype="faudes::EventRelabelMap"> 
+
+<Documentation ref="observer_misc.html#EventRelabelMap"> 
+Map from indices to sets of indexes for re-labeling events.
+</Documentation> 
+<Keywords> 
+Observer      misc          "relabel event"  map           
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function InsertRelabeledEvents -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::InsertRelabeledEvents" ctype="faudes::insertRelabeledEvents"> 
+
+<Documentation ref="observer_misc.html#InsertRelabeledEvents"> 
+Apply relabeling map to specified generator.
+</Documentation> 
+<Keywords> 
+Observer      misc          relabel       map           
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="Insert(Plant,RelabelMap)"> 
+<Parameter name="GPlant" ftype="System" access="InOut"/> 
+<Parameter name="Map" ftype="EventRelabelMap" access="In"/> 
+</Signature> 
+
+<Signature name="Insert(Plant,RelabelMap,SigmaNew)"> 
+<Parameter name="GPlant" ftype="System" access="InOut"/> 
+<Parameter name="Map" ftype="EventRelabelMap" access="In"/> 
+<Parameter name="SigmaNew" ftype="EventSet" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsLocallyControlConsistent -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::IsLocallyControlConsistent" ctype="faudes::IsLCC"> 
+
+<Documentation ref="observer_test.html#IsLocallyControlConsistent"> 
+Verification of local control consistency (LCC).
+</Documentation> 
+<Keywords> 
+Observer      observer      test          generator     "local control consistency"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsLcc(GArg,Sigma_h,Res)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+<Signature name="IsLcc(GArg,Sigma_c,Sigma_h,Res)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_c" ftype="EventSet" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsMsaObserver -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::IsMsaObserver" ctype="faudes::IsMSA"> 
+
+<Documentation ref="observer_test.html#IsMsaObserver"> 
+Verification of the msa-observer property.
+</Documentation> 
+<Keywords> 
+Observer      observer      test          generator     MSA           "marked string accepting"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsMsaObs(GArg,Sigma_h,Res)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsMutuallyControllable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::IsMutuallyControllable" ctype="faudes::IsMutuallyControllable"> 
+
+<Documentation ref="observer_test.html#IsMutuallyControllable"> 
+Test mutual controllability of two generators
+</Documentation> 
+<Keywords> 
+Observer      observer      synthesis     generator     controllabilty  mutual        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsMutuallyControllable(Sys1,Sys2)"> 
+<Parameter name="Sys1" ftype="System" access="In"/> 
+<Parameter name="Sys2" ftype="System" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsNaturalObserver -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::IsNaturalObserver" ctype="faudes::IsObs"> 
+
+<Documentation ref="observer_test.html#IsNaturalObserver"> 
+Verification of the natural observer property.
+</Documentation> 
+<Keywords> 
+Observer      observer      test          generator     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsObs(GArg,Sigma_h,Res)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsLocallyOutputConsistent -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::IsOutputControlConsistent" ctype="faudes::IsOCC"> 
+
+<Documentation ref="observer_test.html#IsOutputControlConsistent"> 
+Verification of output control consistency (OCC).
+</Documentation> 
+<Keywords> 
+Observer      observer      test          generator     "output control consistency"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsOcc(GArg,Sigma_h,Res)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+<Signature name="IsOcc(GArg,Sigma_c,Sigma_h,Res)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_c" ftype="EventSet" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MsaObserver -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::MsaObserver" ctype="faudes::calcMSAObserver"> 
+
+<Documentation ref="observer_calc.html#MsaObserver"> 
+Marked string accepting (MSA) observer computation by alphabet extension.
+</Documentation> 
+<Keywords> 
+Observer      observer      synthesis     generator     msa           "marked string accepting"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="MsaObs(GArg,Sigma_h)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+</Signature> 
+
+<Signature name="MsaObs(GArg,Sigma_h,#Q)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+<Parameter name="#Q" ftype="Integer" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MsaObserverLcc -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::MsaObserverLcc" ctype="faudes::calcMSAObserverLCC"> 
+
+<Documentation ref="observer_calc.html#MsaObserverLcc"> 
+Marked string accepting (MSA) observer computation with local control consistency (LCC) condition by alphabet extension.
+</Documentation> 
+<Keywords> 
+Observer      observer      synthesis     generator     lcc           msa           
+"local control consistency"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="MsaObsLcc(Plant,Sigma_c,Sigma_h)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_c" ftype="EventSet" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+</Signature> 
+
+<Signature name="MsaObsLcc(Plant,Sigma_c,Sigma_h,#Q)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_c" ftype="EventSet" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+<Parameter name="#Q" ftype="Integer" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function NaturalObserverExtension -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::NaturalObserverExtension" ctype="faudes::calcNaturalObserver"> 
+
+<Documentation ref="observer_calc.html#NaturalObserverExtension"> 
+Natural observer computation by alphabet extension.
+</Documentation> 
+<Keywords> 
+Observer      observer      synthesis     generator     
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="NatObs(GArg,Sigma_h)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+</Signature> 
+
+<Signature name="NatObs(GArg,Sigma_h,#Q)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+<Parameter name="#Q" ftype="Integer" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function NaturalObserverLcc -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::NaturalObserverLcc" ctype="faudes::calcNaturalObserverLCC"> 
+
+<Documentation ref="observer_calc.html#NaturalObserverLcc"> 
+Natural observer computation with local control consistency (LCC) condition by alphabet extension.
+</Documentation> 
+<Keywords> 
+Observer      observer      synthesis     generator     lcc           "local control consistency"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="NatObsLcc(Plant,Sigma_c,Sigma_h)"> 
+<Parameter name="Plant" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_c" ftype="EventSet" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+</Signature> 
+
+<Signature name="NatObsLcc(Plant,Sigma_c,Sigma_h,#Q)"> 
+<Parameter name="Plant" ftype="Generator" access="In"/> 
+<Parameter name="Sigma_c" ftype="EventSet" access="In"/> 
+<Parameter name="Sigma_h" ftype="EventSet" access="InOut"/> 
+<Parameter name="#Q" ftype="Integer" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function NaturalObserverRelabeling -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observer::NaturalObserverRelabeling" ctype="faudes::calcAbstAlphObs"> 
+
+<Documentation ref="observer_calc.html#NaturalObserverRelabeling"> 
+Natural observer computation with event relabeling.
+</Documentation> 
+<Keywords> 
+Observer      observer      synthesis     generator     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="CalcObs(Plant,SigmaHigh,SigmaHighNew,RelabelMap)"> 
+<Parameter name="GPlant" ftype="System" access="InOut"/> 
+<Parameter name="SigmaHi" ftype="EventSet" access="InOut"/> 
+<Parameter name="SigmaHiNew" ftype="EventSet" access="Out"/> 
+<Parameter name="Map" ftype="EventRelabelMap" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry> 

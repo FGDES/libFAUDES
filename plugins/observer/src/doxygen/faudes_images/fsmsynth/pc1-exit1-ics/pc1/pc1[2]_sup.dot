@@ -1,0 +1,66 @@
+digraph "SupConNB((Det(Pro(SupConNB((Det(Pro(SupConNB((cb4[0]),(cb4[0]_spec)))) [minstate]||Det(Pro(SupConNB((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]),(cb4mh1d1[1]_spec)))) [minstate]||Det(Pro(SupConNB((Det(Pro(SupConNB((rt1[0]),(rt1[0]||rt1[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb11[0]),(cb11[0]_spec)))) [minstate]),(rt1cb11[1]_spec)))) [minstate]||Det(Pro(SupConNB((cb7[0]),(cb7[0]_spec)))) [minstate]),(cb4mh1d1rt1cb11cb7[2]_spec))" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+  "10";
+  "11";
+  "12";
+  "13";
+  "14";
+  "15";
+  "16";
+  "17";
+  "18";
+  "19";
+  "20";
+
+  // transition relation
+  "1" -> "2" [label="cb12-4"];
+  "2" -> "3" [label="wp12-4"];
+  "3" -> "4" [label="cb4-11"];
+  "4" -> "5" [label="wp4-11"];
+  "5" -> "6" [label="cb12-4"];
+  "5" -> "7" [label="cb11-7"];
+  "6" -> "20" [label="wp12-4"];
+  "6" -> "8" [label="cb11-7"];
+  "7" -> "8" [label="cb12-4"];
+  "7" -> "9" [label="wp11-7"];
+  "8" -> "19" [label="wp12-4"];
+  "8" -> "10" [label="wp11-7"];
+  "9" -> "10" [label="cb12-4"];
+  "9" -> "11" [label="cb7-15"];
+  "10" -> "16" [label="wp12-4"];
+  "10" -> "12" [label="cb7-15"];
+  "11" -> "12" [label="cb12-4"];
+  "11" -> "1" [label="wp7-15"];
+  "12" -> "13" [label="wp12-4"];
+  "12" -> "2" [label="wp7-15"];
+  "13" -> "14" [label="cb4-11"];
+  "13" -> "3" [label="wp7-15"];
+  "14" -> "15" [label="wp4-11"];
+  "14" -> "4" [label="wp7-15"];
+  "15" -> "5" [label="wp7-15"];
+  "16" -> "17" [label="cb4-11"];
+  "16" -> "13" [label="cb7-15"];
+  "17" -> "18" [label="wp4-11"];
+  "17" -> "14" [label="cb7-15"];
+  "18" -> "15" [label="cb7-15"];
+  "19" -> "16" [label="wp11-7"];
+  "20" -> "19" [label="cb11-7"];
+};

@@ -1,0 +1,40 @@
+<Generator>
+"g_nondet"           
+
+<Alphabet>
+"f"           "g"           "h"           "i"           "a"           "b"           
+"d"           "e"           "j"           "k"           "m"           
+</Alphabet>
+
+<States>
+"s1"           "s2"           "s3"           "s4"           "s5"           
+"s6"           "s7"           "s8"           "s9"          
+</States>
+
+<TransRel>
+1             "a"           2             
+1             "e"           5             
+2             "f"           5             
+2             "b"           3             
+2             "b"           4             
+3             "d"           4             
+4             "e"           1             
+5             "g"           6  
+6             "h"           5  
+7             "a"           4             
+7             "j"           9             
+7             "i"           8
+9             "k"           7             
+9             "m"           3             
+</TransRel>
+
+<InitStates>
+"s1"           
+</InitStates>
+
+<MarkedStates>
+"s4"           
+</MarkedStates>
+
+</Generator>
+

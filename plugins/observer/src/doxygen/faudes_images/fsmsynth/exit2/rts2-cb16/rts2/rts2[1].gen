@@ -1,0 +1,33 @@
+<cGenerator>
+<Generator>
+"Det(Pro(SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]" 
+<Alphabet>
+"rts2_5"      "rts2_5-6"    "rts2_6"      "rts2_6-5"    
+</Alphabet>
+<States>
+4             
+</States>
+<TransRel>
+2             "rts2_6"      3             
+1             "rts2_5-6"    2             
+3             "rts2_6-5"    4             
+4             "rts2_5"      1             
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"rts2_5-6"    "rts2_6-5"    
+</Controllable>
+<Observable>
+"rts2_5"      "rts2_5-6"    "rts2_6"      "rts2_6-5"    
+</Observable>
+
+</cGenerator>

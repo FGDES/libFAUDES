@@ -1,0 +1,38 @@
+<Generator>
+"Gen2" 
+
+%
+% Statistics for Gen2
+% States:        3
+% Init/Marked:   1/1
+% Events:        3
+% Transitions:   4
+% StateSymbols:  0
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"alpha"    +C+   "beta"        "d"                
+</Alphabet>
+
+<States>
+1             2             3             
+</States>
+
+<TransRel>
+1	"alpha"	2
+2	"beta"	1
+2	"d"	3
+3	"beta"	1    
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

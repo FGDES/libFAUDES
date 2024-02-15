@@ -1,0 +1,65 @@
+<Generator>
+"pu1[0]_spec" 
+
+% 
+%  Statistics for pu1[0]_spec
+%  States:        8
+%  Init/Marked:   1/1
+%  Events:        9
+%  Transitions:   22
+%  StateSymbols:  0
+%  Attrib. E/S/T: 5/0/0
+% 
+
+<Alphabet>
+"cb1-3"       +C+           "pu1rdy"      +C+           "pu1ar+y"     "pu1ar-y"     
+"pu1lv+y"     "pu1lv-y"     "pu1mv+y"     +C+           "pu1mv-y"     +C+           
+"pu1stp"      +C+           "cb1bwplv"	
+</Alphabet>
+
+<States>
+<Consecutive>
+1             8             
+</Consecutive>
+</States>
+
+<TransRel>
+1             "pu1lv+y"     1             
+1             "pu1lv-y"     1             
+1             "pu1mv+y"     2             
+2             "pu1ar+y"     3             
+2             "pu1lv+y"     2             
+2             "pu1lv-y"     2         
+2		"cb1bwplv"		2    
+3             "pu1lv+y"     3             
+3             "pu1lv-y"     3             
+3             "pu1stp"      4             
+3		"cb1bwplv"		3
+4             "pu1lv+y"     4             
+4             "pu1lv-y"     4             
+4             "pu1mv-y"     5  
+4		"cb1bwplv"		4           
+5             "pu1ar-y"     6             
+5             "pu1lv+y"     5             
+5             "pu1lv-y"     5  
+5		"cb1bwplv"		5           
+6             "pu1lv+y"     6             
+6             "pu1lv-y"     6             
+6             "pu1stp"      7  
+6		"cb1bwplv"		6           
+7             "pu1rdy"      8             
+7             "pu1lv+y"     7             
+7             "pu1lv-y"     7             
+8             "cb1-3"       1             
+</TransRel>
+
+<InitStates>
+8             
+</InitStates>
+
+<MarkedStates>
+8       
+</MarkedStates>
+
+
+</Generator>

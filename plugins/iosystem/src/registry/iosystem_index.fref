@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="IoSystem" page="0_Index" title="I/O System PlugIn - About">
+
+<h1>
+I/O Systems  
+</h1>
+
+<fsummary>
+Functions for an abstraction based controller design for plants with 
+inputs and outputs referring to an infinite time-axis (omega-languages).
+</fsummary>
+
+
+
+<p>
+This plug-in addresses discrete event systems that 
+satisfy a variation of Willems' conditions on I/O behaviours <fcite name="B1"/>.
+In the context of system interconnection, the conditions 	 
+imply a structural non-blocking property. In particular,
+one may design a controller for a plant abstraction and run it 
+on the actual plant, without risking a blocking situation.  
+This enables the use of discrete event systems synthesis methods 
+to solve control problems for plants with an infinite state space, 
+provided that a finite abstraction is available; see e.g.
+<fcite name="B2"/> for a discussion of hybrid control systems 
+from this perspective.
+</p>
+
+
+<p>
+A detailed treatment of I/O systems from a discrete event 
+perspective is given in Thomas Wittmann's Diploma Thesis,
+including how they relate to abstraction based controller design.
+A consise summary has been presented in <fcite name="B3"/>.
+The remainder of the user 
+reference is
+organized as follows:
+</p>
+
+<ul class="l2">
+<li><p>
+<a href="#example">A Simple Example</a>
+</p></li>
+<li><p>
+<a href="iosystem_sysdef.html">I/O System Definition and Properties</a> 
+</p></li>
+<li><p>
+<a href="iosystem_synth.html">I/O System Controller Synthesis</a>
+</p></li>
+</ul>
+
+
+<p>
+<br/>
+Copyright (C) 2010, Thomas Wittmann, Thomas Moor.
+</p>
+
+
+
+<h2>
+<a id="example">
+A Simple Example
+</a>
+</h2>
+
+
+<p>
+Consider a vehicle on a path that can be controlled 
+by input events <tt>e</tt> to <i>&quot;move to the east&quot;</i>
+and <tt>w</tt> to <i>&quot;move to the west&quot;</i>, respectively. 
+A measurement facility distinguishes a home
+position and issues output events 
+<tt>H</tt> for <i>&quot;home&quot;</i>,
+<tt>E</tt> for <i>&quot;east of home&quot;</i> and
+<tt>W</tt> for <i>&quot;west of home&quot;</i>.
+The dynamics of the vehicle are modelled by the below
+transition system, where we use an infinite 
+state space to represent an unbounded path. 
+</p>
+
+<p>
+Plant <fimath>L</fimath>
+<br/>
+<img  fsrc="FAUDES_IMAGES/ios_planta_is_v2.png" alt="bild"/>
+</p>
+
+<p>
+We interpret the transition system w.r.t. the infinite
+time axis, i.e., as an omega-language <fimath>L\subseteq\Sigma^\omega</fimath>.
+Since state enumeration is not feasible for an 
+infinite state set,
+we can not directly apply enumaration based methods 
+from supervisory control theory. 
+Thus, we resort to a plant abstraction with a finite state set. 
+The abstraction <fimath>L'\subseteq\Sigma^\omega,\ L\subseteq L'</fimath>, 
+realized by the transition system below, has been obtained by merging all 
+states east of position <tt>E1</tt> and all states west of position <tt>W1</tt>. 
+</p>
+
+<p>
+Abstraction <fimath>L'</fimath>
+<br/>
+<img fsrc="FAUDES_IMAGES/ios_abstractiona.png" alt="bild"/>
+</p>
+
+
+<p>
+As a specification, we require the vehicle
+to regularly visit east and west positions.
+For sake of simplicity, we circumvent eventuality properties 
+and use the more restrictive language inclusion specification
+<fimath>E</fimath> depicted below.
+We apply the synthesis procedure <ffnct>IoSynthesis</ffnct>
+on the plant abstraction to obtain a controller such that
+<fdmath>K' := L'\cap H\subseteq E</fdmath>. The procedure is
+essentially a wrapper for <ffnct>SupConComplete</ffnct>, i.e.
+output events are not disabled and any finite
+string can be further extended.
+</p>
+
+<table class="plain">
+<tr>
+<td>Specification E</td>
+<td></td>
+<td>Supervisor H</td>
+</tr>
+<tr>
+<td><img fsrc="FAUDES_IMAGES/ios_specificationa1.png" alt="bild"/></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><img fsrc="FAUDES_IMAGES/ios_supervisora1.png" alt="hhh"/></td>
+</tr>
+</table>
+
+<p>
+Clearly, the controller will
+also enforce the specification when applied to the actual plant
+<fimath>L</fimath>:
+</p>
+<p>
+<fdmath>K := \,L\cap H\, \subseteq \,L'\cap H\, \subseteq \, E</fdmath> 
+</p>
+
+<p>
+In general, the closed loop interconnection with the actual plant
+may be blocking. However, for our plant at hand this is not the case. 
+Observe that, for our plant, input events from
+<fimath>U=\{\texttt{e},\,\texttt{w}\}</fimath> and
+output events from 
+<fimath>Y=\{\texttt{H},\,\texttt{E},\,\texttt{W}\}</fimath> alternate,
+and that the plant in every state will accept either none or any input event.
+The latter property is referred to as a <i>locally free input</i>:
+<br/>
+<br/>
+<fdmath>(\forall s\in \Prefix{L}\ \forall \mu,\,\mu'\in U )\,[\,s\mu\in\Prefix{L}\quad\Rightarrow\quad s\mu'\in\Prefix{L}\,]\,,</fdmath>
+<br/>
+<br/>
+see also <ffnct>IsInputLocallyFree</ffnct>.  
+Indeed, together with controllability of <fimath>\Prefix{H}</fimath> w.r.t. 
+to the plant abstraction <fimath>\Prefix{L'}</fimath>, 
+the locally free input of the actual plant <fimath>L</fimath>
+forms a sufficient condition for a <i>locally nonblocking</i> closed loop, i.e.
+<br/>
+<br/>
+<fimath>\Prefix{L}\cap\Prefix{H}</fimath> is complete.
+<br/>
+<br/>
+For our example, the plant also fulfills the stronger condition of
+a <i>omega-free input</i>, which implies an <i>omega-nonblocking</i> closed loop, i.e.
+<br/>
+<br/>
+<fimath>\Prefix{L}\cap\Prefix{H} = \Prefix{L\cap H}</fimath>,
+<br/>
+<br/>
+see also <ffnct>IsInputOmegaFree</ffnct>.  A variation of this example
+that includes eventuality properties expressed 
+via Buchi's acceptance condition is presented at <ffnct>IoSynthesisNB</ffnct>.
+</p>
+
+<h2>
+<a id="literature">
+Literature
+</a>
+</h2>
+  
+<fliterature name="B1">
+<fauthors>J.C. Willems</fauthors>
+<ftitle>Paradigms and Puzzles in the theory of dynamical systems</ftitle>
+<fjournal> <a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control,   vol. 36, issue 3, pp. 258--294</a></fjournal>
+<fyear>1991</fyear>
+</fliterature>
+
+<fliterature name="B2">
+<fauthors>T. Moor, J. Raisch</fauthors>
+<ftitle>Supvervisory control of hybrid systems within a behavioural framework</ftitle>
+<fjournal>Special issue on hybrid systems, System and Control Letters,   vol. 38:3, pp. 157-166</fjournal>
+<fyear>1999</fyear>
+</fliterature>
+
+<fliterature name="B3">
+<fauthors>T. Moor, K. Schmidt, Th. Wittmann</fauthors>
+<ftitle>Abstraction-based control for not necessarily closed behaviours</ftitle>
+<fjournal>Preprints of the 18th IFAC World Congress, pp. 6988-6993</fjournal>
+<fyear>2011</fyear>
+</fliterature>
+
+
+</ReferencePage>

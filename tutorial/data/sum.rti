@@ -1,0 +1,25 @@
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- RTI tutorial: faudes function Definition IntegerSum -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="CoreFaudes::IntegerSum"> 
+
+<Documentation ref="html/fd_Sum.html"> 
+Returns the sum of integer arguments (RTI tutorial).
+</Documentation> 
+<Keywords> 
+integer       "elemetary types"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Res=Arg1+Arg2"> 
+<Parameter name="Arg1" ftype="Integer" access="In"/> 
+<Parameter name="Arg2" ftype="Integer" access="In"/> 
+<Parameter name="Res" ftype="Integer" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+

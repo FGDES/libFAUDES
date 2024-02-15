@@ -1,0 +1,106 @@
+%%% test mark: composition [at tp_3_parallel.cpp:44]
+<String>
+<![CDATA[
+<Generator name="tc simple machine||tc buffer">
+
+% 
+%  Statistics for tc simple machine||tc buffer
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   10
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/6/10
+% 
+
+<Alphabet>
+alpha         beta          mue           lambda        gamma        
+</Alphabet>
+
+<States>
+idle|empty    busy|empty   
+<Invariant>
+cBusy         LT            10            
+</Invariant>
+idle|full    
+<Invariant>
+cFull         LE            5             
+</Invariant>
+down|empty    busy|full    
+<Invariant>
+cBusy         LT            10            
+cFull         LE            5             
+</Invariant>
+down|full    
+<Invariant>
+cFull         LE            5             
+</Invariant>
+</States>
+
+<TransRel>
+idle|empty    alpha         busy|empty   
+<Timing>
+<Resets>
+cBusy        
+</Resets>
+</Timing>
+busy|empty    beta          idle|full    
+<Timing>
+<Guard>
+cBusy         GT            5             
+</Guard>
+<Resets>
+cFull        
+</Resets>
+</Timing>
+busy|empty    mue           down|empty   
+idle|full     alpha         busy|full    
+<Timing>
+<Resets>
+cBusy        
+</Resets>
+</Timing>
+idle|full     gamma         idle|empty   
+<Timing>
+<Guard>
+cFull         GE            5             
+</Guard>
+</Timing>
+down|empty    lambda        idle|empty   
+busy|full     mue           down|full    
+busy|full     gamma         busy|empty   
+<Timing>
+<Guard>
+cFull         GE            5             
+</Guard>
+</Timing>
+down|full     lambda        idle|full    
+down|full     gamma         down|empty   
+<Timing>
+<Guard>
+cFull         GE            5             
+</Guard>
+</Timing>
+</TransRel>
+
+<InitStates>
+idle|empty   
+</InitStates>
+
+<MarkedStates>
+idle|empty   
+</MarkedStates>
+
+<Clocks>
+cBusy         cFull        
+</Clocks>
+
+</Generator>
+
+]]>
+</String>
+% 
+% 
+% 
+

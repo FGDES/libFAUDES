@@ -1,0 +1,51 @@
+<Generator name="SupConNB((cb15[0]),(cb15[0]_spec))">
+
+% 
+%  Statistics for SupConNB((cb15[0]),(cb15[0]_spec))
+% 
+%  States:        11
+%  Init/Marked:   1/1
+%  Events:        17
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 11/0/0
+% 
+
+<Alphabet>
+cb15-7        +C+           cb7-15        +C+           cb15+y        +C+          
+cb15-8        +C+           cb15-9        +C+           cb15-rc1      +C+          
+cb15-y        +C+           cb15f         cb15stp       +C+           cb15wpar     
+cb15wplv7     cb15wplv8     cb15wplv9     cb15wplvrc1   cb8-15        +C+          
+cb9-15        +C+           t_modul5\rts1_cb15\cb15  +C+          
+</Alphabet>
+
+<States>
+1              2              3              4              5              10            
+11             12             13             14             15            
+</States>
+
+<TransRel>
+1              cb7-15        2             
+2              cb15-y        3             
+3              cb15wpar      4             
+4              cb15stp       5             
+5              cb15-9        10            
+5              cb15-rc1      11            
+10             cb15+y        14            
+11             cb15+y        12            
+12             cb15wplvrc1   13            
+13             cb15stp       1             
+14             cb15wplv9     15            
+15             cb15stp       1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,76 @@
+<Generator name="SupConNB((cb13[0]),(cb13[0]_spec))">
+
+% 
+%  Statistics for SupConNB((cb13[0]),(cb13[0]_spec))
+% 
+%  States:        28
+%  Init/Marked:   1/1
+%  Events:        17
+%  Transitions:   30
+%  StateSymbols:  0
+%  Attrib. E/S/T: 12/0/0
+% 
+
+<Alphabet>
+cb2-13        +C+           cb13-6        +C+           cb6-13        +C+          
+cb5-13        +C+           cb13-5        +C+           cb9-13        +C+          
+cb13-9        +C+           cb13+y+x      +C+           cb13-2        +C+          
+cb13-y-x      +C+           cb13stp       +C+           cb13wpar      cb13wplv3    
+cb13wplv5     cb13wplv6     cb13wplv9     t_rt3-cb13\cb13  +C+          
+</Alphabet>
+
+<States>
+1              2              3              5              6              7             
+8              9              14             15            
+<Consecutive>
+18             25            
+</Consecutive>
+27             28            
+<Consecutive>
+31             38            
+</Consecutive>
+</States>
+
+<TransRel>
+1              cb2-13        2             
+1              cb6-13        3             
+1              cb9-13        5             
+2              cb13-y-x      35            
+3              cb13-y-x      22            
+5              cb13+y+x      6             
+6              t_rt3-cb13\cb13  7             
+7              cb13wpar      8             
+8              cb13stp       9             
+9              t_rt3-cb13\cb13  14            
+14             cb13-6        15            
+15             cb13+y+x      18            
+18             t_rt3-cb13\cb13  19            
+19             cb13wplv6     20            
+20             cb13stp       21            
+21             t_rt3-cb13\cb13  1             
+22             t_rt3-cb13\cb13  23            
+23             cb13wpar      24            
+24             cb13stp       25            
+25             t_rt3-cb13\cb13  27            
+27             cb13-5        28            
+28             cb13-y-x      31            
+31             t_rt3-cb13\cb13  32            
+32             cb13wplv5     33            
+33             cb13stp       34            
+34             t_rt3-cb13\cb13  1             
+35             t_rt3-cb13\cb13  36            
+36             cb13wpar      37            
+37             cb13stp       38            
+38             t_rt3-cb13\cb13  14            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

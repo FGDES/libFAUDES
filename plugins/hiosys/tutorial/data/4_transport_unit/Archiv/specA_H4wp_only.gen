@@ -1,0 +1,121 @@
+<Generator> "specA_H"
+
+<Alphabet>
+"req_fl_A_H" "req_tr_A_H" 
+"nack_A_H" "pack_A_H"
+"idle_A_H" "busy_A_H" "l2r_A_H" "stby_A_H" "clr_tr_A_H"
+</Alphabet>
+
+<States>
+"Empty" "aw_mode" "aw_mode2" "one_wp" "0_right_Y" "1_right_Y" 
+"0_right_U" "1fl_right_U"
+"2_right_Y" "2tr_right_U" "1tr_right_U"
+
+"2fl_right_U" "3_wp" "aw_mode3" "3_right_Y"
+"3fl_right_U" "3tr_right_U"
+"4_right_Y" "4tr_right_U"
+
+"two_wp" "aw_mode3" "1tr_right_Y" "2tr_right_Y" "3tr_right_Y" "aw_mode4"
+</States>
+
+<TransRel>
+"Empty" 	"idle_A_H"			"aw_mode"      
+"aw_mode" 	"l2r_A_H"		"0_right_Y"
+"aw_mode"	"stby_A_H"		"Empty"
+"aw_mode"	"clr_tr_A_H"		"Empty"
+
+"0_right_Y"	"req_fl_A_H"	        "0_right_U"
+
+"0_right_U"	"pack_A_H"	        "one_wp"
+"0_right_U"	"nack_A_H"	        "Empty"
+
+"one_wp" "busy_A_H" "aw_mode2"
+
+"aw_mode2" "l2r_A_H" "1_right_Y"
+"aw_mode2" "stby_A_H" "one_wp"
+"aw_mode2" "clr_tr_A_H" "1tr_right_Y"
+
+"1_right_Y"	"req_fl_A_H" "1fl_right_U"
+"1tr_right_Y" "req_tr_A_H" "1tr_right_U"
+
+"1tr_right_U"  "pack_A_H" "Empty"
+"1fl_right_U"	"nack_A_H" "one_wp"
+
+"1fl_right_U" "pack_A_H" "two_wp"
+"1fl_right_U"	"nack_A_H" "one_wp"
+
+"two_wp" "busy_A_H" "aw_mode3"
+
+"aw_mode3" 	"l2r_A_H"		"2_right_Y"
+"aw_mode3"	"stby_A_H"		"two_wp"
+"aw_mode3"	"clr_tr_A_H"		"2tr_right_Y"
+
+"2tr_right_Y" "req_tr_A_H" "2tr_right_U"
+
+"2_right_Y"	"req_fl_A_H"	"2fl_right_U"
+
+"2tr_right_U" "pack_A_H" "one_wp"
+"2tr_right_U"	"nack_A_H" "two_wp"
+
+
+
+"2fl_right_U"	"pack_A_H" "3_wp"
+"2fl_right_U"	"nack_A_H" "two_wp"
+
+"3_wp" "busy_A_H" "aw_mode4"
+
+"aw_mode4" "l2r_A_H" "3_right_Y"
+"aw_mode4" "stby_A_H" "3_wp"
+"aw_mode4" "clr_tr_A_H" "3tr_right_Y"
+
+"3_right_Y"	"req_fl_A_H" "3fl_right_U"
+
+"3tr_right_Y" "req_tr_A_H" "3tr_right_U"
+
+"3tr_right_U"  "pack_A_H" "two_wp"
+"3tr_right_U"  "nack_A_H" "3_wp"
+
+"3fl_right_U" "pack_A_H" "4_right_Y"
+"3fl_right_U" "nack_A_H" "3_wp"
+
+"4_right_Y" "req_tr_A_H" "4tr_right_U"
+
+"4tr_right_U" "pack_A_H" "3_wp"
+"4tr_right_U"	"nack_A_H" "4_right_Y"
+</TransRel>
+
+<InitStates>
+"Empty"         
+</InitStates>
+
+<MarkedStates>
+"Empty" "aw_mode" "aw_mode2" "one_wp" "0_right_Y" "1_right_Y" 
+"0_right_U" "1fl_right_U"
+"2_right_Y" "2tr_right_U" "1tr_right_U"
+
+"2fl_right_U" "3_wp" "aw_mode3" "3_right_Y"
+"3fl_right_U" "3tr_right_U"
+"4_right_Y" "4tr_right_U"
+
+"two_wp" "aw_mode3" "1tr_right_Y" "2tr_right_Y" "3tr_right_Y" "aw_mode4"
+</MarkedStates>
+
+</Generator>
+
+<y_lo_ev>
+"req_fr_A_H" "req_fl_A_H" "req_tr_A_H" "req_tl_A_H"
+</y_lo_ev>
+
+<u_lo_ev>
+"nack_A_H" "pack_A_H"
+</u_lo_ev>
+
+<y_hi_ev>
+"idle_A_H"
+</y_hi_ev>
+
+<u_hi_ev>
+"l2r_A_H" "right2left_A_H" "stby_A_H"
+</u_hi_ev>
+
+

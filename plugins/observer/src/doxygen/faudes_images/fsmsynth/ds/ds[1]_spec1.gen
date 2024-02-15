@@ -1,0 +1,37 @@
+<Generator>
+"sf[0]_spec"  
+
+% 
+%  Statistics for sf[0]_spec
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        10
+%  Transitions:   27
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>         
+"cb2-13"      +C+         "cb3-12"      +C+                         
+</Alphabet>
+
+<States>
+1             2         3
+</States>
+
+<TransRel>
+1             "cb3-12"      2                                                              
+2             "cb3-12"      3 
+3             "cb2-13"        1                             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

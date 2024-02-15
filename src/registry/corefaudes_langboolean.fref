@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="04_Boolean_Operations" title="CoreFaudes - Boolean Language Operations">
+<h1>
+Boolean Operations on Languages
+</h1>
+
+<p>
+Functions on generators that perform set theoretic
+operations on languages, aka
+union, intersection and complement. Unless otherwise noted,
+semantics refer to the marked languages as opposed to the generated closed languages. 
+</p>
+<p>
+Note. The functions in this section
+ignore any attributes (controllability etc.)
+specified for the arguments. For the results, attributes are set to the default
+value. This may change in a future
+implementation. 
+</p>
+
+
+<ffnct_reference name="LanguageUnion">
+<fdetails/>
+
+<p>
+Computes a generator, which marks the union of the languages marked by 
+the specified input generators.
+Moreover, the same is achieved for the involved generated (prefix-closed) languages:
+<br/>
+<br/>
+<fdmath>L_m(G_{Res}) = L_m(G_1) \ \cup\ L_m(G_2)</fdmath> 
+&nbsp;&nbsp;&nbsp;&nbsp; and &nbsp;&nbsp;&nbsp;&nbsp;
+<fdmath>L(G_{Res}) = L(G_1) \ \cup\ L(G_2)</fdmath>.
+<br/>
+<br/>
+</p>
+
+<p>
+The implementation first performs the textbook version in taking unions 
+of all generator entities (alphabets, initial states, ...) and then post-processes
+the result in converting it to a deterministic generator.
+State sets are taken as disjoint by definition and thus are re-indexed and renamed 
+to achieve disjoint union. The resulting language is defined over the union of 
+the alphabets of the original languages; original languages defined over different 
+alphabets are treated as if they were defined over the union of all input alphabets.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> <fimath>G_1</fimath> </td> <td> <fimath>G_2</fimath> </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_boolean_g1"/> </td> 
+<td> <fimage fsrc="tmp_boolean_g2"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+<tr><td><br/><br/></td></tr>
+<tr> <td> <table width="100%">
+<tr> <td> <fimath>G_{Res}</fimath>, <fimath>L_m(G_{Res}) = L_m(G_1) \ \cup\ L_m(G_2)</fimath> </td> </tr>
+<tr> <td> <fimage fsrc="tmp_union_g1g2"/> </td> </tr>
+</table> </td> </tr> </table>
+
+<fconditions/>
+
+<p>
+Input parameters may be non-deterministic.
+The implementation invokes Deterministic() to convert the 
+result into a deterministic generator. 
+Note that this conversion is usually
+straightforward, but there exist worst-case examples that
+manifest the exponential complexity.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="LanguageIntersection">
+<fdetails/>
+
+<p>
+Computes a generator, which marks the intersection of the languages marked by 
+the specified input generators.
+Moreover, the same is achieved for the involved generated (prefix-closed) languages:
+<br/>
+<br/>
+<fdmath>L_m(G_{Res}) = L_m(G_1) \ \cap\ L_m(G_2)</fdmath>
+&nbsp;&nbsp;&nbsp;&nbsp; and &nbsp;&nbsp;&nbsp;&nbsp;
+<fdmath>L(G_{Res}) = L(G_1) \ \cap\ L(G_2)</fdmath>.
+<br/>
+<br/>
+The resulting languages are defined over the intersection of the involved alphabets.
+</p>
+
+<p>
+This function calls Product(). In the product of two automata, an event occurs if
+and only if it occurs in both automata rGen1 and rGen2. The result generates/marks
+the intersection of the involved languages, see e.g.
+<fcite name="C2"/>
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> <fimath>G_1</fimath> </td> <td> <fimath>G_2</fimath> </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_boolean_g1"/> </td> 
+<td> <fimage fsrc="tmp_boolean_g2"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+<tr><td><br/><br/></td></tr>
+<tr> <td> <table width="100%">
+<tr> <td> <fimath>G_{Res}</fimath>, <fimath>L_m(G_{Res}) = L_m(G_1) \ \cap\ L_m(G_2)</fimath> </td> </tr>
+<tr> <td> <fimage fsrc="tmp_intersection_g1g2"/> </td> </tr>
+</table> </td> </tr> </table>
+
+
+<fconditions/>
+
+<p>
+Input parameters may be non-deterministic.
+The result can be non-deterministic only if input parameters are non-deterministic.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="LanguageComplement">
+<fdetails/>
+
+<p>
+Converts a generator marking the language <fimath>L_m(G)</fimath> into a generator marking 
+the language complement w.r.t. the specified alphabet <fimath>\Sigma</fimath>,
+i.e. <fimath>L_m(G_{Res}) = \Sigma^* - L_m(G)</fimath>.
+The implementation calls Automaton() first and then inverts 
+the marking of the states of the result:
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> <fimath>G</fimath> </td> <td> <fimath>G_{Res}</fimath> </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_boolean_g1"/> </td> 
+<td> <fimage fsrc="tmp_complement_g1"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+</table>
+
+
+<fconditions/>
+
+<p>
+The input generator must be deterministic. If not explicitly specified,
+the alphabet Sigma is taken from the input generator.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="LanguageDifference">
+<fdetails/>
+
+<p>
+Computes a generator that marks the set-difference of two
+marked languages Lm1 and Lm2:
+<br/>
+<br/>
+<fdmath>L_m(G_{Res}) = L_m(G_1) \ -\ L_m(G_2)</fdmath>.
+<br/>
+<br/>
+The implementation first takes the complement of the second argument and
+then takes the intersection with the first. The complement is taken w.r.t. the
+alphabet of <fimath>G_1</fimath>.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> <fimath>G_1</fimath> </td> <td> <fimath>G_2</fimath> </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_difference_g1"/> </td> 
+<td> <fimage fsrc="tmp_difference_g2"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+<tr><td><br/><br/></td></tr>
+<tr> <td> <table width="100%">
+<tr> <td> <fimath>G_{Res}</fimath>, <fimath>L_m(G_{Res}) = L_m(G_1) \ -\  L_m(G_2)</fimath> </td> </tr>
+<tr> <td> <fimage fsrc="tmp_difference_g1minusg2"/> </td> </tr>
+</table> </td> </tr> </table>
+
+
+<fconditions/>
+
+<p> 
+The second argument is required to be a deterministic realisation. Provided the
+first argument is deterministic, too, the result is deterministic.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="LanguageDisjoint">
+<fdetails/>
+
+<p>
+Test whether the specified marked languages are disjoint, i.e.
+whether <fimath>L_m(G_1) \ \cap\ L_m(G_2) \ = \ \emptyset</fimath>.
+The generated closed languages are not considered.
+The current implementation of this function traverses the set of synchronously reachable
+states until a pair of marked states is reached simultaneously.
+</p>
+
+<fconditions/>
+
+<p>
+Generators are required to be deterministic realisations of the respective languages.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="LanguageEquality">
+<fdetails/>
+
+<p>
+Test whether the specified marked languages are equal, i.e.
+whether <fimath>L_m(G_1) \ =\ L_m(G_2)</fimath>.
+The generated closed languages are not considered.
+The current implementation of this function tests for mutual inclusion.
+Future implementations may be more efficient.
+</p>
+
+<fconditions/>
+
+<p>
+Generators are required to be deterministic realisations of the respective languages.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="LanguageInclusion">
+<fdetails/>
+
+<p>
+Test for <fimath>L_m(G_1) \ \subseteq\ L_m(G_2)</fimath>.
+The generated closed languages are not considered.
+The current implementation of this function computes the intersection 
+<fimath>L_m(G_1)\ \cap\ (\Sigma*-L_m(G_2))</fimath> and then tests for emptiness. 
+Future implementations may be more efficient.
+</p>
+
+<fconditions/>
+
+<p>
+Generators are required to be deterministic realisations of the respective languages.
+</p>
+
+</ffnct_reference>
+
+</ReferencePage>
+
+  

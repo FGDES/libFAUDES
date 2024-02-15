@@ -1,0 +1,172 @@
+% Example hybrid automaton for Token IO Demo
+%
+%
+<Generator name="lha example" ftype="LinearHybridAutomaton">
+
+<Alphabet>
+<Event name="north"/>
+<Event name="south"/>
+<Event name="west"/>
+</Alphabet>
+
+<StateSet>
+
+<State id="1" name="NorthWest">
+<Initial/>
+<Rate>
+<AMatrix rows="4" columns="2">
+ 100             0             
+-100             0             
+ 0             100             
+ 0            -100             
+</AMatrix>
+<BVector count="4">
+-25         50         50        -25             
+</BVector>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1            
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100            0              10             0             
+</BVector>
+</Invariant>
+<InitialConstraint>
+<AMatrix rows="1" columns="2">
+ -1             0             
+</AMatrix>
+<BVector count="1">
+-80
+</BVector>
+</InitialConstraint>
+</State>
+
+<State id="2" name="SouthWest">
+<Rate>
+<AMatrix rows="4" columns="2">
+ 100             0             
+-100             0             
+ 0             100             
+ 0            -100             
+</AMatrix>
+<BVector count="4">
+-25         50         -25        50             
+</BVector>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1             
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100             0              10            0             
+</BVector>
+</Invariant>
+</State>
+
+<State id="10" name="Target">
+<Rate>
+<AMatrix rows="0" columns="2"/>
+<BVector count="0"/>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1             
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100             0              10            0             
+</BVector>
+</Invariant>
+</State>
+
+</StateSet>
+
+<TransitionRelation>
+
+<Transition x1="1" event="north" x2="2">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              -1            
+</AMatrix>
+<BVector count="1">
+-9             
+</BVector>
+</Guard>
+<Reset>
+<A1Matrix rows="4" columns="2">
+-1         0            
+ 1         0            
+ 0        -1            
+ 0         1
+</A1Matrix>
+<A2Matrix rows="4" columns="2">
+ 1         0            
+-1         0            
+ 0         1            
+ 0        -1
+</A2Matrix>
+<BVector count="4">
+-1      1     1     1             
+</BVector>
+</Reset>
+</Transition>
+
+<Transition x1="1" event="west" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+1              0            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="2" event="south" x2="1">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              1            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="2" event="west" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+1              0            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+</TransitionRelation>
+
+<LhaStateSpace>
+<AMatrix rows="4" columns="2">
+1              0             
+-1             0             
+0              1             
+0              -1             
+</AMatrix>
+<BVector count="4">
+100             0              10             0             
+</BVector>
+</LhaStateSpace>
+
+</Generator>
+
+

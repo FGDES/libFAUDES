@@ -1,0 +1,26 @@
+<Generator>
+"very simple machine"
+
+<Alphabet>
+"alpha" +C+ "beta" 
+</Alphabet>
+
+<States>
+"I" "B" 
+</States>
+
+<TransRel>
+"I" "alpha" "B"
+"B" "beta" "I"
+</TransRel>
+
+<InitStates>
+"I"
+</InitStates>
+
+<MarkedStates>
+"I"		
+</MarkedStates>
+
+</Generator>
+

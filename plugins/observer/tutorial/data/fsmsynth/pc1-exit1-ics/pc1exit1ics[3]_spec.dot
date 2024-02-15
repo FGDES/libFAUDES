@@ -1,0 +1,37 @@
+digraph "rt3cb13cb5rt2cb12[2]_spec||rt3cb13cb5rt2cb12[2]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+
+  // transition relation
+  "1" -> "2" [label="cb3-12"];
+  "1" -> "5" [label="cb5-12"];
+  "2" -> "3" [label="cb3-12"];
+  "2" -> "9" [label="cb5-12"];
+  "2" -> "1" [label="rts1_2-3"];
+  "3" -> "4" [label="rts1_2-3"];
+  "4" -> "1" [label="rts1_2-3"];
+  "5" -> "8" [label="cb3-12"];
+  "5" -> "6" [label="cb5-12"];
+  "5" -> "1" [label="rts1_2-1"];
+  "6" -> "7" [label="rts1_2-1"];
+  "7" -> "1" [label="rts1_2-1"];
+  "8" -> "4" [label="rts1_2-1"];
+  "9" -> "7" [label="rts1_2-3"];
+};

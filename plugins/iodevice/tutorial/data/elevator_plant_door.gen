@@ -1,0 +1,98 @@
+% Elevator example: simple finite-automaton modell of door
+
+<Generator>
+"door" % name
+
+<Alphabet>
+"d_open"	+C+	
+"d_close"	+C+		
+"d_stp"  	+C+	
+"d_arop"		
+"d_arcl"		
+"d_lvop"		
+"d_lvcl"		
+</Alphabet>
+
+<States>
+"IdleOp"
+"IdleMd"
+"IdleCl"
+"CloseOp"
+"CloseMd"
+"CloseCl"
+"OpenOp"
+"OpenMd"
+"OpenCl"
+%"Err"
+</States>
+
+<TransRel>
+% In open position
+"IdleOp" "d_close" "CloseOp"
+"IdleOp" "d_open" "OpenOp"
+"IdleOp" "d_stp"  "IdleOp"
+
+% Closing, starting
+"CloseOp" "d_lvop" "CloseMd"
+"CloseOp" "d_stp"  "IdleOp"
+"CloseOp" "d_open" "OpenOp"
+"CloseOp" "d_close" "CloseOp"
+
+% Closing, keep going
+"CloseMd" "d_arcl" "CloseCl"
+"CloseMd" "d_stp"  "IdleMd"
+"CloseMd" "d_open" "OpenMd"
+"CloseMd" "d_close" "CloseMd"
+
+% Closing, arriving
+"CloseCl" "d_stp"  "IdleCl"
+"CloseCl" "d_close" "CloseCl"
+"CloseCl" "d_open" "OpenCl"
+%"CloseCl" "d_lvcl" "Err" % need forcible events to model
+
+% In closed position
+"IdleCl" "d_close" "CloseCl"
+"IdleCl" "d_open" "OpenCl"
+"IdleCl" "d_stp"  "IdleCl"
+
+% Opening, starting
+"OpenCl" "d_lvcl" "OpenMd"
+"OpenCl" "d_stp"  "IdleCl"
+"OpenCl" "d_open" "OpenCl"
+"OpenCl" "d_close" "CloseCl"
+
+% Opening, keep going
+"OpenMd" "d_arop" "OpenOp"
+"OpenMd" "d_stp"  "IdleMd"
+"OpenMd" "d_open" "OpenMd"
+"OpenMd" "d_close" "CloseMd"
+
+% Opening, arriving
+"OpenOp" "d_stp"  "IdleOp"
+"OpenOp" "d_open" "OpenOp"
+"OpenOp" "d_close" "CloseOp"
+%"OpenOp" "d_lvlw" "Err" % need forcible events to model
+
+% Idle inbetween
+"IdleMd" "d_stp"  "IdleMd"
+"IdleMd" "d_close" "CloseMd"
+"IdleMd" "d_open" "OpenMd"
+
+% Error behaviour
+%"Err" "d_stp" "Err"
+%"Err" "d_close" "Err"
+%"Err" "d_open" "Err"
+
+</TransRel>
+
+<InitStates>
+"IdleOp"
+</InitStates>
+
+<MarkedStates>	
+"IdleOp"
+"IdleMd"
+"IdleCl"
+</MarkedStates>
+
+</Generator>

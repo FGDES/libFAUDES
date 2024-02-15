@@ -1,0 +1,51 @@
+% Elevator example: specification, operator commands by sync. events
+
+<Generator>
+"E_opcmds"
+
+<Alphabet>
+"o_upb"
+"o_lwb"
+"a_start"  
+"a_done"
+"a_fail"
+"c_up"
+"c_down"
+"c_stp"
+</Alphabet>
+
+<States>
+"Idle"
+"Start"
+"Busy"
+</States>
+
+<TransRel>
+% Idle, wait for command
+"Idle" "o_upb" "Start"
+"Idle" "o_lwb" "Start"
+
+% Start, synchronize via internal event
+"Start" "a_start" "Busy"
+"Start" "o_upb" "Start"
+"Start" "o_lwb" "Start"
+
+% Busy, terminate by internal event
+"Busy" "a_done" "Idle"
+"Busy" "a_fail" "Idle"
+"Busy" "o_upb" "Busy"
+"Busy" "o_lwb" "Busy"
+"Busy" "c_up" "Busy"
+"Busy" "c_down" "Busy"
+"Busy" "c_stp" "Busy"
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>
+"Idle"
+</MarkedStates>
+
+</Generator>

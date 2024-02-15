@@ -1,0 +1,72 @@
+#
+# Makefile for the libfaudes synthesis plug-in, tmoor 2009
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plug-in
+#
+# FAUDES_PLUGINS += coordinationcontrol
+#
+
+
+#
+# set up paths relative to faudes path
+
+CON_NAME = coordinationcontrol
+CON_BASE = ./plugins/$(CON_NAME)
+CON_SRCDIR = $(CON_BASE)/src
+
+#
+# listsource files
+
+CON_CPPFILES = con_decomposability.cpp con_controllability.cpp con_closed.cpp con_cctrim.cpp con_decomposability_extension.cpp con_supcc.cpp
+CON_INCLUDE = con_include.h
+CON_RTIDEFS = con_definitions.rti
+CON_RTIFREF = coordinationcontrol_index.fref 
+
+
+#
+# fix directories
+
+CON_HEADERS = $(CON_CPPFILES:.cpp=.h) $(CON_INCLUDE)
+CON_SOURCES = $(CON_CPPFILES:%=$(CON_SRCDIR)/%)
+CON_OBJECTS = $(CON_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+CON_RTIDEFS := $(CON_RTIDEFS:%=$(CON_SRCDIR)/registry/%)
+CON_RTIFREF := $(CON_RTIFREF:%=$(CON_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(CON_INCLUDE): $(CON_SRCDIR)/$(CON_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(CON_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* coordinationcontrol configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_CON_DECOMPOSABILITY" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(CON_SOURCES)
+OBJECTS += $(CON_OBJECTS)
+HEADERS += $(CON_HEADERS)
+VPATH   += $(CON_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(CON_NAME)
+RTIDEFS += $(CON_RTIDEFS)
+RTIFREF += $(CON_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(CON_SRCDIR)/registry/con_interface.i 
+SWGMODULES += $(CON_NAME)
+
+
+#
+# include tutorial
+
+include $(CON_BASE)/Makefile.tutorial

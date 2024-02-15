@@ -1,0 +1,84 @@
+<Generator>
+"spec_AB"     
+
+% 
+%  Statistics for spec_AB
+% 
+%  States:        19
+%  Init/Marked:   1/19
+%  Events:        15
+%  Transitions:   35
+%  StateSymbols:  0
+%  Attrib. E/S/T: 15/19/0
+% 
+
+<Alphabet>
+"AB_FREE"     +YP+          "AB_WAIT"     +YP+          
+"AB_FULL"     +YP+          "AB_OCC"      +YP+          "AB_ARRTR"    +YP+          
+"AB_STP"      +UP+          "AB_TR"       +UP+          "AB_FL"       +UP+    
+"AB_occfl"    +YE+          "AB_accfl"    +YE+          "AB_freetr"   +YE+          
+"AB_reltr"    +YE+          "AB_reqfl"    +YE+          
+"AB_nack"     +UE+          "AB_pack"     +UE+                
+</Alphabet>
+
+<States>
+1             +QYpYe+       2             +QYpYe+       3             +QYpYe+       
+4             +QUp+         5             +QUp+         6             +QUp+         
+7             +QUp+         8             +QYpYe+       9             +QYpYe+       
+10            +QYpYe+       11            +QYpYe+       12            +QUe+         
+13            +QUp+         14            +QUe+         15            +QUe+         
+16            +QYpYe+       17            +QUe+         18            +QUe+         
+19            +ErrQYpYe+    
+</States>
+
+<TransRel>
+1             "AB_FREE"     5             
+2             "AB_occfl"    17            
+2             "AB_accfl"    12            
+3             "AB_freetr"   18            
+3             "AB_reltr"    14            
+4             "AB_STP"      11            
+4             "AB_TR"       10            
+4             "AB_FL"       9             
+5             "AB_STP"      1             
+5             "AB_TR"       19            
+5             "AB_FL"       9             
+6             "AB_STP"      16            
+6             "AB_TR"       10            
+6             "AB_FL"       19            
+7             "AB_STP"      2             
+7             "AB_TR"       19            
+7             "AB_FL"       19            
+8             "AB_FULL"     7             
+9             "AB_reqfl"    15            
+10            "AB_ARRTR"    13            
+11            "AB_WAIT"     4             
+12            "AB_nack"     2             
+12            "AB_pack"     11            
+13            "AB_STP"      3             
+13            "AB_TR"       19            
+13            "AB_FL"       19            
+14            "AB_nack"     3             
+14            "AB_pack"     11            
+15            "AB_nack"     9             
+15            "AB_pack"     8             
+16            "AB_OCC"      6             
+17            "AB_nack"     2             
+17            "AB_pack"     16            
+18            "AB_nack"     3             
+18            "AB_pack"     1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3             4             5             6             
+7             8             9             10            11            12            
+13            14            15            16            17            18            
+19            
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="07_Projection" title="CoreFaudes - Natural Projection">
+<h1>
+Misc Language Operators
+</h1>
+
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+
+<ffnct_reference name="Project">
+<fdetails/>
+
+<p>
+Given two alphabets <fimath>\Sigma</fimath> and  <fimath>\Sigma_0</fimath>,
+<fimath>\Sigma_0\subseteq\Sigma</fimath>, the
+<i>natural projection</i> <fimath>\Pro{0}:\Sigma^*\rightarrow\Sigma_0^*</fimath> 
+maps strings <fimath>s\in\Sigma^*</fimath> to strings <fimath>r\in\Sigma_0^*</fimath> by
+cancelling any symbols <fimath>\sigma\nin\Sigma_0</fimath>:
+<br/>
+<br/>
+<fdmath>\Pro{0}(\epsilon)=\epsilon</fdmath>
+<br/>
+<fdmath>\Pro{0}(s\sigma)=\Pro{0}(s)\quad\text{ if } \sigma\nin\Sigma_0</fdmath>
+<br/>
+<fdmath>\Pro{0}(s\sigma)=\Pro{0}(s)\sigma\quad\text{ if } \sigma\in\Sigma_0</fdmath>
+</p>
+
+<p>
+The function <ffnct>Project</ffnct> constructs a generator <i>GRes</i> that
+realises the projection of the marked and generated languages specified 
+by the argument <i>G</i>:
+<br/>
+<br/>
+<fdmath>L(GRes)=\Pro{0}(L(G))</fdmath>
+<br/>
+<fdmath>Lm(GRes)=\Pro{0}(Lm(G))</fdmath>
+</p>
+
+<p>
+The implementation iteratively replaces transitions with
+labels <fimath>\sigma\nin\Sigma_0</fimath> by transitions to the
+next successor states. In general, this will lead to a non-deterministic
+generator. The function <ffnct>Project</ffnct> therefore subsequently calls 
+<ffnct>Deterministic</ffnct> and <ffnct>StateMin</ffnct> to construct 
+a deterministic realisation of the result. 
+</p>
+
+<p>
+As of libFAUDES 2.23f, alternative implementations are
+provided via the C++ API. Please let us know, if you experience
+performance issues with the default algorithm.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> G </td> <td> GRes with
+<ffnct>Project</ffnct>(G, {<tt>a</tt>, <tt>c</tt>, <tt>g</tt>, <tt>e</tt>}, GRes) 
+</td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_project_g"/> </td> 
+<td> <fimage fsrc="tmp_project_prog"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fconditions/>
+<p> 
+The specified generator does not need to be deterministic. 
+The resulting generator is deterministic.
+</p>
+
+</ffnct_reference>
+
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+
+<ffnct_reference name="InvProject">
+<fdetails/>
+
+<p>
+Given two alphabets <fimath>\Sigma</fimath> and  <fimath>\Sigma_0</fimath>,
+<fimath>\Sigma_0\subseteq\Sigma</fimath>, the
+<i>set-valued inverse of the natural projection</i> 
+<fimath>\ProInv{0}</fimath> maps strings <fimath>r\in\Sigma_0^*</fimath> to
+sets of strings <fimath>\ProInv{0}(r)\subseteq \Sigma^*</fimath> by inserting
+arbitrary symbols <fimath>\sigma\nin\Sigma_0</fimath>:
+<br/>
+<br/>
+<fdmath>\ProInv{0}(r)=\{s\in\Sigma^*|\ \Pro{0}(s)=r\} \quad\text{for }r\in\Sigma_0^*</fdmath>,
+<br/>
+<br/>
+see also <ffnct>Project</ffnct>.
+</p>
+
+<p>
+The function <ffnct>InvProject</ffnct> constructs a generator <i>GRes</i> that
+realises the inverse projection of the marked and generated languages specified 
+by the argument <i>G0</i>:
+<br/>
+<br/>
+<fdmath>L(GRes)=\ProInv{0}(L(G0))</fdmath>
+<br/>
+<fdmath>Lm(GRes)=\ProInv{0}(Lm(G0))</fdmath>
+</p>
+
+<p>
+This implementation realises the inverse projection by inserting self-loop 
+transitions at every state for all events that are in the target alphabet 
+<fimath>Sigma</fimath> but not in the generators alphabet <fimath>Sigma_0</fimath>.
+</p>
+
+<fconditions/>
+<p> 
+The target alphabet Sigma must be a superset of the generators alphabet.
+Provided the specified generator is deterministic, so is the resulting
+generator.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="SelfLoop">
+<fdetails/>
+
+<p>
+This function self-loops all states of the provide generator G  
+with the events from the alphabet <fimath>\Sigma</fimath>: 
+for each state <fimath>q\in G</fimath>
+and each event <fimath>o \in \Sigma</fimath>, 
+a transition <fimath>(q,o,q)</fimath> is inserted,
+irrespective of whether this event was already active in <fimath>q</fimath> 
+before.
+</p>
+
+<fconditions/>
+<p> The provided generator may be non-deterministic.
+When a deterministic generator is provided, the result can still
+become non-deterministic in the case that Sigma shares events with the
+original alphabet.
+</p>
+
+</ffnct_reference>
+
+</ReferencePage>
+
+  

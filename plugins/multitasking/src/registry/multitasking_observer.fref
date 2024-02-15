@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Multitasking" title="Multitasking - Observer">
+
+<h1>
+Multitasking Observer
+</h1>
+
+<p>
+Since the notion of blocking is refined by the colored marking, the observer
+problem is restated for <ftype>MtcSystem</ftype>s.
+</p>
+
+
+<ffnct_reference name="MtcNaturalObserver">
+</ffnct_reference>
+
+</ReferencePage>
+
+  

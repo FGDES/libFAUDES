@@ -1,0 +1,20 @@
+This libFAUDES plug-in synthesizes a minimally restrictive supervisor for a regular plant language (provided by a deterministic finite automaton (DFA)) and a context free specification language (provided by a deterministic pushdown automaton (DPDA)).
+To run a tutoral provided in ./tutorial (e.g. pd_tutorial.cpp), run "make tutorial" and start the generated executeable by ./tutorial/pd_tutorial. To run the tutorial and both save the output to a file and display it in the terminal, use 
+"./pd_tutorial ls -l 2>&1 | tee pd_tutorial.txt".
+
+This is the second version of the pushdown-plugin, distributed with libFAUDES 2.25c in January 2015.
+
+
+Contents
+
+faudes::AttributePushdownGlobal, faudes::AttributePushdownState, faudes::AttributeCFlag
+Makefile.plugin        plugin to extend main makefile
+Makefile.tutorial      plugin to extend the tutorial targets of main makefile
+
+src/pd_*.cpp          c++ sources 
+src/pd_*.h            c++ headers
+src/pd_include.h      convenience header to include all other headers
+
+tutorial/pd_*.cpp     tutorial c++ sources, compile to executable
+tutorial/data/*       input data for tutorials
+

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Diagnosis" page="2_Language-Diagnosis" title="Diagnosis - Language Specification"> 
+
+<h1>
+Language-Diagnosis.
+</h1>
+
+<p>
+We consider language-diagnosability as employed in <fcite name="D3"/>, <fcite name="D4"/>, <fcite name="D5"/>. Given a generator <fimath>G</fimath> and a set of observable events <fimath>\Sigma_0</fimath>, a specification language <fimath>K</fimath> characterize faulty behavior. A failure occurs as soon as a string in the plant <fimath>G</fimath> is not an element of the specification language <fimath>K</fimath>.  
+</p>
+
+<p> 
+<i>Language-Diagnosability</i> requires that every deviation from the behavior specified by <fimath>K</fimath> has to be detected after the occurrence of a finite number of events. In the diagnoser plug-in, language-diagnosability is verified with the function <ffnct>IsLanguageDiagnosable</ffnct>. In addition, the function <ffnct>LanguageDiagnoser</ffnct> computes a
+<ftype>Diagnoser</ftype> such that -- in the presence of language-diagnosability -- 
+any deviation from the specified behavior will be unambiguously detected after the occurrence of a finite number of events.
+</p>
+
+
+<ffnct_reference name="LanguageDiagnoser">
+
+<fdetails/>
+
+<p>
+Provided that the specified generator is diagnosable, this
+function computes the corresponding language-diagnoser. 
+</p>
+
+<p>
+Based on the specification language <i>EArg</i>, the implementation uses basic language 
+operations to obtain a generator <fimath>G_f</fimath> that marks the failure behaviour, denoted
+by the failure type <tt>F</tt>. A procedure similar to the one above is then used
+to synthesise a diagnoser. The current implementation, however, is experimental.
+</p>
+
+<fconditions/>
+<p>
+Same as with <ffnct>IsDiagnosable</ffnct> 
+and <ffnct>IsLanguageDiagnosable</ffnct>, respectively.
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="IsLanguageDiagnosable">
+
+<fdetails/>
+
+<p>
+Given a generator <fimath>G</fimath>, a specification <fimath>E</fimath> and 
+a set of observable events <fimath>\Sigma_0</fimath>, it is considered a failure whenever
+<fimath>GArg</fimath> evolves along a string <fimath>s\nin L(E)</fimath>.
+If any such failure can be detected within a uniformly bounded number transitions,
+the <fimath>GArg</fimath> is said to be <i>diagnosable w.r.t <fimath>(\Sigma_0,\,E)</fimath></i>.
+</p>
+
+<p>
+To formally state the requirement, let <fimath>H=L(G)-L_m(E)</fimath>
+denote the set of strings that do not (yet) fulfill the specification.
+Language diagnosability is then defined by the condition
+<br/>
+<br/>
+<fdmath>(\,\exists n\,)\ (\,\forall s\in H\,)\ (\,\forall st\in H,\ |t|>n \text{ or } st \text{ deadlocks}\,) \quad \[\, \ProInv{0}\,\Pro{0}(st) \,\subseteq  H\, \]</fdmath> .
+<br/>
+</p>
+
+<p>
+The algorithm performs the polynomial-time language-diagnosability algorithm proposed in <fcite name="D5"/>.  Note that the current implementation does not use an additional observation mask but is based on a natural projection in order to determine the observations. 
+</p>
+
+<fconditions/>
+<p>
+<i>GArg</i> and <i>EArg</i> are deterministic. The current implementation returns false if the requirements are not met.
+</p>
+
+</ffnct_reference>
+
+
+<h2>
+<a id="example">Example</a>
+</h2>
+
+<p>
+We illustrate the concept of language diagnosability and the computation of a corresponding diagnoser
+in the following example with the plant <fimath>G</fimath> that has to fulfill the 
+apecification <fimath>K</fimath>.   
+</p>
+
+<table class="plain"> 
+<tr> 
+<td> Plant <fimath>G</fimath> </td>
+<td> Language specification <fimath>K</fimath> </td>
+</tr>
+<tr>
+<td align="center"><fimage fsrc="tmp_diag_system_2_language"/></td>
+<td align="center"><fimage fsrc="tmp_diag_specification_2_language"/></td>
+</tr> 
+</table>
+
+
+
+<p>
+In this example, diagnosability is violated. Although the faulty string 
+<tt>f2</tt><fimath>\nin K</fimath> can be uniquely detected after the occurrence of <tt>beta</tt>, the faulty string <tt>a f1</tt><fimath>\nin K</fimath> cannot be resolved, since all possible extensions of <tt>a f1</tt> have the same observation as a non-faulty string. This can also be verified by looking at the (unsuccessful) diagnoser computed with the function <ffnct>LanguageDiagnoser</ffnct> as shown below. The faulty string <tt>f2</tt> can be diagnosed in the state with the label <tt>7F</tt>, while all possible extensions of <tt>a f1</tt> with the event <tt>alpha</tt> lead to the confused state with the label <tt>4NF 6F</tt>. 
+</p>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr><td> Diagnoser for the plant <fimath>G</fimath> and the specification <fimath>K</fimath> </td></tr>
+<tr><td align="center"><fimage fsrc="tmp_diag_diagnoser_2"/></td></tr>
+</table>
+</td> </tr> 
+</table>
+
+<h1>
+Abstraction-based Language-Diagnosis.
+</h1>
+
+<p>
+In order to reduce the computational complexity of the diagnosability verification, the concept of <i> abstraction-based language diagnosability </i> is introduced. Here, it is assumed that the specification <fimath>K</fimath> is given over a subalphabet <fimath> "\hat{\Sigma} \subseteq \Sigma"</fimath> and it is proposed to use an abstraction <fimath>\hat{G}</fimath> of the original plant <fimath>G</fimath> for the diagnosability test with the function <ffnct>IsLanguageDiagnosable</ffnct>. The abstraction-based language diagnosabilty is successful if certain sufficient conditions are fulfilled. In particular, the projection of the plant language <fimath>L(G)</fimath> to the abstraction alphabet <fimath>\hat{\Sigma}</fimath> has to be a <i> loop-preserving observer </i> as described below.
+</p>
+
+<ffnct_reference name="IsLoopPreservingObserver">
+
+<fdetails/>
+
+<p>
+Given a generator <fimath>G</fimath> and an abstraction alphabet <fimath>\hat{\Sigma}</fimath> the projection <fimath>p: \Sigma^* \rightarrow \hat{\Sigma}^*</fimath> is a loop-preserving observer if it is an observer (<ffnct>IsObs</ffnct>) and there are no loops in <fimath>G</fimath> only with events in <fimath>\Sigma - \hat{\Sigma}</fimath>. 
+</p>
+
+<p>
+The algorithm performs the polynomial-time observer verification in <fcite name="D1"/> and the search algorithm for strongly connected components by Tarjan.  
+</p>
+
+<fconditions/>
+<p>
+<i>GArg</i> has to be deterministic and <fimath>\hat{\Sigma}</fimath> has to be a subset of <fimath>\Sigma</fimath>. The current implementation returns false if the requirements are not met.
+</p>
+
+</ffnct_reference>
+
+
+<h2>
+<a id="example2">Example</a>
+</h2>
+
+<p>
+We illustrate the concept of a loop-perserving observer and the corresponding application of <ffnct>IsLoopPreservingObserver</ffnct> by the following automaton <fimath>G</fimath> and the abstraction alphabet 
+<fimath>\hat{\Sigma} = </fimath> {<tt>alpha</tt>, <tt>beta</tt>}. 
+</p>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr><td>Plant <fimath>G</fimath> </td></tr>
+<tr><td align="center"><fimage fsrc="tmp_diag_system_2_abstraction_fails"/></td></tr>
+</table>
+</td> </tr> 
+</table>
+
+<p>
+In this example, the loop-preserving observer condition is violated, since there is a loop with the events <fimath>e</fimath> and <fimath>d</fimath> that are not in the abstraction alphabet. 
+</p>
+
+
+<ffnct_reference name="LoopPreservingObserver">
+
+<fdetails/>
+
+<p>
+If the loop-preserving observer condition is violated, a further relevant problem is the extension of the abstraction alphabet until the loop-preserving observer condition holds. 
+</p>
+
+<p>
+The algorithm iteratively evaluates all possible alphabet extensions and terminates if a minimal (smallest number of events) extension is found that fulfills the loop-preserving observer condition. Note that, in the worst-case, no abstraction is possible, that is, <fimath>\Sigma = \hat{\Sigma}</fimath>. 
+</p>
+
+<fconditions/>
+<p>
+<i>GArg</i> has to be deterministic and <fimath>\hat{\Sigma}</fimath> has to be a subset of <fimath>\Sigma</fimath>. 
+</p>
+
+</ffnct_reference>
+
+
+<h2>
+<a id="example3">Example</a>
+</h2>
+
+<p>
+Applying the function <ffnct>LoopPreservingObserver</ffnct> to the above example, the extended abstraction alphabet <fimath>\hat{\Sigma} = </fimath>{<tt>b</tt>,<tt>c</tt>,<tt>d</tt>,<tt>e</tt>,<tt>alpha</tt>,<tt>beta</tt>} 
+fulfills the loop-preserving observer condition. 
+</p>
+
+
+</ReferencePage>
+
+  

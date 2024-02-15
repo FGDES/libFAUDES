@@ -1,0 +1,113 @@
+<Generator>
+"Project(SupConNB((Project(SupConNB((Project..._spec||rt3cb13cb5rt2cb12[2]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((Project(SupConNB((Project..._spec||rt3cb13cb5rt2cb12[2]_spec)))
+% 
+%  States:        30
+%  Init/Marked:   1/2
+%  Events:        9
+%  Transitions:   74
+%  StateSymbols:  0
+%  Attrib. E/S/T: 13/0/0
+% 
+
+<Alphabet>
+"cb2-13"      +C+           "cb3-12"      +C+           "cb12-4"      +C+           
+"cb13-6"      +C+           "cb6-13"      +C+           "cb15-9"      +C+           
+"cb5-12"      +C+           "cb9-13"      +C+           "rt2xy"       +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             30            
+</Consecutive>
+</States>
+
+<TransRel>
+2             "cb2-13"      26            
+2             "cb3-12"      4             
+2             "cb9-13"      12            
+1             "cb2-13"      3             
+1             "cb3-12"      7             
+1             "cb15-9"      2             
+3             "cb3-12"      29            
+3             "cb13-6"      9             
+3             "cb15-9"      26            
+4             "cb2-13"      28            
+4             "cb12-4"      17            
+4             "cb9-13"      6             
+5             "cb2-13"      8             
+5             "cb15-9"      17            
+5             "rt2xy"       1             
+6             "cb12-4"      25            
+6             "cb13-6"      7             
+6             "cb15-9"      16            
+7             "cb2-13"      29            
+7             "cb12-4"      5             
+7             "cb15-9"      4             
+8             "cb13-6"      11            
+8             "cb15-9"      30            
+8             "rt2xy"       3             
+9             "cb3-12"      10            
+9             "cb6-13"      27            
+9             "cb15-9"      19            
+10            "cb12-4"      11            
+10            "cb6-13"      13            
+10            "cb15-9"      20            
+11            "cb6-13"      14            
+11            "cb15-9"      21            
+11            "rt2xy"       9             
+12            "cb3-12"      6             
+12            "cb13-6"      1             
+12            "cb15-9"      15            
+13            "cb12-4"      14            
+13            "cb15-9"      23            
+14            "cb15-9"      24            
+14            "cb5-12"      7             
+14            "rt2xy"       27            
+15            "cb3-12"      16            
+15            "cb13-6"      2             
+16            "cb12-4"      18            
+16            "cb13-6"      4             
+17            "cb2-13"      30            
+17            "cb9-13"      25            
+17            "rt2xy"       2             
+18            "cb13-6"      17            
+18            "rt2xy"       15            
+19            "cb3-12"      20            
+19            "cb6-13"      22            
+20            "cb12-4"      21            
+20            "cb6-13"      23            
+21            "cb6-13"      24            
+21            "rt2xy"       19            
+22            "cb3-12"      23            
+23            "cb12-4"      24            
+24            "cb5-12"      4             
+24            "rt2xy"       22            
+25            "cb13-6"      5             
+25            "cb15-9"      18            
+25            "rt2xy"       12            
+26            "cb3-12"      28            
+26            "cb13-6"      19            
+27            "cb3-12"      13            
+27            "cb15-9"      22            
+28            "cb12-4"      30            
+28            "cb13-6"      20            
+29            "cb12-4"      8             
+29            "cb13-6"      10            
+29            "cb15-9"      28            
+30            "cb13-6"      21            
+30            "rt2xy"       26            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             5             
+</MarkedStates>
+
+
+</Generator>

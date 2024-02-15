@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Functions for package CoordinationControl    -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="CoordinationControl::IsConditionalDecomposable" ctype="faudes::IsConditionalDecomposable"> 
+
+<Documentation ref="coordinationcontrol_index.html#Conditionaldecomposability"> 
+Tests for conditional decomposability.
+</Documentation> 
+<Keywords> 
+CoordinationControl	decomposability		generator	abstraction
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsConditionalDecomposable(gen,alphVector,ek,proof)"> 
+<Parameter name="gen" ftype="System" access="In"/> 
+<Parameter name="alphVector" ftype="EventSetVector" access="In"/> 
+<Parameter name="ek" ftype="EventSet" access="In"/> 
+<Parameter name="proof" ftype="System" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/>
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<FunctionDefinition name="CoordinationControl::ConDecExtension" ctype="faudes::ConDecExtension"> 
+
+<Documentation ref="coordinationcontrol_index.html#ConDecExtension"> 
+Extension of Ek for K to become conditionally decomposable.
+</Documentation> 
+<Keywords> 
+CoordinationControl	decomposability		generator	abstraction
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="ConDecExtension(gen,alphVector,ek)"> 
+<Parameter name="gen" ftype="System" access="In"/> 
+<Parameter name="alphVector" ftype="EventSetVector" access="In"/> 
+<Parameter name="ek" ftype="EventSet" access="InOut"/>
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<FunctionDefinition name="CoordinationControl::SupConditionalControllable" ctype="faudes::SupConditionalControllable"> 
+
+<Documentation ref="coordinationcontrol_index.html#SupConditionalControllable"> 
+Computation of the supremal conditionally controllable sublanguage of the specification K
+</Documentation> 
+<Keywords> 
+CoordinationControl	decomposability		generator	abstraction
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupConditionalControllable(SpecGen,genVect,ACntrl,supVector,Coord)"> 
+<Parameter name="SpecGen" ftype="System" access="In"/> 
+<Parameter name="genVector" ftype="GeneratorVector" access="In"/> 
+<Parameter name="ACntrl" ftype="EventSet" access="In"/> 
+<Parameter name="InitEk" ftype="EventSet" access="In"/> 
+<Parameter name="supVector" ftype="GeneratorVector" access="Out"/> 
+<Parameter name="Coord" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+
+<FunctionDefinition name="CoordinationControl::IsConditionalControllable" ctype="faudes::IsConditionalControllable"> 
+
+<Documentation ref="coordinationcontrol_index.html#Conditionalcontrollable"> 
+Tests for conditional controllability.
+</Documentation> 
+<Keywords> 
+CoordinationControl	controllability		generator	abstraction
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsConditionalControllable(specVect,pk,genVect,gk,ACntrl)"> 
+<Parameter name="specVect" ftype="GeneratorVector" access="In"/> 
+<Parameter name="pk" ftype="Generator" access="In"/> 
+<Parameter name="genVect" ftype="GeneratorVector" access="In"/> 
+<Parameter name="gk" ftype="Generator" access="In"/> 
+<Parameter name="ACntrl" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/>
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<FunctionDefinition name="CoordinationControl::IsConditionalClosed" ctype="faudes::IsConditionalClosed"> 
+
+<Documentation ref="coordinationcontrol_index.html#Conditionalclosedness"> 
+Tests for conditional closedness.
+</Documentation> 
+<Keywords> 
+CoordinationControl	closedness	generator	abstraction
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsConditionalClosed(specVect,pk,genVect,gk)"> 
+<Parameter name="specVect" ftype="GeneratorVector" access="In"/> 
+<Parameter name="pk" ftype="Generator" access="In"/> 
+<Parameter name="genVect" ftype="GeneratorVector" access="In"/> 
+<Parameter name="gk" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/>
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<FunctionDefinition name="CoordinationControl::ccTrim" ctype="faudes::ccTrim"> 
+
+<Documentation ref="coordinationcontrol_index.html#ccTrim"> 
+A bit more efficient trim operation based on graph algorithms.
+</Documentation> 
+<Keywords> 
+CoordinationControl	trim	generator	abstraction
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="ccTrim(gen,trimGen)"> 
+<Parameter name="gen" ftype="Generator" access="In"/> 
+<Parameter name="trimGen" ftype="Generator" access="Out"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/>
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+</Registry> 
+

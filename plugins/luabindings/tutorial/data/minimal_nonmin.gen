@@ -1,0 +1,27 @@
+<Generator>
+"g_nonmin" 
+
+<Alphabet>
+"a"	"b"	"c"  
+</Alphabet>
+
+<States>
+<Consecutive> 1 6 </Consecutive>       
+</States>
+
+<TransRel>
+1	"a"	2
+1	"c"	3
+2	"b"	4
+3	"a"	5
+5	"b"	6       
+</TransRel>
+<InitStates>
+1 
+</InitStates>
+<MarkedStates>
+1        
+</MarkedStates>
+
+</Generator>
+

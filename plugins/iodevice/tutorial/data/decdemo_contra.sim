@@ -1,0 +1,26 @@
+% Example "decdemo", Controller A (process). 
+
+% Set up the executor to run Controller A
+<Executor>
+
+% specify explicit generators
+<Generators>
+"decdemo_contra.gen"
+</Generators>
+
+% specify event attributes
+<SimEventAttributes>
+
+"p_complete"     
+<Priority> -50 </Priority>
+"lambda"     
+<Priority> -50 </Priority>
+
+"alpha"  %% with 1sec sampling time we are provocing to miss edges ....
+<Stochastic> +Trigger+ +Uniform+   <Parameter> 5 10 </Parameter> </Stochastic>
+
+
+</SimEventAttributes>
+
+% end
+</Executor>

@@ -1,0 +1,98 @@
+<Generator>
+"Project(SupConNB((cb15[0]),(cb15[0]...1[0]||rts1[0]_3-4),(rts1[0]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((cb15[0]),(cb15[0]...1[0]||rts1[0]_3-4),(rts1[0]_spec)))
+% 
+%  States:        24
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   58
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb15-9"      +C+           "cb15-rc1"    +C+           "cb15stp"     +C+           
+"cb7-15"      +C+           "rts1_1"      "rts1_1-2"    +C+           "rts1_2"      
+"rts1_2-1"    +C+           "rts1_2-3"    +C+           "rts1_4"      "rts1_4-3"    
++C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             24            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb7-15"      2             
+1             "rts1_2-1"    3             
+1             "rts1_2-3"    4             
+2             "cb15stp"     12            
+2             "rts1_2-1"    24            
+2             "rts1_2-3"    5             
+3             "cb7-15"      24            
+3             "rts1_1"      22            
+4             "cb7-15"      5             
+4             "rts1_4"      6             
+5             "cb15stp"     15            
+5             "rts1_4"      7             
+6             "cb7-15"      7             
+6             "rts1_4-3"    8             
+7             "cb15stp"     17            
+7             "rts1_4-3"    9             
+8             "cb7-15"      9             
+8             "rts1_2"      1             
+9             "cb15stp"     10            
+9             "rts1_2"      2             
+10            "cb15-9"      11            
+10            "cb15-rc1"    11            
+10            "rts1_2"      12            
+11            "cb15stp"     8             
+11            "rts1_2"      13            
+12            "cb15-9"      13            
+12            "cb15-rc1"    13            
+12            "rts1_2-1"    14            
+12            "rts1_2-3"    15            
+13            "cb15stp"     1             
+13            "rts1_2-1"    19            
+13            "rts1_2-3"    16            
+14            "cb15-9"      19            
+14            "cb15-rc1"    19            
+14            "rts1_1"      20            
+15            "cb15-9"      16            
+15            "cb15-rc1"    16            
+15            "rts1_4"      17            
+16            "cb15stp"     4             
+16            "rts1_4"      18            
+17            "cb15-9"      18            
+17            "cb15-rc1"    18            
+17            "rts1_4-3"    10            
+18            "cb15stp"     6             
+18            "rts1_4-3"    11            
+19            "cb15stp"     3             
+19            "rts1_1"      21            
+20            "cb15-9"      21            
+20            "cb15-rc1"    21            
+20            "rts1_1-2"    10            
+21            "cb15stp"     22            
+21            "rts1_1-2"    11            
+22            "cb7-15"      23            
+22            "rts1_1-2"    8             
+23            "cb15stp"     20            
+23            "rts1_1-2"    9             
+24            "cb15stp"     14            
+24            "rts1_1"      23            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

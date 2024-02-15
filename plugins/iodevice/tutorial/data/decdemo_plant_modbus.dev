@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ModbusDevice SYSTEM "modbusdevice.dtd">
+
+<!--
+Device configuration for modbus device
+
+Here: plant simulation, i.e., master, defines the overall range
+of signals (i.e. bit addresses) and associated events from
+the plant simpulator's perspective.
+
+Note: For the complete decentrlized control demo, we use
+the serial interconnection via SpiDevice. The Modbus
+interface is only included for testing purposes. You may
+connect via iomonitor, using "decdemo_test_modbus.dev"
+
+-->
+
+<ModbusDevice name="plant simulator"> 
+
+<!-- Time scale in ms/ftu -->
+<TimeScale value="1000"/> 
+
+<!-- Sample interval for edge detection in us (1ms) -->
+<!--
+Note: the sample interval on the slave introduces
+a minimum delay on its responses. Hence, the master should 
+have a reasonably longer sampling interval
+than the slave. Future implementations may seperate
+edge detection and Modbus communication to circumvent
+this issue. 
+-->
+<SampleInterval value="1000"/> 
+
+<!-- Modbus sole: plant is the slave-->
+<Role value="slave"/>
+
+<!-- Modbus slave device IP address -->
+<SlaveAddress value="localhost:1502"/>
+
+<!-- Trigger based event definitition to follow -->
+<EventConfiguration> 
+
+<!-- Operation start -->
+<Event name="p_start" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="0"/> 
+</Triggers> 
+</Event> 
+
+<!-- Operation stop -->
+<Event name="p_stop" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="0"/> 
+</Triggers> 
+</Event> 
+
+
+<!-- Operation in progress -->
+<Event name="p_inprog" iotype="output"> 
+<Actions> 
+<Set address="1"/> 
+</Actions> 
+</Event> 
+
+
+<!-- Operation complete -->
+<Event name="p_complete" iotype="output"> 
+<Actions> 
+<Clr address="1"/> 
+</Actions> 
+</Event> 
+
+
+
+<!-- Maintenance start -->
+<Event name="m_start" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="2"/> 
+</Triggers> 
+</Event> 
+
+
+<!-- Maintenance stop -->
+<Event name="m_stop" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="2"/> 
+</Triggers> 
+</Event> 
+
+
+<!-- Maintenance in progress -->
+<Event name="m_request" iotype="output"> 
+<Actions> 
+<Set address="3"/> 
+</Actions> 
+</Event> 
+
+<!-- Maintenance complete -->
+<Event name="m_complete" iotype="output"> 
+<Actions> 
+<Clr address="3"/> 
+</Actions> 
+</Event> 
+
+
+
+
+
+</EventConfiguration> 
+</ModbusDevice> 

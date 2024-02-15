@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Simulator" page="0_Index" title="Simulator - About">
+
+<h1>
+Simulator 
+</h1>
+
+
+<fsummary>
+Interactive or automatic execution of compound discrete-event systems 
+modelled by automata, including hardware-in-the-loop simulation and
+networked decentralized control architectures.
+</fsummary>
+
+
+<p>
+This plug-in provides data-types to support the interactive or automatic
+execution of discrete event systems. It serves as a basis for 
+applications that interactively inspect or debug closed-loop dynamics, 
+perform a hardware-in-the-loop simulation of a controller interacting with a physical plant, 
+or
+perform an (elementary) stochastic performance analysis.
+</p>
+<p>
+Implementation details for application development are given in the
+the <a fhref="FAUDES_CSOURCE/group__SimulatorPlugin.html">Simulator C++ API</a> documentation,
+and - for hardware-in-the-loop simulation b) - 
+in the <a fhref="FAUDES_CSOURCE/group__IODevicePlugin.html">IODevice C++ API</a> documentation.
+</p>
+<p>
+This user reference presents simulation semantics and relevant features 
+by examples for the command-line tool <tt>simfaudes</tt>. It is organized
+as follows:
+</p>
+<ul class="l2">
+<li><p>
+<a href="simulator_index.html">Simulator plug-in (configuration by example)</a>
+</p></li>
+<li><p>
+<a href="simulator_details.html">Executor classes (simulator semantics, advanced configuration)</a>
+</p></li>
+<li><p>
+<a href="simulator_iointro.html">Hardware-In-The-Loop simulation (elevator example)</a>
+</p></li>
+<li><p>
+<a href="simulator_devices.html">Digital IO devices (iodevice plug-in reference)</a>
+</p></li>
+<li><p>
+<a href="simulator_decdemo.html">Simulator interconnection (decentralized control example)</a>
+</p></li>
+</ul>
+
+<p>
+Configuration files and shell scripts corresponding 
+to the examples presented are located 
+in tutorial directories of the simulator plug-in and the iodevice plug-in.
+</p>
+
+<p>
+Copyright (C) 2008, 2009 Thomas Moor, Klaus Schmidt, Sebastian Perk 
+<br/>
+<br/>
+</p>
+
+<h2>
+Basic Configuration
+</h2>
+
+<p>
+The simulator is based on a hierarchy of <a href="simulator_details.html">executor classes</a>
+which execute transitions in a synchronous product of participating generators. 
+Executor classes are configured by faudes-style token streams, e.g. read from a 
+configuration file.
+</p>
+
+<p>
+The following example configures an executor class to simulate the closed loop
+from the <a href="synthesis_index.html">very-simple machine</a>, however,
+extended by the possible break-down <tt>mue_*</tt> and maintenance <tt>lambda_*</tt> 
+of the two machines.
+</p>
+
+<pre>
+&lt;Executor&gt;
+% Configuration "exectest.sim"
+
+&lt;Generators&gt;
+"machinea.gen"
+"machineb.gen"
+"bufferab.gen"
+"superab.gen"
+&lt;/Generators&gt;
+
+&lt;/Executor&gt;
+</pre>
+
+<p>
+Note that the specification of file-names for generators is relative to
+the directory of the overall configuration file. Alternatively, generators
+can be added in-line as  token sequence. 
+</p>
+
+
+<h2>
+Interactive Simulation
+</h2>
+
+<p>
+Interactive simulation can be used to inspect an overall closed-loop
+behaviour by selecting and executing transitions step by step.
+In order to perform an interactive simulation, run <tt>simfaudes</tt> 
+on the above configuration file:
+</p>
+
+<pre>
+$ cd ./libfaudes/plugins/simulator/tutorial
+$ ./simfaudes -i -v data/exectest.sim
+</pre>
+
+<p>
+The command-line options <tt>-i</tt> and <tt>-v</tt> are
+for interactive simulation and verbose output, respectively. 
+A list of all command-line options is given 
+<a href="#options">below</a>. 
+</p>
+<p>
+<tt>simfaudes</tt> prompts with information about the current state and
+proposes an event to execute:
+</p>
+
+<pre>
+% simfaudes: ========================================= current state:
+&lt;DiscreteState&gt; "idle"        "idle"        "empty"       "idle|idle|1|empty"  &lt;/DiscreteState&gt; 
+...
+% simfaudes: ========================================= enabled events:
+&lt;EnabledEvents&gt; "alpha_a"      &lt;/EnabledEvents&gt; 
+...
+% simfaudes: ========================================= proposed action:
+&lt;ProposedEvent&gt; "alpha_a" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================= enter command:
+</pre>
+
+<p>
+By the above, <tt>alpha_a</tt> is the only enabled event. Available commands
+include
+</p>
+<ul class="l2">
+<li><p> 
+press the return key to accept the proposed default (i.e. <tt>alpha_a</tt>), or
+</p></li>
+<li><p> 
+enter an event by name  <tt>"some_event"</tt> to execute the respective event, or
+</p></li>
+<li><p> 
+enter <tt>?</tt> to get a list of further commands.
+</p></li>
+</ul>
+
+<p>
+You can inspect the closed-loop dynamics by executing events step-by-step.
+</p>
+
+<h2>
+Resolving Ambiguities
+</h2>
+
+<p>
+At each instance of time, a discrete event system is in a particular state
+and the model distinguishes between enabled and disabled events. However, the model
+does neither determine which particular event will actually occur, nor when this
+will happen. Both ambiguities must be resolved for a non-interactive simulation. 
+Executor classes address this issue by interpreting
+</p>
+
+<ul class="l2">
+<li>
+<p> 
+timed automata with clocks, guards and invariants;
+</p></li>
+<li><p> 
+priority event attributes;
+</p></li>
+<li><p> 
+stochastic event attributes.
+</p></li>
+</ul>
+
+<p>
+Timed automata extend the modelling framework to capture physical time.
+Executor classes implement the synchronous product
+referring to R. Alur and D.L. Dill's real time semantics, however, using
+an integral data type to count <i>faudes-time units (ftu)</i>. 
+Effectively, this results in certain intervals at which an event can take place 
+and bounds, up to which an event must take place.
+In interactive simulation mode, <tt>simfaudes</tt> will indicate not only
+the set of enabled events, but also the interval of time on which this set remains 
+constant and the maximum amount of time that may pass without any event executed.
+</p>
+
+<p>
+Priority attributes attach a positive or negative priority to each event.
+At each instance of time, the enabled event with the highest positive priority will
+be executed. If no event with positive priority is enabled, and if the model allows for
+time to elapse, no event is executed. If the model does not allow for
+time to elapse, the enabled event with highest (negative) priority will be executed.
+If no such event exists, the system is dead-locked. 
+</p>
+
+<p>
+For our example, we
+configure the processing of a workpiece and the machine maintenance to take
+place immediately when enabled, where M1 has priority over M2 and
+starting the process has priority over maintenance.
+</p>
+
+<pre>
+&lt;Executor&gt;
+% Configuration "machines.sim"
+
+...
+
+&lt;SimEvents&gt;
+% Start machines immediately
+"alpha_a"  &lt;Priority&gt; 55 &lt;/Priority&gt;
+"alpha_b"  &lt;Priority&gt; 50 &lt;/Priority&gt;
+% Immediate maintenance
+"lambda_a" &lt;Priority&gt; 25 &lt;/Priority&gt;
+"lambda_b" &lt;Priority&gt; 20 &lt;/Priority&gt;
+&lt;/SimEvents&gt;
+
+...
+
+&lt;/Executor&gt;
+</pre>
+
+
+
+<p>
+As an alternative to priority attributes, 
+stochastic attributes can be used to schedule the occurrence of events.
+Given the interval of time on which an event is enabled, the executor samples
+a random variable to determine the exact instance of time, at which the 
+respective event will occur. It shall be noted that our approach 
+here is  somewhat ad-hoc and subject to future revisions. 
+</p>
+
+<p>
+For our example, we configure normal distributed processing time,
+where M1 is twice as fast as M2, and exponentially distributed
+machine break down. See <ftype>ProposingExecutor</ftype>,
+for more detailed documentation of the
+respective parameters.
+</p>
+
+
+<pre>
+&lt;SimEvents&gt;
+
+...
+
+% Gauss distributed time of operation, 
+"beta_a"      
+&lt;Stochastic&gt; +Trigger+ +Gauss+   &lt;Parameter&gt; 50 20 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+"beta_b"      
+&lt;Stochastic&gt; +Trigger+ +Gauss+  &lt;Parameter&gt; 100 20  &lt;/Parameter&gt; &lt;/Stochastic&gt;
+
+% Exponentially distributed break down
+"mue_a"  
+&lt;Stochastic&gt; +Delay+   +Exponential+  &lt;Parameter&gt; 500 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+"mue_b"       
+&lt;Stochastic&gt; +Delay+   +Exponential+  &lt;Parameter&gt; 500 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+
+&lt;/SimEvents&gt;
+</pre>
+
+
+
+<h2>
+Simulation Conditions
+</h2>
+
+<p>
+The simulator can recognise so called <i>simulation conditions</i> triggered by
+start and stop events or entering and exiting state sets. 
+The presence of a condition is logged for the purpose of validation and 
+elementary performance evaluation. 
+As an example, consider the following
+conditions:
+</p>
+
+<pre>
+&lt;Executor&gt;
+% Configuration "machines.sim"
+...
+&lt;Conditions&gt;
+
+% Event condition: Operation cycle
+"Performance"     
+&lt;EventCondition&gt;
+&lt;StartEvents&gt;
+"alpha_a"     
+&lt;/StartEvents&gt;
+&lt;StopEvents&gt;
+"beta_b"       
+&lt;/StopEvents&gt;
+&lt;/EventCondition&gt;
+
+% State Condition: MA is idle because the buffer is full
+"Bottleneck"      
+&lt;StateCondition&gt;
++Conjunction+
+&lt;StateSet&gt; "idle" &lt;/StateSet&gt;  % machine a
+&lt;StateSet&gt;        &lt;/StateSet&gt;  % machine b (dont care)
+&lt;StateSet&gt; "full" &lt;/StateSet&gt;  % buffer
+&lt;StateSet&gt;        &lt;/StateSet&gt;  % supervisor (dont care)
+&lt;/StateCondition&gt;
+
+&lt;/Conditions&gt;
+...
+&lt;/Executor&gt;
+</pre>
+
+<p>
+To monitor the long term throughput of the machine setup, we 
+define a condition "Performance" to be enabled by <tt>alpha_a</tt> and
+disabled by <tt>beta_b</tt>. 
+</p>
+
+<p>
+The "Bottelneck" condition is
+characterised by machine M1 waiting while the buffer is full. This condition
+is expressed as a conjunctive state condition.
+</p>
+
+
+<h2>
+Hardware-in-the-Loop
+</h2>
+
+<p>
+The simulator can synchronise both time and events with  a physical 
+plant system that is connected via digital IO hardware or network messages.
+The actual mapping from executor events to physical events is done via an
+abstract interface implemented by the <a href="simulator_iointro.html">iodevice plug-in</a>.
+</p>
+
+<p>
+Hardware-in-the-loop operation is enabled by the <tt>-d filename.dev</tt> command-line option
+to specify the device configuration. The tutorial section of the iodevice plug-in 
+provides examples for specific lab experiments at LRT, but also a network setup where
+plant and controller are simulated on different desktop PCs. See 
+<a href="simulator_iointro.html">iodevice plug-in</a> for more details. 
+</p>
+
+<h2><a id="options">
+Command-Line Options
+</a></h2>
+
+<p>
+A list of all command-line options can be retrieved by the <tt>-?</tt> option:
+</p>
+
+<pre>
+$ cd ./libfaudes/plugins/simulator/tutorial
+$ ./simulator -?
+
+simfaudes: usage: 
+
+  simfaudes [-q][-v][-i][-bc] [-bt &lt;nnn&gt;][-bs &lt;nnn&gt;] [-l &lt;logfile&gt;] [-ls] [-le] [-lt] &lt;simfile&gt; 
+
+where 
+
+  &lt;simfile&gt;: simulation configuration file
+
+  -q:  less console output 
+  -qq: absolutely no console output 
+  -v:  more console output
+  -vv: even more console output
+  -i: interactive mode 
+
+  -bc: break on condition
+  -bt &lt;nnn&gt;: break on time &lt;nnn&gt; 
+  -bs &lt;nnn&gt;: break on step &lt;nnn&gt;
+
+  -l &lt;logfile&gt;: log to &lt;logfile&gt; 
+  -ls: log states
+  -le: log events
+  -lt: log time
+  -la: log all
+  -t &lt;nnn&gt;: fifo trace buffer length &lt;nnn&gt;
+
+  -d &lt;devfile&gt;: use io device configured from file
+  -dt &lt;nnn&gt;: tolerance in time synchronisation
+  -dr: accept reset request from io devive
+
+</pre>
+
+</ReferencePage>
+
+  

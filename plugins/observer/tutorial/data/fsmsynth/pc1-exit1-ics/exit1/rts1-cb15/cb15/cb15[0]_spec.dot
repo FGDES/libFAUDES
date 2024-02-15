@@ -1,0 +1,99 @@
+digraph "cb15[0]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "10";
+  "11";
+  "12";
+  "13";
+  "14";
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+
+  // transition relation
+  "1" -> "1" [label="cb15-7"];
+  "1" -> "1" [label="cb15f"];
+  "1" -> "2" [label="cb7-15"];
+  "1" -> "1" [label="t_modul5\rts1_cb15\cb15"];
+  "1" -> "1" [label="wp15-7"];
+  "10" -> "10" [label="cb15-7"];
+  "10" -> "10" [label="cb15f"];
+  "10" -> "10" [label="t_modul5\rts1_cb15\cb15"];
+  "10" -> "10" [label="wp15-7"];
+  "10" -> "1" [label="wp15-9"];
+  "11" -> "12" [label="cb15+y"];
+  "11" -> "11" [label="cb15-7"];
+  "11" -> "11" [label="cb15f"];
+  "11" -> "11" [label="t_modul5\rts1_cb15\cb15"];
+  "11" -> "11" [label="wp15-7"];
+  "12" -> "12" [label="cb15-7"];
+  "12" -> "12" [label="cb15f"];
+  "12" -> "13" [label="cb15wplvrc1"];
+  "12" -> "12" [label="t_modul5\rts1_cb15\cb15"];
+  "12" -> "12" [label="wp15-7"];
+  "13" -> "13" [label="cb15-7"];
+  "13" -> "13" [label="cb15f"];
+  "13" -> "14" [label="cb15stp"];
+  "13" -> "13" [label="t_modul5\rts1_cb15\cb15"];
+  "13" -> "13" [label="wp15-7"];
+  "14" -> "14" [label="cb15-7"];
+  "14" -> "14" [label="cb15f"];
+  "14" -> "14" [label="t_modul5\rts1_cb15\cb15"];
+  "14" -> "14" [label="wp15-7"];
+  "14" -> "1" [label="wp15-rc1"];
+  "2" -> "2" [label="cb15-7"];
+  "2" -> "3" [label="cb15-y"];
+  "2" -> "2" [label="cb15f"];
+  "2" -> "2" [label="t_modul5\rts1_cb15\cb15"];
+  "2" -> "2" [label="wp15-7"];
+  "3" -> "3" [label="cb15-7"];
+  "3" -> "3" [label="cb15f"];
+  "3" -> "4" [label="cb15wpar"];
+  "3" -> "3" [label="t_modul5\rts1_cb15\cb15"];
+  "3" -> "3" [label="wp15-7"];
+  "4" -> "4" [label="cb15-7"];
+  "4" -> "4" [label="cb15f"];
+  "4" -> "5" [label="cb15stp"];
+  "4" -> "4" [label="t_modul5\rts1_cb15\cb15"];
+  "4" -> "4" [label="wp15-7"];
+  "5" -> "5" [label="cb15-7"];
+  "5" -> "5" [label="cb15f"];
+  "5" -> "5" [label="t_modul5\rts1_cb15\cb15"];
+  "5" -> "5" [label="wp15-7"];
+  "5" -> "6" [label="wp7-15"];
+  "6" -> "6" [label="cb15-7"];
+  "6" -> "7" [label="cb15-9"];
+  "6" -> "11" [label="cb15-rc1"];
+  "6" -> "6" [label="cb15f"];
+  "6" -> "6" [label="t_modul5\rts1_cb15\cb15"];
+  "6" -> "6" [label="wp15-7"];
+  "7" -> "8" [label="cb15+y"];
+  "7" -> "7" [label="cb15-7"];
+  "7" -> "7" [label="cb15f"];
+  "7" -> "7" [label="t_modul5\rts1_cb15\cb15"];
+  "7" -> "7" [label="wp15-7"];
+  "8" -> "8" [label="cb15-7"];
+  "8" -> "8" [label="cb15f"];
+  "8" -> "9" [label="cb15wplv9"];
+  "8" -> "8" [label="t_modul5\rts1_cb15\cb15"];
+  "8" -> "8" [label="wp15-7"];
+  "9" -> "9" [label="cb15-7"];
+  "9" -> "9" [label="cb15f"];
+  "9" -> "10" [label="cb15stp"];
+  "9" -> "9" [label="t_modul5\rts1_cb15\cb15"];
+  "9" -> "9" [label="wp15-7"];
+};

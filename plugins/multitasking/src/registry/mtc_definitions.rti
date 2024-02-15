@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type ColorSet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Multitasking::ColorSet" ctype="faudes::ColorSet" autoregister="true"> 
+
+<Documentation ref="multitasking_index.html#ColorSet"> 
+Set of colors for marking the state of a colored generator
+</Documentation> 
+<Keywords> 
+Multitasking  generator     "colored marking"  colors        
+</Keywords> 
+
+<XElementTag value="Color"/>
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type MtcSystem -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Multitasking::MtcSystem" ctype="faudes::MtcSystem" autoregister="true"> 
+
+<Documentation ref="multitasking_index.html#MtcSystem"> 
+Genarator model woth colored markings.
+</Documentation> 
+<Keywords> 
+Multitasking  generator     "colored marking"  colors        
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsMtcObserver -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::IsMtcObserver" ctype="faudes::IsMtcObs"> 
+
+<Documentation ref="multitasking_observer.html#IsMtcObserver"> 
+Verification of the observer property.
+</Documentation> 
+<Keywords> 
+Multitasking  misc          observer      test          "colored generator"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsMtcObserver(Plant,SigmaHigh,Res)"> 
+<Parameter name="GPlant" ftype="MtcSystem" access="In"/> 
+<Parameter name="SigmaHi" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsStronglyCoaccessible -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::IsStronglyCoaccessible" ctype="faudes::IsStronglyCoaccessible"> 
+
+<Documentation ref="multitasking_reachability.html#IsStronglyCoaccessible"> 
+Tests a colored generator for strong coaccessibility.
+</Documentation> 
+<Keywords> 
+Multitasking  Reachability  reachability  generator     "colored marking"  coaccessible  
+reachable     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Default"> 
+<Parameter name="G" ftype="MtcSystem" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsStronglyTrim -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::IsStronglyTrim" ctype="faudes::IsStronglyTrim"> 
+
+<Documentation ref="multitasking_reachability.html#IsStronglyTrim"> 
+Tests a colored generator for strong trimness.
+</Documentation> 
+<Keywords> 
+Multitasking  Reachability  generator     "colored marking"  trim          reachable     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Default"> 
+<Parameter name="G" ftype="MtcSystem" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcDeterministic -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcDeterministic" ctype="faudes::mtcDeterministic"> 
+
+<Documentation ref="multitasking_misc.html#MtcDeterministic"> 
+Powerset construction to enforce determinism incl. colored markings.
+</Documentation> 
+<Keywords> 
+Multitasking  Functions     "state set conversion"  deterministic  determinism   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="MtcDeterministic(G,GRes)"> 
+<Parameter name="G" ftype="MtcSystem" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcInvProject -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcInvProject" ctype="faudes::mtcInvProject"> 
+
+<Documentation ref="multitasking_misc.html#MtcInvProject"> 
+Inverse projection of colored languages.
+</Documentation> 
+<Keywords> 
+Multitasking  Functions     "language misc"  "colored language projection"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="MtcInvProject(G0,Sigma)"> 
+<Parameter name="G0" ftype="MtcSystem" access="InOut"/> 
+<Parameter name="Sigma" ftype="EventSet" access="In"/> 
+</Signature> 
+
+<Signature name="InvProject(G0,Sigma,GRes)"> 
+<Parameter name="G0" ftype="MtcSystem" access="In"/> 
+<Parameter name="Sigma" ftype="EventSet" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcNaturalObserver -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcNaturalObserver" ctype="faudes::calcNaturalObserver"> 
+
+<Documentation ref="multitasking_observer.html#MtcNaturalObserver"> 
+Copmute a colored natural observer by extending a given high-level alphabet.
+</Documentation> 
+<Keywords> 
+Multitasking  misc          observer      controllable  synthesis     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="MtcNaturalObserver(GPlant,SigmaH)"> 
+<Parameter name="GPlant" ftype="MtcSystem" access="In"/> 
+<Parameter name="SigmaH" ftype="EventSet" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcParallel -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcParallel" ctype="faudes::mtcParallel"> 
+
+<Documentation ref="multitasking_misc.html#MtcParallel"> 
+Parallel composition of two colored genertors.
+</Documentation> 
+<Keywords> 
+Multitasking  Functions     "colored generator"  "parallel composition"  "synchronous product"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="GRes = G1 || G2"> 
+<Parameter name="G1" ftype="MtcSystem" access="In"/> 
+<Parameter name="G2" ftype="MtcSystem" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcProject -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcProject" ctype="faudes::mtcProject"> 
+
+<Documentation ref="multitasking_misc.html#MtcProject"> 
+Natural projection of colored languages.
+</Documentation> 
+<Keywords> 
+Multitasking  Functions     "colored language"  "colored projection"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="MtcProject(G,Sigmal0,Res)"> 
+<Parameter name="G" ftype="MtcSystem" access="In"/> 
+<Parameter name="Sigma0" ftype="EventSet" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcProjectNonDet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcProjectNonDet" ctype="faudes::mtcProjectNonDet"> 
+
+<Documentation> 
+Natural projection of colored languages, non deterministic version.
+</Documentation> 
+<Keywords> 
+Multitasking  Functions     "colored language"  "colored projection"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="MtcProjectNonDet(G,Sigmal0,Res)"> 
+<Parameter name="G" ftype="MtcSystem" access="In"/> 
+<Parameter name="Sigma0" ftype="EventSet" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+
+<Signature name="MtcProjectNonDet(G,Sigmal0)"> 
+<Parameter name="G" ftype="MtcSystem" access="InOut"/> 
+<Parameter name="Sigma0" ftype="EventSet" access="In"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcStateMin -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcStateMin" ctype="faudes::mtcStateMin"> 
+
+<Documentation ref="multitasking_misc.html#MtcStateMin"> 
+State spsce minimisation w.r.t. colored languages
+</Documentation> 
+<Keywords> 
+Multitasking  Functions     "state set conversion"  "minimal state set"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="MtcStateMin(G,GRes)"> 
+<Parameter name="G" ftype="MtcSystem" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcSupConClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcSupConClosed" ctype="faudes::mtcSupConClosed"> 
+
+<Documentation ref="multitasking_synthesis.html#MtcSupConClosed"> 
+Computes the supremal controllable sublanguage.
+</Documentation> 
+<Keywords> 
+Multitasking  Synthesis     controllability  controllable  "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="MtcSupConClosed(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="MtcSystem" access="In"/> 
+<Parameter name="GSpec" ftype="MtcSystem" access="In"/> 
+<Parameter name="GSupervisor" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function MtcSupConNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::MtcSupConNB" ctype="faudes::mtcSupConNB"> 
+
+<Documentation ref="multitasking_synthesis.html#MtcSupConNB"> 
+Supremal controllable sublanguage with colored marking nonblocking condition.
+</Documentation> 
+<Keywords> 
+Multitasking  Synthesis     controllability  controllable  "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="MtcSupConNB(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="MtcSystem" access="In"/> 
+<Parameter name="GSpec" ftype="MtcSystem" access="In"/> 
+<Parameter name="GSupervisor" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function OptimalColorSet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::OptimalColorSet" ctype="faudes::OptimalColorSet"> 
+
+<Documentation ref="multitasking_optcol.html#OptimalColorSet"> 
+Compute an optimal subset of the colors that should be removed.
+</Documentation> 
+<Keywords> 
+Multitasking  misc          "redundant colors"  synthesis     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="OptimalColorSet(GPlant,Colors,SigmaH)"> 
+<Parameter name="GPlant" ftype="MtcSystem" access="In"/> 
+<Parameter name="Colors" ftype="ColorSet" access="Out"/> 
+<Parameter name="SigmaH" ftype="EventSet" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function StronglyCoaccessible -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::StronglyCoaccessible" ctype="faudes::StronglyCoaccessible"> 
+
+<Documentation ref="multitasking_reachability.html#StronglyCoaccessible"> 
+Delete non-stronly-coaccessible states and transitions.
+</Documentation> 
+<Keywords> 
+Multitasking  Reachability  generator     "colored marking"  coaccessible  reachable     
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="G:=StronglyCoAcc(G)"> 
+<Parameter name="G" ftype="MtcSystem" access="InOut"/> 
+</Signature> 
+
+<Signature name="GRes=StronglyCoAcc(GArg)"> 
+<Parameter name="GArg" ftype="MtcSystem" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function StronglyTrim -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Multitasking::StronglyTrim" ctype="faudes::StronglyTrim"> 
+
+<Documentation ref="multitasking_reachability.html#StronglyTrim"> 
+Delete non-strongly-coaccessible and non-accessible states and transitions.
+</Documentation> 
+<Keywords> 
+Multitasking  Reachability  generator     "colored marking"  trim          reachable     
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="G:=StronglyTrim(G)"> 
+<Parameter name="G" ftype="MtcSystem" access="InOut"/> 
+</Signature> 
+
+<Signature name="GRes=StronglyTrim(GArg)"> 
+<Parameter name="GArg" ftype="MtcSystem" access="In"/> 
+<Parameter name="GRes" ftype="MtcSystem" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry> 

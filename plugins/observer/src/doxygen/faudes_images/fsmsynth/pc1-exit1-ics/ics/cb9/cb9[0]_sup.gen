@@ -1,0 +1,52 @@
+<Generator>
+"SupConNB((cb9[0]),(cb9[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((cb9[0]),(cb9[0]_spec))
+% 
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        14
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 10/0/0
+% 
+
+<Alphabet>
+"cb15-9"      +C+           "cb9-15"      +C+           "cb16-9"      +C+           
+"cb9-16"      +C+           "cb9-13"      +C+           "cb13-9"      +C+           
+"cb9+y"       +C+           "cb9-y"       +C+           "cb9stp"      +C+           
+"cb9wpar"     "cb9wplv13"   "cb9wplv15"   "cb9wplv16"   "t_cb9"       +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             12            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb15-9"      2             
+2             "cb9+y"       3             
+3             "t_cb9"       4             
+4             "cb9wpar"     5             
+5             "cb9stp"      6             
+6             "t_cb9"       7             
+7             "cb9-13"      8             
+8             "cb9+y"       9             
+9             "t_cb9"       10            
+10            "cb9wplv13"   11            
+11            "cb9stp"      12            
+12            "t_cb9"       1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

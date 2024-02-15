@@ -1,0 +1,108 @@
+<ReferencePage chapter="Links" section="none" title="libFAUDES - Links">
+
+<h1>Links</h1>
+
+<p>
+We give a rather incomplete  list of sources that we found useful in the development 
+of libFAUDES and related applications. Please feel free to suggest further
+items for this list.
+</p>
+
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<h2>C++/STL</h2>
+
+<p>
+<ul class="l2">
+<li><p> 
+<a href="http://www.cppreference.com/" target="_top">A C++ Reference</a>
+</p></li>
+<li><p> 
+<a href="http://www.parashift.com/c++-faq-lite" target="_top">A C++ FAQ</a>
+</p></li>
+<li><p> 
+<a href="http://www.possibility.com/Cpp/CppCodingStandard.html" target="_top">A C++ Coding Standard</a>
+</p></li>
+<li><p> 
+<a href="http://www.sgi.com/tech/stl/" target="_top">SGI's STL Programmers Guide</a>
+</p></li>
+<li><p>
+<a href="http://www.doxygen.org" target="_top">Doxygen Homepage</a>
+</p></li>
+</ul>
+</p>
+
+
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<h2>Lua Scripting</h2>
+
+<p>
+<ul class="l2">
+<li><p>
+<a href="http://www.lua.org" target="_top">Lua Homepage</a>
+</p></li>
+<li><p>
+<a href="http://lua-users.org/wiki/TutorialDirectory" target="_top">A Lua Tutorial</a>
+</p></li>
+<li><p>
+<a href="http://lua-users.org" target="_top">Lua Wiki</a>
+</p></li>
+<li><p>
+<a href="http://www.swig.org" target="_top">SWIG Homepage</a>
+</p></li>
+</ul>
+</p>
+
+
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<h2>DES Software Tools</h2>
+
+
+<p>
+<ul class="l2">
+<li><p>
+<a href="http://www.eecs.umich.edu/umdes/toolboxes.html">UMDES, DESUMA</a>
+</p></li>
+<li><p>
+<a href="http://www.supremica.org" target="_top">Supremica</a>
+</p></li>
+<li><p>
+<a href="http://altarica.labri.fr/Tools/synthesis/">Synthesis</a>
+</p></li>
+<li><p>
+<a href="http://qshare.queensu.ca/Users01/rudie/www/software.html">IDES</a>
+</p></li>
+<li><p>
+<a href="http://www.rt.eei.uni-erlangen.de/FGdes/destool/index.html">DESTool</a>
+</p></li>
+<li><p>
+<a href="http://www.disc-project.eu/software_platform.html">DISC Software Platform</a>
+</p></li>
+<li><p>
+<a href="http://www.cas.mcmaster.ca/~leduc/DESpot.html">DESPot</a>
+</p></li>
+</ul>
+</p>
+
+<!-------------------------------------------------------->
+<!-------------------------------------------------------->
+<h2>Misc</h2>
+
+<p>
+<ul class="l2">
+<li><p> 
+<a href="http://www.graphviz.org" target="_top">Graphviz Homepage (<tt>dot</tt> and friends)</a>
+</p></li>
+<li><p> 
+<a href="http://www.comedi.org">comedi (Linux control and measurement device interface)</a>
+</p></li>
+</ul>
+</p>
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>

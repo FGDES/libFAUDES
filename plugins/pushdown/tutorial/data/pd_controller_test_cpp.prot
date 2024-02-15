@@ -1,0 +1,45 @@
+%%% test mark: specification [at pd_controller_test.cpp:62]
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/3
+%  Events:        3
+%  Transitions:   2
+%  StateSymbols:  3
+%  Attrib. E/S/T: 1/0/2
+% 
+% 
+% 
+% 
+
+%%% test mark: plant [at pd_controller_test.cpp:84]
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   3
+%  StateSymbols:  3
+%  Attrib. E/S/T: 1/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: controller [at pd_controller_test.cpp:105]
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 1/2/2
+% 
+% 
+% 
+% 
+

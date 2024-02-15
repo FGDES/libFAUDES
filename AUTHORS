@@ -1,0 +1,188 @@
+=======================================================================
+=======================================================================
+
+Major code contributions to libfaudes, in chronological order:
+
+=======================================================================
+=======================================================================
+
+Yiheng Tang, 2022
+
+  Further development of compostional verification
+  
+Michael Meyer / Hao Zhou / Thomas Moor, 2015
+
+  Implementation of function for Compostional verification and 
+  synthesis
+
+Matthias Leinfelder / Thomas Moor, 2014
+
+  Consistency test for hierarchical control
+
+Sven Schneider / Anne-Kathrin Schmuck / Stefan Jacobi, 2013
+
+ Plug-in to support controller synthesis for pushdowm automata 
+
+Thomas Wittmann / Thomas Moor, 2013
+
+ Luafaudes extension infrastructures and functions to support
+ fault-tolerant control 
+
+Thomas Moor 2011
+
+ IoDeveices for process image synchronisation. Currently supported
+ are a propretary serial line protocol as well as Modbus/TCP Master.
+ Extensions to Modbus/TCP Slave should be straight forward and will
+ be implemented on request.
+
+Ulas Turan, Klaus Schmidt, Ece Schmidt 2011
+
+ IoDeveice to interface with the D3RIP protocol family for
+ realtime network communication.
+
+Tomas Masopust 2011
+
+ Initial version of the CoordinationControl plug-in. We wellcome
+ the first non-LRT/FGDes contribution. It also includes an alternative
+ implementation ccTrim which outperforms the naive Trim.
+
+Thomas Wittmann / Thomas Moor, 2010
+
+  I/O System plug-in for (abstraction based) synthesis of 
+  non-complete I/O behaviours.
+
+Thomas Moor, 2010
+
+  Synthesis procedures for omega languages.
+  Data structures for linear hybrid automata.
+
+
+Shi Xiaoxun, 2010
+
+  First version of a hybrid automata plug-in to address
+  reachability and l-complete abstractions.
+
+
+Rainer Hartmann, 2010
+
+  First version of a BDD Synthesis plug-in, including implementations
+  of Parallel and SupConNB based on BDD representations.
+
+
+Thomas Moor, 2009
+
+  Re-orginasation of code to have a synthesis plug-in for all
+  functions related to std Ramadge/Wonham synthesis. Basic test-case
+  management based on tutorials and examples. RTI-transparent extensions
+  by Lua scripts. Vector template to support functions with variable 
+  number of parameters e.g. synchronous product of multiple 
+  generators.
+
+Klaus Schmidt, 2009
+
+  Extensions to the diagnoser plug-in for modular and decentralized
+  diagnoser synthesis
+
+Tobias Barthel / Klaus Schmidt, 2009
+
+  Diognosis plug-in for std monolithic diagnoser synthesis as well as
+  preliminary decentralized extensions.
+
+Thomas Wittmann / Thomas Moor, 2009
+
+  Wago kbus device to extend the iodevice plug-in to provide access to
+  physical events on wago ipc hardware plattform. Wago support on this 
+  project is greatfully acknowledged.
+
+Ruediger Berndt / Thomas Moor, 2009
+
+  First version of a run-time interface to support libFAUDES applications
+  that use the libFAUDES plug-in system transparently. As a side effect,
+  the run-time interface serves as the basis for a user perspective
+  documentation system of libFAUDES data-type as functions. This complements
+  the doxygen documentation of the C++ API.
+
+Thomas Moor, 2008
+
+  Yet another redesign regarding attributes. Plain generators now have no
+  attributes as opposed to void attributes. They have a dummy interface for 
+  attribute access- Generator methods can be more efficiently implemented 
+  to work on generators with or without attributes. As a side effect, the 
+  destructive copy has been implemented to increase efficiency in scripting 
+  environments.
+
+Thomas Moor, 2008
+
+  SWIG based interface generation for luafaudes aka luabindings plug-in.
+  This should minimize the additional code required to enable lua
+  access for other plug-ins.
+
+Thomas Moor / Thomas Wittmann, 2008
+
+  Initial version of the iodevice plug-in for hardware access within
+  the simulator. 
+
+Matthias Singer / Klaus Schmidt 2008
+ 
+  Colored marking plug-in to implement Jose Cury's semantics for
+  multitasking discrete event systems.
+
+Mihai Musunoi, 2008
+
+  Contributions to hierarchical io plug-in.
+
+Thomas Moor, 2008
+
+  Re-design of timed plug-in and an initial version of a simulator plug-in, 
+  based on Ruediger Berndt's and Christoph Doerr's student projects. 
+
+Sebastian Perk, 2008
+
+  Review and revision of regular language operations.
+
+Christian Breindel / Klaus Schmidt, 2007
+
+  Initial version of a plug-in for observer synthesis. 
+
+Thomas Moor, 2007
+
+  Major redesign to keep things simple at the cost of some performance. Changes
+  include: have attributes attached to states, events and transitions; symbolic 
+  state names and indices are interpreted local to the respective generator; new 
+  fileformat requires attributes directly after the respective entity; there are 
+  no non-const refernces to the core members of a generator (states, alphabet, 
+  transitionrelation); common base class to all generators and faudes sets, incl
+  copy-on-write mechanism; there are 30% less lines of code (incl. time plug-in).
+
+Sebastian Perk / Klaus Schmidt / Thomas Moor, 2006
+
+  Introduced plug-in for hierarchical io synthesis (not part of std distribution)
+
+Berno Schlein, 2006
+
+  Initial version of a plug-in for timed automata (not part of std distribution)
+
+Klaus Schmidt / Bernd Opitz, 2006
+
+  Plug-in for decentralized hierarchical synthesis (not part of std distribution)
+
+Klaus Schmidt / Thomas Moor, 2006
+
+  Extended TokenReader to support hierarchically organized fileformat; Introduced 
+  aGenerator (attributed generator) as base of cGenerator
+
+Bernd Opitz, 2005
+
+  The library was developed by Bernd Opitz as a masters project
+  advised by Thomas Moor and Klaus Schmidt at the Lehrstuhl fuer 
+  Regelungstechnik, Universitaet Erlangen. Beyond generally guiding the 
+  thesis, Klaus Schmidt also contributed with code reviews, explaining 
+  algorithms and discussing of design aspects. Several functions, classes, 
+  algorithms and ideas are derived from a predecessor library developed by 
+  Thomas Moor for internal use only. 
+
+  The first libfaudes users, a "Studienprojekt" at the Lehrstuhl fuer 
+  Regelungstechnik, contributed by testing the library code and suggesting 
+  new features.
+
+

@@ -1,0 +1,71 @@
+<Generator>
+"SupConNB((pu2[0]||cb1a[0]),(pu2[0]_...ec||cb1a[0]_spec||cb1apu2[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((pu2[0]||cb1a[0]),(pu2[0]_...ec||cb1a[0]_spec||cb1apu2[0]_spec))
+% 
+%  States:        23
+%  Init/Marked:   1/1
+%  Events:        17
+%  Transitions:   30
+%  StateSymbols:  0
+%  Attrib. E/S/T: 11/0/0
+% 
+
+<Alphabet>
+"sf-cb1"      +C+           "sf-2"        +C+           "cb1stp"      +C+           
+"cb1-x"       +C+           "sf-3"        +C+           "pu2rdy"      +C+           
+"pu2ar+y"     "pu2ar-y"     "pu2lv+y"     "pu2lv-y"     "pu2mv+y"     +C+           
+"pu2mv-y"     +C+           "pu2stp"      +C+           "cb1awplv"    "cb1awpar"    
+"t_cb1a"      +C+           "sf-dep"      +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             23            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "sf-cb1"      2             
+1             "cb1-x"       3             
+2             "cb1-x"       4             
+3             "sf-cb1"      4             
+3             "cb1stp"      1             
+4             "cb1stp"      2             
+4             "cb1awpar"    5             
+5             "cb1stp"      6             
+6             "sf-2"        7             
+6             "sf-3"        8             
+7             "pu2mv+y"     11            
+8             "cb1-x"       9             
+9             "t_cb1a"      10            
+10            "cb1awplv"    3             
+11            "pu2lv-y"     12            
+12            "pu2ar+y"     13            
+12            "cb1awplv"    14            
+13            "pu2stp"      21            
+13            "cb1awplv"    15            
+14            "pu2ar+y"     15            
+15            "pu2stp"      16            
+16            "pu2mv-y"     17            
+17            "pu2lv+y"     18            
+18            "pu2ar-y"     19            
+19            "pu2stp"      20            
+20            "pu2rdy"      1             
+21            "pu2mv-y"     22            
+22            "pu2lv+y"     23            
+22            "cb1awplv"    17            
+23            "cb1awplv"    18            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

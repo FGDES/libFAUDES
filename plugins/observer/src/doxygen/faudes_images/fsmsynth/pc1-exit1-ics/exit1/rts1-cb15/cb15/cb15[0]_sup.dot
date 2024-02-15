@@ -1,0 +1,55 @@
+digraph "SupConNB((cb15[0]),(cb15[0]_spec))" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+  "10";
+  "11";
+  "12";
+  "13";
+  "14";
+  "15";
+  "16";
+  "17";
+  "18";
+  "19";
+  "20";
+
+  // transition relation
+  "1" -> "2" [label="cb7-15"];
+  "2" -> "3" [label="cb15-y"];
+  "3" -> "4" [label="t_modul5\rts1_cb15\cb15"];
+  "4" -> "5" [label="cb15wpar"];
+  "5" -> "6" [label="cb15stp"];
+  "6" -> "7" [label="t_modul5\rts1_cb15\cb15"];
+  "7" -> "8" [label="wp7-15"];
+  "8" -> "9" [label="cb15-9"];
+  "8" -> "10" [label="cb15-rc1"];
+  "9" -> "16" [label="cb15+y"];
+  "10" -> "11" [label="cb15+y"];
+  "11" -> "12" [label="t_modul5\rts1_cb15\cb15"];
+  "12" -> "13" [label="cb15wplvrc1"];
+  "13" -> "14" [label="cb15stp"];
+  "14" -> "15" [label="t_modul5\rts1_cb15\cb15"];
+  "15" -> "1" [label="wp15-rc1"];
+  "16" -> "17" [label="t_modul5\rts1_cb15\cb15"];
+  "17" -> "18" [label="cb15wplv9"];
+  "18" -> "19" [label="cb15stp"];
+  "19" -> "20" [label="t_modul5\rts1_cb15\cb15"];
+  "20" -> "1" [label="wp15-9"];
+};

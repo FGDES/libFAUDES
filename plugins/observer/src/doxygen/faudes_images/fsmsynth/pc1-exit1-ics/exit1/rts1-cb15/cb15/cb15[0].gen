@@ -1,0 +1,84 @@
+<Generator>
+"cb15[0]"     
+
+% 
+%  Statistics for cb15[0]
+%  States:        47
+%  Init/Marked:   1/1
+%  Events:        24
+%  Transitions:   69
+%  StateSymbols:  47
+%  Attrib. E/S/T: 11/0/0
+% 
+
+<Alphabet>
+"cb15+y"      +C+           "cb15-7"      +C+           "cb15-8"      +C+           
+"cb15-9"      +C+           "cb15-rc1"    +C+           "cb15-y"      +C+           
+"cb15f"       "cb15stp"     +C+           "cb15wpar"    "cb15wplv7"   "cb15wplv8"   
+"cb15wplv9"   "cb15wplvrc1" "cb7-15"      +C+           "cb8-15"      +C+           
+"cb9-15"      +C+           "t_modul5\rts1_cb15\cb15" +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"                    
+"15"          "16"          "17"                    "19"          "20"          
+"21"          "23"          "24"          "25"                    
+"27"          "28"          "29"                   "31"          "32"          
+"33"                    "6"           "7"           "8"                      
+  "dummy_21"      "dummy_29"  "dummy_8"     
+</States>
+
+<TransRel>
+"1"           "cb7-15"      "6"           
+"1"           "cb8-15"      "19"          
+"1"           "cb9-15"      "27"          
+"10"          "cb15-7"      "15"          
+"10"          "cb15-8"      "23"          
+"10"          "cb15-9"      "31"          
+"10"          "cb15-rc1"    "11"          
+"11"          "cb15+y"      "12"          
+"12"          "cb15stp"     "11"          
+"12"          "cb15wplvrc1" "13"    
+"13"          "cb15stp"     "1"                   
+"15"          "cb15+y"      "16"          
+"16"          "cb15stp"     "15"          
+"16"          "cb15wplv7" 	"17"    
+"17"          "cb15stp"     "1"                 
+"19"          "cb15-y"      "20"          
+"20"          "cb15stp"     "19"          
+"20"          "cb15wpar" "21"    
+"21"          "cb15stp"     "10"          
+"21"          "t_modul5\rts1_cb15\cb15" "dummy_21"               
+"23"          "cb15+y"      "24"          
+"24"          "cb15stp"     "23"          
+"24"          "cb15wplv8" "25"    
+"25"          "cb15stp"     "1"                 
+"27"          "cb15-y"      "28"          
+"28"          "cb15stp"     "27"          
+"28"          "cb15wpar" "29"    
+"29"          "cb15stp"     "10"          
+"29"          "t_modul5\rts1_cb15\cb15" "dummy_29"              
+"31"          "cb15+y"      "32"          
+"32"          "cb15stp"     "31"          
+"32"          "cb15wplv9" "33"    
+"33"          "cb15stp"     "1"               
+"6"           "cb15-y"      "7"           
+"7"           "cb15stp"     "6"           
+"7"           "cb15wpar" "8"     
+"8"           "cb15stp"     "10"           
+"8"           "t_modul5\rts1_cb15\cb15" "dummy_8"                          
+"dummy_21"    "cb15f"       "20"                                            
+"dummy_29"    "cb15f"       "28"                                          
+"dummy_8"     "cb15f"       "7"                  
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

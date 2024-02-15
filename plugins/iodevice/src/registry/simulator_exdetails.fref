@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Simulator" page="none" title="Simulator - Experiment Details">
+
+<h1>
+Elevator Example - Details
+</h1>
+
+<p>
+This page gathers detailed models, specifications and supervisors
+related to the <i>elevator example</i> from the 
+<a href="simulator_iointro.html">iodevice plug-in</a>.
+Corresponding files are located in <tt>libfaudes/plugin/iodevice/tutorial/data</tt>.
+</p>
+
+<h2>
+<a id="events">
+Signals and Events
+</a>
+</h2>
+
+
+<p>
+The LRT laboratory set-up uses a simple analog circuit to simulate
+the behaviour of the elevator plant. Relevant digital signals
+(over continuous time) are given in the below table.
+The <i>bit address</i> in the first column 
+refers to the wiring of the laboratory set-up.
+</p>
+
+<table class="plain">
+<tr>
+<td> Output  Signals </td>
+<td> Input Signals </td>
+</tr>
+<tr>
+<td valign="top">
+<table class="small_table">
+<tr><th>Name</th>      <th>Comments (active) </th><th>Addr.</th> </tr>
+<tr><td><tt>Y_CM_UP</tt></td> <td>cabin motor on, upwards     </td><td>#0</td> </tr>
+<tr><td><tt>Y_CM_DN</tt></td> <td>cabin motor on, downwards   </td><td>#2</td> </tr>
+<tr><td><tt>Y_DM_OP</tt></td> <td>door motor on, open         </td><td>#4</td> </tr>
+<tr><td><tt>Y_DM_CL</tt></td> <td>door motor on, close        </td><td>#6</td> </tr>
+<tr><td><tt>Y_OL_UP</tt> </td> <td>button led, upper level, on</td><td>#8</td> </tr>
+<tr><td><tt>Y_OL_LW</tt> </td> <td>button led, lower level, on</td><td>#10</td> </tr>
+<tr><td> &nbsp; </td></tr>
+</table>
+</td>
+<td valign="top">
+<table class="small_table">
+<tr><th>Name</th>      <th>Comments (active) </th><th>Addr.</th> </tr>
+<tr><td><tt>U_CS_UP</tt> </td> <td>cabin sensor, upper position</td><td>#6</td> </tr>
+<tr><td><tt>U_CS_LW</tt> </td> <td>cabin sensor, lower position</td><td>#4</td> </tr>
+<tr><td><tt>U_DS_OP</tt> </td> <td>door sensor, open           </td><td>#10</td> </tr>
+<tr><td><tt>U_DS_CL</tt> </td> <td>door sensor, closed         </td><td>#8</td> </tr>
+<tr><td><tt>U_OB_UP</tt> </td> <td>upper button pressed        </td><td>#12</td> </tr>
+<tr><td><tt>U_OB_LW</tt> </td> <td>lower button pressed        </td><td>#14</td> </tr>
+<tr><td><tt>U_DS_LB</tt> </td> <td>light barrier occupied      </td><td>#16</td> </tr>
+</table>
+</td>
+</tr>
+</table>
+
+
+<p>
+Relevant discrete events by definition correspond to edges on the above signals.
+An event that is triggered by the plant is called an <i>input event</i>.
+An event that must be triggered externally (e.g. by the supervisor) is called
+an <i>output event</i>. The below tables specify the correspondence between edges
+of signals and output- and input events.
+</p>
+<p>
+Cabin
+</p>
+
+<table class="plain"><tr><td>
+<table class="small_table">
+<tr><th>Event</th> <th>Type</th><th>Trigger/Action</th> <th>Comments</th></tr>
+<tr>
+<td><tt>c_up</tt></td>
+<td>output</td>
+<td>clear <tt>Y_CM_DN</tt>, set <tt>Y_CM_UP</tt></td> 
+<td>activate cabin motor, upwards</td>
+</tr>
+<tr>
+<td><tt>c_down</tt></td>
+<td>output</td>
+<td>clear <tt>Y_CM_UP</tt>, set <tt>Y_CM_UP</tt></td>
+<td>activate cabin motor, downwards</td>
+</tr>
+<tr>
+<td><tt>c_stp</tt></td>
+<td>output</td>
+<td>clear <tt>Y_CM_DN</tt>, clear <tt>Y_CM_UP</tt></td>
+<td>stop cabin motor</td>
+</tr>
+<tr>
+<td><tt>c_arup</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_CS_UP</tt> </td>
+<td>cabin arrives at upper sensor</td>
+</tr>
+<tr>
+<td><tt>c_lvup</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>U_CS_UP</tt> </td>
+<td>cabin leaves upper sensor</td>
+</tr>
+<tr>
+<td><tt>c_arlw</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_CS_LW</tt> </td>
+<td>cabin arrives at lower sensor</td>
+</tr>
+<tr>
+<td><tt>c_lvlw</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>U_CS_LW</tt> </td>
+<td>cabin leaves lower sensor</td>
+</tr>
+</table>
+</td></tr></table>
+
+<p>
+Door
+</p>
+
+<table class="plain"><tr><td>
+<table class="small_table">
+<tr><th>Event</th> <th>Type</th><th>Trigger/Action</th> <th>Comments</th></tr>
+<tr>
+<td><tt>d_open</tt></td>
+<td>output</td>
+<td>clear <tt>Y_DM_OP</tt>, set <tt>Y_DM_CL</tt></td> 
+<td>activate door motor to open</td>
+</tr>
+<tr>
+<td><tt>d_close</tt></td>
+<td>output</td>
+<td>clear <tt>Y_DM_CL</tt>, set <tt>Y_DM_OP</tt></td>
+<td>activate door motor to close</td>
+</tr>
+<tr>
+<td><tt>d_stp</tt></td>
+<td>output</td>
+<td>clear <tt>Y_DM_OP</tt>, clear <tt>Y_DM_CL</tt></td>
+<td>stop door motor</td>
+</tr>
+<tr>
+<td><tt>d_arop</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_DS_OP</tt></td>
+<td>door arrives at sensor open</td>
+</tr>
+<tr>
+<td><tt>d_lvop</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>U_DS_OP</tt></td>
+<td>door leaves sensor open</td>
+</tr>
+<tr>
+<td><tt>d_arcl</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_DS_CL</tt> </td>
+<td>door arrives at sensor closed</td>
+</tr>
+<tr>
+<td><tt>d_lvcl</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>U_DS_CL</tt> </td>
+<td>door leaves sensor closed</td>
+</tr>
+<tr>
+<td><tt>d_lbbl</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_DS_LB</tt> </td>
+<td>light barrier blocked</td>
+</tr>
+<tr>
+<td><tt>d_lbrl</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>U_DS_LB</tt> </td>
+<td>light barrier released</td>
+</tr>
+</table>
+</td></tr></table>
+
+<p>
+Operator
+</p>
+
+<table class="plain"><tr><td>
+<table class="small_table">
+<tr><th>Event</th> <th>Type</th><th>Trigger/Action</th> <th>Comments</th></tr>
+<tr>
+<td><tt>o_upb</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_OB_UP</tt> </td>
+<td>upper button pressed</td>
+</tr>
+<tr>
+<td><tt>o_lwb</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_OB_LW</tt> </td>
+<td>lower button pressed</td>
+</tr>
+<tr>
+<td><tt>o_uplon</tt></td>
+<td>output</td>
+<td>set <tt>U_OL_UP</tt></td> 
+<td>illuminate upper button</td>
+</tr>
+<tr>
+<td><tt>o_uploff</tt></td>
+<td>output</td>
+<td>clear <tt>U_OL_UP</tt></td> 
+<td>turn off upper button light</td>
+</tr>
+<tr>
+<td><tt>o_lwlon</tt></td>
+<td>output</td>
+<td>set <tt>U_OL_LW</tt></td> 
+<td>illuminate lower button</td>
+</tr>
+<tr>
+<td><tt>o_lwlnoff</tt></td>
+<td>output</td>
+<td>clear <tt>U_OL_LW</tt></td> 
+<td>turn off lower button light</td>
+</tr>
+</table>
+</td></tr></table>
+
+<h2>
+<a id="devconfig">
+Device Configuration
+</a>
+</h2>
+
+
+<p>
+The LRT laboratory set-up uses two Advantech PCI boards for digital IO,
+one of them providing 64 input signals, the other 64 output signals. Signals are accessed
+through the <a href="http://www.comedi.org">comedi framework</a>, 
+where we use the system device files
+<tt>/dev/comedi0</tt> and <tt>/dev/comedi1</tt>. 
+The below iodevice configuration introduces events to libFAUDES
+according to the above definition. Signals referenced by a
+bits address, where each board uses a range from 0 to 63.
+</p>
+
+<pre>
+&lt;DeviceContainer name="LrtElevatorPIO"&gt; 
+
+&lt;!-- Common time scale in ms/ftiu --&gt;
+&lt;TimeScale value="10"/&gt; 
+
+&lt;!-- List of devices --&gt;
+&lt;Devices&gt; 
+
+&lt;!-- Device for Input signals resp. events --&gt;
+&lt;ComediDevice name="LrtElevatorInput"&gt; 
+
+&lt;!-- Sample interval for edge detection in ns --&gt;
+&lt;SampleInterval value="100"/&gt; 
+
+&lt;!-- Sytem device file --&gt;
+&lt;DeviceFile value="/dev/comedi0"/&gt; 
+
+&lt;!-- Trigger based event definitition to follow --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;!-- Cabin sensor: arrive at upper position --&gt;
+&lt;Event name="c_arup" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="6"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Cabin sensor: leave upper position --&gt;
+&lt;Event name="c_lvup" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="6"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Cabin sensor: arrive at lower position --&gt;
+&lt;Event name="c_arlw" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="4"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Cabin sensor: leave lower position --&gt;
+&lt;Event name="c_lvlw" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="4"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door sensor: door reached closed position --&gt;
+&lt;Event name="d_arcl" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="8"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door sensor: door leaving closed position --&gt;
+&lt;Event name="d_lvcl" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="8"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door sensor: door recahed open position --&gt;
+&lt;Event name="d_arop" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="10"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door sensor: door leaving open position --&gt;
+&lt;Event name="d_lvop" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="10"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door sensor: light break occupied --&gt;
+&lt;Event name="d_lbbl" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="16"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door sensor: light break released --&gt;
+&lt;Event name="d_lbrl" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="16"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Opertor sensor: upper button pressed --&gt;
+&lt;Event name="o_upb" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="12"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Opertor sensor: lower button pressed --&gt;
+&lt;Event name="o_lwb" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="14"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;/EventConfiguration&gt; 
+&lt;/ComediDevice&gt; 
+
+
+
+&lt;!-- Device for Output signals resp. events --&gt;
+&lt;ComediDevice name="LrtElevatorOuput"&gt; 
+
+&lt;!-- Sample interval for edge detection in ns --&gt;
+&lt;SampleInterval value="100"/&gt; 
+
+&lt;!-- Sytem device file --&gt;
+&lt;DeviceFile value="/dev/comedi1"/&gt; 
+
+&lt;!-- Action based event definitition to follow --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;!-- Cabin actuator: stop motor  --&gt;
+&lt;Event name="c_stp" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="0"/&gt; &lt;Clr address="2"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Cabin actuator: move upwards --&gt;
+&lt;Event name="c_up" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="2"/&gt; &lt;Set address="0"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Cabin actuator: move downwards --&gt;
+&lt;Event name="c_down" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="0"/&gt; &lt;Set address="2"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door actuator: stop motor  --&gt;
+&lt;Event name="d_stp" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="4"/&gt; &lt;Clr address="6"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door actuator: run motor to open  --&gt;
+&lt;Event name="d_open" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="6"/&gt; &lt;Set address="4"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Door actuator: run motor to close  --&gt;
+&lt;Event name="d_close" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="4"/&gt; &lt;Set address="6"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Operator actuator: illuminate button upstairs --&gt;
+&lt;Event name="o_uplon" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Set address="8"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Operator actuator: turn of upstairs button-light --&gt;
+&lt;Event name="o_uploff" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="8"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Operator actuator: illuminate button downstairs --&gt;
+&lt;Event name="o_lwlon" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Set address="10"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Operator actuator: turn off downstairs button-light --&gt;
+&lt;Event name="o_lwloff" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="10"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;/EventConfiguration&gt; 
+&lt;/ComediDevice&gt; 
+
+&lt;/Devices&gt; 
+&lt;/DeviceContainer&gt; 
+</pre>
+
+
+<h2>
+<a id="plant">
+Plant Model
+</a>
+</h2>
+
+<p>
+Our plant model is organized in four components,
+namely <fimath>G_{cabin}</fimath>,
+<fimath>G_{door}</fimath>, and
+<fimath>G_{lbarrier}</fimath>, and
+<fimath>G_{operator</fimath>, each
+referring to the respective alphabet.
+</p>
+
+
+<table class="plain"> 
+<tr> <td> Cabin <fimath>G_{cabin}</fimath> </td> </tr> 
+<tr>
+<td> <fimage fsrc="tmp_elevator_plant_cabin"/> </td>
+</tr>
+<tr> <td> Door <fimath>G_{door}</fimath> </td> </tr>
+ 
+<tr> <td> <fimage fsrc="tmp_elevator_plant_door"/> </td>
+</tr>
+
+<tr> <td> Light barrier <fimath>G_{lbarrier}</fimath> </td> </tr> 
+
+<tr><td> <fimage fsrc="tmp_elevator_plant_lbarrier"/></td>
+</tr>
+
+</table> 
+
+<p>
+Operator events are the push buttons incl. illumination.
+The operator model <fimath>G_{operator</fimath> realises the corresponding 
+full language.
+</p>
+
+<h2>
+<a id="spec">
+Specification
+</a>
+</h2>
+
+
+<p>
+<fimath>E_{opcmds}</fimath>: 
+We sense the operator button to enable cabin activity. 
+The internal events <tt>a_*</tt> are introduced to simplify 
+synchronisation with further specification components.
+<br/>
+<fimage fsrc="tmp_elevator_spec_opcmds"/> 
+</p>
+
+<p>
+<fimath>E_{cabmot}</fimath>: 
+Cabin movement must not be interupted until the 
+upper or lower position is reached. Note that this specification
+also introduces that <tt>a_done</tt> can only occur after 
+the cabin did perform some shuttle operation.
+<br/>
+<fimage fsrc="tmp_elevator_spec_cabmots"/>
+</p>
+
+<p>
+<fimath>E_{drmot1}</fimath>:
+Similar to the cabin motion as specified by <fimath>E_{cabmot}</fimath>,
+the door motion specification requires the door to either open or close and
+to stop once the goal is accomplished. 
+However, the we allow the closing operation to fail to accomodate for 
+the light barrier. The internal events <tt>a_close</tt> and
+<tt>a_open</tt> to indicate the outcome of a door operation.
+<br/>
+<fimage fsrc="tmp_elevator_spec_drmot1"/> 
+</p>
+
+
+
+<p>
+<fimath>E_{scheds}</fimath>: The top level schedule enables cabin movement
+once the door has been closed. After cabin movement, 
+the door is to be opened.
+<br/>
+<fimage fsrc="tmp_elevator_spec_scheds"/> 
+</p>
+
+
+<p>
+<fimath>E_{drsaf1}</fimath>:
+The first safety requirement to the door is that it must not be open
+when the cabin moves.
+<br/>
+<fimage fsrc="tmp_elevator_spec_drsaf1"/> 
+</p>
+<p>
+
+<fimath>E_{drsaf2}</fimath>:
+The second safety requirement to the door is that 
+it must re-open when the light barrier becomes blocked during closing.
+<br/>
+<fimage fsrc="tmp_elevator_spec_drsaf2"/> 
+</p>
+
+<h2>
+<a id="script">
+Controller Synthesis
+</a>
+</h2>
+
+<p>
+Controller synthesis for the entire elevator setup is performed by the <tt>luafaudes</tt>
+script <tt>elevator_synthesis.lua</tt> from the iodevice plug-in tutorial.
+</p>
+
+<pre>
+-------------------------------------------------------------------------------
+-- read files
+-------------------------------------------------------------------------------
+
+-- report
+print("elevator: reading plant and specification data")
+
+-- load plant components from file
+plant_cabin    = faudes.Generator("data/elevator_plant_cabin.gen")
+plant_door     = faudes.Generator("data/elevator_plant_door.gen")
+plant_lbarrier = faudes.Generator("data/elevator_plant_lbarrier.gen")
+plant_buttons  = faudes.Generator("data/elevator_plant_buttons.gen")
+plant_leds     = faudes.Generator("data/elevator_plant_leds.gen")
+
+-- load specification components from file
+spec_opcmd   = faudes.Generator("data/elevator_spec_opcmd.gen")
+spec_opcmds  = faudes.Generator("data/elevator_spec_opcmds.gen")
+spec_opled   = faudes.Generator("data/elevator_spec_opled.gen")
+spec_cabmot  = faudes.Generator("data/elevator_spec_cabmot.gen")
+spec_cabmots = faudes.Generator("data/elevator_spec_cabmots.gen")
+spec_drmot1  = faudes.Generator("data/elevator_spec_drmot1.gen")
+spec_drsaf1  = faudes.Generator("data/elevator_spec_drsaf1.gen")
+spec_drsaf2  = faudes.Generator("data/elevator_spec_drsaf2.gen")
+spec_scheds  = faudes.Generator("data/elevator_spec_scheds.gen")
+
+-- dont name states
+faudes.StateNamesOff();
+
+-------------------------------------------------------------------------------
+-- build plant model
+-------------------------------------------------------------------------------
+
+-- report
+print("elevator: build pant model")
+
+-- prepare plant model
+plant_full = faudes.Generator() 
+plant_full_min = faudes.Generator()
+
+-- build full model consisting of cabin, door and operator
+faudes.Parallel(plant_full,plant_cabin,plant_full)
+faudes.Parallel(plant_full,plant_door,plant_full)
+faudes.Parallel(plant_full,plant_lbarrier,plant_full)
+faudes.Parallel(plant_full,plant_buttons,plant_full)
+faudes.Parallel(plant_full,plant_leds,plant_full)
+
+-- have a sensible name
+plant_full:Name("elevator full plant (cabin plus buttons)")
+
+-- get eventset of plant model
+plant_full_alphabet = faudes.EventSet(plant_full:Alphabet())
+
+-- reduce state space 
+faudes.StateMin(plant_full,plant_full_min)
+
+-- write to file
+plant_full_min:Write("tmp_elevator_plant_full.gen")
+
+-------------------------------------------------------------------------------
+-- build specification
+-------------------------------------------------------------------------------
+
+-- report
+print("elevator: build specification")
+
+-- prepare overall specification
+spec_full = faudes.Generator()
+spec_full_min = faudes.Generator()
+
+-- compose overall specification
+faudes.Parallel(spec_full,spec_opcmds,spec_full)
+faudes.Parallel(spec_full,spec_scheds,spec_full)
+faudes.Parallel(spec_full,spec_opled,spec_full)
+faudes.Parallel(spec_full,spec_cabmots,spec_full)
+faudes.Parallel(spec_full,spec_drmot1,spec_full)
+faudes.Parallel(spec_full,spec_drsaf1,spec_full)
+faudes.Parallel(spec_full,spec_drsaf2,spec_full)
+faudes.StateMin(spec_full,spec_full_min)
+
+-- write to file
+spec_full_min:Write("tmp_elevator_spec_full.gen")
+
+
+-------------------------------------------------------------------------------
+-- build synthesis
+-------------------------------------------------------------------------------
+
+-- report
+print("elevator: synthesis")
+
+-- match plant and spec alphabets
+alphabet_full = faudes.EventSet();
+alphabet_plant_extra = faudes.EventSet();
+faudes.AlphabetUnion(plant_full:Alphabet(),spec_full:Alphabet(),alphabet_full);
+faudes.AlphabetDifference(alphabet_full,plant_full:Alphabet(),alphabet_plant_extra);
+faudes.InvProject(spec_full_min,alphabet_full);
+faudes.InvProject(plant_full_min,alphabet_full);
+
+-- extra events in the specification are controllable
+plant_full_min:SetControllable(alphabet_plant_extra);
+
+-- compute supervisor for full elevator setup
+super_full = faudes.Generator();
+super_full_min = faudes.Generator();
+faudes.SupConNB(plant_full_min,spec_full_min,super_full)
+super_full:Name("elevator supervisor (full)")
+faudes.StateMin(super_full,super_full_min)
+
+-- write to file
+super_full_min:Write("tmp_elevator_super_full.gen")
+
+-- report
+print("elevator: full supervisor statistics")
+super_full_min:WriteStatistics()
+
+</pre>
+
+<table class="plain"> 
+<tr> <td> Resulting Supervisor  <fimath>S_{full}</fimath> </td> </tr> 
+<tr> <td> <fimage fsrc="tmp_elevator_super_full"/> </td> </tr>
+</table>
+
+
+
+
+<h2>
+<a id="simulation">
+Simulation
+</a>
+</h2>
+
+<p>
+A shell script <tt>elevator_simulation.sh</tt> and a configuration file <tt>elevator_supervisor.sim</tt> are 
+prepared to run a simulation on the supervisor. The simulation also includes the plant components
+<fimath>Gcabin</fimath> and <fimath>Gdoor</fimath> to monitor the plant state. The below log shows the elevator
+moving from the the lower level to the upper level incl. door operations.
+</p>
+
+<pre>
+$ cd ./libfaudes/plugins/iodevice/tutorial
+$ ./elevator_simulation.sh -v
+% simfaudes: ========================================== found generator #1: cabin
+% simfaudes: ========================================== found generator #2: door
+% simfaudes: ========================================== found generator #3: supervisor (full)
+...
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "IdleOp"      1              &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== enabled events:
+&lt;EnabledEvents&gt; "d_lbbl"      "o_upb"       "o_lwb"        &lt;/EnabledEvents&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command:
+</pre>
+
+<p>
+The simulator starts in its initial state, where the first two components refer to the cabin and the door respectively.
+The third component is the supervisor state. All enabled events are input events and cofigured to have a negative priority.
+Hence, the simulation will not propose to execute either of them automatically. We decide to manually issue
+a <tt>o_upb</tt> event, i.e. the operator presses the upper button. The simulator proposes to execute
+the synchronisation event <tt>a_start</tt> and to turn on the button lights. We accept the proposal by hitting the return key. 
+</p> 
+
+<pre>
+% simfaudes: ========================================== enter command: o_upb
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "IdleOp"      34             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "a_start" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: a_start
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "IdleOp"      69             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "o_uplon" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: o_uplon
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "IdleOp"      30             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "o_lwlon" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: o_lwlon
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "IdleOp"      64             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "d_close" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command:
+</pre>
+
+<p>
+In the remaining log, the simulator closes the door, drives the cabin upstairs and opens
+the door again. 
+As above, input events must be chosen manually, output events are proposed by the simulator.
+The simulation ends with door opened and the cabin upstairs, while waiting for input events (e.g. an operator button).
+</p>
+
+<pre>
+% simfaudes: ========================================== execute event: d_close
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "CloseOp"     16             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command: d_lvop
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "CloseMd"     55             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command: d_arcl
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "CloseCl"     26             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "d_stp" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: d_stp
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "IdleCl"      27             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "a_close" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: a_close
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleLw"      "IdleCl"      2              &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "c_up" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: c_up
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "UpLw"        "IdleCl"      8              &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action: 
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command: c_lvlw
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "UpMd"        "IdleCl"      81             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command: c_arup
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "UpUp"        "IdleCl"      100            &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "c_stp" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: c_stp
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "IdleCl"      25             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "d_open" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: d_open
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "OpenCl"      98             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command: d_lvcl
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "OpenMd"      57             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command: d_arop
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "OpenOp"      90             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "d_stp" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: d_stp
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "IdleOp"      40             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "a_open" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: a_open
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "IdleOp"      82             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "a_done" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: a_done
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "IdleOp"      49             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action: 
+&lt;ProposedEvent&gt; "o_uploff" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: o_uploff
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "IdleOp"      76             &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedEvent&gt; "o_lwloff" &lt;/ProposedEvent&gt;
+% simfaudes: ========================================== enter command: o_lwloff
+% simfaudes: ========================================== current state:
+&lt;DiscreteState&gt; "IdleUp"      "IdleOp"      3              &lt;/DiscreteState&gt; 
+% simfaudes: ========================================== proposed action:
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt;
+% simfaudes: ========================================== enter command:
+</pre>
+
+</ReferencePage>
+
+  

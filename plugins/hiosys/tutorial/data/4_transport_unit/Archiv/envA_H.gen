@@ -1,0 +1,68 @@
+<Generator> "environmentA_H"
+
+<Alphabet>
+"req_fl_A_H" "req_tr_A_H" "nack_A_H" "pack_A_H"
+
+"req_fl_EFGH" "req_tr_EFGH"
+"nack_EFGH" "pack_EFGH"
+
+"req_fl_ABCD" "req_tr_ABCD"
+"nack_ABCD" "pack_ABCD"
+</Alphabet>
+
+<States>
+"Start" 
+"rqflABCD_1" "rqflABCD_2" "rqflABCD_3" "rqflABCD_4"
+"rqtrEFGH_1" "rqtrEFGH_2" "rqtrEFGH_3" "rqtrEFGH_4"
+"rqflEFGH"
+"rqtrABCD_1" "rqtrABCD_2" "rqtrABCD_4"
+"err_UE"
+</States>
+
+<TransRel>
+"Start" "req_fl_ABCD" "rqflABCD_1"
+"Start" "req_tr_EFGH" "rqtrEFGH_1"
+"Start" "req_fl_EFGH" "rqflEFGH"
+"Start" "req_tr_ABCD" "rqtrABCD_1"
+
+"rqflABCD_1" "req_fl_A_H" "rqflABCD_2"
+"rqflABCD_2" "pack_A_H" "rqflABCD_3"
+"rqflABCD_2" "nack_A_H" "rqflABCD_4"
+"rqflABCD_3" "pack_ABCD" "Start"
+"rqflABCD_4" "nack_ABCD" "Start"
+
+"rqtrEFGH_1" "req_tr_A_H" "rqtrEFGH_2"
+"rqtrEFGH_2" "pack_A_H" "rqtrEFGH_3"
+"rqtrEFGH_2" "nack_A_H" "rqtrEFGH_4"
+"rqtrEFGH_3" "pack_EFGH" "Start"
+"rqtrEFGH_4" "nack_EFGH" "Start"
+
+"rqflEFGH" "nack_EFGH" "Start"
+
+"rqtrABCD_1" "pack_ABCD" "rqtrABCD_2"
+"rqtrABCD_2" "req_fl_EFGH" "rqtrABCD_4"
+"rqtrABCD_2" "req_tr_ABCD" "err_UE"
+"rqtrABCD_2" "req_fl_ABCD" "err_UE"
+"rqtrABCD_2" "req_tr_EFGH" "err_UE"
+"rqtrABCD_4" "pack_EFGH" "Start"
+
+"err_UE" "nack_EFGH" "rqtrABCD_2"
+"err_UE" "nack_ABCD" "rqtrABCD_2"
+
+</TransRel>
+
+<InitStates>
+"Start"         
+</InitStates>
+
+<MarkedStates>
+"Start" 
+"rqflABCD_1" "rqflABCD_2" "rqflABCD_3" "rqflABCD_4"
+"rqtrEFGH_1" "rqtrEFGH_2" "rqtrEFGH_3" "rqtrEFGH_4"
+"rqflEFGH"
+"rqtrABCD_1" "rqtrABCD_2" "err_UE" "rqtrABCD_4"
+</MarkedStates>
+
+</Generator>
+
+

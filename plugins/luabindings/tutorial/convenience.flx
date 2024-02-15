@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE LuaExtension SYSTEM "http://www.faudes.org/dtd/1.0/luaextension.dtd">
+<!-- flxinstall libFAUDES 2.21c -->
+<LuaExtension name="Convenience">
+
+
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- reference page from source "convenience/convenience_index.fref" -->
+
+
+<ReferencePage chapter="Reference" section="Convenience" page="Index" title="Convenience Functions">
+
+
+<h1>Convenience Functions</h1>
+
+<p>
+This LuaExtension is used to collect functions that 
+are meant to simplify common tasks in discrete event 
+system design. It's a developers scratch-pad: anything that
+turns out useful indeed will be implemented in the
+respective plug-in
+</p>
+ 
+<p>
+<br></br>
+<br></br>
+Copyright (C) 2011, Thomas Moor.
+<br></br>
+<br></br>
+</p>
+
+
+
+<ffnct_reference name="StdSynthesis"></ffnct_reference>
+
+
+</ReferencePage>
+
+
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- tutorial from source "convenience/convenience_tutorial.lua" -->
+
+
+<LuaTutorial name="convenience_tutorial.lua">
+
+<![CDATA[
+-- Test/demonstrate conveninece function for std synthesis
+
+-- ------------------------------------------
+-- Prepare plant model: two simple machines
+-- ------------------------------------------
+
+-- Read original machine
+machine  = faudes.System("data/verysimplemachine.gen")
+
+-- Prepare two versions
+machine1 = faudes.System()
+machine2 = faudes.System()
+faudes.Version(machine,"1",machine1)
+faudes.Version(machine,"2",machine2)
+
+-- Container of components
+plantvect = faudes.GeneratorVector()
+plantvect:Append(machine1)
+plantvect:Append(machine2)
+
+-- ------------------------------------------
+-- Prepare specification
+-- ------------------------------------------
+
+-- Load specification
+spec = faudes.Generator("data/buffer.gen")
+
+-- Container of components
+specvect = faudes.GeneratorVector()
+specvect:Append(spec)
+
+-- ------------------------------------------
+-- Run synthesis procedure
+-- ------------------------------------------
+
+super=faudes.System()
+faudes.StdSynthesis(plantvect,specvect,super)
+super:Name("supervisor")
+
+-- ------------------------------------------
+-- Report
+-- ------------------------------------------
+
+super:Write()
+
+-- Report test case
+print("Expected closed loop statistics: 6 states, 8 transitions");
+super:SWrite()
+
+-- Record test case
+FAUDES_TEST_DUMP("supervisor",super)
+
+-- ------------------------------------------
+-- Test
+-- ------------------------------------------
+FAUDES_TEST_DIFF()
+
+]]>
+</LuaTutorial>
+
+
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- data from source "convenience/data" -->
+
+
+<DataFile name="buffer.gen">
+=PEdlbmVyYXRvcj4KCiJidWZmZXIiCgo8QWxwaGFiZXQ+CiJhbHBoYV8yIiAiYmV0YV8xIgo8L0FscGhhYmV0PgoKPFN0YXRlcz4KIkUiICJGIgo8L1N0YXRlcz4KCjxUcmFuc1JlbD4KIkUiICJiZXRhXzEiICJGIgoiRiIgImFscGhhXzIiICJFIgo8L1RyYW5zUmVsPgoKPEluaXRTdGF0ZXM+CiJFIgo8L0luaXRTdGF0ZXM+Cgo8TWFya2VkU3RhdGVzPgoiRSIgCjwvTWFya2VkU3RhdGVzPgoKCjwvR2VuZXJhdG9yPg=== 
+</DataFile>
+<DataFile name="convenience_tutorial_lua.prot">
+=JSUlIHRlc3QgbWFyazogc3VwZXJ2aXNvciBbYXQgY29udmVuaWVuY2VfdHV0b3JpYWwubHVhXQolIAolICBTdGF0aXN0aWNzIGZvciBzdXBlcnZpc29yCiUgCiUgIFN0YXRlczogICAgICAgIDYKJSAgSW5pdC9NYXJrZWQ6ICAgMS8xCiUgIEV2ZW50czogICAgICAgIDQKJSAgVHJhbnNpdGlvbnM6ICAgOAolICBTdGF0ZVN5bWJvbHM6ICA2CiUgIEF0dHJpYi4gRS9TL1Q6IDIvMC8wCiUgCiUgCiUgCiUgCgo== 
+</DataFile>
+<DataFile name="verysimplemachine.gen">
+=PEdlbmVyYXRvcj4KInZlcnkgc2ltcGxlIG1hY2hpbmUiCgo8QWxwaGFiZXQ+CiJhbHBoYSIgK0MrICJiZXRhIiAKPC9BbHBoYWJldD4KCjxTdGF0ZXM+CiJJIiAiQiIgCjwvU3RhdGVzPgoKPFRyYW5zUmVsPgoiSSIgImFscGhhIiAiQiIKIkIiICJiZXRhIiAiSSIKPC9UcmFuc1JlbD4KCjxJbml0U3RhdGVzPgoiSSIKPC9Jbml0U3RhdGVzPgoKPE1hcmtlZFN0YXRlcz4KIkkiCQkKPC9NYXJrZWRTdGF0ZXM+Cgo8L0dlbmVyYXRvcj4KCg=== 
+</DataFile>
+
+
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- ================================================================================ -->
+<!-- lua function from source "convenience/stdsynthesis.rti" -->
+
+
+<LuaFunctionDefinition name="Convenience::StdSynthesis">
+
+<Documentation ref="convenience_index.html#StdSynthesis"> 
+Convenience function for standard synthesis procedure.
+</Documentation>
+<Keywords> "Convenience" "synthesis" "controllable sublanguage" </Keywords>
+
+<VariantSignatures>
+<Signature name="StdSynthesis(GPlant,GSpec,GSuper)">
+<Parameter name="GPlant" ftype="System" access="In"></Parameter>
+<Parameter name="GSpec" ftype="Generator" access="In"></Parameter>
+<Parameter name="GSuper" ftype="System" access="Out"></Parameter>
+</Signature>
+<Signature name="StdSynthesis([GPlant_i],[GSpec_i],GSuper)">
+<Parameter name="[GPlant_i]" ftype="GeneratorVector" access="In"></Parameter>
+<Parameter name="[GSpec_i]" ftype="GeneratorVector" access="In"></Parameter>
+<Parameter name="GSuper" ftype="System" access="Out"></Parameter>
+</Signature>
+</VariantSignatures>
+
+<LuaCode> 
+ 
+<![CDATA[
+
+-- Extension reports on loading
+faudes.Print('luaextension: StdSynthesis: loading')
+
+-- Define my function (mangled version of first variant name)
+function faudes.StdSynthesis_GPlant_GSpec_GSuper(GPlant,GSpec,GSuper)
+
+-- Figure overall alphabet
+local sigma
+sigma=GPlant:Alphabet():Copy()
+sigma:InsertSet(GSpec:Alphabet())
+
+-- Reinterpret input data w.r.t. overall alphabet
+local gPlantFull, gSpecFull
+gPlantFull=GPlant
+gSpecFull=GSpec
+if GPlant:Alphabet() ~= sigma then
+  faudes.InvProject(GPlant,sigma,gPlantFull)
+end
+if GSpec:Alphabet() ~= sigma then
+  faudes.InvProject(GSpec,sigma,gSpecFull)
+end
+
+-- Perform synthesis
+faudes.SupConNB(gPlantFull,gSpecFull,GSuper)				   
+
+-- End of function definition
+end
+
+
+-- Define my function (mangled version of second variant name)
+function faudes.StdSynthesis_GPlant_i_GSpec_i_GSuper(GPlantVect,GSpecVect,GSuper)
+
+-- Compose plant components
+local plant
+plant=faudes.System()
+faudes.Parallel(GPlantVect,plant)
+
+-- Compose spec components
+local spec
+spec=faudes.Generator()
+faudes.Parallel(GSpecVect,spec)
+
+-- Run procedure
+faudes.StdSynthesis_GPlant_GSpec_GSuper(plant,spec,GSuper)
+
+-- End of function definition
+end
+
+]]>
+
+</LuaCode>
+
+</LuaFunctionDefinition>
+
+
+</LuaExtension>

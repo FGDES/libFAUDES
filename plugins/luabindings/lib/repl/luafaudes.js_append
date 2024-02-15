@@ -1,0 +1,163 @@
+/*
+
+This file is a modified version taken from http://repl.it
+(see extern/lua/entry_point.js)
+
+The original file is tagged "MIT license", with principle
+authors Amjad Masad and Max Shawabkeh. The adaptions to libfaudes
+are trivial and should not affect copyright/license.
+
+Copyright (c) Max Shawabkeh, Amjad Masad, and others 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+Module['Lua'] = {
+  isInitialize: null,
+  state: null,
+  streamName: null,
+  faudesversion: null,
+  reportError: function (message) { Module.print(message); },
+
+  // parses Lua code and load it on the Lua stack,
+  // returns error flag and error string
+  parse: function (command) {
+    // try to interpret plain command
+    success = (Module.luaL_loadbuffer(this.state, command, this.streamName) ==0);
+    if(success) return {error: false, errstr: '', expr: false};
+    // save error message
+    var msg = this.popStack();
+    if (!msg.length) msg = '[parse error]';
+    // try to interpret the command as an expression
+    var expression = 'return ' + command;
+    // fix "=x" synthax explicitly asking for the result
+    if (command.match(/^=(?!=)/)) expression = 'return ' + command.slice(1);
+    // load the expression
+    var success = (Module.luaL_loadbuffer(this.state, expression, this.streamName) == 0);
+    if(success) return {error: false, errstr: '', expr: true};
+    this.popStack();
+    return {error: true, errstr: msg, expr: false};
+  },
+
+  // return the string representation of the value at the top of the Lua stack.
+  popStack: function () {
+    var ret;
+    var type = Module.lua_type(this.state, -1);
+    switch (type) {
+      case -1:  // LUA_TNONE
+      case 0:   // LUA_TNIL
+        ret = null;
+        break;
+      case 1:   // LUA_TBOOLEAN
+        var result = Module.lua_toboolean(this.state, -1);
+        ret = result ? 'true' : 'false';
+        break;
+      case 3:   // LUA_TNUMBER
+        ret = Module.lua_tonumber(this.state, -1);
+        break;
+      case 4:   // LUA_TSTRING
+        ret = Module.lua_tolstring(this.state, -1);
+        break;
+      default:
+        var typename = Module.lua_typename(this.state, type);
+        var address = Module.lua_topointer(this.state, -1);
+        ret = typename + ': 0x' + address.toString(16);
+    }
+    Module.lua_settop(this.state, -2); // pop stack
+    return ret;
+  },
+
+  // initialize the Lua runtime with optional output callbacks; both output
+  // callbacks are charactercode based and hook with the emscriten runtime for
+  // stdout and stderr; the argument input is ignored
+  'initialize': function(input, output, error) {
+    if (this.isInitialize) throw new Error('Lua already initialized.');
+    Module['stdouthook']=output;
+    Module['stderrhook']=error;
+    if (error) {
+      this.reportError = function(message) {
+        message+='\n';
+        for (var i = 0; i < message.length; i++) {
+          error(message.charCodeAt(i));
+        }
+      }
+    }
+    this.streamName = 'stdin';
+    this.state = Module.luaL_newstate();
+    Module.luaL_openlibs(this.state);
+    Module.luaopen_faudes(this.state);
+    Module.luaopen_faudes_allplugins(this.state);
+    this.isInitialize = true;
+    this.faudesversion = this.eval('return faudes.Version()');
+  },
+
+  // check whether a command is finished and does not require more input
+  'isFinished': function (command) {
+    if (!this.isInitialize) throw new Error('Lua not initialized.');
+    var pres = this.parse(command);
+    if (pres.error) this.popStack();
+    return !pres.error;
+  },
+
+  // evaluate Lua code and returns the result.
+  //   1. If an expression is passed, returns the representation of the value of
+  //      this expression, or null if the value is nil.
+  //   2. If a statement or set of statements is passed, returns undefined.
+  //   3. If an error occurs, returns undefined.
+  'eval': function (command) {
+    if (!this.isInitialize) throw new Error('Lua not initialized.');
+
+    // parse and load the command.
+    var pres = this.parse(command);
+    if (pres.error) {
+      this.reportError(pres.errstr);
+      return undefined;
+    }
+
+    // track stack
+    var entrystack = Module.lua_gettop(this.state);
+ 
+    // execute the code.
+    var xres = Module.lua_pcall(this.state, 0, 1, 0);
+
+    // lua error
+    if (xres !== 0) {  
+      var errorstr = this.popStack();
+      if (!errorstr.length) errorstr='[eval error]';
+      this.reportError(errorstr);
+      Module.lua_settop(this.state, entrystack);
+      return undefined;
+    }
+
+    // lua success
+    var res=undefined;
+    if(Module.lua_gettop(this.state) > 0) res=this.popStack();
+    if((!pres.expr) && res==null) res=undefined;
+    Module.lua_settop(this.state, entrystack);
+    return res;
+  },
+
+  // load luaextension from file
+  'loadext': function(filename) {
+     Module.luafaudes_loadext(this.state,filename);
+  }
+};
+
+ 

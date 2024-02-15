@@ -1,0 +1,70 @@
+% Elevator example: door specification (light bracket)
+
+<Generator>
+"E_drsaf2"
+
+<Alphabet>
+"d_close"
+"d_open"
+"d_stp"
+"d_arcl"
+"d_lbbl"
+"d_lbrl"
+%"a_block"
+</Alphabet>
+
+<States>
+"IdleFree"
+"ClosingFree"
+"ClosingBlock"
+"ClosedFree"
+"Block"
+</States>
+
+<TransRel>
+
+% Allow door opening
+"IdleFree" "d_close" "ClosingFree"
+"IdleFree" "d_open" "IdleFree"
+"IdleFree" "d_stp" "IdleFree"
+"IdleFree" "d_arcl" "IdleFree"
+"IdleFree" "d_lbbl" "Block"
+
+
+% Monitor door close operation A
+"ClosingFree" "d_arcl" "ClosedFree"
+"ClosingFree" "d_lbbl" "ClosingBlock"
+
+% Monitor door close operation B
+"ClosedFree" "d_stp" "IdleFree"
+"ClosedFree" "d_lbbl" "Block"
+
+% Monitor door close operation Err
+"ClosingBlock" "d_lbrl" "ClosingFree"
+"ClosingBlock" "d_arcl" "ClosingBlock"
+"ClosingBlock" "d_stp" "Block"
+"ClosingBlock" "d_open" "Block"
+
+% Allow anything but not d_arcl
+%"Block" "a_block" "Block"
+"Block" "d_close" "Block"
+"Block" "d_open"  "Block"
+"Block" "d_stp"   "Block"
+"Block" "d_lbrl"   "IdleFree"
+
+
+</TransRel>
+
+<InitStates>
+"IdleFree"
+</InitStates>
+
+<MarkedStates>
+"IdleFree"
+"ClosingFree"
+"ClosingBlock"
+"ClosedFree"
+"Block"
+</MarkedStates>
+
+</Generator>

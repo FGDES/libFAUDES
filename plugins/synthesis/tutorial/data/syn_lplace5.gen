@@ -1,0 +1,43 @@
+<Generator>
+
+"plant component place 5"
+
+% place i takes bottles from place i-1
+% by an r event, whenever place i-1 was 
+% occupied; else, an r event frees place i
+%
+% thus, to record the status of place i,
+% we track the status of place i-1 and r;
+% since place i has no sensor itself,
+% we make its status explicit by introducing
+% oi (occupie) and fi (free) events.
+%
+% this generator is meant as a template and we
+% use T (for this place) and P (for previous place)
+% as oparameters.
+
+
+<Alphabet>
+o5 +o+ o4 +o+ r R +C+
+</Alphabet>
+
+<States>
+<Consecutive> 1 7</Consecutive>
+</States>
+
+<TransRel>
+1 R  2
+2 r  1
+2 o4 3
+3 r  4
+
+4  R 5
+5 o5 6
+6  r 1
+6 o4 7
+7  r 4
+</TransRel>
+
+<InitStates> 1 </InitStates>
+<MarkedStates> 1  </MarkedStates>
+</Generator>

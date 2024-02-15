@@ -1,0 +1,41 @@
+<Generator>
+"SpecificationB" 
+
+% 
+%  Statistics for SpecificationB
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   6
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+"E"           "W"           
+</Alphabet>
+
+<States>
+"S1"          "S2"          "S3"          
+</States>
+
+<TransRel>
+"S1"          "E"           "S3"          
+"S1"          "W"           "S2"          
+"S2"          "E"           "S3"          
+"S2"          "W"           "S2"          
+"S3"          "E"           "S3"          
+"S3"          "W"           "S1"          
+</TransRel>
+
+<InitStates>
+"S1"          
+</InitStates>
+
+<MarkedStates>
+"S1"          
+</MarkedStates>
+
+
+</Generator>

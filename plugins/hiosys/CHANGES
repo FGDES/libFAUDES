@@ -1,0 +1,19 @@
+** s.perk, 200904
+
++ extension of the hio-state attributes by the additional flag "Err":
+  with public read/write access in all hiogenerators, this
+  flag enables to specify so-called "Error behaviour" that is
+  typically entered after unexpected input events like invalid
+  operator commands. The flag can be used by the model
+  designer; the hio function FreeInput() uses this flag when
+  extending a hio generator by error behaviour in order to make an
+  input free in this generator. Err is not bound to any formal definition
+  and does  not effect / can be combined with any of the remaining flags.
+  Hence, Err remains untouched by the functions IsIoPlant(),
+  IsIoController(), IsIoEnvironment(), IsIoConstraint() and
+  UpdateStateAttributes().
+  
+** s.perk, Nov. 4 2009
+
++ added hiosys function IsYcLive(rGen,rYc)
+  

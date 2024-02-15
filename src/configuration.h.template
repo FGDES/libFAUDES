@@ -1,0 +1,8 @@
+/* Auto-generated file to set compiletime configuration */
+
+/* 
+The build system appends macro definitions to the template 
+./src/configuration.h. To check the effective configuration, 
+visit ./include/configuration.h 
+*/
+

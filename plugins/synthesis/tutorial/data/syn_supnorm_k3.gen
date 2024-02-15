@@ -1,0 +1,46 @@
+<Generator>
+"Intersection(plant||LanguageDiffere...state])),Project(plant [minstate]))" 
+
+% 
+%  Statistics for Intersection(plant||LanguageDiffere...state])),Project(plant [minstate]))
+% 
+%  States:        9
+%  Init/Marked:   1/9
+%  Events:        5
+%  Transitions:   9
+%  StateSymbols:  9
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+t1            t             c             t2            a2           
+</Alphabet>
+
+<States>
+"5|1|3"       "5|2|3|1|5|1|3"  "1|1|5"       "3|1|5|1|3"   "3|2|6"       "4|3|6"      
+"1|2|6"       "1|2|5|2|3|1|5|1|3"  "2|3|6"      
+</States>
+
+<TransRel>
+"5|1|3"       t1            "5|2|3|1|5|1|3" 
+"5|1|3"       t2            "1|1|5"      
+"5|1|3"       a2            "3|1|5|1|3"  
+"5|2|3|1|5|1|3"  t2            "1|2|5|2|3|1|5|1|3" 
+"5|2|3|1|5|1|3"  a2            "3|2|6"      
+"1|1|5"       t1            "1|2|6"      
+"3|1|5|1|3"   t1            "3|2|6"      
+"3|1|5|1|3"   t             "4|3|6"      
+"1|2|5|2|3|1|5|1|3"  c             "2|3|6"      
+</TransRel>
+
+<InitStates>
+"5|1|3"      
+</InitStates>
+
+<MarkedStates>
+"5|1|3"       "5|2|3|1|5|1|3"  "1|1|5"       "3|1|5|1|3"   "3|2|6"       "4|3|6"      
+"1|2|6"       "1|2|5|2|3|1|5|1|3"  "2|3|6"      
+</MarkedStates>
+
+
+</Generator>

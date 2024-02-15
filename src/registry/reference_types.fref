@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section=""  page="1_Types" title="libFAUDES Reference">
+
+<h1>
+Types
+</h1>
+
+<p>
+Faudes-typed objects are characterised by their configuration data, which can 
+be read from or written to a file. The corresponding file formats are based on sequences
+of tokens that form nested sections to hold sets or lists of strings or integers.
+For example, the alphabet Sigma = {<tt>alpha</tt>, <tt>beta</tt>, <tt>gamma</tt>} 
+is represented as
+</p>
+<pre>
+&lt;Alphabet&gt; "alpha" "beta" "gamma" &lt;/Alphabet&gt;
+</pre>
+<p>
+Faudes-types available in this copy of libFAUDES are: 
+</p>
+<falltypes/>
+
+</ReferencePage>

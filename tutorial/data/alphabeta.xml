@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Alphabet SYSTEM "alphabet.dtd">
+<Alphabet> 
+<Event name="alpha"/> 
+<Event name="beta"/> 
+</Alphabet> 

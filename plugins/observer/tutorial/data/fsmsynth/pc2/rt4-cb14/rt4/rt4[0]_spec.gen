@@ -1,0 +1,57 @@
+<Generator>
+"rt4[0]_spec" 
+
+% 
+%  Statistics for rt4[0]_spec
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        12
+%  Transitions:   24
+%  StateSymbols:  12
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"rt4arx"      "rt4ary"      "rt4lvx"      "rt4lvy"      "rt4mvx"      +C+           
+"rt4mvy"      +C+           "rt4stp"      +C+                  "rt4xy"       
++C+                   "rt4yx"       +C+           "t_modul4\rt4-cb14\rt4" +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"                  "2"           "3"           
+"4"           "5"                   "7"           "8"           "9"           
+</States>
+
+<TransRel>
+"1"           "rt4xy"       "2"           
+"1"           "t_modul4\rt4-cb14\rt4" "1"           
+"10"          "rt4arx"      "11"          
+"10"          "t_modul4\rt4-cb14\rt4" "10"          
+"11"          "rt4stp"      "1"          
+"11"          "t_modul4\rt4-cb14\rt4" "11"                  
+"2"           "rt4mvy"      "3"           
+"2"           "t_modul4\rt4-cb14\rt4" "2"           
+"3"           "rt4lvx"      "4"           
+"3"           "t_modul4\rt4-cb14\rt4" "3"           
+"4"           "rt4ary"      "5"           
+"4"           "t_modul4\rt4-cb14\rt4" "4"           
+"5"           "rt4stp"      "7"           
+"5"           "t_modul4\rt4-cb14\rt4" "5"                  
+"7"           "rt4yx"       "8"           
+"7"           "t_modul4\rt4-cb14\rt4" "7"           
+"8"           "rt4mvx"      "9"           
+"8"           "t_modul4\rt4-cb14\rt4" "8"           
+"9"           "rt4lvy"      "10"          
+"9"           "t_modul4\rt4-cb14\rt4" "9"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

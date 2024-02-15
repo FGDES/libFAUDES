@@ -1,0 +1,33 @@
+<Generator>
+"phys_E_arrtr_impliedby_cb6wpar"
+
+
+
+<Alphabet>
+
+"cb6wpar" "E_arrtr"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb6wpar" 2
+2            "E_arrtr"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

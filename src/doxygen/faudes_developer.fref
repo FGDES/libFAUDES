@@ -1,0 +1,176 @@
+<ReferencePage chapter="Developer" section="none" title="libFAUDES - Developer">
+
+<h1>libFAUDES Developer Page </h1> 
+
+<p>
+As a C++ library, libFAUDES provides its data-types and functions by
+class and function definitions in <i>C++ header files</i>.
+Thus, the natural way to use the library is to develop
+a C++ application that includes the headers and links against libFAUDES.
+</p>
+
+
+<p>
+Below, we give a short overview on how to access libFAUDES data-types and functions
+from a C++ program.
+More detailed information is provided as follows:
+</p>
+
+<ul  class="l2">
+<li><p>
+the
+<a href="faudes_build.html">Build-System Documentation</a>
+outlines the libFAUDES build process.
+</p></li>
+<li><p>
+the
+<a href="csource/group__Tutorials.html">Tutorials</a>
+illustrate the C++ API by examples;
+</p></li>
+<li><p>
+the
+<a href="csource/main.html">C++ API Reference</a>
+documents all API relevant headers;  
+</p></li> 
+<li><p>
+the
+<a href="faudes_algorithm_example.html">Plug-Ins How-To</a>
+gives step-by-step instructions on how to organize
+library extensions;
+</p></li>
+</ul>
+
+
+
+<h2><a name="sets">Sets</a></h2> 
+
+<p>
+libFAUDES models sets of states, events and transitions by the 
+classes  <strong>EventSet</strong>, <strong>StateSet<strong> and </strong>TransSet</strong>,
+respectively. The implementation is based on the Standard Template Library (STL),
+using sorted containers for the internal representation.
+libFAUDES sets provide access to elements (insert, delete, exists, find etc) including iterators,
+convenience operators (union, intersection and difference) and file IO.</p>
+
+<p>
+The below code snipped demonstrates elementary usage of event sets. 
+Detailed documentation can be found in the C++ API Reference
+<a href="csource/group__ContainerClasses.html">Section Container Classes</a>.   
+</p>
+
+<pre>
+  EventSet al1;                      // declare alphabet
+
+  al1.Name("MyAlpahbet");            // set name of this alphabet
+
+  al1.Insert("alpha");               // insert event alpha
+  al1.Insert("beta");                // insert event beta
+
+  al1.Write("myalph.txt");           // write to file
+
+  EventSet al2;                      // declare another alphabet
+  al2.Read("other.txt");             // read from file
+
+  EventSet intersect = al1 * al2;    // compute intersection
+</pre>
+
+
+
+<h2><a name="generators">Generators</a></h2> 
+
+<p>
+libFAUDES implements the five tuple automaton
+<i>G</i> = (<i>Q</i>, <i>Sigma</i>, <i>delta</i>, <i>Qo</i>, <i>Qm</i>) with</p> 
+<ul  class="l2"> 
+<li><p>the set of states <i>Q</i>,</p></li> 
+<li><p>the alphabet <i>Sigma</i>, </p></li> 
+<li><p>the transition relation <i>delta</i>,</p></li> 
+<li><p>the sets of initial states <i>Qo</i> and marked states <i>Qm</i>.</p></li> 
+</ul> 
+<p>
+by <strong>Generator</strong> classes. The generator data
+structure resembles the definition of the automaton by implementing
+the Generator members as libFAUDES sets. The class provides methods 
+to access the set members individually by a symbolic name or index, to iterate over sets, 
+and for file IO. </p>
+
+
+<p>
+The below code snipped demonstrates basic usage. 
+More details can be found in the C++ API Reference
+<a href="csource/group__GeneratorClasses.html">Section Generator Classes</a>.   
+</p>
+
+
+<pre>
+  Generator g1;                      // declare generator
+
+  g1.InsState("I");                  // introduce idle state
+  g1.InsState("B");                  // introduce busy state
+
+  g1.InsEvent("a");                  // introduce event a
+  g1.InsEvent("b");                  // introduce event b
+
+  g1.SetTransition("I", "a", "B");   // set transition I-(a)->B
+  g1.SetTransition("B", "b", "I");   // set transition B-(b)->I
+
+  g1.SetInitState("I");              // indicate that idle is an initial state
+  g1.SetMarkedState("I");            // indicate that idle is a marked state
+
+  g1.Write();                        // show generator on console
+  g1.Write("very_simple.gen");       // write generator to file
+  g1.GraphWrite("very_simple.jpg");  // run graphiz' dot to convert to an image
+
+  Generator g2;
+  g2.Read("nice_example.gen");       // read some generator file
+
+</pre>
+
+
+
+<h2>Operations on Generators</h2> 
+
+<p>
+libFAUDES comes with a set of general purpose operations on generators,
+addressing regular expressions, determinism, minimal realisation etc;
+see the C++ API Reference,
+<a href="csource/group__GeneratorFunctions.html">Section Generator Functions</a>.   
+Functions related to more specific topics are provided by plug-ins; see 
+<a href="csource/group__AllPlugins.html">Section PlugIns</a>.   
+</p>
+
+<p>
+As a concise example, we present how to compute a synchronous composition
+of two generators:
+</p>
+
+<pre>
+  Generator g1("g1.gen");           // declare/read generator g1
+  Generator g2("g2.gen");           // declare/read generator g1
+
+  Generator g1g2;                   // declare result
+  Parallel(g1, g2, g1g2);           // perform operation
+  
+  g1g2.Write("tmp_g1g2.gen");       // write result
+</pre>
+
+
+<p>
+The respective generators are taken from tutorial 3:
+</p>
+
+<p>
+<table border=0> <tr> <td> <table>
+<tr> <td> Generator G1 </td> <td> Generator G2 </td> </tr>
+<tr>
+<td> <img fsrc="FAUDES_IMAGES/tmp_parallel_g1.png"/> </td>
+<td> <img fsrc="FAUDES_IMAGES/tmp_parallel_g2.png"/> </td>
+</tr>
+</table> </td> </tr> <tr> <td> <table width=100%>
+<tr> <td> G1 || G2 </td> </tr>
+<tr> <td> <img fsrc="FAUDES_IMAGES/tmp_parallel_g1g2.png"/> </td> </tr>
+</table> </td> </tr> </table>
+</p>
+
+
+</ReferencePage>

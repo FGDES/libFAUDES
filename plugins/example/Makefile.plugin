@@ -1,0 +1,66 @@
+#
+# makefile for libfaudes example plugin
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += example
+#
+
+PEX_NAME   = example
+PEX_BASE   = ./plugins/$(PEX_NAME)
+PEX_SRCDIR = $(PEX_BASE)/src
+
+#
+# list source files
+
+PEX_CPPFILES = pex_altaccess.cpp
+PEX_INCLUDE = pex_include.h
+PEX_RTIDEFS = pex_definitions.rti
+PEX_RTIFREF = example_index.fref 
+
+#
+# fix directories
+
+PEX_HEADERS = $(PEX_CPPFILES:.cpp=.h) $(PEX_INCLUDE)
+PEX_SOURCES = $(PEX_CPPFILES:%=$(PEX_SRCDIR)/%)
+PEX_OBJECTS = $(PEX_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+PEX_RTIDEFS := $(PEX_RTIDEFS:%=$(PEX_SRCDIR)/registry/%)
+PEX_RTIFREF := $(PEX_RTIFREF:%=$(PEX_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(PEX_INCLUDE): $(PEX_SRCDIR)/$(PEX_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(PEX_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* example plugin configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_EXAMPLE" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(PEX_SOURCES)
+OBJECTS += $(PEX_OBJECTS)
+HEADERS += $(PEX_HEADERS)
+VPATH   += $(PEX_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(PEX_NAME)
+RTIDEFS += $(PEX_RTIDEFS)
+RTIFREF += $(PEX_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(PEX_SRCDIR)/registry/pex_interface.i 
+SWGMODULES += $(PEX_NAME)
+
+#
+# include tutorial 
+
+include $(PEX_BASE)/Makefile.tutorial

@@ -1,0 +1,38 @@
+digraph "Det(Pro(SupConNB((cb4[0]),(cb4[0]_spec)))) [minstate]||Det(Pro(SupConNB((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+
+  // transition relation
+  "1" -> "2" [label="cb12-4"];
+  "1" -> "3" [label="mh1start"];
+  "2" -> "7" [label="wp12-4"];
+  "2" -> "4" [label="mh1start"];
+  "3" -> "4" [label="cb12-4"];
+  "3" -> "1" [label="mh1end"];
+  "4" -> "5" [label="wp12-4"];
+  "4" -> "2" [label="mh1end"];
+  "5" -> "6" [label="cb4-11"];
+  "5" -> "7" [label="mh1end"];
+  "6" -> "3" [label="wp4-11"];
+  "6" -> "8" [label="mh1end"];
+  "7" -> "8" [label="cb4-11"];
+  "7" -> "5" [label="mh1start"];
+  "8" -> "1" [label="wp4-11"];
+  "8" -> "6" [label="mh1start"];
+};

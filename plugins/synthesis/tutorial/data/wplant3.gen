@@ -1,0 +1,40 @@
+<Generator>
+wPlant3
+
+<Alphabet>
+a  +C+  b +C+  c  
+f  +o+  e  
+</Alphabet>
+
+<States>
+I A B If Af Bf 
+</States>
+
+<TransRel>
+I a A
+I b B
+
+A c I
+A f Af
+
+B c I
+
+If a Af
+If b Bf
+
+Af c If
+Af e A
+
+Bf c If
+
+</TransRel>
+
+<InitStates>
+I        
+</InitStates>
+
+<MarkedStates>
+I A B Bf
+</MarkedStates>
+
+</Generator>

@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Simulator" page="3_Hardware-In-The-Loop" title="Simulator - HIL">
+
+<h1>
+IODevice PlugIn 
+</h1>
+
+<p>
+The iodevice plug-in provides access to hardware components
+to the libFAUDES simulator such that the latter can 
+synchronise with physical events and physical time. 
+This section gives an introduction by means of a laboratory case study,
+designed by Thomas Wittmann as part of his 
+<a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/report_wittmann.pdf">
+student project</a>, including the 
+<a href="simulator_devices.html#WagoDevice">hardware realisation</a> 
+of a plant (simulation by analog circuits) and a 
+supervisor (running <tt>simfaudes</tt> on an IPC).
+</p>
+
+<p>
+General documentation on the iodevice PlugIn is given at
+<a href="simulator_devices.html">device types</a> and
+through the more technical 
+<a fhref="FAUDES_CSOURCE/group__IODevicePlugin.html">IODevice C++ API</a> 
+referencedocumentation. 
+</p>
+
+<h2>
+Physical Plant
+</h2>
+
+
+<p>
+Our example addresses a simple goods lift that shuttles between two
+levels. The below figure on the left shows the basic configuration, consisting of
+the cabin, the cabin door and two push buttons, one on each level. 
+</p>
+
+<table class="plain">
+<tr>
+
+<td  valign="top" width="50%">
+<img fsrc="FAUDES_IMAGES/iop_elevatorsketch.png"></img>
+</td>
+
+<td>
+&nbsp;&nbsp;&nbsp;
+</td>
+
+<td  valign="top" width="50%">
+<table>
+<tr><td>Output Signals</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td><table class="small_table">
+<tr><th>Name</th> <th>Comments (active) </th><th>Addr.</th> </tr>
+<tr><td><tt>Y_CM_UP</tt></td> <td>cabin motor on, upwards     </td><td>#0</td> </tr>
+<tr><td><tt>Y_CM_DN</tt></td> <td>cabin motor on, downwards   </td><td>#2</td> </tr>
+<tr><td><tt>Y_DM_OP</tt></td> <td>door motor on, open         </td><td>#4</td> </tr>
+<tr><td><tt>Y_DM_CL</tt></td> <td>door motor on, close        </td><td>#6</td> </tr>
+<tr><td><tt>Y_OL_UP</tt> </td> <td>button led, upper level, on</td><td>#8</td> </tr>
+<tr><td><tt>Y_OL_LW</tt> </td> <td>button led, lower level, on</td><td>#10</td> </tr>
+</table>
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+<tr><td>Input Signals</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td><table class="small_table">
+<tr><th>Name</th>      <th>Comments (active) </th><th>Addr.</th> </tr>
+<tr><td><tt>U_CS_UP</tt> </td> <td>cabin sensor, upper position</td><td>#6</td> </tr>
+<tr><td><tt>U_CS_LW</tt> </td> <td>cabin sensor, lower position</td><td>#4</td> </tr>
+<tr><td><tt>U_DS_OP</tt> </td> <td>door sensor, open           </td><td>#10</td> </tr>
+<tr><td><tt>U_DS_CL</tt> </td> <td>door sensor, closed         </td><td>#8</td> </tr>
+<tr><td><tt>U_OB_UP</tt> </td> <td>upper button pressed        </td><td>#12</td> </tr>
+<tr><td><tt>U_OB_LW</tt> </td> <td>lower button pressed        </td><td>#14</td> </tr>
+<tr><td><tt>U_DS_LB</tt> </td> <td>light barrier occupied      </td><td>#16</td> </tr>
+</table>
+</td></tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+<p>
+The physical plant interface consists of input- and output signals, 
+listed in the above tables, where the terminology is used 
+from the controller persepctive.
+Each signal can be <i>active</i> or <i>passive</i>, i.e. exhibits a boolean range.
+The <i>bit address</i> given in the last column refers to the 
+LRT laboratory setup and specifies how the respective signal is accessed from
+the connected controller device.
+</p>
+
+<p>
+<i>Example, controller output.</i>
+The cabin motor is controlled by two signals <tt>Y_CM_UP</tt> and
+<tt>Y_CM_DN</tt>, where the active level correspond to upwards and downwards motion 
+of the cabin, respectively. 
+</p>
+
+<p>
+<i>Example, controller input.</i>
+The upper operator push button corresponds to the signal <tt>U_OP_UP</tt>,
+which is active while the button is pressed. 
+</p>
+
+<p>
+For the purpose of supervisory controller design, the continuous dynamics of the
+cabin and the door are regarded irrelevant. For the LRT lab experiment,
+the mechanical setup is replaced by an analog circuit connected to the
+controller device.
+</p>
+
+<h2>
+Plant Model
+</h2>
+
+<p>
+In order to model the physical plant as a discrete event system, we need to define
+relevant events. Here, we assume 
+the continuous signal to be piece-wise constant and associate events with
+edges of specific signals. 
+An <i>input event</i> is triggered by the plant 
+when the associated output signal changes its value (positive or negative edge).
+In contrast, an <i> output event</i> is triggered by the controller and
+sets (or clears) the value of associated plant-input signals 
+to active (or, respectively, passive). See <ftype>SignalDevice</ftype> for details.
+</p>
+<p>
+The below table defines events related to the cabin and the operator push-buttons, 
+a complete list can be found
+on the <a href="simulator_exdetails.html#events">further-details-page</a>.  
+</p>
+
+<table class="plain"><tr><td>
+<table class="small_table">
+<tr><th>Event</th> <th>Type</th><th>Trigger/Action</th> <th>Comments</th></tr>
+<tr>
+<td><tt>c_up</tt></td>
+<td>output</td>
+<td>clear <tt>Y_CM_DN</tt>, set <tt>Y_CM_UP</tt></td> 
+<td>activate cabin motor, upwards</td>
+</tr>
+<tr>
+<td><tt>c_down</tt></td>
+<td>output</td>
+<td>clear <tt>Y_CM_UP</tt>, set <tt>Y_CM_UP</tt></td>
+<td>activate cabin motor, downwards</td>
+</tr>
+<tr>
+<td><tt>c_stp</tt></td>
+<td>output</td>
+<td>clear <tt>Y_CM_DN</tt>, clear <tt>Y_CM_UP</tt></td>
+<td>stop cabin motor</td>
+</tr>
+<tr>
+<td><tt>c_arup</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_CS_UP</tt> </td>
+<td>cabin arrives at upper sensor</td>
+</tr>
+<tr>
+<td><tt>c_lvup</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>U_CS_UP</tt> </td>
+<td>cabin leaves upper sensor</td>
+</tr>
+<tr>
+<td><tt>c_ardn</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_CS_LW</tt> </td>
+<td>cabin arrives at lower sensor</td>
+</tr>
+<tr>
+<td><tt>c_lvdn</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>U_CS_LW</tt> </td>
+<td>cabin leaves lower sensor</td>
+</tr>
+<tr>
+<td><tt>o_upb</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_OB_UP</tt> </td>
+<td>upper button pressed</td>
+</tr>
+<tr>
+<td><tt>o_lwb</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>U_OB_LW</tt> </td>
+<td>lower button pressed</td>
+</tr>
+</table>
+</td></tr></table>
+
+<p>
+In order to formally introduce the above events and their semantics
+to libFAUDES, a <i>device configuration file</i> has to be provided.
+In addition to the above definitions, the configuration file is used
+to specify a sampling period for edge detection and further device 
+specific details. A device configuration file for the elevator example
+is given on the <a href="simulator_exdetails.html#devconfig">further-details-page</a>.  
+</p>
+
+
+<p>
+The discrete behaviour of the physical plant is 
+modelled by three independent <ftype>Generator</ftype>s
+for the components cabin, door and operator.
+The cabin component 
+<fimath>G_{cabin}</fimath> is given below,
+the remaining components are gathered on the 
+<a href="simulator_exdetails.html#plant">further-details-page</a>. 
+</p>
+
+<table class="plain"> 
+<tr> <td> Cabin Model <fimath> G_{cabin}</fimath> </td> </tr> 
+<tr> <td> <fimage fsrc="tmp_elevator_plant_cabin"/> </td> </tr>
+</table> 
+
+
+
+
+<h2>
+Controller Synthesis
+</h2>
+
+<p>
+The plant model exhibits any possible behaviour of the elevator scenario, including
+unacceptable behaviour, 
+e.g. not turning of the cabin motor when arriving an the upper position. 
+We give verbal conditions for acceptable event sequences regarding
+the cabin and the operator buttons.
+</p>
+
+<ul class="l2">
+<li><p>
+The cabin must stop when the lower or upper position is reached.
+</p></li>
+<li><p>
+Once the cabin started to move, it must not change direction until it 
+reaches the upper or lower position.
+</p></li>
+<li><p>
+When the one of the buttons is pressed, the cabin shall move to
+the other level.
+</p></li>
+</ul>
+
+<p>
+The above conditions 1 and 2 amount to the formal specification 
+<fimath>E_{cabmot}</fimath>,
+whereas condition 3 is represented as
+<fimath>E_{opcmd}</fimath>:
+</p>
+
+<table class="plain"> 
+<tr> <td> Basic cabin motion <fimath>E_{cabmot}</fimath> </td> </tr> 
+<tr> <td> <fimage fsrc="tmp_elevator_spec_cabmot"/> </td> </tr>
+<tr> <td> Shuttle by operator command <fimath>E_{opcmd}</fimath> </td> </tr> 
+<tr> <td> <fimage fsrc="tmp_elevator_spec_opcmd"/> </td> </tr>
+</table> 
+
+<p>
+A supervisor can be synthesised by calling the function <ffnct>SupConNB</ffnct>, where
+the plant and the specification are given as arguments. For the cabin and the
+above basic shuttle behaviour, 
+the result is shown below. 
+A <tt>luafaudes</tt> script for the entire elevator 
+scenario including the door is given on the <a href="simulator_exdetails.html#script">
+further-details-page</a>. 
+</p>
+
+<table class="plain"> 
+<tr> <td> Supervisor <fimath>S_{core}</fimath> </td> </tr> 
+<tr> <td> <fimage fsrc="tmp_elevator_super_core"/> </td>
+</tr>
+</table> 
+
+<h2>
+Hardware-In-The-Loop Simulation
+</h2>
+
+<p> 
+The libFAUDES simulator can utilise the iodevice plug-in 
+to simulate the supervisor and to synchronise events with the
+physical plant. This setting, is referred to as <i>hardware-in-the-loop</i> simulation,
+and the computer (e.g. PC) that executes the simulator plays the role of the controller.
+</p>
+
+<table class="plain">
+<tr>
+
+<td align="center">
+<img fsrc="FAUDES_IMAGES/iop_elevatorhil.png"></img>
+</td>
+</tr>
+</table>
+<p>
+&nbsp;<br/>
+</p>
+
+<p>
+The command-line tool <tt>iomonitor</tt> is used to inspect the hardware configuration, 
+i.e. to test whether logical events are mapped to physical events as intended.
+After reading the device configuration file, <tt>iomonitor</tt> provides a text based
+user interface to get and set signal levels, to detect input events and to
+execute output events. Example: 
+</p>
+
+<pre>
+$ cd ./libfaudes/plugins/iodevice/tutorial
+$ iomonitor data/elevator_pio.dev
+# available commands are: 
+#   read faudes events                   (er)
+#   read signal value by bitaddress      (sr)
+#   write faudes events                  (ew)
+#   write signal value by bitaddress     (sw)
+#   device time                          (time)
+#   reset device                         (reset)
+#   list all device events               (list)
+#   exit                                 (exit)
+&gt;
+</pre>
+
+<p>
+Note: the signal based interface <tt>(sr)</tt> and <tt>(sw)</tt> is only available
+for devices derived from the <ftype>SignalDevice</ftype> base class. 
+In particular, this excludes container devices. The latter are more conveniently tested 
+per individual device.
+</p>
+
+<p>
+After validating the configuration, a hardware-in-the-loop simulation can be
+performed with the <tt>simfaudes</tt> tool.
+In addition to the configuration options and simulation semantics
+discussed in <a href="simulator_index.html">simulator plug-in</a>, the
+simulator accepts a device configuration file specified by
+the command-line option <tt>-d</tt>. To start the simulation,
+enter
+</p>
+
+<pre>
+$ cd ./libfaudes/plugins/iodevice/tutorial
+$ simfaudes -d data/elevator_pio.dev data/elevator_super_core
+% simfaudes: ========================================= sync with "LrtElevatorIO" 
+% simfaudes: ========================================= device "LrtElevatorIO" is up 
+% simfaudes: ========================================= current state: 
+&lt;DiscreteState&gt; 1  &lt;/DiscreteState&gt; 
+% simfaudes: ========================================= current time: 
+&lt;Time&gt; 0 &lt;/Time&gt; 
+% simfaudes: ========================================= proposed action: 
+&lt;ProposedTime&gt; inf &lt;/ProposedTime&gt; 
+% simfaudes: ========================================= sync wait 
+</pre>
+
+<p>
+In the initial state, the simulator cannot execute any output event, hence it
+waits for an input event, e.g. <tt>o_upb</tt>. The synchronisation procedure 
+is summarised in <ftype>DeviceExecutor</ftype>.
+</p>
+
+<h2>
+Further Documentation of the Elevator Example
+</h2>
+
+
+<p>
+A full version of the required input data is provided on the
+<a href="simulator_exdetails.html#script">further-details-page</a>. 
+Thomas Wittmann's 
+<a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/report_wittmann.pdf">
+final report</a> is also available from the libFAUDES archive.
+</p>
+</ReferencePage>
+
+  

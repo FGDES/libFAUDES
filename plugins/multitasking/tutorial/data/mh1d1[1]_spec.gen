@@ -1,0 +1,43 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        3
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   8
+%  StateSymbols:  3
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"cb4stp"      +C+           "cb11-cb4"    +C+           "cb12-cb4"    +C+           
+"cb4-cb11"    +C+           "cb4-cb12"    +C+           "mh1start"    +C+           
+"mh1end"      
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           
+</States>
+
+<TransRel>
+"1"           "cb4stp"      "1"           
+"1"           "cb11-cb4"    "2"           
+"1"           "cb12-cb4"    "2"           
+"1"           "cb4-cb11"    "1"           
+"1"           "cb4-cb12"    "1"           
+"2"           "cb4stp"      "3"           
+"3"           "mh1start"    "3"           
+"3"           "mh1end"      "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

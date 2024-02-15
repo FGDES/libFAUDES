@@ -1,0 +1,46 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        6
+%  Transitions:   8
+%  StateSymbols:  14
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+"sf-c1"      "c1a"    "c1mv"       +C+           "c1s"      +C+           
+"f_pfd"      +o+           "t_c1"        "pass"		+o+
+</Alphabet>
+
+<States>
+"c1"         "cb2"         "cb3"         "cb4"         "cb5"         "cb6"         
+"cb7"         "cb8"
+</States>
+
+<TransRel>
+"c1"         "sf-c1"      "cb2"         
+"cb2"         "c1mv"       "cb3"
+"cb2"		"pass"	"cb4"        
+"cb3"         "pass"      "cb5"         
+"cb4"		"c1mv"	"cb5"
+"cb5"         "c1a"    "cb6"         
+"cb5"         "f_pfd"      "cb7"         
+"cb6"         "c1s"      "c1"                
+"cb7"         "t_c1"        "cb8"         
+</TransRel>
+
+<InitStates>
+"c1"         
+</InitStates>
+
+<MarkedStates>
+"c1"         "cb2"         "cb3"         "cb4"         "cb5"         "cb6"         
+"cb7"         "cb8"
+</MarkedStates>
+
+
+</Generator>

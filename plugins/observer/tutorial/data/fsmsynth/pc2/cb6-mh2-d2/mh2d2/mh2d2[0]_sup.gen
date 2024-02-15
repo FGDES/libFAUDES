@@ -1,0 +1,58 @@
+<Generator name="SupConNB((mh2[0]||d2[0]),(mh2d2[0]_spec))">
+
+% 
+%  Statistics for SupConNB((mh2[0]||d2[0]),(mh2d2[0]_spec))
+% 
+%  States:        16
+%  Init/Marked:   1/1
+%  Events:        13
+%  Transitions:   16
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+t_modul4\cb6-mh2-d2\mh2d2  +C+           mh2ar+z       mh2ar-z       mh2end        mh2f         
+mh2lv+z       mh2lv-z       mh2mv+z       +C+           mh2mv-z       +C+          
+mh2start      +C+           mh2stp        +C+           d2run         +C+          
+d2stp        
+</Alphabet>
+
+<States>
+1              3              5              6              7              8             
+9             
+<Consecutive>
+11             18            
+</Consecutive>
+20            
+</States>
+
+<TransRel>
+1              mh2start      3             
+3              mh2mv-z       5             
+5              t_modul4\cb6-mh2-d2\mh2d2  6             
+6              mh2lv+z       7             
+7              t_modul4\cb6-mh2-d2\mh2d2  8             
+8              mh2ar-z       9             
+9              mh2stp        11            
+11             d2run         12            
+12             d2stp         13            
+13             mh2mv+z       14            
+14             t_modul4\cb6-mh2-d2\mh2d2  15            
+15             mh2lv-z       16            
+16             t_modul4\cb6-mh2-d2\mh2d2  17            
+17             mh2ar+z       18            
+18             mh2stp        20            
+20             mh2end        1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

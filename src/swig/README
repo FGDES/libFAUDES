@@ -1,0 +1,73 @@
+========================================
+Some Notes on the libFAUDES Interface Files for SWIG
+========================================
+
+
+*****
+*****
+The core library "corefaudes" defines its interface in
+the files
+
+coreaddons.i
+basetype.i
+attributes.i
+containers.i
+generaors.i
+functions.i
+verctors.i
+
+We rely on "libfaudes.h" to be included in the generated
+code, but we define dedicated interfaces for each relevant
+class.
+
+We also include some additional C-code for convenience
+interfaces, e.g., to set the dot-exec-path, to have a
+mutable console out etc. (see specifically "coreaddons.i").
+All of the additional C-code is explicitly put to the
+namespace "faudes" and declarations are prefixed by
+"faudes_"
+
+
+*****
+*****
+The wrapper
+
+"corefaudes.i"
+
+includes all of the above interfaces and is passed to
+SWIG as the input file to generate
+
+"corefaudes_wrapper.cpp"
+
+Here, "to include" means that the included interfaces
+will actually generate wrapper code, and this is
+the intention.
+
+However, we also would like to refer to the core
+library from within plug-ins. In such a case, the
+core library wrapper code is referred rather than
+generated from scatch. This is organised by the
+minimal shared header
+
+"faudesmodule.i",
+
+which is included at the beginning of every module,
+i.e., in "corefaudes.i" and every top-level interface
+for each plub-in. "faudesmodule.i" senses whether or
+not we are actually sourcing "corefaudes.i". If so,
+the individual interface files are included. Else,
+they are imported and the generated code will refer
+to "corefaudes_wrapper.cpp" as intendend. For import
+to be functional, the imported modul must specify its
+original module name, so that SDWIG knows where exactly
+to refer to. 
+
+*****
+*****
+The build is organized in the target language plug-in,
+ie "luabindings" or "pybindings". At the current stage,
+"luabindings" indeed generates individual moduls per
+pung-in, while "pybindings" merges all interfaces to
+a single monolithic wrapper. This has pros and cons,
+we may reorganize it in future.
+

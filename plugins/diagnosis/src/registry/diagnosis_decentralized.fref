@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Diagnosis" page="4_Decentralized_Diagnosis" title="Diagnosis - Decentralized"> 
+
+<h1>
+Decentralized Diagnosis.
+</h1>
+
+<p>
+One common practical situation is that a DES is observed by multiple local sites with their own observation. In that case, it is desired that each failure is detected by at least one of the local sites such that the DES is <i>co-diagnosable</i> as defined in <fcite name="D3"/>. In this context, the function <ffnct>IsCoDiagnosable</ffnct> verifies codiagnosability, while the function <ffnct>DecentralizedDiagnosers</ffnct> computes diagnosers that report failures at the different local sites. Finally, the function <ffnct>ModularDecentralizedDiagnoser</ffnct> computes decentralized diagnosers in the special case where the DES consists of multiple modular components, each corresponding to a local site. 
+</p>
+
+<ffnct_reference name="IsCoDiagnosable">
+
+<fdetails/>
+
+<p>
+This function realizes the co-diagnosability verification based on the global plant <fimath>G</fimath>, the global specification <fimath>K</fimath> and the local observations for <fimath>n</fimath> local sites given in the form of <fimath>n</fimath> observation alphabets  <fimath>\Sigma_{i,o},i = 1,\ldots,n</fimath>.  
+</p>
+
+<p>
+Note that the current implementation uses a natural projection to determine the local observations instead of the more general observation mask. 
+</p>
+
+<fconditions/>
+
+<p>
+All generators must be deterministic.
+Local observation alphabets should only contain observable events. 
+</p>
+
+</ffnct_reference>
+
+
+<h2 id="example">
+Example
+</h2>
+
+<p>
+This example illustrates the usage of <ffnct>IsCoDiagnosable</ffnct>.
+</p>
+
+<p>
+Consider the system <fimath>G</fimath> and the specification <fimath>K</fimath> in the figure below. We assume that there are two local sites with the observable events <fimath>\Sigma_{1,o} = \{d,e,f,i\}</fimath> and <fimath>\Sigma_{2,o} = \{d,h\}</fimath>. Then, it holds that the system is not diagnosable since the extensions of the failure string <tt>b</tt> cannot be distinguished from the extensions of the correct string <tt>a</tt> after the occurrence of a finite number of events due to the loop with the events <tt>e</tt> and <tt>f</tt>. Hence,  <ffnct>IsCoDiagnosable</ffnct> returns a negative result. 
+</p>
+
+<table class="plain"> 
+<tr><td> Component <fimath>G</fimath></td></tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_4_decentralized1"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr><td> Local specification <fimath>K</fimath> </td></tr>
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_specification_4_decentralized1"/> </td>
+</tr> 
+</table>
+
+
+<p> On the contrary, <ffnct>IsCoDiagnosable</ffnct> returns a positive result for the next example with the system <fimath>G</fimath>, the specification <fimath>K</fimath> and the observable events <fimath>\Sigma_{1,o} = \{d,i\}</fimath> and <fimath>\Sigma_{2,o} = \{d,h\}</fimath>. In this case, the local site "1" can resolve the failure string <tt>b</tt>, while the local site "2" is able to detect the failure string <tt>c</tt>. 
+</p>
+
+<table class="plain"> 
+<tr> <td> Component <fimath>G</fimath></td> </tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_4_decentralized2"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr><td> Local specification <fimath>K</fimath> </td></tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_specification_4_decentralized2"/> </td>
+</tr> 
+</table>
+
+
+<ffnct_reference name="DecentralizedDiagnoser">
+
+<fdetails/>
+
+<p>
+If the co-diagnosability test is successful for a plant <fimath>G</fimath>, a specification <fimath>K</fimath> and multiple local sites, then decentralized diagnosers that are located at the different local sites can be used in order to detect failures. Such decentralized diagnosers are computed using the function <ffnct>DecentralizedDiagnoser</ffnct>. 
+</p>
+
+<fconditions/>
+
+<p>
+All generators must be deterministic.
+Local observation alphabets must only contain observable events. 
+</p>
+
+</ffnct_reference>
+
+
+<h2 id="example2">
+Example
+</h2>
+
+<p>
+The following figure shows the decentralized diagnosers for the previous example. In the case of the local site with the observation <fimath>\Sigma_{1,o} = \{d,i\}</fimath>, the failure string <tt>b</tt> is uniquely identified after <tt>i</tt> occurs, while the second local site with the observation <fimath>\Sigma_{2,o} = \{d,h\}</fimath> detects the failure <tt>c</tt> after the event <tt>h</tt> occurs. 
+</p>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <th> Diagnoser for <fimath>\Sigma_{1,o} = \{d,i\}</fimath> </th> </tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_4_decentralized2_1"/> </td> </tr>
+<tr> <th> Diagnoser for <fimath>\Sigma_{2,o} = \{d,h\}</fimath> </th> </tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_4_decentralized2_2"/> </td> </tr>
+</table>
+</td> </tr>
+</table>
+
+
+<ffnct_reference name="DecentralizedModularDiagnoser">
+
+<fdetails/>
+
+<p>
+If the plant consists of multiple components, then these components usually coincide with the local sites that observe the plant behavior. In that case, the decentralized diagnosers can be computed for the modular system components using the function 
+ <ffnct>DecentralizedModularDiagnoser</ffnct>. 
+</p>
+
+<fconditions/>
+
+<p>
+All generators must be deterministic.
+</p>
+
+</ffnct_reference></ReferencePage>
+
+  

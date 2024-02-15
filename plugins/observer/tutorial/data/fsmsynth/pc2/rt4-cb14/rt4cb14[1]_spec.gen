@@ -1,0 +1,43 @@
+<Generator>
+"rt4cb14[1]_spec" 
+
+% 
+%  Statistics for rt4cb14[1]_spec
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        7
+%  Transitions:   7
+%  StateSymbols:  4
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+"cb14-10"     +C+           "cb14stp" +C+   "rt4stp"   +C+     "rt4xy"       
++C+                  "rt4yx"       +C+ 	"cb6-14" +C+          
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           
+</States>
+
+<TransRel>
+"1"		"cb6-14"		"1"
+"1"           "cb14stp"      "2"           
+"2"           "rt4xy"       "2"           
+"2"           "rt4stp"        "3"           
+"3"           "cb14-10"     "3"           
+"3"           "cb14stp"     "4"           
+"4"           "rt4stp"        "1"           
+"4"           "rt4yx"       "4"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,38 @@
+digraph "rts2[0]||rts2[0]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1|1";
+
+  // mstates
+  "1|1" [shape=doublecircle];
+
+  // rest of stateset
+  "2|2";
+  "3|2";
+  "4|2";
+  "5|2";
+  "6|2";
+  "7|2";
+  "8|1";
+  "9|1";
+  "10|1";
+  "11|1";
+  "12|1";
+
+  // transition relation
+  "1|1" -> "2|2" [label="rts2_5-6"];
+  "2|2" -> "3|2" [label="rts2+x"];
+  "3|2" -> "4|2" [label="rts2lv5"];
+  "4|2" -> "5|2" [label="rts2ar6"];
+  "5|2" -> "6|2" [label="rts2stp"];
+  "6|2" -> "7|2" [label="rts2_6"];
+  "7|2" -> "8|1" [label="rts2_6-5"];
+  "8|1" -> "9|1" [label="rts2-x"];
+  "9|1" -> "10|1" [label="rts2lv6"];
+  "10|1" -> "11|1" [label="rts2ar5"];
+  "11|1" -> "12|1" [label="rts2stp"];
+  "12|1" -> "1|1" [label="rts2_5"];
+};

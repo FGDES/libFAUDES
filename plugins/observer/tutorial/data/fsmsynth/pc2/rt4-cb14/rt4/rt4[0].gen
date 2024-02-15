@@ -1,0 +1,69 @@
+<Generator>
+"rt4[0]"      
+
+% 
+%  Statistics for rt4[0]
+%  States:        18
+%  Init/Marked:   1/1
+%  Events:        13
+%  Transitions:   34
+%  StateSymbols:  18
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"rt4arx"      "rt4ary"      "rt4f"        "rt4lvx"      "rt4lvy"      "rt4mvx"      
++C+           "rt4mvy"      +C+           "rt4stp"      +C+           
+"rt4xy"       +C+           "rt4yx"       +C+           "t_modul4\rt4-cb14\rt4" 
++C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "2"           "3"           "4"           "5"           
+"6"           "7"           "8"           "9"               "dummy_10"    
+"dummy_2"     "dummy_3"     "dummy_4"     "dummy_6"     "dummy_7"     
+</States>
+
+<TransRel>
+"1"           "rt4mvx"      "10"          
+"1"           "rt4mvy"      "2"           
+"1"           "rt4xy"       "1"              
+"10"          "rt4stp"      "1"           
+"10"          "t_modul4\rt4-cb14\rt4" "dummy_10"    
+"2"           "rt4stp"      "1"           
+"2"           "t_modul4\rt4-cb14\rt4" "dummy_2"     
+"3"           "rt4mvx"      "4"           
+"3"           "rt4stp"      "5"           
+"3"           "t_modul4\rt4-cb14\rt4" "dummy_3"     
+"4"           "rt4mvy"      "3"           
+"4"           "rt4stp"      "5"           
+"4"           "t_modul4\rt4-cb14\rt4" "dummy_4"     
+"5"           "rt4mvx"      "4"           
+"5"           "rt4mvy"      "3"           
+"6"           "rt4mvy"      "7"           
+"6"           "rt4stp"      "8"           
+"6"           "t_modul4\rt4-cb14\rt4" "dummy_6"     
+"7"           "rt4mvx"      "6"           
+"7"           "rt4stp"      "8"           
+"7"           "t_modul4\rt4-cb14\rt4" "dummy_7"     
+"8"           "rt4mvx"      "6"           
+"8"           "rt4mvy"      "7"           
+"8"           "rt4yx"       "8"                       
+"dummy_10"    "rt4f"        "9"           
+"dummy_2"     "rt4lvx"      "3"           
+"dummy_3"     "rt4ary"      "7"           
+"dummy_4"     "rt4arx"      "10"          
+"dummy_6"     "rt4lvy"      "4"           
+"dummy_7"     "rt4f"        "9"                     
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           "8"
+</MarkedStates>
+
+
+</Generator>

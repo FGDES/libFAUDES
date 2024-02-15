@@ -1,0 +1,39 @@
+<cGenerator>
+<Generator>
+"SupConNB((Det(Pro(SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb16[0]),(cb16[0]_spec)))) [minstate]),(rts2cb16[1]_spec))" 
+<Alphabet>
+"cb10-16"     "cb16-rc2"    "wp10-16"     "wp16-rc2"    "rts2_5"      "rts2_5-6"    
+"rts2_6"      "rts2_6-5"    
+</Alphabet>
+<States>
+8             
+</States>
+<TransRel>
+1             "cb10-16"     2             
+2             "wp10-16"     3             
+3             "rts2_5-6"    4             
+4             "rts2_6"      5             
+5             "cb16-rc2"    6             
+6             "wp16-rc2"    7             
+7             "rts2_6-5"    8             
+8             "rts2_5"      1             
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"cb10-16"     "cb16-rc2"    "rts2_5-6"    "rts2_6-5"    
+</Controllable>
+<Observable>
+"cb10-16"     "cb16-rc2"    "wp10-16"     "wp16-rc2"    "rts2_5"      "rts2_5-6"    
+"rts2_6"      "rts2_6-5"    
+</Observable>
+
+</cGenerator>

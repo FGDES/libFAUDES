@@ -1,0 +1,33 @@
+<Generator>
+"phys_B_arrtr_impliedby_cb12wpar"
+
+
+
+<Alphabet>
+
+"cb12wpar" "B_arrtr"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb12wpar" 2
+2            "B_arrtr"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

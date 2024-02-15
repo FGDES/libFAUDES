@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type Generator -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Pushdown::PushdownGenerator" ctype="faudes::PushdownGenerator" autoregister="true"> 
+
+<Documentation ref="pushdown_index.html#PushdownGenerator"> 
+Pushdown generator model G=(Sigma,Q,delta,Qo,Qm,Gamma,Box).
+</Documentation> 
+<Keywords> 
+Pushdown    generator
+</Keywords> 
+
+</TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function PushdownBlockfree -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Pushdown::PushdownBlockfree" ctype="faudes::PushdownBlockfree"> 
+
+<Documentation ref="pushdown_index.html#PushdownBlockfree"> 
+Restricts the unmarked language of the input DPDA to the prefix-closure of its marked language. The automaton structure is not preserved during this operation and the stack symbols are changed. By definition, the output DPDA is nonblocking and has the same marked language as the input DPDA.
+</Documentation> 
+<Keywords> 
+pushdown context-free nonblock
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Default"> 
+<Parameter name="Input" ftype="PushdownGenerator" access="In"/> 
+<Parameter name="Result" ftype="PushdownGenerator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition>
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function PushdownAccessible -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Pushdown::PushdownAccessible" ctype="faudes::PushdownAccessible"> 
+
+<Documentation ref="pushdown_index.html#PushdownAccessible"> 
+Deletes all unaccessible transitions and unaccessible states in the input DPDA by preserving its structure. By definition, the output DPDA is accessible.
+</Documentation> 
+<Keywords> 
+pushdown context-free accessible
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Default"> 
+<Parameter name="Input" ftype="PushdownGenerator" access="In"/> 
+<Parameter name="Result" ftype="PushdownGenerator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function PushdownConstructController -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Pushdown::PushdownConstructController" ctype="faudes::PushdownConstructController"> 
+
+<Documentation ref="pushdown_index.html#PushdownConstructController"> 
+Synthesizes a minimally restrictive supervisor for its input, consisting of a plant modeled by a DFA and a specification modeled by a DPDA. The resulting supervisor is modeled by a DPDA.
+</Documentation> 
+<Keywords> 
+pushdown synthesis context-free
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Default"> 
+<Parameter name="Spec" ftype="PushdownGenerator" access="In"/> 
+<Parameter name="Plant" ftype="System" access="In"/> 
+<Parameter name="Result" ftype="PushdownGenerator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+
+
+
+
+
+</Registry> 

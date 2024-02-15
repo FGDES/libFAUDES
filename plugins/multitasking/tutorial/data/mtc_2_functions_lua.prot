@@ -1,0 +1,140 @@
+%%% test mark: accessible [at mtc_2_functions.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: str. coaccessible [at mtc_2_functions.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: str. trim [at mtc_2_functions.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: fix trim sys [at mtc_2_functions.lua]
+% 
+%  Statistics for Generator
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/2/0
+% 
+%  Colors (all):  3
+%  Colors (dist): 0 1 2 
+% 
+% 
+% 
+% 
+
+%%% test mark: fix trim test [at mtc_2_functions.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: determinism [at mtc_2_functions.lua]
+% 
+%  Statistics for Det(Generator)
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/4/0
+% 
+%  Colors (all):  5
+%  Colors (dist): 1 2 
+% 
+% 
+% 
+% 
+
+%%% test mark: projection [at mtc_2_functions.lua]
+% 
+%  Statistics for Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   5
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/2/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+% 
+% 
+% 
+
+%%% test mark: parallel [at mtc_2_functions.lua]
+% 
+%  Statistics for Generator||Generator
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/4/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+% 
+% 
+% 
+
+%%% test mark: supcon [at mtc_2_functions.lua]
+% 
+%  Statistics for mtcSupConClosed((Generator),(Generator))
+% 
+%  States:        5
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/2/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+% 
+% 
+% 
+
+%%% test mark: supconnb [at mtc_2_functions.lua]
+% 
+%  Statistics for mtcSupConNB((Generator),(Generator))
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/2/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+% 
+% 
+% 
+

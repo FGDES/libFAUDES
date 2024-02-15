@@ -1,0 +1,90 @@
+#
+# Makefile for libfaudes simulator plugin, tmoor 200807
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += simulator
+#
+
+###############################################################################
+# DEFINES to control console output ie debug level
+#
+
+# Print executor debug messages, eg enabled events, current state
+#FAUDES_DEBUG += sim_executor
+
+# Print simulator debug messages, eg stochastics, proposal
+#FAUDES_DEBUG += sim_simulator
+
+# Print sync simulator debug messages, ie device executor
+FAUDES_DEBUG += sim_sync
+
+
+#
+# set up paths relative to faudes path
+
+SIM_NAME=   simulator
+SIM_BASE=   ./plugins/$(SIM_NAME)
+SIM_SRCDIR= $(SIM_BASE)/src
+
+#
+# source files
+
+SIM_CPPFILES = sp_random.cpp sp_densityfnct.cpp sp_executor.cpp sp_pexecutor.cpp sp_lpexecutor.cpp \
+     sp_plpexecutor.cpp sp_dplpexecutor.cpp sp_simconditionset.cpp sp_simeventset.cpp
+SIM_INCLUDE  = sp_include.h
+SIM_RTIDEFS = sp_definitions.rti
+SIM_RTIFREF = simulator_index.fref simulator_details.fref 
+
+#
+# fix directories
+
+SIM_HEADERS = $(SIM_CPPFILES:.cpp=.h) $(SIM_INCLUDE)
+SIM_SOURCES = $(SIM_CPPFILES:%=$(SIM_SRCDIR)/%)
+SIM_OBJECTS = $(SIM_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+SIM_RTIDEFS := $(SIM_RTIDEFS:%=$(SIM_SRCDIR)/registry/%)
+SIM_RTIFREF := $(SIM_RTIFREF:%=$(SIM_SRCDIR)/registry/%)
+
+#
+# append my plugin to configuration
+$(INCLUDEDIR)/$(SIM_INCLUDE): $(SIM_SRCDIR)/$(SIM_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(SIM_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* simulator configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_SIMULATOR" >> $(INCLUDEDIR)/configuration.h
+ifeq (sim_executor,$(findstring sim_executor,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_EXECUTOR" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (sim_simulator,$(findstring sim_simulator,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_SIMULATOR" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (sim_sync,$(findstring sim_sync,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_SIMULATOR_SYNC" >> $(INCLUDEDIR)/configuration.h
+endif
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+
+
+
+#
+# advertise plugin
+
+SOURCES += $(SIM_SOURCES)
+OBJECTS += $(SIM_OBJECTS)
+HEADERS += $(SIM_HEADERS)
+VPATH   += $(SIM_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(SIM_NAME)
+RTIDEFS += $(SIM_RTIDEFS)
+RTIFREF += $(SIM_RTIFREF)
+
+#
+# include tutorial
+
+include $(SIM_BASE)/Makefile.tutorial
+

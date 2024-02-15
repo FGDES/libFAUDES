@@ -1,0 +1,57 @@
+<Generator> "hio - simple environment AB" 
+
+% Simple machine example for hiosys-tutorial.
+% Environment:
+% A request of machine A (A_req) for a resource is
+% denied (A_nack) until machine B provides it
+% (B_prov, B_pack). Then, machine A has to request
+% the resource until machine B can provide the next
+% one. A resource provided by machine B and
+% requested by machine A is readily processed
+% and can be provided to the external
+% environment (AB_prov), which may or may not
+% accept the processed resource (AB_pack,
+% AB_nack).
+
+<Alphabet>
+"A_req" +YE+
+"A_nack" +UE+      "A_pack" +UE+
+"B_prov" +YE+
+"B_pack" +UE+     "B_nack" +UE+
+"AB_prov" +YL+
+"AB_nack" +UL+    "AB_pack" +UL+
+</Alphabet>
+
+<States>
+<Consecutive>
+1 9
+</Consecutive>
+</States>
+
+<TransRel>             
+1             "A_req"     8
+1             "B_prov"    2
+2             "B_pack"    3
+3             "A_req"     4
+3             "B_prov"    9
+4             "AB_prov"     5
+5             "AB_pack"     6
+5             "AB_nack"     7
+6             "A_pack"     1
+7             "A_nack"     1
+8             "A_nack"     1
+9             "B_nack"     3
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1 9
+</Consecutive>
+</MarkedStates>
+
+
+</Generator>

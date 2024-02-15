@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Example Data">
+
+<!-- generator data simple layout -->
+
+<h1>
+Example Data: hio_tu_controller.gen
+</h1>
+
+<h3>
+Graph as png-image
+</h3>
+
+<p>
+<img fsrc="FAUDES_IMAGES/hio_transport_unit_controller.png"/>
+</p>
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"HioSynth(Transport Unit,Specification)" 
+
+% 
+%  Statistics for HioSynth(Transport Unit,Specification)
+% 
+%  States:        9
+%  Init/Marked:   1/9
+%  Events:        8
+%  Transitions:   15
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/9/0
+% 
+
+&lt;Alphabet&gt;
+"no_op"     +UP+          "del_tr"    +UP+          "take_fl"   +UP+          
+"empty"     +YP+          "full"      +YP+          "idle"      +YC+          
+"l2r"       +UC+          "stby"      +UC+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1             +QYp+         2             +QYcUp+       3             +QUc+         
+4             +QUp+         5             +QUp+         6             +QYp+         
+7             +QYcUp+       "Err1"        +QUp+         "Err2"        +QYp+         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1             "empty"     2
+1             "full"      "Err1"
+2             "idle"      3
+3             "l2r"       5
+3             "stby"      4
+4             "no_op"     1
+5             "take_fl"   6
+6             "empty"     "Err1"
+6             "full"      7
+7             "del_tr"    1
+"Err1"        "del_tr"    "Err2"
+"Err1"        "take_fl"   "Err2"
+"Err2"        "empty"     "Err1"
+"Err2"        "full"      "Err1"
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1             2             3             4             5             6             
+7             "Err1"        "Err2"
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+</pre>
+
+
+
+  
+</ReferencePage>
+
+  

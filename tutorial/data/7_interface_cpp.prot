@@ -1,0 +1,39 @@
+%%% test mark: faudes type [at 7_interface.cpp:56]
+<String>
+System       
+</String>
+% 
+% 
+% 
+
+%%% test mark: cast to generator [at 7_interface.cpp:57]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: cast to eventset [at 7_interface.cpp:58]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: rti parallel [at 7_interface.cpp:103]
+% 
+%  Statistics for simple machine||buffer
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        6
+%  Transitions:   14
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+

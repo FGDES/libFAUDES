@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="" page="2_Functions" title="libFAUDES Reference">
+
+<h1>
+Functions
+</h1>
+
+<p>
+Faudes-functions implement operations to be performed on 
+<a href="reference_types.html">faudes-typed</a> parameters. 
+Each faudes-function has one or more signatures to specify supported parameter types. 
+For example, the function for the parallel composition of two generators
+has the following signature:
+</p>
+<div class="registry_signature">
+<p><strong>Signature:</strong></p>
+<p>
+Parallel(+In+ <a href="corefaudes_generator.html#Generator">Generator</a> <i>G1</i>, +In+ <a href="corefaudes_generator.html#Generator">Generator</a> <i>G2</i>, +Out+ <a href="corefaudes_generator.html#Generator">Generator</a> <i>GRes</i>)
+</p>
+<p>
+Parallel(+In+ <a href="corefaudes_vector.html#GeneratorVector">GeneratorVector</a> <i>GVec</i>, +Out+ <a href="corefaudes_generator.html#Generator">Generator</a> <i>GRes</i>)
+</p>
+</div>
+<p>
+A parameter that remains constant during the execution of a function
+is referred to as an <i>argument</i>, indicated by <i>+In+</i>. 
+A parameter, that does not affect the outcome of the function, but that does change its value
+during execution, is referred to as a <i>result</i>, indicated by <i>+Out+</i>. Other parameters
+are flagged <i>+InOut+</i>.
+</p>
+<p>
+Faudes-functions available in this copy of libFAUDES are:
+</p>
+<fallfncts/>
+
+</ReferencePage>

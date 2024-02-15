@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function AltAccessible -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Example::AltAccessible" ctype="faudes::AlternativeAccessible"> 
+
+<Documentation ref="example_index.html"> 
+Alternative implementation to remove inaccessible states  and related transitions.
+</Documentation> 
+<Keywords> 
+Example       reachability  reachable     accessible    
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Default"> 
+<Parameter name="Gen" ftype="Generator" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry> 

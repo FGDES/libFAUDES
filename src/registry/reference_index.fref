@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="" page="0_Index" title="libFAUDES Reference">
+
+<h1>
+libFAUDES User Reference
+</h1>
+
+<p>
+The user reference provides libFAUDES documentation 
+on <a href="reference_types.html">faudes-types</a> and 
+<a href="reference_functions.html">faudes-functions</a> 
+relevant to users of libFAUDES based applicatione like e.g. 
+<a fhref="FAUDES_LUAFAUDES/index.html"><tt>luafaudes</tt></a> or
+<a fhref="DESTOOL_ONLINE">DESTool</a>.
+The user reference is complemented by the 
+comprehensive and more technical 
+<a fhref="FAUDES_CSOURCE/main.html">C++ API documentation</a>.
+</p>
+
+
+<p>
+A good starting point for a first reading is
+Section <a fhref="FAUDES_REFERENCE/corefaudes_index.html">CoreFaudes</a>,
+which documents general purpose functions on generators, e.g. regular expressions.
+The remaining sections loosely correspond to libFAUDES 
+plug-ins and lua-extensions, which provide specialised faudes-types and faudes-functions 
+to address specific approaches to the design or analysis of discrete event systems. 
+</p>
+
+<p>
+The user reference is organized as follows:
+</p>
+<fallsects/>
+
+</ReferencePage>

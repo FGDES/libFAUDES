@@ -1,0 +1,108 @@
+%%% test mark: cb4[0]_spec [at mtc_3_observer.lua]
+% 
+%  Statistics for Generator||Generator
+% 
+%  States:        14
+%  Init/Marked:   1/0
+%  Events:        11
+%  Transitions:   29
+%  StateSymbols:  0
+%  Attrib. E/S/T: 7/14/0
+% 
+%  Colors (all):  0
+%  Colors (dist): 0 
+% 
+% 
+% 
+% 
+
+%%% test mark: cb4[0]_sup [at mtc_3_observer.lua]
+% 
+%  Statistics for mtcSupConNB((Generator),(Generator||Generator))
+% 
+%  States:        18
+%  Init/Marked:   1/0
+%  Events:        11
+%  Transitions:   19
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/1/0
+% 
+%  Colors (all):  1
+%  Colors (dist): 0 1 
+% 
+% 
+% 
+% 
+
+%%% test mark: cb4mh1d1_1 [at mtc_3_observer.lua]
+% 
+%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+% 
+%  States:        12
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   26
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/12/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 2 
+% 
+% 
+% 
+% 
+
+%%% test mark: cb4mh1d1_1_sup [at mtc_3_observer.lua]
+% 
+%  Statistics for mtcSupConNB((Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject),(Generator))
+% 
+%  States:        10
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   11
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/3/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+% 
+% 
+% 
+
+%%% test mark: cb4mh1d1_2 [at mtc_3_observer.lua]
+% 
+%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+% 
+%  States:        12
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   26
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/12/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 2 
+% 
+% 
+% 
+% 
+
+%%% test mark: cb4mh1d1_2 [at mtc_3_observer.lua]
+% 
+%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+% 
+%  States:        12
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   26
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/12/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 2 
+% 
+% 
+% 
+% 
+

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="08_StateSet_Conversion" title="CoreFaudes - Stateset Conversion">
+<h1>
+Statespace Conversion
+</h1>
+
+
+<p>
+Note. Functions in this section maintain event attributes, provided
+that they match for all arguments.
+</p>
+
+
+<ffnct_reference name="Deterministic">
+
+<fdetails/>
+<p>
+The so called powerset- or subset-construction converts the 
+specified generator to a deterministic generator without affecting marked
+and generated language. The state space of the resulting generator is a reachable
+subset of the powerset of the original state set. Indeed, the computational
+worst case is characterised by exponential growth of the number of states.
+See <fcite name="C3"/> for the basic algorithm.
+</p>
+
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> G </td> <td> GRes  </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_deterministic_nondet"/> </td> 
+<td> <fimage fsrc="tmp_deterministic_det"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fconditions/>
+<p> 
+The resulting generator is deterministic.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="IsDeterministic">
+<fdetails/>
+
+<p>
+A generator is <em>deterministic</em> if it has no more than one initial state
+and if the transition relation is a partial function. Formally:
+<br />
+<br />
+<fdmath>|Q_0|\le 1</fdmath>, and
+<br />
+<fdmath>(\forall q\inQ,\ \sigma\in\Sigma\ )[\quad |\delta(q,\sigma)| \le 1 \quad]</fdmath>.
+<br />
+<br />
+Note: previous versions of libFAUDES also required 
+<fimath>|Q_0|= 1</fimath>. This turned out not practical for functions that operate
+on the generated language as opposed to the marked language. 
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="UniqueInit">
+<fdetails/>
+<p>
+If the argument generator
+has precisely one initial state, this function does nothing. 
+Else, this function introduces a new and unique initial state and relinks transitions
+accordinly. If the argument generator used to have more than one initial state, this operation
+may render the output nondeterministic. If the argument generator used to have no
+initial state, the output generator will generate the empty string language as opposed to
+the empty language. Otherwise, generated and marked languages are preserved. 
+</p>
+
+<p> 
+Note: call this function followed by <ffnct>Deterministic</ffnct> to convert the generator to a
+deterministic generator with exactly one initial state.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="StateMin">
+<fdetails/>
+
+<p>
+Constructs a generator with minimal stateset while preserving the generated and marked languages. 
+This function implements the (n*log n) set partitioning algorithm by John E. Hopcroft, e.g.
+<fcite name="C3"/>. The original
+algorithm expects an accessible input generator, the implementation will convert the argument
+if necessary.  
+</p>
+
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> G </td> <td> GRes  </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_minimal_nonmin"/> </td> 
+<td> <fimage fsrc="tmp_minimal_min"/> </td> 
+</tr>
+</table> 
+</td> </tr> </table>
+
+
+<fconditions/>
+<p> 
+The argument must be deterministic and so will be the result.
+</p>
+
+</ffnct_reference>
+
+</ReferencePage>
+
+  

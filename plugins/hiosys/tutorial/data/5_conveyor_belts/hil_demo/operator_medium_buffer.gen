@@ -1,0 +1,35 @@
+<Generator>
+"Operator"
+
+
+
+<Alphabet>
+
+"ABCDEFGH_TR"     "ABCDEFGH_FL"
+     
+</Alphabet>
+
+<States>
+"op1" "op2" "op3" "op4" "op5" "op6" "op7"
+</States>
+
+<TransRel>
+"op1"            "ABCDEFGH_FL" "op2"
+"op2"            "ABCDEFGH_FL" "op3"
+"op3"            "ABCDEFGH_FL" "op4"
+"op4"            "ABCDEFGH_FL" "op5"
+"op5"            "ABCDEFGH_FL" "op6"
+"op6"            "ABCDEFGH_FL" "op7"
+"op7"            "ABCDEFGH_TR" "op6"
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+"op1" "op2" "op3" "op4" "op5" "op6" "op7"
+</MarkedStates>
+
+
+</Generator>

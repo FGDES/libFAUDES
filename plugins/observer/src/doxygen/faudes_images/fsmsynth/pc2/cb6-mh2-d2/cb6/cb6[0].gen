@@ -1,0 +1,72 @@
+<Generator>
+"cb6[0]"      
+
+% 
+%  Statistics for cb6[0]
+%  States:        24
+%  Init/Marked:   1/1
+%  Events:        15
+%  Transitions:   36
+%  StateSymbols:  24
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb13-6"      +C+           "cb14-6"      +C+           "cb6+x"       +C+           
+"cb6-13"      +C+           "cb6-14"      +C+           "cb6-x"       +C+           
+"cb6stp"      +C+           "cb6wpar"     "cb6wplv13"   "cb6wplv14"   "t_modul4\cb6-mh2-d2\cb6" 
++C+               
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"        
+"15"          "16"          "17"         "2"           "3"           
+"4"                    "6"           "7"           "8"                 
+"dummy_12"    "dummy_16"    "dummy_3"     "dummy_4"     "dummy_7"     "dummy_8"     
+</States>
+
+<TransRel>
+"1"           "cb13-6"      "6"           
+"1"           "cb14-6"      "2"           
+"10"          "cb6-13"      "15"          
+"10"          "cb6-14"      "11"          
+"11"          "cb6+x"       "12"          
+"12"          "cb6stp"      "11"          
+"12"          "t_modul4\cb6-mh2-d2\cb6" "dummy_12"    
+"13"          "cb6stp"      "1"          
+"1"          "cb6+x"       "13"                   
+"15"          "cb6-x"       "16"          
+"16"          "cb6stp"      "15"          
+"16"          "t_modul4\cb6-mh2-d2\cb6" "dummy_16"    
+"17"          "cb6stp"      "1"          
+"1"          "cb6-x"       "17"                    
+"2"           "cb6-x"       "3"           
+"3"           "cb6stp"      "2"           
+"3"           "t_modul4\cb6-mh2-d2\cb6" "dummy_3"     
+"4"           "cb6stp"      "10"           
+"4"           "t_modul4\cb6-mh2-d2\cb6" "dummy_4"     
+"10"           "cb6-x"       "4"                     
+"6"           "cb6+x"       "7"           
+"7"           "cb6stp"      "6"           
+"7"           "t_modul4\cb6-mh2-d2\cb6" "dummy_7"     
+"8"           "cb6stp"      "10"           
+"8"           "t_modul4\cb6-mh2-d2\cb6" "dummy_8"     
+"10"           "cb6+x"       "8"                   
+"dummy_12"    "cb6wplv14"   "13"          
+"dummy_16"    "cb6wplv13"   "17"          
+"dummy_3"     "cb6wpar"     "4"           
+"dummy_4"     "cb6wplv13"   "3"           
+"dummy_7"     "cb6wpar"     "8"           
+"dummy_8"     "cb6wplv14"   "7"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

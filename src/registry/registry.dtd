@@ -1,0 +1,28 @@
+<!ELEMENT Registry  (TypeDefinition|FunctionDefinition)*>
+
+<!ELEMENT TypeDefinition   (Documentation?,Keywords?,XElementTag?)>
+<!ATTLIST TypeDefinition name CDATA #REQUIRED>
+<!ATTLIST TypeDefinition ctype CDATA #IMPLIED>
+<!ATTLIST TypeDefinition autoregister (true|false) #IMPLIED>
+
+<!ELEMENT Documentation (#PCDATA)>
+<!ATTLIST Documentation ref CDATA #IMPLIED>
+
+<!ELEMENT Keywords (#PCDATA)>
+
+<!ELEMENT XElementTag EMPTY>
+<!ATTLIST XElementTag value CDATA #REQUIRED>
+
+
+<!ELEMENT FunctionDefinition   (Documentation?,Keywords?,VariantSignatures?)>
+<!ATTLIST FunctionDefinition name CDATA #REQUIRED>
+<!ATTLIST FunctionDefinition ctype CDATA #IMPLIED>
+
+<!ELEMENT VariantSignatures (Signature)+>
+<!ELEMENT Signature (Parameter)+>
+<!ATTLIST Signature name CDATA #REQUIRED>
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter name CDATA #REQUIRED>
+<!ATTLIST Parameter ftype CDATA #REQUIRED>
+<!ATTLIST Parameter access (In|Out|InOut) #REQUIRED>
+<!ATTLIST Parameter creturn (true|false) #IMPLIED>

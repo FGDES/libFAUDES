@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE LuaFunctionDefinition SYSTEM "http://www.faudes.org/dtd/1.0/luafunctiondefinition.dtd">
+
+<LuaFunctionDefinition name="ExtIntro::IsLargeGenerator">
+<Documentation ref="extintro_largegenerator.html#IsLargeGenerator"> 
+Test generator to have many states.
+</Documentation>
+<Keywords> "ExtIntro" "large generator" "second example" </Keywords>
+
+<VariantSignatures>
+<Signature name="IsLargeGen(G)">
+<Parameter name="G" ftype="Generator" access="In"  />
+<Parameter name="Res" ftype="Boolean" access="Out" creturn="true"/>
+</Signature>
+</VariantSignatures>
+
+<LuaCode> 
+<![CDATA[
+
+-- Extension reports on loading
+faudes.Print('luaextension: ExtIntro: loading IsLargeGenerator(..)')
+
+-- Define my function (mangled version of variant name)
+-- Note: drop parmaters marked access="Out" and creturn="true" 
+function faudes.IsLargeGen_G(gen)
+
+-- Function reports on execution
+faudes.Print(string.format('IsLargeGenerator(...): #gen=%d',gen:Size()))
+
+-- Have local variables for parameters marked creturn="true"
+local res
+
+-- Prepare result
+res=false
+if gen:Size()>10 then res=true end
+
+-- Return parameters marked creturn="true"
+return res
+
+-- End of function definition
+end
+]]>
+</LuaCode>
+
+</LuaFunctionDefinition>
+

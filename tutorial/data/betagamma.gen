@@ -1,0 +1,26 @@
+<Generator>
+"alpha^* (beta gamma alpha^*)^*"
+
+<Alphabet>
+"alpha" "beta" "gamma" 
+</Alphabet>
+
+<States>
+"b" "c" 
+</States>
+
+<TransRel>
+"b" "alpha" "b"
+"b" "beta" "c"
+"c" "gamma" "b"
+</TransRel>
+
+<InitStates>
+"b"
+</InitStates>
+
+<MarkedStates>
+"b"
+</MarkedStates>
+
+</Generator>

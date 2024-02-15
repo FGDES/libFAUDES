@@ -1,0 +1,128 @@
+%%% test mark: product generator [at pd_controllable_test.cpp:32]
+% 
+%  Statistics for Generator | Generator
+% 
+%  States:        16
+%  Init/Marked:   1/4
+%  Events:        3
+%  Transitions:   6
+%  StateSymbols:  16
+%  Attrib. E/S/T: 2/16/6
+% 
+% 
+% 
+% 
+
+%%% test mark: trim generator [at pd_controllable_test.cpp:36]
+% 
+%  Statistics for Generator | Generator
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 2/4/4
+% 
+% 
+% 
+% 
+
+%%% test mark: split generator [at pd_controllable_test.cpp:40]
+% 
+%  Statistics for Generator | Generator
+% 
+%  States:        12
+%  Init/Marked:   1/4
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 2/12/12
+% 
+% 
+% 
+% 
+
+%%% test mark: remove inaccessible states [at pd_controllable_test.cpp:44]
+% 
+%  Statistics for Generator | Generator
+% 
+%  States:        12
+%  Init/Marked:   1/4
+%  Events:        4
+%  Transitions:   6
+%  StateSymbols:  0
+%  Attrib. E/S/T: 2/12/6
+% 
+% 
+% 
+% 
+
+%%% test mark: remove non-controllable ears [at pd_controllable_test.cpp:55]
+% 
+%  Statistics for Generator | Generator
+% 
+%  States:        10
+%  Init/Marked:   1/4
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/10/4
+% 
+% 
+% 
+% 
+
+%%% test mark: states before &gt; states now [at pd_controllable_test.cpp:57]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: plant [at pd_controllable_test.cpp:84]
+% 
+%  Statistics for Generator
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: controller with controllability problems [at pd_controllable_test.cpp:85]
+% 
+%  Statistics for Generator
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: controllable controller [at pd_controllable_test.cpp:86]
+% 
+%  Statistics for Generator | Generator
+% 
+%  States:        10
+%  Init/Marked:   1/4
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/10/4
+% 
+% 
+% 
+% 
+

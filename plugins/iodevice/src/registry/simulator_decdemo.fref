@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Simulator" page="5_Simulator_Interconnection" title="Simulator - Experiment Details">
+
+<h1>
+Simulator Interconnection
+</h1>
+
+<p>
+We describe a laboratory experiment that
+addresses decentralized control, where the individual controllers
+are connected by a digital communication network. 
+In the particular experiment, there are 
+two controller components and one plant component, 
+each simulated by an instance of the simulator <tt>simfaudes</tt>,
+executed on a dedicated PC. 
+The purpose of the example is to demonstrate how
+the three simulations use specific I/O devices in order 
+to synchronize their respective events.
+Variations of this example have been used to test 
+an implementation of the D3RIP realtime network protocols.
+</p>
+
+
+<center>
+<img fsrc="FAUDES_IMAGES/iop_ddsetup.png"></img>
+<br/>
+&nbsp;
+<br/>
+<span class="text_small">
+LRT laboratory setup: decentralized control and plant simulation on 3 PCs
+</span>
+</center>
+
+<p>
+Configuration files and related scripts can be found in the tutorial
+directory of the iodevice plug-in and are prefixed <tt>decdemo_*</tt>.
+</p>
+
+
+
+
+<h2>
+<a id="plant">
+Plant Simulation
+</a>
+</h2>
+
+
+<p>
+The plant under consideration is a variant of the common simple
+machine scenario, however, modelled as a physical system
+with digital I/O signals as given in the below table. The
+bit address (last column) is used to identify individual signals
+and may refer to an actual wiring and the corresponding
+configuration of a libFAUDES <ftype>SignalDevice</ftype>.
+In the particular laboratory setup, we use emulated digital signals
+via serial interfaces, as provided by the <ftype>SpiDevice</ftype>.
+There, bit addresses refer to the layout of the 
+so called process image.
+</p>
+
+
+<table class="plain">
+<tr><td valign="top">
+<table class="small_table">
+<tr><th>Name</th>  <th>Type</th>    <th>Comments</th><th>Addr.</th> </tr>
+<tr><td><tt>P_ACTUATOR</tt></td> <td>input</td> <td>actuator to pick and process a workpiece (active high)</td><td>#0</td> </tr>
+<tr><td><tt>P_SENSOR</tt>  </td> <td>output</td><td>process sensor to indicate completion (neg. edge)</td><td>#1</td> </tr>
+<tr><td><tt>M_ACTUATOR</tt></td> <td>input</td><td>actuator to execute maintenance of the machine (active high)</td><td>#2</td> </tr>
+<tr><td><tt>M_SENSOR</tt></td>   <td>output</td><td>maintenance sensor to indicate request (pos. edge) and completion (neg. edge)</td><td>#3</td> </tr>
+</table>
+</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+
+<p>
+The signals <tt>P_ACTUATOR</tt> and <tt>M_ACTUATOR</tt> are plant inputs, i.e. 
+line levels can be set by a controller at any time to any value.
+The signals <tt>P_SENSOR</tt> and <tt>M_SENSOR</tt> are plant outputs, i.e. 
+line levels will be set by the plant according to its respective state.
+</p>
+
+
+<p>
+The below figures indicate the respective signals for normal operation (left)
+and machine break-down with subsequent maintenance (right).
+</p>
+
+<center>
+<img fsrc="FAUDES_IMAGES/iop_ddsignals_narrow.png"></img>
+<br/>
+<span class="text_small">
+LRT laboratory setup: signals for intended operation (left) and break-down-maintenance cycle (right).
+</span>
+</center>
+
+<p>
+<i>Technical detail.</i> We will use controllers that ignore positve edges on
+<tt>P_SENSOR</tt>. Thus, it does not matter at which time the positive edge 
+occurs, as long as on completion of the process the line level is high to
+allow for a negative edge.
+</p>
+
+
+
+<p>
+The plant dynamics are modelled in terms of events that correspond
+to edges on the input- and output-signals; see also <ftype>SignalDevice</ftype>
+and/or the <a href="simulator_iointro.html">elevator example</a>.
+Note that the plant model will allow for any actuator events at any time and
+it will be the task of the two controllers to achieve the intendend behaviour.
+</p>
+
+
+<table class="plain"><tr><td>
+<table class="small_table">
+<tr><th>Event</th> <th>Type</th><th>Trigger/Action</th> <th>Comments</th></tr>
+<tr>
+<td><tt>p_start</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>P_ACTUATOR</tt></td> 
+<td>start normal processing</td>
+</tr>
+<tr>
+<td><tt>p_stop</tt></td>
+<td>input</td>
+<td>neg. edge <tt>P_ACTUATOR</tt></td> 
+<td>stop processing</td>
+</tr>
+<tr>
+<td><tt>p_inprog</tt></td>
+<td>output</td>
+<td>set <tt>P_SENSOR</tt> </td>
+<td>processing has started</td>
+</tr>
+<tr>
+<td><tt>p_complete</tt></td>
+<td>output</td>
+<td>clear <tt>P_SENSOR</tt> </td>
+<td>process completed</td>
+</tr>
+<tr>
+<td><tt>m_start</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>M_ACTUATOR</tt></td> 
+<td>start maintenance</td>
+</tr>
+<tr>
+<td><tt>m_stop</tt></td>
+<td>input</td>
+<td>neg. edge <tt>M_ACTUATOR</tt></td> 
+<td>stop maintenance</td>
+</tr>
+<tr>
+<td><tt>m_request</tt></td>
+<td>output</td>
+<td>set <tt>M_SENSOR</tt> </td>
+<td>maintenance request (machine break down)</td>
+</tr>
+<tr>
+<td><tt>m_complete</tt></td>
+<td>output</td>
+<td>clear <tt>M_SENSOR</tt> </td>
+<td>maintenance completed</td>
+</tr>
+</table>
+</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr></table>
+
+<p>
+An according configuration of an <ftype>SpiDevice</ftype> is provided
+by the file <tt>decdemo_plant_serial.dev</tt>:
+</p>
+
+<pre>
+% Device configuration for serial process image device
+&lt;SpiDevice name="plant simulator"&gt; 
+
+&lt;!-- Time scale in ms/ftu --&gt;
+&lt;TimeScale value="1000"/&gt; 
+&lt;!-- Sample interval for edge detection in us (10ms) --&gt;
+&lt;SampleInterval value="10000"/&gt; 
+&lt;!-- Role: master --&gt;
+&lt;Role value="master"/&gt;
+&lt;!-- Sytem device files --&gt;
+&lt;DeviceFile value="/dev/ttyS1"/&gt; 
+&lt;DeviceFile value="/dev/ttyS2"/&gt; 
+
+&lt;!-- Event definitions --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;Event name="p_start"    iotype="input"&gt;  &lt;Triggers&gt; &lt;PositiveEdge address="0"/&gt; &lt;/Triggers&gt; &lt;/Event&gt; 
+&lt;Event name="p_stop"     iotype="input"&gt;  &lt;Triggers&gt; &lt;NegativeEdge address="0"/&gt; &lt;/Triggers&gt; &lt;/Event&gt; 
+&lt;Event name="p_inprog"   iotype="output"&gt; &lt;Actions&gt;  &lt;Set address="1"/&gt; &lt;/Actions&gt; &lt;/Event&gt; 
+&lt;Event name="p_complete" iotype="output"&gt; &lt;Actions&gt;  &lt;Clr address="1"/&gt; &lt;/Actions&gt; &lt;/Event&gt; 
+
+&lt;Event name="m_start"    iotype="input"&gt;  &lt;Triggers&gt; &lt;PositiveEdge address="2"/&gt; &lt;/Triggers&gt; &lt;/Event&gt; 
+&lt;Event name="m_stop"     iotype="input"&gt;  &lt;Triggers&gt; &lt;NegativeEdge address="2"/&gt; &lt;/Triggers&gt; &lt;/Event&gt; 
+&lt;Event name="m_request"  iotype="output"&gt; &lt;Actions&gt;  &lt;Set address="3"/&gt; &lt;/Actions&gt; &lt;/Event&gt; 
+&lt;Event name="m_complete" iotype="output"&gt; &lt;Actions&gt;  &lt;Clr address="3"/&gt; &lt;/Actions&gt; &lt;/Event&gt; 
+
+&lt;/EventConfiguration&gt; 
+&lt;/SpiDevice&gt; 
+</pre>
+
+
+<p>
+With respect to the above events, the plant dynamics are modelled
+by the synchronous product of the below generators:
+</p>
+
+<table class="plain"> 
+<tr> <td> <fimath>G_a</fimath> (processing of workpieces)  </td> </tr> 
+<tr>
+<td> <fimage fsrc="tmp_decdemo_planta"/> </td>
+</tr>
+<tr> <td> <fimath>G_b</fimath> (maintenance cycle)</td> </tr>
+<tr> <td> <fimage fsrc="tmp_decdemo_plantb"/> </td>
+</tr>
+</table> 
+
+<p>
+In order to obtain realistic behaviour w.r.t. timing, 
+we use stochastic execution attributes 
+for the events <tt>p_complete</tt>,  <tt>m_request</tt> and <tt>m_complete</tt>
+as specified by the below <tt>simfaudes</tt> configuration file;
+see also the <ftype>ProposingExecutor</ftype>. Effectively,
+the parameters amount to a stochastic process duration with
+a mean of 75ftu and stochastic machine break-down 
+with a mean of 200ftu processing time. 
+</p>
+
+<pre>
+% Configuration for plant simulator
+&lt;Executor&gt;
+
+% Specify generators
+&lt;Generators&gt;
+"decdemo_planta.gen"
+"decdemo_plantb.gen"
+&lt;/Generators&gt;
+
+% Specify event attributes
+&lt;SimEventAttributes&gt;
+
+% Dont propose inpute events
+"p_start" &lt;Priority&gt; -50 &lt;/Priority&gt;
+"p_stop"  &lt;Priority&gt; -50 &lt;/Priority&gt;
+"m_start" &lt;Priority&gt; -50 &lt;/Priority&gt;
+"m_stop"  &lt;Priority&gt; -50 &lt;/Priority&gt;
+
+% Timing
+"p_inprog"   &lt;Priority&gt; 50 &lt;/Priority&gt;
+"p_complete" &lt;Stochastic&gt; +Trigger+ +Gauss+ &lt;Parameter&gt;  50 100  75 20 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+"m_complete" &lt;Stochastic&gt; +Trigger+ +Gauss+ &lt;Parameter&gt;  50 100  75 20 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+"m_request"  &lt;Stochastic&gt; +Delay+   +Gauss+ &lt;Parameter&gt; 150 250 200 20 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+
+&lt;/SimEventAttributes&gt;
+&lt;/Executor&gt;
+</pre>
+
+<p>
+For an interactive simulation of the plant, 
+open a command shell and change to the iodevice tutorial directory
+to run <tt>simfaudes</tt> 
+</p>
+<pre>
+$ cd ./libfaudes/plugins/iodevice/tutorial
+$ ../../../bin/simfaudes -v -i data/decdemo_plant.sim
+</pre>
+
+<h2>
+<a id="devconfig">
+Controller Configuration
+</a>
+</h2>
+
+
+<p>
+There are two designated controllers in our setup.
+Controller A runs the plant by the signals 
+<tt>P_ACTUATOR</tt> and <tt>P_SENSOR</tt> and is meant
+to schedule the processing of workpieces as long as there is no
+maintenance required.
+Controller B is connected by the signals
+<tt>M_ACTUATOR</tt> and <tt>M_SENSOR</tt> and is meant
+to controll the maintenance cycle after break-down.
+The below tables define the events for the respective controller
+in one-to-one correspondance with the plant model. Note, however, that
+plant inputs become controller outputs and vice versa.
+</p>
+
+
+<table class="plain">
+<tr><td>
+<table class="small_table">
+<tr><td colspan="4" frame="void">Controller A</td></tr>
+<tr><th>Event</th> <th>Type</th><th>Trigger/Action</th> <th>Comments</th></tr>
+<tr>
+<td><tt>p_start</tt></td>
+<td>output</td>
+<td>set <tt>P_ACTUATOR</tt></td> 
+<td>start normal processing</td>
+</tr>
+<tr>
+<td><tt>p_stop</tt></td>
+<td>output</td>
+<td>clear <tt>P_ACTUATOR</tt></td> 
+<td>stop processing</td>
+</tr>
+<tr>
+<td><tt>p_inprog</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>P_SENSOR</tt> </td>
+<td>processing has started</td>
+</tr>
+<tr>
+<td><tt>p_complete</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>P_SENSOR</tt> </td>
+<td>process completed</td>
+</tr>
+<tr><td colspan="4" frame="void">&nbsp;</td></tr>
+<tr><td colspan="4" frame="void">Controller B</td></tr>
+<tr><th>Event</th> <th>Type</th><th>Trigger/Action</th> <th>Comments</th></tr>
+<tr>
+<td><tt>m_start</tt></td>
+<td>output</td>
+<td>set <tt>M_ACTUATOR</tt></td> 
+<td>start maintenance</td>
+</tr>
+<tr>
+<td><tt>m_stop</tt></td>
+<td>output</td>
+<td>clear <tt>M_ACTUATOR</tt></td> 
+<td>stop maintenance</td>
+</tr>
+<tr>
+<td><tt>m_request</tt></td>
+<td>input</td>
+<td>pos. edge on <tt>M_SENSOR</tt> </td>
+<td>maintenance request (machine break down)</td>
+</tr>
+<tr>
+<td><tt>m_complete</tt></td>
+<td>input</td>
+<td>neg. edge on <tt>M_SENSOR</tt> </td>
+<td>maintenance completed</td>
+</tr>
+</table>
+</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr></table>
+
+
+<p>
+The respective configuration of <ftype>SpiDevice</ftype>s 
+is provided by the files <tt>decdemo_contra_serial.dev</tt> and <tt>decdemo_contrb_serial.dev</tt>.
+We give a listing for Controller A:
+</p>
+
+
+<pre>
+%Device configuration for serial process image device
+&lt;SpiDevice name="ControllerA_Serial"&gt; 
+
+&lt;!-- Time scale in ms/ftu --&gt;
+&lt;TimeScale value="10"/&gt; 
+&lt;!-- Sample interval for edge detection in us (1ms) --&gt;
+&lt;SampleInterval value="1000"/&gt; 
+&lt;!-- Role: slave --&gt;
+&lt;Role value="slave"/&gt;
+&lt;!-- Sytem device file --&gt;
+&lt;DeviceFile value="/dev/ttyS0"/&gt; 
+
+&lt;!-- Events --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;Event name="p_start"    iotype="output"&gt; &lt;Actions&gt;  &lt;Set address="0"/&gt; &lt;/Actions&gt; &lt;/Event&gt; 
+&lt;Event name="p_stop"     iotype="output"&gt; &lt;Actions&gt;  &lt;Clr address="0"/&gt; &lt;/Actions&gt; &lt;/Event&gt; 
+&lt;Event name="p_inprog"   iotype="input"&gt;  &lt;Triggers&gt; &lt;PositiveEdge address="1"/&gt; &lt;/Triggers&gt; &lt;/Event&gt; 
+&lt;Event name="p_complete" iotype="input"&gt;  &lt;Triggers&gt; &lt;NegativeEdge address="1"/&gt; &lt;/Triggers&gt; &lt;/Event&gt; 
+
+&lt;/EventConfiguration&gt; 
+&lt;/SpiDevice&gt; 
+</pre>
+
+
+
+<p>
+Our intention is to mimique the behaviour of the common simple machine example,
+stated in terms of the abstract events
+<tt>alpha</tt>  (start process),
+<tt>beta</tt>   (process completed),
+<tt>mue</tt>    (break-down), and,
+<tt>lambda</tt> (maintenance completed).
+The below controllers are meant to control the plant and
+to schedule the abstract events in compliance with 
+the intended semantics.
+</p>
+
+
+<table class="plain"> 
+<tr> <td> <fimath>C_a</fimath> (Controller A)</td> </tr> 
+<tr>
+<td> <fimage fsrc="tmp_decdemo_contra"/> </td>
+</tr>
+<tr> <td> <fimath>C_b</fimath> (Controller B)</td> </tr>
+<tr> <td> <fimage fsrc="tmp_decdemo_contrb"/> </td>
+</tr>
+</table> 
+
+
+<p>
+The designated closed-loop behaviour amounts to <fimath> K:= G_a \parallel G_b \parallel C_a \parallel C_b</fimath>,
+and, indeed, the projection to the high level alphabet
+{<tt>alpha</tt>, <tt>beta</tt>, <tt>mue</tt>, <tt>lambda</tt>} resembles the
+common simple machine.
+The tutorial directory provides the Lua script <tt>decdemo_verify.lua</tt> that
+verifies that relevant controllability conditions are satisfied, i.e.,
+that in the closed-loop configuration 
+neither controller disables sensor events and that the
+plant never disables actuator events.
+This is not surprising, since we've based our modells on
+physical input-output signals. 
+</p>
+
+
+<table class="plain"> 
+<tr> <td> <fimath>K</fimath> (closed loop)</td> </tr> 
+<tr><td> <fimage fsrc="tmp_decdemo_cloop"/> </td></tr>
+</table>
+
+
+<p>
+Each controller only refers to those plant events, that it can
+access via the direct interconnection by input-signals and output-signals. 
+However, both controllers share the abstract event <tt>lambda</tt> which must be synchronized in order to
+obtain the closed-loop behaviour <fimath>K</fimath>. It is
+verified in <tt>decdemo_verify.lua</tt> that 
+<fimath>K</fimath> is controllable w.r.t. <fimath>C_b</fimath>
+and the uncontrollable events {<tt>m_start</tt>, <tt>m_stop</tt>, <tt>lambda</tt>}.
+Thus, the event <tt>lambda</tt>
+is never disabled by <fimath>K</fimath> when it is enabled in <fimath>C_b</fimath>. 
+For the particular example, it can also be seen that
+whenever <tt>lambda</tt> is enabled in Controller B, the other controller
+cannot execute any other event, i.e., Controller A waits for <tt>lambda</tt>. 
+Hence, the execution of <tt>lambda</tt> can be decided locally by Controller B,
+which is meant to indicate any such execution to Controller A. In the laboratory
+experiment, we use a <ftype>SimplenetDevice</ftype> to communicate
+the execution of <tt>lambda</tt> over a TCP/IP network, configured as follows:
+</p>
+
+<table class="plain">
+<tr><td>
+<pre>
+&lt;SimplenetDevice name="ControllerA_Net"&gt; 
+&lt;!-- Time scale in ms/ftu --&gt;
+&lt;TimeScale value="1000"/&gt; 
+&lt;!-- Ip address of this node, incl. server tcp port --&gt;
+&lt;ServerAddress value="localhost:40000"/&gt; 
+&lt;!-- Network topology --&gt;
+&lt;Network name="DecdemoLoop"&gt; 
+&lt;Node name="ControllerA_Net"/&gt; 
+&lt;Node name="ControllerB_Net"/&gt; 
+&lt;/Network&gt; 
+&lt;!-- Event configuration --&gt;
+&lt;EventConfiguration&gt; 
+&lt;Event name="lambda"  iotype="input"/&gt; 
+&lt;/EventConfiguration&gt; 
+&lt;/SimplenetDevice&gt; 
+</pre>
+</td><td>
+<pre>
+&lt;SimplenetDevice name="ControllerB_Net"&gt; 
+&lt;!-- Time scale in ms/ftu --&gt;
+&lt;TimeScale value="1000"/&gt; 
+&lt;!-- Ip address of this node, incl. server tcp port --&gt;
+&lt;ServerAddress value="localhost:40001"/&gt; 
+&lt;!-- Network topology --&gt;
+&lt;Network name="DecdemoLoop"&gt; 
+&lt;Node name="ControllerA_Net"/&gt; 
+&lt;Node name="ControllerB_Net"/&gt; 
+&lt;/Network&gt; 
+&lt;!-- Event configuration --&gt;
+&lt;EventConfiguration&gt; 
+&lt;Event name="lambda"  iotype="output"/&gt; 
+&lt;/EventConfiguration&gt; 
+&lt;/SimplenetDevice&gt; 
+</pre>
+</td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+</table>
+
+
+<p>
+The overall device configuration is given by the
+files <tt>decdemo_contra.dev</tt> and <tt>decdemo_contrb.dev</tt>,
+which gather the respective serial- and network devices as a container device;
+see also <ftype>DeviceContainer</ftype>.
+Simulation parameters are specifed in
+<tt>decdemo_contra.sim</tt> 
+and
+<tt>decdemo_contrb.sim</tt>, respectively.
+They amount to a short delay befor starting a process by <tt>alpha</tt> 
+to ensure edge detection.
+</p> 
+
+
+<h2>
+<a id="cloop">
+Closed-Loop Simulation
+</a>
+</h2>
+
+<h4>
+Hardware configuration and testing.
+</h4>
+
+<p>
+Assuming that all three PCs are running a similar
+Linux distribution and are accessible via a network, 
+it is most convenient to use one machine for compilation/configuration 
+and to distribute the relevant files to the other PCs by a shell script.
+An example is provided in <tt>decdemo_upload.sh</tt>,
+which should be easy to adapt for other hostnames/logins etc.
+</p>
+
+<p>
+For the serial interfaces, two null-modem cables are required
+to connect the three PCs as indicated by the figure at the top 
+of this page. The current implementation of the <ftype>SpiDevice</ftype>
+does no hardware handshake, so three-wire cables will be fine (using TxD, RxD and Gnd).
+One may use any terminal program to 
+figure the respective system device files, 
+(typically <tt>/dev/ttySnn</tt> or <tt>/dev/ttyUSBnn</tt> for USB-to-serial adapters), 
+and to test the serial interconnection.
+We found <tt>cutecom</tt> particulary useful for that purpose. 
+Once the device files are known, the configuration files 
+<tt>decdemo_plant_serial.dev</tt>,
+<tt>decdemo_contra_serial.dev</tt>, and
+<tt>decdemo_contrb_serial.dev</tt> need to be adapted accordingly.
+</p>
+
+<p>
+It is recommended to test the overall configuration  by 
+running the <tt>iomonitor</tt> (provided by libFAUDES in the <tt>bin</tt> directory)
+on each PC.
+</p>
+<pre>
+plant_simulator_pc$ ./iomonitor decdemo_plant_serial.dev
+</pre>
+<pre>
+controller_a_pc$ ./iomonitor decdemo_contra.dev
+</pre>
+<pre>
+controller_b_pc$ ./iomonitor decdemo_contrb.dev
+</pre>
+<p>
+With the <tt>iomonitor</tt>, execute any output event from any
+PC via the <tt>we</tt> command and check for the event to be delivered
+to the remaining PCs by <tt>rf</tt>. 
+</p>
+ 
+<h4>
+Starting the simulation.
+</h4>
+
+<p>
+The recommended order is to first start the plant, then Controller B,
+and finally controller A.
+</p>
+
+<pre>
+plant_simulator_pc$ ./simfaudes -v -d decdemo_plant_serial.dev decdemo_plant.sim
+</pre>
+<pre>
+controller_b_pc$ ./simfaudes -v -d decdemo_contrb.dev decdemo_contrb.sim
+</pre>
+<pre>
+controller_a_pc$ ./simfaudes -v -d decdemo_contra.dev decdemo_contra.sim
+</pre>
+
+
+
+
+</ReferencePage>
+
+  

@@ -1,0 +1,37 @@
+ 
+<Generator>
+"IOSystem1"           
+
+<Alphabet>
+"u1"	+I+
+"u2"	+I+
+"y1"	+O+
+"y2"	+O+
+</Alphabet>
+
+<States>
+"s1"  "s2" "s3"	"s4"
+</States>
+
+<TransRel>
+"s1"	"u1"	"s2"
+
+"s2"	"y1"	"s3"
+
+"s3"	"u1"	"s4"
+"s3"	"u2"	"s2"
+
+"s4"	"y1"	"s1"
+"s4"	"y2"	"s3"
+</TransRel>
+
+<InitStates>
+"s1"           
+</InitStates>
+
+<MarkedStates>
+"s1"           
+</MarkedStates>
+
+</Generator>
+

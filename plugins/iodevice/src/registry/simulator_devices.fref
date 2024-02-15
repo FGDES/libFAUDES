@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Simulator" page="4_IO-Devices" title="Simulator - Devices">
+
+<h1>
+Devices
+</h1>
+<p>
+The iodevice plug-in provides data-types that access hardware components
+to enable hardware-in-the-loop simulation, i.e., to 
+<a href="simulator_iointro.html">
+run a supervisor on a physical plant</a>.
+The devices implemented in this version of libFAUDES are 
+motivated by LRT laboratory equipment,
+adaption to other hardware components should be straight forward.
+</p>
+
+
+<p>
+Each device is configured by a libFAUDES token stream 
+to map <i>physical events</i> (external events)  to <i>logic events</i>
+(libFAUDES events). 
+The prototypical example for a device
+is the <ftype>SignalDevice</ftype>, which interprets edges of electrical signals 
+connected via a digital IO board as physical events. 
+In general, devices distinguish between events that are triggered externally 
+and events that are to be triggered internally.
+For the <ftype>SignalDevice</ftype> this amounts to <i>input events</i> which 
+indicate edges sensed on a digital <i>input signal</i> and 
+<i>output events</i> that impose edges on a digital <i>output signal</i>.
+</p>
+
+<p>
+Devices also provide a clock referring to physical time. 
+A simulator application may use this feature to
+synchronise the internal clocks of a timed automaton with physical time.
+The clock provided by a device refers to <i>faudes time-units (ftu)
+since initialisation</i>, where a scaling factor with unit ms/ftu 
+is set at device configuration. 
+</p>
+
+<p>
+To inspect a libFAUDES device independently from the simulator,
+the tool <tt>iomonitor</tt> provides a simple command line interface
+to report input events and to trigger output events. 
+There is also the <tt>iobridge</tt> to associate the respective events
+of two devices, which in conjunction with the
+<ftype>SimplenetDevice</ftype> can be used to implement PC based operator
+interfaces and/or process visualisation.
+</p>
+
+<p>
+Technical Note: since hardware access typically depends on low-level libraries,
+individual devices must be explicitly enabled by compile-time switches
+in the Makefile <tt>libfaudes/plugins/iodevice/Makefile.plugin</tt>.
+</p>
+
+<ftype_reference name="SignalDevice">
+
+<p>
+A <ftype>SignalDevice</ftype> maps libFAUDES events (<i>logical events</i>)
+to edges on digital signals (<i>physical events</i>). It is an abstract data-type
+in that it does not implement actual hardware access. This is left to derived types,
+which in the standard libFAUDES distribution amounts to 
+the <ftype>ComediDevice</ftype>,
+the <ftype>SpiDevice</ftype>, and
+the <ftype>ModbusDevice</ftype>.
+</p>
+
+<h4>
+Signals
+</h4>
+<p>
+Each individual signal is identified by an abstract <i>bit-address</i> which corresponds
+to a particular port/pin/connector of the underlying hardware.
+We assume all signals to exhibit a boolean range, i.e. at each instance on time
+the signal takes one of two values, referred to as 
+<i>high</i>/<i>low</i>, <i>active</i>/<i>passive</i> or <i>true</i>/<i>false</i>. 
+A signal may either be an <i>input signal</i> or an <i>output signal</i> depending
+on whether we can read or write its current value from the underlying hardware.
+</p>
+
+<h4>
+Input signals and input events
+</h4>
+<p>
+Each input signal is monitored periodically to detect edges.  
+An input event is defined by its trigger sources given as a list of bit-addresses and edge polarities. 
+Whenever a specified edge occurs, the simulator is notified about the occurrence of
+the respective event. The below fragment of a device configuration defines the
+logical event <tt>alpha</tt> to be triggered by either a positive edge (from low to high)
+on the signal with address 4 or a negative edge (from high to low) on signal 7. Note that,
+if both edges occur within one sampling period, only one event <tt>alpha</tt> will be issued.
+</p>
+
+<pre>
+&lt;Event name="alpha" iotype="input"&gt;
+&lt;Triggers&gt; 
+&lt;PositiveEdge address="4"/&gt; 
+&lt;NegativeEdge address="7"/&gt; 
+&lt;/Triggers&gt; 
+&lt;/Event&gt;
+</pre>
+
+<p>
+<em>Technical Detail.</em>
+Edge detection is implemented by a cyclic background thread that takes a sample
+of the input line-levels. 
+At the end of every cycle, a timer is used to wait for the sampling interval to elapse. 
+The sampling interval can be set by the configuration tag
+<tt>&lt;SampleInterval value="xxx"/&gt;</tt>, where <tt>xxx</tt> is the period
+in usecs. 
+An error is reported, whenever the schedule cannot be met.
+</p>
+
+
+<h4>
+Output signals and output events
+</h4>
+<p>
+An output event is defined by a list of <i>actions</i> that set, clear or invert the 
+value of a particular output signal specified by its bit-address.
+Whenever the simulator executes the respective event, the affected signal values
+are set accordingly. The below configuration example configures the logical event
+<tt>beta</tt> to clear the signal with address 1 to low, 
+to set signal 8 to high, and to invert the signal with address 9. 
+Note that inverting a signal is only supported 
+in conjunction with the synchronous write option (enabled by
+the <tt>&lt;SynchronousWrite/&gt;</tt> tag in the configuration file, see also below).
+</p>
+
+<pre>
+&lt;Event name="beta" iotype="output"&gt; 
+&lt;Actions&gt; 
+&lt;Clr address="1"/&gt; 
+&lt;Set address="8"/&gt; 
+&lt;Inv address="9"/&gt; 
+&lt;/Actions&gt; 
+&lt;/Event&gt;
+</pre>
+
+<p>
+<em>Technical Detail.</em>
+Output events and their effect on the respective line-levels
+can either be perfromed synchonously or buffered by a
+line-level buffer for subsequent application by the background thread.
+Buffered outputs are automatic for most derived classes or can be enforced explicitly by
+the <tt>&lt;SynchronousWrite/&gt;</tt> tag. With synchronous
+write, the overall line-level buffer for input- and output-lines 
+represents the so called <em>process image</em>.
+</p>
+
+<h4>
+Token IO
+</h4>
+<p>
+Configuration details depend on the supported hardware and are documented in
+the derived types, e.g. <ftype>ComediDevice</ftype>.
+</p>
+
+</ftype_reference>
+
+<ftype_reference name="ComediDevice">
+
+<p>
+A ComediDevice object is a <ftype>SignalDevice</ftype> that
+uses low-level drivers from the  <a href="http://www.comedi.org">comedi-framework</a>
+to access digital-I/O hardware. Available drivers include 
+specialised PCI extension boards for automation as well as generic
+parallel I/O boards.
+</p>
+
+<h4>
+Low-level configuration
+</h4>
+
+<p>
+The 
+<a href="http://www.comedi.org">comedi-framework</a>
+provides a command line tool to configure the actual hardware that henceforth can be accessed 
+via the system files <tt>/dev/comedi0</tt>, <tt>/dev/comedi1</tt>, <tt>/dev/comedi2</tt>, etc.
+Detailed instructions on supported hardware and the installation procedure
+are given on the
+<a href="http://www.comedi.org">comedi site</a>. 
+As an example, we provide a configuration script for the LRT laboratory PC
+equipped with two Advantech digital IO PCI boards:
+</p>
+
+<pre>
+#!/bin/sh
+# Configure the comedi kernel module to run the LRT lab experiment.
+
+echo 1. =========  load advantech module
+/sbin/modprobe adv_pci_dio
+
+echo 2. ========= setting up device 
+comedi_config /dev/comedi0 -r
+comedi_config /dev/comedi1 -r
+comedi_config /dev/comedi0 pci1754 2,5
+comedi_config /dev/comedi1 pci1752 2,9
+
+echo 3. ========= running test 
+comedi_test --device /dev/comedi0
+comedi_test --device /dev/comedi1
+
+echo 4 ========== report
+comedi_info -f /dev/comedi0
+comedi_info -f /dev/comedi1
+</pre>
+
+<p>
+See also <tt>./libfaudes/plugins/iodevice/tutoral/data</tt> for a version
+of this script that cares about Linux user privileges.
+</p>
+
+<h4>
+Event-mapping configuration
+</h4>
+<p>
+ComediDevice objects inherit the event-mapping mechanism introduced by the
+<ftype>SignalDevice</ftype>. To configure the event-mapping you must supply
+the system device file, the sampling period for edge detection, and event definitions
+as described for the <ftype>SignalDevice</ftype>. 
+The bit addresses 0 corresponds to the lsb of the first low-level data word 
+and counts up to the number of available signals minus 1. An example configuration
+is given below.
+</p>
+
+<h4>
+Token IO
+</h4>
+
+<p>
+The example configures a ComediDevice to access the digital input port
+of the LRT lab Advantech PCI1754 via <tt>/dev/comedi0</tt> and sense
+edges on signal #4.
+</p>
+
+<pre>
+&lt;ComediDevice name="LrtInputDevice"&gt; 
+
+&lt;!-- Time scale in ms/ftiu --&gt;
+&lt;TimeScale value="500"/&gt; 
+
+&lt;!-- Sample interval for edge detection in usec --&gt;
+&lt;SampleInterval value="1000"/&gt; 
+
+&lt;!-- Sytem device file --&gt;
+&lt;DeviceFile value="/dev/comedi0"/&gt; 
+
+&lt;!-- Trigger based event definitition to follow --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;!-- Event "alpha" to indicate a positive edge on signal #4--&gt;
+&lt;Event name="alpha" iotype="input"&gt;
+&lt;Triggers&gt; &lt;PositiveEdge address="4"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt;
+
+&lt;!-- Event "beta" to indicate a negative edge on signal #4--&gt;
+&lt;Event name="beta" iotype="input"&gt;
+&lt;Triggers&gt; &lt;NegativeEdge address="4"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt;
+
+&lt;EventConfiguration/&gt; 
+
+&lt;/ComediDevice&gt;  
+</pre>
+
+<p>
+Note: this device must be explicitly enabled in the Makefile
+<tt>libfaudes/plugins/iodevice/Makefile.plugin</tt>
+</p>
+
+</ftype_reference>
+
+
+<ftype_reference name="WagoDevice">
+
+<p>
+A WagoDevice object is a <ftype>SignalDevice</ftype> that
+accesses digital signals via the  <a href="http://www.wago.de">WAGO</a>-kBus.
+The latter is used in WAGO IPCs to attatch IO modules.
+</p>
+
+<p>
+Signal values are read from and written to the so called <i>process image</i>,
+organized in two separate arrays of input bytes and output bytes.
+The bit layout depends on the IO modules present and their physical position
+on the kBus (so called <i>slot</i>).
+It can be inspected by running <tt>cat /proc/driver/kbus/pab </tt>,
+e.g. using a telnet connection to the IPC. Further details on the
+bit layout are provided by original documentation from WAGO.
+For the purpose of configuring a WagoDevice Object, each of the two byte arrays
+are interpreted as consecutive bits. Thus, the WagoDevice bit-address
+<tt>addr</tt> corresponds to bit number <tt>addr % 8</tt> within 
+the process image byte with offset <tt>addr / 8</tt>.
+</p>
+ 
+<p>
+The WagoDevice is used for the LRT elevator lab experiment, a corresponding 
+configuration file is supplied in the tutorial section and controller synthesis
+is discussed in <a href="simulator_iointro.html">simulator user reference</a>.
+The experiment was designed by Thomas Wittmann as part of his 
+<a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/report_wittmann.pdf">
+student project</a>.  
+Kind support by <a href="http://www.wago.de">WAGO</a> is greatefully acknowleged.
+</p>
+
+<center>
+<img align="top" width="400px" fsrc="FAUDES_IMAGES/iop_elevator_ipc_1024.jpg"/>
+&nbsp; &nbsp;
+<img align="top" width="191px" fsrc="FAUDES_IMAGES/iop_elevator_plant_1024.jpg"/>
+<br/>
+<span class="text_small">
+LRT laboratory setup: WAGO IPC as supervisor with harware plant simulator
+</span>
+</center>
+
+<p>
+Note: this device must be explicitly enabled in the Makefile
+<tt>libfaudes/plugins/iodevice/Makefile.plugin</tt> and requires
+the separate installation of low-level kbus libraries. The latter 
+can be obtained from WAGO.
+</p>
+
+<p>
+Note: The current implementation is restricted to one
+WagoDevice object per IPC. Thus, you may not run multiple
+applications that use the WagoDevice class to access the
+process image.  
+</p>
+
+</ftype_reference>
+
+
+<ftype_reference name="SpiDevice">
+
+<p>
+An SpiDevice object is a <ftype>SignalDevice</ftype> that
+emulates component interconnection to behave like parallel 
+digital wiring, however, physically using the 
+serial interface to synchronize the <i>process image</i>.
+The latter is a vector of boolean values that represents
+the line levels of the emulated digital wiring.
+</p>
+
+<p>
+The SpiDevice distinguishes between one master component 
+and an arbitrary number of slave components. The master must be
+physically connected to each slave via a dedicated serial interface. 
+At each sample period, the master passes the process image consecutively to each client, 
+which in turn overwrites the respective ouput line levels and reports back the manipulated image.  
+In particular, any bit in the process image should represent an output signal for exactly one component. 
+</p>
+
+<center>
+<img fsrc="FAUDES_IMAGES/iop_spidevice.png"/>
+<br/>
+<span class="text_small">
+Closed loop configuration with simulated plant connected via SpiDevice 
+</span>
+</center>
+
+<p>
+The above figure illustrates the interconnection of a controller
+with a plant simulation, each on a seperate PC.
+As a variation, one may implement the plant simulation on a microcontroller 
+for class-room experiments. Since there can be multiple slave
+compoments, the scenario is readily extended to decentralized control; see
+also <a href="simulator_decdemo.html">Simulator Interconnection</a>.
+</p>
+
+<p>
+To configure an spiDevice, you must
+</p>
+<ul class="l2">
+<li><p>
+specify the role using either the tag 
+<tt>&lt;Role value="master"/&gt;</tt> or <tt>&lt;Role value="slave"/&gt;</tt>;
+</p></li>
+<li><p>
+specify the serial interface, using tags 
+<tt>&lt;DeviceFile value="/dev/ttyS0"/&gt</tt>, <tt>&lt;DeviceFile value="/dev/ttyS1"/&gt</tt>, etc.;
+</p></li>
+<li><p>
+setup events to correspond to edges of line levels, see also <ftype>SignalDevice</ftype>.
+</p></li>
+</ul>
+
+<p>
+<i>Technical Detail.</i>
+In the current implementation, the process image has 
+a fixed length of 64 bits and the serial line is configured to operate 
+at 115200 bits per second. This suggests an overall time
+for serial transmission of about 1ms per slave. Consequently, the sampling time for a slave 
+component should by set to 1ms. Due to a very naive mechanism used for the detection of blocks of
+consecutive data, the sampling time for the master should not be below 5ms per slave.
+</p>
+
+
+<h4>
+Token IO
+</h4>
+
+<p>
+The example configures the SpiDevice for a plant simulation
+with master role. The process image is synchronized with
+two slaves connected via <tt>/dev/ttyS1</tt> and <tt>/dev/ttyS2</tt>.
+At bit address 0, the process image controls an actuator, e.g., a motor to run a machine. 
+At bit address 1, the process image indicates a sensor state, e.g., a switch
+that indicates completion of a positioning task. 
+</p>
+
+<pre>
+&lt;SpiDevice name="Plant Simulation"&gt; 
+
+&lt;!-- Time scale in ms/ftu --&gt;
+&lt;TimeScale value="1000"/&gt; 
+
+&lt;!-- Sample interval for edge detection in us (10ms) --&gt;
+&lt;SampleInterval value="10000"/&gt; 
+
+&lt;!-- Role: master --&gt;
+&lt;Role value="master"/&gt;
+
+&lt;!-- Sytem device files --&gt;
+&lt;DeviceFile value="/dev/ttyS1"/&gt; 
+&lt;DeviceFile value="/dev/ttyS2"/&gt; 
+
+&lt;!-- Trigger based event definitition --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;!-- Actuator (plant input) --&gt;
+&lt;Event name="op_start" iotype="input"&gt; 
+&lt;Triggers&gt;&lt;PositiveEdge address="0"/&gt;&lt;/Triggers&gt; 
+&lt;/Event&gt; 
+&lt;Event name="op_stop" iotype="input"&gt; 
+&lt;Triggers&gt;&lt;NegativeEdge address="0"/&gt;&lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Sensor (plant output) --&gt;
+&lt;Event name="op_inprog" iotype="output"&gt; 
+&lt;Actions&gt;&lt;Set address="1"/&gt;&lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;Event name="op_complete" iotype="output"&gt; 
+&lt;Actions&gt;&lt;Clr address="1"/&gt;&lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;/EventConfiguration&gt; 
+&lt;/SpiDevice&gt; 
+</pre>
+
+<p>
+Note: this device must be explicitly enabled in the Makefile
+<tt>libfaudes/plugins/iodevice/Makefile.plugin</tt>
+</p>
+
+
+</ftype_reference>
+
+
+<ftype_reference name="ModbusDevice">
+
+<p>
+The <ftype>ModbusDevice</ftype> class is derived from the signal based <ftype>SignalDevice</ftype> 
+to read and write line levels via ethernet using the Modbus/TCP protocol; 
+see the <a href="http://www.modbus.org">Modbus Organization</a> for techincal details.  
+A <ftype>ModbusDevice</ftype> can be either configured as a slave or as a master.
+Typically, a PLC will be configured as master and initiate communications with
+I/O devices, which behave as slaves. Event semenatics are inherited from 
+<ftype>SignalDevice</ftype> and refer to a local copy of the remote  process image.
+</p>
+
+<p>
+The Modbus/TCP integration to libFAUDES was driven by the factory simulator
+FlexFact from the applications project and has been tested extensively in
+this particular context. If you experience problems in accessing other
+Modbus/TCP devices, please let us know, so we can improve our implementation.
+</p>
+
+
+<h4>
+Master
+</h4>
+
+<p> 
+When configured as master, the <ftype>ModbusDevice</ftype>
+initiates commucation with a specified list of slaves in order
+to retrieve input line levels and to set output line levels. The latter are
+locally buffered and propagated to the event-based interface
+inherited from <ftype>SignalDevice</ftype>.
+</p>
+
+<p>
+To configure a <ftype>ModbusDevice</ftype> as a master, 
+use the role tag <tt>&lt;Role value="master"/&gt;</tt> and
+specify the remote slave address by <tt>&lt;SlaveAddress value="hostname:port"/&gt;</tt>. 
+Here, <tt>hostname</tt> can be given
+as an IP address in dot-notation or as a alpha-numerical hostname for the operating system to resolve. 
+By the Modbus specification, the  <tt>port</tt>
+should be <tt>502</tt>. However, this requires root privileges on some systems, and a common
+fallback is the unpriviledged port <tt>1502</tt>. 
+A <ftype>ContainerDevice</ftype> can be used to access
+multiple slaves by different IP addresses.
+</p>
+
+<p>
+Once per cycle of the <ftype>SignalDevice</ftype> background thread,
+the <ftype>ModbusDevice</ftype>  will synchronize the local line-level buffer  
+with the remote slave. The correspondence
+between remote bit addresses and the bit addresses used in the local buffer
+is defined by the <tt>&lt;RemoteImage&gt;</tt> element. You may specify ranges
+of <tt>&lt;Inputs&gt;</tt> or <tt>&lt;Outputs&gt;</tt> and use the following
+attributes to declare the address mapping:
+</p>
+<ul class="l2">
+<li><p>
+a Modbus device-id <tt>mbid</tt> (optional, required if one slave provides multiple devices, e.g. RS485 bridges), 
+</p></li>
+<li><p>
+a Modbus start address <tt>mdaddr</tt> referring to the remote device bit addresing,
+</p></li>
+<li><p>
+the number <tt>count</tt> of bits to transmit, and
+</p></li>
+<li><p>
+a buffer start bitaddress <tt>fdaddr</tt> refrerring to the local buffer layout.
+</p></li>
+</ul>
+
+<p>
+The below example configures a master to access the simple machine plant from
+the <a href="simulator_decdemo.html">decentralized control example</a>. 
+It expects the plant in slave role to provide
+a process image with remote address range from <tt>0</tt> to <tt>3</tt>, where
+bit <tt>0</tt> and <tt>2</tt> are plant inputs and <tt>1</tt> and <tt>2</tt>
+are plant outputs. The remote image is mapped 1:1 to the internal line-level buffer. 
+</p>
+
+<pre>
+&lt;ModbusDevice name="plant access"&gt; 
+
+&lt;!-- SignalDevice configuration --&gt;
+&lt;TimeScale value="10"/&gt;                  % 1000 msec  per ftu
+&lt;SampleInterval value="5000"/&gt;           % 5000 usec
+
+&lt;!-- Modbus slave configuration --&gt;
+&lt;Role value="master"/&gt;
+&lt;SlaveAddress value="localhost:1502"/&gt;   % slave at localhost:1502
+
+&lt;!-- Modbus address mapping: map 1:1  --&gt;
+&lt;RemoteImage&gt;
+&lt;Inputs  mbaddr="0" count="4" /&gt;
+&lt;Outputs mbaddr="0" count="4" /&gt;
+&lt;/RemoteImage&gt;
+
+&lt;!-- SignalDecive events  --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;!-- Plant inputs on line 0 and 2 --&gt;
+&lt;Event name="p_start" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Set address="0"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;Event name="m_start" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Set address="2"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+
+&lt;!-- Plant outputs on line 1 and 3 --&gt;
+&lt;Event name="p_inprog" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="1"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+&lt;Event name="p_complete" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="1"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+&lt;Event name="m_request" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="3"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+&lt;Event name="m_complete" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="3"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;/EventConfiguration&gt; 
+&lt;/ModbusDevice&gt; 
+</pre>
+
+<p>
+<em>Technical Detail.</em>
+The <ftype>ModbusDevice</ftype> allows for a relaxed configuration
+style in that it never overwrites line levels that correspond to its output lines,
+i.e.,
+when reading from the remote slave, values that
+correspont to local output lines will be silently ignored.
+As in the above example, one may map the
+entire process image to the internal buffer,
+regardless of the input/output role of individual lines.
+For obvious reasons, this relaxed configuration style
+can only be used when the respective slaves behave in the same manner.
+</p>
+
+
+<p>
+<em>Technical Detail.</em>
+Network I/O is implemented synchronous with the edge detection
+background thread of the <ftype>SignalDevice</ftype>.
+Thus, the minimum response delay for the  master is its 
+<tt>SamplingInterval</tt>. Consequently, the slave should
+sample at a reasonably lower rate as the master.
+Future implementations may seperate
+edge detection and Modbus communication to circumvent
+this issue. 
+</p>
+
+<h4>
+Slave
+</h4>
+
+<p> 
+When configured as slave, the <ftype>ModbusDevice</ftype> accepts connections from any Modbus
+master, will response to their request and update the local line-level buffer accordingly.
+Possible applications include a line-level based interconnection of
+a PLC in Modbus master mode with an instance of  <tt>simfaudes</tt> for plant
+simulation.
+</p>
+
+<p>
+To configure a <ftype>ModbusDevice</ftype> as a slave, 
+use the role tag <tt>&lt;Role value="slave"/&gt;</tt>.
+The port, on which the <ftype>ModbusDevice</ftype> listens for connections defaults to
+<tt>502</tt> and can be explicitly set by <tt>&lt;SlaveAddress value="localhost:port"/&gt;</tt>. 
+In the current implementation, the slave ignores the Modbus-id and maps the internal buffer 1:1 
+to Modbus bit addresses. At the time of writing, slave mode has only be tested by monitoring the 
+decentralized control example and may not be functional in other scenarios.
+</p>
+
+<p>
+The below example configures a slave to provide line-levels of the simple machine plant from
+the <a href="simulator_decdemo.html">decentralized control example</a>. 
+It expects the supervisor (or <tt>iomonitor</tt>) to connect in master mode
+and to retrieve plant outputs at address bit <tt>1</tt> and <tt>3</tt> and to set
+plant onput bits at address <tt>1</tt> and <tt>2</tt>.
+</p>
+<pre>
+&lt;ModbusDevice name="plant simulator"&gt; 
+
+&lt;!-- SignalDevice configuration --&gt;
+&lt;TimeScale value="1000"/&gt;               % 1000 msec per ftu
+&lt;SampleInterval value="1000"/&gt;          % 1000 usec
+
+&lt;!-- Modbus slave configuration --&gt;
+&lt;Role value="slave"/&gt;
+&lt;SlaveAddress value="localhost:1502"/&gt;  % listen on port 1502
+
+&lt;!-- SignalDecive events  --&gt;
+&lt;EventConfiguration&gt; 
+
+&lt;!-- Plant inputs on line 0 and 2 --&gt;
+&lt;Event name="p_start" iotype="input"&gt; 
+&lt;Triggers&gt;  &lt;PositiveEdge address="0"/&gt;  &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+&lt;Event name="m_start" iotype="input"&gt; 
+&lt;Triggers&gt;  &lt;PositiveEdge address="2"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+
+&lt;!-- Plant ioutputs on line 1 and 3 --&gt;
+&lt;Event name="p_inprog" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Set address="1"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;Event name="p_complete" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="1"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;Event name="m_request" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Set address="3"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;Event name="m_complete" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="3"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+
+&lt;/EventConfiguration&gt; 
+&lt;/ModbusDevice&gt; 
+</pre>
+
+<p>
+To test the <ftype>ModbusDevice</ftype>, you may open two console
+windows to run
+</p>
+<pre>
+&gt; simfaudes -d data/decdemo_plant_modbus.dev data/decdemo_plant.sim
+</pre>
+<pre>
+&gt; iomonitor data/decdemo_test_modbus.dev
+</pre>
+<p>
+This will simulate the plant from 
+the <a href="simulator_decdemo.html">decentralized control example</a>
+and access its process image by the <tt>iomonitor</tt>.
+</p>
+
+<p>
+Note: this device must be explicitly enabled in the Makefile
+<tt>libfaudes/plugins/iodevice/Makefile.plugin</tt>
+</p>
+
+</ftype_reference>
+
+
+
+<!--
+<ftype_reference name="RtxxDevice">
+
+<p>
+Here comes user doku of RTXX device
+</p>
+
+</ftype_reference>
+-->
+
+
+
+
+<ftype_reference name="SimplenetDevice">
+
+
+<p>
+The SimplenetDevice sends and receives events in form of messages over a 
+digital communication network.
+Together with the simulator plug-in, in can be used to
+implement decentralized supervision of discrete event systems. 
+However, a very pragmatic approach is taken and the SimplenetDevice must
+not be confused with ongoing research that addresses synchronisation, 
+real time behaviour, re-configuration, etc.
+</p>
+
+<h4>
+Network, Client, Server and Protocol
+</h4>
+
+<p>
+<i>Network:</i>
+A <i>network</i> is identified by its <i>network name</i>. 
+A network consists of a number of <i>nodes</i>, each identified by its <i>node name</i>. 
+Each node is aware of the entire network, i.e. the node names of all participating
+nodes.
+Each node implements both 
+<br/>
+1. a <i>server</i> to send event notifications and a 
+<br/>
+2. a <i>client</i> to receive event notifications.
+<br/>
+</p>
+
+
+<p>
+<i>Server:</i>
+In its server role, the node sends event notifications whenever an output event is
+executed.
+The node is configured to listen on its <i>server port</i> for incoming network connections. 
+It replies to a simple set of commands to allow a connecting client to
+subscribe to the nodes output events.
+</p>
+
+<p>
+<i>Client:</i>
+In its client role, the node receives event notifications for its input events.
+For each input event, there must exist some node, where the respective event is
+an output event. The client connects to all other nodes and subscribes
+to their output events. When it receives an event notification, this is
+interpreted as an input event.
+</p>
+
+
+<p>
+<i>Protocol:</i>
+The message protocol used for commands and notification is faudes-token based 
+and uses the carriage-return ASCII code 0x0d to separate messages. Messages are sent
+and received over TCP connections, and can be inspected/generated
+with standard network tools like <tt>nc</tt> or <tt>telnet</tt>; see also the tutorial shell scripts. 
+For each node, the <i>server port</i> must be set by the configuration tag
+<tt>&lt;ServerAddress value="localhost:port"/&gt;</tt>, where <tt>port</tt> is the 
+number of the TCP port to listen on, i.e., the port to which clients may connect to subscribe events. 
+If more than one node is meant to run on the same host, each must be configured to listen 
+to a different port. Further details regarding the protocol are given in the 
+<a fhref="FAUDES_CSOURCE/group__IODevicePlugin.html">IODevice C++ API</a> documentation.
+</p>
+
+<p>
+<i>Technical Detail:</i>
+Server addresses are distributed to all nodes via UDP broadcasts. 
+This mechanism requires all hosts to reside in the same subnet.
+If for some reason address resolution fails, each node must be explicitly configured 
+to be aware of each other server address. This is achieved by supplying appropriate address attributes 
+for each node in each configuration file; e.g.
+<tt>&lt;Node&gt; name="SimpleSupervisor" address="192.168.2.1:40000"&lt;/Node&gt;</tt>.
+</p>
+
+
+
+<h4>
+Token IO
+</h4>
+
+<p>
+For token IO, the SimplenetDevice reads and writes a section with label  
+"SimplenetDevice". There are no relevant attributes yet. Simple machine example:
+</p>
+
+<pre>
+&lt;SimplenetDevice name="SimpleMachine"&gt; 
+
+&lt;!-- Time scale in ms/ftiu --&gt;
+&lt;TimeScale value="1000"/&gt; 
+
+&lt;!-- IP address of this node, incl. server TCP port --&gt;
+&lt;ServerAddress value="localhost:40000"/&gt; 
+
+&lt;!-- Broadcaset address for address resolution (optional)
+&lt;BroadcastAddress value="255.255.255.255:40000"/&gt;
+ 
+&lt;!-- Network topology --&gt;
+&lt;Network name="SimpleLoop"&gt; 
+&lt;Node name="SimpleMachine"/&gt; 
+&lt;Node name="SimpleSupervisor"/&gt; 
+&lt;/Network&gt; 
+
+&lt;!-- Event configuration --&gt;
+&lt;EventConfiguration&gt; 
+&lt;Event name="alpha" iotype="input"/&gt; 
+&lt;Event name="beta" iotype="output"/&gt; 
+&lt;Event name="mue" iotype="output"/&gt; 
+&lt;Event name="lambda" iotype="input"/&gt; 
+&lt;/EventConfiguration&gt; 
+
+&lt;/SimplenetDevice&gt;
+</pre>
+
+<p>
+Note: this device must be explicitly enabled in the Makefile
+<tt>libfaudes/plugins/iodevice/Makefile.plugin</tt>
+</p>
+
+</ftype_reference>
+
+
+<ftype_reference name="D3RipUrtDevice">
+
+<p>
+The <a href="http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=6095541">D3RIP</a> 
+protocol family  has been developped by Klaus Schmidt and Ece Schmidt to address
+communication requirements from decentralized industrial automation, including
+dynamic bandwidth allocation for hard real-time guarantees. A software  
+implementation using low-cost Ethernet hardware is available from the developers.
+For further information, please contact Ece Schmidt.
+</p>
+
+<p>
+The <ftype>D3RipUrtDevice</ftype> class provides a libFAUDES interface 
+to the D3RIP URT protocol, to be used e.g. for the synchronization
+of events among multiple instances of <tt>simfaudes</tt> for the
+decentralized supervision of discrete event systems; see also 
+<a href="simulator_decdemo.html">Simulator Interconnection</a>.
+The libFAUDES interface has been implemented by Ulas Turan
+in course of his Msc Thesis project. 
+</p>
+
+
+<h4>
+Token IO
+</h4>
+
+<p>
+<ftype>D3RipUrtDevice</ftype> objects identify 
+input-events and output-events by a unique id, 
+which must be configured accordingly. In addition,
+output-events must be assigned with protocol specific parameters;
+see <a href="http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=6095541">D3RIP</a>
+for further details. Example configuration of a controller node:
+</p>
+
+<pre>
+&lt;D3RipUrtDevice name="ControllerB_Net"&gt; 
+&lt;TimeScale value="1000"/&gt; 
+
+&lt;EventConfiguration&gt; 
+
+&lt;Event name="?lambda" iotype="output"&gt;
+&lt;EventId value="1"/&gt;
+&lt;ChannelToTransmit value="1"/&gt;
+&lt;ParameterRecord name="11"&gt;
+&lt;DestinationNode value="1"/&gt;
+&lt;DestinationChannel value="1"/&gt;
+&lt;EligibilityTime value="2" /&gt;
+&lt;DeadlineTime value="5"/&gt;
+&lt;/ParameterRecord&gt;
+&lt;/Event&gt;
+
+&lt;Event name="!lambda" iotype="input"&gt;
+&lt;EventId value="2"/&gt;
+&lt;/Event&gt;
+
+&lt;Event name="lambda" iotype="output"&gt;
+&lt;EventId value="3"/&gt;
+&lt;ChannelToTransmit value="1"/&gt;
+&lt;ParameterRecord name="11"&gt;
+&lt;DestinationNode value="2"/&gt;
+&lt;DestinationChannel value="1"/&gt;
+&lt;EligibilityTime value="2" /&gt;
+&lt;DeadlineTime value="5"/&gt;
+&lt;/ParameterRecord&gt;
+&lt;/Event&gt;
+
+&lt;/EventConfiguration&gt; 
+
+&lt;/D3RipUrtDevice&gt; 
+</pre>
+
+
+<p>
+Note: This device must be explicitly enabled in the Makefile
+<tt>libfaudes/plugins/iodevice/Makefile.plugin</tt>. It imposes
+a number of requirements on your software infrastructure.
+You will need (1) a D3RIP implementation; (2) an IEEE 1588 synchronization deamon;
+and (3) a real-time patched Linux kernel.  
+</p>
+
+</ftype_reference>
+
+
+<ftype_reference name="DeviceContainer">
+
+<p>
+The <ftype>DeviceContainer</ftype> merges individual devices
+to behave like a single device. Input readings are
+combined in a union fashion over all participating devices,
+output writings are dispatched to the respective device. 
+</p>
+
+<p>
+Typical applications are distributed control systems where controller components
+that interact with the physical plant via a <ftype>SignalDevice</ftype> 
+also need to synchronize with other controllers via a <ftype>SimplenetDevice</ftype>.
+The <ftype>DeviceContainer</ftype> may also be used to access multiple independant
+signal devices.
+</p>
+
+
+<h4>
+Token IO
+</h4>
+
+<p>
+For token IO, the <ftype>DeviceContainer</ftype> consists of a list of individual
+device configurations. The example uses two <ftype>ComediDevice</ftype>s to access
+two PCI parallel IO boards.
+</p>
+
+<pre>
+&lt;DeviceContainer name="LrtLabSignalIO"&gt; 
+
+&lt;!-- Common time scale in ms/ftiu --&gt;
+&lt;TimeScale value="10"/&gt; 
+
+&lt;!-- List of devices --&gt;
+&lt;Devices&gt; 
+
+&lt;!-- Device for Input signals resp. events --&gt;
+&lt;ComediDevice name="LrtLabInputDevice"&gt; 
+&lt;SampleInterval value="100"/&gt; 
+&lt;DeviceFile value="/dev/comedi0"/&gt; 
+&lt;EventConfiguration&gt; 
+&lt;Event name="SensorA+" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;PositiveEdge address="26"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+&lt;Event name="SensorA-" iotype="input"&gt; 
+&lt;Triggers&gt; &lt;NegativeEdge address="26"/&gt; &lt;/Triggers&gt; 
+&lt;/Event&gt; 
+&lt;/EventConfiguration&gt; 
+&lt;/ComediDevice&gt; 
+
+&lt;!-- Device for Output signals resp. events --&gt;
+&lt;ComediDevice name="LrtLabOuputDevice"&gt; 
+&lt;SampleInterval value="100"/&gt; 
+&lt;DeviceFile value="/dev/comedi1"/&gt; 
+&lt;EventConfiguration&gt; 
+&lt;Event name="MotorA+x" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="28"/&gt; &lt;Set address="26"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;Event name="MotorA-x" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="26"/&gt; &lt;Set address="28"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;Event name="MotorAstp" iotype="output"&gt; 
+&lt;Actions&gt; &lt;Clr address="26"/&gt; &lt;Clr address="28"/&gt; &lt;/Actions&gt; 
+&lt;/Event&gt; 
+&lt;/EventConfiguration&gt; 
+&lt;/ComediDevice&gt; 
+
+&lt;/Devices&gt; 
+&lt;/DeviceContainer&gt; 
+</pre>
+
+
+</ftype_reference>
+
+
+</ReferencePage>
+
+  

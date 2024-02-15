@@ -1,0 +1,196 @@
+%%% test mark: DisGenVec_i [at syn_6_compsynth.cpp:92]
+% 
+%  Statistics for  Distinguisher from W2
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for W1
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for M1
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for W2
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   6
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for M2
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for B1
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for B2
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for M1||B2
+% 
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for M2||M1||B2
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        6
+%  Transitions:   13
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for B1||M2||M1||B2
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   8
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_6_compsynth.cpp:99]
+% 
+%  Statistics for W2||B1||M2||M1||B2
+% 
+%  States:        1
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   1
+%  StateSymbols:  1
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: Monolithic Representation [at syn_6_compsynth.cpp:157]
+% 
+%  Statistics for W2||B1||M2||M1||B2||B1||M2||M1||B2|...|W2||W1||M1|| Distinguisher from W2
+% 
+%  States:        52
+%  Init/Marked:   1/1
+%  Events:        10
+%  Transitions:   166
+%  StateSymbols:  52
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: Controllablity Test [at syn_6_compsynth.cpp:179]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: Nonblocking Test [at syn_6_compsynth.cpp:180]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

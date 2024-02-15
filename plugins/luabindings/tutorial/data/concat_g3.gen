@@ -1,0 +1,35 @@
+<Generator>
+"g3"          
+
+%
+% Statistics for g3
+% States:        2
+% Init/Marked:   1/1
+% Events:        1
+% Transitions:   1
+% StateSymbols:  2
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"b"           
+</Alphabet>
+
+<States>
+"1"           "2"           
+</States>
+
+<TransRel>
+"1"           "b"           "2"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"2"           
+</MarkedStates>
+
+
+</Generator>

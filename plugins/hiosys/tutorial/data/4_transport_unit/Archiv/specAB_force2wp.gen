@@ -1,0 +1,72 @@
+
+<Generator> "specAB"
+
+<Alphabet>
+"req_fl_AB" "req_tr_AB" 
+"nack_AB" "pack_AB"
+"idle_AB" "busy_AB" "l2r_AB" "stby_AB"
+</Alphabet>
+
+<States>
+"Empty" "aw_mode" "aw_mode2" "one_wp" "0_right_Y" "1_right_Y" 
+"0_right_U" "1fl_right_U"
+"2_right_Y" "2_right_U"
+</States>
+
+<TransRel>
+"Empty" 	"idle_AB"			"aw_mode"      
+"aw_mode" 	"l2r_AB"		"0_right_Y"
+"aw_mode"	"stby_AB"		"Empty"
+
+"0_right_Y"	"req_fl_AB"	        "0_right_U"
+
+"0_right_U"	"pack_AB"	        "one_wp"
+"0_right_U"	"nack_AB"	        "Empty"
+
+"one_wp" "busy_AB" "aw_mode2"
+
+"aw_mode2" "l2r_AB" "1_right_Y"
+"aw_mode2" "stby_AB" "one_wp"
+
+"1_right_Y"	"req_fl_AB" "1fl_right_U"
+
+
+"1fl_right_U" "pack_AB" "2_right_Y"
+"1fl_right_U"	"nack_AB" "one_wp"
+
+"2_right_Y" "req_tr_AB" "2_right_U"
+
+"2_right_U" "pack_AB" "one_wp"
+"2_right_U"	"nack_AB" "2_right_Y"
+
+</TransRel>
+
+<InitStates>
+"Empty"         
+</InitStates>
+
+<MarkedStates>
+"Empty" "aw_mode" "aw_mode2" "one_wp" "0_right_Y" "1_right_Y" 
+"0_right_U" "1fl_right_U"
+"2_right_Y" "2_right_U"
+</MarkedStates>
+
+</Generator>
+
+<y_lo_ev>
+"req_fr_AB" "req_fl_AB" "req_tr_AB" "req_tl_AB"
+</y_lo_ev>
+
+<u_lo_ev>
+"nack_AB" "pack_AB"
+</u_lo_ev>
+
+<y_hi_ev>
+"idle_AB"
+</y_hi_ev>
+
+<u_hi_ev>
+"l2r_AB" "right2left_AB" "stby_AB"
+</u_hi_ev>
+
+

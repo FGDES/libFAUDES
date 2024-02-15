@@ -1,0 +1,4 @@
+<TimeConstraint>
+"clockA"      "LT"          125           "clockA"      "GE"          10            
+"clockB"      "GT"          100           
+</TimeConstraint>

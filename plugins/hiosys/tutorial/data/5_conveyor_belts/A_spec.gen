@@ -1,0 +1,53 @@
+<Generator>
+"spec_A" 
+
+<Alphabet>
+"A_STP" +UP+       "A_TR" +UP+        "A_FL" +UP+
+"A_WAIT" +YP+      "A_FULL" +YP+      "A_ARRTL" +YP+  "A_ARRTR" +YP+
+"A_reqfl" +YE+     "A_reqfr" +YE+
+"A_occfr" +YE+     "A_occfl" +YE+     "A_freetl" +YE+    "A_freetr" +YE+
+"A_nack" +UE+      "A_pack" +UE+      
+</Alphabet>
+
+<States>
+1 2 4 6 7 8 9 10 11 12 13 14 15 16 "Err"
+</States>
+
+<TransRel>
+1             "A_WAIT"      4  
+2             "A_STP"       10            
+2             "A_TR"        9                      
+2             "A_FL"        "Err"                      
+4             "A_STP"       1             
+4             "A_FL"        8           
+4             "A_TR"        "Err"
+6             "A_STP"       11
+6             "A_FL"        "Err"
+6             "A_TR"        "Err"
+7             "A_FULL"      6             
+8             "A_reqfl"     13              
+9             "A_ARRTR"     16            
+10            "A_WAIT"      2             
+11            "A_occfl"     14            
+12            "A_freetr"    15            
+13            "A_nack"      8             
+13            "A_pack"      7           
+14            "A_nack"      11            
+14            "A_pack"      10            
+15            "A_nack"      12            
+15            "A_pack"      1             
+16            "A_STP"       12
+16             "A_FL"        "Err"
+16             "A_TR"        "Err"
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1 2 4 6 7 8 9 10 11 12 13 14 15 16 "Err"
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,42 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+% 
+%  States:        2
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/1/0
+% 
+%  Colors (all):  1
+%  Colors (dist): 0 1 
+% 
+
+<Alphabet>
+"a"           "b"           
+</Alphabet>
+
+<States>
+"1"           "2"           
+<Colors>
+"Color_1"     
+</Colors>
+</States>
+
+<TransRel>
+"1"           "a"           "2"           
+"2"           "b"           "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

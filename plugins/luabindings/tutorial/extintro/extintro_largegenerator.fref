@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="ExtIntro" page="1_LargeGenerator" title="LuaExtension - Large Generators">
+<h1>
+LuaExtension - Large Generators
+</h1>
+
+<ffnct_reference name="LargeGenerator">
+<fdetails/>
+<p>
+The function <ffnct>LargeGenerator</ffnct> sets up a generator by random,
+where the number of states and the number of events are specified as parameters.
+This function is expected to be completely useles, except for demonstration
+purposes.
+</p>
+
+<fexample/>
+
+<p>
+Result for <fimath>qn=12</fimath> and <fimath>sn=5</fimath>
+<br/>
+<fimage  fsrc="extintro_l3gen"/>
+</p>
+
+<fconditions/>
+
+<p>
+There are no conditions on the parameters. The resulting generator
+may be non-deterministic.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="IsLargeGenerator">
+
+<fdetails/>
+<p>
+The <ffnct>IsLargeGenerator</ffnct> function tests whether
+the specified generator G is large. 
+Provided that G has at leats 10 states,
+the current implementation returns true.
+This function is expected to be completely useles, 
+except for demonstration purposes.
+</p>
+
+<fexample/>
+<p>
+The generator depicted at 
+<ffnct>LargeGenerator</ffnct> has 12 states and 
+<ffnct>IsLargeGenerator</ffnct> returns "true".
+</p>
+
+<fconditions/>
+<p>
+There are no conditions on the parameters.
+</p>
+
+</ffnct_reference>
+
+
+</ReferencePage>

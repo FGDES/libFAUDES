@@ -1,0 +1,47 @@
+<Generator> "hio - simple specification A" 
+
+% Simple machine example for hiosys-tutorial.
+% Specification:
+% Send YC-event "A_READY" as feedback to operator.
+% Accept UC-events "A_STANDBY" or "A_OPERATE" as 
+% operator inputs.
+% Command "A_STANDBY": do nothing.
+% Command "A_OPERATE": Process two resources.
+
+<Alphabet>
+"A_READY" +YP+
+"A_STANDBY" +UP+ "A_OPERATE" +UP+
+"A_req" +YE+
+"A_nack" +UE+ "A_pack" +UE+
+</Alphabet>
+
+<States>
+<Consecutive>
+1             6
+</Consecutive>
+</States>
+
+<TransRel>
+1 "A_READY" 2
+2 "A_STANDBY" 1
+2 "A_OPERATE" 3
+3 "A_req" 4
+4 "A_nack" 3
+4 "A_pack" 5
+5 "A_req" 6
+6 "A_nack" 5
+6 "A_pack" 1
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1             6
+</Consecutive>
+</MarkedStates>
+
+</Generator>
+

@@ -1,0 +1,646 @@
+<ReferencePage chapter="luafaudes" section="none" title="luafaudes - Lua-Extensions">
+
+
+<h1>Lua-Extensions</h1>
+
+<p>
+Lua-extensions provide a light-weight mechanism to extend libFAUDES
+by functions implemented as <tt>luafaudes</tt> scripts. This libFAUDES
+distribution includes the following lua-extensions:
+</p>
+<fluasects/>
+
+
+
+<p>
+As with C++ plug-ins, lua-extensions are transparently passed on to any 
+application that interfaces to libFAUDES via the run-time-interface,
+e.g., <tt>luafaudes</tt> or <a fhref="DESTOOL_ONLINE">DESTool</a>.
+Extension developers can advertise their functions by end-user
+documentation that seamlessly integrates with the libFAUDES reference. 
+</p>
+
+<p>
+Lua-extensions are distributed as single container files (<tt>*.flx</tt>) 
+for <tt>luafaudes</tt> function definitions, reference pages, tutorials and validation code. 
+Packaging and installation of lua-extensions is done by the command-line tool <tt>flxinstall</tt>.
+In contrast to C++ plug-ins, no external development tools (compilers, etc.) are required. 
+</p>
+
+
+<!-- =================================================================================== -->
+<!-- =================================================================================== -->
+<!-- =================================================================================== -->
+
+<h2><a id="installing">
+Installing and Removing Extensions
+</a></h2>
+
+<p>
+The standard libFAUDES distribution maintaines extensions in
+<tt>libfaudes/stdflx</tt>. To introduce an additional extension, you 
+may copy the respective <tt>*.flx</tt>-file to <tt>libfaudes/stdflx</tt>
+and run <tt>flxinstall -i</tt> as in the below example. The installation
+process will generate and distribute relevant files and replace any
+previously installed extensions. For removal of all extensions 
+from a libFAUDES distribution, run <tt>flxinstall -r</tt>
+</p>
+
+
+<p>
+<strong class="text_important">Note:</strong> 
+By default, <tt>flxinstall</tt> expects the directory layout 
+of standard libFAUDES distributions, e.g., <tt>libfaudes/doc</tt> 
+and <tt>libfaudes/bin</tt>. 
+There are various command-line options to adapt to other targets.
+For the particular situation of <a fhref="DESTOOL_ONLINE">DESTool</a>, the appropriate 
+configuration of <tt>flxinstall</tt> is conveniently achieved by invoking 
+<a fhref="DESTOOL_ONLINE">DESTool</a> with command-line switch <tt>-x</tt> to launch
+the extension manager GUI.
+</p>
+
+
+<p>
+<strong>Example</strong>
+</p>
+<p>
+To install the example extension <tt>extintro.flx</tt> from the tutorial, run
+</p>
+<pre>
+&gt; cd ./libfaudes
+&gt; cp ./plugins/luabindings/tutorial/extintro.flx ./stdflx/
+&gt; ./bin/flxinstall -i ./stdflx ./
+</pre>
+<p>
+Here, the <tt>-i</tt> switch indicates installation. The following command-line parameters except the last 
+one specify the extensions to install, either individual <tt>*.flx</tt> files or directories 
+containing <tt>*.flx</tt> files.
+The last command-line argument specifies the target directory, i.e., the directory in which 
+the libFAUDES distribution resides. 
+</p>
+<p>
+To remove the example extension <tt>extintro.flx</tt>, run
+</p>
+<pre>
+&gt; cd ./libfaudes
+&gt; rm ./stdflx/extintro.flx
+&gt; ./bin/flxinstall -i ./stdflx ./
+</pre>
+<p>
+For removal of all extensions, run
+</p>
+<pre>
+&gt; cd ./libfaudes
+&gt; ./bin/flxinstall -r ./
+</pre>
+<p>
+You may inspect the reference documentation (<tt>libfaudes/doc/reference/index.html</tt>)
+to verify installation/removal of extensions.
+</p>
+
+<!-- =================================================================================== -->
+<!-- =================================================================================== -->
+<!-- =================================================================================== -->
+
+<h2><a id="background">
+Technical Background
+</a></h2>
+
+<p>
+Providing Lua-functions and reference documentation via lua-extensions, 
+the installation process needs to 
+extract sources and integrate them with an existing target libFAUDES distribution. 
+Here, <tt>flxinstall</tt> relies on certain conventions of the target directory layout. 
+More precisely, the subdirectories <tt>libfaudes/doc</tt> and <tt>libfaudes/bin</tt> must be present 
+in the target directory and organized as in the standard libFAUDES distribution.
+</p>
+
+<p>
+Regarding Lua-functions, the installation process assembles the file 
+<tt>luafaudes.flx</tt> and places it in <tt>libfaudes/bin</tt> next to <tt>luafaudes</tt>.
+On startup, <tt>luafaudes</tt> will automatically load the extension file
+when present. Extensions typically are set up to produce some diagnostic
+output. This can be observed with the command-line option <tt>-d</tt>.
+</p>
+<p>
+In order to load an alternative extension file (e.g. for testing/debugging)
+you may run <tt>luafaudes</tt> with the command-line option <tt>-x <i>file.flx</i></tt>,
+e.g.
+</p>
+<pre>
+&gt; cd ./libfaudes
+&gt; ./bin/luafaudes -d -x extension_file.flx
+</pre>
+<p>
+From the Lua-promt, <tt>faudes.Help()</tt> will list all reference sections,
+including those introduced by lua-extensions. Thus, for the example extention,
+<tt>faudes.Help("ExtIntro")</tt> should list the two functions provided
+by <tt>extintro.flx</tt>. Functions provided by extensions can be invoked 
+like any other faudes function.
+</p>
+
+<p>
+Technically, lua-extensions can depend on each other, i.e., a function provided by 
+one extension can be invoked from a function provided by another extension. However,
+the current framework does not address such dependencies explicitly and, for 
+organisational reasons, it is strongly recommended to design extensions to be self-contained.
+</p>
+
+
+
+
+<!-- =================================================================================== -->
+<!-- =================================================================================== -->
+<!-- =================================================================================== -->
+
+
+<h2 id="creating">
+Creating Extensions: an Example
+</h2>
+
+<p>
+The below example outlines the <tt>.flx</tt>-file format and
+demonstrates how to create a lua-extension.
+The example comes in two versions, namely
+the full version <tt>extintro.flx</tt>
+(including documentation, tutorial, etc) and 
+a minimal version <tt>extintro_minimal.flx</tt>.
+Both files are located in 
+<tt>libfaudes/plugins/luafaudes/tutorial</tt>. 
+They have been packaged by the tool <tt>flxinstall</tt>;  see 
+below for further details.
+</p>
+
+
+<p>
+Lua-extension files are XML compliant and have the outer tag
+<tt>LuaExtension</tt>.
+As a mandatory attribute, <tt>LuaExtension</tt> 
+must provide a unique <i>name</i>, <tt>ExtIntro</tt> for this example.
+The <tt>LuaExtension</tt> element must be
+composed from Lua-function definitions,
+using tags <tt>LuaFunctionDefinition</tt>.
+The latter again must provide a name attribute, where
+the value must be prefixed with the name of the extension.
+</p>
+
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="no"?&gt;
+&lt;!DOCTYPE luaextension SYSTEM "http://www.faudes.org/dtd/1.0/luaextension.dtd"&gt;
+
+&lt;LuaExtension name="ExtIntro"&gt;
+
+&lt;LuaFunctionDefinition name="ExtIntro::LargeGenerator"&gt;
+[...]
+&lt;LuaFunctionDefinition&gt;
+
+&lt;LuaFunctionDefinition name="ExtIntro::IsLargeGenerator"&gt;
+[...]
+&lt;LuaFunctionDefinition&gt;
+
+[... more functions, reference documentation, images, tutorials ...]
+
+&lt;/LuaExtension&gt;
+</pre>
+
+<p>
+Optionally, an extension may provide reference documentation, embedded image files, 
+tutorials and a test protocol for validation. The respective sections are illustrated below.
+</p>
+<p>
+Rather than to set up a lua-extension by hand, it is recommended
+to maintain the indivdual components in separate files 
+and to use <tt>flxinstall</tt> for
+packaging.
+The example extension <tt>extintro.flx</tt> 
+was composed by
+</p>
+<pre>
+&gt; cd libfaudes/
+&gt; ./bin/flxinstall -c plugins/luafaudes/tutorial/extintro ./stdflx/extintro.flx
+</pre>
+<p>
+The last parameter always specifies the destination <tt>.flx</tt>-file, to be composed
+from the specified sources.
+The tool accepts source files with suffix <tt>.rti</tt>, <tt>.fref</tt>, 
+<tt>.png</tt>, <tt>.svg</tt>, <tt>.jpg</tt>, <tt>.jpeg</tt>, <tt>.gen</tt> or <tt>.lua</tt> 
+for lua-function definitions, reference pages, images or tutorials, respectively.
+The special source <tt>data</tt> is interpreted as a directory with supporting data
+files of any type, which will be plain copied to corresponding binary data sections.
+</p>
+<p>
+For convenience, the specification of exactly one source argument will be interpreted
+as a source directory that contains source files as decribed above. For the examle, we have
+the following layout:
+</p>
+<pre>
+extintro -+- islargegenerator.rti            -- function definition
+          +- islargegenerator.rti            -- function definition
+          +- extintro_index.fref             -- main index of reference
+          +- extintro_largegenerator.fref    -- another reference page
+          +- extintro_example.lua            -- lua script as a tutorial
+          +- extintro_l3gen.png              -- image used in the reference pages
+          +- data/*                          -- input data for tutorial
+</pre>
+<p>
+To inspect the contents of an extension file without installing 
+it to libFAUDES, <tt>flxinstall</tt> can extract its components 
+to any destination directory:
+</p>
+<pre>
+&gt; cd libfaudes/
+&gt; ./bin/flxinstall -x plugins/luafaudes/extensions/extintro.flx /tmp/where-ever
+</pre>
+
+<p>
+<strong class="text_important">Note:</strong> 
+The current version of <tt>flxinstall</tt> maps all filenames 
+to lower case. Thus, when a reference page embeds an image file 
+or when a turorial reads input data, filenames must be specified in 
+lower case. Furthermore, <tt>flxinstall</tt> is not expected
+work with non-ASCII filenames. Thus, at the current stage, you are best
+of in restricting filenames to lower-case ASCII.
+</p>
+
+
+<h4 id="functions">
+Luafaudes functions
+</h4>
+
+<p>
+LuaFunctionDefinitions must comply with the restrictions and conventions
+as specified in the C++ API documentation of the 
+<a fhref="FAUDES_CSOURCE/classfaudes_1_1LuaFunctionDefinition.html">luabindings</a> 
+plug-in.
+</p>
+<p>
+Any documenation URL referenced by a function definition must be
+provided by the extension. For the example,
+the extension must provide a reference page <tt>extintro_largegenerator.fref</tt>,
+which  on installation compiles to the HTML page <tt>extintro_largegenerator.html</tt>.
+If an extension does not provide any reference documentation,
+the install tool <tt>flxinstall</tt> will automatically generate
+an index page; here  <tt>extintro_index.html</tt>. 
+In this case, you should refer to <tt>extintro_index.html#function_name</tt> 
+in the function definition.
+</p>
+
+
+<pre>
+&lt;LuaFunctionDefinition name="ExtIntro::LargeGenerator"&gt;
+&lt;Documentation ref="extintro_largegenerator.html#LargeGenerator"&gt; 
+Construct a generator by random.
+&lt;/Documentation&gt;
+&lt;Keywords&gt; "ExtIntro" "large generators" "first example" &lt;/Keywords&gt;
+
+&lt;VariantSignatures&gt;
+&lt;Signature name="LargeGen(#Q,#Sigma,GRes)"&gt;
+&lt;Parameter name="SizeQ"      ftype="Integer"   access="In"/&gt;
+&lt;Parameter name="SizeSigma"  ftype="Integer"   access="In"/&gt;
+&lt;Parameter name="Res"        ftype="Generator" access="Out" /&gt;
+&lt;/Signature&gt;
+&lt;/VariantSignatures&gt;
+
+% embedded script
+&lt;LuaCode&gt; 
+&lt;![CDATA[
+
+-- Define my function (mangled version of variant name)
+function faudes.LargeGen_Q_Sigma_GRes(qn,sn,gen)
+
+-- Function reports on execution
+faudes.Print(string.format('LargeGenerator(...): qn=%d sn=%d',qn,sn))
+
+-- Declare local variables
+local tn,tmax,x1,x2,ev,i
+
+-- Clear result
+gen:Clear()
+ 
+-- Set events
+for i=1,sn do 
+  gen:InsEvent(string.format('e%d',i))
+end
+
+-- Set states
+for i=1,qn do
+  gen:InsState(string.format('s%d',i))
+end
+
+-- Set transitions
+tn=qn*3
+tmax=qn*qn
+while tn&gt;0 and tmax&gt;0 do
+ x1=math.random(1,qn)
+ x2=math.random(1,qn)
+ ev=math.random(1,sn)
+ x1=string.format('s%d',x1)
+ x2=string.format('s%d',x2)
+ ev=string.format('e%d',ev)
+ if not gen:ExistsTransition(x1,ev,x2) then
+   gen:SetTransition(x1,ev,x2)
+   tn=tn-1
+ end
+ tmax=tmax-1
+end
+
+-- End of function definition
+end
+
+]]&gt;
+&lt;/LuaCode&gt;
+
+&lt;/LuaFunctionDefinition&gt;
+</pre>
+
+
+
+<h4 id="reference">
+Reference Pages
+</h4>
+
+<p>
+Reference pages are formated as the reference pages from the run-time-interface,
+see also the <a fhref="FAUDES_CHAPTERS/faudes_build.html#userref">build system</a>.
+In the context of  lua-extensions, the following conventions apply:
+</p>
+<ul class="l2">
+<li><p>
+the chapter must be set to <i>Reference</i>, i.e. <tt>chapter="Reference"</tt>;
+</p></li>
+<li><p>
+the section must match the extension name, here <tt>section="ExtIntro"</tt>;
+</p></li>
+<li><p>
+there must be exacly one page with label <i>Index</i>, i.e. <tt>page="Index"</tt>;
+</p></li>
+</ul>
+<p>
+When processing the lua-extension, each reference page is extracted to an
+HTML page. The filename of the page is composed by (1) dropping any
+preceeding number from the page label, (2) prepending the
+extension name separated by an underscore, (3) appending the suffix <tt>.html</tt> and mapping all to lower case.
+In our example, the two pages are named <tt>extintro_index.html</tt>
+and <tt>extintro_largegenerator.html</tt>. This convention is
+relevant when referring to the documentation of a function. Note that, if you package your 
+extension with <tt>flxinstall</tt>, the name of the respective source files do not affect 
+the resulting HTML files.
+</p>
+
+<pre>
+&lt;ReferencePage chapter="Reference" section="ExtIntro" page="Index" title="LuaExtensions - Introduction"&gt;
+&lt;h1&gt; LuaExtensions - Introduction &lt;/h1&gt;
+&lt;p&gt;
+Lua-extensions provide a light-weight mechanism to extend libFAUDES
+by functions implemented as luafaudes scripts. 
+&lt;/p&gt;
+
+[...]
+
+&lt;p&gt;
+We give some references to Lua related literature.
+&lt;/p&gt;
+
+&lt;fliterature name="L1"&gt;
+&lt;fauthors&gt;R.&nbsp;Ierusalimschy, L.H&nbsp;.de&nbsp;Figueiredo, W.&nbsp;Celes&lt;/fauthors&gt;
+&lt;ftitle&gt;Lua 5.1 Reference Manual&lt;/ftitle&gt;
+&lt;fjournal&gt;&lt;a href="http://www.lua.org"&gt;Lua.org&lt;/a&gt;, ISBN 85-903798-3-3&lt;/fjournal&gt;
+&lt;fyear&gt;2006&lt;/fyear&gt;
+&lt;/fliterature&gt;
+
+&lt;/ReferencePage&gt;
+</pre>
+
+<p>
+For literature references, as in the above example,
+care must be taken to avoid conflicts. The 
+extension name as a prefix is better idea than just a single letter.
+</p>
+
+
+<pre>
+&lt;ReferencePage chapter="Reference" section="ExtIntro" page="1_LargeGenerator" title="LuaExtension - Large Generators"&gt;
+&lt;h1&gt;
+LuaExtension - Large Generators
+&lt;/h1&gt;
+
+&lt;ffnct_reference name="LargeGenerator"&gt;
+&lt;fdetails/&gt;
+&lt;p&gt;
+The function &lt;ffnct&gt;LargeGenerator&lt;/ffnct&gt; sets up a generator by random,
+where the number of states and the number of events are specified as parameters.
+This function is expected to be completely useles, except for demonstration
+purposes.
+&lt;/p&gt;
+
+&lt;fexample/&gt;
+
+&lt;p&gt;
+Result for &lt;fimath&gt;qn=12&lt;/fimath&gt; and &lt;fimath&gt;sn=5&lt;/fimath&gt;
+&lt;br/&gt;
+&lt;img  fsrc="FAUDES_IMAGES/extintro_l3gen.png" alt="large generator" width="600px"/&gt;
+&lt;/p&gt;
+
+&lt;fconditions/&gt;
+
+&lt;p&gt;
+There are no conditions on the parameters. The resulting generator
+may be non-deterministic.
+&lt;/p&gt;
+
+&lt;/ffnct_reference&gt;
+
+[...]
+
+&lt;/ReferencePage&gt;
+</pre>
+
+
+<h4 id="images">
+Image Files
+</h4>
+
+<p>
+Any images used for the reference pages must be embedded
+in the extension file. During installation, embedded files get extracted to 
+the <tt>libfaudes/doc/images</tt> directory with file-name as specified by the <tt>name</tt> 
+attribute, mapped to lower case. Supported image formates are identified by the
+file-name suffixes <tt>.png</tt>, <tt>.svg</tt>, <tt>.jpg</tt> or <tt>.jpeg</tt>, respectively.
+The actual content is Base64 encoded binary 
+data with two extra "=", one  at the beginning and one at the end.
+</p>
+
+<pre>
+&lt;ImageFile name="extintro_lg3gen.png"&gt; 
+=iVBORw0KGgoAAAANSUhEUgAABIsAAANpCAYAAACLpLlpAAAABmJLR0QA/wD/AP+gvaeTAAAgAElE
+QVR4nOzdeVTV1eL+8YdJBBERRUARUQFRxCxnzQnnOdFMyzRtVWq/tDmvDdeuaTbcBi2Hsus89DXn
+[...]
+iWuCijmDXmdARUUQATUQBRnP74++nm/ebFAPfIDzfq11FtM5ez/HlXTO4977Y2MymUwCAAAAAAAA
+pGhboxMAAAAAAACg9KAsAgAAAAAAgBllEQAAAAAAAMwoiwAAAAAAAGBGWQQAAAAAAAAzyiIAAAAA
+AACYURYBAAAAAADAjLIIAAAAAAAAZpRFAAAAAAA===
+&lt;ImageFile&gt; 
+</pre>
+
+<p>
+As a special feature for the graphical representation of automata,
+<tt>flxinstall</tt> will sense the situation when for one basename there 
+are files present with <tt>.gen</tt>, <tt>.png</tt> and <tt>.svg</tt> suffix.
+In this case, a reference page will be generated to represent the scalable image 
+from the <tt>svg</tt>-file and the token data from the <tt>gen</tt>-file. 
+As with libFAUDES plug-ins, the extra representation can be embedded 
+in the documentation by an <tt>fimage</tt> element:
+</p>
+
+<pre>
+&lt;ReferencePage chapter="Reference" section="ExtIntro" page="1_LargeGenerator" title="LuaExtension - Large Generators"&gt;
+&lt;h1&gt;
+LuaExtension - Large Generators
+&lt;/h1&gt;
+
+[ ... ]
+
+&lt!-- plain bitmap image only --&gt;
+&lt;img fsrc="FAUDES_IMAGES/extintro_l3gen.png"/&gt;
+
+&lt!-- bitmap image linked to separate reference page --&gt;
+&lt;fimage fsrc="FAUDES_IMAGES/extintro_l3gen"/&gt;
+
+[ ... ]
+
+&lt;/ReferencePage&gt;
+</pre>
+
+
+
+<h4 id="tutorials">
+Tutorials
+</h4>
+
+
+<p>
+Tutorials can be provided for further illustration
+and effective advertisement of the extension.
+Typically, they are also used to generate the example output
+for the reference pages. 
+</p>
+
+<p>
+Tutorials are plain Lua scripts that reside within tags <tt>LuaTutorial</tt>.
+For the example extension, we provide the following test scenario.
+</p>
+
+<pre>
+&lt;LuaTutorial name="extintro_example.lua"&gt; 
+&lt;![CDATA[
+-- Tutorial to illustrate the lua-extension "ExtIntro"
+
+-- Read input data
+l1gen = faudes.Generator("data/gen_lg.gen")
+
+-- Apply test and report
+l1=faudes.IsLargeGenerator(l1gen);
+if l1 then
+  print("l1gen is a large generator [expected]")
+else
+  print("l1gen is not a large generator [test case error]")
+end
+
+-- Record test case
+FAUDES_TEST_DUMP("lgen test 1",l1)
+
+-- Constrcut a small generator
+l2gen = faudes.Generator()
+faudes.LargeGenerator(5,3,l2gen)
+
+-- Produce graphical output for documentation
+l2gen:GraphWrite("extintro_l2gen.png")
+
+-- Apply test and report
+l2=faudes.IsLargeGenerator(l2gen);
+if l2 then
+  print("l2gen is a large generator [test case error]")
+else
+  print("l2gen is not a large generator [expected]")
+end
+
+-- Record test case
+FAUDES_TEST_DUMP("lgen test 2",l2)
+
+-- Validate results
+FAUDES_TEST_DIFF()
+]]&gt;
+&lt;/LuaTutorial&gt;
+</pre>
+
+<p>
+<strong class="text_important">Note:</strong> 
+When composing a lua-extension by <tt>flxinstall -c</tt>, the outer element tags will be
+added automatically. Thus, the source file should be a plain Lua script.
+</p>
+
+
+<p>
+By convention, any input data used in a tutorial is read from the directory
+<tt>data</tt> relative to the tutorials location. 
+The corresponding files can be packaged with the extension by using 
+the tags <tt>DataFile</tt> and specifying filename and content 
+(either as Base64 encoded binary or as token stream).
+When <tt>flxinstall -c</tt> is used to compose the
+extension, the source <tt>data</tt> is interpreted as data
+directory and any file within that directory is represented 
+as <tt>DataFile</tt> section.
+</p>
+
+<p>
+The above tutorial uses the 
+functions <tt>FAUDES_TEST_DUMP(m,d)</tt> and <tt>FAUDES_TEST_DIFF()</tt> 
+for elementary validation. The provided tests can be performed by 
+<tt>flxinstall -t</tt>. When distributing an extension with libFAUDES,
+validation is performed at the make-target <tt>test</tt>; 
+see also <a href="faudes_luatech.html#test">test cases</a>.
+</p>
+
+<p>
+The provided example comes with two files in the data directory:
+a generator input and the reference protocol for validation.
+</p>
+
+
+<pre>
+&lt;DataFile name="gen_lg.gen">
+=PEdlbmVyYXRvcj [...] KCiJsYXJnZSBn=== 
+&lt;/DataFile&gt;
+&lt;DataFile name="extintro_example_lua.prot"&gt; 
+=JSUlIHRlc3QgbW [...] SAKJSAKJSAKCg=== 
+&lt;/DataFile&gt;
+</pre>
+
+
+<!-- experimental/Fragile: hand crafted page navigation -->
+<div id="cxwrapper1000">
+<div id="dxwrapper1000">
+<div class="registry_trigger"> <span>&gt;&gt;</span>
+<ul class="registry_list">
+<li class="registry_heading">luafaudes / Extensions</li>
+<li class="registry_item"><a href="#installing">Installing Extensions</a></li>
+<li class="registry_item"><a href="#background">Technical Background</a></li>
+<li class="registry_item"><a href="#creating">Creating Extensions</a></li>
+<li class="registry_item"><a href="#functions">- Functions</a></li>
+<li class="registry_item"><a href="#reference">- Reference Pages</a></li>
+<li class="registry_item"><a href="#images">- Images</a></li>
+<li class="registry_item"><a href="#tutorials">- Tutorial</a></li>
+<li class="registry_blanc">&nbsp;</li>
+<li class="registry_item">
+<a href="#">Top of Page</a>
+<a href="#" class="registry_blinda">&nbsp;</a>
+</li>
+</ul></div>
+</div>
+</div>
+
+
+</ReferencePage>
+
+
+
+

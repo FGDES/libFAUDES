@@ -1,0 +1,43 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        7
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   7
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+"a"   +o+   "beta"        "alpha"       "f1" +o+         
+"f2"    +o+      
+</Alphabet>
+
+<States>
+<Consecutive>
+1             7             
+</Consecutive>
+</States>
+
+<TransRel>
+1             "a"           2             
+1             "f2"          5             
+2             "alpha"       4             
+2             "f1"          3             
+3             "alpha"       4             
+5             "alpha"       6             
+6             "beta"        7             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

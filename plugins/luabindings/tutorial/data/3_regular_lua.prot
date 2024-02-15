@@ -1,0 +1,167 @@
+%%% test mark: deterministic [at 3_regular.lua]
+% 
+%  Statistics for Det(g_nondet)
+% 
+%  States:        6
+%  Init/Marked:   1/2
+%  Events:        11
+%  Transitions:   9
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: statemin [at 3_regular.lua]
+% 
+%  Statistics for g_nonmin [minstate]
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: project [at 3_regular.lua]
+% 
+%  Statistics for Project(g)
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   7
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lang. union [at 3_regular.lua]
+% 
+%  Statistics for Union(g1,g2)
+% 
+%  States:        9
+%  Init/Marked:   1/4
+%  Events:        6
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lang. intersection [at 3_regular.lua]
+% 
+%  Statistics for Intersection(g1,g2)
+% 
+%  States:        3
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lang. complement [at 3_regular.lua]
+% 
+%  Statistics for Complement(g1)
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        5
+%  Transitions:   20
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lang. complement2 [at 3_regular.lua]
+% 
+%  Statistics for Complement(Complement(g1))
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        5
+%  Transitions:   20
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lang. inclusion [at 3_regular.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: lang. disjoint [at 3_regular.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: lang. equality [at 3_regular.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: lang. concat [at 3_regular.lua]
+% 
+%  Statistics for Concatenate(gK,Det(ConcatenateNonDet(gK,KleeneClosure(gL)))) [minstate]
+% 
+%  States:        44
+%  Init/Marked:   1/20
+%  Events:        3
+%  Transitions:   132
+%  StateSymbols:  44
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lang. concat [at 3_regular.lua]
+% 
+%  Statistics for Det(ConcatenateNonDet(gK,KleeneClosureNonDet(gL))) [minstate]
+% 
+%  States:        44
+%  Init/Marked:   1/20
+%  Events:        3
+%  Transitions:   132
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lang. concat [at 3_regular.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

@@ -1,0 +1,38 @@
+digraph "SupConNB((cb4[0]),(cb4[0]_spec))" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+  "10";
+  "11";
+  "12";
+
+  // transition relation
+  "1" -> "2" [label="cb12-4"];
+  "2" -> "3" [label="cb4-x"];
+  "3" -> "4" [label="t_modul3\cb4-mh1-d1\cb4"];
+  "4" -> "5" [label="cb4wpar"];
+  "5" -> "6" [label="cb4stp"];
+  "6" -> "7" [label="wp12-4"];
+  "7" -> "8" [label="cb4-11"];
+  "8" -> "9" [label="cb4-x"];
+  "9" -> "10" [label="t_modul3\cb4-mh1-d1\cb4"];
+  "10" -> "11" [label="cb4wplv11"];
+  "11" -> "12" [label="cb4stp"];
+  "12" -> "1" [label="wp4-11"];
+};

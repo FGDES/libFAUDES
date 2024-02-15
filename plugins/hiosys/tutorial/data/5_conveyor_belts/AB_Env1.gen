@@ -1,0 +1,105 @@
+<Generator>
+"Environment AB" 
+
+<Alphabet>
+"A_reqfl" +YE+     "A_occfl" +YE+    "A_freetr" +YE+
+"B_reqfl" +YE+     "B_occfl" +YE+    "B_freetr" +YE+
+"A_nack" +UE+      "A_pack"  +UE+     "B_pack"  +UE+      "B_nack"  +UE+
+"AB_occfl" +YL+    "AB_accfl" +YL+    "AB_freetr" +YL+   "AB_reltr" +YL+    "AB_reqfl" +YL+
+"AB_nack" +UL+     "AB_pack" +UL+
+% later also right-to-left transport:
+     "A_reqfr" +YE+     "A_occfr" +YE+     "A_freetl" +YE+     "B_reqfr" +YE+     "B_occfr" +YE+     "B_freetl" +YE+
+</Alphabet>
+
+<States>
+<Consecutive>
+1             22            
+</Consecutive>
+</States>
+
+<TransRel>             
+1             "A_reqfl"     7             
+1             "A_occfl"     5             
+1             "A_freetr"    13
+1             "A_reqfr"     13
+1             "A_occfr"     13
+1             "A_freetl"    13
+1             "B_reqfr"     15
+1             "B_occfr"     15
+1             "B_freetl"    15
+1             "B_occfl"     15            
+1             "B_freetr"    6             
+1             "B_reqfl"     21            
+2             "A_reqfl"     3             
+2             "A_occfl"     3             
+2             "A_freetr"    3 
+2             "A_reqfr"     3
+2             "A_occfr"     3
+2             "A_freetl"    3
+2             "B_occfl"     9             
+2             "B_freetr"    10            
+2             "B_reqfl"     10 
+2             "B_reqfr"     10
+2             "B_occfr"     10
+2             "B_freetl"    10
+3             "A_nack"      2             
+4             "A_pack"      2             
+5             "AB_occfl"    8             
+5             "AB_accfl"    8             
+6             "AB_freetr"   12            
+6             "AB_reltr"    12            
+7             "AB_reqfl"    8             
+8             "AB_nack"     13            
+8             "AB_pack"     14            
+9             "B_pack"      1             
+10            "B_nack"      2
+11            "A_reqfl"     20            
+11            "A_occfl"     20
+11            "A_reqfr"     20
+11            "A_occfr"     20
+11            "A_freetl"    20
+11            "A_freetr"    4             
+11            "B_occfl"     18            
+11            "B_freetr"    22            
+11            "B_reqfl"     22
+11            "B_reqfr"     22
+11            "B_occfr"     22
+11            "B_freetl"    22
+12            "AB_nack"     15            
+12            "AB_pack"     9             
+13            "A_nack"      1             
+14            "A_pack"      1             
+15            "B_nack"      1             
+16            "A_reqfl"     17            
+16            "A_occfl"     17
+16            "A_reqfr"     17
+16            "A_occfr"     17
+16            "A_freetl"    17
+16            "A_freetr"    14            
+16            "B_occfl"     19            
+16            "B_freetr"    19            
+16            "B_reqfl"     19
+16            "B_reqfr"     19
+16            "B_occfr"     19
+16            "B_freetl"    19
+17            "A_nack"      16            
+18            "B_pack"      16            
+19            "B_nack"      16            
+20            "A_nack"      11            
+21            "B_pack"      11            
+% 21            "B_nack"      1     
+22            "B_nack"      11            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1             22            
+</Consecutive>
+</MarkedStates>
+
+
+</Generator>

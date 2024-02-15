@@ -1,0 +1,53 @@
+% Example configuration for io simulator
+
+% We configure the executor to run the simple
+% supervisor with 
+% * priority enforced alpha 
+% * stochastic lambda  
+% * priority disabled beta and mue  events
+
+% The example is used to test the simplenet device
+% class. 
+
+<Executor>
+
+% specify generators
+<Generators>
+"supervisor.gen"
+</Generators>
+
+% specify conditions
+<Conditions>
+</Conditions>
+
+% specify event attributes
+<SimEventAttributes>
+
+"alpha"     
+<Priority>
+50            
+</Priority>
+
+"beta"      
+<Priority>
+-50            
+</Priority>
+
+"mue"       
+<Priority>
+-50            
+</Priority>
+
+"lambda"       
+<Stochastic>
++Trigger+      +Uniform+       
+<Parameter>
+25           50             
+</Parameter>
+</Stochastic>
+
+
+</SimEventAttributes>
+
+% end
+</Executor>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Observer" page="2_Verification" title="Observer - Verification">
+
+<h1>
+Observer Tests
+</h1>
+
+<p>
+The observer plug-in supports the verification of properties of natural projections that are beneficial for the hierarchical supervisor synthesis. Here, two variants of the observer property are used for the nonblocking hierarchical control. Both conditions are verified for a given automaton <fimath>G</fimath> over the alphabet <fimath>\Sigma</fimath> and a natural projection <fimath>p_0: \Sigma^* \rightarrow \Sigma_0^*</fimath> with <fimath>\Sigma_0 \subseteq \Sigma</fimath>. 
+</p>
+
+<p>
+On the one hand, <fimath>p_0: \Sigma^* \rightarrow \Sigma_0^*</fimath> is a natural observer for <fimath>G</fimath> if any string <fimath>s \in L(G)</fimath> can be extended to a string in <fimath>L_m(G)</fimath> whenever its projection <fimath>p_0(s)</fimath> can be extended to a string in <fimath>p_0(L_m(G))</fimath>.
+</p>
+
+<p>
+	Formally, <fimath>p_0</fimath> is a natural observer iff for all <fimath>s\in L(G)</fimath> and <fimath>t \in \Sigma_0^*</fimath><br/><br/>
+<fimath>p_0(s)t\in p_0(L_m(G)) \Rightarrow \exists u\in \Sigma^*</fimath> s.t. <fimath>su\in L_m(G) \text{ and } p_0(su) = p_0(s)t.</fimath> <br/><br/>
+
+The natural observer condition is verified by the function <ffnct>IsNaturalObserver</ffnct>. 
+</p>
+
+<p>
+On the other hand, <fimath>p_0</fimath> is a marked string accepting (msa) observer if it is a natural observer for the closed language <fimath>L(G)</fimath> and fulfills an additional condition for strings <fimath>s \in L(G)</fimath> that can be extended by an event <fimath>\sigma \in \Sigma_0</fimath> and such that the projection <fimath>p_0(s)</fimath> is an element of <fimath>p_0(L_m(G))</fimath>. For such strings, it must hold that there is a  prefix <fimath>s' \le s</fimath> with the same projection, i.e., <fimath>p_0(s') = p_0(s)</fimath> and such that <fimath>s' \in L_m(G)</fimath>. This condition ensures that whenever a string in the projected marked language <fimath>p_0(L_m(G))</fimath> is passed, each corresponding string in <fimath>L(G)</fimath> passes a marked string in <fimath>L_m(G)</fimath>. 
+</p>
+
+<p>
+	Formally, <fimath>p_0</fimath> is an msa-observer iff <fimath>p_0</fimath> is an <fimath>L(G)</fimath>-observer and for all strings <fimath>s \in L(G)</fimath> such that <fimath>s\Sigma_0 \cap L(G) != \emptyset</fimath> and <fimath>p_0(s) \in p_0(L_m(G))</fimath><br/><br/>
+	
+<fimath>\exists s'\le s</fimath>  s.t.  <fimath>p_0(s')= p_0(s) \text{ and } s'\in L_m(G)</fimath><br/><br/>
+
+The msa-observer condition is verified by the function <ffnct>IsMsaObserver</ffnct>. 
+
+The following example shows a comparison of both observer conditions by means of the two automata <fimath>G_1</fimath> and <fimath>G_1'</fimath> over the alphabet <fimath>\Sigma = \{</fimath><tt>a,b</tt>,<fimath>\alpha,\beta\}</fimath> and the natural projection <fimath>p_0</fimath> to the subset <fimath>\Sigma_0 = \{\alpha,\beta\}</fimath>. 
+</p>
+
+<p>
+<img class="faudes_image" fsrc="FAUDES_IMAGES/op_observer_comparison.png"/>
+</p>
+
+
+<p>
+Here, <fimath>p_0</fimath> is a natural observer for <fimath>G_1</fimath> since it is possible to extend each string in <fimath>L(G_1)</fimath> to a marked state by only following events in <fimath>\Sigma - \Sigma_0</fimath>. However, <fimath>p_0</fimath> is not an msa-observer for <fimath>G_1</fimath> since for example the prefix <fimath>\epsilon</fimath> of the marked string <tt>a</tt> can be extended by the event <fimath>\alpha \in \Sigma_0</fimath> without passing a marked state. In contrast, <fimath>p_0</fimath> is an msa-observer but not a natural observer for <fimath>G_1'</fimath>. <br/><br/>
+</p>
+
+<p>
+The observer plug-in offers two additional functions for the verification of properties that allow the maximally permissive hierarchical supervisory control. Local control consistency ensures that a supervisor synthesis that is performed with an abstracted model yields the same result as a supervisor synthesis with the original model. The relevant components for this conditions are an automaton <fimath>G</fimath>, a natural projection <fimath>p_0: \Sigma^* \rightarrow \Sigma_0^*</fimath> and an uncontrollable alphabet <fimath>\Sigma_{uc}</fimath>. A natural projection <fimath>p_0</fimath> is locally control consistent w.r.t. a string <fimath>s\in L(G)</fimath>, if for each uncontrollable event <fimath>\sigma_{uc} \in \Sigma_{uc} \cap \Sigma_0</fimath> that is feasible after the corresponding projected string, there is either no continuation or an uncontrollable continuation of <fimath>s</fimath> that terminates with <fimath>\sigma_{uc}</fimath>. Hence, if <fimath>\sigma_{uc}</fimath> is possible after <fimath>s</fimath>, then it cannot be prevented.
+</p>
+
+<p>
+	Formally, let <fimath>G</fimath> be an automaton over the alphabet <fimath>\Sigma</fimath>, let <fimath>\Sigma_{uc} \subseteq \Sigma</fimath> be a set of uncontrollable events, and let <fimath>\Sigma_0 \subseteq \Sigma</fimath>. The natural projection <fimath>p_0:\Sigma^* \rightarrow \Sigma_0^*</fimath> is locally control consistent (lcc) w.r.t. a string <fimath>s \in L(G)</fimath> and <fimath>\Sigma_{uc}</fimath> if for all <fimath>\sigma_{uc} \in \Sigma_0 \cap \Sigma_{uc}</fimath> s.t. <fimath>p_0(s)\sigma_{uc} \in p_0(L(G))</fimath>, it holds that either there is no <fimath>u \in (\Sigma - \Sigma_0)^*</fimath> s.t. <fimath>su\sigma_{uc} \in L(G)</fimath> or there is a <fimath>u \in (\Sigma_{uc} - \Sigma_0)^*</fimath> s.t. <fimath>su\sigma_{uc} \in L(G)</fimath>. Furthermore, we simply call <fimath>p_0</fimath> lcc  if <fimath>p_0</fimath> is lcc for all <fimath>s \in L(G)</fimath>.<br/>
+
+Local control consistency is verified by the function <ffnct>IsLocallyControlConsistent</ffnct>. 
+</p>
+
+<p>
+Local control consistency is illustrated by the automaton <fimath>G</fimath> and the projection to the alphabet <fimath>\Sigma_0 = \{\alpha,\beta\}</fimath> in the figure below. We consider all states (2,3,4,5,6) from which the uncontrollable event <fimath>\beta \in \Sigma_0</fimath> can be generated after a local string in <fimath>(\Sigma - \Sigma_0)^*</fimath>. Noting that controllable events are marked by a tick, it is readily observed that there is a string with only uncontrollable events from any such state to the state 4, where <fimath>\beta</fimath> is feasible. Hence, local control consistency is fulfilled. 
+</p>
+
+<p>
+<img class="faudes_image" fsrc="FAUDES_IMAGES/op_local_control_consistency.png"/>
+</p>
+
+<p>
+Finally, the mutual controllabilty condition is relevant for the combined hierarchical and modular supervisor synthesis of composed systems with multiple system components. It ensures that after any string of a composed system, the occurrence of an uncontrollable shared event is either feasible in all components that share it or it is infeasible in any component. Formally, the mutual controllability condition can be verified for component pairs: </p>
+
+<p>
+	Let <fimath>G_i,G_k</fimath> be automata and define the projections <fimath>p_{i,k}: (\Sigma_i \cup \Sigma_k)^* \rightarrow \Sigma_k^*</fimath> and <fimath>p_{k,i} : (\Sigma_k\cup \Sigma_i)^* \rightarrow \Sigma_i^*</fimath>. <fimath>G_i</fimath> and <fimath>G_k</fimath> are mutually controllable if <br/>
+	
+	<fimath>L(G_i)(\Sigma_{k,{uc}} \cap \Sigma_i) \cap p_{k,i} (p^{-1}_{i,k}(L(H_k)) \subseteq L(G_i),</fimath><br/>
+	<fimath>L(G_k)(\Sigma_{i,{uc}} \cap \Sigma_k) \cap p_{i,k} (p^{-1}_{k,i}(L(H_i)) \subseteq L(G_k).</fimath><br/>
+	
+	Mutual controllability is verified by the function <ffnct>IsMutuallyControllable</ffnct>. 
+</p>
+
+<p>
+Mutual controllability is illustrated by the two automata <fimath>G_1</fimath> and <fimath>G_2</fimath> in the figure below, whereby it is assumed that the shared event <fimath>\alpha</fimath> is uncontrollable. Then, it is the case that although the event <fimath>\alpha</fimath> is possible in <fimath>G_2</fimath> after the occurrence of <tt>a</tt>, it is blocked due to the synchronization with <fimath>H_2</fimath> until <fimath>\beta</fimath> happens. Hence, mutual controllability is violated.  
+</p>
+
+<p>
+<img class="faudes_image" fsrc="FAUDES_IMAGES/op_mutual_controllability.png"/>
+</p>
+
+
+<p>
+Regarding the implementation of the verification algorithms for the observer conditions and local control consistency, we exploit the fact that all conditions can be formulated in terms of a specific equivalence relation (quasi-congruence) on the states space of the automaton <fimath>G</fimath> <fcite name="O5"/>. Hence the main task of our algorithms is to determine this specific equivalence relation for the respective conditions which can be done in polynomial time. The verification of mutual controllability requires a classical controllability test. 
+</p>
+
+<ffnct_reference name="IsNaturalObserver">
+
+<fdetails/>
+
+<p>
+For verifying if a natural projection has the natural observer property, a quotient automaton for <fimath>GArg</fimath> is constructed based on a specific equivalence relation (quasi-congruence) on the state space of <fimath>GArg</fimath>. If this quotient automaton is deterministic and only contains transitions with events in <fimath>\Sigma_h</fimath>, the natural observer condition is fulfilled. 
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="IsMsaObserver">
+
+<fdetails/>
+
+<p>
+For verifying if a natural projection has the msa-observer property, a quotient automaton for <fimath>GArg</fimath> is constructed based on a specific equivalence relation (quasi-congruence) on the state space of <fimath>GArg</fimath>. If this quotient automaton is deterministic and only contains transitions with events in <fimath>\Sigma_h</fimath>, the natural observer condition is fulfilled. 
+</p>
+
+
+</ffnct_reference>
+
+<ffnct_reference name="IsLocallyControlConsistent">
+
+<fdetails/>
+
+<p>
+For verifying if a natural projection fulfills the local control consistency condition, a backward reachability is conducted. If starting from a state, where an uncontrollable high-level event is feasible, at least one local state cannot be reached by an uncontrollable path, LCC is violated.
+</p>
+
+
+</ffnct_reference>
+
+
+<ffnct_reference name="IsOutputControlConsistent">
+
+<fdetails/>
+
+<p>
+For verifying if a natural projection satisfies the output control consistency condition, a backward reachability is conducted. If starting from a state, where an uncontrollable high-level event is feasible, a controllable event can be reached on a local backward path, OCC is violated.
+</p>
+
+
+</ffnct_reference>
+
+
+<ffnct_reference name="IsMutuallyControllable">
+
+<fdetails/>
+
+<p>
+For verifying mutually controllability, two controllabilitys test for the given generators are performed. In each such test, one generator is considered as the plant, while the specification is computed by projecting the second generator to the alphabet of the first generator. If both controllability tests are successful, then mutual controllability is fulfilled. 
+</p>
+
+</ffnct_reference>
+</ReferencePage>
+
+  

@@ -1,0 +1,128 @@
+% Example Configuration of Executor
+
+% This example configures an executor to run the two simple 
+% machines a and b, the buffer between the two and a supervisor
+% that is designed to prevent blocking and buffer overflow.
+% The example illustrates condition analysis by the LoggingExecutor
+% and stochastic simulation by the ProposingExecutor.
+
+
+<Executor>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+% 1. Specify generators
+
+% The Generators section lists the timed automata 
+% for simulation. You may use either file names
+% or explicit Generartor sections. 
+<Generators>
+"./machinea.gen"
+"./machineb.gen"
+"./bufferab.gen"
+"./superab.gen"
+</Generators>
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+% 2. Specify simulation event attributes
+
+<SimEvents>
+
+% Start machines immediately
+"alpha_a"     
+<Priority> 10 </Priority>
+"alpha_b"     
+<Priority> 10 </Priority>
+
+% Gauss distributed time of operation, 
+% machine a faster than machine b
+"beta_a"      
+<Stochastic>
++Trigger+      
++Gauss+   <Parameter> 50 20 </Parameter>
+</Stochastic>
+
+"beta_b"      
+<Stochastic>
++Trigger+      
++Gauss+  <Parameter> 100 20  </Parameter>
+</Stochastic>
+
+% Break down after 500 time units of operation, exponential
+"mue_a"       
+<Stochastic>
++Delay+      
++Exponential+  <Parameter> 500 </Parameter>
+</Stochastic>
+"mue_b"       
+<Stochastic>
++Delay+      
++Exponential+  <Parameter> 500 </Parameter>
+</Stochastic>
+
+
+% Immediate repair
+"lambda_a"       
+<Priority> 10 </Priority>
+"lambda_b"      
+<Priority> 10 </Priority>
+
+</SimEvents>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+% 3. Specify conditions for analysis
+
+<Conditions>
+
+% State Condition: you MUST specify one state 
+% set per generator; the order is relevant; an
+% emptyset means 'dont care'
+
+% Some machine is idle
+"IdleCond"      
+<StateCondition>
++Disjunction+
+<StateSet> "idle" </StateSet>  % machine a
+<StateSet> "idle" </StateSet>  % machine b
+<StateSet>        </StateSet>  % buffer
+<StateSet>        </StateSet>  % supervisor
+</StateCondition>
+
+% Some machine is down
+"DownCond"      
+<StateCondition>
++Disjunction+
+<StateSet> "down" </StateSet>  % machine a
+<StateSet> "down" </StateSet>  % machine b
+<StateSet>        </StateSet>  % buffer
+<StateSet>        </StateSet>  % supervisor
+</StateCondition>
+
+% Machine A is idle because the buffer is full
+"Bottleneck"      
+<StateCondition>
++Conjunction+
+<StateSet> "idle" </StateSet>  % machine a
+<StateSet>        </StateSet>  % machine b
+<StateSet> "full" </StateSet>  % buffer
+<StateSet>        </StateSet>  % supervisor
+</StateCondition>
+
+% Event condition: Operation cycle
+"Performance"     
+<EventCondition>
+<StartEvents>
+"alpha_a"     
+</StartEvents>
+<StopEvents>
+"beta_b"       
+</StopEvents>
+</EventCondition>
+
+</Conditions>
+
+% End of Executor section
+</Executor>

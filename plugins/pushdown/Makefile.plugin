@@ -1,0 +1,70 @@
+#
+# makefile for libfaudes example plugin
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += pushdown
+#
+
+PD_NAME   = pushdown
+PD_BASE   = ./plugins/$(PD_NAME)
+PD_SRCDIR = $(PD_BASE)/src
+
+#
+# list source files
+
+PD_CPPFILES = pd_pdgenerator.cpp pd_dotparser.cpp pd_attributes.cpp pd_basics.cpp pd_merge.cpp pd_alg_main.cpp pd_alg_sub.cpp pd_alg_first.cpp pd_alg_lrm.cpp pd_alg_lrp.cpp pd_dotparser.cpp pd_gotoattributes.cpp pd_gotogenerator.cpp pd_grammar.cpp pd_lang_k.cpp pd_merge.cpp pd_parser.cpp pd_debug.cpp pd_scopelogger.cpp 
+			  
+PD_INCLUDE = pd_include.h
+PD_RTIDEFS = pd_definitions.rti
+PD_RTIFREF = pushdown_index.fref 
+
+#
+# fix directories
+
+PD_HEADERS = $(PD_CPPFILES:.cpp=.h) $(PD_INCLUDE)
+PD_SOURCES = $(PD_CPPFILES:%=$(PD_SRCDIR)/%)
+PD_OBJECTS = $(PD_CPPFILES:%.cpp=$(OBJDIR)/%.o)
+PD_RTIDEFS := $(PD_RTIDEFS:%=$(PD_SRCDIR)/registry/%)
+PD_RTIFREF := $(PD_RTIFREF:%=$(PD_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(PD_INCLUDE): $(PD_SRCDIR)/$(PD_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(PD_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* pd plugin configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_PD" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(PD_SOURCES)
+OBJECTS += $(PD_OBJECTS)
+HEADERS += $(PD_HEADERS)
+VPATH   += $(PD_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(PD_NAME)
+RTIDEFS += $(PD_RTIDEFS)
+RTIFREF += $(PD_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(PD_SRCDIR)/registry/pd_interface.i 
+SWGMODULES += $(PD_NAME)
+
+pdtest:
+	echo $(SOURCES)
+
+#
+# include tutorial 
+
+include $(PD_BASE)/Makefile.tutorial

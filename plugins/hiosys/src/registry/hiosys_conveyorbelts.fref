@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="5_Application_Example" title="HioSys - Conveyorbelts">
+
+<h1>
+HioSys PlugIn 
+</h1>
+
+<h2>
+Application Example: Transport Chain
+</h2>
+
+<p>
+A <strong>chain of 8 conveyor belts</strong> that is part of the FGDES' demonstration model
+of a manufacturing system served as scalable application example for the
+HioSys approach. A video is coming in due course.
+</p>
+<p>
+<img fsrc="FAUDES_IMAGES/hio_fischertechnik.png"/>
+</p>
+
+<p>
+Within a resulting 3-level hierarchy (see below), the topmost of 7 
+I/O controllers accepts the operator inputs "<i>take from left</i>" and "<i>deliver to right</i>"
+or "<i>standby</i>"
+(in arbitrary order) to transport workpieces (up to 8 pieces simultaneously)
+ from the left end of the chain to the right end.
+</p>
+<p>
+<img fsrc="FAUDES_IMAGES/hio_cb_example_schematic.png"/>
+</p>
+<p>
+ The internal transfer of workpieces is managed by the controller hierarchy and guaranteed to be
+ nonblocking and collision-free. Using the libFAUDES <a href="simulator_index.html">Simulator</a>,
+ the controllers are executed synchronously with the hardware.
+</p>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a>
+</p>
+</ReferencePage>
+
+  

@@ -1,0 +1,8 @@
+The iodevice plugin extends libfaudes simulators generate and receive
+events from physical sources e.g. digital io hardware. Thus,
+the simulator can be run in  hardware-in-the-loop configuration.
+
+Further documentation regarding individual devices is provided 
+by the doxygen pages and within the tutorial directory.
+
+

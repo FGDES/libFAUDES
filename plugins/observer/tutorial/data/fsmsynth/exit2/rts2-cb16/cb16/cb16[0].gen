@@ -1,0 +1,84 @@
+<Generator>
+"cb16[0]"     
+
+% 
+%  Statistics for cb16[0]
+%  States:        47
+%  Init/Marked:   1/1
+%  Events:        24
+%  Transitions:   69
+%  StateSymbols:  47
+%  Attrib. E/S/T: 11/0/0
+% 
+
+<Alphabet>
+"cb16+y"      +C+           "cb16-10"      +C+           "cb16-9"      +C+           
+"cb16-8"      +C+           "cb16-rc2"    +C+           "cb16-y"      +C+           
+"cb16f"       "cb16stp"     +C+           "cb16wpar"    "cb16wplv10"   "cb16wplv9"   
+"cb16wplv8"   "cb16wplvrc2" "cb10-16"      +C+           "cb9-16"      +C+           
+"cb8-16"      +C+           "t_cb16" +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"                    
+"15"          "16"          "17"                    "19"          "20"          
+"21"          "23"          "24"          "25"                    
+"27"          "28"          "29"                   "31"          "32"          
+"33"                    "6"           "7"           "8"                      
+  "dummy_21"      "dummy_29"  "dummy_8"     
+</States>
+
+<TransRel>
+"1"           "cb10-16"      "6"           
+"1"           "cb9-16"      "19"          
+"1"           "cb8-16"      "27"          
+"10"          "cb16-10"      "15"          
+"10"          "cb16-9"      "23"          
+"10"          "cb16-8"      "31"          
+"10"          "cb16-rc2"    "11"          
+"11"          "cb16+y"      "12"          
+"12"          "cb16stp"     "11"          
+"12"          "cb16wplvrc2" "13"    
+"13"          "cb16stp"     "1"                   
+"15"          "cb16+y"      "16"          
+"16"          "cb16stp"     "15"          
+"16"          "cb16wplv10" 	"17"    
+"17"          "cb16stp"     "1"                 
+"19"          "cb16-y"      "20"          
+"20"          "cb16stp"     "19"          
+"20"          "cb16wpar" "21"    
+"21"          "cb16stp"     "10"          
+"21"          "t_cb16" "dummy_21"               
+"23"          "cb16+y"      "24"          
+"24"          "cb16stp"     "23"          
+"24"          "cb16wplv9" "25"    
+"25"          "cb16stp"     "1"                 
+"27"          "cb16-y"      "28"          
+"28"          "cb16stp"     "27"          
+"28"          "cb16wpar" "29"    
+"29"          "cb16stp"     "10"          
+"29"          "t_cb16" "dummy_29"              
+"31"          "cb16+y"      "32"          
+"32"          "cb16stp"     "31"          
+"32"          "cb16wplv8" "33"    
+"33"          "cb16stp"     "1"               
+"6"           "cb16-y"      "7"           
+"7"           "cb16stp"     "6"           
+"7"           "cb16wpar" "8"     
+"8"           "cb16stp"     "10"           
+"8"           "t_cb16" "dummy_8"                          
+"dummy_21"    "cb16f"       "20"                                            
+"dummy_29"    "cb16f"       "28"                                          
+"dummy_8"     "cb16f"       "7"                  
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

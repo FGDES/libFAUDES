@@ -1,0 +1,59 @@
+<Generator>
+"Environment AB 3"
+
+<Alphabet>
+"ABCD_accfl" +YL+
+"ABCD_occfl" +YL+
+"AB_freetr" +YE+
+"AB_reltr" +YE+
+"CD_freetr" +YE+
+"CD_reltr" +YE+
+"AB_occfl" +YE+
+"CD_occfl" +YE+
+</Alphabet>
+
+<States>
+1             2             3             4
+</States>
+
+<TransRel>
+1 "ABCD_accfl" 1
+1 "AB_freetr" 1
+1 "AB_reltr" 1
+1 "CD_freetr" 1
+1 "CD_reltr" 1
+1 "AB_occfl" 2
+1 "CD_occfl" 3
+2 "ABCD_accfl" 2
+2 "AB_freetr" 1
+2 "AB_reltr" 1
+2 "CD_occfl" 4
+2 "AB_occfl" 2
+2 "CD_freetr" 2
+2 "CD_reltr" 2
+3 "ABCD_accfl" 3
+3 "CD_freetr" 1
+3 "CD_reltr" 1
+3 "AB_reltr" 3
+3 "AB_freetr" 3
+3 "AB_occfl" 4
+3 "CD_occfl" 3
+4 "ABCD_occfl" 4
+4 "CD_freetr" 2
+4 "CD_reltr" 2
+4 "AB_reltr" 3
+4 "AB_freetr" 3
+4 "CD_occfl" 4
+4 "AB_occfl" 4
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3             4
+</MarkedStates>
+
+
+</Generator>

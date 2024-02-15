@@ -1,0 +1,60 @@
+<Generator>
+"SupConNB((cb6[0]),(cb6[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((cb6[0]),(cb6[0]_spec))
+% 
+%  States:        18
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   20
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb14-6"      +C+           "cb6-14"      +C+           "cb13-6"      +C+           
+"cb6+x"       +C+           "cb6-13"      +C+           "cb6-x"       +C+           
+"cb6stp"      +C+           "cb6wpar"     "cb6wplv13"   "cb6wplv14"   "t_modul4cb6-mh2-d2cb6" 
++C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             18            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb14-6"      2             
+1             "cb13-6"      3             
+2             "cb6-x"       16            
+3             "cb6+x"       4             
+4             "t_modul4cb6-mh2-d2cb6" 5             
+5             "cb6wpar"     6             
+6             "cb6stp"      7             
+7             "cb6-14"      8             
+7             "cb6-13"      9             
+8             "cb6+x"       13            
+9             "cb6-x"       10            
+10            "t_modul4cb6-mh2-d2cb6" 11            
+11            "cb6wplv13"   12            
+12            "cb6stp"      1             
+13            "t_modul4cb6-mh2-d2cb6" 14            
+14            "cb6wplv14"   15            
+15            "cb6stp"      1             
+16            "t_modul4cb6-mh2-d2cb6" 17            
+17            "cb6wpar"     18            
+18            "cb6stp"      7             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

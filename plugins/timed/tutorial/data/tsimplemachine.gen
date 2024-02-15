@@ -1,0 +1,49 @@
+<Generator>
+"tc simple machine" 
+
+<Alphabet>
+"alpha" +C+       "beta"        "mue"         "lambda"  +C+      
+</Alphabet>
+
+<States>
+"idle"        
+"busy"     <Invariant> "cBusy"   "LT" 10 </Invariant>   
+"down"
+</States>
+
+
+<TransRel>
+"idle"        "alpha"       "busy"    
+<Timing>
+<Resets>
+"cBusy"
+</Resets>
+</Timing>
+
+"busy"        "beta"        "idle"        
+<Timing>
+<Guard>    
+"cBusy" "GT" 5
+</Guard>
+</Timing>
+
+"busy"        "mue"         "down"        
+
+"down"        "lambda"      "idle"        
+
+</TransRel>
+
+<InitStates>
+"idle"        
+</InitStates>
+
+<MarkedStates>
+"idle"        
+</MarkedStates>
+
+<Clocks>
+"cBusy" 
+</Clocks>
+
+</Generator>
+

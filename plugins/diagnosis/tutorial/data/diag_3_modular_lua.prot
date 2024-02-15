@@ -1,0 +1,37 @@
+%%% test mark: modular sys 3 [at diag_3_modular.lua]
+<Boolean> 
+true           
+</Boolean> 
+% 
+% 
+% 
+
+%%% test mark: modular sys 3 [at diag_3_modular.lua]
+%  Vector Size: 2
+%  Vector Entry 0
+% 
+%  Statistics for Generator
+% 
+%  States:        9
+%  Init/Marked:   1/0
+%  Events:        6
+%  Transitions:   10
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/9/0
+% 
+%  Vector Entry 1
+% 
+%  Statistics for Generator
+% 
+%  States:        5
+%  Init/Marked:   1/0
+%  Events:        5
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/5/0
+% 
+% 
+% 
+% 
+% 
+

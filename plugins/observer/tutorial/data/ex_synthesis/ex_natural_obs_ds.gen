@@ -1,0 +1,208 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        12
+%  Init/Marked:   0/0
+%  Events:        3
+%  Transitions:   174
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+"alpha"       "gamma"       "obsLabel"    
+</Alphabet>
+
+<States>
+<Consecutive>
+1             12            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "alpha"       1             
+1             "alpha"       2             
+1             "alpha"       3             
+1             "alpha"       4             
+1             "alpha"       5             
+1             "alpha"       6             
+1             "alpha"       7             
+1             "alpha"       8             
+1             "alpha"       9             
+1             "alpha"       10            
+1             "alpha"       11            
+1             "alpha"       12            
+1             "obsLabel"    1             
+2             "alpha"       1             
+2             "alpha"       2             
+2             "alpha"       3             
+2             "alpha"       4             
+2             "alpha"       5             
+2             "alpha"       6             
+2             "alpha"       7             
+2             "alpha"       8             
+2             "alpha"       9             
+2             "alpha"       10            
+2             "alpha"       11            
+2             "alpha"       12            
+3             "alpha"       1             
+3             "alpha"       2             
+3             "alpha"       3             
+3             "alpha"       4             
+3             "alpha"       5             
+3             "alpha"       6             
+3             "alpha"       7             
+3             "alpha"       8             
+3             "alpha"       9             
+3             "alpha"       10            
+3             "alpha"       11            
+3             "alpha"       12            
+4             "alpha"       1             
+4             "alpha"       2             
+4             "alpha"       3             
+4             "alpha"       4             
+4             "alpha"       5             
+4             "alpha"       6             
+4             "alpha"       7             
+4             "alpha"       8             
+4             "alpha"       9             
+4             "alpha"       10            
+4             "alpha"       11            
+4             "alpha"       12            
+5             "alpha"       1             
+5             "alpha"       2             
+5             "alpha"       3             
+5             "alpha"       4             
+5             "alpha"       5             
+5             "alpha"       6             
+5             "alpha"       7             
+5             "alpha"       8             
+5             "alpha"       9             
+5             "alpha"       10            
+5             "alpha"       11            
+5             "alpha"       12            
+6             "alpha"       1             
+6             "alpha"       2             
+6             "alpha"       3             
+6             "alpha"       4             
+6             "alpha"       5             
+6             "alpha"       6             
+6             "alpha"       7             
+6             "alpha"       8             
+6             "alpha"       9             
+6             "alpha"       10            
+6             "alpha"       11            
+6             "alpha"       12            
+6             "gamma"       1             
+6             "gamma"       2             
+6             "gamma"       3             
+6             "gamma"       4             
+6             "gamma"       5             
+6             "obsLabel"    1             
+7             "alpha"       1             
+7             "alpha"       2             
+7             "alpha"       3             
+7             "alpha"       4             
+7             "alpha"       5             
+7             "alpha"       6             
+7             "alpha"       7             
+7             "alpha"       8             
+7             "alpha"       9             
+7             "alpha"       10            
+7             "alpha"       11            
+7             "alpha"       12            
+7             "gamma"       1             
+7             "gamma"       2             
+7             "gamma"       3             
+7             "gamma"       4             
+7             "gamma"       5             
+7             "obsLabel"    1             
+8             "alpha"       1             
+8             "alpha"       2             
+8             "alpha"       3             
+8             "alpha"       4             
+8             "alpha"       5             
+8             "alpha"       6             
+8             "alpha"       7             
+8             "alpha"       8             
+8             "alpha"       9             
+8             "alpha"       10            
+8             "alpha"       11            
+8             "alpha"       12            
+8             "gamma"       1             
+8             "gamma"       2             
+8             "gamma"       3             
+8             "gamma"       4             
+8             "gamma"       5             
+8             "obsLabel"    1             
+9             "alpha"       1             
+9             "alpha"       2             
+9             "alpha"       3             
+9             "alpha"       4             
+9             "alpha"       5             
+9             "alpha"       6             
+9             "alpha"       7             
+9             "alpha"       8             
+9             "alpha"       9             
+9             "alpha"       10            
+9             "alpha"       11            
+9             "alpha"       12            
+9             "gamma"       1             
+9             "gamma"       2             
+9             "gamma"       3             
+9             "gamma"       4             
+9             "gamma"       5             
+9             "obsLabel"    1             
+10            "alpha"       1             
+10            "alpha"       2             
+10            "alpha"       3             
+10            "alpha"       4             
+10            "alpha"       5             
+10            "alpha"       6             
+10            "alpha"       7             
+10            "alpha"       8             
+10            "alpha"       9             
+10            "alpha"       10            
+10            "alpha"       11            
+10            "alpha"       12            
+10            "gamma"       1             
+10            "gamma"       2             
+10            "gamma"       3             
+10            "gamma"       4             
+10            "gamma"       5             
+10            "obsLabel"    1             
+11            "alpha"       1             
+11            "alpha"       2             
+11            "alpha"       3             
+11            "alpha"       4             
+11            "alpha"       5             
+11            "alpha"       6             
+11            "alpha"       7             
+11            "alpha"       8             
+11            "alpha"       9             
+11            "alpha"       10            
+11            "alpha"       11            
+11            "alpha"       12            
+11            "gamma"       1             
+11            "gamma"       2             
+11            "gamma"       3             
+11            "gamma"       4             
+11            "gamma"       5             
+11            "obsLabel"    1             
+12            "gamma"       1             
+12            "gamma"       2             
+12            "gamma"       3             
+12            "gamma"       4             
+12            "gamma"       5             
+</TransRel>
+
+<InitStates>
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

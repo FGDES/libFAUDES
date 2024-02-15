@@ -1,0 +1,45 @@
+#
+# This is the makefile for the libfaudes synthesis plug-in tutorial
+#
+# included by Makefile.plugin
+#
+
+
+#
+# set up paths relative to faudes dir
+
+SYN_TUTORIAL_DIR = ./plugins/synthesis/tutorial
+
+#
+# source files
+
+SYN_TUTORIAL_CPPFILES = \
+	syn_1_simple.cpp syn_2_omega.cpp syn_3_reduction.cpp syn_6_compsynth.cpp syn_7_compsynth.cpp
+
+#
+# executables
+
+SYN_TUTORIAL_EXECUTABLES = $(SYN_TUTORIAL_CPPFILES:%.cpp=$(SYN_TUTORIAL_DIR)/%$(DOT_EXE))
+
+
+####################################
+# implicit rule for compiling test targets
+####################################
+
+$(SYN_TUTORIAL_DIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
+	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$*$(DOT_O))
+	$(call FNCT_LINK_APP,$(OBJDIR)/$*$(DOT_O),$@)
+	$(call FNCT_POST_APP,$@)
+
+
+
+
+###################################
+# advertise tutorial to main makefile
+###################################
+
+VPATH += $(SYN_TUTORIAL_DIR)
+TUTORIAL_EXECUTABLES += $(SYN_TUTORIAL_EXECUTABLES)
+CLEANFILES += $(SYN_TUTORIAL_EXECUTABLES)
+SOURCES += $(SYN_TUTORIAL_CPPFILES:%=$(SYN_TUTORIAL_DIR)/%)
+

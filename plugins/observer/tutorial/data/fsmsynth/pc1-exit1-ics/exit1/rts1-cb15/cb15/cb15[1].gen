@@ -1,0 +1,35 @@
+<cGenerator>
+<Generator>
+"Det(Pro(SupConNB((cb15[0]),(cb15[0]_spec)))) [minstate]" 
+<Alphabet>
+"cb15-9"      "cb15-rc1"    "cb7-15"      "wp15-9"      "wp15-rc1"    "wp7-15"      
+</Alphabet>
+<States>
+5             
+</States>
+<TransRel>
+2             "cb15-9"      4             
+2             "cb15-rc1"    5             
+1             "cb7-15"      3             
+3             "wp7-15"      2             
+4             "wp15-9"      1             
+5             "wp15-rc1"    1             
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"cb15-9"      "cb15-rc1"    "cb7-15"      
+</Controllable>
+<Observable>
+"cb15-9"      "cb15-rc1"    "cb7-15"      "wp15-9"      "wp15-rc1"    "wp7-15"      
+</Observable>
+
+</cGenerator>

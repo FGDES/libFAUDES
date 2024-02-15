@@ -1,0 +1,27 @@
+<Generator>
+"Generator"   
+
+<Alphabet>
+"alpha"  "beta"  "f" +o+
+</Alphabet>
+
+<States>
+1 2 3  
+</States>
+
+<TransRel>
+1             "alpha"        2  
+2             "beta"         1
+2             "f"            3
+3             "beta"         2
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Multitasking" title="Multitasking - Functions">
+
+<h1>
+General Purpose Functions
+</h1>
+
+<p>
+Due to colored marking of states, functions that refer to the marked languages 
+of an <ftype>MtcSystem</ftype> require reimplementation. 
+</p>
+
+
+<ffnct_reference name="MtcParallel">
+</ffnct_reference>
+
+
+<ffnct_reference name="MtcProject">
+</ffnct_reference>
+
+
+<ffnct_reference name="MtcInvProject">
+</ffnct_reference>
+
+
+<ffnct_reference name="MtcDeterministic">
+</ffnct_reference>
+
+<ffnct_reference name="MtcStateMin">
+</ffnct_reference>
+</ReferencePage>
+
+  

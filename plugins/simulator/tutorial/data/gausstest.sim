@@ -1,0 +1,94 @@
+% Example configuration of simulator
+
+% This example runs the timed simple machine with 
+% * gauss distributed alpha and beta events.
+% * priority disabled lamba and mue events
+
+% Since the alpha transition has no timing constraints,
+% we expect the time it takes to start the machine to be
+% indeed gauss distributed as specified.
+% This is monitored my the condition "IdleCond"
+
+% Since the beta trandition has a contraint to take
+% 50 to 100 time units, we expect the time it takes to
+% process a workpiece to be a restricted gauss distribution.
+% This is monitored my the condition "BusyCond"
+
+<Executor>
+
+% specify generators
+<Generators>
+"tsimplemachine.gen"
+</Generators>
+
+% specify conditions
+<Conditions>
+
+"IdleCond"      
+<EventCondition>
+<StartEvents>
+"beta"     
+"mue"
+</StartEvents>
+<StopEvents>
+"alpha"       
+</StopEvents>
+</EventCondition>
+
+"BusyCond"     
+<EventCondition>
+<StartEvents>
+"alpha"     
+</StartEvents>
+<StopEvents>
+"beta"       
+"mue"       
+</StopEvents>
+</EventCondition>
+
+"DownCond"     
+<EventCondition>
++Disabled+     
+<StartEvents>
+"mue"     
+</StartEvents>
+<StopEvents>
+"lambda"       
+</StopEvents>
+</EventCondition>
+</Conditions>
+
+
+% specify event attributes
+<SimEvents>
+
+"alpha"     
+<Stochastic>
++Trigger+      +Gauss+       
+<Parameter>
+200           5             
+</Parameter>
+</Stochastic>
+
+"beta"      
+<Stochastic>
++Trigger+      +Gauss+       
+<Parameter>
+90            5             
+</Parameter>
+</Stochastic>
+
+"mue"       
+<Priority>
+-50            
+</Priority>
+
+"lambda"       
+<Priority>
+-50            
+</Priority>
+
+</SimEvents>
+
+% end
+</Executor>

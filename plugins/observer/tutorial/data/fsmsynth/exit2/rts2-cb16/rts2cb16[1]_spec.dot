@@ -1,0 +1,30 @@
+digraph "rts2cb16[1]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+
+  // transition relation
+  "1" -> "2" [label="cb10-16"];
+  "2" -> "7" [label="wp10-16"];
+  "3" -> "4" [label="rts2_6"];
+  "4" -> "5" [label="cb16-rc2"];
+  "5" -> "8" [label="wp16-rc2"];
+  "6" -> "1" [label="rts2_5"];
+  "7" -> "3" [label="rts2_5-6"];
+  "8" -> "6" [label="rts2_6-5"];
+};

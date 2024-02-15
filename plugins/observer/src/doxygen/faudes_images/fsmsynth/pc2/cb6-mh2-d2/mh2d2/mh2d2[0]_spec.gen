@@ -1,0 +1,61 @@
+<Generator>
+"mh2d2[0]_spec" 
+
+% 
+%  Statistics for mh2d2[0]_spec
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        12
+%  Transitions:   24
+%  StateSymbols:  12
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"d2run"       +C+           "d2stp"       "t_modul4\cb6-mh2-d2\mh2d2" +C+           "mh2ar+z"     
+"mh2ar-z"     "mh2end"      "mh2lv+z"     "mh2lv-z"     "mh2mv+z"     +C+           
+"mh2mv-z"     +C+           "mh2start"    +C+           "mh2stp"      +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "2"           "3"           
+"4"           "5"           "6"           "7"           "8"           "9"           
+</States>
+
+<TransRel>
+"1"           "t_modul4\cb6-mh2-d2\mh2d2" "1"           
+"1"           "mh2start"    "2"           
+"10"          "t_modul4\cb6-mh2-d2\mh2d2" "10"          
+"10"          "mh2ar+z"     "11"          
+"11"          "t_modul4\cb6-mh2-d2\mh2d2" "11"          
+"11"          "mh2stp"      "12"          
+"12"          "t_modul4\cb6-mh2-d2\mh2d2" "12"          
+"12"          "mh2end"      "1"           
+"2"           "t_modul4\cb6-mh2-d2\mh2d2" "2"           
+"2"           "mh2mv-z"     "3"           
+"3"           "t_modul4\cb6-mh2-d2\mh2d2" "3"           
+"3"           "mh2lv+z"     "4"           
+"4"           "t_modul4\cb6-mh2-d2\mh2d2" "4"           
+"4"           "mh2ar-z"     "5"           
+"5"           "t_modul4\cb6-mh2-d2\mh2d2" "5"           
+"5"           "mh2stp"      "6"           
+"6"           "d2run"       "7"           
+"6"           "t_modul4\cb6-mh2-d2\mh2d2" "6"           
+"7"           "d2stp"       "8"           
+"7"           "t_modul4\cb6-mh2-d2\mh2d2" "7"           
+"8"           "t_modul4\cb6-mh2-d2\mh2d2" "8"           
+"8"           "mh2mv+z"     "9"           
+"9"           "t_modul4\cb6-mh2-d2\mh2d2" "9"           
+"9"           "mh2lv-z"     "10"          
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

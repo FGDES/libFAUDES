@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="00_Index" title="CoreFaudes - Introduction">
+
+<fsummary>
+General purpose functions and data types for automata and formal languages,
+including boolean operations, regular expresions, natural projection, synchronous composition,
+etc.
+</fsummary>
+
+<h1>
+CoreFaudes
+</h1>
+
+<p>
+libFAUDES addresses discrete event systems that can be modelled
+by regular languages or, equivalently, by finite automata. 
+This section of the user reference provides some background
+and documents general purpose functions on generators.
+It is organized follows:
+</p>
+<table class="plain">
+<tr>
+<td>
+<ul class="l2">
+<li><p>
+<a href="corefaudes_generator.html">Generators</a>
+</p></li>
+<li><p>
+<a href="corefaudes_alphabet.html">Alphabets</a>
+</p></li>
+<li><p>
+<a href="corefaudes_reachability.html">Reachability</a>
+</p></li>
+<li><p>
+<a href="corefaudes_langboolean.html">Boolean language operations</a>
+</p></li>
+<li><p>
+<a href="corefaudes_regular.html">Regular expressions</a>
+</p></li>
+</ul>
+</td>
+<td>
+<ul class="l2">
+<li><p>
+<a href="corefaudes_parallel.html">Synchronous Composition</a>
+</p></li>
+<li><p>
+<a href="corefaudes_projection.html">Natural Projection</a>
+</p></li>
+<li><p>
+<a href="corefaudes_statemin.html">Stateset conversion</a>
+</p></li>
+<li><p>
+<a href="corefaudes_elementary.html">Strings, Booleans and Integers</a>
+</p></li>
+<li><p>
+<a href="corefaudes_genmisc.html">Misc</a>
+</p></li>
+</ul>
+</td>
+</tr>
+</table>
+
+
+<p>
+Copyright (C) 2006 Bernd Opitz.
+<br/>
+Copyright (C) 2008, 2009 Thomas Moor, Klaus Schmidt, Sebastian Perk. 
+<br/>
+Copyright (C) 2010 - 2017 Thomas Moor, Klaus Schmidt.
+</p>
+
+<h2>
+Preliminaries
+</h2>
+
+
+<p>
+<strong>Alphabet.</strong>
+An <i>alphabet</i> <fimath>\Sigma</fimath> is a set of symbols <fimath>\sigma\in\Sigma</fimath>.
+If not otherwise noted, we assume alphabets to be finite.
+</p>
+
+<p>
+<strong>Strings.</strong>
+A <i>string <fimath>s</fimath></i> over an alphabet <fimath>\Sigma</fimath> is a finite sequence 
+of symbols, denoted 
+<fimath>s = o_1\,o_2\,\ldots\,o_n,</fimath> 
+with <fimath>o_i\in\Sigma</fimath>. We write <fimath>|s|=n</fimath> for the
+length of the string. Symbols of <fimath>\Sigma</fimath> are identified with
+strings of length 1. 
+</p>
+
+<p>
+<strong>Empty string.</strong>
+The empty string is denoted <i><fimath>\epsilon</fimath></i>.
+Its length is zero, i.e. <fimath>|\epsilon|=0</fimath>.
+</p>
+
+<p>
+<strong>Set of all strings</strong>.
+The set of all strings of symbols from an alphabet <fimath>\Sigma</fimath>
+with length greater than zero is denoted <fimath>Sigma^+</fimath>.
+We write <fimath>\Sigma^* = \Sigma^+ \,\cup\, \{\epsilon\}</fimath>.
+</p>
+
+<p>
+<strong>Concatenation</strong>.
+Given 
+<fimath>s = o_1\,o_2\,\ldots\,o_n</fimath> and
+<fimath>r = t_1\,t_2\,\ldots\,t_k\in\Sigma^*</fimath>,
+let 
+<fimath>s\,r</fimath> denote the <i>concatenation</i> of <fimath>s</fimath> and <fimath>r</fimath>, i.e.
+<fimath>s\,r = o_1\,o_2\,\ldots\,o_n\,t_1\,t_2\,\ldots\,t_k</fimath>.
+For all <fimath>s\in\Sigma^*</fimath>, let <fimath>s\,\epsilon := s =: \epsilon\, s</fimath>.
+</p>
+
+<p>
+<strong>Prefix</strong>.
+A string 
+<fimath>s\in\Sigma^*</fimath>
+is said to be a <i>prefix</i> of 
+<fimath>r\in\Sigma^*</fimath>
+if there exists
+<fimath>t\in\Sigma^*</fimath>
+such that 
+<fimath>s\,t = r</fimath>. 
+We write <fimath>s\le r</fimath> to indicate that <fimath>s</fimath> is a prefix of <fimath>r</fimath>.
+If in addition <fimath>s \neq r</fimath>, we say that 
+<fimath>s</fimath> is a <i>strict prefix</i> of <fimath>r</fimath> and write <fimath>s \lt r</fimath>.
+</p>
+
+<p>
+<strong>Formal languages</strong>. 
+A <i>formal language</i> over an alphabet <fimath>\Sigma</fimath> is a subset <fimath>L\subseteq\Sigma^*</fimath>.
+A formal language that can be represented by a finite automata 
+is said to be <i>regular</i>; see also <ftype>Generator</ftype>. 
+</p>
+
+<p>
+<strong>Infinite length strings</strong>. 
+Given an alphabet 
+<fimath>\Sigma</fimath>, 
+let 
+<fimath>\Sigma^w</fimath> denote the set of all
+infinite sequences <fimath>w : N \rightarrow \Sigma</fimath>.
+For <fimath>w \in \Sigma^w</fimath>, we write 
+<fimath>w_i\in \Sigma^*</fimath>, <fimath>w_i \lt w</fimath>, for the prefix consisting of
+the first <fimath>i</fimath> symbols.
+</p>
+
+<p>
+<strong>Omega languages</strong>. 
+An <i>omega language</i> over an alphabet <fimath>\Sigma</fimath>
+is a subset <fimath>B\subseteq\Sigma^w</fimath>. The set of all
+prefixes is denotet <fimath>\Prefix{B}=\{s\in\Sigma^*|\ \exists w\in B:\ s\lt w\}</fimath>.
+A formal language <fimath>L\subseteq\Sigma^*</fimath> can be extended to 
+an omega-language by the limit operator
+<br />
+<br />
+<fdmath>B(L)=\{w\in\Sigma^w|\ w \text{ has infinitely many prefixes in } L\ \}</fdmath>;
+<br />
+<br />
+see also <ftype>Generator</ftype>.
+</p>
+
+<h2>
+Literature
+</h2>
+
+<p>
+Background and algorithms presented in this section are fairly common
+and by no means specific to the control of discrete event systems.
+Relevant literature includes:
+</p>
+
+<fliterature name="C1">
+<fauthors>W.M.&nbsp;Wonham</fauthors>
+<ftitle>Supervisory Control of Discrete-Event Systems</ftitle>   
+<fjournal>available at <a href="http://www.control.toronto.edu/people/profs/wonham/wonham.html">University of Toronto</a></fjournal>
+<fyear>2009 (revised)</fyear>
+</fliterature>
+
+<fliterature name="C2">
+<fauthors>C.G.&nbsp;Cassandras,&nbsp;S. Lafortune</fauthors>
+<ftitle><a href="http://www.springer.com/engineering/robotics/book/978-0-387-33332-8">Introduction to Discrete Event Systems</a></ftitle>
+<fpublisher>Springer Netherlands</fpublisher> 
+<fyear>2007 (2nd ed)</fyear>
+</fliterature>
+
+<fliterature name="C3">
+<fauthors>E.&nbsp;Hopcroft, J.D.&nbsp;Ullman</fauthors>
+<ftitle>Introduction to Automata Theory, Languages, and Computation</ftitle>
+<fpublisher>Addison-Wesley</fpublisher>
+<fyear>1979</fyear>
+</fliterature>
+
+<fliterature name="C4">
+<fauthors>R.&nbsp;Malik, H..&nbsp;Flordal</fauthors>
+<ftitle>Compositional verification in supervisory control</ftitle>
+<fjournal>SIAM Journal of Control and Optimization</fjournal> 
+<fyear>2009</fyear>.
+</fliterature>
+
+
+</ReferencePage>
+
+  

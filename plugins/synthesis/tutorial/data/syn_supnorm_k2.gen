@@ -1,0 +1,39 @@
+<Generator>
+"Intersection(platn_1||LanguageDiffe...state])),Project(plant [minstate]))" 
+
+% 
+%  Statistics for Intersection(platn_1||LanguageDiffe...state])),Project(plant [minstate]))
+% 
+%  States:        5
+%  Init/Marked:   1/5
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  5
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+t1            t             c             a1           
+</Alphabet>
+
+<States>
+"1|1|1"       "2|2|3"       "4|1|2|2|3"   "5|3|4"       "3|3|5|3|4"  
+</States>
+
+<TransRel>
+"1|1|1"       t1            "2|2|3"      
+"1|1|1"       a1            "4|1|2|2|3"  
+"2|2|3"       c             "3|3|5|3|4"  
+"4|1|2|2|3"   t             "5|3|4"      
+</TransRel>
+
+<InitStates>
+"1|1|1"      
+</InitStates>
+
+<MarkedStates>
+"1|1|1"       "2|2|3"       "4|1|2|2|3"   "5|3|4"       "3|3|5|3|4"  
+</MarkedStates>
+
+
+</Generator>

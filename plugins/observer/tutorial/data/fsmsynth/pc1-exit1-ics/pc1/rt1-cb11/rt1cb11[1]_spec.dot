@@ -1,0 +1,30 @@
+digraph "rt1cb11[1]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+
+  // transition relation
+  "1" -> "2" [label="cb4-11"];
+  "2" -> "3" [label="wp4-11"];
+  "3" -> "4" [label="rt1xy"];
+  "4" -> "5" [label="rt1y"];
+  "5" -> "6" [label="cb11-7"];
+  "6" -> "7" [label="wp11-7"];
+  "7" -> "8" [label="rt1yx"];
+  "8" -> "1" [label="rt1x"];
+};

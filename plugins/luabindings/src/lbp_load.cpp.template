@@ -1,0 +1,11 @@
+/* Auto-generated file to load all lua modules  */
+
+/* 
+The build system appends the definition of the
+load function by adding  a function call for for each plugin.
+*/
+
+#include "lbp_load.h"
+
+// over all load
+int luaopen_faudes_allplugins(lua_State* L) 

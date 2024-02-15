@@ -1,0 +1,29 @@
+#
+# makefile for libfaudes python bindings plugin tutorial, tmoor 202301
+#
+# included by Makefile.plugin
+#
+
+#
+# set up paths relative to faudes dir
+
+PBP_TUTORIAL_DIR = ./plugins/pybindings/tutorial
+
+#
+# there is nothing to do except for copying the module
+
+pybindings-copymodule: $(LIBFAUDES) $(PBP_OBJDIR)/faudes.py
+	$(CP) $(call FNCT_FIXDIRSEP,$(PBP_OBJDIR)/faudes.py) $(call FNCT_FIXDIRSEP,$(PBP_TUTORIAL_DIR)/faudes.py)
+	$(CP) $(call FNCT_FIXDIRSEP,$(LIBFAUDES)) $(call FNCT_FIXDIRSEP,$(PBP_TUTORIAL_DIR)/_faudes.so)
+
+
+###################################
+# advertise tutorial to main makefile
+###################################
+
+DISTCLEANFILES += $(PBP_TUTORIAL_DIR)/_faudes.* $(PBP_TUTORIAL_DIR)/faudes.py
+DISTCLEANFILES += $(PBP_TUTORIAL_DIR)/__pycache__
+TUTORIALTARGETS += pybindings-copymodule
+DEFAULTTARGETS += pybindings-copymodule
+
+

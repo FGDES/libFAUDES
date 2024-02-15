@@ -1,0 +1,64 @@
+% Elevator example: operator specification (leds)
+
+<Generator>
+"operator leds spec"
+
+<Alphabet>
+"a_start"
+"a_done"
+"a_fail"
+"o_uplon"
+"o_uploff"
+"o_lwlon"
+"o_lwloff"
+"d_open"
+"d_close"
+"d_stp"
+"c_up"
+"c_down"
+"c_stp"
+</Alphabet>
+
+<States>
+"Idle"
+"On1"
+"On2"
+"Busy"
+"Off1"
+"Off2"
+</States>
+
+<TransRel>
+
+% Idle, wait for command
+"Idle" "a_start"   "On1"
+
+% Turn on led
+"On1"  "o_uplon" "On2"
+"On2"  "o_lwlon" "Busy"
+
+% Execute
+"Busy" "c_up"  "Busy"
+"Busy" "c_down"  "Busy"
+"Busy" "c_stp"  "Busy"
+"Busy" "d_open"  "Busy"
+"Busy" "d_close"  "Busy"
+"Busy" "d_stp"  "Busy"
+"Busy" "a_done" "Off1"
+"Busy" "a_fail" "Off1"
+
+% Turn off led
+"Off1" "o_uploff" "Off2"
+"Off2" "o_lwloff" "Idle"
+
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>
+"Idle"
+</MarkedStates>
+
+</Generator>

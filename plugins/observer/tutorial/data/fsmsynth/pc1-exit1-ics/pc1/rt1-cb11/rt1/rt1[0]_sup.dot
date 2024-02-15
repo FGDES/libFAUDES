@@ -1,0 +1,50 @@
+digraph "SupConNB((rt1[0]),(rt1[0]||rt1[0]_spec))" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+  "10";
+  "11";
+  "12";
+  "13";
+  "14";
+  "15";
+  "16";
+  "17";
+  "18";
+
+  // transition relation
+  "1" -> "2" [label="rt1xy"];
+  "2" -> "3" [label="rt1mvy"];
+  "3" -> "4" [label="t_modul3\rt1-cb11\rt1"];
+  "4" -> "5" [label="rt1lvx"];
+  "5" -> "6" [label="t_modul3\rt1-cb11\rt1"];
+  "6" -> "7" [label="rt1ary"];
+  "7" -> "8" [label="rt1stp"];
+  "8" -> "9" [label="t_modul3\rt1-cb11\rt1"];
+  "9" -> "10" [label="rt1y"];
+  "10" -> "11" [label="rt1yx"];
+  "11" -> "12" [label="rt1mvx"];
+  "12" -> "13" [label="t_modul3\rt1-cb11\rt1"];
+  "13" -> "14" [label="rt1lvy"];
+  "14" -> "15" [label="t_modul3\rt1-cb11\rt1"];
+  "15" -> "16" [label="rt1arx"];
+  "16" -> "17" [label="rt1stp"];
+  "17" -> "18" [label="t_modul3\rt1-cb11\rt1"];
+  "18" -> "1" [label="rt1x"];
+};

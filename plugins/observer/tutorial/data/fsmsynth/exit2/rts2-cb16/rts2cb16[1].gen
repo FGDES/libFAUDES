@@ -1,0 +1,63 @@
+<cGenerator>
+<Generator>
+"Det(Pro(SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb16[0]),(cb16[0]_spec)))) [minstate]" 
+<Alphabet>
+"cb10-16"     "cb16-rc2"    "wp10-16"     "wp16-rc2"    "rts2_5"      "rts2_5-6"    
+"rts2_6"      "rts2_6-5"    
+</Alphabet>
+<States>
+16            
+</States>
+<TransRel>
+1             "cb10-16"     3             
+1             "rts2_5-6"    2             
+2             "cb10-16"     4             
+2             "rts2_6"      11            
+3             "wp10-16"     5             
+3             "rts2_5-6"    4             
+4             "wp10-16"     6             
+4             "rts2_6"      13            
+5             "cb16-rc2"    7             
+5             "rts2_5-6"    6             
+6             "cb16-rc2"    8             
+6             "rts2_6"      15            
+7             "wp16-rc2"    1             
+7             "rts2_5-6"    8             
+8             "wp16-rc2"    2             
+8             "rts2_6"      9             
+9             "wp16-rc2"    11            
+9             "rts2_6-5"    10            
+10            "wp16-rc2"    12            
+10            "rts2_5"      7             
+11            "cb10-16"     13            
+11            "rts2_6-5"    12            
+12            "cb10-16"     14            
+12            "rts2_5"      1             
+13            "wp10-16"     15            
+13            "rts2_6-5"    14            
+14            "wp10-16"     16            
+14            "rts2_5"      3             
+15            "cb16-rc2"    9             
+15            "rts2_6-5"    16            
+16            "cb16-rc2"    10            
+16            "rts2_5"      5             
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"cb10-16"     "cb16-rc2"    "rts2_5-6"    "rts2_6-5"    
+</Controllable>
+<Observable>
+"cb10-16"     "cb16-rc2"    "wp10-16"     "wp16-rc2"    "rts2_5"      "rts2_5-6"    
+"rts2_6"      "rts2_6-5"    
+</Observable>
+
+</cGenerator>

@@ -1,0 +1,69 @@
+<Generator>
+"cb6[0]_spec" 
+
+% 
+%  Statistics for cb6[0]_spec
+%  States:        18
+%  Init/Marked:   1/1
+%  Events:        15
+%  Transitions:   38
+%  StateSymbols:  18
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb13-6"      +C+           "cb14-6"      +C+           "cb6+x"       +C+           
+"cb6-13"      +C+           "cb6-14"      +C+           "cb6-x"       +C+           
+"cb6stp"      +C+           "cb6wpar"     "cb6wplv13"   "cb6wplv14"   "t_modul4\cb6-mh2-d2\cb6" 
++C+        
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"         
+"15"          "16"          "17"                 "2"           "3"           
+"4"                    "6"           "7"           "8"        
+</States>
+
+<TransRel>
+"1"           "cb13-6"      "6"           
+"1"           "cb14-6"      "2"           
+"1"           "t_modul4\cb6-mh2-d2\cb6" "1"           
+"10"          "cb6-13"      "15"          
+"10"          "cb6-14"      "11"          
+"10"          "t_modul4\cb6-mh2-d2\cb6" "10"          
+"11"          "cb6+x"       "12"          
+"11"          "t_modul4\cb6-mh2-d2\cb6" "11"          
+"12"          "cb6wplv14"   "13"          
+"12"          "t_modul4\cb6-mh2-d2\cb6" "12"          
+"13"          "cb6stp"      "1"          
+"13"          "t_modul4\cb6-mh2-d2\cb6" "13"                   
+"15"          "cb6-x"       "16"          
+"15"          "t_modul4\cb6-mh2-d2\cb6" "15"          
+"16"          "cb6wplv13"   "17"          
+"16"          "t_modul4\cb6-mh2-d2\cb6" "16"          
+"17"          "cb6stp"      "1"          
+"17"          "t_modul4\cb6-mh2-d2\cb6" "17"                 
+"2"           "cb6-x"       "3"           
+"2"           "t_modul4\cb6-mh2-d2\cb6" "2"           
+"3"           "cb6wpar"     "4"           
+"3"           "t_modul4\cb6-mh2-d2\cb6" "3"           
+"4"           "cb6stp"      "10"           
+"4"           "t_modul4\cb6-mh2-d2\cb6" "4"                    
+"6"           "cb6+x"       "7"           
+"6"           "t_modul4\cb6-mh2-d2\cb6" "6"           
+"7"           "cb6wpar"     "8"           
+"7"           "t_modul4\cb6-mh2-d2\cb6" "7"           
+"8"           "cb6stp"      "10"           
+"8"           "t_modul4\cb6-mh2-d2\cb6" "8"                   
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

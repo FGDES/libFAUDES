@@ -1,0 +1,47 @@
+
+<Generator>
+"G6"
+
+<Alphabet>
+"cb13-6"      "cb6-13"      "wp13-6"      "wp6-13"      "cb6-14"      "cb10-16"     
+"wp10-16"     
+</Alphabet>
+ <States>   <Consecutive>    1   
+14            
+ </Consecutive>    </States>  
+<TransRel>
+1             "cb13-6"      2             
+2             "wp13-6"      3             
+3             "cb6-13"      4             
+3             "cb6-14"      5             
+4             "wp6-13"      1             
+5             "cb13-6"      6             
+5             "cb10-16"     7             
+6             "wp13-6"      12            
+6             "cb10-16"     8             
+7             "cb13-6"      8             
+7             "wp10-16"     1             
+8             "wp13-6"      9             
+8             "wp10-16"     2             
+9             "cb6-13"      10            
+9             "cb6-14"      11            
+9             "wp10-16"     3             
+10            "wp6-13"      7             
+10            "wp10-16"     4             
+11            "wp10-16"     5             
+12            "cb6-13"      13            
+12            "cb6-14"      14            
+12            "cb10-16"     9             
+13            "wp6-13"      5             
+13            "cb10-16"     10            
+14            "cb10-16"     11            
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+

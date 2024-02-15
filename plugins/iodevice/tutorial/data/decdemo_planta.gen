@@ -1,0 +1,49 @@
+% Example "decdemo", PlantA (process). 
+
+% The process unit can at any time 
+% be turned on or turned off. When turned on,
+% the unite will eventually either complete
+% the process of issue a maintenace request.
+%
+% For the purpose of digital i/o, the unit
+% executes the event "p_inprog" when turned
+% on to allow to indicate completion by
+% a negative edge. 
+
+<Generator>
+"PlantA (process)"
+<Alphabet>
+"p_start"     +C+
+"p_stop"      +C+
+"p_inprog"        
+"p_complete"         
+"m_request"         
+</Alphabet>
+
+<States>
+"POff" "POn1" "POn2" "POn3"
+</States>
+
+<TransRel>
+"POff"        "p_start"         "POn1"
+"POff"        "p_stop"          "POff"
+"POn1"        "p_inprog"        "POn2"
+"POn2"        "p_start"         "POn2"
+"POn2"        "p_stop"          "POff"
+
+"POn2"        "p_complete"      "POn3"
+"POn2"        "m_request"       "POn3"
+
+"POn3"        "p_start"         "POn3"
+"POn3"        "p_stop"          "POff"
+</TransRel>
+
+<InitStates>
+"POff" 
+</InitStates>
+
+<MarkedStates>
+"POff" "POn3" 
+</MarkedStates>
+
+</Generator>

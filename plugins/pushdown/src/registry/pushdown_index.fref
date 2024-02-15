@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Pushdown" page="Index" title="Pushdown Automata"> 
+
+<fsummary>
+Synthesis of minimally restrictive supervisory controllers for regular plants 
+and context free specification languages, provided by deterministic pushdown automata. 
+</fsummary>
+
+<h1>
+Pushdown Automata
+</h1>
+
+<p>
+Copyright (C) 2013/14, Sven Schneider, Anne-Kathrin Schmuck, Stefan Jacobi, Ramon Barakat
+</p>
+<p>
+The pushdown plug-in synthesizes a minimally restrictive supervisor for a regular plant language (provided by a deterministic finite automaton (DFA)) and a context free specification language (provided by a deterministic pushdown automaton (DPDA)). The algorithm is formally derived by Schneider and Schmuck in <fcite name="P1"/>, where its soundness is proven. 
+</p>
+<p>
+The algorithm to construct the minimally restrictive supervisor (i.e., the controller) is called by <ffnct>PushdownConstructController</ffnct> taking the automata modeling the plant and specification languages as its input. To handle (various types of) pushdown automata in this algorithm, the <ftype>PushdownGenerator</ftype> is introduced. The plugin additionally provides the two functions <ffnct>PushdownBlockfree</ffnct> and <ffnct>PushdownAccessible</ffnct> which are also contained as subroutines in <ffnct>PushdownConstructController</ffnct>. <ffnct>PushdownBlockfree</ffnct> makes an arbitrary DPDA nonblocking (i.e., life-lock- and dead-lock-free, accessible and co-accessible) while <ffnct>PushdownAccessible</ffnct> is an efficient algorithm to trim an arbitrary DPDA. 
+<!--The latter is very useful as existing procedure to trim a DPDA are comutationally very involving as they have to check the emptiness of a context free language.-->
+</p>
+
+
+<h2>
+<a id="PushdownGenerator">
+PushdownGenerator
+</a>
+</h2>
+<p>
+  The faudes type <ftype>PushdownGenerator</ftype> represents an Extended Pushdown Automaton (EPDA, see <fcite name="P1"/>), which is a finite automaton enriched with a stack-variable which can be used to remember aspects of a generated word for later use.
+  <p>
+ A <ftype>PushdownGenerator</ftype> is a tuple 
+  <fimath>G = (Q,\ \Sigma,\ \delta,\ Q_o,\ Q_m,\ Gamma,\ Box)</fimath>, with
+  </p>
+  <ul>
+  <li> the <i>output alphabet</i> <fimath>\Sigma</fimath>; </li>
+  <li>the <i>state set</i> <fimath>Q</fimath>; </li>
+  <li> the <i>set of transitions</i> <fimath>\delta:Q\times(\Sigma\cup\ lambda)\times\ Gamma^*\times\ Gamma^*\times Q</fimath>
+<!--, where the strings of stack symbols <fimath>\ Gamma^*</fimath> represent the stack pop and stack push operation of a transition-->
+; </li>
+  <li> the set of <i>initial states</i> <fimath>Q_o</fimath>; </li>
+  <li> the set of <i>marking states</i> <fimath>Q_m</fimath>; </li>
+  <li> the set of <i>stack symbols</i> <fimath>\ Gamma</fimath>; </li>
+  <li> the <i>end-of-stack marker</i> <fimath>\ Box</fimath>. </li>
+  </ul>
+</p>
+<p>
+The token-IO format of <ftype>PushdownGenerator</ftype> is based on the format of <ftype>System</ftype>, but with an additional property to accommodate stack symbols, as explained in <fcite name="P2"/>.
+</p>
+<p>
+Note that an EPDA can do silent moves (called lambda-transitions), possibly modifying the stack but not generating an external symbol. Furthermore, transitions can also pop or push the empty word, allowing lambda to be a pop/push attribute. To handle this feature in libfaudes, the string "lambda" (internally handled by the constant FAUDES_PD_LAMBDA) is defined to only be used when intending to insert a lambda transition or pop/push attribute.
+</p>
+<p>
+An EPDA is a very general pushdown automaton used in intermediate steps of <ffnct>PushdownConstructController</ffnct>. As discussed in <fcite name="P1"/>, a DPDA is a EPDA that
+<ul >
+<li> has a unique initial state, </li>
+<li> has only transitions popping exactly one symbol, and </li>
+<li> is deterministic, (i.e., distinct transitions starting in the same state and popping the same stack symbol have to generate distinct output symbols).</li>
+</ul></p><p>
+When calling the functions <ffnct>PushdownConstructController</ffnct>, <ffnct>PushdownBlockfree</ffnct> and <ffnct>PushdownAccessible</ffnct>, the input has to be a DPDA, i.e., the input given by a <ftype>PushdownGenerator</ftype> has to satisfy the above properties.
+</p>
+
+
+<h4>
+Example:
+</h4>
+<p>
+Consider the output alphabet <fimath>\Sigma={a,b,u}</fimath>, the stack alphabet <fimath>Gamma={bullet, Box}</fimath>, the state set <fimath>Q={q_0, q_1, q_2, q_3}</fimath>, and the set of marking states <fimath>Qm={q_0, q_2,q_3}</fimath>. Then the automaton M in Figure 1 is a DPDA, and the transition <fimath>(q,sigma,gamma,s,q')</fimath> is depicted by an edge from q to q' labeled by <fimath>(sigma,gamma,s)</fimath>, denoting that by taking this transition, <fimath>sigma\in Sigma</fimath> is generated, <fimath>gamma\in Gamma</fimath> is popped from the top of the stack, and <fimath>s\in Gamma^*</fimath> is pushed onto the stack (with the right-most symbol first).
+</p>
+<center>
+<img fsrc="FAUDES_IMAGES/example-automaton.png"/>
+<br/>
+<span class="text_small">
+Figure 1: DPDA M.
+</span>
+</center> 
+<!--
+<p>
+The libfaudes implementation of this DPDA as a <ftype>PushdownGenerator</ftype> is given as follows:
+</p>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   5
+%  StateSymbols:  4
+%  Attrib. E/S/T: 2/0/5
+% 
+
+&lt;Alphabet&gt;
+a             +C+           b             +C+           lambda       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+s1            s2            s3            s4           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+s1            a             s2           
+&lt;PopPushes&gt;
+&lt;PopPush&gt;
+&lt;Pop name="square"/&gt;
+&lt;Push name="dot"/&gt;
+&lt;Push name="square"/&gt;
+&lt;/PopPush&gt;
+&lt;/PopPushes&gt;
+s2            a             s2           
+&lt;PopPushes&gt;
+&lt;PopPush&gt;
+&lt;Pop name="dot"/&gt;
+&lt;Push name="dot"/&gt;
+&lt;Push name="dot"/&gt;
+&lt;/PopPush&gt;
+&lt;/PopPushes&gt;
+s2            b             s3           
+&lt;PopPushes&gt;
+&lt;PopPush&gt;
+&lt;Pop name="dot"/&gt;
+&lt;Push name="lambda"/&gt;
+&lt;/PopPush&gt;
+&lt;/PopPushes&gt;
+s3            b             s3           
+&lt;PopPushes&gt;
+&lt;PopPush&gt;
+&lt;Pop name="dot"/&gt;
+&lt;Push name="lambda"/&gt;
+&lt;/PopPush&gt;
+&lt;/PopPushes&gt;
+s3            lambda        s4           
+&lt;PopPushes&gt;
+&lt;PopPush&gt;
+&lt;Pop name="square"/&gt;
+&lt;Push name="square"/&gt;
+&lt;/PopPush&gt;
+&lt;/PopPushes&gt;
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+s1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+s4           
+&lt;/MarkedStates&gt;
+
+&lt;StackSymbols&gt;
+&lt;Element name="lambda"/&gt;
+&lt;Element name="dot"/&gt;
+&lt;Element name="square"/&gt;
+&lt;/StackSymbols&gt;
+&lt;StackBottom name="square"/&gt;
+
+&lt;/Generator&gt;
+</pre>
+</p>
+-->
+
+<ffnct_reference name="PushdownBlockfree">
+
+<fdetails/>
+
+<p>
+The algorithm implemented in this function consists of 12 steps, as described in detail in <fcite name="P1"/>, Section 3. The basic idea is to
+<ol>
+<li> transform the input DPDA into a context free grammar (GFG), </li>
+<li>obtain an LR(1) grammar by restricting the former to establish operational nonblockingsness and absence of lifelocks , </li>
+<li>transform the LR(1) grammar into a DPDA preserving the desired properties, and </li>
+<li>remove all inaccessible states and edges. </li>
+</ol></p>
+<p>
+Due to the outlined transformations, the original automaton structure will not be preserved and the stack symbols will be changed. 
+</p>
+<h4>
+Example:
+</h4>
+<p>
+Consider the DPDA M in Figure 1. It has a blocking situation when arriving in q_1 with a Box on top of the stack. In this case, the nonblocking version can be generated by ensuring that at least two "a" are generated before a "b" can occur. Therefore, the nonblocking version of M needs to be structurally different in a (usually) non-obvious manner.
+For this simple example, the problem can be solved by inspection, given the (structurally similar) DPDA in Figure 2.
+<center>
+<img fsrc="FAUDES_IMAGES/example-automaton_nonblock.png"/>
+<br/>
+<span class="text_small">
+Figure 2: Blockfree version of DPDA M from Figure 1.
+</span>
+</center> 
+</p>
+<!--<p>
+As an example consider the following automaton. q_2 will block if it is entered with any stack top symbol other than triangle. Deleting q_2 is not an option, as q_2 with triangle as the stack top symbol is a valid state of the pushdown automaton. The automaton must be remodelled to prevent q_2 from being entered with the wrong stack top symbol. Note that the result automaton displayed here has been remodelled from the the Blockfree function's result automaton to make it easier to read.
+</p>
+<center>
+<img fsrc="FAUDES_IMAGES/pd_nonblock.png"/>
+<br/>
+<span class="text_small">
+Blocking pushdown automaton and resulting nonblocking pushdown automaton (from <fcite name="P1"/>)
+</span>
+</center> 
+-->
+</ffnct_reference>
+
+
+<ffnct_reference name="PushdownAccessible">
+
+<fdetails/>
+
+<p>
+In the new version of the plugin, this function is reimplemented to increase efficiency.
+</p>
+<p>
+To decide which states <fimath>Q' \in Q</fimath> and transitions <fimath>e \in \delta</fimath> are accessible, we transform the input DPDA into a context free grammar (CFG). We obtain an LR(1) grammar by restricting the former to establish operational nonblockingsness and eliminate lifelocks. From the LR(1) grammar accessible states and transitions can be identified. 
+</p>
+</ffnct_reference>
+<h4>
+Example:
+</h4>
+<p>
+Consider the DPDA M in Figure 1. Here the state q_3 and the transition leading to it are not accessible since q_2 can not be reached with a Box on top of the stack. The algorithm would return the automaton depicted in Figure 3.
+<center>
+<img fsrc="FAUDES_IMAGES/example-automaton_access.png"/>
+<br/>
+<span class="text_small">
+Figure 3: Accessible version S of DPDA M from Figure 1.
+</span>
+</center> 
+</p>
+
+
+<ffnct_reference name="PushdownConstructController">
+
+<fdetails/>
+<p>
+<ffnct>PushdownConstructController</ffnct> generates a proper minimally restrictive supervisor (in the sense of <fcite name="P3"/>) by calculating a fixed point of an iterator which is decomposed in two functions ensuring controllability and nonblockingness of their inputs, respectively.  
+</p>
+<p>
+After starting the iteration with the nonblocking product of plant and specification, a loop is entered which executes the following steps (see <fcite name="P1"/> for details):
+</p>
+<ul class="l2">
+  <li><p>construct the product automaton of the current input and the plant, </p></li>
+  <li><p>make the product automaton accessible, </p></li>
+  <li><p>remove controllability problems,</p></li>
+  <li><p>if controllability problems were removed, make the resulting DPDA nonblocking,</p></li>
+  <li><p>if no controllability problems were removed, the input to the loop is the output of <ffnct>PushdownConstructController</ffnct>.</p></li>
+</ul>
+<p>
+As this function depends on <ffnct>PushdownBlockfree</ffnct>, it may take a long time to execute.
+</p>
+</ffnct_reference>
+<h4>
+Example:
+</h4>
+<p>
+Consider a plant modeled by the DPDA P depicted in Figure 4 and a specification modeled by the DPDA S in Figure 3 and assume that "u" is the only uncontrollable event. 
+</p>
+<center>
+<img fsrc="FAUDES_IMAGES/example-automaton_plant.png"/>
+<br/>
+<span class="text_small">
+Figure 4: DFA "P"
+</span>
+</center> 
+<p>
+Observe that <fimath>S\times P=S</fimath> and <fimath>S</fimath> has a controllability problem when arriving in q_1 with a Box on top of the stack. However, deleting this state falsely deletes controllable words. Therefore, the resulting minimally restrictive controller needs to be structurally different. For this simple example, the problem can be solved by inspection, given the DPDA depicted in Figure 5.
+</p>
+<center>
+<img fsrc="FAUDES_IMAGES/example-automaton_controller.png"/>
+<br/>
+<span class="text_small">
+Figure 5: Resulting minimally restrictive controller for the DFA P in Figure 4 and the DPDA S in Figure 3.
+</span>
+</center> 
+
+<h2>
+<a id="literature">
+Literature
+</a>
+</h2>
+
+<fliterature name="P1">
+<fauthors>S.&nbsp;Schneider, A.-K.&nbsp;Schmuck</fauthors>
+<ftitle>Supervisory Controller Synthesis for Deterministic Pushdown Automata Specifications</ftitle>   
+<fjournal>Technische Universit&auml;t Berlin, Technical Report</fjournal>
+<fyear>2013</fyear>
+</fliterature>
+
+<fliterature name="P2">
+<fauthors>S.&nbsp;Jacobi</fauthors>
+<ftitle>Controller synthesis for discrete event systems in the setting of a regular plant and a deterministic context-free specification in Libfaudes
+</ftitle>   
+<fjournal>Technische Universität Berlin, Master Thesis, Fachgebiet Regelungssysteme, <a href="http://www.control.tu-berlin.de/wiki/images/e/e2/Masterthesis_Jacobi_2013.pdf">PDF</a></fjournal>
+<fyear>2013</fyear>
+</fliterature>
+
+<!--
+<fliterature name="P3">
+<fauthors>C. G.&nbsp;Cassandras, S.&nbsp;Lafortune</fauthors>
+<ftitle>Introduction to Discrete Event Systems</ftitle>   
+<fjournal>Springer Science+Business Media</fjournal>
+<fyear>2008</fyear>
+</fliterature>
+    
+<fliterature name="P5">
+<fauthors>W. M.&nbsp;Wonham</fauthors>
+<ftitle>Supervisory Control of Discrete-Event Systems</ftitle>   
+<fjournal>University of Toronto, Systems Control Group</fjournal>
+<fyear>2010</fyear>
+</fliterature>
+
+
+<fliterature name="P6">
+<fauthors>D. E.&nbsp;Knuth</fauthors>
+<ftitle>On the Translation of Languages from Left to Right</ftitle>   
+<fjournal>Information and Control 8, p. 607 - 639</fjournal>
+<fyear>1965</fyear>
+</fliterature>
+-->
+
+<fliterature name="P3">
+<fauthors>W. M.&nbsp;Wonham, P. J.&nbsp;Ramadge</fauthors>
+<ftitle>On the supremal controllable sublanguage of a given language</ftitle>   
+<fjournal>Siam Journal Control and Optimization, Vol 25., No. 3</fjournal>
+<fyear>1987</fyear>
+</fliterature>
+
+<!--
+<fliterature name="P8">
+<fauthors>S.&nbsp;Sippu, E.&nbsp;Soisalon-Soininen</fauthors>
+<ftitle>Parsing Theory, Vol. II: LR(k) and LL(k) Parsing</ftitle>   
+<fjournal>EARCS Monographs on Theoretical Computer Science, Springer Verlag</fjournal>
+<fyear>1990</fyear>
+</fliterature>
+  -->  
+
+
+
+</ReferencePage>
+
+  

@@ -1,0 +1,51 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        6
+%  Transitions:   8
+%  StateSymbols:  14
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+	"sf-c1"      "c1a"    "c1mv"       +C+           "c1s"      +C+           "c1l"
+"block"      +o+           "timer"		"pass" 	+o+	        
+</Alphabet>
+
+<States>
+"c1"         "c2"         "c3"         "c4"         "c5"         "c6"         
+"c7"	"c8"	"c9"	"c10"         "c11"
+</States>
+
+<TransRel>
+"c1"	"sf-c1"	"c2"
+"c1"	"block"	"c8"
+"c2"	"c1mv"	"c3"
+"c2"	"block"	"c9" 
+"c2"	"pass"	"c4"
+"c3"	"pass"	"c5"
+"c3"	"block"	"c10"
+"c4"	"c1mv"	"c5"
+"c5"	"c1a"	"c6"
+"c6"	"c1s"	"c7"
+"c7"	"c1l"	"c1"
+"c8"	"sf-c1"	"c9"
+"c9"	"c1mv"	"c10"
+"c10"	"timer"	"c11"
+</TransRel>
+
+<InitStates>
+"c1"         
+</InitStates>
+
+<MarkedStates>
+"c1"         "c2"         "c3"         "c4"         "c5"         "c6"         
+"c7"	"c8"	"c9"	"c10"            "c11"
+</MarkedStates>
+
+
+</Generator>

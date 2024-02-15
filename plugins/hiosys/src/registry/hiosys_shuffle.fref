@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - IO Shuffle">
+
+<h1>
+HioSys I/O shuffle
+</h1>
+
+<p>
+The composition function <ffnct>HioShuffle</ffnct> is used to technically
+group two or (by repetition) more I/O plants into one single I/O plant model.
+</p>
+
+<ffnct_reference name="HioShuffle">
+<fdetails/>
+
+<p>
+The I/O shuffle of two I/O plants is
+based on the ordinary shuffle product (parallel composition under absence of shared events),
+but restricted by the additional condition <fimath>L_{io}</fimath> on the
+ordering of input-output event-pairs and extended by a well-defined error behaviour
+<fimath>L_{err}</fimath>. The
+latter accounts for situations where <fimath>L_{io}</fimath> is violated, i.e. a measurement event
+from the one plant component is replied to by a control event to the other plant component.
+The behaviour of the individual components is not restricted by this composition.
+The I/O shuffle of two I/O plants results in an I/O plant.
+</p>
+
+<p>
+<table border="0">
+<tr> 
+<td align="center"> <img fsrc="FAUDES_IMAGES/hio_shuffle_two_plants.png" /> </td>
+<td> </td>
+<td align="center"> <img fsrc="FAUDES_IMAGES/hio_shuffle_two_plants_merged.png" /> </td>
+</tr>
+<tr> 
+<td align="center"> two I/O plants </td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+<td align="center"> I/O shuffle of two I/O plants </td>
+</tr>
+</table>
+</p>
+
+</ffnct_reference>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a>
+</p></ReferencePage>
+
+  

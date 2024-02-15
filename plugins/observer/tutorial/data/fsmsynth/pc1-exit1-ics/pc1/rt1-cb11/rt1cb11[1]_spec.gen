@@ -1,0 +1,44 @@
+<Generator>
+"rt1cb11[1]_spec" 
+
+% 
+%  Statistics for rt1cb11[1]_spec
+%  States:        8
+%  Init/Marked:   1/1
+%  Events:        8
+%  Transitions:   8
+%  StateSymbols:  8
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"cb11-7"      +C+           "cb11stp"      "cb4-11"      +C+           
+"rt1stp"        "rt1xy"       +C+           "rt1yx"       +C+           
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           "5"           "6"           
+"7"           "8"           
+</States>
+
+<TransRel>
+"1"           "cb4-11"      "2"           
+"2"           "cb11stp"      "3"           
+"3"           "rt1xy"       "4"           
+"4"           "rt1stp"        "5"           
+"5"           "cb11-7"      "6"           
+"6"           "cb11stp"      "7"           
+"7"           "rt1yx"       "8"           
+"8"           "rt1stp"        "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

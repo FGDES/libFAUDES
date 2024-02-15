@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE SpiDevice SYSTEM "spidevice.dtd">
+
+<!--
+Device configuration for serial process image device
+
+Here: controller b, addressing repair
+-->
+
+<SpiDevice name="ControllerB_Serial"> 
+
+<!-- Time scale in ms/ftu -->
+<TimeScale value="10"/> 
+
+<!-- Sample interval for edge detection in us (1ms) -->
+<SampleInterval value="1000"/> 
+
+<!-- Role: slave -->
+<Role value="slave"/>
+
+<!-- Sytem device file -->
+<DeviceFile value="/dev/ttyS0"/> 
+
+
+<!-- Trigger based event definitition to follow -->
+<EventConfiguration> 
+
+<!-- Maintenance start -->
+<Event name="m_start" iotype="output"> 
+<Actions> 
+<Set address="2"/> 
+</Actions> 
+</Event> 
+
+
+<!-- Maintenance stop -->
+<Event name="m_stop" iotype="output"> 
+<Actions> 
+<Clr address="2"/> 
+</Actions> 
+</Event> 
+
+
+<!-- Maintenance in progress -->
+<Event name="m_request" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="3"/> 
+</Triggers> 
+</Event> 
+
+
+<!-- Maintenance complete -->
+<Event name="m_complete" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="3"/> 
+</Triggers> 
+</Event> 
+
+
+</EventConfiguration> 
+</SpiDevice> 

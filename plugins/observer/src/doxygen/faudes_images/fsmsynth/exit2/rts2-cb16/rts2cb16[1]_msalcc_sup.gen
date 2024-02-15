@@ -1,0 +1,49 @@
+<Generator>
+"SupConNB((Project(SupConNB((cb16[0]...ts2[0]_spec)))),(rts2cb16[1]_spec))" 
+
+% 
+%  Statistics for SupConNB((Project(SupConNB((cb16[0]...ts2[0]_spec)))),(rts2cb16[1]_spec))
+% 
+%  States:        10
+%  Init/Marked:   1/1
+%  Events:        10
+%  Transitions:   10
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb10-16"     +C+           "cb16-rc2"    +C+           "cb16stp"     +C+           
+"rts2_6"      "rts2_6-5"    +C+           "rts2_5"      "rts2_5-6"    +C+           
+"rts2_5-4"    +C+           "rts2stp"     +C+           "rts2_4-5"    +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             10            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb10-16"     2             
+2             "cb16stp"     3             
+3             "rts2_5-6"    4             
+4             "rts2stp"     5             
+5             "rts2_6"      6             
+6             "cb16-rc2"    7             
+7             "cb16stp"     8             
+8             "rts2_6-5"    9             
+9             "rts2stp"     10            
+10            "rts2_5"      1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

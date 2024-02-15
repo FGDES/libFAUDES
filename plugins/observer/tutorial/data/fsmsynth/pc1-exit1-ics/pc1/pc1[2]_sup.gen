@@ -1,0 +1,63 @@
+<cGenerator>
+<Generator>
+"SupConNB((Det(Pro(SupConNB((Det(Pro(SupConNB((cb4[0]),(cb4[0]_spec)))) [minstate]||Det(Pro(SupConNB((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]),(cb4mh1d1[1]_spec)))) [minstate]||Det(Pro(SupConNB((Det(Pro(SupConNB((rt1[0]),(rt1[0]||rt1[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb11[0]),(cb11[0]_spec)))) [minstate]),(rt1cb11[1]_spec)))) [minstate]||Det(Pro(SupConNB((cb7[0]),(cb7[0]_spec)))) [minstate]),(cb4mh1d1rt1cb11cb7[2]_spec))" 
+<Alphabet>
+"cb12-4"      "cb4-11"      "wp12-4"      "wp4-11"      "cb11-7"      "wp11-7"      
+"cb7-15"      "wp7-15"      
+</Alphabet>
+<States>
+20            
+</States>
+<TransRel>
+1             "cb12-4"      2             
+2             "wp12-4"      3             
+3             "cb4-11"      4             
+4             "wp4-11"      5             
+5             "cb12-4"      6             
+5             "cb11-7"      7             
+6             "wp12-4"      20            
+6             "cb11-7"      8             
+7             "cb12-4"      8             
+7             "wp11-7"      9             
+8             "wp12-4"      19            
+8             "wp11-7"      10            
+9             "cb12-4"      10            
+9             "cb7-15"      11            
+10            "wp12-4"      16            
+10            "cb7-15"      12            
+11            "cb12-4"      12            
+11            "wp7-15"      1             
+12            "wp12-4"      13            
+12            "wp7-15"      2             
+13            "cb4-11"      14            
+13            "wp7-15"      3             
+14            "wp4-11"      15            
+14            "wp7-15"      4             
+15            "wp7-15"      5             
+16            "cb4-11"      17            
+16            "cb7-15"      13            
+17            "wp4-11"      18            
+17            "cb7-15"      14            
+18            "cb7-15"      15            
+19            "wp11-7"      16            
+20            "cb11-7"      19            
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"cb12-4"      "cb4-11"      "cb11-7"      "cb7-15"      
+</Controllable>
+<Observable>
+"cb12-4"      "cb4-11"      "wp12-4"      "wp4-11"      "cb11-7"      "wp11-7"      
+"cb7-15"      "wp7-15"      
+</Observable>
+
+</cGenerator>

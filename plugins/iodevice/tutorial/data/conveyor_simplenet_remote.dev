@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE SimplenetDevice SYSTEM "simplenetdevice.dtd">
+
+<!--
+Device configuration to access events from the conveyor belt
+experiment via a simplenet network.
+
+This confuration can be used together with a simulator
+for the controller dynamics on a remote computer.
+-->
+
+<SimplenetDevice name="remote"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="10"/> 
+
+<!-- Ip address of this node, incl. server tcp port -->
+<ServerAddress value="localhost:40001"/> 
+
+<!-- Network topology -->
+<Network name="lrtlabnet"> 
+<Node name="field"/> 
+<Node name="remote"/> 
+</Network> 
+
+<!-- Event configuration -->
+<EventConfiguration> 
+<Event name="SensorA+"  iotype="input"/> 
+<Event name="SensorA-"  iotype="input"/> 
+<Event name="SensorB+"  iotype="input"/> 
+<Event name="SensorB-"  iotype="input"/> 
+<Event name="Reset"     iotype="output"/> 
+<Event name="MotorA+x"  iotype="output"/> 
+<Event name="MotorA-x"  iotype="output"/> 
+<Event name="MotorAstp" iotype="output"/> 
+<Event name="MotorB+x"  iotype="output"/> 
+<Event name="MotorB-x"  iotype="output"/> 
+<Event name="MotorBstp" iotype="output"/> 
+</EventConfiguration> 
+
+</SimplenetDevice> 

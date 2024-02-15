@@ -1,0 +1,36 @@
+<Generator>
+"A-B-Spec-Alternate"
+
+
+<Alphabet>
+"a"           "b"          
+"c"           "d"          
+</Alphabet>
+
+<States>
+"A1" "A2" "B1" "B2" 
+</States>
+
+<TransRel>
+"A1"  "a" "A2"
+"A2"  "a" "A2"
+"A2"  "d" "A2"
+"A2"  "c" "B1"
+"B1"  "b" "B2"
+"B2"  "b" "B2"
+"B2"  "d" "B2"
+"B2"  "c" "A1"
+</TransRel>
+
+<InitStates>
+"A1"        
+</InitStates>
+
+<MarkedStates>
+"A1" 
+</MarkedStates>
+
+</Generator>
+
+
+

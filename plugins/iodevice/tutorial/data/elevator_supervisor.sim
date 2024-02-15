@@ -1,0 +1,103 @@
+% Configuration-file for the interactive simulation of the elevator supervisor.
+%
+% Besides the automata to simulate, this file specifies event attributes 
+% such as execution priority. We use a negativ priority to indicate an
+% an uncontrollable event. Thus, sensors must be triggered manually in the
+% simulation.
+
+<Executor>
+% Specify generators
+<Generators>
+"elevator_plant_cabin.gen"
+"elevator_plant_door.gen"
+"elevator_super_full.gen"
+</Generators>
+
+% Specify trace conditions
+<Conditions>
+</Conditions>
+
+% Specify event attributes
+% (here: execution priority only)
+<SimEventAttributes>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+% Sensor events 
+%
+
+"c_arup"     
+<Priority> -1  </Priority>
+
+"c_lvup"      
+<Priority> -1  </Priority>
+
+"c_arlw"       
+<Priority> -1  </Priority>
+
+"c_lvlw"       
+<Priority> -1  </Priority>
+
+"o_lwb"
+<Priority> -1  </Priority>
+
+"o_upb"
+<Priority> -1  </Priority>
+
+"d_lbbl"
+<Priority> -1  </Priority>
+
+"d_lbrl"
+<Priority> -1  </Priority>
+
+"d_arop"
+<Priority> -1  </Priority>
+
+"d_arcl"
+<Priority> -1  </Priority>
+
+"d_lvop"
+<Priority> -1  </Priority>
+
+"d_lvcl"
+<Priority> -1  </Priority>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+% Actuator events
+%
+
+"c_stp"       
+<Priority> 1  </Priority>
+
+"c_up"       
+<Priority> 1  </Priority>
+
+"c_doen"       
+<Priority> 1  </Priority>
+
+"d_stp"
+<Priority> 1  </Priority>
+
+"d_open"
+<Priority> 1  </Priority>
+
+"d_close"
+<Priority> 1  </Priority>
+
+"o_uplon"
+<Priority> 1  </Priority>
+
+"o_uploff"
+<Priority> 1  </Priority>
+
+"o_lwlon"
+<Priority> 1  </Priority>
+
+"o_lwloff"
+<Priority> 1  </Priority>
+
+%% end
+</SimEventAttributes>
+</Executor>
+ 

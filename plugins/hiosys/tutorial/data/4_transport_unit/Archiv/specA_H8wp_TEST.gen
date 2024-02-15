@@ -1,0 +1,30 @@
+<Generator>
+"specA_H_test"     
+
+<Alphabet>
+"req_fl_A_H"  "req_tr_A_H"  "idle_A_H"   
+"l2r_A_H"     "stby_A_H"
+</Alphabet>
+
+<States>
+"1" "2" "3"
+</States>
+
+<TransRel>
+"1" "idle_A_H" "2"
+"2" "l2r_A_H" "3"
+"2" "stby_A_H" "1"
+"3" "req_fl_A_H" "1"
+"3" "req_tr_A_H" "1"
+</TransRel>
+
+<InitStates>
+"1"       
+</InitStates>
+
+<MarkedStates>
+"1" "2" "3"
+</MarkedStates>
+
+
+</Generator>

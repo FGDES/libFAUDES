@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="00_Index" title="HioSys - About">
+
+<h1 id="hiosys">
+Hierarchical I/O Systems (HioSys)
+</h1>
+
+<fsummary>
+Data-types for the representation of hierarchical systems with inputs and outputs,
+and functions for the synthesis and verification of such systems.
+</fsummary>
+
+
+<p>
+This plug-in implements data types and functions related to the
+input-/output (I/O-) based approach to hierarchical control of
+discrete event systems, as introduced in <cite name="H1"/>, <fcite name="H2"/>.
+</p>
+
+
+<table class="plain" >
+<colgroup>
+<col width="40%"> </col>
+<col width="60%"> </col>
+</colgroup>
+<tr> <td valign="top">
+<p>
+The approach targets at discrete event systems that are composed
+from a number of components and addresses complexity by imposing a hierarchical
+structure on the overall system; see figure.
+The proposed synthesis procedure alternates (a) component composition by environment models,
+(b) synthesis of component controllers, and (c) closed-loop abstraction by intermediate specifications.
+Both safety and liveness specifications are enforced throughout the design.
+</p>
+<p>
+Learn more about:</p> 
+<p> 
+<ul class="l2"> 
+<li><p><a href="hiosys_index.html#iostructure">Introduction to inputs and outputs</a>
+</p></li> 
+<li><p><a href="hiosys_stepbystep.html">Hierarchical design - step by step </a></p></li> 
+<li><p><a href="hiosys_synth.html">Synthesis procedure</a></p></li> 
+<li><p><a href="hiosys_liveness.html">I/O-based liveness</a></p></li> 
+<li><p><a href="hiosys_conveyorbelts.html">Application example</a></p></li> 
+</ul> 
+</p>
+</td>   
+<td align="center">
+<p> <img fsrc="FAUDES_IMAGES/hio_hierarchy.png" title="system architecture resulting from the hierarchical I/O-based approach"/> </p>
+<p> <i>Hierarchical system architecture</i></p>
+</td>
+</tr>
+</table>
+
+<br/>
+<p>
+Copyright (C) 2008, 2009 Sebastian Perk, Thomas Moor, Klaus Schmidt.
+</p>
+
+<div style="clear:both;"></div>
+
+<h2 id="iostructure">
+Introduction to inputs and outputs
+</h2>
+<p>
+A system description  <fimath>S=(L,\Sigma)</fimath> with a regular language
+<fimath>L</fimath> over the alphabet <fimath>\Sigma</fimath> is given I/O structure by providing it
+with a <i>plant-I/O port</i> or a <i>controller-I/O port</i>.
+</p>
+
+<h3 id="plantport">
+Plant-I/O port
+</h3>
+<p>
+A plant-I/O port is designed to be an interface of the plant to an operator or
+controller for manipulation of the plant behaviour.
+</p>
+<p>
+Definition: A plant-I/O port of a system <fimath>(L,\Sigma)</fimath> is a tuple <fimath>(U,Y)</fimath> of
+input and output events, with
+</p>
+<ul class="l2">
+<li><p> <fdmath>\Sigma=W\ \dcup\ U\ \dcup\ Y,\  U\neq\emptyset\neq Y</fdmath>; </p></li>
+<li><p> <fdmath>L\subseteq\Closure{(YU+W)^*}</fdmath>; </p></li>
+<li><p> <fdmath>(\forall s\in\Sigma^*\;Y,\ \mu\in U)[s\in L\ \Rightarrow\ s\mu\in L]</fdmath>. </p></li>
+</ul>
+<p>
+The first bullet point separates input events <fimath>U</fimath> from output events
+<fimath>Y</fimath> and remaining events <fimath>W</fimath>.
+
+The second bullet point requires
+alternation of input and output events aiming at a dependence between cause and effect.
+Remaining dynamics (e.g. dynamics performed on another I/O port) is captured by
+<fimath>W^*</fimath>.
+
+The third item requires all input events  to be accepted after an output event
+("free input <fimath>U</fimath>").
+</p>
+<p>
+<SMALL>
+The notion of input- and output-events does not match with the classical notion of
+controllable and uncontrollable events
+(see <a href="synthesis_controllability.html">controllability</a>).
+A controllable event, for example, may at the same time be input of a plant model
+and output of a controller.
+</SMALL>
+</p>
+
+<h3 id="controllerport">
+Controller-I/O port
+</h3>
+<p>
+A controller-I/O port <fimath>(U,Y)</fimath> is designed to be an interface of an operator or
+controller to the plant. It is a complement of the plant-I/O port in the sense that
+it accepts any <fimath>Y</fimath>-event as an input issued by a plant-I/O port. In return, it can
+provide an event out of <fimath>U</fimath>; see
+<a href="hiosys_controllerport.html">Definition</a>. A controller-I/O port
+can be connected to a plant-I/O port to form a feedback structure.
+</p>
+
+<p>
+<table border="0">
+<tr> <td> Simple feedback structure of plant- and controller-I/O port </td> </tr>
+<tr> <td> <img fsrc="FAUDES_IMAGES/hio_simplefeedback.png"/> </td> </tr>
+</table>
+</p>
+
+<p>
+This simple feedback structure already establishes a continuous chain of cause and effect:
+if, apart from each other, a plant- and a controller-I/O port can continuously produce
+events, then the same holds for the feedback loop of both entities.
+
+The above definitions of a plant- and a controller-I/O port already allow for
+non-hierarchical controller-synthesis, where
+<a href="synthesis_controllability.html">controllability</a> results as a
+consequence of the I/O-structure, see the below example.
+
+Plant- and controller-I/O port are used to define the entities <ftype>HioPlant</ftype>,
+<ftype>HioController</ftype> and <ftype>HioEnvironment</ftype> that form an I/O-based
+hierarchy as in the above picture.
+</p>
+
+<h2>
+<a id="example">Example</a>
+</h2>
+<p>The example shall illustrate and motivate the particular I/O structure for
+discrete event models that is used in our approach. Hence, it does not serve as
+terms of use for the HioSys-PlugIn.
+</p>
+<p>
+We consider the same two <i>very simple machines</i> M1 and M2 as in the
+<a href="synthesis_index.html">Synthesis</a>-PlugIn.
+</p>
+
+
+<h3><a id="plant">
+Plant Model</a>
+</h3>
+<p>
+Each machine can process one workpiece at a time. Per machine <fimath>M_i</fimath> (i=1,2), the
+<i>conventional</i> model
+distinguishes the two events <tt>alpha_i</tt> and <tt>beta_i</tt> to indicate
+the beginning and the end of the machine processing a workpiece.
+</p>
+<p>
+For an <i>I/O-based plant description</i>, we introduce the plant-I/O port
+<fimath>(U_i,Y_i)</fimath> and assign <tt>alpha_i</tt> to the set <fimath>U_i</fimath>, as the
+beginning of the process is initiated by an operator or controller, i.e. poses an
+input to the system <fimath>M_i</fimath>. The end
+of the process <tt>beta_i</tt> is induced by the machine itself and thus belongs to the set
+of <fimath>Y_i</fimath>-events. For situations, where the machine is not processing
+a workpiece or the operator (or controller) does not start a process,
+we supplement <fimath>Y_i</fimath>  and <fimath>U_i</fimath> by the events <tt>idle_i</tt>
+("ready for next workpiece") and  <tt>no_op_i</tt> ("no operation"), respectively.
+The behaviour of the two machines is modeled as a plant-I/O port <fimath>(U_1,Y_1)</fimath>
+and <fimath>(U_2,Y_2)</fimath> by the below <ftype>Generator</ftype>s G1 and G2, respectively.
+The states <tt>I</tt> and <tt>B</tt> refer to the machine being
+<i>idle</i> or <i>busy</i>, while the states <tt>_U</tt> and <tt>_Y</tt> indicate if input- or
+output-events, respectively, are enabled next.
+</p>
+<p>
+The overall plant model is constructed as
+the I/O-shuffle product of both components, which is computed on the basis of the
+function <ffnct>Parallel</ffnct> with additional restriction on the I/O structure of the result
+that, in this case, evaluates to the structure of a plant-I/O port
+<fimath>(U,Y):=(U_1\\cup\ U_2,\ Y_1\ \cup\ Y_2)</fimath>. Hence, the I/O shuffle of both components
+accepts <i>all</i> input events <fimath>U_1\cup U_2</fimath> after an output event. Yet,
+<fimath>U_2</fimath>-events after an <fimath>Y_1</fimath>-event or <fimath>U_1</fimath>-events after an
+<fimath>Y_2</fimath>-event are considered erroneous ("answer to wrong component") and lead
+to the error states 2 and 3.
+</p>
+
+<p>
+<SMALL>(The I/O shuffle used for this non-hierarchical example is a special and unpublished
+variant of the function <ffnct>HioShuffle</ffnct> that is designed for the general hierarchical case.)</SMALL>
+</p>
+
+<p>
+<table class="plain">
+<tr> <td>
+<table>
+<tr> <td> Plant Component G1 </td> <td> Plant Component G2 </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_hio_machine1_intro"/></td>
+<td> <fimage fsrc="tmp_hio_machine2_intro"/></td>
+</tr>
+</table>
+</td> </tr>
+<tr> <td> <table width="100%">
+<tr> <td> I/O shuffle of G1 and G2 </td> </tr>
+<tr> <td> <fimage fsrc="tmp_hio_ioshuffle_intro"/></td> </tr>
+</table> </td> </tr> </table>
+</p>
+
+
+<h3><a id="specification"></a>
+Specification
+</h3>
+
+<p>
+Analogously to the Supervisory Control Theory (see <a href="synthesis_index.html">Synthesis</a>),
+the specification models the set of all acceptable strings.
+In our scenario, the two machines shall be arranged with a buffer to implement a
+two-stage production process. Each workpiece must first be processed by M1, then placed in the
+buffer B, and finally processed by M2. The buffer capacity is restricted to one workpiece.
+While by our plant model both machines act independently, the buffer imposes a condition
+regarding the interaction of both machines. We model the buffer as our specification, where
+the event <tt>beta_1</tt> fills the buffer and <tt>alpha_2</tt> empties the buffer.
+By convention, the remaining events may occur at any time.
+</p>
+<p>
+<table border="0">
+<tr> <td> Specification </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_hio_specification_intro"/></td>
+</tr>
+</table>
+</p>
+
+<h3><a id="controller">Controller</a></h3>
+
+<p>
+In the non-hierarchical case, the controller is directly computed as controller-I/O port
+that enforces the specification on the plant-I/O port while strictly accepting all
+plant output events <fimath>Y</fimath>. Unexpected <fimath>Y</fimath>-events, i.e. those that
+cannot occur at the current state of the plant-I/O port, lead to error states
+(states 2 and 3) of the controller-I/O port. An example for an unexpected
+<fimath>Y</fimath>-event is the occurrence of <tt>beta_2</tt> in the initial state of
+the controller.
+</p>
+
+<p>
+<table class="plain">
+<tr> <td> Controller <SMALL>(Synthesized by an unpublished
+non-hierarchical variant of the function <a href="hiosys_synth.html">HioSynth</a>.)</SMALL> </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_hio_controller_intro"/></td>
+</tr>
+</table>
+</p>
+
+<p>
+Note that, if the machine M2 is still busy and the buffer is full (state 15),
+the controller will prevent that machine M1 takes up a workpiece by allowing for
+<tt>no_op1</tt> only. If the controller did not prevent M1 from taking up a
+workpiece, it could happen, that M1 finishes processing before M2 and, hence,
+a buffer overflow would occur. The
+ <a fhref="FAUDES_IMAGES/tmp_hio_closedloop_intro.html">closed loop behaviour</a> is given by the
+parallel composition (<ffnct>Parallel</ffnct>) of the controller and the above
+I/O shuffle of G1 and G2. By the function <ffnct>Project</ffnct>, we can remove
+all events but the physical events <tt>alpha_i</tt> and <tt>beta_i</tt> to
+obtain the <a fhref="FAUDES_IMAGES/tmp_hio_physical_intro.html">physical closed loop behaviour</a>,
+ which proves to be identical to the
+supervisor that is achieved by application of the Supervisory Control Theory
+(see <a href="synthesis_index.html">Synthesis</a>).
+</p>
+
+<p>Learn more about:</p> <p> <ul class="l2"> <li><p><a href="hiosys_index.html#iostructure">Introduction to inputs and outputs</a></p></li> <li><p><a href="hiosys_stepbystep.html">Hierarchical design - step by step</a></p></li> <li><p><a href="hiosys_conveyorbelts.html">Application example</a></p></li> <li><p><a href="hiosys_synth.html">Synthesis procedure</a></p></li> <li><p><a href="hiosys_liveness.html">I/O-based liveness</a></p></li> </ul> </p>
+
+<h2>
+<a id="literature">
+Literature
+</a>
+</h2>
+
+
+<fliterature name="H1">
+<fauthors>S. Perk, T. Moor and K. Schmidt</fauthors>
+<ftitle>Hierarchical Discrete Event Systems with Inputs and Outputs</ftitle>
+<fjournal> 
+<a target="_blank" href="http://ieeexplore.ieee.org/servlet/opac?punumber=11086">
+Proceedings. 8th International Workshop on Discrete Event Systems (WODES06)</a>
+</fjournal>
+<fyear>2006</fyear>
+</fliterature>
+
+<fliterature name="H2">
+<fauthors>S. Perk, T. Moor and K. Schmidt</fauthors>
+<ftitle> Controller Synthesis for an I/O-Based Hierarchical System Architecture</ftitle>
+<fjournal><a target="_blank" href="http://ieeexplore.ieee.org/servlet/opac?punumber=4595631">Proceedings. 9th International Workshop on Discrete Event Systems (WODES08)</a></fjournal>
+<fyear>2008</fyear>
+</fliterature>
+
+<fliterature name="H3">
+<fauthors>J.C. Willems</fauthors>
+<ftitle> Paradigms and puzzles in the theory of dynamic systems</ftitle>
+<fjournal><a target="_blank" href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   vol. 36, issue 3, pp. 258--294</fjournal>
+<fyear>1991</fyear>
+</fliterature>
+
+<fliterature name="H4">
+<fauthors>T. Moor, J. Raisch and J.M. Davoren</fauthors>
+<ftitle>Admissibility criteria for a hierarchical design of hybrid control systems</ftitle>
+<fjournal>Proceedings. IFAC Conference on the Analysis and Design of Hybrid Systems (ADHS03)</fjournal>
+<fyear>2003</fyear>
+</fliterature>
+
+<fliterature name="H5">
+<fauthors>T. Jéron, H. Marchand, V. Rusu and V. Tschaen</fauthors>
+<ftitle>Ensuring the conformance of reactive discrete-event systems using supervisory control</ftitle>
+<fjournal> <a target="_blank" href="http://ieeexplore.ieee.org/servlet/opac?punumber=8969">Proceedings. 42nd IEEE Conference on Decision and Control (CDC03)</a></fjournal>
+<fyear>2003</fyear>
+</fliterature>
+
+
+<p>
+<a href="#hiosys">top of page</a>
+</p>
+</ReferencePage>
+
+  

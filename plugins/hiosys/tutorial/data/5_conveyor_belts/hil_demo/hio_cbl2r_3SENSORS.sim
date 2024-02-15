@@ -1,0 +1,341 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% simfaudes simulation file for smallhio example
+%% S.Perk, Nov 2009
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Reading ./README.txt is recommended to better understand
+% the notation used in this file.
+
+<Executor>
+<Generators>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% OPTIONAL EXEMPLARY OPERATOR BEHAVIOUR %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% See also: 'OPERATOR BEHAVIOUR BY PRIORITIES' at the end of file
+
+%% Hitting button rts1ar3 provokes ABCDEFGH_FL if actually accepted, else ABCDEFGH_STP
+%% (Analogously: rts1ar4 and  ABCDEFGH_TR):
+%
+%"operator_buttons.gen"
+
+%% 6 times ABCDEFGH_FL, then ABCDEFGH_FL and ABCDEFGH_TR equally => chain is kept filled with
+%% 5 to 7 workpieces :
+%
+%"operator_medium_buffer.gen"
+
+%% The following 2 files can be run exclusively or together:
+%
+%"operator_buttons_countFL.gen" % up to 8 times rts1ar3 provokes FL up to 8 times
+%"operator_buttons_countTR.gen" % up to 8 times rts1ar3 provokes TR up to 8 times
+%% (note: only the number of TL and TR is counted, but not the order)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CONTROLLER HIERARCHY %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+"A_controller.gen"
+"A_controller_and_rt1.gen" % additional manually programmed movement of rt1
+"B_controller.gen"
+"C_controller.gen"
+"D_controller.gen"
+"E_controller.gen"
+"F_controller.gen"
+"G_controller_and_rt4.gen" % additional manually programmed movement of rt4
+"G_controller.gen"
+"H_controller.gen"
+
+"AB_controller.gen"
+"CD_controller.gen"
+"EF_controller.gen"
+"GH_controller.gen"
+
+"ABCD_controller.gen"
+"EFGH_controller.gen"
+"ABCDEFGH_controller.gen"
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% PHYSICAL INTERFACE %%
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Only left-to-right-mode: A_arrtl to H_arrtl are disabled:
+"phys_no_arrtl.gen"
+
+% Relation between sensors/actuators and Yp/Up-events:
+
+"phys_A_stp_implies_cb11stp.gen"
+"phys_A_l_implies_cb11-x-y.gen"
+"phys_A_l_implies_cb11-x-y.gen"
+"phys_A_arrtr_impliedby_cb4wpar.gen"
+"phys_A_full_impliedby_cb11wpar.gen"
+"phys_A_r_implies_cb11+x+y.gen"
+
+"phys_B_l_implies_cb4-x.gen"
+"phys_B_r_implies_cb4+x.gen"
+"phys_B_stp_implies_cb4stp.gen"
+"phys_B_arrtr_impliedby_cb12wpar.gen"
+"phys_B_full_impliedby_cb4wpar.gen"
+
+"phys_C_l_implies_cb12-x+y.gen"
+"phys_C_r_implies_cb12+x-y.gen"
+"phys_C_stp_implies_cb12stp.gen"
+"phys_C_arrtr_impliedby_cb5wpar.gen"
+"phys_C_full_impliedby_cb12wpar.gen"
+
+"phys_D_l_implies_cb5-x.gen"
+"phys_D_r_implies_cb5+x.gen"
+"phys_D_stp_implies_cb5stp.gen"
+"phys_D_arrtr_impliedby_cb13wpar.gen"
+"phys_D_full_impliedby_cb5wpar.gen"
+
+"phys_E_arrtr_impliedby_cb6wpar.gen"
+"phys_E_full_impliedby_cb13wpar.gen"
+"phys_E_l_implies_cb13-x+y.gen"
+"phys_E_r_implies_cb13+x-y.gen"
+"phys_E_stp_implies_cb13stp.gen"
+
+"phys_F_arrtr_impliedby_cb14wpar.gen"
+"phys_F_full_impliedby_cb6wpar.gen"
+"phys_F_l_implies_cb6-x.gen"
+"phys_F_r_implies_cb6+x.gen"
+"phys_F_stp_implies_cb6stp.gen"
+
+"phys_G_arrtr_impliedby_cb10wpar.gen"
+"phys_G_full_impliedby_cb14wpar.gen"
+"phys_G_l_implies_cb14-x+y.gen"
+"phys_G_r_implies_cb14+x-y.gen"
+"phys_G_stp_implies_cb14stp.gen"
+
+"phys_H_arrtr_impliedby_cb16wpar.gen"
+"phys_H_full_impliedby_cb10wpar.gen"
+"phys_H_l_implies_cb10+y.gen"
+"phys_H_r_implies_cb10-y.gen"
+"phys_H_stp_implies_cb10stp.gen"
+%
+</Generators>
+
+<SimEvents>
+
+%%%%%%%%%%%%%%%%
+%% PRIORITIES %%
+%%%%%%%%%%%%%%%%
+
+%% Higher priority to lower-level commands to "encourage" execution
+%% of high-level commands as early as possible.
+
+%
+"AB_FREE"
+<Priority> 1 </Priority>
+"AB_WAIT"
+<Priority> 1 </Priority>
+"AB_FULL"
+<Priority> 1 </Priority>
+"AB_OCC"
+<Priority> 1 </Priority>
+"AB_ARRTR"
+<Priority> 1 </Priority>
+"AB_STP"
+<Priority> 1 </Priority>
+"AB_TR"
+<Priority> 1 </Priority>
+"AB_FL"
+<Priority> 1 </Priority>
+"A_STP"
+<Priority> 10 </Priority>
+"A_TR"
+<Priority> 10 </Priority>
+"A_FL"
+<Priority> 10 </Priority>
+"A_WAIT"
+<Priority> 10 </Priority>
+"A_FULL"
+<Priority> 10 </Priority>
+"A_ARRTL"
+<Priority> 10 </Priority>
+"A_ARRTR"
+<Priority> 10 </Priority>
+"B_STP"
+<Priority> 10 </Priority>
+"B_TR"
+<Priority> 10 </Priority>
+"B_FL"
+<Priority> 10 </Priority>
+"B_WAIT"
+<Priority> 10 </Priority>
+"B_FULL"
+<Priority> 10 </Priority>
+"B_ARRTL"
+<Priority> 10 </Priority>
+"B_ARRTR"
+<Priority> 10 </Priority>
+%
+
+%
+"CD_FREE"
+<Priority> 1 </Priority>
+"CD_WAIT"
+<Priority> 1 </Priority>
+"CD_FULL"
+<Priority> 1 </Priority>
+"CD_OCC"
+<Priority> 1 </Priority>
+"CD_ARRTR"
+<Priority> 1 </Priority>
+"CD_STP"
+<Priority> 1 </Priority>
+"CD_TR"
+<Priority> 1 </Priority>
+"CD_FL"
+<Priority> 1 </Priority>
+"C_STP"
+<Priority> 10 </Priority>
+"C_TR"
+<Priority> 10 </Priority>
+"C_FL"
+<Priority> 10 </Priority>
+"C_WAIT"
+<Priority> 10 </Priority>
+"C_FULL"
+<Priority> 10 </Priority>
+"C_ARRTL"
+<Priority> 10 </Priority>
+"C_ARRTR"
+<Priority> 10 </Priority>
+"D_STP"
+<Priority> 10 </Priority>
+"D_TR"
+<Priority> 10 </Priority>
+"D_FL"
+<Priority> 10 </Priority>
+"D_WAIT"
+<Priority> 10 </Priority>
+"D_FULL"
+<Priority> 10 </Priority>
+"D_ARRTL"
+<Priority> 10 </Priority>
+"D_ARRTR"
+<Priority> 10 </Priority>
+%
+"GH_FREE"
+<Priority> 10 </Priority>
+"GH_WAIT"
+<Priority> 10 </Priority>
+"GH_FULL"
+<Priority> 10 </Priority>
+"GH_OCC"
+<Priority> 10 </Priority>
+"GH_ARRTR"
+<Priority> 10 </Priority>
+"GH_STP"
+<Priority> 10 </Priority>
+"GH_TR"
+<Priority> 10 </Priority>
+"GH_FL"
+<Priority> 10 </Priority>
+"G_STP"
+<Priority> 20 </Priority>
+"G_TR"
+<Priority> 20 </Priority>
+"G_FL"
+<Priority> 20 </Priority>
+"G_WAIT"
+<Priority> 20 </Priority>
+"G_FULL"
+<Priority> 20 </Priority>
+"G_ARRTL"
+<Priority> 20 </Priority>
+"G_ARRTR"
+<Priority> 20 </Priority>
+"H_STP"
+<Priority> 20 </Priority>
+"H_TR"
+<Priority> 20 </Priority>
+"H_FL"
+<Priority> 20 </Priority>
+"H_WAIT"
+<Priority> 20 </Priority>
+"H_FULL"
+<Priority> 20 </Priority>
+"H_ARRTL"
+<Priority> 20 </Priority>
+"H_ARRTR"
+<Priority> 20 </Priority>
+%
+"EFGH_FREE"
+<Priority> 1 </Priority>
+"EFGH_WAIT"
+<Priority> 1 </Priority>
+"EFGH_FULL"
+<Priority> 1 </Priority>
+"EFGH_OCC"
+<Priority> 1 </Priority>
+"EFGH_ARRTR"
+<Priority> 1 </Priority>
+"EFGH_STP"
+<Priority> 1 </Priority>
+"EFGH_TR"
+<Priority> 1 </Priority>
+"EFGH_FL"
+<Priority> 1 </Priority>
+"EF_STP"
+<Priority> 10 </Priority>
+"EF_TR"
+<Priority> 10 </Priority>
+"EF_FL"
+<Priority> 10 </Priority>
+"EF_WAIT"
+<Priority> 10 </Priority>
+"EF_FULL"
+<Priority> 10 </Priority>
+"EF_ARRTL"
+<Priority> 10 </Priority>
+"EF_ARRTR"
+<Priority> 10 </Priority>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% OPTIONAL OPERATOR BEHAVIOUR BY PRIORITIES %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% OPERATOR BEHAVIOUR 1 - Fill Buffer Mode:
+%%% if none of the above operator*.gen's is active,
+%%% then the OPERATOR BEHAVIOUR 1 provokes the
+%%% chain to always take workpieces until it is full,
+%%% before a workpiece is released:
+%
+%"ABCDEFGH_FL"
+%<Priority> 10 </Priority>
+%"ABCDEFGH_TR"
+%<Priority> 9 </Priority>
+%"ABCDEFGH_STP"
+%<Priority> 0 </Priority>
+
+%%% OPERATOR BEHAVIOUR 2 - Empty Buffer Mode:
+%%% if none of the above operator*.gen's is active,
+%%% then the OPERATOR BEHAVIOUR 2 provokes the
+%%% chain to always release workpieces until it is empty,
+%%% before a workpiece is taken:
+% 
+%"ABCDEFGH_FL"
+%<Priority> 9 </Priority>
+%"ABCDEFGH_TR"
+%<Priority> 10 </Priority>
+%"ABCDEFGH_STP"
+%<Priority> 8 </Priority>
+
+%%% OPERATOR BEHAVIOUR 3 - Medium Mode:
+%%% if none of the above operator*.gen's is active,
+%%% then the OPERATOR BEHAVIOUR 3 provokes the
+%%% chain to take and release and workpieces (statistically) alternately:
+%
+%"ABCDEFGH_FL"
+%<Priority> 10 </Priority>
+%"ABCDEFGH_TR"
+%<Priority> 10 </Priority>
+%"ABCDEFGH_STP"
+%<Priority> 9 </Priority>
+
+</SimEvents>
+
+</Executor>

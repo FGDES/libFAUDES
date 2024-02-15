@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="09_Elementary_Types" title="CoreFaudes - Strings, Booleans and Integers">
+<h1>
+Elementary Types
+</h1>
+
+<p>
+There are three elementary types to represent integer, boolean and string
+values. They are implemented by the C++ types <tt>long int</tt>, <tt>bool</tt> and <tt>std::string</tt>.
+</p>
+
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+
+
+<ftype_reference name="Integer">
+<p>
+The Integer type represents integer values from -(2^31) to (2^31-1). 
+The token IO format is
+</p>
+<pre>
+&lt;Integer&gt; 1234   &lt;/Integer&gt; 
+</pre>
+
+</ftype_reference>
+
+
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+
+<ftype_reference name="IntegerVector">
+
+<p>
+A vector of <ftype>Integer</ftype>s.
+</p>
+
+</ftype_reference>
+
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+
+<ftype_reference name="Boolean">
+
+<p>
+The Boolean type represents two values, denoted <tt>true</tt> and <tt>false</tt>.
+The token IO format is
+</p>
+<pre>
+&lt;Boolean&gt; "true" &lt;/Boolean&gt;
+&lt;Boolean&gt; "false" &lt;/Boolean&gt;
+</pre>
+
+
+
+</ftype_reference>
+
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+
+<ftype_reference name="String">
+
+<p>
+The String type represents a string of ASCII characters.
+The token IO format is
+</p>
+<pre>
+&lt;String&gt; "some ASCII text, no control characters" &lt;/String&gt;
+</pre>
+
+</ftype_reference>
+
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+<!-- =========================================== --> 
+
+<ffnct_reference name="IntegerSum">
+</ffnct_reference>
+</ReferencePage>
+
+  

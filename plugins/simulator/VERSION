@@ -1,0 +1,7 @@
+# libfaudes version
+#
+# version string must contain no whitespace or shell escape characters
+#
+# 20081120 tmoor
+
+SIMULATOR_VERSION = v200811

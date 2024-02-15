@@ -1,0 +1,579 @@
+<ReferencePage chapter="luafaudes" section="none" title="luafaudes - Technical Details">
+
+
+<h1>Technical Details</h1>
+
+
+<p>
+As a scripting language, <tt>luafaudes</tt> invites the impatient
+to directly start from the luafaudes-tutorials, perhaps guided by 
+the faudes user reference. This works out quite well for simple scripts.
+When it comes to the development of more involved scripts, however, 
+some amount of technical background on Lua and the conventions used
+for the integration of libFAUDES are crucial to avoid potential pitfalls. 
+</p>
+
+
+<!-- ====================================================================================== -->
+<table class="plain">
+<tr>
+<td>
+<ul class="l2">
+<li><p>
+<a href="#datatypes">Data Types</a>
+</p></li>
+<li><p>
+<a href="#functions">Faudes Functions</a>
+</p></li>
+<li><p>
+<a href="#lfunctions">Lua Functions</a>
+</p></li>
+<li><p>
+<a href="#misc">Misc</a>
+</p></li>
+</ul>
+</td>
+<!-- ====================================================================================== -->
+<td>
+<ul class="l2">
+<li><p>
+<a href="#assignment">Assignment</a>
+</p></li>
+<li><p>
+<a href="#operators">Operators</a>
+</p></li>
+<li><p>
+<a href="#test">Test Cases</a>
+</p></li>
+</ul>
+</td>
+</tr>
+</table>
+<!-- ====================================================================================== -->
+
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+
+<h2><a id="datatypes">
+Data Types
+</a></h2>
+
+<p>
+Lua distinguishes between several data types, including numbers, booleans, strings 
+and so called user-data. For libFAUDES integration, the elementary faudes-types
+<ftype>Integer</ftype>, <ftype>Boolean</ftype> and <ftype>String</ftype>
+are mapped to the corresponding native Lua-type. Any other
+faudes-type is mapped to user-data. In particular, Lua itself cannot distinguish among 
+non-elementary faudes-types. Thus, in order to instantiate a non-elementary
+faudes-typed object you must use an explicit constructor. Most
+faudes-types implement a default constructor, a copy constructor and a from-file
+constructor. 
+</p>
+
+
+<pre>
+-- elemantary types
+str = "hello Lua"                   -- have a variable that holds a string
+num = 77                            -- have a variable that holds a number
+
+-- non-elementary faudes-types
+ev1 = faudes.EventSet()             -- instantiate an empty faudes EventSet object
+ev2 = faudes.EventSet("myfile.txt") -- construct an EventSet from file
+ev3 = faudes.EventSet(ev2)          -- copy-construct an EventSet from specified set
+</pre>
+
+
+<p>
+Native Lua data types are addressed by std Lua libraries for e.g. maths and
+string manipulation. Non-elementary faudes-types provide (allmost) the
+same interface as their C++ counterparts. 
+E.g., every faudes-typed object provides the Read and Write methods for tokenized IO,
+including initialsation from a string. 
+</p>
+
+<pre>
+-- initialize the EventSet from a token string
+ev4 = faudes.EventSet()             
+ev4:FromString("&lt;A&gt; a b c &lt;/A&gt;")    
+
+-- write 
+ev4:Write()                           -- write to console
+ev4:Write("myfile.txt")               -- write to file
+ev4:SWrite()                          -- report statistics (here: event count)
+
+-- read
+ev4:Read("myfile.txt")                -- read from file
+</pre>
+
+
+
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+
+<h2><a id="assignment">
+Assignment
+</a></h2>
+
+
+
+<p>
+Lua variables are typed at run-time, i.e., a variable holds a value 
+and this value determines the current type.
+This concept has a little twist when it comes to user-data:
+a variable can hold a value of Lua-type user-data, but the value 
+is actually a <em>reference</em> to the faudes-type object. Thus, everything 
+feels like "variables are values" but faudes-typed objects
+behave like "variables are references". This shows in particular
+with the assignment operator.
+</p>
+
+
+<pre>
+-- native variables
+str1 = "hello"                      -- str1 holds the value "hello"
+str2 = str1                         -- str2 holds the value "hello"
+str2 = "world"                      -- str2 holds the value "world", str1 still holds "hello"
+print(str1,str2)                    -- prints: hello world
+
+
+-- faudes-typed objects
+ev1 = faudes.EventSet()             -- ev1 holds a reference to the newly constructed object
+ev1:FromString("&lt;A&gt; a b c &lt;/A&gt;")    -- set the EventSet object to consist of three events a,b,c
+
+ev2 = ev1                           -- ev2 refers to the same set as ev1
+ev2:Clear()                         -- clears the set
+print(ev1)                          -- prints the empty set
+</pre>
+
+<p>
+Regarding native variables, the assignment behaves like <tt>str2</tt> is assigned
+another copy of <tt>str1</tt>. 
+If, in analogy, you want <tt>ev2</tt> to refer to another copy of the set referred to by <tt>ev1</tt>,
+you need to explictly invoke the Copy method. 
+</p>
+
+<pre>
+ev1 = faudes.EventSet()             -- ev1 holds a reference to the newly constructed object
+ev1:FromString("&lt;A&gt; a b c &lt;/A&gt;")    -- set the EventSet object to consist of three events a,b,c
+
+ev2 = ev1:Copy()                    -- ev2 is assigned a reference of the newly created copy of the set
+ev2:Clear()                         -- clears the set ev2
+print(ev1)                          -- prints a,b,c
+</pre>
+
+<p>
+If you intentionally keep multiple references to a faudes-typed object,
+you must explicitely invoke the Assign method to change the object while
+keeping references valid.
+</p>
+
+<pre>
+ev1 = faudes.EventSet()             -- ev1 holds a reference to the newly constructed object
+ev1:FromString("&lt;A&gt; a b c &lt;/A&gt;")    -- set the EventSet object to consist of three events a,b,c
+ev2 = faudes.EventSet()             -- ev2 holds a reference to the newly constructed object
+ev2:FromString("&lt;A&gt; x y z &lt;/A&gt;")    -- set the EventSet object to consist of three events x,y,z
+
+ev3 = ev1                           -- ev3 refers to the same set as ev1
+ev3:Assign(ev2)                     -- assign x,y,z to the set referred to be ev1 and ev3
+print(ev1)                          -- prints x,y,z
+</pre>
+
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+
+<h2><a id="functions">
+Faudes Functions
+</a></h2>
+
+<p>
+Any function that is listed in the user reference documentation
+can be accessed from within <tt>luafaudes</tt>.
+The respective wrapper code is automatically generated from the 
+faudes run-time-interface. It consists of an entry in the global table <tt>faudes</tt> 
+with a key that matches the faudes function name and a value of Lua type function.
+The latter is implemented to dispatch C++ function overloading and to
+call the appropriate faudes function. You can inspect the table <tt>faudes</tt>
+from the <tt>luafaudes</tt> console by <tt>for k,v in pairs(faudes) do print(k,v) end</tt>.
+</p>
+
+<p>
+By convention, faudes functions have parameters with access attributes 
+<tt>In</tt>, <tt>Out</tt>, <tt>InOut</tt>, to indicate whether the respective
+parameter is an argument, a result of both. 
+This design is a typical C++ construct to allow functions
+to behave smart on derived classes, e.g., functions that care about 
+event attributes whenever the result type supports event attributes.
+</p>
+
+<p>
+However, the design does not translate directly to Lua.
+Here, parameters of a function are allways passed by value and thus
+cannot be results. The latter are to be returned by a return statement,
+which supports multiple return values.
+Since the actual value of a user typed variable is a reference
+to a faudes-typed object, we can still call faudes functions with 
+the signatures specified in the run-time-interface
+---
+except for results of native Lua type string, integer or boolean.
+The current implementation of the luabindings code generator
+supports at most one native Lua result (access attribute "Out")
+which will be returned as a single return value. Future versions
+may extend to multiple return values.
+</p>
+ 
+
+<p><strong>Example:</strong></p>
+
+<p>
+The <ffnct>SupConNB</ffnct> supports the following signature
+</p>
+<div class="registry_signature">
+<p>
+SupConNB(
++In+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#System">System</a> <i>GPlant</i>, 
++In+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#Generator">Generator</a> <i>GSpec</i>, 
++Out+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#Generator">Generator</a> <i>GSupervisor</i>)<br/>
+</p>
+</div>
+<p>
+In order to invoke <ffnct>SupConNB</ffnct> from Lua, you can use exactly the same signature
+since all parameters are of non-elementary faudes-type. 
+As third parameter <i>GSupervisor</i> you must pass a 
+<ftype>Generator</ftype> or any derived type. If you actually pass a
+<ftype>System</ftype>, the function will configure the controllability attributes of the
+result according to the parameter <i>GPlant</i>.
+</p>
+<pre>
+plant=faudes.System("myplant.gen")             -- load argument from file
+spec=faudes.Generator("myspec.gen")            -- load argument from file
+sup=faudes.System()                            -- instantiate result
+SupConNB(plant,spec,sup)                       -- invoke function
+</pre>
+
+<p><strong>Example:</strong></p>
+
+<p>
+The function <ffnct>IsControllable</ffnct> supports the following signature
+</p>
+<div class="registry_signature">
+<p>
+IsControllable(
++In+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#System">System</a> <i>GPlant</i>, 
++In+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#Generator">Generator</a> <i>GSupervisor</i>
++Out+ <ftype>Boolean</ftype> <i>BRes</i>)<br/>
+</p>
+</div>
+<p>
+Here, the third parameter is of Lua native boolean type with access attribute <tt>Out</tt>.
+In order to invoke this function from Lua, you only pass the first two parameters
+and expect the result as return value.
+</p>
+<pre>
+plant=faudes.System("myplant.gen")             -- load argument from file
+sup=faudes.Generator("myspec.gen")             -- load argument from file
+res=IsControllable(plant,sup)                  -- invoke function, get result as return value
+</pre>
+
+
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+
+<h2><a id="operators">
+Operators
+</a></h2>
+
+<p>
+Lua supports a number of operators, including
+relational operators
+<tt>==</tt>,
+<tt>~=</tt>,
+<tt>&lt;=</tt>,
+<tt>&gt;=</tt>,
+<tt>&lt;</tt>,
+<tt>&gt;</tt>
+and arithmetic operators
+<tt>*</tt>,
+<tt>+</tt>,
+<tt>-</tt>.
+Since the above operators are overloaded in libFAUDES 
+for elementary set algebra, <tt>luafaudes</tt> attempts to 
+provide similar semantics. 
+</p>
+
+
+<pre>
+aset=faudes.EventSet("afile.txt")
+bset=faudes.EventSet("bfile.txt")
+
+cset = aset + bset                               -- set union
+cset = aset - bset                               -- set difference
+cset = aset * bset                               -- set intersection
+
+if aset &lt;= aset + bset then                      -- test set inclusion
+  print("a &lt;= a+b     ---  OK")
+end
+if aset ~= cset  then                            -- test set equality
+  print("a ~= c")     ---  OK")
+end
+</pre>
+
+<p>
+The above example evaluates as expected. However, when using
+faudes <ftype>Alphabet</ftype> typed sets instead of plain faudes <ftype>EventSet</ftype> sets
+the first if-clause will evaluate to false, perhaps unexpectedly.
+The reason is that the union <tt>aset + bset</tt>
+even for <ftype>Alphabet</ftype> arguments is defined to evaluate to a plain <ftype>EventSet</ftype>
+(which is compliant to the corresponding C++ operators) and that Lua 
+insists in matching data types (technically meta-tables) 
+for relational operators. The latter condition
+is violated since the right-hand side is an <ftype>EventSet</ftype> and the left-hand-side
+is an <ftype>Alphabet</ftype>. The current version of <tt>luafaudes</tt> implements a rather 
+crude hack to make the above code-fragment work with <ftype>Alphabet</ftype>s as expected.
+However, it is recommended that you circumvent the issue by using
+explicit set comparison methods. See the <a href="1_containers.html">containers
+tutorial</a> for available functions.
+</p>
+
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+
+<h2><a id="lfunctions">
+Lua Functions
+</a></h2>
+
+<p>
+Within a <tt>luafaudes</tt> script one can of course define functions, including
+functions that operate on faudes-typed objects and functions that
+in turn invoke functions provided by libFAUDES. We discuss some potential
+issues by the below example that generates a buffer with a specified
+capacity.
+</p>
+
+
+<pre>
+function BigBuffer(qn,buffer)
+
+-- Clear result, set alphabet
+buffer:Clear()
+buffer:InsEvent('beta_a')
+buffer:InsEvent('alpha_b')
+
+-- Insert states
+for i=1,qn do
+  buffer:InsState(string.format('s%d',i))
+end
+
+-- Have marked initial state
+buffer:SetMarkedState('s1')
+buffer:SetInitState('s1')
+
+-- Insert transitions
+for i=1,qn-1 do
+  s1=string.format('s%d',i)
+  s2=string.format('s%d',i+1)
+  buffer:SetTransition(s1,'beta_a',s2)
+  buffer:SetTransition(s2,'alpha_b',s1)
+end
+
+-- Done
+return 
+</pre>
+
+<p>
+<strong>Remark.</strong>
+Elementary typed parameters (boolean, integer and string) are
+passed by value. In this sense, elementary typed function parameters
+are local to the function. An assignment <tt>qn=77</tt> at the end of the above
+function has no effect to the calling code. Elementary typed results 
+should be returned by an explicit return statement.
+</p>
+
+<p>
+<strong>Remark.</strong>
+For non-elementary types, parameters are passed by reference.
+Thus, you can use the explicit assignment method <tt>Assign</tt>
+to assign a new value to the respective object, e.g.
+<tt>buffer:Assign(some_generator)</tt>, and thereby pass a result
+to the calling code.
+The plain assignment operator <tt>=</tt>, however, has a completely different
+and perhaps unexpected effect: since Lua interprets the reference itself as a
+value, an assignment like <tt>buffer=some_generator</tt> will have no effect
+on the object originally referenced by the parameter
+<tt>buffer</tt>.
+</p>
+
+<p>
+<strong>Remark.</strong>
+From a Lua perspective one might have 
+prefered to implement "buffer" as a return value.
+However, we intentionally used a faudes style signature
+for easy integration with the faudes run-time-interface; 
+see also <a href="faudes_luaext.html">Lua extensions</a>.
+Furthermore, one may invoke BigBuffer with any result type
+derived from <ftype>Generator</ftype>, e.g. <ftype>System</ftype>.
+</p>
+
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+
+<h2><a id="test">
+Test Cases
+</a></h2>
+
+<p>
+A simple mechanism is provided to record so called <i>test cases</i>. 
+The rational is that during development of a script to implement 
+e.g. a novel synthesis approach, one will spend quite some effort in an example
+and carefully validate the results. This establishes a <i>test case</i>. 
+When using the script later on, perhaps on different input data, 
+presumably with an updated version of libFAUDES or on a different platform, 
+one would like to be sure that at least the original example still produces 
+the correct result. This can be achieved by maintaining a protocol of the 
+validated test case. 
+</p>
+<p>
+Test protocols are generated by the functions <tt>FAUDES_TEST_DUMP(m,d)</tt>,
+where <tt>m</tt> is an arbitraty text message and <tt>d</tt> is the relevant data to
+be recorded. The protocol is written to the file <tt>tmp_NameOfScript_lua.prot</tt>
+and contains one entry per test dump with some statistical information
+on the data <tt>d</tt> (e.g. state count for generators).
+Once the test case is considered valid, the proposed procedure is to
+rename protocol file by dropping the prefix <tt>tmp_</tt>. This
+indicates the protocol to be the reference for automatic validation.
+At the very end of your script, use the function
+<tt>FAUDES_TEST_DIFF()</tt> to compare the current protocol with the 
+previously recorded reference.
+</p>
+
+<pre>
+-- my new algorithm
+function tricky(p,s,c)
+ [...]
+end
+
+-- demonstrate usage by simple example
+p1=faudes.Generator("plant1.gen")
+s1=faudes.Generator("spec1.gen")
+c1=faudes.Generator()
+tricky(p1,s1,c1)
+
+-- graphical output for inspection
+c1:GraphWrite("contr1.png")
+
+-- record test case
+FAUDES_TEST_DUMP("test1",c1)
+
+-- complex example to stress algorithm
+p2=faudes.Generator("plant2.gen")
+s2=faudes.Generator("spec2.gen")
+c2=faudes.Generator()
+tricky(p2,s2,c2)
+
+-- record test case
+FAUDES_TEST_DUMP("test2",c2)
+
+-- compare with reference
+FAUDES_TEST_DIFF()
+</pre>
+
+<p>
+When you run the scipt with the option <tt>-d</tt>, the last line will
+produce a warning if the reference protocol does not match the current protocol.
+The comparison is text based, so further inspection of any errors 
+can be done via <tt>diff</tt>.
+</p>
+
+
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+<!-- ======================================================================================= -->
+
+<h2><a id="misc">
+Miscellaneous
+</a></h2>
+
+<p><strong>Symbolic Names</strong></p>
+
+<p>
+Lua automatically converts 
+numbers to strings and vice versa, which can be quite handy. However, if 
+you wanted to insert an event with name <tt>2</tt> by passing a string constant
+<tt>&quot;2&quot;</tt> to the <tt>Insert</tt> method, this may get confused
+with the event index <tt>2</tt>. Thus, it is best <strong class="text_important">*not*</strong> to use names that start with a digit.
+</p>
+
+
+<p><strong>Read-Only References (C++ "const")</strong></p>
+
+<p>
+<tt>luafaudes</tt> does not implement
+a concept of read-only variables, aka <tt>const</tt>. As a consequence, any access to
+a container member within a generator returns a writable reference. You should
+<strong class="text_important">*not*</strong> use this reference to alter the container's content.
+<pre>
+gen = faudes.Generator("some_file.gen")
+
+alph = gen:Alphabet()                   -- get a reference to generator's alphabet
+alph:Clear()                            -- dont do this, messes up the generator
+
+alph = gen:Alphabet():Copy()            -- get a copy of generator's alphabet
+alph:Clear()                            -- ok, wont mess up the generator
+</pre>
+</p>
+<p>
+After experiencing the particular case above,
+we manually changed the bindings for <tt>Generator::Alphabet()</tt> 
+to include an invokation of <tt>Copy()</tt>. Since these kind
+of issues are hard to track, it is recommended
+to use explicit invocation of <tt>Copy()</tt>
+whenever accessing internal data structures in a
+const-fashion. This imposes only
+a small cost on performance, since libFAUDES sets 
+implement a copy-on-write scheme. 
+</p>
+
+<p><strong>Lua-Modul "faudes"  (C++-Namespace "faudes")</strong></p>
+
+<p>
+All libFAUDES related functions are located in the Lua module "faudes", 
+corresponding to the C++ namespace "faudes". 
+One purpose of namespaces is to avoid conflicts between various libraries. 
+If you use <tt>luafaudes</tt> without any additional modules, chances are 
+good that there are no conflicts to avoid. You may then use <tt>faudes.MakeGlobal()</tt> 
+at the beginning of your Lua-script to access faudes-functions without 
+the prefix <tt>faudes.*</tt>. 
+</p>
+
+<!-- experimental/Fragile: hand crafted page navigation -->
+<div id="cxwrapper1000">
+<div id="dxwrapper1000">
+<div class="registry_trigger"> <span>&gt;&gt;</span>
+<ul class="registry_list">
+<li class="registry_heading">luafaudes / Tech. Detail</li>
+<li class="registry_item"><a href="#datatypes">Data Types</a></li>
+<li class="registry_item"><a href="#assignment">Assignments</a></li>
+<li class="registry_item"><a href="#functions">Faudes-Funtions</a></li>
+<li class="registry_item"><a href="#operators">Operators</a></li>
+<li class="registry_item"><a href="#lfunctions">Lua-Functions</a></li>
+<li class="registry_item"><a href="#test">Test Cases</a></li>
+<li class="registry_item"><a href="#misc">Miscellaneous</a></li>
+<li class="registry_blanc">&nbsp;</li>
+<li class="registry_item">
+<a href="#">Top of Page</a>
+<a href="#" class="registry_blinda">&nbsp;</a>
+</li>
+</ul></div>
+</div>
+</div>
+
+</ReferencePage>
+
+
+
+

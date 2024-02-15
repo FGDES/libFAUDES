@@ -1,0 +1,39 @@
+<Generator>
+"Project(SupConNB((rt1[0]),(rt1[0]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((rt1[0]),(rt1[0]_spec)))
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"rt1stp"      +C+           "rt1xy"       +C+           "rt1yx"       +C+           
+</Alphabet>
+
+<States>
+1             2             3             4             
+</States>
+
+<TransRel>
+2             "rt1stp"      3             
+1             "rt1xy"       2             
+3             "rt1yx"       4             
+4             "rt1stp"      1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,7 @@
+The simulator plugin extends libfaudes to animate generators by 
+tracking the current state and executing transitions. The intended
+ussage is to assist in the inspection of closed loop configurations
+and/or  to run a controller on a physical plant. Further documentation
+is provided by the doxygen pages.
+
+

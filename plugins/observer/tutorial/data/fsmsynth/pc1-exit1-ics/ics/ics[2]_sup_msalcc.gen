@@ -1,0 +1,165 @@
+<Generator name="SupConNB((Project(SupConNB((Project...]_spec||rt3cb13cb5rt2cb12[2]_spec))">
+
+% 
+%  Statistics for SupConNB((Project(SupConNB((Project...]_spec||rt3cb13cb5rt2cb12[2]_spec))
+% 
+%  States:        48
+%  Init/Marked:   1/4
+%  Events:        13
+%  Transitions:   121
+%  StateSymbols:  0
+%  Attrib. E/S/T: 13/0/0
+% 
+
+<Alphabet>
+cb2-13        +C+           cb3-12        +C+           cb12-4        +C+          
+cb13-6        +C+           cb6-13        +C+           cb15-9        +C+          
+cb5-12        +C+           cb5-13        +C+           cb12-5        +C+          
+cb13-5        +C+           cb9-13        +C+           rt2xy         +C+          
+rt3xy         +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              25            
+</Consecutive>
+32            
+<Consecutive>
+33             54            
+</Consecutive>
+</States>
+
+<TransRel>
+1              cb2-13        2             
+1              cb3-12        3             
+1              cb15-9        4             
+2              cb3-12        54            
+2              cb13-6        25            
+2              cb15-9        5             
+3              cb2-13        54            
+3              cb12-4        20            
+3              cb15-9        6             
+4              cb2-13        5             
+4              cb3-12        6             
+4              cb9-13        7             
+5              cb3-12        53            
+5              cb13-6        34            
+6              cb2-13        53            
+6              cb12-4        15            
+6              cb9-13        8             
+7              cb3-12        8             
+7              cb13-6        9             
+7              cb15-9        10            
+8              cb12-4        17            
+8              cb13-6        52            
+8              cb15-9        11            
+9              cb3-12        52            
+9              cb15-9        12            
+9              rt3xy         1             
+10             cb3-12        11            
+10             cb13-6        12            
+11             cb12-4        19            
+11             cb13-6        13            
+12             cb3-12        13            
+12             rt3xy         4             
+13             cb12-4        14            
+13             rt3xy         6             
+14             rt2xy         12            
+14             rt3xy         15            
+15             cb2-13        16            
+15             cb9-13        17            
+15             rt2xy         4             
+16             cb13-6        24            
+16             rt2xy         5             
+17             cb13-6        18            
+17             cb15-9        19            
+17             rt2xy         7             
+18             cb15-9        14            
+18             rt2xy         9             
+18             rt3xy         20            
+19             cb13-6        14            
+19             rt2xy         10            
+20             cb2-13        21            
+20             cb15-9        15            
+20             rt2xy         1             
+21             cb13-6        22            
+21             cb15-9        16            
+21             rt2xy         2             
+22             cb6-13        23            
+22             cb15-9        24            
+22             rt2xy         25            
+23             cb15-9        44            
+23             cb13-5        51            
+23             rt2xy         33            
+24             cb6-13        44            
+24             rt2xy         34            
+25             cb3-12        32            
+25             cb6-13        33            
+25             cb15-9        34            
+32             cb12-4        22            
+32             cb6-13        45            
+32             cb15-9        35            
+33             cb3-12        45            
+33             cb15-9        36            
+33             cb13-5        46            
+34             cb3-12        35            
+34             cb6-13        36            
+35             cb12-4        24            
+35             cb6-13        37            
+36             cb3-12        37            
+36             cb13-5        38            
+37             cb12-4        44            
+37             cb13-5        39            
+38             cb3-12        39            
+38             rt3xy         40            
+39             cb12-4        43            
+39             rt3xy         41            
+40             cb3-12        41            
+41             cb12-4        42            
+42             cb5-12        6             
+42             rt2xy         40            
+43             cb5-12        13            
+43             rt2xy         38            
+43             rt3xy         42            
+44             cb13-5        43            
+44             rt2xy         36            
+45             cb12-4        23            
+45             cb15-9        37            
+45             cb13-5        47            
+46             cb3-12        47            
+46             cb15-9        38            
+46             rt3xy         48            
+47             cb12-4        51            
+47             cb15-9        39            
+47             rt3xy         49            
+48             cb3-12        49            
+48             cb15-9        40            
+49             cb12-4        50            
+49             cb15-9        41            
+50             cb15-9        42            
+50             cb5-12        3             
+50             rt2xy         48            
+51             cb15-9        43            
+51             cb5-12        52            
+51             rt2xy         46            
+51             rt3xy         50            
+52             cb12-4        18            
+52             cb15-9        13            
+52             rt3xy         3             
+53             cb12-4        16            
+53             cb13-6        35            
+54             cb12-4        21            
+54             cb13-6        32            
+54             cb15-9        53            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1              9              18             20            
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,53 @@
+<Generator>
+"SupConNB((rts1[0]||rts2[0]),(rts2[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((rts1[0]||rts2[0]),(rts2[0]_spec))
+% 
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        18
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+"crash"       "rts2+x"      +C+           "rts2-x"      +C+           "rts2_6"      
+"rts2_6-5"    +C+           "rts2_5"      "rts2_5-6"    +C+           "rts2_5-4"    
++C+           "rts2ar6"     "rts2ar5"     "rts2lv6"     "rts2lv5"     "rts2stp"     
++C+           "rts2_4-5"    +C+           "rts2ar4"     "rts2_4"      "rts2lv5-x"   
+"rts2lv4"     
+</Alphabet>
+
+<States>
+<Consecutive>
+1             12            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "rts2_5-6"    2             
+2             "rts2-x"      3             
+3             "rts2lv5"     4             
+4             "rts2ar6"     5             
+5             "rts2stp"     6             
+6             "rts2_6"      7             
+7             "rts2_6-5"    8             
+8             "rts2+x"      9             
+9             "rts2lv6"     10            
+10            "rts2ar5"     11            
+11            "rts2stp"     12            
+12            "rts2_5"      1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

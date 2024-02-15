@@ -1,0 +1,34 @@
+<Generator> "hio - simple environment constraint A" 
+
+% Simple machine example for hiosys-tutorial.
+% Environment constraint:
+% Resources are always provided as requested.
+
+<Alphabet>
+"A_req" +Ye+
+"A_nack" +Ue+ "A_pack" +Ue+
+</Alphabet>
+
+<States>
+<Consecutive>
+1             2
+</Consecutive>
+</States>
+
+<TransRel>
+1 "A_req" 2
+2 "A_pack" 1
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1             2
+</Consecutive>
+</MarkedStates>
+
+</Generator>
+

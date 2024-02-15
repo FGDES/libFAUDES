@@ -1,0 +1,19 @@
+This example plugin may serve as a template for setting up the
+file structure when developing a libFAUDES plugin. The example also
+demonstrates how a plugin integrates in the doxygen generated
+libFAUDES documentation.
+
+Contents
+
+doc/                   local doxygen outputs
+
+Makefile.plugin        plugin to extend main makefile
+Makefile.tutorial      plugin to extend the tutorial targets of main makefile
+
+src/pex_*.cpp          c++ sources 
+src/pex_*.h            c++ headers
+src/pex_include.h      convenience header to include all other headers
+
+tutorial/pex_.*cpp     tutorial c++ sources, compile to executable
+tutorial/data/*        input data for tutorials
+

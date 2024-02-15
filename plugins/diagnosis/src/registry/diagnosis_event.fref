@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Diagnosis" page="1_Event-Diagnosis" title="Diagnosis - Failure Events"> 
+
+<h1>
+Event-Diagnosis.
+</h1>
+
+<p>
+We consider event-diagnosis as introduced in <fcite name="D4"/>. 
+Given a generator <fimath>G</fimath> and a set of observable events <fimath>\Sigma_0</fimath>, 
+a <i>failure type</i> <fimath>f</fimath> is associated with a 
+set of unobservable <i>failure events</i> <fimath>\Sigma_f</fimath>.
+The occurence of any event from <fimath>\Sigma_f</fimath> is interpreted as a
+<i>failure</i> of type <fimath>f</fimath>.  
+It is assumed that <fimath>\{\Sigma_f|\ f\in F\}</fimath> forms a partition of all failure events,
+where <fimath>F</fimath> denotes all failure types under consideration.  
+This partition can be specified as a <ftype>FailureTypeMap</ftype>.
+</p>
+
+<p>
+<i>Diagnosability</i> of discrete event systems was first studied in <fcite name="D1"/>. A discrete event system is <i>diagnosable</i>, if any failure can be unambiguously detetected
+after the occurrence of a bounded number of events. Another variant is the notion of <i>i-diagnosability</i>, 
+which weakens the requirement in that a 
+failure <fimath>f</fimath> may remain undetected as long as no so called 
+<i>indicator-event</i> from <fimath>I_f, \ I_f\subseteq\Sigma_0</fimath>,
+occured. The functions <ffnct>IsEventDiagnosable</ffnct> and <ffnct>IsIndicatorEventDiagnosable</ffnct> implement the respective polynomial time tests for (i-)diagnosability proposed in <fcite name="D2"/>.
+</p>
+
+<p>
+The actual dagnosis task is performed by a <i>diagnoser</i> , which is a generator with alphabet <fimath>\Sigma_0</fimath> that provides a state estimate for the original system <fimath>G</fimath>. 
+The estimate includes labels that hold information about the occurrence of past failures. A failure is uniquely diagnosed if all such labels in the estimate indicate that a failure happened. The function <ffnct>Diagnoser</ffnct> computes a <ftype>Diagnoser</ftype>, such that -- in the presence of diagnosability -- any failure will be unambiguously detected within a bounded number of event occurrences. The realization of the diagnoser automaton is described next. 
+</p>
+
+
+<ftype_reference name="Diagnoser">
+
+
+
+<p>
+A <i>diagnoser</i> is a Generator with state attributes that provides state estimates 
+for the diagnosed system <fimath>G</fimath>. While <fimath>G</fimath> models nominal and erroneous
+behaviour over the full alphabet <fimath>\Sigma</fimath>, the diagnoser runs in
+parallel, but only synchronized w.r.t. the observable events <fimath>\Sigma_0\subseteq\Sigma</fimath>. 
+</p>
+
+<p>
+Each state estimate consists of a set of pairs <fimath>(q,F)</fimath>.
+During diagnosis, the <fimath>q</fimath> components of the current diagnoser state
+indicate possible states in which the observed system <fimath>G</fimath> might be.
+The corresponding failure types <fimath>f</fimath> are those 
+that occurred so far, provided  that <fimath>G</fimath> indeed is in state <fimath>q</fimath>.
+In addition to the failures specified in the corresponding <ftype>FailureTypeMap</ftype>,
+<fimath>f</fimath> may be one of the predefined symbols <tt>N</tt> or <tt>A</tt>,
+to indicate nominal operation or ambiguity.
+</p>
+
+<p>
+In this implementation, states of the original system are given by indices.
+Future versions may allow for optional symbolic state names to ease token identification.
+</p>
+
+
+<fexample/>
+
+<p>
+The following figure shows a sample diagnoser with the alphabet 
+Sigma={<tt>a</tt>, <tt>b</tt>} and
+the states Q={<tt>s1</tt>, <tt>s2</tt>, <tt>s3</tt>}. 
+</p>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr><td>Diagnoser automaton</td></tr>
+<tr><td align="center"><fimage fsrc="tmp_diag_diagnoser_1"/></td></tr>
+</table>
+</td> </tr> 
+</table>
+
+<p> 
+In state <tt>s1</tt> with label <tt>1N</tt>, 
+the original system is known to be in state <tt>1</tt>
+and no failure occred so far.
+In state <tt>s2</tt> with label <tt>3F1 5N</tt>, 
+the original system either is in state <tt>3</tt>
+after a failure of type <tt>F1</tt>, or in state <tt>5</tt> without any failure so far.
+In state <tt>s3</tt> with label <tt>7F1F2</tt>, 
+the original system either is in state <tt>7</tt> after
+failures of type <tt>F1</tt> and type <tt>F2</tt>, or in state <tt>9</tt> with
+ambiguous failure history. The file output of the above diagnoser is depicted in the gray box. Here, the global attribute "FailureType" at the end of the token stream is the corresponding
+<ftype>FailureTypeMap</ftype> to define the semantics of each failure label.
+</p>
+
+<pre>
+&lt;Generator&gt;
+"Diagnoser"   
+
+&lt;Alphabet&gt;
+"alpha"   "beta"   "gamma" 
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+%%% state s1
+"s1"          
+&lt;StateEstimates&gt;
+1             
+&lt;DiagLabels&gt; "N" &lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+%%% state s2
+"s2"          
+&lt;StateEstimates&gt;
+3    &lt;DiagLabels&gt; "F1" &lt;/DiagLabels&gt;
+5    &lt;DiagLabels&gt; "N"  &lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+%%% state s3
+"s3"          
+&lt;StateEstimates&gt;
+7    &lt;DiagLabels&gt; "F1" "F2"  &lt;/DiagLabels&gt;
+9    &lt;DiagLabels&gt; "A"  &lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"s1"          "a"           "s2"          
+"s2"          "b"           "s3"          
+"s3"          "a"           "s3"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt; "s1" &lt;/InitStates&gt;
+&lt;MarkedStates&gt;&lt;/MarkedStates&gt;
+
+&lt;FailureTypes&gt;
+%%% failure F1
+"F1"   &lt;FailureEvents&gt; "WPblocked"   "WPfelldown"  &lt;/FailureEvents&gt;
+%%% failure F2
+"F2"   &lt;FailureEvents&gt; "sfRunsContinuously" "cb1RunsContinuously" &lt;/FailureEvents&gt;
+&lt;/FailureTypes&gt;
+
+&lt;/Generator&gt;
+</pre>
+
+
+</ftype_reference>
+
+
+<ftype_reference name="FailureTypeMap">
+
+<p>
+The failure-type map defines <i>failure-types</i> <fimath>f\in F</fimath> that are each associated to a set <fimath>\Sigma_f</fimath> of unobservable <i>failure events</i>. 
+The sets <fimath>\Sigma_f</fimath> of failure events are assumed to be disjoint, i.e.
+a failure-type map indeed defines a partition <fimath>\{\Sigma_f|\ f\in F\}</fimath> 
+of all failure events.
+</p>
+<p>
+Optionally, each failure type <fimath>f\in F</fimath>
+may be equipped with a set of observable <i>indicator events</i>
+<fimath>I_f\subseteq \Sigma_0</fimath>.
+This feature is used for <i>i-diagnosability</i>, where a failure only
+needs to be detected after the occurence of a corresponding indicator event. 
+</p>
+<p>
+The example below defines one failure type <tt>F1</tt> with failure- and
+indicator events. 
+</p>
+
+<pre>
+&lt;FailureTypes&gt;
+"F1"  
+&lt;FailureEvents&gt;   "fail"    "error"  &lt;/FailureEvents&gt;
+&lt;IndicatorEvents&gt; "alpha"   "beta"    &lt;/IndicatorEvents&gt;
+&lt;/FailureTypes&gt; 
+</pre>
+
+</ftype_reference>
+
+<ffnct_reference name="EventDiagnoser">
+
+<fdetails/>
+
+<p>
+Provided that the specified generator is diagnosable, this
+function computes the corresponding diagnoser. 
+</p>
+
+<p>
+When a failure-type map <i>FArg</i> is specified,
+the implementation parses through the given system <i>GArg</i> 
+to iteratively compute the diagnoser.
+For each diagnoser state, a reachability map is maintained to record
+the set of system states that are reachable by just one observable event 
+(preceded by arbitrarily many unobservable events). 
+Any occurring unobservable failure event from the failure type map 
+becomes visible in the diagnoser with the next occurring observable event. 
+The diagnoser labels are then set to accumulate possible failures 
+and corresponding system states. For details see <fcite name="D2"/>.
+</p>
+
+<fconditions/>
+<p>
+Same as with <ffnct>IsDiagnosable</ffnct> 
+and <ffnct>IsLanguageDiagnosable</ffnct>, respectively.
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="IsDiagnosable">
+
+<fdetails/>
+
+<p>
+For a given <ftype>FailureTypeMap</ftype>, a system is said to be <i>diagnosable</i>, 
+if every failure type can be unambiguously detected after a bounded number of transitions.
+If the sytem is diagnosable, a diagnoser may be synthesized by <ffnct>EventDiagnoser</ffnct>.
+</p>
+
+<p>
+The algorithm constructs several testing automata and then performs a cycle detection,
+as proposed in <fcite name="D2"/>.
+</p>
+
+<fconditions/>
+<p>
+All failure events are unobservable.
+The failure type map <i>FArg</i> represents a partition of all failure events.
+The generator <i>GArg</i> is live, see <ffnct>IsComplete</ffnct>. 
+The generator <i>GArg</i> exhibits no cycles with unobservable events only.
+The current implementation returns false if the requirements are not met.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="IsIndicatorDiagnosable">
+
+<fdetails/>
+
+<p>
+For a given <ftype>FailureTypeMap</ftype>, a system is said to be <i>i-diagnosable</i>, 
+if every failure type <fimath>f</fimath> that occurs after an associated indicator event 
+from <fimath>I_f</fimath>,
+can be unambiguously detected after a bounded number of transitions.
+If the sytem is diagnosable, a diagnoser may be synthesized by <ffnct>EventDiagnoser</ffnct>.
+</p>
+
+<p>
+The algorithm constructs several testing automata and then performs a cycle detection,
+as proposed in <fcite name="D2"/>.
+</p>
+
+<fconditions/>
+<p>
+All indicator events are observable.
+All failure events are unobservable.
+The failure type map <i>FArg</i> represents a partition of all failure events.
+The generator <i>GArg</i> is live, see <ffnct>IsComplete</ffnct>. 
+The generator <i>GArg</i> exhibits no cycles with unobservable events only.
+The current implementation returns false if the requirements are not met.
+</p>
+
+</ffnct_reference>
+
+
+
+
+</ReferencePage>
+
+  

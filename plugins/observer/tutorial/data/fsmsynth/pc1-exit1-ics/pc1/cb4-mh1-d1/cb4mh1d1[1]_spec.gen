@@ -1,0 +1,40 @@
+<Generator>
+"cb4mh1d1[1]_spec" 
+
+% 
+%  Statistics for cb4mh1d1[1]_spec
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 2/0/0
+% 
+
+<Alphabet>
+"cb4-11"      +C+           "cb12-4"      "mh1end"      "mh1start"    +C+           	"cb4stp" +C+
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           
+</States>
+
+<TransRel>
+"1"		"cb4stp"		"1"
+"1"           "cb12-4"      "2"  
+"2"		"cb4stp"		"2"         
+"2"           "mh1start"    "3"           
+"3"           "mh1end"      "4"           
+"4"           "cb4-11"      "1"            
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

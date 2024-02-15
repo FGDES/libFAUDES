@@ -1,0 +1,43 @@
+<Generator>
+"tc buffer" 
+
+<Alphabet>
+"beta"        "gamma" 
+</Alphabet>
+
+<States>
+"empty"        
+"full"        <Invariant> "cFull"   "LE"   5 </Invariant>   
+</States>
+
+
+<TransRel>
+"empty"        "beta"       "full"    
+<Timing>
+<Resets>    
+"cFull" 
+</Resets>
+</Timing>
+
+"full"        "gamma"        "empty"        
+<Timing>
+<Guard>    
+"cFull"  "GE" 5
+</Guard>
+</Timing>
+
+</TransRel>
+
+<InitStates>
+"empty"        
+</InitStates>
+
+<MarkedStates>
+"empty"        
+</MarkedStates>
+
+<Clocks>
+"cFull" 
+</Clocks>
+
+</Generator>

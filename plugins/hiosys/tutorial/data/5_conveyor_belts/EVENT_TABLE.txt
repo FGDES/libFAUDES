@@ -1,0 +1,74 @@
+
+S.Perk, Nov 2009
+
+------------------------------------------------------------------------
+8 Conveyor Belts, left to right transport, designed with hiosys-approach
+------------------------------------------------------------------------
+notation: wp=workpiece, cb=conveyor belt
+
+  Table of events
+  
+*** timed physical conveyor belt model:
+example: conveyor belt cb2 (with clock c2) situated between cb1 and cb3
+actuators:
+- cb2stp (stop belt movement)
+- cb2-x, cb2+x (movement in positive/neg. x-direction)
+sensor:
+- cb2wpar, cb2wplv (positive/neg. sensor edge due to wp arrival/leaving resp.)
+shared and unobservable events:
+- cb1-2: wp crosses border between cb1 and cb2 moving from cb1 to cb2
+- cb2-1, cb2-3, cb3-2: analogous
+
+I/O models:
+example: neighboured conveyor belts cbA (left) and cbB (right)
+
+*** I/O plant model of cbA
+- "A_r" +UP+        "A_l" +UP+         "A_stp" +UP+: belt movement (right,left,stop)
+- "A_wait" +YP+: ready/waiting
+- "A_full" +YP+:  wp at sensor (implied by cbAwpar)+
+- "A_arrtl" +YP+: "arrive to left" - workpiece arrived at sensor left from cbA (e.g. on cb left from cbA)
+- "A_arrtr" +YP+: "arrive to right" - workpiece arrived at sensor right from cbA (e.g. on cb right from cbA)
+- "A_reqfl" +YE+: wp request from left
+- "A_reqfr" +YE+: wp request from right
+- "A_occfr" +YE+: received wp from right and cbA is now occupied
+- "A_occfl" +YE+: received wp from right and cbA is now occupied
+- "A_freetl" +YE+: released wp to the left and cbA is now empty
+- "A_freetr" +YE+: released wp to the left and cbA is now empty
+- "A_nack" +UE+: negative acknowledge
+- "A_pack" +UE+: positive acknowledge
+
+***  I/O plant model of cbB: replace "A_" by "B_"
+
+*** specification for cbA, also +YC+ and +UC+ alphabet of I/O controller for cbA:
+- "A_STP" +UP+: standby command
+- "A_FL" +UP+: take wp from the left
+- "A_TR" +UP+: deliver wp to the right
+- "A_WAIT" +YP+: ready/waiting/done
+- "A_FULL" +YP+: taking wp
+- "A_ARRTR" +YP+: delivering wp to the right
+- +YE+ +UE+: see plant model of cbA
+
+*** I/O controller for cbA:
+- +YC+: see +YP+ of specification for cbA
+- +UC+: see +UP+ of specification for cbA
+
+*** I/O environment of cbA and cbB
+- +YE+/+UE+: see  I/O plant model of cbA and cbB
+- "AB_occfl" +YL+: "occupied from left" - compound AB received wp and is now occupied
+- "AB_accfl" +YL+: "accepted from left" - compound AB received wp (and can take futher wp's)
+- "AB_freetr" +YL+: compound AB released wp to the right and is now free/empty
+- "AB_reltr" +YL+: compound AB released wp to the right (and can release more wp's)
+- "AB_reqfl" +YL+: wp request from left
+- "AB_nack" +UL+: negative acknowledge
+- "AB_pack" +UL+: positive acknowledge
+
+*** specification for compound AB:
+- "AB_FREE" +YP+: ready and empty
+- "AB_FULL" +YP+: taking wp
+- "AB_WAIT" +YP+: ready and neither empty nor full
+- "AB_OCC" +YP+: ready and full
+- "AB_ARRTR" +YP+: releasing wp to the right
+- +YE+/+UE+: see +YL+/+UL+ in environment AB
+
+All remaining events: analogous      
+

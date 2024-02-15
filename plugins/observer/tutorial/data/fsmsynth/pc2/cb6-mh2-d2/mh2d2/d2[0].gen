@@ -1,0 +1,36 @@
+<Generator>
+"d2[0]"       
+
+% 
+%  Statistics for d2[0]
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 2/0/0
+% 
+
+<Alphabet>
+"d2run"       +C+           "d2stp"      
+</Alphabet>
+
+<States>
+"1"           "2"           
+</States>
+
+<TransRel>
+"1"           "d2run"       "2"           
+"2"           "d2stp"       "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

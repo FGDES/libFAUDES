@@ -1,0 +1,61 @@
+<Generator>
+"cb12[0]_spec" 
+
+% 
+%  Statistics for cb12[0]_spec
+%  States:        14
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   29
+%  StateSymbols:  14
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"cb3-12"      +C+           "cb5-12"      +C+           "cb12-4"      
++C+           "cb12-y-x"    +C+           "cb12stp"     
++C+           "cb12wpar"    "cb12wplv4"   "t_rt2-cb12\cb12" +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "15"          "16"          "17"                 
+"19"          "2"           "20"          "21"          "3"           
+"4"                    
+</States>
+
+<TransRel>
+"1"           "cb3-12"      "2"           
+"1"           "cb5-12"      "19"          
+"1"           "t_rt2-cb12\cb12" "1"           
+"10"          "cb12-4"      "15"          
+"10"          "t_rt2-cb12\cb12" "10"          
+"15"          "cb12-y-x"    "16"          
+"15"          "t_rt2-cb12\cb12" "15"          
+"16"          "cb12wplv4"   "17"          
+"16"          "t_rt2-cb12\cb12" "16"          
+"17"          "cb12stp"     "1"          
+"17"          "t_rt2-cb12\cb12" "17"                 
+"19"          "cb12-y-x"    "20"          
+"19"          "t_rt2-cb12\cb12" "19"          
+"2"           "cb12-y-x"    "3"           
+"2"           "t_rt2-cb12\cb12" "2"           
+"20"          "cb12wpar"    "21"          
+"20"          "t_rt2-cb12\cb12" "20"          
+"21"          "cb12stp"     "10"          
+"21"          "t_rt2-cb12\cb12" "21"                   
+"3"           "cb12wpar"    "4"           
+"3"           "t_rt2-cb12\cb12" "3"           
+"4"           "cb12stp"     "10"           
+"4"           "t_rt2-cb12\cb12" "4"                    
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

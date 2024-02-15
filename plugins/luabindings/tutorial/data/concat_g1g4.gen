@@ -1,0 +1,36 @@
+<Generator>
+"Concatenate(g1,g4)" 
+
+%
+% Statistics for Concatenate(g1,g4)
+% States:        3
+% Init/Marked:   1/2
+% Events:        2
+% Transitions:   2
+% StateSymbols:  3
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"a"           "b"           
+</Alphabet>
+
+<States>
+"1(1)"        "2(1)"        "2(2)"        
+</States>
+
+<TransRel>
+"1(1)"        "a"           "2(1)"        
+"2(1)"        "b"           "2(2)"        
+</TransRel>
+
+<InitStates>
+"1(1)"        
+</InitStates>
+
+<MarkedStates>
+"2(1)"        "2(2)"        
+</MarkedStates>
+
+
+</Generator>

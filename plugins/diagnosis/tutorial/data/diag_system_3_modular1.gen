@@ -1,0 +1,41 @@
+<Generator>
+"diag_system_3_modular1" 
+
+% 
+%  Statistics for diag_system_3_modular1
+%  States:        5
+%  Init/Marked:   1/5
+%  Events:        5
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+"a"      +o+      "b"     +o+       "alpha"   "d"   +o+     "e"  +o+    "f"  +o+    
+</Alphabet>
+
+<States>
+1             2             3             4             5             
+</States>
+
+<TransRel>
+1             "a"           2             
+1             "b"           4             
+2             "alpha"       3    
+3		"e"		2
+3		"f"		5         
+4             "d"           5             
+5             "alpha"       3             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3             4             5             
+</MarkedStates>
+
+
+</Generator>

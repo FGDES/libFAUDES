@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE SimplenetDevice SYSTEM "simplenetdevice.dtd">
+
+<!--
+Device configuration to provide events from the conveyor belt
+experiment via a simplenet network.
+
+We configure the simplenet device to have essentially the 
+same actuators and sensors as the corresponding 
+comedi device. To provide access to the conveyor belt
+experiment over a simplenet network, you may run the
+corresponding comedi device togethr with this device on
+an iobridge.
+-->
+
+<SimplenetDevice name="field"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="10"/> 
+
+<!-- Ip address of this node, incl. server tcp port -->
+<ServerAddress value="localhost:40000"/> 
+
+<!-- Network topology -->
+<Network name="lrtlabnet"> 
+<Node name="field"/> 
+<Node name="remote"/> 
+</Network> 
+
+<!-- Event configuration -->
+<EventConfiguration> 
+<Event name="SensorA+" iotype="output"/> 
+<Event name="SensorA-" iotype="output"/> 
+<Event name="SensorB+" iotype="output"/> 
+<Event name="SensorB-" iotype="output"/> 
+<Event name="Reset" iotype="input"/> 
+<Event name="MotorA+x" iotype="input"/> 
+<Event name="MotorA-x" iotype="input"/> 
+<Event name="MotorAstp" iotype="input"/> 
+<Event name="MotorB+x" iotype="input"/> 
+<Event name="MotorB-x" iotype="input"/> 
+<Event name="MotorBstp" iotype="input"/> 
+</EventConfiguration> 
+
+</SimplenetDevice> 

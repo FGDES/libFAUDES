@@ -1,0 +1,200 @@
+<Generator>
+"plant_cb5" 
+
+<Alphabet>
+"cb12-5" "cb13-5" "cb5-12" "cb5-13"
+"cb5stp" "cb5+x" "cb5-x"
+"cb5wpar" "cb5wplv"
+</Alphabet>
+
+<States>
+1
+2
+3 <Invariant> "c" "LE" 1500 </Invariant>
+4 <Invariant> "c" "LE" 80 </Invariant>
+5
+6 <Invariant> "c" "LE" 1500 </Invariant>
+7 <Invariant> "c" "LE" 80 </Invariant>
+8
+9
+10
+11 <Invariant> "c" "LE" 1500 </Invariant>
+12 <Invariant> "c" "LE" 1500 </Invariant>
+</States>
+
+<TransRel>
+1 "cb5+x" 2
+1 "cb5-x" 5
+
+2 "cb5stp" 1
+2 "cb5-x" 5
+2 "cb12-5" 3
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+3  "cb5stp" 8
+3 "cb5-x" 12
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+3 "cb5wpar" 4
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+4 "cb5stp" 10
+4 "cb5-x" 7
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+4 "cb5wplv" 11
+<Timing>
+<Guard>    
+"c" "GE" 80
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+5 "cb5stp" 1
+5 "cb5+x" 2
+5 "cb13-5" 6
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+6  "cb5stp" 9
+6 "cb5+x" 11
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing> 
+6 "cb5wpar" 7
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+7 "cb5stp" 10
+7 "cb5+x" 4
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+7 "cb5wplv" 12
+<Timing>
+<Guard>    
+"c" "GE" 80
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+8 "cb5+x" 3
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+8 "cb5-x" 12
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+9 "cb5+x" 11
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+9 "cb5-x" 6
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+10 "cb5+x" 4
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+10 "cb5-x" 7
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+11 "cb5stp" 9
+11 "cb5-x" 6
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+11 "cb5-13" 2
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+12 "cb5stp" 8
+12 "cb5+x" 3
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+12 "cb5-12" 5
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+</TransRel>
+
+<InitStates>
+1     
+</InitStates>
+
+<MarkedStates>
+1    
+</MarkedStates>
+
+<Clocks>
+"c" 
+</Clocks>
+
+</Generator>
+

@@ -1,0 +1,136 @@
+<Generator>
+"Project(SupConNB((cb13[0]),(cb13[0]...t(SupConNB((rt3[0]),(rt3[0]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((cb13[0]),(cb13[0]...t(SupConNB((rt3[0]),(rt3[0]_spec)))
+% 
+%  States:        44
+%  Init/Marked:   1/2
+%  Events:        11
+%  Transitions:   96
+%  StateSymbols:  0
+%  Attrib. E/S/T: 11/0/0
+% 
+
+<Alphabet>
+"cb2-13"      +C+           "cb13-6"      +C+           "cb6-13"      +C+           
+"cb13-5"      +C+           "cb9-13"      +C+           "cb13+y+x"    +C+           
+"cb13-y-x"    +C+           "cb13stp"     +C+           "rt3xy"       +C+           
+"rt3yx"       +C+           "rt3stp"      +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             44            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb2-13"      2             
+1             "cb6-13"      3             
+1             "cb9-13"      4             
+1             "rt3yx"       5             
+2             "cb13-y-x"    19            
+2             "rt3yx"       6             
+3             "cb13-y-x"    35            
+3             "rt3yx"       7             
+4             "cb13+y+x"    19            
+4             "rt3yx"       8             
+5             "cb2-13"      6             
+5             "cb6-13"      7             
+5             "cb9-13"      8             
+5             "rt3stp"      9             
+6             "cb13-y-x"    21            
+6             "rt3stp"      10            
+7             "cb13-y-x"    37            
+7             "rt3stp"      11            
+8             "cb13+y+x"    21            
+8             "rt3stp"      12            
+9             "cb2-13"      10            
+9             "cb6-13"      11            
+9             "cb9-13"      12            
+9             "rt3xy"       13            
+10            "cb13-y-x"    23            
+10            "rt3xy"       14            
+11            "cb13-y-x"    39            
+11            "rt3xy"       15            
+12            "cb13+y+x"    23            
+12            "rt3xy"       16            
+13            "cb2-13"      14            
+13            "cb6-13"      15            
+13            "cb9-13"      16            
+13            "rt3stp"      1             
+14            "cb13-y-x"    17            
+14            "rt3stp"      2             
+15            "cb13-y-x"    33            
+15            "rt3stp"      3             
+16            "cb13+y+x"    17            
+16            "rt3stp"      4             
+17            "cb13stp"     18            
+17            "rt3stp"      19            
+18            "cb13-6"      27            
+18            "rt3stp"      20            
+19            "cb13stp"     20            
+19            "rt3yx"       21            
+20            "cb13-6"      29            
+20            "rt3yx"       22            
+21            "cb13stp"     22            
+21            "rt3stp"      23            
+22            "cb13-6"      31            
+22            "rt3stp"      24            
+23            "cb13stp"     24            
+23            "rt3xy"       17            
+24            "cb13-6"      25            
+24            "rt3xy"       18            
+25            "cb13+y+x"    26            
+25            "rt3xy"       27            
+26            "cb13stp"     9             
+26            "rt3xy"       28            
+27            "cb13+y+x"    28            
+27            "rt3stp"      29            
+28            "cb13stp"     13            
+28            "rt3stp"      30            
+29            "cb13+y+x"    30            
+29            "rt3yx"       31            
+30            "cb13stp"     1             
+30            "rt3yx"       32            
+31            "cb13+y+x"    32            
+31            "rt3stp"      25            
+32            "cb13stp"     5             
+32            "rt3stp"      26            
+33            "cb13stp"     34            
+33            "rt3stp"      35            
+34            "cb13-5"      42            
+34            "rt3stp"      36            
+35            "cb13stp"     36            
+35            "rt3yx"       37            
+36            "cb13-5"      43            
+36            "rt3yx"       38            
+37            "cb13stp"     38            
+37            "rt3stp"      39            
+38            "cb13-5"      44            
+38            "rt3stp"      40            
+39            "cb13stp"     40            
+39            "rt3xy"       33            
+40            "cb13-5"      41            
+40            "rt3xy"       34            
+41            "cb13-y-x"    26            
+41            "rt3xy"       42            
+42            "cb13-y-x"    28            
+42            "rt3stp"      43            
+43            "cb13-y-x"    30            
+43            "rt3yx"       44            
+44            "cb13-y-x"    32            
+44            "rt3stp"      41            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             9             
+</MarkedStates>
+
+
+</Generator>

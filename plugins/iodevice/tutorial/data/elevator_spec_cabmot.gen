@@ -1,0 +1,47 @@
+% Elevator exanple: specification (cabin motion)
+
+<Generator>
+"E_cabmot"
+
+<Alphabet>
+"c_arlw"	
+"c_arup"
+"c_up"
+"c_down"
+"c_stp"
+</Alphabet>
+
+<States>
+"Idle"
+"Down"
+"Up"
+"Stop"
+</States>
+
+<TransRel>
+% Idle 
+"Idle" "c_down" "Down"
+"Idle" "c_up" "Up"
+"Idle" "c_arlw" "Idle"
+"Idle" "c_arup" "Idle"
+
+% Moving down
+"Down" "c_arlw" "Stop"
+
+% Moving up
+"Up"   "c_arup" "Stop"
+
+% Moving up
+"Stop"   "c_stp" "Idle"
+
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>
+"Idle"
+</MarkedStates>
+
+</Generator>

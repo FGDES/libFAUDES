@@ -1,0 +1,18 @@
+digraph "Det(Pro(Det(Pro(SupConNB((Det(Pro(SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb16[0]),(cb16[0]_spec)))) [minstate]),(rts2cb16[1]_spec)))) [minstate]||rc2[1])) [minstate]" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+
+  // transition relation
+  "2" -> "1" [label="wp10-16"];
+  "1" -> "2" [label="cb10-16"];
+};

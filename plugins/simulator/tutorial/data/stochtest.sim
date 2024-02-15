@@ -1,0 +1,195 @@
+% Example Configuration of Simulator
+
+% Summary
+% 
+% This examples runs a simple machine with 
+% * gauss distributed alpha (start operation)
+% * gauss distribted  beta  (complete operation)
+% * exponential distributed mue   (machine break down)
+% * exponetial lamba events (machine repaired)
+% It demonstrates the use of stochastic event properties and
+% simulation conditions.
+%
+% Comments
+%
+% In state idle only alpha is active. Since the transition has no further 
+% timing constraints, we expect the time it takes to start the machine 
+% to be indeed gauss distributed as specified in the simulation attribute. 
+% This is evaluated by the state condition IdleCond.
+%
+% Similarly, when in state down, we expect the duration of a repair cycle
+% to be exponential distributed. This is evaluated
+% by the state condition DownCond
+%
+% The amount of time required to process a workpiece in state busy
+% is more involved. First, there is a timing constraint (guard)
+% to indicate the minimal and maximal amount of time required for 
+% successfull operation. Second, there are stochastic properties of 
+% the events mue and beta. Successful operation is terminated by beta, which 
+% is gauss distributed and of stochastic type Trigger. Thus, when entering 
+% the state busy, successful termination is scheduled via sampling
+% a gauss distribution shaped to the guard interval. On the other hand,
+% machine break down is indicated by mue, which is gauss distributed with
+% stochastic type Delay. Thus, once the amount of delay has been sampled,
+% break down will be scheduled for when the machine was busy for that amount
+% of time. Each time busy is entered, the event that is scheduled for the
+% earlier time will be executed.
+%
+% A rough estimate on the expected throughput is done as follows: 50 time 
+% units to start the machine plus 100 time units to work on one workpiece 
+% are on average approx 150 time units for one succesfull cycle. Every 500 
+% time units of operation the machine breaks, to miss out a half completed 
+% workpiece and to require 150 time units for repair. Thus, 5 overall cycles 
+% are expected to take 150 x 5 time units for operation plus 150 units for 
+% repair to process 4.5 workpieces. Thus we have 4.5 work pieces in 900 
+% time units, or 200 time units per workpiece.
+%
+% This evaluated by the event condition OperateCond, which is started by alpha
+% and stopped by beta.
+
+
+% Executor section, to configure a ProposingExecutor object.
+% It consists of 1) Generators to execute 2) simulation attributes
+% and 3) analysis conditions.
+
+<Executor>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. Specify generators
+
+% The Genarators section lists the timed automata 
+% for simulation. You may use either file names
+% or explicit Genartor sections. In this example,
+% we state the simple machine directly.
+<Generators>
+
+% First (and only) generator
+<Generator>
+"simple machine" 
+
+<Alphabet>
+"alpha"  "beta"  "mue"   "lambda"       
+</Alphabet>
+
+<States>
+"idle"   "busy"  "down"
+</States>
+
+<TransRel>
+"idle"        "alpha"       "busy"    
+<Timing>
+<Resets> "cBusy" </Resets>
+</Timing>
+
+"busy"        "beta"        "idle"        
+<Timing>
+<Guard>    
+"cBusy" "GT" 75  "cBusy" "LT" 125
+</Guard>
+</Timing>
+
+"busy"        "mue"         "down"        
+
+"down"        "lambda"      "idle"        
+
+</TransRel>
+
+<InitStates>
+"idle"        
+</InitStates>
+
+<MarkedStates>
+"idle"        
+</MarkedStates>
+
+<Clocks>
+"cBusy" 
+</Clocks>
+
+</Generator>
+
+% End of Generators section
+</Generators>
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2. Specify simulation event attributes
+
+<SimEvents>
+
+% 50 time units to start the machine
+"alpha"     
+<Stochastic>
++Trigger+      +Gauss+       
+<Parameter>
+50           10             
+</Parameter>
+</Stochastic>
+
+% 100 time units to complete operation
+"beta"      
+<Stochastic>
++Trigger+      +Gauss+       
+<Parameter>
+100          10             
+</Parameter>
+</Stochastic>
+
+% break down after 500 time units of operation
+"mue"       
+<Stochastic>
++Delay+      +Exponential+       
+<Parameter>
+500                       
+</Parameter>
+</Stochastic>
+
+% 150 time units for repair
+"lambda"       
+<Stochastic>
++Trigger+      +Exponential+       
+<Parameter>
+150                    
+</Parameter>
+</Stochastic>
+
+</SimEvents>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Specify conditions for analysis
+
+<Conditions>
+
+"IdleCond"      
+<StateCondition>
++Enabled+     
+<StateSet>
+"idle"
+</StateSet>
+</StateCondition>
+
+"OperateCond"     
+<EventCondition>
++Enabled+     
+<StartEvents>
+"alpha"     
+</StartEvents>
+<StopEvents>
+"beta"       
+</StopEvents>
+</EventCondition>
+
+"DownCond"     
+<StateCondition>
++Enabled+     
+<StateSet>
+"down"
+</StateSet>
+</StateCondition>
+
+</Conditions>
+
+% End of Executor section
+</Executor>

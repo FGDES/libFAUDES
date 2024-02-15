@@ -1,0 +1,77 @@
+
+<Generator>
+"G5"
+
+<Alphabet>
+"sf-2"        "cb1awpar"    "cb1stp"      "sf-cb1"      "cb1-3"       "cb1bwpar"    
+"sf-3"        "cb1-x"       "cb1-dep"     "pu1rdy"      
+</Alphabet>
+ <States>   <Consecutive>    1   
+47            
+ </Consecutive>    </States>  
+<TransRel>
+1             "sf-cb1"      2             
+2             "cb1-x"       3             
+3             "cb1awpar"    4             
+4             "cb1stp"      5             
+5             "sf-3"        6             
+6             "cb1-x"       7             
+7             "sf-cb1"      8             
+7             "cb1bwpar"    9             
+8             "cb1awpar"    32            
+8             "cb1bwpar"    33            
+9             "cb1stp"      10            
+10            "sf-cb1"      11            
+10            "cb1-3"       12            
+11            "cb1-3"       13            
+12            "sf-cb1"      13            
+12            "pu1rdy"      14            
+13            "pu1rdy"      15            
+14            "sf-cb1"      15            
+15            "cb1-x"       16            
+16            "cb1awpar"    17            
+17            "cb1stp"      18            
+18            "sf-3"        19            
+19            "cb1-x"       20            
+20            "cb1bwpar"    21            
+21            "cb1stp"      22            
+22            "sf-cb1"      23            
+22            "cb1-3"       24            
+23            "cb1-3"       25            
+24            "sf-cb1"      25            
+24            "pu1rdy"      26            
+25            "pu1rdy"      27            
+26            "sf-cb1"      27            
+27            "cb1-x"       28            
+28            "cb1awpar"    29            
+29            "cb1stp"      30            
+30            "sf-2"        1             
+31            "cb1stp"      23            
+32            "cb1stp"      34            
+32            "cb1bwpar"    35            
+33            "cb1stp"      11            
+34            "sf-3"        42            
+35            "cb1stp"      36            
+36            "sf-3"        37            
+37            "cb1-3"       38            
+38            "pu1rdy"      39            
+39            "cb1-x"       40            
+40            "sf-cb1"      41            
+40            "cb1bwpar"    21            
+41            "cb1bwpar"    31            
+42            "cb1-x"       43            
+43            "cb1bwpar"    44            
+44            "cb1stp"      45            
+45            "cb1-3"       46            
+46            "pu1rdy"      47            
+47            "cb1-x"       40            
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+

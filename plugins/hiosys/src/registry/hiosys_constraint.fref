@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Constraint"> 
+
+<h1>
+HioSys I/O Systems
+</h1>
+
+<h2>
+HioConstraint
+</h2>
+
+
+<p>
+<table border="0">
+<tr> 
+<td> <img fsrc="FAUDES_IMAGES/hio_hioconstraint.png"/> </td>
+<td>
+The data-type <strong>HioConstraint</strong> is a <ftype>Generator</ftype> that is suited to model the I/O-system <strong>I/O constraint</strong>.
+An I/O constraint is used to describe the variety of <a href="hiosys_index.html#controllerport">controller-I/O
+ports</a> that can be connected to the <a href="hiosys_index.html#plantport">plant-I/O ports</a> of an <a href="hiosys_plant.html">I/O plant</a> to obtain desired
+<a href="hiosys_liveness.html">liveness properties</a> for the plant. For an I/O plant <fimath>S_{PE}=(\Sigma_{PE},L_{PE})</fimath>,
+the constraint <fimath>S_P=(\Sigma_P,L_P)</fimath> on the
+the port <fimath>(U_P,Y_P)</fimath> of <fimath>S_{PE}</fimath> is denoted <i>operator constraint</i>, while the constraint 
+<fimath>S_E=(\Sigma_E,L_E)</fimath> on <fimath>(U_E,Y_E)</fimath> is denoted <i>environment constraint</i>.
+Hence, the I/O constraint is a discrete event system with one controller-I/O port to interact with the plant while accepting all
+plant outputs. Its event sets are denoted <i>U</i> and <i>Y</i>. Thus,
+the overall alphabet is composed as disjoint union
+<fimath>\Sigma=U\cup Y</fimath>.
+</td>
+</tr>
+</table>
+</p>
+
+<h3>
+I/O constraint: Definition
+</h3>
+
+<p>
+An I/O constraint is a tuple <fimath>S = (U,Y,L)</fimath>, where
+<ul class="l2">
+<li><p><fimath>\Sigma</fimath> is an alphabet with 
+<fimath>\Sigma :=  U \dcup Y</fimath>,</p></li>
+
+<li><p><fimath>L</fimath> is a language over <fimath>\Sigma</fimath>,</p></li>
+
+<li><p><fimath>(U,Y)</fimath> is a controller-I/O port of <fimath>S</fimath>, and</p></li>
+
+<li><p><fimath>L</fimath> is a complete language (see <ffnct>IsComplete</ffnct>).</p></li>
+</ul>
+</p>
+<p>
+The last item rules out constraints that preclude <a href="hiosys_liveness.html">liveness</a>
+ of <i>any</i> I/O plant under such constraint.
+</p>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a> | <a href="hiosys_types.html">HioSys I/O Systems</a>
+</p>
+</ReferencePage>
+
+  

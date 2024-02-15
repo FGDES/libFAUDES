@@ -1,0 +1,24 @@
+%%% test mark: is cond decomp [at con_1_simple.cpp:59]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: is cond ctrl [at con_1_simple.cpp:88]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: is cond closed [at con_1_simple.cpp:97]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+

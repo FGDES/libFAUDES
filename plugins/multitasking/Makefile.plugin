@@ -1,0 +1,77 @@
+#
+# makefile for libfaudes multitasking plugin
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += multitasking
+
+
+#
+# set up paths relative to faudes path
+
+MTC_NAME =   multitasking
+MTC_BASE =   ./plugins/multitasking
+MTC_SRCDIR = ./plugins/multitasking/src
+
+#
+# source files
+
+MTC_CPPFILES = mtc_colorset.cpp mtc_attributes.cpp mtc_generator.cpp mtc_parallel.cpp mtc_project.cpp mtc_statemin.cpp mtc_supcon.cpp mtc_observercomputation.cpp mtc_obserververification.cpp mtc_redundantcolors.cpp
+MTC_INCLUDE = mtc_include.h
+MTC_RTIDEFS = mtc_definitions.rti
+MTC_RTIFREF = multitasking_index.fref multitasking_reachability.fref multitasking_misc.fref multitasking_synthesis.fref multitasking_observer.fref multitasking_optcol.fref
+
+
+#
+# utilities
+MTC_EXECUTABLES += mtc2dot
+
+#
+# fix directories 
+
+MTC_HEADERS = $(MTC_CPPFILES:.cpp=.h) $(MTC_INCLUDE)
+MTC_SOURCES = $(MTC_CPPFILES:%=$(MTC_SRCDIR)/%)
+MTC_OBJECTS = $(MTC_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+MTC_RTIDEFS := $(MTC_RTIDEFS:%=$(MTC_SRCDIR)/registry/%)
+MTC_RTIFREF := $(MTC_RTIFREF:%=$(MTC_SRCDIR)/registry/%)
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(MTC_INCLUDE): $(MTC_SRCDIR)/$(MTC_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(MTC_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* multitasking configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_MTC" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(MTC_SOURCES)
+OBJECTS += $(MTC_OBJECTS)
+HEADERS += $(MTC_HEADERS)
+VPATH   += $(MTC_SRCDIR)
+EXECUTABLES += $(MTC_EXECUTABLES:%=$(BINDIR)/%$(DOT_EXE))
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(MTC_NAME)
+RTIDEFS += $(MTC_RTIDEFS)
+RTIFREF += $(MTC_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(MTC_SRCDIR)/registry/mtc_interface.i 
+SWGMODULES += $(MTC_NAME)
+
+
+#
+# include tutorial
+
+include $(MTC_BASE)/Makefile.tutorial
+

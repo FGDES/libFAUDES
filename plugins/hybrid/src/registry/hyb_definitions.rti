@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- LHA variant of TransSet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Hybrid::LhaTransSet" ctype="faudes::LhaTransSet" autoregister="true"> 
+<XElementTag value="Tr"/>
+</TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- LHA variant of StateSet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Hybrid::LhaStateSet" ctype="faudes::LhaStateSet" autoregister="true"> 
+<XElementTag value="State"/>
+</TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Linear Hybrid Automaton -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Hybrid::LinearHybridAutomaton" ctype="faudes::LinearHybridAutomaton" autoregister="true"> 
+</TypeDefinition> 
+
+
+
+</Registry>

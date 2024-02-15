@@ -1,0 +1,41 @@
+<Generator>
+"Project(SupConNB((Project(SupConNB((cb15[0]...s1[0]_spec)))),(rts1cb15[1]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((Project(SupConNB((cb15[0]...s1[0]_spec)))),(rts1cb15[1]_spec)))
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 9/0/0
+% 
+
+<Alphabet>
+"cb7-15"      +C+           "cb15-9"      +C+           "cb15-rc1"    +C+           
+"rts1_2-1"    +C+           "rts1_2-3"    +C+           
+</Alphabet>
+
+<States>
+1             2             3             4             
+</States>
+
+<TransRel>
+2             "rts1_2-1"    4             
+2             "rts1_2-3"    3             
+1             "cb7-15"      2             
+3             "cb15-9"      1             
+4             "cb15-rc1"    1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

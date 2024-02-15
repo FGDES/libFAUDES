@@ -1,0 +1,97 @@
+% Elevator example: simple finite-automaton modell of cabin
+
+<Generator>
+"cabin"  % name
+
+<Alphabet>
+"c_up"	+C+	
+"c_down"	+C+		
+"c_stp"  	+C+	
+"c_arlw"		
+"c_arup"		
+"c_lvlw"
+"c_lvup"
+</Alphabet>
+
+<States>
+"IdleLw"
+"IdleMd"
+"IdleUp"
+"UpLw"
+"UpMd"
+"UpUp"
+"DownLw"
+"DownMd"
+"DownUp"
+%"Err"
+</States>
+
+<TransRel>
+% In lower position
+"IdleLw" "c_up" "UpLw"
+"IdleLw" "c_down" "DownLw"
+"IdleLw" "c_stp"  "IdleLw"
+
+% Moving up, starting
+"UpLw" "c_lvlw" "UpMd"
+"UpLw" "c_stp"  "IdleLw"
+"UpLw" "c_down" "DownLw"
+"UpLw" "c_up" "UpLw"
+
+% Moving up, keep going
+"UpMd" "c_arup" "UpUp"
+"UpMd" "c_stp"  "IdleMd"
+"UpMd" "c_down" "DownMd"
+"UpMd" "c_up" "UpMd"
+
+% Moving up, arriving
+"UpUp" "c_stp"  "IdleUp"
+"UpUp" "c_up" "UpUp"
+"UpUp" "c_down" "DownUp"
+%"UpUp" "c_lvup" "Err" % need forcible events to model
+
+% In upper position
+"IdleUp" "c_up" "UpUp"
+"IdleUp" "c_down" "DownUp"
+"IdleUp" "c_stp"  "IdleUp"
+
+% Moving down, starting
+"DownUp" "c_lvup" "DownMd"
+"DownUp" "c_stp"  "IdleUp"
+"DownUp" "c_down" "DownUp"
+"DownUp" "c_up" "UpUp"
+
+% Moving down, keep going
+"DownMd" "c_arlw" "DownLw"
+"DownMd" "c_stp"  "IdleMd"
+"DownMd" "c_down" "DownMd"
+"DownMd" "c_up" "UpMd"
+
+% Moving down, arriving
+"DownLw" "c_stp"  "IdleLw"
+"DownLw" "c_down" "DownLw"
+"DownLw" "c_up" "UpLw"
+%"DownLw" "c_lvlw" "Err" % need forcible events to model
+
+% Idle inbetween
+"IdleMd" "c_stp"  "IdleMd"
+"IdleMd" "c_down" "DownMd"
+"IdleMd" "c_up" "UpMd"
+
+% Error behaviour
+%"Err" "c_stp" "Err"
+%"Err" "c_up" "Err"
+%"Err" "c_down" "Err"
+
+</TransRel>
+
+<InitStates>
+"IdleLw"
+</InitStates>
+
+<MarkedStates>	
+"IdleLw"
+"IdleUp"					
+</MarkedStates>
+
+</Generator>

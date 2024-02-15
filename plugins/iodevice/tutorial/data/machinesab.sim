@@ -1,0 +1,61 @@
+% Example Configuration of Executor
+
+% This example configures an executor to run the two simple 
+% machines a and b. It is meant to support a networked supervisor
+% from the DESTool example "Machines.pro"
+
+<Executor>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+% 1. Specify generators
+
+% The Generators section lists the timed automata 
+% for simulation. You may use either file names
+% or explicit Generartor sections. 
+<Generators>
+"./machinea.gen"
+"./machineb.gen"
+</Generators>
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+% 2. Specify simulation event attributes
+
+<SimEvents>
+
+
+% Gauss distributed time of operation, 
+% machine a faster than machine b
+"beta_a"      
+<Stochastic>
++Trigger+      
++Gauss+   <Parameter> 50 20 </Parameter>
+</Stochastic>
+
+"beta_b"      
+<Stochastic>
++Trigger+      
++Gauss+  <Parameter> 100 20  </Parameter>
+</Stochastic>
+
+% Break down after 500 time units of operation, exponential
+"mue_a"       
+<Stochastic>
++Delay+      
++Exponential+  <Parameter> 500 </Parameter>
+</Stochastic>
+"mue_b"       
+<Stochastic>
++Delay+      
++Exponential+  <Parameter> 500 </Parameter>
+</Stochastic>
+
+
+</SimEvents>
+
+
+
+% End of Executor section
+</Executor>

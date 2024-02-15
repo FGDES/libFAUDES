@@ -1,0 +1,84 @@
+<cGenerator>
+<Generator>
+"cb4[0]_spec"
+
+<Alphabet>
+"cb11-4" "cb12-4" "cb4+x" "cb4-11" 
+"cb4-12" "cb4-x" "cb4stp" "cb4wpar" 
+"cb4wplv11" "cb4wplv12" "t_modul3\cb4-mh1-d1\cb4" "wp11-4" 
+"wp12-4" "wp4-11" "wp4-12" 
+</Alphabet>
+
+<States>
+"1" "10" "11" "12" 
+"13" "14" "15" "16" 
+"17" "18" "2" "3" 
+"4" "5" "6" "7" 
+"8" "9" 
+</States>
+
+<TransRel>
+"1" "cb11-4" "6"
+"1" "cb12-4" "2"
+"1" "t_modul3\cb4-mh1-d1\cb4" "1"
+"10" "cb4-11" "15"
+"10" "cb4-12" "11"
+"10" "t_modul3\cb4-mh1-d1\cb4" "10"
+"11" "cb4+x" "12"
+"11" "t_modul3\cb4-mh1-d1\cb4" "11"
+"12" "cb4wplv12" "13"
+"12" "t_modul3\cb4-mh1-d1\cb4" "12"
+"13" "cb4stp" "14"
+"13" "t_modul3\cb4-mh1-d1\cb4" "13"
+"14" "t_modul3\cb4-mh1-d1\cb4" "14"
+"14" "wp4-12" "1"
+"15" "cb4-x" "16"
+"15" "t_modul3\cb4-mh1-d1\cb4" "15"
+"16" "cb4wplv11" "17"
+"16" "t_modul3\cb4-mh1-d1\cb4" "16"
+"17" "cb4stp" "18"
+"17" "t_modul3\cb4-mh1-d1\cb4" "17"
+"18" "t_modul3\cb4-mh1-d1\cb4" "18"
+"18" "wp4-11" "1"
+"2" "cb4-x" "3"
+"2" "t_modul3\cb4-mh1-d1\cb4" "2"
+"3" "cb4wpar" "4"
+"3" "t_modul3\cb4-mh1-d1\cb4" "3"
+"4" "cb4stp" "5"
+"4" "t_modul3\cb4-mh1-d1\cb4" "4"
+"5" "t_modul3\cb4-mh1-d1\cb4" "5"
+"5" "wp12-4" "10"
+"6" "cb4+x" "7"
+"6" "t_modul3\cb4-mh1-d1\cb4" "6"
+"7" "cb4wpar" "8"
+"7" "t_modul3\cb4-mh1-d1\cb4" "7"
+"8" "cb4stp" "9"
+"8" "t_modul3\cb4-mh1-d1\cb4" "8"
+"9" "t_modul3\cb4-mh1-d1\cb4" "9"
+"9" "wp11-4" "10"
+
+</TransRel>
+
+<InitStates>
+"1" 
+</InitStates>
+
+<MarkedStates>
+"1" 
+</MarkedStates>
+
+</Generator>
+
+<Controllable>
+"cb11-4" "cb12-4" "cb4+x" "cb4-11" 
+"cb4-12" "cb4-x" "cb4stp" "t_modul3\cb4-mh1-d1\cb4" 
+
+</Controllable>
+
+<Observable>
+"cb11-4" "cb12-4" "cb4+x" "cb4-11" 
+"cb4-12" "cb4-x" "cb4stp" "cb4wpar" 
+"cb4wplv11" "cb4wplv12" "t_modul3\cb4-mh1-d1\cb4" "wp11-4" 
+"wp12-4" "wp4-11" "wp4-12" 
+</Observable>
+</cGenerator>

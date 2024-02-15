@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type Diagnoser -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Diagnosis::Diagnoser" ctype="faudes::Diagnoser" autoregister="true"> 
+
+<Documentation ref="diagnosis_event.html#Diagnoser"> 
+Generator with state estimate attribute for event-diagnosis.
+</Documentation> 
+<Keywords> 
+Diagnosis     event-diagnosis  diagnoser     generator     
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type FailureTypeMap -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Diagnosis::FailureTypeMap" ctype="faudes::AttributeFailureTypeMap"autoregister="true"> 
+
+<Documentation ref="diagnosis_event.html#FailureTypeMap"> 
+Specification of Failure Types
+</Documentation> 
+<Keywords> 
+Diagnosis     event-diagnosis  "failure-type map"  
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function DecentralizedDiagnoser -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::DecentralizedDiagnoser" ctype="faudes::DecentralizedDiagnoser"> 
+
+<Documentation ref="diagnosis_decentralized.html#DecentralizedDiagnoser"> 
+Computes decentralized diagnosers for multiple local sites.
+</Documentation> 
+<Keywords> 
+Diagnosis     decentralized-diagnosis  co-diagnosability  diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="DecentralizedDiagnoser(GArg,KArg,AVArg,DVArg,BRes)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="KArg" ftype="Generator" access="In"/> 
+<Parameter name="AVArg" ftype="EventSetVector" access="In"/> 
+<Parameter name="DVArg" ftype="GeneratorVector" access="Out"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function DecentralizedModularDiagnoser -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::DecentralizedModularDiagnoser" ctype="faudes::DecentralizedModularDiagnoser"> 
+
+<Documentation ref="diagnosis_decentralized.html#DecentralizedModularDiagnoser"> 
+Computes decentralized diagnosers for systems that consist of multiple components.
+</Documentation> 
+<Keywords> 
+Diagnosis     decentralized-diagnosis  co-diagnosability  diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="DecentralizedModularDiagnoser(GVArg,KArg,DVArg)"> 
+<Parameter name="GVArg" ftype="SystemVector" access="In"/> 
+<Parameter name="KArg" ftype="Generator" access="In"/> 
+<Parameter name="DVArg" ftype="GeneratorVector" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function EventDiagnoser -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::EventDiagnoser" ctype="faudes::EventDiagnoser"> 
+
+<Documentation ref="diagnosis_event.html#EventDiagnoser"> 
+Computes event-diagnoser w.r.t. failure types.
+</Documentation> 
+<Keywords> 
+Diagnosis     event-diagnosis  diagnoser     "comupte diagnoser"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="EventDiagnoser(Gen,FailureTypeMap,Diagnoser)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="FArg" ftype="FailureTypeMap" access="In"/> 
+<Parameter name="GRes" ftype="Diagnoser" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function LanguageDiagnoser -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::LanguageDiagnoser" ctype="faudes::LanguageDiagnoser"> 
+
+<Documentation ref="diagnosis_language.html#LanguageDiagnoser"> 
+Computes event-diagnoser w.r.t. failure types.
+</Documentation> 
+<Keywords> 
+Diagnosis     language-diagnosis  diagnoser     "comupte diagnoser"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="LanguageDiagnoser(Gen,Spec,Diagnoser)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="EArg" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Diagnoser" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function LoopPreservingObserver -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::LoopPreservingObserver" ctype="faudes::LoopPreservingObserver"> 
+
+<Documentation ref="diagnosis_language.html#LoopPreservingObserver"> 
+Compute a loop-preserving observer from a given initial alphabet.
+</Documentation> 
+<Keywords> 
+Diagnosis     language-diagnosis  observer      abstraction   diagnosable   loop-preserving  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="LoopPreservingObserver(GArg,IArg,AArg)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="IArg" ftype="EventSet" access="In"/> 
+<Parameter name="AArg" ftype="EventSet" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function ModularDiagnoser -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::ModularDiagnoser" ctype="faudes::ModularDiagnoser"> 
+
+<Documentation ref="diagnosis_modular.html#ModularDiagnoser"> 
+Compute diagnoser for subsystems with local specifications.
+</Documentation> 
+<Keywords> 
+Diagnosis     modular-diagnosis  abstraction   diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="ModularDiagnoser(GVArg,KVArg,DVArg,BRes)"> 
+<Parameter name="GVArg" ftype="SystemVector" access="In"/> 
+<Parameter name="KVArg" ftype="GeneratorVector" access="In"/> 
+<Parameter name="DVArg" ftype="GeneratorVector" access="Out"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsCoDiagnosable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::IsCoDiagnosable" ctype="faudes::IsCoDiagnosable"> 
+
+<Documentation ref="diagnosis_decentralized.html#IsCoDiagnosable"> 
+Tests for co-diagnosability w.r.t. local observations.
+</Documentation> 
+<Keywords> 
+Diagnosis     decentralized-diagnosis  co-diagnosability  diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsCoDiagnosable(GArg,KArg,AVArg,BRes)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="KArg" ftype="Generator" access="In"/> 
+<Parameter name="AVArg" ftype="EventSetVector" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsEventDiagnosable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::IsEventDiagnosable" ctype="faudes::IsEventDiagnosable"> 
+
+<Documentation ref="diagnosis_event.html#IsEventDiagnosable"> 
+Tests for event-diagnosability w.r.t. failure types.
+</Documentation> 
+<Keywords> 
+Diagnosis     event-diagnosis  diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsEventDiagnosable(GArg,FMapArg,BRes)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="FArg" ftype="FailureTypeMap" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsIndicatorEventDiagnosable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::IsIndicatorEventDiagnosable" ctype="faudes::IsIndicatorEventDiagnosable"> 
+
+<Documentation ref="diagnosis_event.html#IsIndicatorEventDiagnosable"> 
+Tests for event-diagnosability w.r.t. failure types incl. indicator events.
+</Documentation> 
+<Keywords> 
+Diagnosis     event-diagnosis  diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsIndicatorEventDiagnosable(GArg,FMapArg,BRes)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="FArg" ftype="FailureTypeMap" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsLanguageDiagnosable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::IsLanguageDiagnosable" ctype="faudes::IsLanguageDiagnosable"> 
+
+<Documentation ref="diagnosis_language.html#IsLanguageDiagnosable"> 
+Tests for language-diagnosability w.r.t. a specification language.
+</Documentation> 
+<Keywords> 
+Diagnosis     language-diagnosis  diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsLanguageDiagnosable(GArg,EArg,OArgBRes)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="EArg" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsLoopPreservingObserver -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::IsLoopPreservingObserver" ctype="faudes::IsLoopPreservingObserver"> 
+
+<Documentation ref="diagnosis_language.html#IsLoopPreservingObserver"> 
+Tests if a given projection is a loop-preserving observer.
+</Documentation> 
+<Keywords> 
+Diagnosis     language-diagnosis  observer      diagnosable   loop-preserving  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsLoopPreservingObserver(GArg,AArg,OArgBRes)"> 
+<Parameter name="GArg" ftype="System" access="In"/> 
+<Parameter name="AArg" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsModularDiagnosable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Diagnosis::IsModularDiagnosable" ctype="faudes::IsModularDiagnosable"> 
+
+<Documentation ref="diagnosis_modular.html#IsModularDiagnosable"> 
+Tests for modular diagnosability w.r.t. local specifications for each subsystem.
+</Documentation> 
+<Keywords> 
+Diagnosis     modular-diagnosis  abstraction   diagnosable   diagnoser     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsModularDiagnosable(GVArg,KVArg,BRes)"> 
+<Parameter name="GVArg" ftype="SystemVector" access="In"/> 
+<Parameter name="KVArg" ftype="GeneratorVector" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry> 

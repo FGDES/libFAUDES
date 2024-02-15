@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Simulator" page="2_Executor_Classes" title="Simulator - Semantics"> 
+
+<h1>
+Executor Classes 
+</h1>
+<p>
+The simulator plug-in provides a hierarchically organized stack of executor classes
+to run a synchronous composition of timed automata. 
+</p>
+<p>
+The <ftype>ParallelExecutor</ftype> implements basic timed automata behaviour,
+the <ftype>LoggingExecutor</ftype> adds so called simulation conditions,
+the <ftype>ProposingExecutor</ftype> adds a scheduling mechanism to resolve
+remaining ambiguities, and the
+<ftype>DeviceExecutor</ftype> adds synchronisation with physical events.
+</p>
+
+<ftype_reference name="ParallelExecutor">
+
+<h4>
+Timed automata
+</h4>
+<p>
+The ParallelExecutor implements simulation behaviour
+for synchronised timed automata according to semantics 
+by R. Alur and D.L. Dill. The formalism is based on
+<i>clocks</i>, <i>invariants</i>, <i>guards</i> and <i>resets</i>. 
+</p>
+
+<p>
+A timed automata refers to  set of clocks that track the progress of physical time.
+In libFAUDES, clocks are implemented as integral typed variables that count
+faudes-time units (ftu).
+Each state has an invariant attached to impose a condition of the clock values. 
+The system can only
+remain within a particular state as long as the invariant is satisfied. Each transition
+has an attached guard, again imposing a condition on the clock values. A transition
+may only be executed, when the guard is satisfied. When executing a transition,
+specified clocks are reset to zero.
+</p>
+
+<p>
+A future revision of the timed plug-in will provide
+more detailed documentation.
+</p>
+
+<h4>
+Token IO
+</h4>
+
+<p>
+The token format is illustrated an example.
+</p>
+
+<pre>
+&lt;Executor&gt;
+% Configuration "exectest.sim"
+
+&lt;Generators&gt;
+"machinea.gen"
+"machineb.gen"
+"bufferab.gen"
+"superab.gen"
+&lt;/Generators&gt;
+
+&lt;/Executor&gt;
+</pre>
+
+<p>
+Note that the specification of file-names for generators is relative to
+the directory of the overall configuration file. Alternatively, generators
+can be added inline as  token sequence. 
+</p>
+
+<p> 
+Timed automata features are read as generator attributes. The below version
+of the simple machine takes between 50 and 100 ftu to process a workpiece.
+</p>
+
+<pre>
+&lt;Generator&gt;
+% timed automata tsimplechine.gen
+"times simple machine" 
+
+&lt;Alphabet&gt;
+"alpha" "beta" "mue" "lambda" 
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"idle"        
+"busy"     &lt;Invariant&gt; "cBusy"   "LT" 100 &lt;/Invariant&gt;   
+"down"
+&lt;/States&gt;
+
+
+&lt;TransRel&gt;
+%%% I-(alpha)-&gt;B
+"idle"        "alpha"       "busy"    
+&lt;Timing&gt; &lt;Resets&gt; "cBusy" &lt;/Resets&gt; &lt;/Timing&gt;
+%%% B-(beta)-&gt;I
+"busy"        "beta"        "idle"       
+&lt;Timing&gt; &lt;Guard&gt;  "cBusy" "GT" 50 "cBusy" "LT" 100 &lt;/Guard&gt; &lt;/Timing&gt;
+%%% B-(mue)-&gt;D
+"busy"        "mue"         "down"        
+%%% D-(lambda)-&gt;I
+"down"        "lambda"      "idle"        
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt; "idle" &lt;/InitStates&gt;
+
+&lt;MarkedStates&gt; "idle" &lt;/MarkedStates&gt;
+
+&lt;Clocks&gt; "cBusy" &lt;/Clocks&gt;
+
+&lt;/Generator&gt;
+</pre>
+
+<p>
+Notes. Invariant- and guard-conditions are represented as a set of inequalities;
+supported relations are 
+less than <tt>"LT"</tt>,
+less than or equal <tt>"LE"</tt>,
+greater than <tt>"GT"</tt> and
+greater than or equal <tt>"GE"</tt>; all clocks must be specified in the Clocks section;
+clocks are meant to be unique over all generators.
+</p>
+
+</ftype_reference>
+
+<ftype_reference name="LoggingExecutor">
+
+<p>
+The LoggingExecutor is an extension to the <ftype>ParallelExecutor</ftype>
+in that it defines so called <i>simulation conditions</i> and logs
+their occurrence for later analysis. There are two types of simulation conditions, one based on events and one based on states.
+</p>
+
+<h4>
+Event conditions
+</h4>
+
+<p>
+An event condition is defined by a set of start events and a set of
+stop events. The condition becomes satisfied when a start event occurs and it 
+becomes dissatisfied when a stop event occurs. Thus, when start or stop
+events fail to alternate, the first event of the respective type is relevant.
+</p>
+
+<h4>
+State conditions
+</h4>
+
+<p>
+A state condition is satisfied while the executor current state is within 
+a specified set of discrete states. The latter set of states is to be given 
+per component generator either as a disjunction (at least one component must match)
+or conjunction (all components must match). For convenience, the empty set
+in the conjunction is re-interpreted as the entire state set of the respective
+component.
+</p>
+
+<p>
+While symbolic names are optional for states, it is advisable to have symbolic
+names for those states that are referenced by a simulation condition.
+</p>
+
+<h4>
+Token IO
+</h4>
+
+<p>
+Simulations conditions can be configured by the section <tt>Condition</tt> within the
+executor token stream. Example:
+</p>
+
+<pre>
+&lt;Conditions&gt;
+
+% Event condition: Operation cycle
+"Performance"     
+&lt;EventCondition&gt;
+&lt;StartEvents&gt;
+"alpha_a"     
+&lt;/StartEvents&gt;
+&lt;StopEvents&gt;
+"beta_b"       
+&lt;/StopEvents&gt;
+&lt;/EventCondition&gt;
+
+% State Condition: MA is idle because the buffer is full
+"Bottleneck"      
+&lt;StateCondition&gt;
++Conjunction+
+&lt;StateSet&gt; "idle" &lt;/StateSet&gt;  % machine a
+&lt;StateSet&gt;        &lt;/StateSet&gt;  % machine b (dont care)
+&lt;StateSet&gt; "full" &lt;/StateSet&gt;  % buffer
+&lt;StateSet&gt;        &lt;/StateSet&gt;  % supervisor (dont care)
+&lt;/StateCondition&gt;
+
+&lt;/Conditions&gt;
+</pre>
+
+<p>
+Notes. State- and event-conditions can be mixed freely with the Conditions section;
+conditions must have a symbolic name; disjunctive state conditions are flagged by
+the key <tt>+Disjunction+</tt>, conjunctive state conditions are flagged 
+<tt>+Conjunction+</tt>.
+</p>
+
+</ftype_reference>
+
+<ftype_reference name="ProposingExecutor">
+
+<p>
+The ProposingGenerator is an extension to the <ftype>LoggingExecutor</ftype>.
+At each instance of time, the ProposingExecutor provides a proposal
+either of a specific event to be executed instantly or of how much time to let elapse. 
+The proposal is guaranteed to comply to the underlying <ftype>ParallelExecutor</ftype>
+and the corresponding timed automata semantics. 
+</p>
+
+<h4>
+Generating the proposal
+</h4>
+
+<p>
+The generation of the proposal is parametrised by so called simulation event attributes
+that define either a priority or a stochastic timing behaviour on a per event basis.
+The implementation is organized as a procedure with four stages.
+</p>
+
+<p>
+<i>Stage 1: Events with a positive priority parameter.</i>
+<br/>
+If one or more events with positive priority are enabled, those with maximum priority form 
+the candidate set.
+If the candidate set is non-empty propose one event by random (uniformly distributed) 
+for immediate execution.
+</p>
+
+<p>
+<i>Stage 2: Events with a stochastic timing attribute.</i>
+<br/>
+If within the interval at which the set of enabled events remains constant 
+an event with stochastic timing is scheduled to occur, the earliest of such events form 
+the candidate set.
+If the candidate set is non-empty, propose one event by random (uniformly distributed) 
+for execution at the scheduled time.
+</p>
+
+<p>
+<i>Stage 3: Let time elapse.</i>
+<br/>
+If the interval at which the set of enabled events remains constant represents a
+finite positive duration, propose that amount of time to elapse.
+If the latter interval represents an infinite duration, propose to let all time pass and stop the simulation.
+</p>
+
+<p>
+<i>Stage 4: Events with a negative priority parameter.</i>
+<br/>
+If one or more events with negative priority are enabled, those with maximum priority form the candidate set. If the candidate set is non-empty, 
+propose one event by random (uniformly distributed) for immediate execution.
+</p>
+
+
+<p>
+If the above stages fail to indicate an event to execute or time to let elapse, the system is deadlocked. If the procedure sticks with case 3) and infinite duration, it the system is either life locked (no enabled events) or it refuses to execute a negative priority event. The latter case 
+is utilised for input events in a hardware-in-the-loop simulation.
+</p>
+
+
+<h4>
+Scheduling stochastic events
+</h4>
+
+<p>
+Events with stochastic timing attribute sample a random variable with a certain
+distribution in order to schedule their occurrence. The scheduling comes in
+three flavors, <i>Extern</i>, <i>Trigger</i> and <i>Delay</i>.
+</p>
+
+<p> 
+<i>Extern</i>.
+<br/>
+The random variable models an external stochastic process which is not constraint by
+the timed automata dynamics. A sample is taken when the executor is reset 
+to determine the first scheduled occurrence. The schedule expires when it matches the current clock 
+time, regardless whether the event is executed or not. 
+When the schedule expires, a new sample is taken to determine the next scheduled occurrence.
+</p>
+
+<p> 
+<i>Trigger</i>.
+<br/>
+The random variable is used to narrow down the effective guard interval to a point. 
+By "effective guard interval" we refer to the interval of time in which the guard is satisfied 
+w.r.t. the current timed state. A sample is taken when the executor enters a state with 
+a non-empty effective guard interval. In order to guarantee that the scheduled occurrence 
+lies within the guard, the density function is shaped accordingly. The schedule expires when 
+either the event is actually executed or when the effective guard interval changes due to 
+a transition.
+</p>
+
+<p> 
+<i>Delay</i>.
+<br/>
+The random variable models a delay relative to the clock time when the event is first enabled. 
+A sample is taken when the executor is reset to determine the initial amount of delay. 
+During the execution sequence the executor accumulates the durations for which the event 
+is enabled. The event is scheduled when the accumulated durations matches the delay. When the 
+event is executed the, schedule expires and the random variable is sampled to re-initialised 
+the delay.
+</p>
+
+<p>
+Note that type <i>Extern</i> or <i>Delay</i> schedules can disable the respective event 
+in a way that potentially leads to blocking behaviour even if the timed automata is 
+non-blocking by Alur semantics. This is a consequence of the fact that both types model 
+additional phenomena that are synchronised with the timed automata, and it is perfectly 
+reasonable that this synchronisation may introduce blocking situations. In contrast, 
+events of type Trigger are not affected by the blocking issue provided that guards lie 
+within the respective invariant.
+</p>
+
+
+<h4>
+Token IO
+</h4>
+
+<p>
+Simulation event attributes can be configured by the section <tt>SimEvents</tt> within the
+executor token stream. 
+</p>
+
+<pre>
+&lt;SimEvents&gt;
+
+% priority events
+"alpha_a"  &lt;Priority&gt; 10 &lt;/Priority&gt;
+"alpha_b"  &lt;Priority&gt; 10 &lt;/Priority&gt;
+"lambda_a" &lt;Priority&gt; 10 &lt;/Priority&gt;
+"lambda_b" &lt;Priority&gt; 10 &lt;/Priority&gt;
+
+% stochastic events
+"beta_a" &lt;Stochastic&gt; +Trigger+ +Gauss+   &lt;Parameter&gt; 50 20 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+"beta_b" &lt;Stochastic&gt; +Trigger+ +Gauss+  &lt;Parameter&gt; 100 20  &lt;/Parameter&gt; &lt;/Stochastic&gt;
+"mue_a"  &lt;Stochastic&gt; +Delay+   +Exponential+  &lt;Parameter&gt; 500 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+"mue_b"  &lt;Stochastic&gt; +Delay+   +Exponential+  &lt;Parameter&gt; 500 &lt;/Parameter&gt; &lt;/Stochastic&gt;
+
+&lt;/SimEvents&gt;
+</pre>
+
+<p>
+Notes. Keys for stochastic types are 
+<tt>+Extern+</tt>,
+<tt>+Trigger+</tt>,
+<tt>+Delay+</tt>;
+Supported distributions include
+<tt>+Gauss+</tt> with parameters <i>min</i>, <i>max</i>, <i>mue</i> and <i>sigma</i>;
+<tt>+Exponential+</tt> with parameter <i>min</i>, <i>max</i> and <i>lambda</i>;
+<tt>+Uniform+</tt> with parameters <i>min</i> and <i>max</i>.
+</p>
+
+
+</ftype_reference>
+
+<ftype_reference name="DeviceExecutor">
+
+<p>
+The DeviceExecutor is an extension to the <ftype>ProposingExecutor</ftype>
+in that it synchronises both simulation time and events with physical time
+and physical events provided by digital IO hardware or network messages.
+The actual mapping from executor events to physical events is done via an
+abstract interface provided by the <a href="simulator_iointro.html">iodevice plug-in</a>.
+</p>
+
+<p>
+We give an outline of the synchronisation procedure:
+</p>
+
+<ol class="lo">
+<li><p>
+get a proposal from <ftype>ProposingEcexutor</ftype>
+</p></li>
+<li><p>
+if physical time is ahead of the generators current clock time, formally execute
+   the missing time (i.e. adjust clock variables); in the case that this is not consistent with the proposal, 
+   an error is reported;
+</p></li>
+<li><p>
+if the generators current clock time is ahead of physical time, an error is reported
+</p></li>
+<li><p>
+if an input event has been reported that can be executed at the generators current time, execute it
+and continue with 1.
+</p></li>
+<li><p>
+if the proposal schedules an event for the generators current time, execute it and continue with 1.
+</p></li>
+<li><p>
+if an input event has been reported, execute it now; if this event is not accepted by the generator, report an error; continue with 1.
+</p></li>
+<li><p>
+if the proposals time is not yet executed, wait until that amount of time elapsed
+   or for an input  event to be delivered; continue with 1.
+</p></li>
+</ol>
+
+</ftype_reference>
+
+</ReferencePage>
+
+  

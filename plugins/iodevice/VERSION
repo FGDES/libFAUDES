@@ -1,0 +1,7 @@
+# libfaudes version
+#
+# version string must contain no whitespace or shell escape characters
+#
+# 20090730 tmoor
+
+IOVERSION_VERSION = v200907

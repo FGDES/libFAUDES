@@ -1,0 +1,34 @@
+###########################################################
+
+Wago kBus libraries
+
+###########################################################
+
+This directory organises the integration of Kbus 
+specific libraries with the libFAUDES build-system.
+
+Files:
+  ./bin/*            precompiled binaries simfaudes etc,
+  ./libkbus.tgz      to be obtained from WAGO
+  ./libuio.tgz       to be obtained from WAGO
+  ./wago_ips_kbus.c  to be obtained from WAGO
+  Makefile           top-level Makefile to unpack and
+                     compite
+
+
+Targets:
+
+default      unpack/configure and compile 
+             libkbus, libuio and wago_ipc_kbus.o
+
+clean        remove object files 
+
+dist-clean   remove object files and unpacked archives
+
+To achieve binary compatibility with WAGO IPC, a suitable
+buil environment is required. For the particular IPC at 
+the LRT Labm Ubuntu 10.04 LTS went well, using static
+linking and 32bit architecture, i.e.
+
+make FAUDES_PLATFORM=gcc_linux32 FAUDES_LINKING=static
+

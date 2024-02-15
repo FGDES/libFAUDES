@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE DeviceContainer SYSTEM "devicecontainer.dtd">
+
+<DeviceContainer name="ControllerB_All"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="1000"/> 
+
+<!-- read serial and net devices -->
+<Devices>
+"decdemo_contrb_serial.dev"
+"decdemo_contrb_simplenet.dev"
+</Devices>
+
+</DeviceContainer> 

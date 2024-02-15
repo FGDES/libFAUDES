@@ -1,0 +1,63 @@
+<Generator>
+"IoTank"           
+
+<Alphabet>
+"take"	 +I+
+"put"	 +I+
+"fill"	 +I+
+"clear"	 +I+
+"ok"     +O+
+"fail"   +O+
+</Alphabet>
+
+<States>
+"Medium"	
+"Putting" "Overflow"
+"Taking" "Underflow"
+"smp" "smt" "spp" "spt" "stt" "stp" "soc" "sot" "suf" "sut" 
+</States>
+
+<TransRel>
+"Medium"	"put"	"smp"
+"smp"	"ok"	"Putting"
+
+"Putting" "put"	"spp"
+"spp"	"ok"	"Putting"
+"spp"	"fail"	"Overflow"
+
+"Putting" "take" "spt"
+"spt"	"ok"	"Medium"
+
+"Medium"	"take"	"smt"
+"smt"	"ok"	"Taking"
+
+"Taking" "take"	"stt"
+"stt"	"ok"	"Taking"
+"stt"	"fail"	"Underflow"
+
+"Taking" "put" "stp"
+"stp"	"ok"	"Medium"
+
+
+"Overflow" "clear"  "soc"
+"soc"	"ok"	"Underflow"
+"Overflow" "take"   "sot"
+"sot"	"ok"	"Medium"
+
+"Underflow" "fill"  "suf"
+"suf"	"ok"	"Overflow"
+"Underflow" "put"   "sut"
+"sut"	"ok"	"Medium"
+
+</TransRel>
+
+<InitStates>
+"Medium"           
+</InitStates>
+
+<MarkedStates>
+"Underflow" "Overflow"   "Medium"        
+</MarkedStates>
+
+</Generator>
+

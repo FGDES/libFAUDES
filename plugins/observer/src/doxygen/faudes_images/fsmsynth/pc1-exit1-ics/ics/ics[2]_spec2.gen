@@ -1,0 +1,37 @@
+<Generator>
+"rt3cb13cb5rt2cb12[2]_spec" 
+
+% 
+%  Statistics for rt3cb13cb5rt2cb12[2]_spec
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   4
+%  StateSymbols:  2
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+"cb3-12"      "cb5-12"      +C+           "cb12-5"      +C+          "cb12-4"      +C+           
+</Alphabet>
+
+<States>
+"1"           "2"           
+</States>
+
+<TransRel>
+"1"           "cb3-12"      "2"           
+"1"           "cb5-12"      "2"                    
+"2"           "cb12-4"      "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

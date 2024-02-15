@@ -1,0 +1,49 @@
+<Generator>
+"SupConNB((sf[0]),(sf[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((sf[0]),(sf[0]_spec))
+% 
+%  States:        9
+%  Init/Marked:   1/2
+%  Events:        8
+%  Transitions:   11
+%  StateSymbols:  0
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"sf-cb1"      +C+           "sfmv"        +C+           "sfnr"        "sfr"         
+"sfstp"       +C+           "sfwpar"      "sfwplv"      "t_sf"        +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             9             
+</Consecutive>
+</States>
+
+<TransRel>
+1             "sfwpar"      2             
+2             "sf-cb1"      3             
+3             "sfmv"        4             
+4             "sfnr"        5             
+5             "sfwplv"      6             
+6             "sfr"         7             
+6             "sfwpar"      8             
+7             "sfstp"       1             
+7             "sfwpar"      9             
+8             "sfr"         9             
+9             "sfstp"       2             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             4             
+</MarkedStates>
+
+
+</Generator>

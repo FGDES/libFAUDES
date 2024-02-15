@@ -1,0 +1,71 @@
+%%% test mark: DS [at op_fsmsynth_ms.lua]
+<Integer>
+226           
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: PC1 [at op_fsmsynth_ms.lua]
+<Integer>
+83            
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: PC2 [at op_fsmsynth_ms.lua]
+<Integer>
+101           
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: EX1 [at op_fsmsynth_ms.lua]
+<Integer>
+70            
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: EX2 [at op_fsmsynth_ms.lua]
+<Integer>
+48            
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: ICS [at op_fsmsynth_ms.lua]
+<Integer>
+181           
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: PC1EX1 [at op_fsmsynth_ms.lua]
+<Integer>
+594           
+</Integer>
+% 
+% 
+% 
+
+%%% test mark: MS [at op_fsmsynth_ms.lua]
+% 
+%  Statistics for mssup
+% 
+%  States:        2762
+%  Init/Marked:   1/2
+%  Events:        12
+%  Transitions:   9100
+%  StateSymbols:  0
+%  Attrib. E/S/T: 12/0/0
+% 
+% 
+% 
+% 
+

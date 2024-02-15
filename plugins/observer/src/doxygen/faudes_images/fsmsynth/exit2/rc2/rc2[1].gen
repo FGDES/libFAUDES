@@ -1,0 +1,36 @@
+<Generator>
+"Project(rc2[0])" 
+
+% 
+%  Statistics for Project(rc2[0])
+% 
+%  States:        1
+%  Init/Marked:   1/1
+%  Events:        1
+%  Transitions:   1
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+"cb16-rc2"    
+</Alphabet>
+
+<States>
+1             
+</States>
+
+<TransRel>
+1             "cb16-rc2"    1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

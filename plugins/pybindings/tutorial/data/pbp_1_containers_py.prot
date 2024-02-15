@@ -1,0 +1,175 @@
+%%% test mark: iset orig [at pbp_1_containers.py]
+% 
+%  Statistics for PlainIndexContainer
+% 
+%  Size: 3
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: iset ref [at pbp_1_containers.py]
+% 
+%  Statistics for PlainIndexContainer
+% 
+%  Size: 3
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: iset copy 2 [at pbp_1_containers.py]
+% 
+%  Statistics for PlainIndexContainer
+% 
+%  Size: 4
+%  Shared Data: #1 clients
+% 
+% 
+% 
+
+%%% test mark: iset copy 3 [at pbp_1_containers.py]
+% 
+%  Statistics for PlainIndexContainer
+% 
+%  Size: 4
+%  Shared Data: #1 clients
+% 
+% 
+% 
+
+%%% test mark: union with attrib. [at pbp_1_containers.py]
+% 
+%  Statistics for A+B
+% 
+%  Size: 5
+%  Shared Data: #0 clients
+%  Attributes: 4
+%  Attribute Type: 
+% 
+% 
+% 
+
+%%% test mark: intersection with attrib. [at pbp_1_containers.py]
+% 
+%  Statistics for A*B
+% 
+%  Size: 1
+%  Shared Data: #0 clients
+%  Attributes: 1
+%  Attribute Type: 
+% 
+% 
+% 
+
+%%% test mark: difference with attrib. [at pbp_1_containers.py]
+% 
+%  Statistics for A-B
+% 
+%  Size: 2
+%  Shared Data: #0 clients
+%  Attributes: 2
+%  Attribute Type: 
+% 
+% 
+% 
+
+%%% test mark: inclusion with attrib. [at pbp_1_containers.py]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: equality with attrib. [at pbp_1_containers.py]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: inclusion with attrib. [at pbp_1_containers.py]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: equality with attrib. [at pbp_1_containers.py]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: vect test [at pbp_1_containers.py]
+%  Vector Size: 8
+%  Vector Entry 0
+% 
+%  Statistics for A
+% 
+%  Size: 5
+%  Shared Data: #1 clients
+%  Attributes: 4
+%  Attribute Type: 
+%  Vector Entry 1
+% 
+%  Statistics for B
+% 
+%  Size: 3
+%  Shared Data: #1 clients
+%  Attributes: 2
+%  Attribute Type: 
+%  Vector Entry 2
+% 
+%  Statistics for A+B
+% 
+%  Size: 7
+%  Shared Data: #1 clients
+%  Attributes: 5
+%  Attribute Type: 
+%  Vector Entry 3
+% 
+%  Statistics for A*B
+% 
+%  Size: 1
+%  Shared Data: #0 clients
+%  Attributes: 1
+%  Attribute Type: 
+%  Vector Entry 4
+% 
+%  Statistics for A
+% 
+%  Size: 5
+%  Shared Data: #1 clients
+%  Attributes: 4
+%  Attribute Type: 
+%  Vector Entry 5
+% 
+%  Statistics for A+B
+% 
+%  Size: 7
+%  Shared Data: #1 clients
+%  Attributes: 5
+%  Attribute Type: 
+%  Vector Entry 6
+% 
+%  Statistics for NameSet
+% 
+%  Size: 0
+%  Shared Data: #0 clients
+%  Vector Entry 7
+% 
+%  Statistics for NameSet
+% 
+%  Size: 0
+%  Shared Data: #0 clients
+% 
+% 
+% 
+% 
+

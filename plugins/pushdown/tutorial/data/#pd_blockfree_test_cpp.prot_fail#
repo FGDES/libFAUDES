@@ -1,0 +1,215 @@
+%%% test mark: Spda [at pd_blockfree_test.cpp:29]
+% 
+%  Statistics for Generator
+% 
+%  States:        10
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   10
+%  StateSymbols:  6
+%  Attrib. E/S/T: 3/10/10
+% 
+% 
+% 
+% 
+
+%%% test mark: Nda [at pd_blockfree_test.cpp:34]
+% 
+%  Statistics for Generator
+% 
+%  States:        10
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   10
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/10/10
+% 
+% 
+% 
+% 
+
+%%% test mark: CFG has 12 productions [at pd_blockfree_test.cpp:38]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: 9 productions after Rup [at pd_blockfree_test.cpp:42]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: goto generator [at pd_blockfree_test.cpp:61]
+% 
+%  Statistics for Generator
+% 
+%  States:        16
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   15
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/16/15
+% 
+% 
+% 
+% 
+
+
+
+
+%%% test mark: Lr(1)-Parser has 13 actions [at pd_blockfree_test.cpp:65]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: 12 actions after transform [at pd_blockfree_test.cpp:72]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: Epda [at pd_blockfree_test.cpp:76]
+% 
+%  Statistics for Generator
+% 
+%  States:        13
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/0/12
+% 
+% 
+% 
+% 
+
+%%% test mark: Merge adjacent transitions [at pd_blockfree_test.cpp:80]
+% 
+%  Statistics for Generator
+% 
+%  States:        13
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/0/12
+% 
+% 
+% 
+% 
+
+%%% test mark: No lambda pop [at pd_blockfree_test.cpp:84]
+% 
+%  Statistics for Generator
+% 
+%  States:        13
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/0/12
+% 
+% 
+% 
+% 
+
+%%% test mark: No multiple pop [at pd_blockfree_test.cpp:88]
+% 
+%  Statistics for Generator
+% 
+%  States:        157
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   286
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/13/286
+% 
+% 
+% 
+% 
+
+%%% test mark: Pda [at pd_blockfree_test.cpp:92]
+% 
+%  Statistics for Generator
+% 
+%  States:        157
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   286
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/13/286
+% 
+% 
+% 
+% 
+
+%%% test mark: Pda trim with 2 as lookahead [at pd_blockfree_test.cpp:95]
+% 
+%  Statistics for Generator
+% 
+%  States:        14
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   13
+%  StateSymbols:  7
+%  Attrib. E/S/T: 0/7/13
+% 
+% 
+% 
+% 
+
+%%% test mark: Merge adjacent transitions again [at pd_blockfree_test.cpp:99]
+% 
+%  Statistics for Generator
+% 
+%  States:        14
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  7
+%  Attrib. E/S/T: 0/7/4
+% 
+% 
+% 
+% 
+
+%%% test mark: blocked pushdown generator [at pd_blockfree_test.cpp:127]
+% 
+%  Statistics for Generator
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   6
+%  StateSymbols:  6
+%  Attrib. E/S/T: 3/0/6
+% 
+% 
+% 
+% 
+
+%%% test mark: blockfree pushdown generator [at pd_blockfree_test.cpp:128]
+% 
+%  Statistics for Generator
+% 
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/2/4
+% 
+% 
+% 
+% 
+

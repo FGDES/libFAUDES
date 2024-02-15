@@ -1,0 +1,23 @@
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- RTI tutorial: faudes function LanguageComplement    -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="CoreFaudes::LanguageComplement"> 
+
+<Documentation ref="html/fd_complement.html"> 
+Computes the complement of a language (RTI tutorial).
+</Documentation> 
+<Keywords> 
+generator     language      complement    
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="LRes = -LRes"> 
+<Parameter name="LRes" ftype="Generator" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+

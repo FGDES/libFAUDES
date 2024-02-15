@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Developer" section="none" title="libFAUDES - Build-System">
+
+<h1>Build-System</h1>
+
+<p>
+libFAUDES C++ sources are largely POSIX compliant and have been verified to
+compile on various platforms, incl. Linux, Mac OsX and MS Windows, both 32-bit and 64-bit
+variants. 
+Still, the build process is quite involved and requires certain
+additional tools.  
+The download page therefore provides precompiled libFAUDES archives including 
+executables of luafaudes and other relevant utilities.
+</p>
+
+<ul class="l1">
+<li>
+<p>
+<strong>Linux:</strong>
+The standard libFAUDES distribution ships as <tt>tar.gz</tt> archive and includes
+Linux binaries. Simply extract the archive file and test by e.g. 
+running a luafaudes tutorial script.
+</p>
+<p>
+In order to improve cross-distribution compatibility, the precompiled binaries 
+link against so called <i>LSB 3.2 system library stubs</i> in their 64-bit variant.
+Thus, you may need to install the LSB loader to execute the
+precompiled binaries.
+</p>
+<p>
+Example: installing LSB packages on Ubuntu 10.04
+</p>
+<pre>
+> aptitude install lsb
+</pre>
+<p>
+Example: installing LSB packages on Fedora 14
+</p>
+<pre>
+> yum install redhat-lsb
+</pre>
+<p>
+If you experience errors for missing libraries or unresolved symbols, please let us know.  
+</p>
+<p>
+Allthough recent Linux distributions are commonly configured for 64-bit,
+selected libFAUDES applications are still provided as 32-bit variants
+for compatibility reasons. These applications may require the explict
+installation of 32-bit LSB stubs for 64-bit platforms.
+</p>
+<p>
+Example: installing LSB packages on Fedora 14, 64-bit distribution, to
+use 32-bit libFAUDES components
+</p>
+<pre>
+> yum install redhat-lsb         
+> yum install redhat-lsb.i686    
+</pre>
+<p>
+All binary compatibility issues are readily resolved if you re-compile
+your copy of libFAUDES, either 64-bit or 32-bit with or without 
+LSB linking; see the instructions below. 
+</p>
+</li>  
+<li>
+<p>
+<strong>Mac OS X:</strong>
+There is no dedicated libFAUDES distribution for Mac OS X, compilation follows the same
+path as for Linux, see below. Alternatively, you may download one of the application packages
+(DESTool or FlexFact) and extract the relevant binaries from the
+bundle file. Our current test target is OS X 10.7 64-bit (dated approx
+2011). Earlier application packages have been compiled for OS X 10.4 32-bit (dated approx
+2006) and can be found in our archive. 
+</p>
+</li>
+<li>
+<p>
+<strong>MS Windows:</strong>
+Precompiled packages come as setup.exe-installers and can be found in
+the archive of the libFAUDES download page. They contain the HTML documentation,
+precompiled libFAUDES incl luafaudes and some examples. As of libFAUDES 2.27, the library
+is compiled with MS Visual C++ 2015 compilers for 64-bit environments with
+Windows 7 as our test target. Allthough libFAUDES itself is not a Visual C++ project, 
+dependent applications can be developed with the community edition of 
+this particular version of Visual C. 
+Earlier distributions of libFAUDES were compiled for 32-bit using MinGW compilers
+and targeting Windows XP and can be found in our archive. 
+</p>
+</li>
+</ul>
+
+<p>
+For all other system environments you need to use the standard libFAUDES
+distribution and re-compile. The required steps are described below.
+</p>
+
+<h2>Application-Developer Targets</h2>
+
+<p>
+For application develoment (i.e. using but not extending libFAUDES)
+the library should be compiled with the same toolchain as used for the
+application. We have set up <a href="../compiledes/index.html">CompileDES</a> as 
+an example on how to organise the development of libFAUDES based applications,
+including the utilisation of modern IDEs like Qt Creator and MS Visual Studio.
+We provide some more technical detail on the supported toolchains.
+</p>
+<p>
+The standard distribution ships with a configured source tree and provides a  
+<tt>GNU-Makefile</tt> for compilation within POSIX compliant environments.
+The following <i>application developer targets</i> arte supported. 
+</p>
+
+<ul class="l2">
+<li>
+<p>
+<tt>default</tt> 
+to compile the library (either shared or static) and utility executables,
+</p>
+</li>
+<li>
+<p>
+<tt>libfaudes</tt> 
+to compile just the library (either shared or static),
+</p>
+</li>
+<li>
+<p>
+<tt>tutorial</tt> to compile the provided tutorials
+</p>
+</li>
+<li>
+<p>
+<tt>test</tt> to validate against reference protocols, and
+</p>
+</li>
+<li>
+<p>
+<tt>clean</tt> to remove temporary object files.
+</p>
+</li>
+</ul>
+
+<p>
+After extracting the libFAUDES archive to e.g. <tt>./libfaudes</tt>,
+open a shell (aka <i>console</i>, <i>command line</i>, etc) and run
+</p>
+<pre>
+&gt; make
+&gt; make tutorial
+&gt; make test
+</pre>
+<p>
+from within <tt>./libfaudes</tt> to re-compile libFAUDES where
+the <tt>GNU-make</tt> tool extracts the rules of how exactly the targets
+are to be built from the the <tt>Makefile</tt>. 
+There are a number of details to be addressed here.
+</p>
+
+<p>
+Each make-tool comes with a specific dialect and the provided <tt>Makefile</tt> 
+requires specifically  <tt>GNU-make</tt> to expand in the intended manner. 
+On Linux and Mac OS X <tt>GNU-make</tt> is part of the system toolchain and, thus, readily available by installing
+C++-development packages or XCode, respectively.  On MS Windows
+there is no concept af a designated system toolchain, even though 
+MS Visual C became quite common with the free-of-cost community
+editions. Unfortunately, the included <tt>nmake</tt>-tool will not
+build libFAUDES. To this end, the MinGW project provides 
+a variant of the GNU-toolchain toolchain for native MS Windows development and it includes
+the compatible make tool <tt>mingw32-make</tt>. Dont be confused
+by the <tt>32</tt> in the name: the organisation of the build process 
+has no implication on the bitiness of the result.
+So for MS Windows, the above build sequence looks like this 
+</p>
+<pre>
+set PATH=%PATH%;C:\MinGW\bin
+C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=gcc_win
+C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=gcc_win tutorial 
+C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=gcc_win test 
+</pre>
+<p>
+Note the set-path directive to specify the location of <tt>make</tt>, <tt>g++</tt> 
+and <tt>gcc</tt>. Also of interest is the <tt>FAUDES_PLATFORM</tt> definition
+that directs the <tt>make</tt> tool to invoke the compiler/linker with
+tailored switches to match the respective environment. The provided <tt>Makefile</tt>
+supports four or theese flavors to shape the build process.
+</p>
+<p>
+The three platforms <strong>gcc_linux</strong>, <strong>gcc_osx</strong> and <strong>gcc_win</strong> 
+all refer to the GNU-toolchain (or close relatives). The corresponding tool can be obtained
+by the system packamanager (Linux), as part of the XCode developer tool (Mac OsX) or with the 
+MinGW project (MS Windows). In order to adjust the various compiler/linker options to the application 
+at hand, it is recommende to cut&amp;past the respective section from the
+<tt>Makefile</tt> as a starting oint for further tuning. Since linFAUDES is largely developped
+with the  gcc_linux and gcc_osx setup, it adapts well the GNU-toolchain. 
+</p>
+<p>
+The fourth platform <strong>cl_win</strong> addresses the compiler
+<tt>cl.exe</tt> provided by MS Visual Studio on MS Windows. To use MS Visual C 
+for the development of a libFAUDES based application, it is a prerequisite to compile libFAUDES 
+with the same version of <tt>cl.exe</tt> as it will be used for application developement,
+an with matching compiler/linker options. Among the vast number of preceivable usecases, libFAUDES 
+is currently distributed in two orthogonal shapes that can be selected with the  
+FAUDES_LINKING switch as demonstrated below and that have both been compiled with the community 
+edition of MS Vusial C 2015.
+</p>
+<pre>
+call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"  x86_amd64
+C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
+</pre>
+<p>
+First, the batch file provided by MS Visual C sets up the environment to the 64bit
+compilers. Then "FAUDES_LINKING="static debug" builds the archieve <tt>faudesd.lib</tt>> 
+that links dynamically against the C libraries in their debug variant
+but isitself is meant for static linking with an host application. Relevant compiler
+options are <tt>/MDd</tt> and <tt>/EHsc</tt>, in some cases
+may  <tt>/Zi</tt> also be of interest. Note that binaries with static linking to libFAUDES may 
+only be distributed under terms of the GPL license. For dynamic linking in release mode,
+we have set up
+</p>
+<pre>
+C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
+</pre>
+<p>
+to build the shared object <tt>faudes.dll</tt> along with the linker
+archieve <tt>faudes.lib</tt>, now using <tt>/MD</tt> and <tt>/EHsc</tt>.
+For application development in release mode, one directs the linker to
+<tt>faudes.lib</tt> which results in a dynamic linkage with <tt>faudes.dll</tt>,
+i.e., one may distribute the application together with the file <tt>faudes.dll</tt>.
+</p>
+
+
+
+<!-- ------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------- -->
+
+<h2>Library-Developer Targets</h2>
+
+
+<p>
+When adding or removing libFAUDES  
+<a href="faudes_algorithm_example.html">plug-ins</a>, 
+the build-system needs to
+configure the source tree and generate UI and API documentation.
+In this stage, the current build-system relies on a number of more or less
+common Unix tools.
+For the following <i>library developer targets</i> we recommend a Unix-style 
+environment:
+</p>
+
+<ul class="l2">
+<li><p>
+<tt>includes</tt> 
+to set-up the overall include directory and to update debugging switches
+(you may need to manually remove all files from the include directory before);
+</p></li>
+<li><p>
+<tt>rti</tt>/<tt>rti-clean</tt> to set up the libFAUDES RTI incl HTML user-reference
+in <tt>./doc/reference</tt>
+(requires <a href="http://www.perl.org">Perl</a>),
+</p></li>
+<li><p>
+<tt>doc</tt>/<tt>doc-clean</tt> to set up the doxygen and static HTML documentation in the 
+<tt>./doc</tt> directory  
+(requires all of the above plus
+<a href="http://www.doxygen.org">doxygen</a> v1.4.4 or above),
+</p></li>
+<li><p>
+<tt>configure</tt> to do an overall configuration
+(requires all of the above plus
+<a href="http://www.swig.org">SWIG</a> v1.3.36 or above
+for the luabindings plug-in), and
+</p></li>
+<li><p>
+<tt>dist-clean</tt> to remove any non-source files.
+</p></li>
+</ul>
+
+<p>
+Most Linux distributions come with both Perl and SWIG, the latter may
+require installation. Regarding SWIG, the particular version can be crucial
+--- we have positive confirmation ranging from v1.3.36 up to v4.1.1;
+cross-configuration for Windows/64-bit/VS-compiler requires at least 3.02,
+however, the early 3.xx series seems to produce some spurious warnings
+with Linux/gcc. In the case you rely on older versions of SWIG, you may want to
+test the a tweaked versions of <tt>typemaps.i</tt> archieved  <tt>./plugins/luabindings/src/</tt> and
+taken from SWIG v2.0.10. 
+</p>
+
+<p>
+For libFAUDES development on a Windows system,
+we recommend to use the <a href="http://www.cygwin.com">Cygwin</a> environment.
+This has been tested with Cygwin version 1.7.9-1, choosing the <tt>devel</tt>
+package from the Cygwin installer. At the time of writing,
+<a href="http://www.graphviz.org">Graphviz/<tt>dot</tt></a>
+was not available via Cygwin, however, a native Windows binary can be obtained
+directly from <a href="http://www.graphviz.org">Graphviz</a>
+</p>
+
+<p>
+To re-configure and compile libFAUDES sources from scratch, you may run
+</p>
+<pre>
+&gt; make dist-clean
+&gt; make configure
+&gt; make 
+&gt; make tutorial
+&gt; make test
+</pre>
+
+<p>
+When developing a plug-in, it is advisable to first
+edit the main <tt>Makefile</tt> to only enable those plug-ins,
+that are required in the development process. This will keep compilation
+times reasonably short. In particular, the luabindings depend on every
+single header file and the build process will recreate all luabindings
+from scratch when you edit any single header.
+</p>
+
+<!-- ------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------- -->
+
+<a id="userref">
+<h2>Reference Documentation Processing</h2>
+</a>
+
+<p>
+While libFAUDES uses doxygen as a professional tool to generate the C++ API documentation,
+we did not yet find a similar tool for the user-reference. In order to still have some
+systematic approach to a user-level documentation, the libFAUDES build-system
+uses the <a href="csource/group__RunTimeInterface.html">run-time-interface</a>
+as a basis. The compilation process invokes a number of home-grown tools which may 
+need a re-design in due course. However, some care has been taken to have a consistent 
+input format that encodes relevant structural data. In the meanwhile,
+we would like to encourage plug-in developers to
+(a) contribute to the user-reference to advertise the plug-in and
+(b) stick to the below conventions where ever possible to ease
+revisions of the build process.
+</p>
+
+<h4>
+RTI Definitions 
+</h4>
+
+<p>
+A plug-in should provide one or more RTI definition files that define a URL
+and a list of keywords per user relevant faudes-function or faudes-type.
+The first keyword will be interpreted as section-name.
+Thus, the provided RTI definition files implicitly define the overall section
+structure of the user-reference. The section name typically matches the plug-in name.
+By convention, the URL consists of a filename and a location. The filename should start
+with the section name followed by an underscore. The location should match 
+the respective function or type name.
+</p>
+<p>
+Example, taken from <tt>cfl_definitions.rti</tt>
+</p>
+<pre>
+&lt;FunctionDefinition name="CoreFaudes::LanguageConcatenate" [...] &gt; 
+&lt;Documentation ref="corefaudes_regular.html#LanguageConcatenate"&gt; 
+Concatenates two languages.
+&lt;/Documentation&gt; 
+&lt;Keywords&gt; 
+CoreFaudes    "regular expressions"   generator     language      concatenate   
+&lt;/Keywords&gt; 
+[...]
+&lt;/FunctionDefinition&gt; 
+</pre>
+
+<h4>
+Documentation Source Files
+</h4>
+
+<p>
+A plug-in must provide documentation files corresponding to the URLs defined in 
+the RTI definition files. As all libFAUDES documentation, the provided files
+have the extension <tt>*.fref</tt> and  are processed by <tt>ref2html</tt> to
+generate plain XHTML output.
+The contents of an <tt>*.fref</tt>-file is expected to be well-formed XML 
+with outer tag <tt>&lt;ReferencePage&gt;</tt> and otherwise using 
+XHTML markup. More precisely, the outer tag <tt>&lt;ReferencePage&gt;</tt> corresponds 
+to the <tt>&lt;Body&gt;</tt> tag from XHTML. 
+For a selfcontained organization of the overall reference documentation,
+<tt>&lt;ReferencePage&gt;</tt> supports attributes to indicate <i>chapter</i>, <i>section</i>, 
+<i>page</i> and <i>title</i> of the respective page. The following conventions apply:
+</p>
+<ul class="l2">
+<li><p>
+the attbribute <i>chapter</i> must be set to <i>Reference</i>, i.e. <tt>chapter="Reference"</tt>;
+</p></li>
+<li><p>
+for plug-ins, the attribute <i>section</i> should match the plug-in name; for
+the documentation of built-in functions, there is the reserved section <i>CoreFaudes</i>;
+</p></li>
+<li><p>
+the attribute <i>page</i> identifies the reference page in the context of a section; 
+it is recommended to compose the <i>page</i> attribute from a page number and a page label,
+e.g., <tt>page="2_Example"</tt>;
+each section must provide exacly one reference page with <tt>page="Index"</tt>;
+the corresponding source file must be named <tt>nameofsection_index.fref</tt>, where
+<tt>nameofsection</tt> is the name of the respective section; 
+</p></li>
+<li><p>
+the attribute <i>title</i> is set to a selcontained title that summarizes
+section and page, e.g., <tt>title="CoreFaudes - Index"</tt> for the index page
+for built-in functions.
+</p></li>
+</ul>
+<p>
+Given all reference pages, the <i>chapter</i>, <i>section</i> and <i>page</i>-attributes  
+implicitly define the overall documentation structure, used to automatically generate
+tables of contents and to provide consistent navigation.
+The <i>title</i>-attributes are cosemetic.
+</p>
+
+
+<p>
+Example, taken from <tt>corefaudes_regular.fref</tt>
+</p>
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="no"?&gt;
+&lt;!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd"&gt;
+&lt;ReferencePage chapter="Reference" section="CoreFaudes" page="RegularExpressions" title="CoreFaudes - Regular Expressions"&gt;
+
+&lt;h1&gt;
+Functions related to Regular Expressions
+&lt;/h1&gt;
+
+&lt;p&gt;
+Regular expressions extend the &lt;a href="corefaudes_langboolean.html"&gt;boolean algebra on languages&lt;/a&gt; 
+by the Kleene-closure and language concatenation operation. Additionally,  functions for the generating 
+elements are provided, i.e. full- and alphabet language.
+&lt;/p&gt;
+
+[... more HTML markup ... ]
+
+&lt;/ReferencePage&gt;
+</pre>
+
+<p>
+For convenience, the tool <tt>ref2html</tt> will recognise and substitute
+additional markup to support a consistent layout. 
+</p>
+
+<ul class="l1">
+
+<li>
+<p>
+Page summary for annotated tables of contents: this element 
+is recorded for later processing and swallowed when 
+generating the usual HTML output (i.e., the provided summary 
+will <strong>*not*</strong> be visible on the documentation page where is defined,
+but it is used for the table of
+contents, e.g. <a fhref="FAUDES_REFERENCE/index.html">here</a>). 
+Example:
+</p>
+<pre>
+&lt;fsummary&gt; 
+[ ... 2-3 lines of text for an index page ...] 
+[ ... one   line  of text for other pages ...] 
+&lt;/fsummary&gt; 
+</pre>
+</li>
+
+<li>
+<p>
+Documentation of a faudes type:
+is substituted by a headline, incl. the
+anchor defined in the RTI definition. 
+Example:
+</p>
+<pre>
+&lt;ftype_reference name=&quot;Name_Of_Type&quot;&gt; 
+[... text ...] 
+&lt;/ftype_reference&gt; 
+</pre>
+</li>
+
+<li>
+<p>
+Documentation of a faudes function:
+is substituted by a headline, incl. the
+anchor defined in the RTI definition; the provided documentation text
+and signature from the run-time-interface.
+Example:
+</p>
+<pre>
+&lt;ffnct_reference name=&quot;Name_Of_Function&quot;&gt; 
+[... text ...] 
+&lt;/ffnct_reference&gt; 
+</pre>
+</li>
+
+<li>
+<p>
+Standard headlines within faudes type or faudes function documentation:
+are substituted by the respective heading. Example:
+</p>
+<pre>
+&lt;fdetails/&gt;
+&lt;fexample/&gt;
+&lt;fconditions/&gt;
+</pre>
+</li>
+
+<li>
+<p>
+URL to faudes type or faudes function documentation:
+is substituted by the type- or function name, incl. a link
+to the respective documentation. Example:
+</p>
+<pre>
+&lt;ftype&gt;Name_Of_Type&lt;/ftype&gt; 
+&lt;ffnct&gt;Name_Of_Function&lt;/ffnct&gt; 
+</pre>
+</li>
+
+<li>
+<p>
+URL attributes to other documentation:
+the non HTML attributes <tt>fhref</tt> and <tt>fsrc</tt>
+are replaced by the HTML attributes 
+<tt>href</tt> and <tt>src</tt>, respectively; any occurrence
+of <tt>FAUDES_IMAGES</tt>, <tt>FAUDES_CSOURCE</tt>, <tt>FAUDES_REFERENCE</tt>, 
+<tt>FAUDES_LUAFAUDES</tt> or <tt>FAUDES_ONLINE</tt>
+in the value is replaced by an appropriate string.
+Example:
+</p>
+<pre>
+&lt;img fsrc="FAUDES_IMAGES/some_image.png"/&gt;
+&lt;a fhref="FAUDES_ONLINE"&gt;click here&lt;/a&gt;
+</pre>
+</li>
+
+
+<li>
+<p>
+Generator image: 
+is substituted by HTML markup to embed the respective 
+<tt>.png</tt> image, incl a link to the corresponding token
+stream and an <tt>.svg</tt> version; all relevant files must be
+provided, perhaps conveniently generated by a script in 
+the tutorial directory. Example:
+</p>
+<pre>
+&lt;fimage fsrc="tmp_concat_g5"/&gt;
+</pre>
+</li>
+
+<li>
+<p>
+Math formulas, in-lined or displayed:
+are substituted by HTML to mimic a reasonably simple LaTeX formated formula;
+the conversion is *very* basic and tailored to existing plug-ins
+(no TeX macro definitions, no nested groups, etc);
+for the time being, we recommend you to specify your LaTeX formula as simple as possible,
+to observe the generated HTML and to notify us about undesired effects; alternatively, you
+may render your formula directly in HTML. Example:
+</p>
+<pre>
+&lt;fimath&gt; L_m(G) \subseteq \Sigma^*  &lt;fimath&gt;
+&lt;fdmath&gt; L_m(G) \subseteq \Sigma^*  &lt;fdmath&gt;
+</pre>
+</li>
+
+<li>
+<p>
+Literature and citations:
+are substituted by HTML incl. an anchor for citation;
+by convention, literature may only be introduced in the
+section index pages. Example:
+</p>
+<pre>
+&lt;fliterature name="C1"&gt;
+&lt;fauthors&gt;W.M.&nbsp;Wonham&lt;/fauthors&gt;
+&lt;ftitle&gt;Supervisory Control of Discrete-Event Systems&lt;/ftitle&gt;   
+&lt;fpublisher&gt;available at &lt;a href="http://www.control.toronto.edu [...] "&gt;University of Toronto&lt;/a&gt;&lt;/fpublisher&gt;
+&lt;fyear&gt;2009 (revised)&lt;/fyear&gt;
+&lt;/fliterature&gt;
+</pre>
+<pre>
+&lt;p&gt; 
+[...] see also &lt;fcite name="C1"/&gt; [...]
+&lt;/p&gt;
+</pre>
+</li>
+</ul>
+
+<p>
+<strong class="text_important">Note:</strong>
+A DTD file for the validation of documentation input files
+is provided. It is recommended to use an XML tool like <tt>xmllint</tt> or an
+XML editor in the process of editing documentation files.
+</p>
+
+
+
+<h4>
+Processing 
+</h4>
+
+<p>
+To trigger a re-build of the user-reference, use
+</p>
+<pre>
+&gt; make rti-clean
+&gt; make rti
+</pre>
+<p>
+This will
+</p>
+<ul class="l2">
+<li><p>
+Assemble the overall RTI definition file <tt>./include/libfaudes.rti</tt> and
+compile the HTML generator tool <tt>ref2html</tt>. 
+</p></li>
+<li><p>
+Process the reference pages with <tt>ref2html</tt> in order to perform the above substitutions.
+</p></li>
+</ul>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>

@@ -1,0 +1,16 @@
+<FailureTypes>
+"F1"          
+<FailureEvents>
+"sigma_f1"          
+</FailureEvents>
+<IndicatorEvents>
+"sigma_I1"          
+</IndicatorEvents>
+"F2"          
+<FailureEvents>
+"sigma_f2"          
+</FailureEvents>
+<IndicatorEvents>
+"sigma_I2"          
+</IndicatorEvents></FailureTypes>
+

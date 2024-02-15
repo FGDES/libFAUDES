@@ -1,0 +1,25 @@
+% Polyhedron Token IO Demo
+%
+% The example represents the two-dimensional unit square 
+% with vertices (0,0), (1,0), (1,1), (0,1).
+%
+<Polyhedron>
+
+% Matrix A from {x| Ax &lt; B} representation.
+<AMatrix rows="4" columns="2">
+ 1  1
+-1  0
+ 0  1
+ 0 -1
+</AMatrix>
+
+% Vector B from {x|Ax &le; B} representation.
+<BVector count="4">
+ 1
+ 0
+ 1
+ 0
+</BVector>
+
+</Polyhedron>
+</Data>

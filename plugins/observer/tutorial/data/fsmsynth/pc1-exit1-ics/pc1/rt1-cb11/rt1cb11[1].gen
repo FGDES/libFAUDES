@@ -1,0 +1,69 @@
+<Generator name="Project(SupConNB((cb11[0]),(cb11[0]...(rt1[0]),(rt1[0]_spec))) [minstate]">
+
+% 
+%  Statistics for Project(SupConNB((cb11[0]),(cb11[0]...(rt1[0]),(rt1[0]_spec))) [minstate]
+% 
+%  States:        16
+%  Init/Marked:   1/1
+%  Events:        6
+%  Transitions:   32
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+cb11-7        +C+           cb4-11        +C+           cb11stp       +C+          
+rt1stp        +C+           rt1xy         +C+           rt1yx         +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              16            
+</Consecutive>
+</States>
+
+<TransRel>
+1              cb4-11        2             
+1              rt1xy         3             
+2              cb11stp       11            
+2              rt1xy         4             
+3              cb4-11        4             
+3              rt1stp        5             
+4              cb11stp       13            
+4              rt1stp        6             
+5              cb4-11        6             
+5              rt1yx         7             
+6              cb11stp       15            
+6              rt1yx         8             
+7              cb4-11        8             
+7              rt1stp        1             
+8              cb11stp       9             
+8              rt1stp        2             
+9              cb11-7        10            
+9              rt1stp        11            
+10             cb11stp       7             
+10             rt1stp        12            
+11             cb11-7        12            
+11             rt1xy         13            
+12             cb11stp       1             
+12             rt1xy         14            
+13             cb11-7        14            
+13             rt1stp        15            
+14             cb11stp       3             
+14             rt1stp        16            
+15             cb11-7        16            
+15             rt1yx         9             
+16             cb11stp       5             
+16             rt1yx         10            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,136 @@
+<Generator>
+"mh1[0]||d1[0]" 
+
+% 
+%  Statistics for mh1[0]||d1[0]
+% 
+%  States:        34
+%  Init/Marked:   1/1
+%  Events:        13
+%  Transitions:   96
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"t_modul3cb4-mh1-d1mh1d1" +C+           "mh1ar+z"     "mh1ar-z"     "mh1end"      "mh1f"        
+"mh1lv+z"     "mh1lv-z"     "mh1mv+z"     +C+           "mh1mv-z"     +C+           
+"mh1start"    +C+           "mh1stp"      +C+           "d1run"       +C+           
+"d1stp"       
+</Alphabet>
+
+<States>
+<Consecutive>
+1             34            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "t_modul3cb4-mh1-d1mh1d1" 2             
+1             "mh1mv+z"     3             
+1             "mh1mv-z"     4             
+1             "mh1start"    1             
+1             "d1run"       5             
+2             "mh1end"      1             
+2             "d1run"       6             
+3             "t_modul3cb4-mh1-d1mh1d1" 34            
+3             "mh1stp"      2             
+3             "d1run"       7             
+4             "t_modul3cb4-mh1-d1mh1d1" 11            
+4             "mh1stp"      1             
+4             "d1run"       8             
+5             "t_modul3cb4-mh1-d1mh1d1" 6             
+5             "mh1mv+z"     7             
+5             "mh1mv-z"     8             
+5             "mh1start"    5             
+5             "d1stp"       1             
+6             "mh1end"      5             
+6             "d1stp"       2             
+7             "t_modul3cb4-mh1-d1mh1d1" 33            
+7             "mh1stp"      6             
+7             "d1stp"       3             
+8             "t_modul3cb4-mh1-d1mh1d1" 9             
+8             "mh1stp"      5             
+8             "d1stp"       4             
+9             "mh1lv+z"     10            
+9             "d1stp"       11            
+10            "t_modul3cb4-mh1-d1mh1d1" 21            
+10            "mh1mv+z"     17            
+10            "mh1stp"      16            
+10            "d1stp"       12            
+11            "mh1lv+z"     12            
+11            "d1run"       9             
+12            "t_modul3cb4-mh1-d1mh1d1" 13            
+12            "mh1mv+z"     14            
+12            "mh1stp"      15            
+12            "d1run"       10            
+13            "mh1ar-z"     20            
+13            "d1run"       21            
+14            "t_modul3cb4-mh1-d1mh1d1" 19            
+14            "mh1mv-z"     12            
+14            "mh1stp"      15            
+14            "d1run"       17            
+15            "mh1mv+z"     14            
+15            "mh1mv-z"     12            
+15            "d1run"       16            
+16            "mh1mv+z"     17            
+16            "mh1mv-z"     10            
+16            "d1stp"       15            
+17            "t_modul3cb4-mh1-d1mh1d1" 18            
+17            "mh1mv-z"     10            
+17            "mh1stp"      16            
+17            "d1stp"       14            
+18            "mh1ar+z"     7             
+18            "d1stp"       19            
+19            "mh1ar+z"     3             
+19            "d1run"       18            
+20            "t_modul3cb4-mh1-d1mh1d1" 31            
+20            "mh1mv+z"     27            
+20            "mh1stp"      26            
+20            "d1run"       22            
+21            "mh1ar-z"     22            
+21            "d1stp"       13            
+22            "t_modul3cb4-mh1-d1mh1d1" 23            
+22            "mh1mv+z"     24            
+22            "mh1stp"      25            
+22            "d1stp"       20            
+23            "mh1f"        30            
+23            "d1stp"       31            
+24            "t_modul3cb4-mh1-d1mh1d1" 29            
+24            "mh1mv-z"     22            
+24            "mh1stp"      25            
+24            "d1stp"       27            
+25            "mh1mv+z"     24            
+25            "mh1mv-z"     22            
+25            "d1stp"       26            
+26            "mh1mv+z"     27            
+26            "mh1mv-z"     20            
+26            "d1run"       25            
+27            "t_modul3cb4-mh1-d1mh1d1" 28            
+27            "mh1mv-z"     20            
+27            "mh1stp"      26            
+27            "d1run"       24            
+28            "mh1lv-z"     14            
+28            "d1run"       29            
+29            "mh1lv-z"     17            
+29            "d1stp"       28            
+30            "d1stp"       32            
+31            "mh1f"        32            
+31            "d1run"       23            
+32            "d1run"       30            
+33            "mh1f"        30            
+33            "d1stp"       34            
+34            "mh1f"        32            
+34            "d1run"       33            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

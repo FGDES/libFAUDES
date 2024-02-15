@@ -1,0 +1,74 @@
+%%% test mark: modular 1/2 [at diag_3_modulardiagnosis.cpp:76]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: modular 1/2 [at diag_3_modulardiagnosis.cpp:95]
+%  Vector Size: 2
+%  Vector Entry 0
+% 
+%  Statistics for Generator
+% 
+%  States:        2
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/2/0
+% 
+%  Vector Entry 1
+% 
+%  Statistics for SelfLoop(Generator,NameSet)
+% 
+%  States:        1
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   1
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/1/0
+% 
+% 
+% 
+% 
+% 
+
+%%% test mark: modular 3/4 [at diag_3_modulardiagnosis.cpp:153]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: modular sf/c1 [at diag_3_modulardiagnosis.cpp:224]
+%  Vector Size: 2
+%  Vector Entry 0
+% 
+%  Statistics for Generator
+% 
+%  States:        9
+%  Init/Marked:   1/0
+%  Events:        6
+%  Transitions:   10
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/9/0
+% 
+%  Vector Entry 1
+% 
+%  Statistics for Generator
+% 
+%  States:        5
+%  Init/Marked:   1/0
+%  Events:        5
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/5/0
+% 
+% 
+% 
+% 
+% 
+

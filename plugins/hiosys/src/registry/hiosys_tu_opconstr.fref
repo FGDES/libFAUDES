@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Example Data">
+  
+<h1>Example Data: hio_tu_constrP.gen</h1>
+<h3>Graph as png-image</h3>
+
+<p><img fsrc="FAUDES_IMAGES/hio_transport_unit_opconstr.png"/></p>
+
+<h3>Token IO </h3>
+<pre>
+&lt;Generator&gt; "Operator Constraint" 
+
+&lt;Alphabet&gt;
+"no_op" +Y+
+"del_tr" +Y+
+"take_fl" +Y+
+"empty" +U+
+"full" +U+
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1" "2" "3" "4"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1" "empty" "2"
+"1" "full" "2"
+"2" "no_op" "1"
+"2" "take_fl" "3"
+"3" "empty" "4"
+"3" "full" "4" 
+"4" "del_tr" "1"
+"4" "no_op" "3"
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"            
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"1" "2" "3" "4"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+</pre>
+
+
+  
+</ReferencePage>
+
+  

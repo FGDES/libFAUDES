@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoordinationControl" title="Coordination Control PlugIn"> 
+
+<h1>Coordination Control PlugIn</h1>
+
+<!--  added summary for a consistent display in reference_index.html, tmoor -->
+<fsummary>
+Functions relevant for coordination control synthesis, including the
+supremal conditionally controllable sublanguage of a prefix closed candidate language.
+</fsummary>
+
+
+<p>This plug-in implements functions for coordination control synthesis of <b>prefix-closed languages</b>
+	(this means that for most of the functions, 
+	input generators are required to have  <b>all states marked</b>), 
+	see the <a href="#lit">literature</a>.
+	The case of non-prefix-closed languages is still under investigation and will be added as soon
+	as the algorithms are developed.
+</p>
+<p>The following functions are implemented (see details below):
+	Given a plant L = || L(G<sub>i</sub>), i=1,...,n, and a specification language K, 
+	the goal is to construct the supremal conditionally controllable sublanguage of K.
+<ul><i>Functions for prefix-closed synthesis:</i>
+  <li><b>SupConditionalControllable</b>
+	- the main function, 
+	computes the supremal conditionally controllable sublanguage of K 
+	with respect to the given set of subsystems.</li>
+  <li><b>ConDecExtension</b> 
+	- this function computes/extends the alphabet <i>ek</i> so that the language K 
+	becomes conditionally decomposable 
+	with respect to the given set of alphabets and <i>ek</i>.</li>
+  <li><b>IsConditionalControllable</b> 
+	- check that a language is conditionally controllable.</li>
+  <li><b>IsConditionalDecomposable</b> 
+	- check that a language is conditionally decomposable.</li>
+</ul>
+<ul><i>Functions for NON-prefix-closed synthesis (under development):</i>
+  <li><b>IsConditionalClosed</b> 
+	- this function works with non-prefix-closed languages 
+	and will be used later (this part is still under investigation).</li>
+</ul>
+<ul><i>Additional function:</i>
+  <li><b>ccTrim</b>
+	- a graph based implemenatation of Trim() function.</li>
+</ul>
+</p>
+<p>
+Copyright (c) 2011 - 2015, Tomas Masopust
+</p>
+
+
+
+<a name="Conditionalclosedness">
+<ffnct_reference name="IsConditionalClosed">
+<fdetails/>
+<p> The function checks conditional closedness of a given conditionally decomposable language 
+	K = P<sub>1+k</sub>(K) || P<sub>2+k</sub>(K) || ... || P<sub>n+k</sub>(K) 
+	with respect to generators G<sub>i</sub>, i=1,2,...,n.
+	<br><br>
+	A language K is conditionally closed with respect to generators 
+	G<sub>k</sub> and (G<sub>i</sub>,i=1,2,...,n) if </p>
+	<ul>
+	  <li>P<sub>k</sub>(K) is L<sub>m</sub>(G<sub>k</sub>)-closed</li>
+	  <li>P<sub>i+k</sub>(K) is L<sub>m</sub>(G<sub>i</sub>)||L<sub>m</sub>(P<sub>k</sub>(K))-closed</li>
+  	</ul>
+
+	<p>Note: L-closed is also referred to as L-relatively prefix-closed.
+	<br><br>
+	It is required that the subparts P<sub>i+k</sub> and G<sub>i</sub> are at the same position in the
+	vectors, i.e., <b>specVector.At(i)</b> = P<sub>i+k</sub>(K) and <b>genVect.At(i)</b> = G<sub>i</sub>,
+	for all <i>i</i>.
+	<br><br>
+	The representation of K as the parallel composition of the components is chosen for the reason that 
+	the computation of a projection can be of exponential complexity.
+	Therefore, it is rather left for the user to compute the decomposation of K.
+	Usually, it is required that the projection is a natural observer, which ensures the lower complexity
+	of the operation projection.
+
+</p>
+<fconditions/>
+<ul>
+	<li><p><i>specVector</i> is a vector of deterministic generators for 
+			the languages P<sub>i+k</sub>, i=1,2,...,n.</p></li>
+	<li><p><i>pk</i> is a deterministic generator for the language P<sub>k</sub>(K).</p></li>
+	<li><p><i>genVector</i> is a vector of deterministic generators G<sub>i</sub>, i=1,2,...,n.</p></li>
+	<li><p><i>gk</i> is a deterministic generator for the coordinator G<sub>k</sub> such that 
+			its event set <i>ek</i> contains all shared events.</p></li>
+	<li><p><i>BRes</i> is <tt>true</tt> if K is conditionally closed</p></li>
+</ul>
+</ffnct_reference>
+</a>
+
+
+
+<a name="Conditionalcontrollable">
+<ffnct_reference name="IsConditionalControllable">
+<fdetails/>
+<p> The function checks conditional controllability of a given conditionally decomposable language 
+	K = P<sub>1+k</sub>(K) || P<sub>2+k</sub>(K) || ... || P<sub>n+k</sub>(K) 
+	with respect to generators G<sub>i</sub>, i=1,2,...,n,
+	and the corresponding sets of uncontrollable events E<sub>i+k,u</sub>, i=1,2,...,n.
+	It returns <tt>true</tt> if K is conditionally controllable.
+	<br><br>
+	A language K is conditionally controllable with respect to generators G<sub>k</sub> and 
+	(G<sub>i</sub>,i=1,2,...,n) and the set of uncontrollable events E<sub>k,u</sub> and 
+	(E<sub>i,u</sub>,i=1,2,...,n) if </p>
+	<ul>
+	  <li>P<sub>k</sub>(K) is controllable w.r.t. L(G<sub>k</sub>) and E<sub>k,u</sub></li>
+	  <li>P<sub>i+k</sub>(K) is controllable w.r.t. L(G<sub>i</sub>)||L(P<sub>k</sub>(K)) and E<sub>i+k,u</sub>,
+	      where E<sub>i+k,u</sub> is the set of all uncontrollable events of the event sets 
+	      E<sub>i</sub> and E<sub>k</sub></li>
+  	</ul>
+	<p>It is required that the subparts P<sub>i+k</sub> and G<sub>i</sub> are at the same position in the
+	vectors, i.e., <b>specVector.At(i)</b> = P<sub>i+k</sub>(K) and <b>genVect.At(i)</b> = G<sub>i</sub>,
+	for all <i>i</i>.
+	<br><br>
+	The representation of K as the parallel composition of the components is chosen for the reason that 
+	the computation of a projection can be of exponential complexity.
+	Therefore, it is rather left for the user to compute the decomposation of K.
+	Usually, it is required that the projection is a natural observer, which ensures the lower complexity
+	of the operation projection.
+
+</p>
+<fconditions/>
+<ul>
+	<li><p><i>specVector</i> is a vector of deterministic nonblocking generators for 
+			the languages P<sub>i+k</sub>, i=1,2,...,n.</p></li>
+	<li><p><i>pk</i> is a deterministic nonblocking generator for the language P<sub>k</sub>(K).</p></li>
+	<li><p><i>genVector</i> is a vector of deterministic nonblocking generators G<sub>i</sub>, i=1,2,...,n.</p></li>
+	<li><p><i>gk</i> is a deterministic nonblocking generator for the coordinator G<sub>k</sub> such that 
+			its event set <i>ek</i> contains all shared events.</p></li>
+	<li><p><i>ACntrl</i> is a set of controllable events. 
+			The local controllable events are computed by intersection of the alphabets of 
+			the generators G<sub>i</sub> with the set <i>ACntrl</i>.</p></li> 
+</ul>
+</ffnct_reference>
+</a>
+
+
+
+<a name="Conditionaldecomposability">
+<ffnct_reference name="IsConditionalDecomposable">
+<fdetails/>
+<p> The function checks conditional decomposability of a given language 
+	K=L<sub>m</sub>(gen) with respect to a vector of alphabets <i>alphVector</i> 
+	and an additional alphabet <i>ek</i>.
+	It returns <tt>true</tt> if K is conditionally decomposable. </p>
+
+<p> A languge K is conditionally decomposable w.r.t. the event sets E<sub>k</sub> and (E<sub>i</sub>, i=1,2,...,n) if
+	K = P<sub>1+k</sub>(K) || P<sub>2+k</sub>(K) || ... || P<sub>n+k</sub>(K),
+	where P<sub>i+k</sub> is a natural projection from the global event set to
+	the event set E<sub>i</sub> union E<sub>k</sub>.	
+</p>
+<fconditions/>
+<ul>
+	<li><p><i>gen</i> is a deterministic generator</p></li>
+	<li><p><i>alphVector</i> is a vector of at least two alphabets; 
+			the union of these alphabets must include the alphabet of the generator <i>gen</i></p></li>
+	<li><p><i>ek</i> is a specific alphabet such that all shared events of at least two alphabets from 
+			<i>alphVector</i> are included in <i>ek</i>, 
+			and <i>ek</i> is included in the union of all the alphabets from <i>alphVector</i></p></li>
+	<li><p><i>proof</i> is a generator that gives a proof that the language K is not conditionally decomposable.
+			The language L<sub>m</sub>(proof) represents all the strings 
+			that violate the condition.</p></li>
+</ul>
+</ffnct_reference>
+</a>
+
+
+<a name="ConDecExtension">
+<ffnct_reference name="ConDecExtension">
+<fdetails/>
+<p> The function extends <i>ek</i> so that K=L<sub>m</sub>(gen) becomes conditionally decomposable
+	with respect to a vector of alphabets <i>alphVector</i> 
+	and the extended alphabet <i>ek</i>.
+	It returns the extended alphabet <i>ek</i>.</p>
+
+<p> A languge K is conditionally decomposable w.r.t. the event sets E<sub>k</sub> and (E<sub>i</sub>, i=1,2,...,n) if
+	K = P<sub>1+k</sub>(K) || P<sub>2+k</sub>(K) || ... || P<sub>n+k</sub>(K),
+	where P<sub>i+k</sub> is a natural projection from the global event set to
+	the event set E<sub>i</sub> union E<sub>k</sub>.	
+</p>
+<fconditions/>
+<ul>
+	<li><p><i>gen</i> is a deterministic generator</p></li>
+	<li><p><i>alphVector</i> is a vector of at least two alphabets; 
+			the union of these alphabets must include the alphabet of the generator <i>gen</i></p></li>
+	<li><p><i>ek</i> is a specific alphabet such that all shared events of at least two alphabets from 
+			<i>alphVector</i> are included in <i>ek</i>, 
+			and <i>ek</i> is included in the union of all the alphabets from <i>alphVector</i></p></li>
+</ul>
+</ffnct_reference>
+</a>
+
+
+<a name="SupConditionalControllable">
+<ffnct_reference name="SupConditionalControllable">
+<fdetails/>
+<p> The function computes supremal conditionally controllable sublanguage of a given 
+	conditionally decomposable language 
+	K = P<sub>1+k</sub>(K) || P<sub>2+k</sub>(K) || ... || P<sub>n+k</sub>(K) 
+	with respect to generators G<sub>i</sub>, i=1,2,...,n,
+	and the corresponding sets of uncontrollable events E<sub>i+k,u</sub>, i=1,2,...,n.
+	It returns the supervised coordinator and 
+	a vector of corresponding supervisors such that the language of their parallel
+	composition is the supremal conditionally controllable sublanguage of K.
+	
+	It proceeds in the following steps:
+	<ol>
+	  <li>Compute the alphabet <i>Ek</i> (based on the initialization <i>InitEk</i>) 
+		so that it contains all shared events of the generators 
+		and makes the language K = L(SpecGen) conditionally decomposable with respect to the alphabets 
+		of the generators and <i>Ek</i>
+	  </li>
+	  <li>Extend <i>Ek</i> so that projections P<sub>k</sub> : E* -> E<sub>k</sub>* are L(G<sub>i</sub>)-observers
+		for G<sub>i</sub> given at <i>genVect.At(i)</i> 
+	  </li>
+	  <li>Compute the coordinator G<sub>k</sub> = || P<sub>k</sub>(G<sub>i</sub>)
+	  </li>
+	  <li>Compute supC<sub>k</sub> = SupCon(P<sup>k</sup>(K),G<sub>k</sub>,E<sub>k,u</sub>) and
+		supC<sub>i+k</sub> = SupCon(P<sub>i+k</sub>(K),G<sub>i</sub>||P<sub>k</sub>(K),E<sub>i+k,u</sub>),
+		i=1,...,n, so that || supC<sub>i+k</sub> is the supremal conditionally controllable sublanguage of K
+	  </li>
+	</ol>
+</p>
+<p>
+	A language K is conditionally controllable with respect to generators G<sub>k</sub> and 
+	(G<sub>i</sub>,i=1,2,...,n) and the set of uncontrollable events E<sub>k,u</sub> and 
+	(E<sub>i,u</sub>,i=1,2,...,n) if 
+	<ul>
+	  <li>P<sub>k</sub>(K) is controllable w.r.t. L(G<sub>k</sub>) and E<sub>k,u</sub></li>
+	  <li>P<sub>i+k</sub>(K) is controllable w.r.t. L(G<sub>i</sub>)||L(P<sub>k</sub>(K)) and E<sub>i+k,u</sub>,
+	      where E<sub>i+k,u</sub> is the set of all uncontrollable events of the event sets 
+	      E<sub>i</sub> and E<sub>k</sub></li>
+  	</ul>
+</p>
+<fconditions/>
+<ul>
+	<li><p><i>SpecGen</i> is a deterministic nonblocking generators for the specification languages K.</p></li>
+	<li><p><i>genVector</i> is a vector of deterministic nonblocking generators G<sub>i</sub>, i=1,2,...,n.</p></li>
+	<li><p><i>ACntrl</i> is the global set of controllable events.</p></li>
+	<li><p><i>InitEk</i> is the initial set E<sub>k</sub> which will be extended if necessary.</p></li>
+	<li><p><i>supVector</i> is a vector of supervisors supC<sub>i+k</sub>, i=1,2,...,n, 
+		such that their parallel composition is the supremal conditionally controllable sublanguage of K 
+		returned by the procedure.</p></li>
+	<li><p><i>Coord</i> contains the computed supervised coordinator.</p></li>
+</ul>
+</ffnct_reference>
+</a>
+
+
+<a name="ccTrim">
+<ffnct_reference name="ccTrim">
+<fdetails/>
+<p> The generator is transformed to a graph representation and the graph algorithms are used. 
+	The graph representation uses the adjacency list. 
+	(Only for experimental reasons. Optimization in progress.)
+	It returns <tt>true</tt> if the generator gen is trimmed.
+</p>
+<fconditions/>
+<ul>
+	<li><p><i>gen</i> is a deterministic generator</p></li>
+	<li><p><i>trimGen</i> is the trimmed <i>gen</i> generator</p></li>
+</ul>
+</ffnct_reference>
+</a>
+
+
+
+<h2><a id="lit">Literature</a></h2>
+
+<fliterature name="CC_AUT2012">
+<fauthors>J.&nbsp;Komenda, T.&nbsp;Masopust, J.H.&nbsp;van&nbsp;Schuppen</fauthors>
+<ftitle>Supervisory Control Synthesis of Discrete-Event Systems using a Coordination Scheme</ftitle>
+<fjournal>Automatica 48(2), 247-254</fjournal>
+<fyear>2012</fyear>
+</fliterature>
+
+
+<fliterature name="CC_SCL2011">
+<fauthors>J.&nbsp;Komenda, T.&nbsp;Masopust, J.H.&nbsp;van&nbsp;Schuppen</fauthors>
+<ftitle>Synthesis of controllable and normal sublanguages for discrete-event systems using a coordinator</ftitle>
+<fjournal>Systems &amp; Control Letters, 60(7), 492-502</fjournal>
+<fyear>2011</fyear>
+</fliterature>
+
+
+<fliterature name="CC_2012PP">
+<fauthors>J.&nbsp;Komenda, T.&nbsp;Masopust, J.H.&nbsp;van&nbsp;Schuppen</fauthors>
+<ftitle>On Conditional Decomposability</ftitle>
+<fjournal>Preprint, <a href="http://arxiv.org/abs/1201.1733">http://arxiv.org/abs/1201.1733</a></fjournal>
+</fliterature>
+
+</ReferencePage>
+
+  

@@ -1,0 +1,48 @@
+<Generator>
+"cb1[1]_plaus" 
+
+% 
+%  Statistics for cb1[1]_plaus
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   14
+%  StateSymbols:  7
+%  Attrib. E/S/T: 2/0/0
+% 
+
+<Alphabet>
+"cb1bwpar"    "cb1awpar"  "cb1awplv"  "sf-2"        +C+           "sf-3"        +C+           
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           "5"        "6"   "7"  "8" "9"        
+</States>
+
+<TransRel>
+"1"           "cb1awpar"    "2"           
+"2"           "sf-2"        "6"           
+"2"           "sf-3"        "9"           
+"3"           "cb1bwpar"    "1"           
+"3"           "cb1awpar"    "4"         
+"4"           "cb1bwpar"    "2"           
+"4"           "sf-2"        "7"           
+"4"           "sf-3"        "5"           
+"5"           "cb1awplv"    "8"
+"5"		"cb1bwpar"		"9"
+"6"		"cb1awplv"		"1"                     
+"7"		"cb1awplv"		"3"
+"8"		"cb1bwpar"		"3"
+"9"		"cb1awplv"		"3"
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,30 @@
+This directory contains tools used by the libFAUDES build system
+
+* swig: an interface generator 
+* lua2html: a lua code formater
+* aspell: bash scripts to spellcheck libfaudes documentation
+
+Note that the above tools are only required if you extend or otherwise
+reconfigure libFAUDES and need to run a "make configure".
+
+===============================================================================
+SWIG ...
+
+... is a code generator that generates wrapper code from c definitions
+to extends a number of scripting languages. libFAUDES uses SWIG for
+the luabindings plugin. SWIG is a highly involved project. The executable
+and various libraries can be installed via the usual configure/make/install
+procedure. See www.swig.org
+
+===============================================================================
+lua2html ...
+
+... is a perl skript that converts Lua code to nicely decorated HTML.
+
+===============================================================================
+aspell ...
+
+... is a spellchecker that may be used to eliminate some of the typos
+in the libFAUDES online documentation. 
+
+

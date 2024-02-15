@@ -1,0 +1,107 @@
+<Generator>
+"Environment ABCD" 
+
+%
+% Statistics for Environment ABCD
+% States:        22
+% Init/Marked:   1/22
+% Events:        27
+% Transitions:   62
+% StateSymbols:  0
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"AB_reqfl" +YE+    "AB_occfl" +YE+
+"AB_freetr" +YE+   "AB_accfl" +YE+    "AB_reltr" +YE+
+"CD_reqfl" +YE+    "CD_occfl" +YE+
+"CD_freetr" +YE+   "CD_accfl" +YE+    "CD_reltr" +YE+
+"AB_nack" +UE+     "AB_pack" +UE+     "CD_pack" +UE+     "CD_nack" +UE+
+"ABCD_occfl" +YL+  "ABCD_accfl" +YL+  "ABCD_freetr" +YL+ "ABCD_reltr" +YL+  "ABCD_reqfl" +YL+
+"ABCD_nack" +UL+   "ABCD_pack" +UL+
+% Later: "AB_reqfr" +YE+    "AB_occfr" +YE+    "AB_freetl" +YE+    "CD_reqfr" +YE+    "CD_occfr" +YE+    "CD_freetl" +YE+
+</Alphabet>
+
+<States>
+<Consecutive>
+1             22            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "AB_reqfl"    7             
+1             "AB_occfl"    5             
+1             "AB_freetr"   13            
+1             "CD_occfl"    15            
+1             "CD_freetr"   6             
+1             "CD_reqfl"    21            
+1             "AB_accfl"    5             
+1             "CD_accfl"    15            
+1             "CD_reltr"    6             
+1             "AB_reltr"    13            
+2             "AB_reqfl"    3             
+2             "AB_occfl"    3             
+2             "AB_freetr"   3             
+2             "CD_occfl"    9             
+2             "CD_freetr"   10            
+2             "CD_reqfl"    10            
+2             "AB_accfl"    3             
+2             "CD_accfl"    9             
+2             "CD_reltr"    10            
+2             "AB_reltr"    3             
+3             "AB_nack"     2             
+4             "AB_pack"     2             
+5             "ABCD_occfl"  8             
+5             "ABCD_accfl"  8             
+6             "ABCD_freetr" 12            
+6             "ABCD_reltr"  12            
+7             "ABCD_reqfl"  8             
+8             "ABCD_nack"   13            
+8             "ABCD_pack"   14            
+9             "CD_pack"     1             
+10            "CD_nack"     2             
+11            "AB_reqfl"    20            
+11            "AB_occfl"    20            
+11            "AB_freetr"   4             
+11            "CD_occfl"    18            
+11            "CD_freetr"   22            
+11            "CD_reqfl"    22            
+11            "AB_accfl"    20            
+11            "CD_accfl"    18            
+11            "CD_reltr"    22            
+11            "AB_reltr"    4             
+12            "ABCD_nack"   15            
+12            "ABCD_pack"   9             
+13            "AB_nack"     1             
+14            "AB_pack"     1             
+15            "CD_nack"     1             
+16            "AB_reqfl"    17            
+16            "AB_occfl"    17            
+16            "AB_freetr"   14            
+16            "CD_occfl"    19            
+16            "CD_freetr"   19            
+16            "CD_reqfl"    19            
+16            "AB_accfl"    17            
+16            "CD_accfl"    19            
+16            "CD_reltr"    19            
+16            "AB_reltr"    14            
+17            "AB_nack"     16            
+18            "CD_pack"     16            
+19            "CD_nack"     16            
+20            "AB_nack"     11            
+21            "CD_pack"     11            
+22            "CD_nack"     11            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1             22            
+</Consecutive>
+</MarkedStates>
+
+
+</Generator>

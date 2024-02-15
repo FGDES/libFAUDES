@@ -1,0 +1,28 @@
+<Generator> "hio - simple internal constraint AB" 
+
+% Simple machine example for hiosys-tutorial.
+% Internal constraint for plant A and B:
+% Combination of constraints of plant A and B
+% results in the exclusion of A_nack and B_nack
+
+<Alphabet>
+"B_nack" +Ue+ "A_nack" +Ue+
+</Alphabet>
+
+<States>
+1
+</States>
+
+<TransRel>
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+1
+</MarkedStates>
+
+</Generator>
+

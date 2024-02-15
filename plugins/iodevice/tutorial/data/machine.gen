@@ -1,0 +1,65 @@
+<Generator>
+"simple machine" 
+
+% This is a model from the "std simple machine" with states
+% Idle, Busy and Down and the following events:
+% "alpha"  machine takes up new job,
+% "beda"   machine completes job,
+% "mue"    machine breaks down,
+% "lambda" machine gets services.
+
+% The below generator uses clocks and time constraints to 
+% model that a job needs between 50 and 100 time units to
+% complete. Feeding the machine with a new job and providing
+% service are considered controllable.
+
+
+<Alphabet>
+"alpha" +CO+       
+"beta"        
+"mue"         
+"lambda" +CO+      
+</Alphabet>
+
+<States>
+"idle"        
+"busy"     <Invariant> "cBusy"   "LT" 100 </Invariant>   
+"down"
+</States>
+
+<TransRel>
+"idle"        "alpha"       "busy"    
+<Timing>
+<Resets>
+"cBusy"
+</Resets>
+</Timing>
+
+"busy"        "beta"        "idle"        
+<Timing>
+<Guard>    
+"cBusy" "GT" 50
+"cBusy" "LT" 100
+</Guard>
+</Timing>
+
+"busy"        "mue"         "down"        
+
+"down"        "lambda"      "idle"        
+
+</TransRel>
+
+<InitStates>
+"idle"        
+</InitStates>
+
+<MarkedStates>
+"idle"        
+</MarkedStates>
+
+<Clocks>
+"cBusy" 
+</Clocks>
+
+</Generator>
+

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="3_Synthesis_Procedure" title="HioSys - Synthesis">
+
+<h1>
+HioSys Synthesis
+</h1>
+
+<p>
+The synthesis functions <ffnct>HioSynthMonolithic</ffnct>, <ffnct>HioSynthHierarchical</ffnct> and
+<ffnct>HioSynth</ffnct> provide a procedure to deliver a solution for the I/O-controller
+synthesis problem, i.e. an I/O controller that enforces a specification in the I/O plant
+while guaranteeing <a href="hiosys_liveness.html">liveness</a> for the closed loop.
+</p>
+
+<p>
+By the functions <ffnct>HioSynthMonolithic</ffnct> and <ffnct>HioSynthHierarchical</ffnct>,
+ we distinguish between
+ two different situations, which we informally refer to as the <i>monolithic</i> and the 
+ <i>hierarchical</i>
+ case. Putting up with a longer signature, <ffnct>HioSynth</ffnct> can handle both situations.
+ The monolithic case depicted in the left picture treats controller synthesis for a single
+ plant (component), see <ffnct>HioSynthMonolithic</ffnct>. The hierarchical case in the right
+ picture addresses the synthesis of a superposed controller for a group of plant components,
+ aggregated by the function <ffnct>HioShuffle</ffnct> to one I/O plant model. The description of
+ the components' interaction is passed on as I/O environment model, see 
+ <ffnct>HioSynthHierarchical</ffnct>.
+</p>
+
+<p>
+<table border="0">
+<tr> 
+<td align="center"> Synthesis problem, monolithic </td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+<td align="center">
+Synthesis problem, hierarchical
+</td>
+</tr>
+<tr>
+<td valign="bottom"> <img fsrc="FAUDES_IMAGES/hio_synthesis_problem.png"/></td>
+<td> </td>
+<td valign="bottom"><img fsrc="FAUDES_IMAGES/hio_synthesis_problem_compound.png"/></td>
+</tr>
+</table>
+</p>
+
+
+<ffnct_reference name="HioSynthMonolithic">
+<fdetails/>
+<p>
+This function computes an I/O controller for a single
+ plant component, or the I/O shuffle of independent (non-interacting)
+ plant components, with constraints Sp and Se, and
+ specification (in I/O plant form) with operator constraint Sc.
+ The resulting I/O controller enforces the specification and the
+ constraint Sp on the I/O plant. <a href="hiosys_liveness.html">Liveness</a> 
+ of the closed loop is 
+ guaranteed if the constraints Sc and Se are met by its surroundings.
+</p>
+</ffnct_reference>
+
+<ffnct_reference name="HioSynthHierarchical">
+<fdetails/>
+
+<p>
+This function computes an I/O controller for the I/O shuffle
+ of interacting plant components (<ffnct>HioShuffle</ffnct>),
+ a corresponding environment model and a
+ specification (in I/O plant form) with constraints Sc and SL. The internal 
+ constraints Sp_i and Se_i of each individual component Spe_i
+ of the I/O shuffle must be composed to one Generator 
+ (using <ffnct>Parallel</ffnct>) and 
+ passed as Parameter GConstrInt; these internal constraints (depicted as Sp
+ and Se in the upper right-hand picture) are necessary to meet the conditions
+ stated in Theorem V.7 in <fcite name="H1"/>.
+</p>
+</ffnct_reference>
+
+<ffnct_reference name="HioSynth">
+<fdetails/>
+
+<p>
+This function computes an I/O controller and is suitable for both the monolithic and
+  the hierarchical case, see also <ffnct>HioSynthMonolithic</ffnct> and
+  <ffnct>HioSynthHierarchical</ffnct>.<br/>
+  <i>Meaning of parameters, monolithic case:</i><br/>
+  - GPlant      - single I/O plant model<br/>
+  - GSpec       - Specification in I/O plant form over alphabet SigmaCE<br/>
+  - GConstr     - Parallel composition of constraints Sc and Se<br/>
+  - GConstrLoc  - constraint Sp<br/>
+  - Yc,Uc,Yp,Up - corresponding event sets<br/>
+  - Yel,Uel     - event sets Ye, Ue<br/>
+  - GController - controller for single plant<br/>
+  <i>Parameters, hierarchical case:</i><br/>
+  - GPlant      - I/O-shuffle of I/O plants and parallel composition
+                  with corresp. environment model<br/>
+  - GSpec       - Specification in I/O plant form over alphabet SigmaCL<br/>
+  - GConstr     - Parallel composition of constraints Sc and SL<br/>
+  - GConstrLoc  - parallel composition of constraints Sp_i and Se_i of
+                  each plant component Spe_i<br/>
+  - Yc,Uc,Yp,Up - corresponding event sets<br/>
+  - Yel,Uel     - event sets YL, UL<br/>
+  - GController - superposed controller for compound plant
+</p>
+</ffnct_reference>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a>
+</p></ReferencePage>
+
+  

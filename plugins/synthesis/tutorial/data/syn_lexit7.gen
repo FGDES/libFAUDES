@@ -1,0 +1,28 @@
+<Generator>
+
+"plant component exit at place 7"
+
+% if the exit place is not cleared
+% by rotation (fT), it will be cleared
+% by the conveyor with ackmnowledgement S3
+
+
+<Alphabet>
+o7 +o+ S3  R +C+
+</Alphabet>
+
+<States>
+<Consecutive> 1 2</Consecutive>
+</States>
+
+<TransRel>
+1 R   1
+1 o7  2
+2 R   1
+2 S3  1
+
+</TransRel>
+
+<InitStates> 1 </InitStates>
+<MarkedStates> 1 </MarkedStates>
+</Generator>

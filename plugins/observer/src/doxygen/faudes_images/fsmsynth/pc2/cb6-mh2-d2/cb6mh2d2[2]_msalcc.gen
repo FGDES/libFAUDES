@@ -1,0 +1,38 @@
+<Generator>
+"Project(SupConNB((Project(SupConNB((mh2[0]|...b6[0]_spec)))),(cb6mh2d2[1]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((Project(SupConNB((mh2[0]|...b6[0]_spec)))),(cb6mh2d2[1]_spec)))
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  0
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+"cb6-14"      +C+           "cb13-6"      +C+           "cb6-13"      +C+           
+</Alphabet>
+
+<States>
+1             2             
+</States>
+
+<TransRel>
+2             "cb6-14"      1             
+2             "cb6-13"      1             
+1             "cb13-6"      2             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

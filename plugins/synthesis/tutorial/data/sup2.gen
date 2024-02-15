@@ -1,0 +1,47 @@
+<Generator> 
+sup
+
+% 
+%  Statistics for AM
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        5
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/2/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+
+<Alphabet> 
+alpha0	+C+ alpha1 +C+	alpha2	+C+ beta02 +C+	beta03 +C+ 
+</Alphabet> 
+
+<States> 
+1   2              
+3
+4
+5
+6
+</States> 
+
+<TransRel> 
+1	alpha0	2
+2	alpha1	3
+3	alpha2	4
+3	beta02	5
+4	beta03	6
+</TransRel> 
+
+<InitStates> 
+1              
+</InitStates> 
+
+<MarkedStates> 
+2	3	4	5	6
+</MarkedStates> 
+
+
+</Generator> 

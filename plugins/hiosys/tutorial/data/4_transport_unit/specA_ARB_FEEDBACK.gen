@@ -1,0 +1,52 @@
+<Generator> "Spec_A"
+
+<Alphabet>
+"req_fl_A" "req_tr_A"
+"nack_A" "pack_A"
+"idle_A" "l2r_A" "stby_A"
+</Alphabet>
+
+<States>
+"1" "2" "3" "4" "5" "6" "7"
+</States>
+
+<TransRel>
+"1" 	"idle_A"		"2"      
+"2" 	"l2r_A"			"3"
+"2"	"stby_A"		"1"
+"3"	"req_fl_A"		"4"
+"4"	"nack_A"		"1"
+"4"	"pack_A"		"5"
+"5"	"req_tr_A"		"6"
+"6"	"pack_A"		"7"
+"6"	"nack_A"		"1"
+"7" "idle_A" "2"
+"7" "req_fl_A" "4"
+</TransRel>
+
+<InitStates>
+"1"         
+</InitStates>
+
+<MarkedStates>
+"1" "2" "3" "4" "5" "6" "7"
+</MarkedStates>
+
+</Generator>
+
+<y_lo_ev>
+"req_fr_A" "req_fl_A" "req_tr_A" "req_tl_A"
+</y_lo_ev>
+
+<u_lo_ev>
+"nack_A" "pack_A"
+</u_lo_ev>
+
+<y_hi_ev>
+"idle_A"
+</y_hi_ev>
+
+<u_hi_ev>
+"l2r_A" "r2l_A" "stby_A"
+</u_hi_ev>
+

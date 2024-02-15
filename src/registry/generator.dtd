@@ -1,0 +1,101 @@
+<!--
+  This is a preliminary definition of libFAUDES generator documents
+  when written in XML format via the method XWrite()
+
+  It should be fine for libFAUDES classes "Generator" and "System".
+  However, using a DTD representation, we cannot mimique the class 
+  hierarchy for other derived classes (e.g. "tGenerator" and "IoSystem"). 
+  On some stage we need either a rewrite as an xml schema or we need to
+  use modules.
+
+  Note: The current file-format of DESTool includes "Generator" elements
+  in the below format. However, extra data for the graphical representation is
+  included by an outer parent element "VioData". A future update will fix 
+  DESTool to directly comply to below format, using additional child elements.
+  
+  20140519
+-->
+
+<!-- 
+  libFAUDES generator classes encode an "Alphabet", a "StateSet" and a 
+  "TransitionRelation". The element name is "Generator", also
+  for derived classes like e.g. libFAUDES "System". Like all libFAUDES 
+  classes, instances have an explicit "name" and an "ftype". Both default
+  to the element name. Thus, to recover a libFAUDES "System" from
+  its XML representation, the outer "Generator" element must have
+  the "ftype" attribute explicitly set to "System".
+-->
+<!ELEMENT Generator (Alphabet, StateSet, TransitionRelation)>
+<!ATTLIST Generator name CDATA "Generator">
+<!ATTLIST Generator ftype CDATA "Generator">
+
+<!--
+  The "Alphabet" of a generator consists of zero or more 
+  uniquely named "Event"s. For derived classes, each "Event" can
+  have additional libFAUDES attributes (e.g. controllability flag 
+  for the libFAUDES class "System", see below). libFAUDES attributes 
+  are encoded as XML child elements.
+-->
+<!ELEMENT Alphabet (Event)*>
+<!ATTLIST Alphabet name CDATA "Alphabet">
+<!ATTLIST Alphabet ftype CDATA "Alphabet">
+<!ELEMENT Event ANY>
+<!ATTLIST Event name CDATA #REQUIRED>
+
+
+<!--
+  libFAUDES event-attributes are encoded as child elements of the respective
+  "Event". For libFAUDES "System"s, we provide controllability, observability 
+  and forcibility flags. When the child is present "1" (read as "true") is 
+  the default value. When it is not present, the flags default to 
+  "uncontrollable, observable, not forcible". This default behaviour is historic, 
+  you should provide explicit event attributes for libFAUDES "System"s.
+-->
+<!ELEMENT Controllable EMPTY>
+<!ATTLIST Controllable value (1 | 0) "1">
+<!ELEMENT Observable EMPTY>
+<!ATTLIST Observable value (1 | 0) "1">
+<!ELEMENT Forcible EMPTY>
+<!ATTLIST Forcible value (1 | 0) "1">
+<!-- "preemptable" is not yet implemented, it will replace "highlevel" -->
+<!ELEMENT Preemptable EMPTY>
+<!ATTLIST Preemptable value (1 | 0) "1">
+
+
+<!--
+  The "StateSet" of a generator consists of zero or more 
+  states with a unique positive integer "id" and an optional "name". 
+  libFAUDES attributes are encoded as child elements. The classes "Generator" and
+  "System" both support the flags "Initial" and "Marked".
+-->
+<!ELEMENT StateSet (State)*>
+<!ATTLIST StateSet  name CDATA "StateSet">
+<!ATTLIST StateSet ftype CDATA "StateSet">
+<!ELEMENT State ANY>
+<!ATTLIST State id CDATA #REQUIRED>
+<!ATTLIST State name CDATA #IMPLIED>
+
+<!ELEMENT Marked EMPTY>
+<!ELEMENT Initial EMPTY>
+
+
+<!--
+  The "TransitionRelation" of a generator consists of zero or more 
+  "Transition"s. Each "Transition" refers to a current state "x1", an
+  "event" and a successor state "x2". They are encoded as XML attributes,
+  useing the "id" of the respective states and the name of the respective
+  event. A "Transition" must only refer to states and events that exist is 
+  the "StateSet" and the "Alphabet", respectively. Derived classes may 
+  encoide libFAUDES attributes as child elements. "Generator" and "System" 
+  do not support transition attributes, e.g. "tGenerator"s do (but currently
+  do not support XML file i/o ...).
+-->
+<!ELEMENT TransitionRelation (Transition)*>
+<!ATTLIST TransitionRelation name CDATA "TransitionRelation">
+<!ATTLIST TransitionRelation ftype CDATA "TransitionRelation">
+<!ELEMENT Transition ANY>
+<!ATTLIST Transition x1 CDATA #REQUIRED>
+<!ATTLIST Transition event CDATA #REQUIRED>
+<!ATTLIST Transition x2 CDATA #REQUIRED>
+
+

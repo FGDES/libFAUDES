@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Types">
+
+<h1>
+HioSys I/O Systems
+</h1>
+
+<p>
+The data-types <ftype>HioPlant</ftype>, <ftype>HioController</ftype>, 
+<ftype>HioEnvironment</ftype> and <ftype>HioConstraint</ftype>
+model specific I/O systems. They are implemented as a
+standard
+<ftype>Generator</ftype> that holds event attributes to indicate the respective
+disjoint union construct of the overall alphabet. The set of attributed events
+together with the language <fimath>L=L_m(G)</fimath> marked by the I/O generator (e.g.
+HioPlant) form the according I/O system <fimath>S=(\Sigma,L)</fimath> (e.g. I/O plant).
+</p>
+<p id="closed"><strong>Remark:</strong><br/>
+In this version of HioSys, we consider <strong>only prefix-closed systems</strong>,
+i.e. systems <fimath>S=(\Sigma,L)</fimath> with a prefix-closed language <fimath>L</fimath>.
+Hence, all states of an I/O generator have to be marked in its finalized version, 
+which is also checked by the <a href="hiosys_test.gtml">I/O test routines</a>.
+Ongoing research includes the consideration of non-prefix-closed systems in order 
+to augment the expressiveness of the system models. <a href="hiosys_marking.html">
+more...</a>
+</p>
+
+
+<h2 id="plant">
+HioPlant
+</h2>
+
+<p>
+<table border="0">
+<tr>
+<td><img fsrc="FAUDES_IMAGES/hio_hioplant.png"/></td>
+<td>
+The data-type <strong>HioPlant</strong> is a <ftype>Generator</ftype> that is suited to model the I/O-system <strong>I/O plant</strong>.
+An I/O plant <fimath>S_{PE}=(\Sigma_{PE},L_{PE})</fimath> describes a process (or process component) as a mechanism,
+by which an operator can manipulate the environment of the process (component).
+Hence, an I/O plant is a discrete event system with two <a href="hiosys_index.html#plantport">plant-I/O ports</a> to interact with an <i>operator</i>
+and its <i>environment</i>, respectively. The event sets are denoted
+<fimath>U_P</fimath> and <fimath>Y_P</fimath> for operator interaction and
+<fimath>U_E</fimath> and <fimath>Y_E</fimath> for environment interaction. Thus,
+the overall alphabet is composed as disjoint union
+<fimath>\Sigma=U_P\dcup Y_P\dcup U_E\dcup Y_E</fimath>. <a href="hiosys_plant.html">more...</a>
+</td>
+</tr>
+</table>
+</p>
+
+
+<h2 id="controller">
+HioController
+</h2>
+
+<p>
+<table border="0">
+<tr><td> <img fsrc="FAUDES_IMAGES/hio_hiocontroller.png"/></td>
+<td>
+The data-type <strong>HioController</strong> is a <ftype>Generator</ftype> that is suited to model the I/O-system <strong>I/O controller</strong>.
+An I/O controller <fimath>S_{CP}=(\Sigma_{CP},L_{CP})</fimath> describes a mechanism that assists
+an operator in manipulating the environment through the controlled process according to a given specification.
+Hence, the I/O controller is a discrete event system with two I/O ports: a <a href="hiosys_index.html#plantport">plant-I/O port</a> to interact with an <i>operator</i>
+while accepting all operator commands and a <a href="hiosys_index.html#controllerport">controller-I/O port</a> to interact with the <i>plant</i> while accepting all
+plant outputs. The event sets are denoted
+<i>Uc</i> and <i>Yc</i> for operator interaction and
+<i>Up</i> and <i>Yp</i> for plant interaction. Thus,
+the overall alphabet is composed as disjoint union
+<fimath>\Sigma=Uc\cup Yc\cup Up\cup Yp</fimath>. <a href="hiosys_controller.html">more...</a>
+</td>
+</tr>
+</table>
+</p>
+
+<h2 id="environment">
+HioEnvironment
+</h2>
+
+<p>
+<table border="0">
+<tr>
+<td> <img fsrc="FAUDES_IMAGES/hio_hioenvironment.png"/></td>
+<td>
+The data-type <strong>HioEnvironment</strong> is a <ftype>Generator</ftype> that is suited to model the I/O-system <strong>I/O environment</strong>.
+For the I/O shuffle (<ffnct>HioShuffle</ffnct>) of a group of two or more plant components, an I/O environment <fimath>S_{EL}=(\Sigma_{EL},L_{EL})</fimath> models the
+<i>internal interaction</i> of the components among themselves and the <i>external interaction</i> of the group with the remaining
+environment. The I/O environment is connected with the <i>I/O shuffle of plant components</i> and with the <i>remaining environment</i> via a 
+<a href="hiosys_index.html#controllerport">controller-</a> and
+a <a href="hiosys_index.html#plantport">plant-I/O port</a>, respectively. The event sets are denoted
+<i>Ul</i> and <i>Yl</i> for plant interaction and
+<i>Ue</i> and <i>Ye</i> for interaction with the remaining environment. Thus,
+the overall alphabet is composed as disjoint union
+<fimath>\Sigma=Ul\cup Yl\cup Ue\cup Ye</fimath>. <a href="hiosys_environment.html">more...</a>
+</td>
+</tr>
+</table>
+</p>
+
+<h2 id="constraint">
+HioConstraint
+</h2>
+
+<p>
+<table border="0">
+<tr>
+<td> <img fsrc="FAUDES_IMAGES/hio_hioconstraint.png"/> </td>
+<td>
+The data-type <strong>HioConstraint</strong> is a <ftype>Generator</ftype> that is suited to model the I/O-system <strong>I/O constraint</strong>.
+An I/O constraint is used to describe the variety of <a href="hiosys_index.html#controllerport">controller-I/O
+ports</a> that can be connected to the plant-I/O ports of an <a href="hiosys_plant.html">I/O plant</a> to obtain desired
+<a href="hiosys_liveness.html">liveness properties</a> for the plant.
+Hence, the I/O constraint is a discrete event system with one <a href="hiosys_index.html#controllerport">controller-I/O
+port</a> to interact with the plant while accepting all
+plant outputs. Its event sets are denoted <i>U</i> and <i>Y</i>. Thus,
+the overall alphabet is composed as disjoint union
+<fimath>\Sigma=U\cup Y</fimath>. 
+<a href="hiosys_constraint.html">more...</a>
+</td>
+</tr>
+</table>
+</p>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a>
+</p>
+</ReferencePage>
+
+  

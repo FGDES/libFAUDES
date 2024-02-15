@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Multitasking" title="Multitasking - About">
+
+
+<h1>Multitasking</h1>
+
+<fsummary>
+Data-types and functions to address colored marking generators, including
+algorithms for synchronous composition, controller synthesis and observer design.
+</fsummary>
+
+
+
+<p>
+The multitasking plug-in extends libFAUDES to handle colored marking generators (CMGs), i.e.
+generators in which the marking is modelled by a set of symbolic colors.
+The corresponding faudes type <ftype>MtcSystem</ftype> is derived from <ftype>System</ftype> and the
+multitasking-plugin implements a range of algorithms to address synchronous composition, 
+controller synthesis and observer design; see <fcite name="M1,M2,M3,M4"/>.
+</p>
+
+<p>
+The initial version of the multitasking plug-in was developed in the scope of Matthias Singer's 
+student project. His 
+<a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/report_singer.pdf">
+report</a> as well as the <a fhref="FAUDES_CSOURCE/group__MultitaskingPlugin.html">Multitasking C++ API</a> 
+include examples and documentation of most multitasking related faudes types and functions.
+Modulo availablility of resources, the documenation will be integrated with the 
+user reference in due course.
+</p>
+
+
+<p>
+Copyright (c) 2008, Matthias Singer.
+<br/> 
+Copyright (c) 2009, Klaus Schmidt, Thomas Moor.
+</p>
+
+
+<h2> <a id="literature"> Literature </a> </h2>
+
+<fliterature name="M1">
+<fauthors>M.H.&nbsp;de&nbsp;Queiroz, J.E.R.&nbsp;Cury, and W.M.&nbsp;Wonham</fauthors>
+<ftitle>Multitasking supervisory control of discreteevent systems</ftitle>
+<fjournal><a href="http://www.springer.com/math/applications/journal/10626"> </a>  
+  Discrete Event Dynamic Systems, vol. 15, no. 4, pp. 375-395
+</fjournal>
+<fyear>2005</fyear>
+</fliterature>
+
+<fliterature name="M2">
+<fauthors>M.H.&nbsp;de&nbsp;Queiroz and J.E.R.&nbsp;Cury</fauthors>
+<ftitle>Modular Multi-tasking Supervisory Control of Composite Discrete Event Systems</ftitle>
+<fjournal> 
+  <a href="http://www.ifac-papersonline.net/World_Congress/Proceedings_of_the_16th_IFAC_World_Congress__2005/index.html"></a>
+    IFAC World Congress
+</fjournal>
+<fyear>2005</fyear>
+</fliterature>
+
+<fliterature name="M3">
+<fauthors>K.&nbsp;Schmidt, M..H.&nbsp;de&nbsp;Queiroz and  J.E.R.&nbsp; Cury</fauthors>
+<ftitle>Hierarchical and Decentralized Multitasking Control of Discrete Event Systems</ftitle>
+<fjournal>Conference on Decision and Control</fjournal>
+<fyear>2007</fyear>
+</fliterature>
+
+<fliterature name="M4">
+<fauthors>K.&nbsp;Schmidt and J.E.R.&nbsp;Cury</fauthors>
+<ftitle>Redundant Tasks in Multitasking Control of Discrete Event Systems</ftitle>
+<fjournal>Workshop on Dependable Control of Discrete Event Systems,. Italy</fjournal>
+<fyear>2009</fyear>
+</fliterature>
+
+
+</ReferencePage>
+
+  

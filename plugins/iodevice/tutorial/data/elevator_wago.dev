@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE WagoDevice SYSTEM "wagodevice.dtd">
+
+<!--
+Device configuration for the elevator/WAGO-IPC setup.
+
+Signal values are read from/written to the KBUS on the
+WAGO IPC. Internally, a background tasks uses WAGO
+suplied implementation of the KBUS protocol to
+acces an IEC process image. Faudes bitaddresses refer
+to the bit position of signal values in the image.
+-->
+ 
+
+<WagoDevice name="KbusDevice"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="10"/> 
+
+<!-- Sample interval for edge detection in us -->
+<SampleInterval value="1000"/> 
+
+<!-- Actions/Trigger based event definitition to follow -->
+<EventConfiguration> 
+
+<!-- -------------------------------------------------------- -->
+<!-- -------------------------------------------------------- -->
+<!-- Sensor configuration -->
+<!-- -------------------------------------------------------- -->
+<!-- -------------------------------------------------------- -->
+
+<!-- Cabin sensor: arrive at upper position -->
+<Event name="c_arup" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="1"/> 
+</Triggers> 
+</Event> 
+
+
+<!-- Cabin sensor: leave upper position -->
+<Event name="c_lvup" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="1"/> 
+</Triggers> 
+</Event> 
+
+
+<!-- Cabin sensor: arrive at lower position -->
+<Event name="c_arlw" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="0"/> 
+</Triggers> 
+</Event> 
+
+<!-- Cabin sensor: leave lower position -->
+<Event name="c_lvlw" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="0"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door reached closed position -->
+<Event name="d_arcl" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="2"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door leaving closed position -->
+<Event name="d_lvcl" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="2"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door recahed open position -->
+<Event name="d_arop" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="3"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door leaving open position -->
+<Event name="d_lvop" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="3"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: light break occupied -->
+<Event name="d_lbbl" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="6"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: light break released -->
+<Event name="d_lbrl" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="6"/> 
+</Triggers> 
+</Event> 
+
+<!-- Opertor sensor: upper button pressed -->
+<Event name="o_upb" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="4"/> 
+</Triggers> 
+</Event> 
+
+<!-- Opertor sensor: lower button pressed -->
+<Event name="o_lwb" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="5"/> 
+</Triggers> 
+</Event> 
+
+<!-- -------------------------------------------------------- -->
+<!-- -------------------------------------------------------- -->
+<!-- Actuator configuration -->
+<!-- -------------------------------------------------------- -->
+<!-- -------------------------------------------------------- -->
+
+
+<!-- Cabin actuator: stop motor  -->
+<Event name="c_stp" iotype="output"> 
+<Actions> 
+<Clr address="0"/> 
+<Clr address="1"/> 
+</Actions> 
+</Event> 
+
+<!-- Cabin actuator: move upwards -->
+<Event name="c_up" iotype="output"> 
+<Actions> 
+<Clr address="1"/> 
+<Set address="0"/> 
+</Actions> 
+</Event> 
+
+<!-- Cabin actuator: move downwards -->
+<Event name="c_down" iotype="output"> 
+<Actions> 
+<Clr address="0"/> 
+<Set address="1"/> 
+</Actions> 
+</Event> 
+
+<!-- Door actuator: stop motor  -->
+<Event name="d_stp" iotype="output"> 
+<Actions> 
+<Clr address="3"/> 
+<Clr address="2"/> 
+</Actions> 
+</Event> 
+
+<!-- Door actuator: run motor to open  -->
+<Event name="d_open" iotype="output"> 
+<Actions> 
+<Clr address="3"/> 
+<Set address="2"/> 
+</Actions> 
+</Event> 
+
+<!-- Door actuator: run motor to close  -->
+<Event name="d_close" iotype="output"> 
+<Actions> 
+<Clr address="2"/> 
+<Set address="3"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: illuminate button upstairs -->
+<Event name="o_uplon" iotype="output"> 
+<Actions> 
+<Set address="4"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: turn of upstairs button-light -->
+<Event name="o_uploff" iotype="output"> 
+<Actions> 
+<Clr address="4"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: illuminate button downstairs -->
+<Event name="o_lwlon" iotype="output"> 
+<Actions> 
+<Set address="5"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: turn off downstairs button-light -->
+<Event name="o_lwloff" iotype="output"> 
+<Actions> 
+<Clr address="5"/> 
+</Actions> 
+</Event> 
+
+</EventConfiguration> 
+</WagoDevice> 

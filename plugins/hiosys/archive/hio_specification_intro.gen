@@ -1,0 +1,36 @@
+<Generator>
+"specification"   
+
+% 
+%  Statistics for specification
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 2/0/0
+% 
+
+<Alphabet>
+"alpha_2"     +Y+           "beta_1"      +U+           
+</Alphabet>
+
+<States>
+"E|Yp"        "F|Up"        
+</States>
+
+<TransRel>
+"E|Yp"        "beta_1"      "F|Up"        
+"F|Up"        "alpha_2"     "E|Yp"        
+</TransRel>
+
+<InitStates>
+"E|Yp"        
+</InitStates>
+
+<MarkedStates>
+"E|Yp"        "F|Up"        
+</MarkedStates>
+
+
+</Generator>

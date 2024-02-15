@@ -1,0 +1,34 @@
+% Elevator example, operator leds
+
+<Generator>
+"operator leds"	
+
+<Alphabet>
+"o_uplon"  +C+
+"o_uploff" +C+						
+"o_lwlon"  +C+
+"o_lwloff" +C+						
+</Alphabet>
+
+<States>
+"Idle"	
+</States>
+
+<TransRel>
+"Idle" "o_uplon" "Idle"
+"Idle" "o_uploff" "Idle"
+"Idle" "o_lwlon" "Idle"
+"Idle" "o_lwloff" "Idle"
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>							
+"Idle"
+</MarkedStates>
+
+</Generator>
+
+

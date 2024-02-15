@@ -1,0 +1,43 @@
+<Generator>
+"diag_system_2_abstracton_fails" 
+
+% 
+%  Statistics for diag_system_2_abstracton_fails
+%  States:        7
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   8
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+"a"           "b"           "c"           "d"           "f"           
+"e"           "alpha" 	"beta"
+</Alphabet>
+
+<States>
+1             2             3            4	5	6	7	8
+</States>
+
+<TransRel>
+1	"a"	2
+2	"b"	3
+2	"c"	6
+3	"e"	4
+4	"d"	3
+4	"alpha"	5
+6	"f"	7
+7	"beta"	8           
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3            4	5	6	7	8
+</MarkedStates>
+
+
+</Generator>

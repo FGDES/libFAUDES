@@ -1,0 +1,24 @@
+<Generator> "Constr_A_P" 
+
+<Alphabet>
+"nack_A_P" "nack_A_H" "nack_I_P"
+</Alphabet>
+
+<States>
+"1"
+</States>
+
+<TransRel>
+
+</TransRel>
+
+<InitStates>
+"1"            
+</InitStates>
+
+<MarkedStates>
+"1"
+</MarkedStates>
+
+</Generator>
+

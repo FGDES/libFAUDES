@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="05_Regular_Expressions" title="CoreFaudes - Regular Expressions">
+<h1>
+Functions related to Regular Expressions
+</h1>
+
+<p>
+Regular expressions extend the <a href="corefaudes_langboolean.html">boolean algebra on languages</a> 
+by the Kleene-closure and language concatenation operation. 
+Additionally,  functions for the generating elements are provided,
+i.e. full- and alphabet language.
+</p>
+
+<p>
+Note. The functions in this section
+ignore any attributes (controllability etc.)
+specified for the arguments. For the results, attributes 
+are set to the default value. This may change in a future
+implementation. 
+</p>
+
+<ffnct_reference name="LanguageConcatenate">
+<fdetails/>
+
+<p>
+With the languages <fimath>L_1=L_m(G1)</fimath> and <fimath>L_2=L_m(G2)</fimath> 
+marked by the specified generators, respectively, 
+the result <fimath>L_{res}=L_m(GRes)</fimath> marks the concatenation 
+<br/>
+<br/>
+<fdmath>L_{res} = \{s\,r|\ s\in L_1, \ r\in L_2\}</fdmath>.
+<br/>
+<br/>
+The generated closed languages are ignored. 
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> G1 </td> <td> G2 </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_concat_g5"/> </td> 
+<td> <fimage fsrc="tmp_concat_g6"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+<tr><td><br/><br/></td></tr>
+<tr> <td> 
+<table width="100%">
+<tr> <td> <fimath>L_m(GRes) = L_m(G1)  \ L_mG(2)</fimath> </td> </tr>
+<tr> <td> <fimage fsrc="tmp_concat_g5g6"/> </td> </tr>
+</table> 
+</td> </tr> 
+</table>
+
+
+<fconditions/>
+
+<p>
+Arguments may be non-deterministic. The result, however, is converted 
+to a deterministic generator. The C++ API provides an alternative function without
+the conversion step.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="KleeneClosure">
+<fdetails/>
+<p>
+This function computes the Kleene-closure <fimath>L^*</fimath>
+of the specified marked language <fimath>L=L_m(G)</fimath>:
+<br/>
+<br/>
+<fdmath>L^*=\{s_1\,s_2\,\ldots\,s_n|\ n\in N \text{ and } s_i\in L \text{ for all } i\le n\} \ \cup\  \{\epsilon\}</fdmath>.
+<br/>
+<br/>
+The generated language is not considered.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> G </td> <td> GRes </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_kleene_g"/> </td> 
+<td> <fimage fsrc="tmp_kleene_gRes"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+</table>
+
+
+<fconditions/>
+<p>
+The argument may be non-deterministic. The core implementation may
+lead to a non-deterministic result event for deterministic arguments.
+The wrapper function hence converts to a guarantee for a deterministic result.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="FullLanguage">
+<fdetails/>
+
+<p>
+For a given alphabet Sigma, construct a generator generating and marking the so called full language Sigma*, 
+i.e. Lm(G)=L(G)=Sigma*.
+</p>
+
+
+</ffnct_reference>
+
+<ffnct_reference name="AlphabetLanguage">
+<fdetails/>
+
+<p>
+Construct a generator G that marks the given alphabet as language, i.e. 
+<fimath>L_m(G)=\Sigma</fimath>. Furthermore, <fimath>L(G)=\Sigma \,\cup\, \{\epsilon\}</fimath>.
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="EmptyStringLanguage">
+<fdetails/>
+
+<p>
+Construct a generator G that marks and generates the language that consists of the empty string epsilon only, i.e.
+<fimath>L_m(G)=L(G)=\{\epsilon\}</fimath>.
+</p>
+
+</ffnct_reference>
+
+</ReferencePage>
+
+  

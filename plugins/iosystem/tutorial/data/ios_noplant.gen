@@ -1,0 +1,49 @@
+<Generator>
+"NoPlant"     
+
+% 
+%  Statistics for NoPlant
+% 
+%  States:        7
+%  Init/Marked:   1/4
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  10
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"a"           +I+           "b"           +I+           "A"           +O+           
+"B"           +O+           
+</Alphabet>
+
+<States>
+"A"           "Y"           "B"           "B1"        "BM"          "A1"        
+"AM"          
+</States>
+
+<TransRel>
+"A"           "a"           "Y"           
+"A"           "b"           "A1"        
+"Y"           "A"           "A"           
+"Y"           "B"           "B"           
+"B"           "a"           "B1"        
+"B"           "b"           "Y"           
+"B1"          "A"           "BM"          
+"BM"          "a"           "B1"        
+"BM"          "b"           "B1"        
+"A1"          "B"           "AM"          
+"AM"          "a"           "A1"        
+"AM"          "b"           "A1"        
+</TransRel>
+
+<InitStates>
+"A"           
+</InitStates>
+
+<MarkedStates>
+"B1"        "BM"          "A1"        "AM"          
+</MarkedStates>
+
+
+</Generator>

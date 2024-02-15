@@ -1,0 +1,33 @@
+<Generator>
+"phys_F_arrtr_impliedby_cb14wpar"
+
+
+
+<Alphabet>
+
+"cb14wpar" "F_arrtr"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb14wpar" 2
+2            "F_arrtr"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

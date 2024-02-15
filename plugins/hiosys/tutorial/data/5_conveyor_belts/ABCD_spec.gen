@@ -1,0 +1,68 @@
+<Generator>
+"spec_ABCD" 
+
+<Alphabet>
+"ABCD_occfl"    "ABCD_accfl"    "ABCD_freetr"   "ABCD_reltr"    "ABCD_STP"      "ABCD_TR"       
+"ABCD_FL"   "ABCD_FREE"    "ABCD_WAIT"     "ABCD_FULL" "ABCD_OCC"    "ABCD_ARRTR"    "ABCD_reqfl"    "ABCD_nack"     
+"ABCD_pack"     
+</Alphabet>
+
+<States>
+% all from 1 to 20 but 5 and 7
+<Consecutive>
+1             4
+</Consecutive>
+6
+<Consecutive>
+8             20
+</Consecutive>
+</States>
+
+<TransRel>            
+1             "ABCD_FREE"     6           
+2             "ABCD_occfl"    19            
+2             "ABCD_accfl"    14            
+3             "ABCD_freetr"   20            
+3             "ABCD_reltr"    16            
+4             "ABCD_STP"      13            
+4             "ABCD_TR"       12            
+4             "ABCD_FL"       11
+6             "ABCD_STP"      1             
+6             "ABCD_FL"       11            
+8             "ABCD_STP"      18            
+8             "ABCD_TR"       12            
+9             "ABCD_STP"      2
+10            "ABCD_FULL"     9             
+11            "ABCD_reqfl"    17
+12            "ABCD_ARRTR"    15            
+13            "ABCD_WAIT"     4             
+14            "ABCD_nack"     2             
+14            "ABCD_pack"     13            
+15            "ABCD_STP"      3             
+16            "ABCD_nack"     3             
+16            "ABCD_pack"     13            
+17            "ABCD_nack"     11            
+17            "ABCD_pack"     10  
+18            "ABCD_OCC"     8             
+19            "ABCD_nack"     2             
+19            "ABCD_pack"     18            
+20            "ABCD_nack"     3             
+20            "ABCD_pack"     1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1             4
+</Consecutive>
+6
+<Consecutive>
+8             20
+</Consecutive>
+</MarkedStates>
+
+
+</Generator>

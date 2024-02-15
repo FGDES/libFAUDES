@@ -1,0 +1,69 @@
+<Generator>
+"cb5[0]_spec" 
+
+% 
+%  Statistics for cb5[0]_spec
+%  States:        18
+%  Init/Marked:   1/1
+%  Events:        15
+%  Transitions:   38
+%  StateSymbols:  18
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb5-12"      +C+           "cb5-13"      +C+           "cb12-5"      
++C+           "cb13-5"      +C+           
+"cb5+x"       +C+           "cb5-x"       +C+           "cb5stp"      +C+           
+"cb5wpar"     "cb5wplv12"   "cb5wplv13"   "t_cb5"       +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"   
+"15"          "16"          "17"          "2"           "3"           
+"4"          "6"           "7"           "8"          
+</States>
+
+<TransRel>
+"1"           "cb12-5"      "6"           
+"1"           "cb13-5"      "2"           
+"1"           "t_cb5"       "1"           
+"10"          "cb5-12"      "15"          
+"10"          "cb5-13"      "11"          
+"10"          "t_cb5"       "10"          
+"11"          "cb5+x"       "12"          
+"11"          "t_cb5"       "11"          
+"12"          "cb5wplv13"   "13"          
+"12"          "t_cb5"       "12"          
+"13"          "cb5stp"      "1"          
+"13"          "t_cb5"       "13"              
+"15"          "cb5-x"       "16"          
+"15"          "t_cb5"       "15"          
+"16"          "cb5wplv12"   "17"          
+"16"          "t_cb5"       "16"          
+"17"          "cb5stp"      "1"          
+"17"          "t_cb5"       "17"                   
+"2"           "cb5-x"       "3"           
+"2"           "t_cb5"       "2"           
+"3"           "cb5wpar"     "4"           
+"3"           "t_cb5"       "3"           
+"4"           "cb5stp"      "10"           
+"4"           "t_cb5"       "4"                            
+"6"           "cb5+x"       "7"           
+"6"           "t_cb5"       "6"           
+"7"           "cb5wpar"     "8"           
+"7"           "t_cb5"       "7"           
+"8"           "cb5stp"      "10"           
+"8"           "t_cb5"       "8"                    
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

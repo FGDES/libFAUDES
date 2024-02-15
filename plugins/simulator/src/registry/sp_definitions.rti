@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type SimulationConditions -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Simulator::SimulationConditions" ctype="faudes::SimConditionSet" autoregister="true"> 
+<XElementTag value="Condition"/>
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type SimulationAlphabet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Simulator::SimulationAlphabet" ctype="faudes::sEventSet" autoregister="true"> 
+<XElementTag value="Event"/>
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type DeviceExecutor -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Simulator::DeviceExecutor" ctype="faudes::DeviceExecutor"> 
+
+<Documentation ref="simulator_details.html#DeviceExecutor"> 
+Simulation of synchronized timed automata, incl. physical events and time.
+</Documentation> 
+<Keywords> 
+Simulator     executor      simulation    "timed automata"  "physical events"  iodevice      
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type LoggingExecutor -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Simulator::LoggingExecutor" ctype="faudes::LoggingExecutor"> 
+
+<Documentation ref="simulator_details.html#LoggingExecutor"> 
+Simulation of synchronized timed automata, incl logging.
+</Documentation> 
+<Keywords> 
+Simulator     executor      simulation    "timed automata"  logging       
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type ParallelExecutor -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Simulator::ParallelExecutor" ctype="faudes::ParallelExecutor"> 
+
+<Documentation ref="simulator_details.html#ParallelExecutor"> 
+Basic simulation of synchronized timed automata.
+</Documentation> 
+<Keywords> 
+Simulator     executor      simulation    "timed automata"  
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type ProposingExecutor -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Simulator::ProposingExecutor" ctype="faudes::ProposingExecutor"> 
+
+<Documentation ref="simulator_details.html#ProposingExecutor"> 
+Simulation of synchronized timed automata, incl. stochastic execution.
+</Documentation> 
+<Keywords> 
+Simulator     executor      simulation    "timed automata"  stochastic    
+</Keywords> 
+
+</TypeDefinition> 
+
+
+</Registry> 

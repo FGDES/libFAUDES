@@ -1,0 +1,11 @@
+<ReferencePage chapter="luafaudes" section="none" title="luafaudes">
+
+<h1>luafaudes</h1>
+
+<div class="warning">
+This configuration of libFAUDES has no lua scripting support.
+</div>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</ReferencePage>

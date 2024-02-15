@@ -1,0 +1,86 @@
+<Generator name="Project(SupConNB((cb16[0]),(cb16[0]...ts2[0]),(rts2[0]_spec))) [minstate]">
+
+% 
+%  Statistics for Project(SupConNB((cb16[0]),(cb16[0]...ts2[0]),(rts2[0]_spec))) [minstate]
+% 
+%  States:        24
+%  Init/Marked:   1/1
+%  Events:        10
+%  Transitions:   48
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+cb10-16       +C+           cb16-rc2      +C+           cb16stp       +C+          
+rts2_6        rts2_6-5      +C+           rts2_5        rts2_5-6      +C+          
+rts2_5-4      +C+           rts2stp       +C+           rts2_4-5      +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              24            
+</Consecutive>
+</States>
+
+<TransRel>
+1              cb10-16       2             
+1              rts2_5-6      3             
+2              cb16stp       15            
+2              rts2_5-6      4             
+3              cb10-16       4             
+3              rts2stp       5             
+4              cb16stp       17            
+4              rts2stp       6             
+5              cb10-16       6             
+5              rts2_6        7             
+6              cb16stp       19            
+6              rts2_6        8             
+7              cb10-16       8             
+7              rts2_6-5      9             
+8              cb16stp       21            
+8              rts2_6-5      10            
+9              cb10-16       10            
+9              rts2stp       11            
+10             cb16stp       23            
+10             rts2stp       12            
+11             cb10-16       12            
+11             rts2_5        1             
+12             cb16stp       13            
+12             rts2_5        2             
+13             cb16-rc2      14            
+13             rts2_5        15            
+14             cb16stp       11            
+14             rts2_5        16            
+15             cb16-rc2      16            
+15             rts2_5-6      17            
+16             cb16stp       1             
+16             rts2_5-6      18            
+17             cb16-rc2      18            
+17             rts2stp       19            
+18             cb16stp       3             
+18             rts2stp       20            
+19             cb16-rc2      20            
+19             rts2_6        21            
+20             cb16stp       5             
+20             rts2_6        22            
+21             cb16-rc2      22            
+21             rts2_6-5      23            
+22             cb16stp       7             
+22             rts2_6-5      24            
+23             cb16-rc2      24            
+23             rts2stp       13            
+24             cb16stp       9             
+24             rts2stp       14            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,59 @@
+<Generator>
+"R_sf(0)"     
+
+% 
+%  Statistics for R_sf(0)
+%  States:        12
+%  Init/Marked:   1/2
+%  Events:        9
+%  Transitions:   15
+%  StateSymbols:  12
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"sf-c1"      +C+           "sfa"      "sfmv"        +C+         "pass"	+o+     
+"sfl"       "sfs"       +C+           "block"      +o+       "diag"	+o+      
+</Alphabet>
+
+<States>
+"sf1"         "sf2"         "sf3"         "sf4"         "sf5"         "sf6"         
+"sf7"         "sf8"         "sf9"         "sf10"        "sf11"        "sf12"    
+"sf13"		"sf14"		"sf15"    
+</States>
+
+<TransRel>
+"sf1"         "sfa"      "sf2"         
+"sf2"         "sf-c1"      "sf3"
+"sf2"		"block"		"sf9"
+"sf2"		"diag"		"sf12"         
+"sf3"         "sfmv"        "sf4"    
+"sf3"		"block"		"sf10"     
+"sf4"		"sfl"		"sf5"
+"sf4"		"block"		"sf11"
+"sf5"		"pass"		"sf8"
+"sf5"		"sfa"		"sf6"
+"sf6"		"pass"		"sf7"
+"sf7"		"sfs"		"sf2"
+"sf8"		"sfa"		"sf7"
+"sf8"		"sfs"		"sf1"
+"sf9"		"sf-c1"		"sf10"
+"sf10"		"sfmv"		"sf11"
+"sf12"		"sf-c1"		"sf13"
+"sf13"		"sfmv"		"sf14"
+"sf14"		"sfl"		"sf15"
+"sf15"		"sfa"		"sf14"
+</TransRel>
+
+<InitStates>
+"sf1"         
+</InitStates>
+
+<MarkedStates>
+"sf1"         "sf2"         "sf3"         "sf4"         "sf5"         "sf6"         
+"sf7"         "sf8"         "sf9"         "sf10"        "sf11"        "sf12"    
+"sf13"		"sf14"		"sf15"        
+</MarkedStates>
+
+
+</Generator>

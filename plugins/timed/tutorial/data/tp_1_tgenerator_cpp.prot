@@ -1,0 +1,115 @@
+%%% test mark: construct g1 [at tp_1_tgenerator.cpp:61]
+% 
+%  Statistics for contr simple machine
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: construct g2 [at tp_1_tgenerator.cpp:62]
+% 
+%  Statistics for tc simple machine
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/1/2
+% 
+% 
+% 
+% 
+
+%%% test mark: construct g3 [at tp_1_tgenerator.cpp:63]
+% 
+%  Statistics for simple machine
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: construct g4 [at tp_1_tgenerator.cpp:64]
+% 
+%  Statistics for simple machine
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: contr attrib [at tp_1_tgenerator.cpp:84]
+% 
+%  Statistics for NameSet
+% 
+%  Size: 2
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: edit timing 1 [at tp_1_tgenerator.cpp:145]
+% 
+%  Statistics for tc simple machine with timed repair
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/2/4
+% 
+% 
+% 
+% 
+
+%%% test mark: edit timing 2 [at tp_1_tgenerator.cpp:146]
+% 
+%  Statistics for tc simple machine with timed repair
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/2/4
+% 
+% 
+% 
+% 
+
+%%% test mark: edit timing 3 [at tp_1_tgenerator.cpp:191]
+% 
+%  Statistics for simple machine
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/3/4
+% 
+% 
+% 
+% 
+

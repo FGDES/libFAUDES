@@ -1,0 +1,47 @@
+<Generator> 
+gK
+
+% 
+%  Statistics for gK
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   12
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet> 
+a             b             c             
+</Alphabet> 
+
+<States> 
+q0            q1            q2            q3            
+</States> 
+
+<TransRel> 
+q0            a             q1            
+q0            b             q1            
+q0            c             q1            
+q1            a             q2            
+q1            b             q2            
+q1            c             q2            
+q2            a             q3            
+q2            b             q0            
+q2            c             q0            
+q3            a             q0            
+q3            b             q2            
+q3            c             q3            
+</TransRel> 
+
+<InitStates> 
+q0            
+</InitStates> 
+
+<MarkedStates> 
+q3            
+</MarkedStates> 
+
+
+</Generator> 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" title="CoreFaudes - Vector Types">
+<h1>
+Vector Types
+</h1>
+
+<p>
+A vector is a random access container of faudes types. 
+For its user interface, core faudes provides vectors of
+generators and vectors of alphabets to facilitate the 
+treatment of decentralized or modular discrete event systems.
+</p>
+
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+
+<ftype_reference name="EventSetVector">
+
+<p>
+See <ftype>EventSet</ftype> for the documentation of this vector's entries.
+</p>
+
+</ftype_reference>
+
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+
+<ftype_reference name="GeneratorVector">
+
+<p>
+See <ftype>Generator</ftype> for the documentation of this vector's entries.
+</p>
+
+</ftype_reference>
+
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+<!-- ================================================== -->
+
+<ftype_reference name="SystemVector">
+
+<p>
+See <ftype>System</ftype> for the documentation of this vector's entries.
+</p>
+
+
+</ftype_reference>
+
+
+
+</ReferencePage>
+
+  

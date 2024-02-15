@@ -1,0 +1,53 @@
+<Generator name="SupConNB((rt2[0]),(rt2[0]_spec))">
+
+% 
+%  Statistics for SupConNB((rt2[0]),(rt2[0]_spec))
+% 
+%  States:        14
+%  Init/Marked:   1/2
+%  Events:        11
+%  Transitions:   14
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+rt2xy         +C+           rt2yx         +C+           rt2arx        rt2ary       
+rt2f          rt2lvx        rt2lvy        rt2mvx        +C+           rt2mvy       
++C+           rt2stp        +C+           t_rt2-cb12\rt2  +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              8             
+</Consecutive>
+11             12             13             14             15             16            
+</States>
+
+<TransRel>
+1              rt2yx         2             
+2              rt2mvx        3             
+3              t_rt2-cb12\rt2  4             
+4              rt2lvy        5             
+5              t_rt2-cb12\rt2  6             
+6              rt2arx        7             
+7              rt2stp        8             
+8              rt2xy         11            
+11             rt2mvy        12            
+12             t_rt2-cb12\rt2  13            
+13             rt2lvx        14            
+14             t_rt2-cb12\rt2  15            
+15             rt2ary        16            
+16             rt2stp        1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1              8             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,37 @@
+<Generator>
+B1           
+
+% 
+%  Statistics for B1
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+f1            s2           
+</Alphabet>
+
+<States>
+q0            q1           
+</States>
+
+<TransRel>
+q0            f1            q1           
+q1            s2            q0           
+</TransRel>
+
+<InitStates>
+q0           
+</InitStates>
+
+<MarkedStates>
+q0           
+</MarkedStates>
+
+
+</Generator>

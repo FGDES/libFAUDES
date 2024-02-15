@@ -1,0 +1,25 @@
+<Generator>
+G2
+
+<Alphabet>
+a
+</Alphabet>
+
+<States>
+1	2 
+</States>
+
+<TransRel>
+1	a	2
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+2
+</MarkedStates>
+
+
+</Generator>

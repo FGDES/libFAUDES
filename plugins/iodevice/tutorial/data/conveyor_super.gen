@@ -1,0 +1,122 @@
+% We use this Generator to test the libFAUDES-plugin "iodevice" 
+% for the lrtlab conveyor belt experimental setup. 
+
+% A workpiece (wp) will be shuttled between to sensors A and B. 
+% In order to test the implemented timing-functions the workpiece will 
+% will rest for 2sec at each sensor (assuming a device time scale of 10msec/ftu)
+
+% The correspondence between physical I/O-signals and abstract events 
+% is defined in "conveyor_comdei.dev". The simulator configuration can
+% be found in "conveyor_supervisor.sim".
+
+<Generator>
+"conveyor belt controller"      % name
+
+<Alphabet>
+"Reset"                         % clear actuators
+"SensorA+" 			% sensor A was free now its occupied
+"SensorA-" 			% sensor A was occupied now its free
+"SensorB+" 			% sensor B was free now its occupied
+"SensorB-"			% sensor B was occupied now its free
+"MotorA+x"  			% conveyor-belt A starts moving to the right
+"MotorA-x" 			% conveyor-belt A starts moving to the left
+"MotorAstp"  			% conveyor-belt A stops
+"MotorB+x" 			% conveyor-belt B starts moving to the right
+"MotorB-x" 			% conveyor-belt B starts moving to the left
+"MotorBstp"			% conveyor-belt B stops
+</Alphabet>
+
+<States>
+"Idle"								% system does nothing
+"WPmoveleftright" <Invariant> "c2" "LE" 200 </Invariant> 	% wp moves from sensor A to sensor B
+"WPleaveA" 							% wp leaves sensor A
+"WPcontinueleftright" 						% wp has left sensor A continues moving to sensor B
+"WParriveB" 							% wp arrives at sensor B
+"WPstopB" 							% wp stops at sensor B
+"Wait" 								% wp rests at sensor B
+"WPmoverightleft" <Invariant> "c8" "LE" 200 </Invariant>	% wp moves from sensor B to sensor A
+"WPleaveB" 							% wp leaves sensor B
+"WPcontinuerightleft" 						% wp has left sensor B and continues moving to sensor A
+"WParriveA" 							% wp arrives at sensor A
+"WPstopA" 							% wp stops at sensor A
+"gotoIdle"							% system goes to idle
+</States>
+
+<TransRel>
+
+"Idle" "SensorA+" "WPmoveleftright"				% this transition resets clock c2
+<Timing>
+<Resets>
+"c2"
+</Resets>
+</Timing>
+
+"Idle" "SensorA-" "gotoIdle"                                    % error transitions
+"Idle" "SensorB+" "gotoIdle"
+"Idle" "SensorB-" "gotoIdle"
+
+
+"WPmoveleftright" "MotorA+x" "WPleaveA"				% this transition owns a time-constraint associated with c2
+<Timing>
+<Guard>
+"c2" "LE" 200
+"c2" "GE" 200
+</Guard>
+</Timing>
+
+"WPleaveA" "SensorA-" "WPcontinueleftright"
+
+"WPcontinueleftright" "MotorB+x" "WParriveB"
+
+"WParriveB" "SensorB+" "WPstopB"
+
+"WPstopB" "MotorAstp" "Wait"
+
+"Wait" "MotorBstp" "WPmoverightleft"				% this transition resets c8
+<Timing>
+<Resets>
+"c8"
+</Resets>
+</Timing>
+
+"WPmoverightleft" "MotorB-x" "WPleaveB"				% this transition owns a time-constraint associated with c8
+<Timing>
+<Guard>
+"c8" "LE" 200
+"c8" "GE" 200
+</Guard>
+</Timing>
+
+"WPleaveB" "SensorB-" "WPcontinuerightleft"
+
+"WPcontinuerightleft" "MotorA-x" "WParriveA"
+
+"WParriveA" "SensorA+" "WPstopA"
+
+"WPstopA" "MotorAstp" "gotoIdle"
+
+"gotoIdle" "Reset"    "WPmoveleftright"			% this transition resets c2
+<Timing>
+<Resets>
+"c2"
+</Resets>
+</Timing>
+
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>
+"Idle"
+</MarkedStates>
+
+<Clocks>
+"c8" "c2"
+</Clocks>
+
+
+</Generator>
+
+

@@ -1,0 +1,50 @@
+digraph "SupConNB((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec))" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+  "5";
+  "6";
+  "7";
+  "8";
+  "9";
+  "10";
+  "11";
+  "12";
+  "13";
+  "14";
+  "15";
+  "16";
+  "17";
+  "18";
+
+  // transition relation
+  "1" -> "2" [label="mh1start"];
+  "2" -> "3" [label="mh1mv-z"];
+  "3" -> "4" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "4" -> "5" [label="mh1lv+z"];
+  "5" -> "6" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "6" -> "7" [label="mh1ar-z"];
+  "7" -> "8" [label="mh1stp"];
+  "8" -> "9" [label="d1run"];
+  "9" -> "10" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "10" -> "11" [label="d1stp"];
+  "11" -> "12" [label="mh1mv+z"];
+  "12" -> "13" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "13" -> "14" [label="mh1lv-z"];
+  "14" -> "15" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "15" -> "16" [label="mh1ar+z"];
+  "16" -> "17" [label="mh1stp"];
+  "17" -> "18" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "18" -> "1" [label="mh1end"];
+};

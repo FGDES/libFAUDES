@@ -1,0 +1,326 @@
+<Generator name="SupConNB((pu1[0]||cb1b[0]||pu2[0]||...spec3||cb1[1]_spec3||cb1[1]_spec5))">
+
+% 
+%  Statistics for SupConNB((pu1[0]||cb1b[0]||pu2[0]||...spec3||cb1[1]_spec3||cb1[1]_spec5))
+% 
+%  States:        182
+%  Init/Marked:   1/1
+%  Events:        30
+%  Transitions:   258
+%  StateSymbols:  0
+%  Attrib. E/S/T: 18/0/0
+% 
+
+<Alphabet>
+sf-cb1        +C+           sf-2          +C+           cb1-3         +C+          
+pu1rdy        +C+           pu1ar+y       pu1ar-y       pu1lv+y       pu1lv-y      
+pu1mv+y       +C+           pu1mv-y       +C+           pu1stp        +C+          
+cb1bwplv      cb1bwpar      cb1stp        +C+           cb1-dep       +C+          
+cb1-x         +C+           t_cb1b        +C+           sf-3          +C+          
+pu2rdy        +C+           pu2ar+y       pu2ar-y       pu2lv+y       pu2lv-y      
+pu2mv+y       +C+           pu2mv-y       +C+           pu2stp        +C+          
+cb1awplv      cb1awpar      t_cb1a        +C+           sf-dep        +C+          
+</Alphabet>
+
+<States>
+1              2              4              5              6             
+<Consecutive>
+8              14            
+</Consecutive>
+16             17            
+<Consecutive>
+20             40            
+</Consecutive>
+42             43             44             46             47             48            
+49             50             51             53            
+<Consecutive>
+55             75            
+</Consecutive>
+77             78             79             81            
+<Consecutive>
+87             133           
+</Consecutive>
+137            138            139            140            141            142           
+144            145            148            151            152            153           
+154            155            156            158            160            162           
+164            166            168            170            172            174           
+<Consecutive>
+279            286           
+</Consecutive>
+406            408           
+<Consecutive>
+410            440           
+</Consecutive>
+</States>
+
+<TransRel>
+1              sf-cb1        2             
+2              cb1-x         4             
+4              cb1awpar      5             
+5              cb1stp        6             
+6              sf-3          8             
+8              cb1-x         9             
+9              t_cb1a        10            
+10             cb1awplv      11            
+11             sf-cb1        12            
+11             cb1bwpar      13            
+12             cb1bwpar      130           
+12             cb1awpar      131           
+13             cb1stp        14            
+14             sf-cb1        16            
+14             cb1-3         17            
+16             cb1-3         116           
+17             pu1mv+y       20            
+17             t_cb1b        21            
+20             pu1lv-y       111           
+20             t_cb1b        22            
+21             pu1mv+y       22            
+22             pu1lv-y       23            
+23             pu1ar+y       24            
+23             cb1bwplv      25            
+24             pu1stp        108           
+24             cb1bwplv      27            
+25             sf-cb1        26            
+25             pu1ar+y       27            
+26             pu1ar+y       28            
+27             sf-cb1        28            
+27             pu1stp        29            
+28             pu1stp        30            
+29             sf-cb1        30            
+29             pu1mv-y       31            
+30             pu1mv-y       32            
+31             sf-cb1        32            
+31             pu1lv+y       33            
+32             pu1lv+y       34            
+33             sf-cb1        34            
+33             pu1ar-y       35            
+34             pu1ar-y       36            
+35             sf-cb1        36            
+35             pu1stp        37            
+36             pu1stp        38            
+37             sf-cb1        38            
+37             pu1rdy        39            
+38             pu1rdy        40            
+39             sf-cb1        40            
+40             cb1-x         42            
+42             cb1awpar      43            
+43             cb1stp        44            
+44             sf-3          46            
+46             cb1-x         47            
+47             t_cb1a        48            
+48             cb1awplv      49            
+49             cb1bwpar      50            
+50             cb1stp        51            
+51             cb1-3         53            
+53             pu1mv+y       55            
+53             t_cb1b        56            
+55             pu1lv-y       103           
+55             t_cb1b        57            
+56             pu1mv+y       57            
+57             pu1lv-y       58            
+58             pu1ar+y       59            
+58             cb1bwplv      60            
+59             pu1stp        100           
+59             cb1bwplv      62            
+60             sf-cb1        61            
+60             pu1ar+y       62            
+61             pu1ar+y       63            
+62             sf-cb1        63            
+62             pu1stp        64            
+63             pu1stp        65            
+64             sf-cb1        65            
+64             pu1mv-y       66            
+65             pu1mv-y       67            
+66             sf-cb1        67            
+66             pu1lv+y       68            
+67             pu1lv+y       69            
+68             sf-cb1        69            
+68             pu1ar-y       70            
+69             pu1ar-y       71            
+70             sf-cb1        71            
+70             pu1stp        72            
+71             pu1stp        73            
+72             sf-cb1        73            
+72             pu1rdy        74            
+73             pu1rdy        75            
+74             sf-cb1        75            
+75             cb1-x         77            
+77             cb1awpar      78            
+78             cb1stp        79            
+79             sf-2          81            
+81             pu2mv+y       87            
+87             pu2lv-y       88            
+88             pu2ar+y       89            
+88             cb1awplv      90            
+89             pu2stp        97            
+89             cb1awplv      91            
+90             pu2ar+y       91            
+91             pu2stp        92            
+92             pu2mv-y       93            
+93             pu2lv+y       94            
+94             pu2ar-y       95            
+95             pu2stp        96            
+96             pu2rdy        1             
+97             pu2mv-y       98            
+98             pu2lv+y       99            
+98             cb1awplv      93            
+99             cb1awplv      94            
+100            pu1mv-y       101           
+101            pu1lv+y       102           
+101            cb1bwplv      66            
+102            cb1bwplv      68            
+103            pu1ar+y       104           
+103            t_cb1b        58            
+104            pu1stp        105           
+104            t_cb1b        59            
+105            pu1mv-y       106           
+105            t_cb1b        100           
+106            pu1lv+y       107           
+106            t_cb1b        101           
+107            t_cb1b        102           
+108            pu1mv-y       109           
+109            pu1lv+y       110           
+109            cb1bwplv      31            
+110            cb1bwplv      33            
+111            pu1ar+y       112           
+111            t_cb1b        23            
+112            pu1stp        113           
+112            t_cb1b        24            
+113            pu1mv-y       114           
+113            t_cb1b        108           
+114            pu1lv+y       115           
+114            t_cb1b        109           
+115            t_cb1b        110           
+116            pu1mv+y       117           
+116            t_cb1b        118           
+117            pu1lv-y       125           
+117            t_cb1b        119           
+118            pu1mv+y       119           
+119            pu1lv-y       120           
+120            pu1ar+y       121           
+120            cb1bwplv      26            
+121            pu1stp        122           
+121            cb1bwplv      28            
+122            pu1mv-y       123           
+123            pu1lv+y       124           
+123            cb1bwplv      32            
+124            cb1bwplv      34            
+125            pu1ar+y       126           
+125            t_cb1b        120           
+126            pu1stp        127           
+126            t_cb1b        121           
+127            pu1mv-y       128           
+127            t_cb1b        122           
+128            pu1lv+y       129           
+128            t_cb1b        123           
+129            t_cb1b        124           
+130            cb1stp        16            
+130            cb1awpar      132           
+131            cb1bwpar      132           
+131            cb1stp        133           
+132            cb1stp        406           
+133            sf-3          137           
+137            cb1-x         138           
+138            cb1bwpar      139           
+138            t_cb1a        140           
+139            t_cb1a        141           
+140            cb1bwpar      141           
+140            cb1awplv      142           
+141            cb1awplv      144           
+142            cb1bwpar      144           
+144            cb1stp        145           
+145            cb1-3         148           
+148            pu1mv+y       151           
+148            t_cb1b        152           
+151            pu1lv-y       282           
+151            t_cb1b        153           
+152            pu1mv+y       153           
+153            pu1lv-y       154           
+154            pu1ar+y       155           
+154            cb1bwplv      156           
+155            pu1stp        279           
+155            cb1bwplv      158           
+156            pu1ar+y       158           
+158            pu1stp        160           
+160            pu1mv-y       162           
+162            pu1lv+y       164           
+164            pu1ar-y       166           
+166            pu1stp        168           
+168            pu1rdy        170           
+170            cb1-x         172           
+172            cb1bwpar      174           
+174            cb1stp        51            
+279            pu1mv-y       280           
+280            pu1lv+y       281           
+280            cb1bwplv      162           
+281            cb1bwplv      164           
+282            pu1ar+y       283           
+282            t_cb1b        154           
+283            pu1stp        284           
+283            t_cb1b        155           
+284            pu1mv-y       285           
+284            t_cb1b        279           
+285            pu1lv+y       286           
+285            t_cb1b        280           
+286            t_cb1b        281           
+406            cb1-3         408           
+408            pu1mv+y       410           
+408            t_cb1b        411           
+410            pu1lv-y       436           
+410            t_cb1b        412           
+411            pu1mv+y       412           
+412            pu1lv-y       413           
+413            pu1ar+y       414           
+413            cb1bwplv      415           
+414            pu1stp        433           
+414            cb1bwplv      416           
+415            pu1ar+y       416           
+415            sf-3          417           
+416            pu1stp        427           
+416            sf-3          418           
+417            pu1ar+y       418           
+418            pu1stp        419           
+419            pu1mv-y       420           
+420            pu1lv+y       421           
+421            pu1ar-y       422           
+422            pu1stp        423           
+423            pu1rdy        424           
+424            cb1-x         425           
+425            t_cb1a        426           
+426            cb1awplv      172           
+427            pu1mv-y       428           
+427            sf-3          419           
+428            pu1lv+y       429           
+428            sf-3          420           
+429            pu1ar-y       430           
+429            sf-3          421           
+430            pu1stp        431           
+430            sf-3          422           
+431            pu1rdy        432           
+431            sf-3          423           
+432            sf-3          424           
+433            pu1mv-y       434           
+434            pu1lv+y       435           
+434            cb1bwplv      428           
+435            cb1bwplv      429           
+436            pu1ar+y       437           
+436            t_cb1b        413           
+437            pu1stp        438           
+437            t_cb1b        414           
+438            pu1mv-y       439           
+438            t_cb1b        433           
+439            pu1lv+y       440           
+439            t_cb1b        434           
+440            t_cb1b        435           
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

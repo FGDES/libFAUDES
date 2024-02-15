@@ -1,0 +1,73 @@
+#
+# Makefile for the libfaudes synthesis plug-in, tmoor 2009
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plug-in
+#
+# FAUDES_PLUGINS += synthesis
+#
+
+
+#
+# set up paths relative to faudes path
+
+OBS_NAME = observability
+OBS_BASE =   ./plugins/$(OBS_NAME)
+OBS_SRCDIR = $(OBS_BASE)/src
+
+#
+# listsource files
+
+OBS_CPPFILES = obs_local_observation_consistency.cpp
+OBS_INCLUDE = obs_include.h
+OBS_RTIDEFS = obs_definitions.rti
+OBS_RTIFREF =
+#OBS_RTIFREF = observability_index.fref observability_loc.fref
+
+
+#
+# fix directories
+
+OBS_HEADERS = $(OBS_CPPFILES:.cpp=.h) $(OBS_INCLUDE)
+OBS_SOURCES = $(OBS_CPPFILES:%=$(OBS_SRCDIR)/%)
+OBS_OBJECTS = $(OBS_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+OBS_RTIDEFS := $(OBS_RTIDEFS:%=$(OBS_SRCDIR)/registry/%)
+OBS_RTIFREF := $(OBS_RTIFREF:%=$(OBS_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(OBS_INCLUDE): $(OBS_SRCDIR)/$(OBS_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(OBS_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* observability configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_OBSERVABILITY" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(OBS_SOURCES)
+OBJECTS += $(OBS_OBJECTS)
+HEADERS += $(OBS_HEADERS)
+VPATH   += $(OBS_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(OBS_NAME)
+RTIDEFS += $(OBS_RTIDEFS)
+RTIFREF += $(OBS_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(OBS_SRCDIR)/registry/obs_interface.i 
+SWGMODULES += $(OBS_NAME)
+
+
+#
+# include tutorial
+
+include $(OBS_BASE)/Makefile.tutorial

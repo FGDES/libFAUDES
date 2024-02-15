@@ -1,0 +1,53 @@
+%%% test mark: generator [at pbp_2_generators.py]
+% 
+%  Statistics for simple machine
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: system [at pbp_2_generators.py]
+% 
+%  Statistics for simple machine plant model
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: system [at pbp_2_generators.py]
+% 
+%  Statistics for simple machine plant model
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: reach expect true [at pbp_2_generators.py]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

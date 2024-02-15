@@ -1,0 +1,50 @@
+<Generator>
+"SupConNB((cb14[0]),(cb14[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((cb14[0]),(cb14[0]_spec))
+% 
+%  States:        10
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   10
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb14-10"     +C+           "cb14-6"      +C+           "cb6-14"      +C+           
+"cb14+y-x"    +C+           "cb14-14"     +C+           "cb14-y+x"    +C+           
+"cb14stp"     +C+           "cb14wpar"    "cb14wplv10"  "cb14wplv6"   "t_modul4rt4-cb14cb14" 
++C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             10            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb6-14"      2             
+2             "cb14-y+x"    3             
+3             "t_modul4rt4-cb14cb14" 4             
+4             "cb14wpar"    5             
+5             "cb14stp"     6             
+6             "cb14-10"     7             
+7             "cb14-y+x"    8             
+8             "t_modul4rt4-cb14cb14" 9             
+9             "cb14wplv10"  10            
+10            "cb14stp"     1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

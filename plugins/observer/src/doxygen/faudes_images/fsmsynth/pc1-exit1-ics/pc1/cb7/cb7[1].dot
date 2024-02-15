@@ -1,0 +1,22 @@
+digraph "Det(Pro(SupConNB((cb7[0]),(cb7[0]_spec)))) [minstate]" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+  "4";
+
+  // transition relation
+  "2" -> "4" [label="cb7-15"];
+  "1" -> "3" [label="cb11-7"];
+  "3" -> "2" [label="wp11-7"];
+  "4" -> "1" [label="wp7-15"];
+};

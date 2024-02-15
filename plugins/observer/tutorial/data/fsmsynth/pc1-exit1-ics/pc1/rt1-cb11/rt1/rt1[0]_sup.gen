@@ -1,0 +1,53 @@
+<Generator name="SupConNB((rt1[0]),(rt1[0]_spec))">
+
+% 
+%  Statistics for SupConNB((rt1[0]),(rt1[0]_spec))
+% 
+%  States:        14
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   14
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+rt1arx        rt1ary        rt1f          rt1lvx        rt1lvy        rt1mvx       
++C+           rt1mvy        +C+           rt1stp        +C+           rt1xy        
++C+           rt1yx         +C+           t_modul3\rt1-cb11\rt1  +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              8             
+</Consecutive>
+11             12             13             14             15             16            
+</States>
+
+<TransRel>
+1              rt1xy         2             
+2              rt1mvy        3             
+3              t_modul3\rt1-cb11\rt1  4             
+4              rt1lvx        5             
+5              t_modul3\rt1-cb11\rt1  6             
+6              rt1ary        7             
+7              rt1stp        8             
+8              rt1yx         11            
+11             rt1mvx        12            
+12             t_modul3\rt1-cb11\rt1  13            
+13             rt1lvy        14            
+14             t_modul3\rt1-cb11\rt1  15            
+15             rt1arx        16            
+16             rt1stp        1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

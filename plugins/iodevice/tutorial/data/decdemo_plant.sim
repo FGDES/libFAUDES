@@ -1,0 +1,67 @@
+% Example configuration for io simulator
+
+% We configure the executor to run a simple
+% machine with fixed timing and digital line I/O.
+
+% The example is used for the plant simulation
+% in the rtxx device demo.
+
+<Executor>
+
+% specify explicit generator
+<Generators>
+"decdemo_planta.gen"
+"decdemo_plantb.gen"
+</Generators>
+
+% specify conditions
+<Conditions>
+</Conditions>
+
+% specify event attributes
+<SimEventAttributes>
+
+% dont propose inpute events
+"p_start"     
+<Priority> -50 </Priority>
+"p_stop"     
+<Priority> -50 </Priority>
+"m_start"     
+<Priority> -50 </Priority>
+"m_stop"     
+<Priority> -50 </Priority>
+
+
+% sensible timing of output events
+"p_inprog"     
+<Priority> 50 </Priority>
+
+"p_complete"      
+<Stochastic>
++Trigger+      +Gauss+       
+<Parameter>
+50 100     75  20             
+</Parameter>
+</Stochastic>
+
+"m_complete"      
+<Stochastic>
++Trigger+      +Gauss+       
+<Parameter>
+50 100     75  20             
+</Parameter>
+</Stochastic>
+
+"m_request"       
+<Stochastic>
++Delay+     +Gauss+       
+<Parameter>
+150 250    200  5             
+</Parameter>
+</Stochastic>
+
+
+</SimEventAttributes>
+
+% end
+</Executor>

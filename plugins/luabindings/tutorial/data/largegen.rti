@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE LuaFunctionDefinition SYSTEM "http://www.faudes.org/dtd/1.0/luafunctiondefinition.dtd">
+<LuaFunctionDefinition name="ExtIntro::LargeGenerator">
+
+<!--
+This tutorial illustrates libFAUDES extensions via
+luafaudes scripts. The below faudes function can be registered with the
+libFAUDES run-time interface and, when executed, runs the specified
+Lua script.
+-->
+
+<Documentation> 
+Construct a generator by random.
+</Documentation>
+<Keywords> "ExtIntro" "luaextension" "example 1" </Keywords>
+
+<VariantSignatures>
+<Signature name="LargeGen(#Q,#Sigma,GRes)">
+<Parameter name="SizeQ"      ftype="Integer"   access="In"/>
+<Parameter name="SizeSigma"  ftype="Integer"   access="In"/>
+<Parameter name="Res"        ftype="Generator" access="Out" />
+</Signature>
+</VariantSignatures>
+
+<LuaCode> 
+<![CDATA[
+
+-- Extension reports on loading
+print('loading luaextension "LargeGenerator"')
+
+-- Define my function (mangled version of variant name)
+function faudes.LargeGen_Q_Sigma_GRes(qn,sn,gen)
+
+
+-- Function reports on execution
+print(string.format('LargeGen(...): qn=%d sn=%d',qn,sn))
+
+-- Clear result
+gen:Clear()
+ 
+-- Set states
+for i=1,qn do
+  gen:InsState(i)
+end
+
+-- Set events
+for i=1,sn do 
+  gen:InsEvent(string.format('ev_%d',i))
+end
+
+-- Done
+return 
+
+-- End of function definition
+end
+
+-- Extension reports on loading
+print('loading luaextension: done')
+
+-- Stress token reader with funny XML
+print('token reader can read/write ]-]->: ]]]]><![CDATA[> ')
+
+]]>
+  
+</LuaCode>
+
+</LuaFunctionDefinition>

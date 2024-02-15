@@ -1,0 +1,75 @@
+<Generator name="Project(SupConNB((cb12[0]),(cb12[0]...(rt2[0]),(rt2[0]_spec))) [minstate]">
+
+% 
+%  Statistics for Project(SupConNB((cb12[0]),(cb12[0]...(rt2[0]),(rt2[0]_spec))) [minstate]
+% 
+%  States:        16
+%  Init/Marked:   1/2
+%  Events:        12
+%  Transitions:   36
+%  StateSymbols:  0
+%  Attrib. E/S/T: 12/0/0
+% 
+
+<Alphabet>
+cb3-12        +C+           cb12-4        +C+           cb4-12        +C+          
+cb5-12        +C+           cb12-5        +C+           cb12-3        +C+          
+cb12-8        +C+           cb12stp       +C+           cb8-12        +C+          
+rt2xy         +C+           rt2yx         +C+           rt2stp        +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              16            
+</Consecutive>
+</States>
+
+<TransRel>
+1              cb3-12        2             
+1              cb5-12        2             
+1              rt2yx         3             
+2              cb12stp       11            
+2              rt2yx         4             
+3              cb3-12        4             
+3              cb5-12        4             
+3              rt2stp        5             
+4              cb12stp       13            
+4              rt2stp        6             
+5              cb3-12        6             
+5              cb5-12        6             
+5              rt2xy         7             
+6              cb12stp       15            
+6              rt2xy         8             
+7              cb3-12        8             
+7              cb5-12        8             
+7              rt2stp        1             
+8              cb12stp       9             
+8              rt2stp        2             
+9              cb12-4        10            
+9              rt2stp        11            
+10             cb12stp       7             
+10             rt2stp        12            
+11             cb12-4        12            
+11             rt2yx         13            
+12             cb12stp       1             
+12             rt2yx         14            
+13             cb12-4        14            
+13             rt2stp        15            
+14             cb12stp       3             
+14             rt2stp        16            
+15             cb12-4        16            
+15             rt2xy         9             
+16             cb12stp       5             
+16             rt2xy         10            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1              5             
+</MarkedStates>
+
+
+</Generator>

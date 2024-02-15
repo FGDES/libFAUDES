@@ -1,0 +1,24 @@
+<Generator>
+
+"specification efeeda"
+
+% bottle at S1 must be passed
+% on before tzhe next bottle
+% arrives
+
+<Alphabet>
+S1 V 
+</Alphabet>
+
+<States>
+<Consecutive> 1 2</Consecutive>
+</States>
+
+<TransRel>
+1 S1  2
+2 V   1
+</TransRel>
+
+<InitStates> 1 </InitStates>
+<MarkedStates> 1 </MarkedStates>
+</Generator>

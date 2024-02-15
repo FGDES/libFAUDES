@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="03_Reachability" title="CoreFaudes - Reachability">
+<h1>
+Reachability Tests/Conversion
+</h1>
+
+<p>
+Not all states in a generator <i>G</i> contribute to the languages it
+represents. The various notions related to reachability can 
+be used to identify relevant states, 
+depending on which particular languages 
+<fimath>L(G)</fimath>, <fimath>Lm(G)</fimath>,
+<fimath>B(G)</fimath> or <fimath>Bm(G)</fimath> are of interest.
+</p>
+
+<p>
+Throughout this page, the below generator serves as an example. 
+It does not satisfy any of the reachability properties discussed.
+</p>
+
+<p>
+<fimage fsrc="tmp_greach"/>
+<br/>
+<br/>
+</p>
+
+
+<ffnct_reference name="IsAccessible">
+<fdetails/>
+
+<p>
+A generator is <i>accessible</i>, if every state can be accessed from some initial state via a sequence of transitions, i.e.:
+<br/>
+<br/>
+<fdmath>(\,\forall q\in Q\,)\ (\,\exists s\in\Sigma^*\,)\ [\,  \delta(Q_o,s) \neq \emptyset\,\]</fdmath>.
+<br/>
+<br/>
+This function returns "true" if <i>G</i> is accessible. 
+Else it returns "false".
+</p>
+
+<p>
+The example generator fails to be accessible since the states 
+<tt>s20</tt> and <tt>s21</tt> can not be reached from the
+initial state.
+</p>
+
+</ffnct_reference>
+
+
+
+<ffnct_reference name="Accessible">
+<fdetails/>
+
+<p>
+Convert a given generator <i>G</i> to an accessible generator by removing
+states that are not accessible.
+Non of the languages <fimath>L(G)</fimath>, <fimath>Lm(G)</fimath>,
+<fimath>B(G)</fimath> and <fimath>Bm(G)</fimath> are affected.
+</p>
+
+<p>
+When applied on the above example, <ffnct>Accessible</ffnct> returns 
+the result:
+<br/>
+<br/>
+<fimage fsrc="tmp_gaccess"/> 
+<br/>
+<br/>
+</p>
+
+</ffnct_reference>
+
+
+
+<ffnct_reference name="IsCoaccessible">
+<fdetails/>
+<p>
+A generator is <i>co-accessible</i>, if every state is connected with some marked state via a sequence of transitions, i.e.
+<br/>
+<br/>
+<fdmath>(\,\forall q\in Q\,)\ (\,\exists s\in\Sigma^*\,)\ [\, \delta(q,s)\cap Q_m \neq \emptyset\,\]</fdmath>.
+<br/>
+<br/>
+This function returns "true" if <i>G</i> is co-accessible.
+Else it returns "false".
+</p>
+
+<p>
+The example generator fails to be co-accessible since no marked state
+can be reached from either
+<tt>s6</tt>, <tt>s7</tt>, <tt>s8</tt>, <tt>s10</tt> and <tt>s11</tt>.
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="Coaccessible">
+<fdetails/>
+
+<p>
+Convert a given generator <i>G</i> to a co-accessible generator by removing
+states that are not co-accessible.
+The languages <fimath>Lm(G)</fimath> and <fimath>Bm(G)</fimath> are not affected.
+</p>
+
+<p>
+When applied on the above example, <ffnct>Coaccessible</ffnct> returns 
+the result:
+<br/>
+<br/>
+<fimage fsrc="tmp_gcoaccess"/> 
+<br/>
+<br/>
+</p>
+
+</ffnct_reference>
+
+
+
+<ffnct_reference name="IsComplete">
+<fdetails/>
+<p>
+A generator <i>G</i> is <i>complete</i> if it has no terminal states,
+i.e., if all states have at least one transition to a successor state:
+<br/>
+<br/>
+<fdmath>(\,\forall q\in Q\,)\ (\,\exists \sigma\in\Sigma\,)\ [\,  \delta(q,\sigma) \neq \emptyset\,\]</fdmath>.
+<br/>
+<br/>
+This function returns "true" if <i>G</i> is complete. Else it returns "false".
+</p>
+
+<p>
+Completeness of <i>G</i> implies completeness of the
+generated language <fimath>L(G)</fimath>, i.e.
+<br/>
+<br/>
+<fdmath>(\,\forall s\in L\,)\ (\,\exists r\in L\,)\ \ \[\, s \lt r\, \]</fdmath> .
+<br/>
+<br/>
+If the generator is accessible, completeness of <i>G</i> is
+equivalent to completeness of <fimath>L(G)</fimath>. 
+If the generator is trim, completeness of <i>G</i> is
+equivalent to completeness of the marked language <fimath>Lm(G)</fimath>. 
+</p>
+
+<p>
+The example generator fails to be complete since the
+states
+<tt>s8</tt>, <tt>s10</tt> and <tt>s11</tt>
+have no successor.
+</p>
+
+<p>
+For a generalisation of the completeness property,
+consider an alphabet <fimath>\Sigma_o\subseteq\Sigma</fimath>.
+Then, a generator <i>G</i> is said to be <i><fimath>\Sigma_o</fimath>-complete</i> 
+if, starting from any state, there exists a sequence of transitions 
+ending with an event from <fimath>\Sigma_o</fimath>, i.e.
+<br/>
+<br/>
+<fdmath>(\,\forall q\in Q\,)\ (\,\exists s\in\Sigma^*\Sigma_o\,)\ [\,  \delta(q,s) \neq \emptyset\,\]</fdmath>.
+<br/>
+<br/> 
+When invoking <ffnct>IsComplete</ffnct> with an alphabet specified, 
+it tests for <fimath>\Sigma_o</fimath>-completeness. 
+The current implementation first identifies <i>target</i> states in which an event from <fimath>\Sigma_o</fimath> is enabled
+and then performs a backward reachability analysis to obtain the set of <i>good</i> states that can reach the target.
+If all states are <i>good</i>, the test is passed.
+</p>
+</ffnct_reference>
+
+
+<ffnct_reference name="Complete">
+<fdetails/>
+
+<p>
+Convert a given generator <i>G</i> to a complete generator by iteratively 
+removing terminal states until a fixpoint is reached.
+into a state that has no successor state; see also <ffnct>IsComplete</ffnct>.
+The languages <fimath>B(G)</fimath> and <fimath>Bm(G)</fimath> are not affected.
+The language generated by the result GRes is the supremal complete 
+sublanguage <fimath>K^\uparrow</fimath> of <fimath>L(G)</fimath>:
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq L(G)\ |\ K \text{ is complete}\}\,.</fdmath> 
+<br/>
+</p>
+
+<p>
+When applied on the above example, <ffnct>Complete</ffnct> returns 
+the result:
+<br/>
+<br/>
+<fimage fsrc="tmp_gcompl"/> 
+<br/>
+<br/>
+</p>
+
+<p>
+When invoking <ffnct>Complete</ffnct> with an alphabet <fimath>\Sigma_o\subseteq\Sigma</fimath> 
+specified, it refers to the more general notion of <fimath>\Sigma_o</fimath>-completeness; see also <ffnct>IsComplete</ffnct>.
+Here, the implementation first identifies <i>target</i> states which have an event from <fimath>\Sigma_o</fimath> enabled,
+and then performs a backward reachability analysis to obtain <i>good</i> states that can reach the target. An outer iteration
+restricts the target states by requiring a transition to good states until a fixpoint is reached. Finally, the generator is
+restricted to the set of good states.
+The language generated by the result GRes is the supremal <fimath>\Sigma_o</fimath>-complete 
+sublanguage <fimath>K^\uparrow</fimath> of <fimath>L(G)</fimath>:
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq L(G)\ |\ K \text{ is }\Sigma_o\text{-complete}\}\,.</fdmath> 
+<br/>
+<br/>
+</p>
+
+<p>
+When applied to the example with <fimath>\Sigma_o=\{\texttt{b}\}</fimath>, 
+<ffnct>Complete</ffnct> returns the result as above.
+When applied with <fimath>\Sigma_o=\{\texttt{c}\}</fimath>, one obtains:
+<br/>
+<br/>
+<fimage fsrc="tmp_gsigcomplc"/> 
+<br/>
+<br/>
+</p>
+</ffnct_reference>
+
+
+
+<ffnct_reference name="IsTrim">
+<fdetails/>
+<p>
+A generator <i>G</i> is <i>trim</i> if it is both accessible 
+and co-accessible, i.e. if all states contribute to the marked language
+<fimath>Lm(G)</fimath>.
+This function returns "true" if <i>G</i> is trim.
+Else it returns "false".
+</p>
+
+<p>
+The example generator fails to be trim since it is neither accessible
+nor co-accessible. 
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="Trim">
+<fdetails/>
+
+<p>
+Convert a given generator <i>G</i> to a trim generator by removing
+states that are not accessible or not co-accessible.
+The languages <fimath>Lm(G)</fimath> and <fimath>Bm(G)</fimath> are not affected.
+</p>
+
+<p>
+When applied on the above example, <ffnct>Trim</ffnct> returns 
+the result:
+<br/>
+<br/>
+<fimage fsrc="tmp_gtrim"/> 
+<br/>
+<br/>
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="IsOmegaTrim">
+<fdetails/>
+<p>
+A generator <i>G</i> is <i>omega-trim</i> if it is accessible, co-accessible,
+and complete;
+i.e. if all states contribute to the omega language <fimath>Bm(G)</fimath>.
+This function returns "true" if <i>G</i> is omega-trim.
+Else it returns "false".
+</p>
+
+<p>
+The example generator fails to be trim since it is neither accessible
+nor co-accessible nor complete. Clearly, any state that is not 
+accessible or not co-accessibe does contribute to <fimath>Bm(G)</fimath>,
+neither does a state that is guaranteed to evolve into a state with no successor.
+Note, however, the states <tt>s3</tt> and <tt>s4</tt> do not fall
+into any of the latter cathegories but still don't conribute to <fimath>Bm(G)</fimath>.
+This is because <tt>s3</tt> and <tt>s4</tt> can evolve into a marked state and 
+they can be extended infinitely, but they can not be extended infinitely while 
+passing marked states infinitely often.
+</p>
+
+</ffnct_reference>
+
+
+
+
+
+<ffnct_reference name="OmegaTrim">
+<fdetails/>
+
+<p>
+Convert a given generator <i>G</i> to an omega-trim generator by 
+repeatedly removing states that are not accessible, not co-accessible, or have no successor state.
+The language <fimath>Bm(G)</fimath> is not affected.
+</p>
+
+<p>
+When applied on the above example, <ffnct>OmegaTrim</ffnct> returns 
+the result:
+<br/>
+<br/>
+<fimage fsrc="tmp_gotrim"/> 
+<br/>
+<br/>
+</p>
+
+
+</ffnct_reference>
+</ReferencePage>
+
+  

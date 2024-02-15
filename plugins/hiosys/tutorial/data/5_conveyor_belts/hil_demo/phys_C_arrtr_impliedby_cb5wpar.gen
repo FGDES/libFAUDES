@@ -1,0 +1,33 @@
+<Generator>
+"phys_C_arrtr_impliedby_cb5wpar"
+
+
+
+<Alphabet>
+
+"cb5wpar" "C_arrtr"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb5wpar" 2
+2            "C_arrtr"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

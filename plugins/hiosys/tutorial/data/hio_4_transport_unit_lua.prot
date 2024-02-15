@@ -1,0 +1,45 @@
+%%% test mark: plant x [at hio_4_transport_unit.lua]
+% 
+%  Statistics for Transport Unit A
+% 
+%  States:        10
+%  Init/Marked:   1/10
+%  Events:        9
+%  Transitions:   14
+%  StateSymbols:  10
+%  Attrib. E/S/T: 9/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: env x [at hio_4_transport_unit.lua]
+% 
+%  Statistics for Environment AB
+% 
+%  States:        14
+%  Init/Marked:   1/14
+%  Events:        12
+%  Transitions:   23
+%  StateSymbols:  14
+%  Attrib. E/S/T: 12/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: contr x [at hio_4_transport_unit.lua]
+% 
+%  Statistics for Controller AB
+% 
+%  States:        25
+%  Init/Marked:   1/25
+%  Events:        9
+%  Transitions:   42
+%  StateSymbols:  0
+%  Attrib. E/S/T: 9/0/0
+% 
+% 
+% 
+% 
+

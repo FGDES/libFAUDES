@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Diagnosis" page="0_Index" title="Diagnosis - About"> 
+
+<fsummary>
+Event-based and languages-based failure diagnosis, 
+including modular and decentralized control architectures.
+</fsummary>
+
+<h1>
+Diagnosis
+</h1>
+
+<p>
+This plug-in concerns the failure diagnosis for discrete event systems, where failures are either modelled as unobservable <i> failure events</i> that correspond to an undesired system behaviour or by a <i> language specification</i> that characterizes the correct system behavior. <br/>
+
+The functionality of the plug-in comprises two main tasks. On the one hand, it is verified if a given system is <i>diagnosabie</i>, i.e., each considered failure can be determined after the occurrence of a finite number of events. On the other hand, <i>diagnoser automata</i> are designed in order to monitor the on-line behaviour and to detect or estimate the occurrence of failures.
+</p>
+
+<p>
+Part of the diagnosis plug-in was developed in the scope of Tobias Barthel's 
+<a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/thesis_barthel.pdf">
+diploma thesis</a>. The thesis discusses known methods for event-diagnosis and languaga-diagnosis from the 
+literature <fcite name="D1,D2,D3,D4,D5,D6"/> as well as extentions for modular diagnosis. The user reference is organized as follows:
+</p>
+<ul  class="l2">
+<li><p>
+<a href="diagnosis_event.html">Event-Diagnosis</a>
+</p></li>
+<li><p>
+<a href="diagnosis_language.html">Language-Diagnosis</a>
+</p></li>
+<li><p>
+<a href="diagnosis_modular.html">Modular Diagnosis</a>
+</p></li>
+<li><p>
+<a href="diagnosis_decentralized.html">Decentralized Diagnosis</a>
+</p></li>
+<li><p>
+<a href="diagnosis_application.html">Application Example</a>
+</p></li>
+</ul>
+
+
+<p>
+<br/>
+Copyright (c) 2009, Tobias Barthel.
+<br/>
+Copyright (c) 2009, Klaus Schmidt, Thomas Moor.
+</p>
+
+
+<h2>
+<a id="example">Example</a>
+</h2>
+
+<p>
+We illustrate the overall design of a monolithic diagnoser by the "very simple machine" example
+from the <a href="synthesis_index">Synthesis</a> reference. However, we extend the nominal
+behaviour by considering a possible failure when the machine is busy. The failure 
+shows in an erroneous <tt>beta</tt> event that may occur even if the machine did not finish to
+process the work-piece. We model this failure by an unobservable event <tt>f</tt> followed
+by the erroneous sensor reading <tt>beta</tt> event.
+</p>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr><td>Very Simple Machine G with unobservable failure <tt>f</tt></td></tr>
+<tr><td align="center"><fimage fsrc="tmp_diag_system_3"/></td></tr>
+</table>
+</td> </tr> 
+</table>
+
+
+
+<p>
+The interpretation of the event <tt>f</tt> as a failure event is
+encoded the following <ftype>FailureTypeMap</ftype>. It defines the <i>failure-type</i>
+<tt>F</tt> to be associated with the occurence of event <tt>f</tt>:
+</p>
+
+<pre>
+&lt;FailureTypes&gt;
+"F"          
+&lt;FailureEvents&gt;"f"&lt;/FailureEvents&gt;
+&lt;/FailureTypes&gt;
+</pre>
+
+<p>
+With the above input data, the function <ffnct>EventDiagnoser</ffnct> is used
+to synthesise a <ftype>Diagnoser</ftype>:
+</p>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr><td> Diagnoser for the very simple machine with failure type <tt>F</tt></td></tr>
+<tr><td align="center"><fimage fsrc="tmp_diag_diagnoser_3"/></td></tr>
+</table>
+</td> </tr> 
+</table>
+
+
+<p>
+Each diagnoser state has an attribute attached that summarizes diagnosic information
+for the original system G. The initial state <tt>1N</tt> indicates that 
+G is in state <tt>1</tt> and that no failure occured so far.
+After the first occurrence of <tt>beta</tt>, the diagnoser takes the transition to 
+the <i>ambiguous</i> state <tt>1N 2F</tt>. Now, G could be in state 1 with no 
+failure occurred (<tt>1N</tt>) or it could be in state 2 after the occurrence of the failure type <tt>F</tt>, indicated  <tt>2F</tt>. 
+Only when <tt>beta</tt> occured twice in a row, the failure can be 
+unambiguously detected. Since in the presence of the failure the second <tt>beta</tt>
+must indeed occur, the system is diagnosable.
+</p>
+
+
+
+
+<h2>
+<a id="literature">
+Literature
+</a>
+</h2>
+
+<fliterature name="D1">
+<fauthors> M. Sampath, R. Sengupta, S. Lafortune, K. Sinnamohideen, and D. Teneketzis </fauthors>
+<ftitle> Diagnosability of discrete-event systems </ftitle>
+<fjournal><a href="http://ieeexplore.ieee.org">IEEE Transactions on Automatic Control</a>, 40(9):1555-1575 </fjournal>
+<fyear> Sep. 1995 </fyear>
+</fliterature>
+
+<fliterature name="D2">
+<fauthors> S. Jiang, Z. Huang, V. Chandra, and R. Kumar </fauthors>
+<ftitle> A polynomial algorithm for testing diagnosability of discrete-event systems </ftitle>
+<fjournal> <a href="http://ieeexplore.ieee.org">IEEE Transactions on Automatic Control</a>,   46(8):1318-1321</fjournal>
+<fyear> Aug. 2001 </fyear>
+</fliterature>
+
+<fliterature name="D3">
+<fauthors> W. Qui and and R. Kumar </fauthors>
+<ftitle> Decentralized failure diagnosis of discrete event systems </ftitle>
+<fjournal> <a href="http://ieeexplore.ieee.org">  IEEE Transactions on Systems, men and cybernetics. Part A: Systems and Humans</a>,   36(2):384-395 </fjournal>
+<fyear> Mar. 2006 </fyear>
+</fliterature>
+
+<fliterature name="D4">
+<fauthors> C. Zhou, R. Kumar, R. Sreenivas </fauthors>
+<ftitle> Decentralized modular diagnosis of concurrent discrete event systems </ftitle>
+<fjournal> <a href="http://ieeexplore.ieee.org">  International Workshop on Discrete Event Systems </a>   pp. 388-393 </fjournal>
+<fyear> May 2008 </fyear>
+</fliterature>
+
+<fliterature name="D5">
+<fauthors> T.-S. Yoo, H. E. Garcia </fauthors>
+<ftitle> Diagnosis of behaviors of interest in partially observed discrete-event systems </ftitle>
+<fjournal> <a href="http://www.sciencedirect.com/">System &amp; Control Letters</a>,   57(12):1023-1029 </fjournal>
+<fyear> Dec. 2008 </fyear>
+</fliterature>
+
+<fliterature name="D6">
+<fauthors> O. Contant, S. Lafortune and D. Teneketzis </fauthors>
+<ftitle> Diagnosability of Discrete Event Systems with Modular Structure </ftitle>
+<fjournal> <a href="http://www.springerlink.com/content/0924-6703"> Discrete Event Dynamic Systems, </a> 16(1):9-37 </fjournal>
+<fyear> Jan. 2006 </fyear>
+</fliterature>
+
+</ReferencePage>
+
+  

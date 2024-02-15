@@ -1,0 +1,72 @@
+<Generator>
+"cb4[0]"      
+
+% 
+%  Statistics for cb4[0]
+%  States:        24
+%  Init/Marked:   1/1
+%  Events:        15
+%  Transitions:   36
+%  StateSymbols:  24
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb11-4"      +C+           "cb12-4"      +C+           "cb4+x"       +C+           
+"cb4-11"      +C+           "cb4-12"      +C+           "cb4-x"       +C+           
+"cb4stp"      +C+           "cb4wpar"     "cb4wplv11"   "cb4wplv12"   "t_modul3\cb4-mh1-d1\cb4" 
++C+         
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"          
+"15"          "16"          "17"                 "2"           "3"           
+"4"                      "6"           "7"           "8"                      
+"dummy_12"    "dummy_16"    "dummy_3"     "dummy_4"     "dummy_7"     "dummy_8"     
+</States>
+
+<TransRel>
+"1"           "cb11-4"      "6"           
+"1"           "cb12-4"      "2"           
+"10"          "cb4-11"      "15"          
+"10"          "cb4-12"      "11"          
+"11"          "cb4+x"       "12"          
+"12"          "cb4stp"      "11"          
+"12"          "t_modul3\cb4-mh1-d1\cb4" "dummy_12"    
+"13"          "cb4stp"      "1"          
+"1"          "cb4+x"       "13"                     
+"15"          "cb4-x"       "16"          
+"16"          "cb4stp"      "15"          
+"16"          "t_modul3\cb4-mh1-d1\cb4" "dummy_16"    
+"17"          "cb4stp"      "1"          
+"1"          "cb4-x"       "17"                    
+"2"           "cb4-x"       "3"           
+"3"           "cb4stp"      "2"           
+"3"           "t_modul3\cb4-mh1-d1\cb4" "dummy_3"     
+"4"           "cb4stp"      "10"           
+"4"           "t_modul3\cb4-mh1-d1\cb4" "dummy_4"     
+"10"           "cb4-x"       "4"                    
+"6"           "cb4+x"       "7"           
+"7"           "cb4stp"      "6"           
+"7"           "t_modul3\cb4-mh1-d1\cb4" "dummy_7"     
+"8"           "cb4stp"      "10"           
+"8"           "t_modul3\cb4-mh1-d1\cb4" "dummy_8"     
+"10"           "cb4+x"       "8"                  
+"dummy_12"    "cb4wplv12"   "13"          
+"dummy_16"    "cb4wplv11"   "17"          
+"dummy_3"     "cb4wpar"     "4"           
+"dummy_4"     "cb4wplv11"   "3"           
+"dummy_7"     "cb4wpar"     "8"           
+"dummy_8"     "cb4wplv12"   "7"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

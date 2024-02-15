@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Controller">
+
+<h1>
+HioSys I/O Systems
+</h1>
+
+<h2>
+HioController
+</h2>
+
+
+<p>
+<table border="0">
+<tr>
+<td>
+<img fsrc="FAUDES_IMAGES/hio_hiocontroller.png"/> 
+</td>
+    
+<td>
+The data-type <strong>HioController</strong> is a <ftype>Generator</ftype> that is suited to model the I/O-system <strong>I/O controller</strong>.
+An I/O controller <fimath>S_{CP}=(\Sigma_{CP},L_{CP})</fimath> describes a mechanism that assists
+an operator in manipulating the environment through the controlled process according to a given specification.
+Hence, the I/O controller is a discrete event system with two I/O ports: a <a href="hiosys_index.html#plantport">plant-I/O port</a> to interact with an <i>operator</i>
+while accepting all operator commands and a <a href="hiosys_index.html#controllerport">controller-I/O port</a> to interact with the <i>plant</i> while accepting all
+plant outputs. The event sets are denoted
+<i>Uc</i> and <i>Yc</i> for operator interaction and
+<i>Up</i> and <i>Yp</i> for plant interaction. Thus,
+the overall alphabet is composed as disjoint union
+<fimath>\Sigma=Uc\cup Yc\cup Up\cup Yp</fimath>.
+</td>
+</tr>
+</table>
+</p>
+
+<h3>
+I/O controller: Definition
+</h3>
+
+<p>
+An I/O controller is a tuple <fimath>S_{CP} = (U_C,Y_C,U_P,Y_P,L_{CP})</fimath>, where
+<ul class="l2">
+<li><p><fimath>\Sigma_{CP}</fimath> is an alphabet with 
+<fimath>\Sigma_{CP} := \Sigma_{C} \dcup \Sigma_{P}</fimath>,</p></li>
+
+<li><p><fimath>L_{CP}</fimath> is a language over <fimath>\Sigma_{CP}</fimath>,</p></li>
+
+<li><p><fimath>(U_C,Y_C)</fimath> and <fimath>(U_P,Y_P)</fimath> are a plant- and a controller-I/O port of <fimath>S_{CP}</fimath>, respectively,</p></li>
+
+<li><p><fimath>L_{CP}\subseteq\Closure{(Y_P U_P + Y_P Y_C U_C U_P)^*}</fimath>, and</p></li>
+
+<li><p><fimath>L_{CP}</fimath> is a complete language (see <ffnct>IsComplete</ffnct>).</p></li>
+</ul>
+</p>
+<p>
+The 4th item avoids loops of the sort <fimath>(Y_C U_C)^*</fimath>, i.e. forbids operator commands without effect on the plant
+being controlled. The last item forces the I/O controller to respond to plant output or operator input.<br/>
+By the function <ffnct>IsHioControllerForm</ffnct>, an HioController generator can be tested for compatibility with the above definition.
+</p>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a> | <a href="hiosys_types.html">HioSys I/O Systems</a>
+</p>
+</ReferencePage>
+
+  

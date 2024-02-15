@@ -1,0 +1,49 @@
+<Generator>
+"rts1cb15[1]_spec" 
+
+% 
+%  Statistics for rts1cb15[1]_spec
+%  States:        9
+%  Init/Marked:   1/1
+%  Events:        10
+%  Transitions:   10
+%  StateSymbols:  9
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>      
+"rts1_1"    "rts1_2"	"rts1_4"          
+"rts1_2-3"    +C+    "rts1_1-2"    +C+      "rts1_2-1"    +C+            "rts1_4-3"    +C+          "cb15-9" +C+ 
+ "cb15stp"	+C+	"cb7-15"	+C+  "cb15-rc1"	+C+
+</Alphabet>
+
+<States>
+1	2	3	4     5
+</States>
+
+<TransRel>
+1	"cb7-15"	1
+1	"cb15stp"	2
+2	"rts1_2-3"	2
+2	"rts1_2-1"	2
+2	"rts1_1"	3
+2	"rts1_4"	5
+3	"cb15-rc1"	3
+3	"cb15stp"	4
+4	"rts1_4-3"	4
+4	"rts1_1-2"	4
+4	"rts1_2"	1 
+5	"cb15-9"	5
+5	"cb15stp"	4       
+</TransRel>
+
+<InitStates>
+1           
+</InitStates>
+
+<MarkedStates>
+1           
+</MarkedStates>
+
+
+</Generator>

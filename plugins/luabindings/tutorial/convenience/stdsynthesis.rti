@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE LuaFunctionDefinition SYSTEM "http://www.faudes.org/dtd/1.0/luafunctiondefinition.dtd">
+
+<LuaFunctionDefinition name="Convenience::StdSynthesis">
+<Documentation ref="convenience_index.html#StdSynthesis"> 
+Convenience function for standard synthesis procedure.
+</Documentation>
+<Keywords> "Convenience" "synthesis" "controllable sublanguage" </Keywords>
+
+<VariantSignatures>
+<Signature name="StdSynthesis(GPlant,GSpec,GSuper)">
+<Parameter name="GPlant" ftype="System" access="In"  />
+<Parameter name="GSpec"  ftype="Generator" access="In"/>
+<Parameter name="GSuper" ftype="System" access="Out"/>
+</Signature>
+<Signature name="StdSynthesis([GPlant_i],[GSpec_i],GSuper)">
+<Parameter name="[GPlant_i]" ftype="GeneratorVector" access="In"  />
+<Parameter name="[GSpec_i]"  ftype="GeneratorVector" access="In"/>
+<Parameter name="GSuper" ftype="System" access="Out"/>
+</Signature>
+</VariantSignatures>
+
+<LuaCode> 
+<![CDATA[
+
+-- Extension reports on loading
+faudes.Print('luaextension: StdSynthesis: loading')
+
+-- Define my function (mangled version of first variant name)
+function faudes.StdSynthesis_GPlant_GSpec_GSuper(GPlant,GSpec,GSuper)
+
+-- Figure overall alphabet
+local sigma
+sigma=GPlant:Alphabet():Copy()
+sigma:InsertSet(GSpec:Alphabet())
+
+-- Reinterpret input data w.r.t. overall alphabet
+local gPlantFull, gSpecFull
+gPlantFull=GPlant
+gSpecFull=GSpec
+if GPlant:Alphabet() ~= sigma then
+  faudes.InvProject(GPlant,sigma,gPlantFull)
+end
+if GSpec:Alphabet() ~= sigma then
+  faudes.InvProject(GSpec,sigma,gSpecFull)
+end
+
+-- Perform synthesis
+faudes.SupConNB(gPlantFull,gSpecFull,GSuper)				   
+
+-- End of function definition
+end
+
+
+-- Define my function (mangled version of second variant name)
+function faudes.StdSynthesis_GPlant_i_GSpec_i_GSuper(GPlantVect,GSpecVect,GSuper)
+
+-- Compose plant components
+local plant
+plant=faudes.System()
+faudes.Parallel(GPlantVect,plant)
+
+-- Compose spec components
+local spec
+spec=faudes.Generator()
+faudes.Parallel(GSpecVect,spec)
+
+-- Run procedure
+faudes.StdSynthesis_GPlant_GSpec_GSuper(plant,spec,GSuper)
+
+-- End of function definition
+end
+
+]]>
+</LuaCode>
+
+</LuaFunctionDefinition>
+

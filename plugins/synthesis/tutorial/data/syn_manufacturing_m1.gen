@@ -1,0 +1,39 @@
+<Generator>
+M1           
+
+% 
+%  Statistics for M1
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+s1            s3            o             f1           
+</Alphabet>
+
+<States>
+q0            q1            q2           
+</States>
+
+<TransRel>
+q0            s1            q1           
+q0            s3            q2           
+q1            f1            q0           
+q2            o             q0           
+</TransRel>
+
+<InitStates>
+q0           
+</InitStates>
+
+<MarkedStates>
+q0           
+</MarkedStates>
+
+
+</Generator>

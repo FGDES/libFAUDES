@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Step 5">
+
+<h1>
+HioSys PlugIn
+</h1>
+<h2>
+The I/O-Based Approach - Step by Step
+</h2>
+
+<p>
+<ul class="l2">
+<li><a href="hiosys_stepbystep.html#step1">Step 1: Component-Wise Plant Modeling</a></li>
+<li><a href="hiosys_stepbystep_2.html">Step 2: Component-Wise Specification and Controller Design</a></li>
+<li><a href="hiosys_stepbystep_3.html">Step 3: Abstraction</a></li>
+<li><a href="hiosys_stepbystep_4.html">Step 4: Subsystem Composition</a></li>
+<li><a href="hiosys_stepbystep_5.html">Step 5: Environment Modeling</a></li>
+<li><a href="hiosys_stepbystep_6.html">Step 6: Superposed Specification and Controller Design</a></li>
+</ul>
+</p>
+
+<h3 id="step5">
+Step 5: Environment Modeling
+</h3>
+
+<p>
+We model the interaction of the plant components that are grouped in one I/O shuffle by an
+environment model that represents the limited amount of
+resources available and thus, in general, does not meet the original environment constraints
+necessary for liveness of the individual plant components.
+</p>
+
+<p>
+Technically, the I/O environment is a system, that is connected to an I/O plant (i.e. the I/O shuffle)
+ via the port
+<fimath>(U_E,Y_E)</fimath> (see <a href="hiosys_environment.html">definition</a>).
+Therefore, <fimath>(U_E,Y_E)</fimath> has to be a controller-I/O port of the I/O environment. The
+I/O environment is used to describe two distinct kinds of interaction.
+</p>
+
+<p>
+<i>Internal interaction.</i> The port <fimath>(U_E,Y_E)</fimath> has to be a controller-I/O port of the
+I/O environment, as it is connected to the plant-I/O port <fimath>(U_E,Y_E)</fimath> of the respective
+I/O plant. Via this port, the environment model can disable sequences of environment events that are
+not possible due to the concurrent behaviour of the plant components grouped in the I/O shuffle,
+e.g. if plant components share resources among each other.
+</p>
+
+<p>
+<i>External interaction.</i> Furthermore, the I/O environment forwards those sequences of environment
+events that concern the interaction of one or both plants with the remaining environment to the
+plant-I/O port <fimath>(U_L,Y_L)</fimath> that is connected with the external configuration. This is the case
+if e.g. the compound shares a resource with another group of plant components.
+</p>
+
+<p>
+In many practical cases, both kinds of interaction can be considered separately which means that the environment
+model can be designed in two parts, see TU example.
+To design an I/O-environment model, HioSys offers the generator type
+<a href="hiosys_types.html#environment">HioEnvironment</a>. A HioEnvironment is designed by respecting
+the following <strong>rules</strong>:
+<ul class="12">
+<li>There are exactly 4 types of events: <fimath>U_E, Y_E, U_L, Y_L</fimath>. The event
+ attributes have to be set accordingly.</li>
+<li>There are only 4 Types of states: <fimath>Q_{UL}, Q_{YL,UE}, Q_{UE}, Q_{YE}</fimath> defined by
+ the type of events possible in that type of state, where in a <fimath>Q_{YL,UE}</fimath>-
+ state, only <fimath>Y_L</fimath>- or <fimath>U_E</fimath>- events are possible. Setting according
+ state attributes is optional.</li>
+<li>The initial state is of type <fimath>Q_YE</fimath>.</li>
+<li>Transitions are set such that only event-pairs <fimath>Y_E U_E</fimath> or quadruples
+<fimath>Y_E Y_L U_L U_E</fimath>
+ can occur.</li>
+<li>After a <fimath>U_E</fimath>-event, all <fimath>Y_E</fimath>-events must be accepted.</li>
+<li>After a <fimath>Y_L</fimath>-event, all <fimath>U_L</fimath>-events are possible (free input).</li>
+<li>After a <fimath>Y_E</fimath>- or <fimath>U_L</fimath>-event, at least one <fimath>U_E</fimath>-event must be possible (completeness).</li>
+<li>All states are marked to achieve a prefix-closed system (<a href="hiosys_types.html#closed">remark...</a>).</li>
+</ul>
+</p>
+
+<p>
+<small>
+<strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+For each group TU AB, CD, etc., the interaction of the two TUs among themselves and with
+the remaining environment is captured by a subordinate I/O environment model <fimath>S_{EL}</fimath>.
+Accordingly, this model
+describes the possibilities of the two TU&apos;s to exchange workpieces among themselves or with
+the remaining environment, where both cases can be treated separately: the below HioEnvironment
+generator can be split into an upper half of <fimath>Y_E Y_L U_L U_E</fimath>-sequences (external interaction)
+and a lower half of <fimath>Y_E U_E</fimath>-sequences (internal interaction).
+</small>
+</p>
+<p>
+<table class="plain">
+<tr> 
+<td> <fimage fsrc="tmp_hio_tu_envAB"/></td>
+<td>
+<table>
+<tr><td align="center"><img fsrc="FAUDES_IMAGES/hio_tu_example_external_interaction.png"/></td></tr>
+<tr><td align="center"><small>external interaction</small></td></tr>
+<tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr>
+<tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr>
+<tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr>
+<tr><td align="center"><img fsrc="FAUDES_IMAGES/hio_tu_example_internal_interaction.png"/></td></tr>
+<tr><td align="center"><small>internal interaction</small></td></tr>
+</table>
+</td>
+</tr>
+<tr>
+<td align="center"><small>environment model for TU A and B</small></td>
+<td></td>
+</tr>
+</table>
+</p>
+<p>
+<small>
+  First, we consider the internal interaction between TU A and B, namely the propagation of a workpiece
+from TU A to TU B, see lower half of the automaton model. Initially, due to its
+I/O-controller structure, the environment has to accept all <fimath>Y_E</fimath>-events
+(all events labeled <i>req_*_A</i> and <i>req_*_B</i>) issued
+by TU A or TU B and may respond by the <fimath>U_E</fimath>-events <i>nack_A</i>, <i>pack_A</i>
+or <i>nack_B</i>, <i>pack_B</i>,
+depending on the correct order of requests. The event <i>req_fl_B</i> is responded by <i>nack_B</i>
+ (state <i>rqflB</i>) as TU A has not provided a workpiece yet. Instead, <i>req_tr_A</i> is followed by
+ <i>pack_A</i>, after which only the appropriate request <i>req_fl_B</i> leads to positive
+ acknowledge (state <i>rqtrA_2</i>), as TU B has to take
+over the workpiece provided by TU A.
+The second step is the description of the external interaction (upper half of automaton) of module
+AB with the remaining environment. To this end, we introduce the alphabets
+<fimath>Y_L:=\{req_fl_AB, req_tr_AB\}</fimath> and  <fimath>U_L:= \{nack_AB, pack_AB\}</fimath> as the
+plant-I/O port of <fimath>S_{EL}</fimath>. As <i>req_fl_A</i> represents a request of the entire
+module AB, it is 'translated' to the remaining environment by <i>req_fl_AB</i> (state <i>rqflA_1</i>). Now,
+the plant-I/O port of <fimath>S_{EL}</fimath> has to accept all <fimath>U_{L}</fimath>-events. Both
+acknowledges from the remaining environment, <i>nack_AB</i> and <i>pack_AB</i> are reported to TU A by
+<i>nack_A</i> and <i>pack_A</i>, respectively (states <i>rqflA_3</i>, <i>rqflA_4</i>, <i>rqtrB_3</i> and <i>rqtrB_4</i>). In the same way, the request
+<i>req_tr_B</i> is 'translated' to the remaining environment (state <i>rqtrB_1</i>).
+Note that the environment constraints SEi as depicted in Figure 3.7 are violated in states <i>rqflA_4</i>, <i>rqtrB_4</i>, <i>rqflB</i> and
+<i>err_UE</i>, because the shared resource is not provided as requested. Hence, in the compound of module
+    AB and <fimath>S_{EL}</fimath>, the liveness of TU A and B is not preserved.
+  </small>
+</p>
+
+<p>
+Interacting
+discrete event systems often feature such concurrent behaviour meaning that the liveness property
+of the individual plant components is lost in the compound behaviour due to conflicts in the interaction.
+In our framework, such situations (that have to be avoided by control) are readily captured by
+the I/O environment: seen from the I/O plant (i.e. the I/O shuffle), the environment poses a constraint
+that is able and likely to violate the environment constraint <fimath>S_E</fimath> needed for liveness of
+the I/O shuffle and at last of the individual plant components.
+Besides enforcing a specification for the whole group of plant components, it is a main task for a
+superposed controller to restore the liveness in the closed loop.
+</p>
+
+<p>
+Consistently, the external view <fimath>S_{PL}</fimath> with <fimath>L_{PL}=L_{PE}||L_{EL}</fimath> on the parallel
+composition of I/O plant (shuffle) and I/O environment is an I/O plant. Based on the above liveness
+considerations,  Theorem V.7 in <fcite name="H1"/> characterizes suitable constraints <fimath>S_{P}</fimath> and
+ <fimath>S_{L}</fimath> that imply liveness of the individual components as well as of the compound group.
+ Usually, <fimath>S_{L}</fimath> is designed by the user as reasonable constraint on the remaining environment,
+ while an according constraint <fimath>S_{P}</fimath> is synthesized in form of a superposed controller in the
+ next step.
+</p>
+
+<p>
+<small>
+<strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+For the compound of two TU&apos;s with the above environment model, a reasonable constraint <fimath>S_{L}</fimath>
+on the remaining environment is analogous to the constraint of one single TU:
+</small>
+</p>
+<small>
+<p>
+<table class="plain">
+<tr><td> <!-- <fimage fsrc="tmp_hio_tu_constrL_AB"/> </fimage> --> </td></tr>
+<tr><td><i> <small>environment constraint for compound of TU A and B</small></i> </td></tr>
+</table>
+</p>
+</small>
+
+<p>
+We obtain a set of n'&lt; n groups of plant components with environment model or, eventually,
+remaining I/O plants that do not participate any group at the current hierarchical stage.
+</p>
+
+<p>
+<img fsrc="FAUDES_IMAGES/hio_tu_example_environment.png"/>
+</p>
+
+
+<p>
+<table class="plain" >
+  <colgroup>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+  </colgroup>
+<tr>
+  <td><a href="hiosys_stepbystep_4.html">&lt;&lt; Step4</a> </td>
+  <td><a href="hiosys_index.html">HioSys Home</a></td>
+  <td><a href="hiosys_stepbystep_6.html">Step6 &gt;&gt;</a></td>
+</tr>
+</table>
+</p>
+</ReferencePage>
+
+  

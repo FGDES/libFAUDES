@@ -1,0 +1,7 @@
+** tmoor, 200808
+
++ libfaudes integration as plugin
++ redesign of datastructures to make use of attributed sets
++ redesign to simplify stochastic semantics
++ redesign of datastructures for performance (still some more options at this end)
+

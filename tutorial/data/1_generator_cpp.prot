@@ -1,0 +1,188 @@
+%%% test mark: g1 [at 1_generator.cpp:67]
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/2
+%  Events:        2
+%  Transitions:   3
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: generator [at 1_generator.cpp:114]
+% 
+%  Statistics for Generator_3
+% 
+%  States:        3
+%  Init/Marked:   1/2
+%  Events:        2
+%  Transitions:   3
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: g1, edited [at 1_generator.cpp:435]
+% 
+%  Statistics for NewName
+% 
+%  States:        10
+%  Init/Marked:   2/3
+%  Events:        5
+%  Transitions:   3
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: acc [at 1_generator.cpp:636]
+% 
+%  Statistics for AccessibleSet
+% 
+%  Size: 11
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: coacc [at 1_generator.cpp:637]
+% 
+%  Statistics for CoaccessibleSet
+% 
+%  Size: 8
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: term [at 1_generator.cpp:638]
+% 
+%  Statistics for TerminalStates
+% 
+%  Size: 3
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: accessible [at 1_generator.cpp:691]
+% 
+%  Statistics for GAccessible
+% 
+%  States:        11
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   13
+%  StateSymbols:  11
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: coaccessible [at 1_generator.cpp:692]
+% 
+%  Statistics for GCoccessible
+% 
+%  States:        8
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  8
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: complete [at 1_generator.cpp:693]
+% 
+%  Statistics for GComplete
+% 
+%  States:        9
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   11
+%  StateSymbols:  9
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: trim [at 1_generator.cpp:694]
+% 
+%  Statistics for GTrim
+% 
+%  States:        6
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   7
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: omega trim [at 1_generator.cpp:695]
+% 
+%  Statistics for GOmegaTrim
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: iscmpl [at 1_generator.cpp:728]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: gsigcomplB [at 1_generator.cpp:729]
+% 
+%  Statistics for GSigoCompleteB
+% 
+%  States:        9
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   11
+%  StateSymbols:  9
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: gsigcomplC [at 1_generator.cpp:730]
+% 
+%  Statistics for GSigoCompleteC
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   5
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+

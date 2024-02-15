@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="ExtIntro" page="0_Index" title="LuaExtensions - Introduction">
+
+<fsummary>
+Example lua-extension for demonstration purposes, may be used
+as a template for extension development;
+<i>will be removed from the standard libFAUDES distribution</i>.
+</fsummary>
+
+
+<h1> LuaExtensions - Introduction </h1>
+
+<p>
+Lua-extensions provide a light-weight mechanism to extend libFAUDES
+by functions implemented as luafaudes scripts. 
+</p>
+ 
+<p>
+This particular lua-extension is meant as a simple example for
+demonstration purposes. 
+It provides the functions <ffnct>LargeGenerator</ffnct> 
+and <ffnct>IsLargeGenerator</ffnct>, as well as a reference page 
+for their documentation.
+The source code of the corresponding extension
+file (<tt>extintro.flx</tt>) and further comments on the workflow 
+are given on the 
+<a fhref="FAUDES_LUAFAUDES/faudes_luafaudes.html">luafaudes pages</a>  
+of the libFAUDES documentation.
+</p>
+
+<p>
+<br/>
+<br/>
+Copyright (C) 2011, 2013, Thomas Moor.
+<br/>
+<br/>
+</p>
+
+<h2>
+Literature
+</h2>
+
+<p>
+We give some references to Lua related literature.
+</p>
+
+<fliterature name="LUA1">
+<fauthors>R.&nbsp;Ierusalimschy, L.H&nbsp;.de&nbsp;Figueiredo, W.&nbsp;Celes</fauthors>
+<ftitle>Lua 5.1 Reference Manual</ftitle>
+<fjournal><a href="http://www.lua.org">Lua.org</a>, ISBN 85-903798-3-3</fjournal>
+<fyear>2006</fyear>
+</fliterature>
+
+<fliterature name="LUA2">
+<fauthors>R.&nbsp;Ierusalimschy</fauthors>
+<ftitle>Programming in Lua (second edition)</ftitle>
+<fjournal><a href="http://www.lua.org">Lua.org</a>, ISBN 85-903798-2-5</fjournal>
+<fyear>2006</fyear>
+</fliterature>
+
+</ReferencePage>

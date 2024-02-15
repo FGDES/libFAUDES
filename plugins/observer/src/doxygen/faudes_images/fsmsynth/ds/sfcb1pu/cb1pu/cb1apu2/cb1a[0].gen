@@ -1,0 +1,52 @@
+<Generator>
+"cb1a[0]"     
+
+% 
+%  Statistics for cb1a[0]
+%  States:        9
+%  Init/Marked:   1/1
+%  Events:        9
+%  Transitions:   15
+%  StateSymbols:  9
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+"sf-cb1"      +C+           "cb1awpar"    "sf-2"        +C+           "cb1stp"      
++C+           "sf-3"        +C+           "cb1-x"       +C+           "cb1awplv"    
+"t_cb1a"      +C+           "sf-dep"      +C+           
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           "5"           "6"           
+"7"           "8"           "dummy_4"     
+</States>
+
+<TransRel>
+"1"           "sf-cb1"      "2"           
+"1"           "cb1-x"       "8"           
+"2"           "cb1-x"       "3"           
+"3"           "cb1awpar"    "4"           
+"3"           "cb1stp"      "2"           
+"4"           "cb1stp"      "5"           
+"4"           "t_cb1a"      "dummy_4"     
+"5"           "sf-2"        "7"           
+"5"           "sf-3"        "6"           
+"5"           "sf-dep"      "6"           
+"6"           "cb1-x"       "4"           
+"7"           "cb1awplv"    "1"           
+"8"           "sf-cb1"      "3"           
+"8"           "cb1stp"      "1"           
+"dummy_4"     "cb1awplv"    "8"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"         
+ </MarkedStates>
+
+
+</Generator>

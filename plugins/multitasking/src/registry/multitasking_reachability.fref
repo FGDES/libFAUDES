@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Multitasking" title="Multitasking - Reachability">
+
+<h1>Reachability Tests/Conversions </h1>
+
+<p>
+Due to colored marking of states, <ftype>MtcSystem</ftype>s allow for variations
+on the notion of coaccessibility, and, hence, trimmness. Note that accessibility
+is not affected.
+</p>
+
+<ffnct_reference name="IsStronglyCoaccessible"> 
+</ffnct_reference>
+
+<ffnct_reference name="IsStronglyTrim"> 
+</ffnct_reference>
+
+<ffnct_reference name="StronglyCoaccessible"> 
+</ffnct_reference>
+
+<ffnct_reference name="StronglyTrim">
+</ffnct_reference>
+
+</ReferencePage>
+
+  

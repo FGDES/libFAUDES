@@ -1,0 +1,45 @@
+<Generator> "Transport Unit A" 
+
+<Alphabet>
+"no_op_A" +UP+
+"del_tr_A" +UP+
+"take_fl_A" +UP+
+"empty_A" +YP+
+"full_A" +YP+
+"nack_A" +UE+
+"pack_A" +UE+
+"req_fl_A" +YE+
+"req_tr_A" +YE+
+</Alphabet>
+
+<States>
+"1" "2" "3" "4" "5" "6" "7" "8" "9" "Err"
+</States>
+
+<TransRel>
+"1" "empty_A" "2"
+"2" "no_op_A" "1"
+"2" "take_fl_A" "3"
+"2" "del_tr_A" "Err"
+"3" "req_fl_A" "4"
+"4" "nack_A" "3"
+"4" "pack_A" "5"
+"5" "full_A" "6"
+"6" "no_op_A" "5"
+"6" "del_tr_A" "7"
+"6" "take_fl_A" "Err"
+"7" "req_tr_A" "8"
+"8" "nack_A" "7"
+"8" "pack_A" "1"
+</TransRel>
+
+<InitStates>
+"1"            
+</InitStates>
+
+<MarkedStates>
+"1" "2" "3" "4" "5" "6" "7" "8" "9" "Err"
+</MarkedStates>
+
+</Generator>
+

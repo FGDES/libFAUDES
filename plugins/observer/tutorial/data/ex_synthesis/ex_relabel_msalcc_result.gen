@@ -1,0 +1,61 @@
+<Generator>
+observer_verification1 
+
+% 
+%  Statistics for observer_verification1
+% 
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        14
+%  Transitions:   21
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+alpha         beta          gamma         a             +C+           b            
+c             d             e             f             +C+           g            
++C+           h             +C+           i             fnewHLevent_2  +C+          
+hnewHLevent_5  +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              12            
+</Consecutive>
+</States>
+
+<TransRel>
+1              d             2             
+2              b             4             
+2              h             3             
+3              i             5             
+4              b             5             
+5              alpha         6             
+6              a             7             
+6              e             9             
+7              b             8             
+7              c             10            
+8              beta          1             
+8              c             7             
+8              fnewHLevent_2  11            
+9              f             11            
+9              g             10            
+9              hnewHLevent_5  12            
+10             b             7             
+10             d             8             
+11             g             8             
+11             hnewHLevent_5  12            
+12             gamma         1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

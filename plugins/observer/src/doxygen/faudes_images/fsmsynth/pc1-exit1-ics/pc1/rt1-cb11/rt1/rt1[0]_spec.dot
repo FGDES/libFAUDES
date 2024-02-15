@@ -1,0 +1,66 @@
+digraph "rt1[0]||rt1[0]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1|1";
+
+  // mstates
+  "1|1" [shape=doublecircle];
+
+  // rest of stateset
+  "1|2";
+  "dummy_1|1";
+  "2|3";
+  "dummy_1|2";
+  "dummy_2|3";
+  "3|4";
+  "dummy_3|4";
+  "7|5";
+  "8|6";
+  "dummy_7|5";
+  "9|5";
+  "dummy_8|6";
+  "8|7";
+  "8|8";
+  "dummy_8|7";
+  "6|9";
+  "dummy_8|8";
+  "dummy_6|9";
+  "4|10";
+  "dummy_4|10";
+  "10|11";
+  "1|12";
+  "dummy_10|11";
+  "9|11";
+  "dummy_1|12";
+
+  // transition relation
+  "1|1" -> "1|2" [label="rt1xy"];
+  "1|1" -> "dummy_1|1" [label="t_modul3\rt1-cb11\rt1"];
+  "1|2" -> "2|3" [label="rt1mvy"];
+  "1|2" -> "dummy_1|2" [label="t_modul3\rt1-cb11\rt1"];
+  "2|3" -> "dummy_2|3" [label="t_modul3\rt1-cb11\rt1"];
+  "dummy_2|3" -> "3|4" [label="rt1lvx"];
+  "3|4" -> "dummy_3|4" [label="t_modul3\rt1-cb11\rt1"];
+  "dummy_3|4" -> "7|5" [label="rt1ary"];
+  "7|5" -> "8|6" [label="rt1stp"];
+  "7|5" -> "dummy_7|5" [label="t_modul3\rt1-cb11\rt1"];
+  "8|6" -> "dummy_8|6" [label="t_modul3\rt1-cb11\rt1"];
+  "dummy_7|5" -> "9|5" [label="rt1f"];
+  "dummy_8|6" -> "8|7" [label="rt1y"];
+  "8|7" -> "8|8" [label="rt1yx"];
+  "8|7" -> "dummy_8|7" [label="t_modul3\rt1-cb11\rt1"];
+  "8|8" -> "6|9" [label="rt1mvx"];
+  "8|8" -> "dummy_8|8" [label="t_modul3\rt1-cb11\rt1"];
+  "6|9" -> "dummy_6|9" [label="t_modul3\rt1-cb11\rt1"];
+  "dummy_6|9" -> "4|10" [label="rt1lvy"];
+  "4|10" -> "dummy_4|10" [label="t_modul3\rt1-cb11\rt1"];
+  "dummy_4|10" -> "10|11" [label="rt1arx"];
+  "10|11" -> "1|12" [label="rt1stp"];
+  "10|11" -> "dummy_10|11" [label="t_modul3\rt1-cb11\rt1"];
+  "1|12" -> "dummy_1|12" [label="t_modul3\rt1-cb11\rt1"];
+  "dummy_10|11" -> "9|11" [label="rt1f"];
+  "dummy_1|12" -> "1|1" [label="rt1x"];
+};

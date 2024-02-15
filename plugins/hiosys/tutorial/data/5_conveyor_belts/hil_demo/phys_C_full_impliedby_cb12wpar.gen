@@ -1,0 +1,24 @@
+<Generator>
+"phys_C_full_impliedby_cb12wpar"
+
+<Alphabet>
+"C_full" "cb12wpar"
+</Alphabet>
+
+<States>
+1 2
+</States>
+
+<TransRel>
+1 "cb12wpar" 2
+2 "C_full" 1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+</Generator>

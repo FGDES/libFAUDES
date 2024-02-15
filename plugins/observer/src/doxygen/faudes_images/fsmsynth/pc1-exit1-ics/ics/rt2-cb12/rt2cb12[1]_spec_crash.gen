@@ -1,0 +1,51 @@
+<Generator>
+"rt2cb12[1]_spec" 
+
+% 
+%  Statistics for rt2cb12[1]_spec
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   11
+%  StateSymbols:  5
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"cb12stp"      "cb3-12"      +C+           "cb5-12"      +C+           "cb12-4"      
++C+           "rt2xy"       +C+           "rt2yx"       "rt2stp" +C+
++C+           "cb12-y-x" +C+   
+</Alphabet>
+
+<States>
+1	2	3	4	5          6	7
+</States>
+
+<TransRel>
+1	"cb12-y-x"	2
+1	"cb3-12"	1
+2	"cb12stp"	1
+1	"cb12-4"	3
+3	"rt2yx"	3
+3	"rt2stp"	4
+4	"cb12-y-x"	4
+4	"cb12stp"	5
+5	"cb5-12"	6
+5	"cb12-4"	6
+6	"cb12-y-x"	6
+6	"cb12stp"	5
+5	"cb3-12"	7
+7	"rt2xy"	7
+7	"rt2stp"	1
+</TransRel>
+
+<InitStates>
+1           
+</InitStates>
+
+<MarkedStates>
+1           5
+</MarkedStates>
+
+
+</Generator>

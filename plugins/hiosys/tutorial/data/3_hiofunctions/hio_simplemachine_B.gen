@@ -1,0 +1,43 @@
+<Generator> "hio - simple machine B" 
+
+% Simple machine example for hiosys-tutorial.
+% Sends YP-event "B_wait" to operator.
+% Does nothing after UP-event "B_stp", or executes
+% the process "B_do", which produces a shared
+% resource provided to the environment, modelled
+% by "B_prov". The environment may or may not
+% accept the resource ("B_pack" or "B_nack",
+% respectively).
+
+<Alphabet>
+"B_wait" +YP+
+"B_do" +UP+   "B_stp" +UP+
+"B_prov" +YE+
+"B_nack" +UE+     "B_pack" +UE+
+</Alphabet>
+
+<States>
+<Consecutive>
+1             4
+</Consecutive>
+</States>
+
+<TransRel>
+1 "B_wait" 2
+2 "B_stp" 1
+2 "B_do" 3
+3 "B_prov" 4
+4 "B_nack" 3
+4 "B_pack" 1
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+1 2 3 4
+</MarkedStates>
+
+</Generator>
+

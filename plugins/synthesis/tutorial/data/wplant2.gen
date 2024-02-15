@@ -1,0 +1,32 @@
+<Generator>
+"wPlant2"
+
+<Alphabet>
+"a"  +C+    "b" +C+ 
+"c"  "d"    "f"  
+</Alphabet>
+
+<States>
+"I" "A1" "A2" "B1" "B2" 
+</States>
+
+<TransRel>
+"I" "a" "A1"
+"I" "b" "B1"
+"A1" "c" "A2"
+"A2" "c" "A2"
+"A2" "f" "I"
+"B1" "d" "B2"
+"B2" "d" "B2"
+"B2" "f" "I"
+</TransRel>
+
+<InitStates>
+"I"        
+</InitStates>
+
+<MarkedStates>
+"I"         
+</MarkedStates>
+
+</Generator>

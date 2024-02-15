@@ -1,0 +1,16 @@
+%%% test mark: lgen test 1 [at extintro_example.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: lgen test 3 [at extintro_example.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

@@ -1,0 +1,62 @@
+digraph "mh1d1[0]||mh1d1[0]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1|1";
+
+  // mstates
+  "1|1" [shape=doublecircle];
+
+  // rest of stateset
+  "1|2";
+  "dummy_1|1";
+  "2|3";
+  "dummy_1|2";
+  "dummy_2|3";
+  "3|4";
+  "dummy_3|4";
+  "4|5";
+  "7|6";
+  "dummy_4|5";
+  "5|5";
+  "20|7";
+  "dummy_20|7";
+  "7|8";
+  "12|9";
+  "dummy_12|9";
+  "14|10";
+  "dummy_14|10";
+  "17|11";
+  "1|12";
+  "dummy_17|11";
+  "5|11";
+  "dummy_1|12";
+
+  // transition relation
+  "1|1" -> "1|2" [label="mh1start"];
+  "1|1" -> "dummy_1|1" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "1|2" -> "2|3" [label="mh1mv-z"];
+  "1|2" -> "dummy_1|2" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "2|3" -> "dummy_2|3" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "dummy_2|3" -> "3|4" [label="mh1lv+z"];
+  "3|4" -> "dummy_3|4" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "dummy_3|4" -> "4|5" [label="mh1ar-z"];
+  "4|5" -> "7|6" [label="mh1stp"];
+  "4|5" -> "dummy_4|5" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "7|6" -> "20|7" [label="d1run"];
+  "dummy_4|5" -> "5|5" [label="mh1f"];
+  "20|7" -> "dummy_20|7" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "dummy_20|7" -> "7|8" [label="d1stp"];
+  "7|8" -> "12|9" [label="mh1mv+z"];
+  "12|9" -> "dummy_12|9" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "dummy_12|9" -> "14|10" [label="mh1lv-z"];
+  "14|10" -> "dummy_14|10" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "dummy_14|10" -> "17|11" [label="mh1ar+z"];
+  "17|11" -> "1|12" [label="mh1stp"];
+  "17|11" -> "dummy_17|11" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "1|12" -> "dummy_1|12" [label="t_modul3\cb4-mh1-d1\mh1d1"];
+  "dummy_17|11" -> "5|11" [label="mh1f"];
+  "dummy_1|12" -> "1|1" [label="mh1end"];
+};

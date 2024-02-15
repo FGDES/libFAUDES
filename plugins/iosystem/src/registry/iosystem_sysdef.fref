@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="IoSystem" page="2_Properties" title="I/O Systems - Properties">
+
+<h1>
+I/O Systems Definition and Properties
+</h1>
+
+
+<h2>
+<a id="IoSystem">
+IoSystem
+</a>
+</h2>
+
+<p>
+The IoSystem class implements a generator <fdmath>G</fdmath> with 
+specialized event attributes to represent the overall alphabet
+as a disjoint union of input events and output events; i.e.,
+<fimath>\Sigma=U\dcup Y</fimath>.
+The intention is to impose conditions on the transition relation
+that justify the interpretation of inputs and outputs from a behavioural 
+perspective: 
+according to <fcite name="B1"/>, I/O systems 
+have a <i>free input</i> and the <i>output does not 
+anticipate the input</i>. 
+</p>
+
+<p>
+Both properties are originally stated in terms of behaviours, 
+i.e., sets of signals on some infinite
+time axis, typically the reals or the integers. 
+For the discrete event setting within libFAUDES, 
+we focus our attention to omega-languages where
+input events and output events are required to 
+alternate. Thus, an object of type IoSystem 
+is interpreted as the omega language <fimath>L=Bm(G)</fimath>
+and we require <fdmath>L\subseteq (UY)^\omega</fdmath>.
+The latter can be verified by 
+<ffnct>IsIoSystem</ffnct>; 
+for further properties related to inputs and outputs,
+see
+<ffnct>IsInputLocallyFree</ffnct> and
+<ffnct>IsInputOmegaFree</ffnct>.
+</p>
+
+<fexample/>
+
+<p>
+Simple I/O system with 
+<fimath>U=\{\texttt{u1},\,\texttt{u2}\}</fimath> and
+<fimath>Y=\{\texttt{y1},\,\texttt{y2}\}</fimath>.
+</p>
+
+<p>
+<fimage fsrc="tmp_ios_system1"/> 
+</p>
+
+<h3>Token IO</h3>
+
+<p>
+The token format is identical with the standard <ftype>Generator</ftype>,
+except for the event attribute <tt>+I+</tt> for input events and
+<tt>+O+</tt> for output events.
+</p>
+
+<pre>
+&lt;Generator&gt;
+"IOSystem"           
+
+&lt;Alphabet&gt;
+"u1"    +I+     "u2"    +I+
+"y1"    +O+     "y2"    +O+
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"s1"  "s2" "s3"	"s4"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"s1"	"u1"	"s2"
+
+"s2"	"y1"	"s3"
+
+"s3"	"u1"	"s4"
+"s3"	"u2"	"s2"
+
+"s4"	"y1"	"s1"
+"s4"	"y2"	"s3"
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;   
+"s1" 
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt; 
+"s1" 
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+</pre>
+
+
+
+
+<ffnct_reference name="IsIoSystem">
+
+<fdetails/>
+
+<p>
+The function <ffnct>IsIoSystem</ffnct> tests whether
+the event attributes are consistent with the
+transition system. It returns true if
+</p>
+<ul  class="l2">
+<li><p>
+the alphabet is the disjoint union of input and output events; and if
+</p></li>
+<li><p>
+either <fdmath>L(G)\subseteq(UY)^*</fdmath> or
+<fdmath>L(G)\subseteq(YU)^*</fdmath>; and if
+</p></li>
+<li><p>
+<fdmath>L_m(G)</fdmath> is complete.
+</p></li>
+</ul>
+
+<p>
+This implementation also sets state attributes to indicate
+whether a state has outgoing input events or outgoing output events.
+When the test fails, conflicting states get an error attribute attached.
+</p>
+
+<fexample/>
+
+<p>
+All examples in this reference satisfy the above conditions,
+including the generator given at <ftype>IoSystem</ftype>.
+</p>
+
+
+<fconditions/>
+<p>
+There are no conditions on the arguments.
+</p>
+
+</ffnct_reference>
+
+
+
+<ffnct_reference name="IsInputLocallyFree">
+
+<fdetails/>
+
+<p>
+The function <ffnct>IsInputLocallyFree</ffnct> tests if whenever
+some input event can be applied then any other input symbol
+can be applied, too. Technically, 
+the I/O system <fimath>(G,\, U,\, Y)</fimath>
+exhibits a <i>locally free input</i> U if
+<br/>
+<br/>
+<fdmath>(\forall s\in \Prefix{L}\  \forall \mu,\,\mu'\in U )\,[\,s\mu\in\Prefix{L}\quad\Rightarrow\quad s\mu'\in\Prefix{L}\,]\,,</fdmath>
+<br/>
+<br/>
+where <fimath>L=B(G)</fimath>. Indeed, for omega-closed languages
+<fdmath>L\subseteq(YU)^w</fdmath>, the above
+property can be verified to be equivalent to a free input and a
+non-anticipating output in the behavioural sense <fcite name="B1"/>.
+</p>
+
+<p>
+The current implementation iterates over all states and
+inspects outgoing transitions. If the generator is accessible,
+the test is equivalent to the above definition. Otherwise
+it is sufficient.
+When the test fails, conflicting states get an error 
+attribute attached.
+</p>
+
+<fexample/>
+
+<p>
+The I/O system given at <ftype>IoSystem</ftype>
+does not possess a free input U, since input event
+<tt>u1</tt> is enabled in state <tt>s1</tt> while
+<tt>u2</tt> is disabled.
+</p>
+
+<p>
+The plant <fimath>L</fimath> as well as the abstraction <fimath>L'</fimath> in the
+<a href="iosystem_index.html#example">vehicle example</a> 
+both exhibit a locally free input.
+</p>
+
+<fconditions/>
+<p>
+There are no conditions on the arguments.
+</p>
+
+
+</ffnct_reference>
+
+
+
+<ffnct_reference name="IsInputOmegaFree">
+
+<fdetails/>
+
+<p>
+An I/O system exhibits an <i>omega-free input U</i>,
+if the input is locally free (see <ffnct>IsInputLocallyFree</ffnct>)
+and if the system can always control the execution sequence 
+to reach a marked state by choosing appropriate output events
+in a causal fasion. 
+</p>
+<p>
+Technically, the I/O system <fimath>(L,\,U,\,Y)</fimath>
+exhibits an omega-free input U 
+if U is a locally free input of <fimath>L=Bm(G)</fimath>
+and if for each <fimath>s\in \Prefix{L}</fimath>
+there exists a  <fimath>V\subseteq L</fimath>, <fimath>s\in\Prefix{V}</fimath>,
+such that
+</p>
+<ul  class="l2">
+<li><p>
+<fimath>\Prefix{V}</fimath> is controllable w.r.t. <fimath>(\Prefix{L},U)</fimath>, and
+</p></li>
+<li><p>
+<fimath>V</fimath> is relatively omega-closed w.r.t. <fimath>L</fimath>.
+</p></li>
+</ul>
+
+<p>
+Note that the above condition is closely related to the notion
+of omega-controllability where U (!!) are regarded the uncontrollable
+events. Note also that for omega-closed I/O systems, 
+the properties of a locally free input and an omega-free input 
+are equivalent.
+</p>
+
+
+<fexample/>
+
+<p>
+The plant <fimath>L</fimath> as well as the abstraction <fimath>L'</fimath> in the
+<a href="iosystem_index.html#example">vehicle example</a> 
+both exhibit an omega-free input.
+</p>
+
+<p>
+The below I/O system satisfies the original behavioural
+conditions states in <fcite name="B1"/>,
+including a non-anticipating
+output, where
+<fimath>U=\{\texttt{a},\, \texttt{b}\}</fimath>,
+<fimath>Y=\{\texttt{A},\, \texttt{B}\}</fimath>.
+It does, however, not possess an omega-free input <fimath>U</fimath>.
+</p>
+
+<p>
+<fimage fsrc="tmp_ios_noplant"/> 
+</p>
+
+
+<fconditions/>
+<p>
+The current implementation assumes the specified <ftype>IoSystem</ftype> 
+to be deterministic.
+</p>
+
+</ffnct_reference>
+
+
+
+
+<ffnct_reference name="IoFreeInput">
+
+<fdetails/>
+
+<p>
+When the specified generator fails to exhibit a locally free
+input, this procedure introduces a pair of dummy states with arbitrary
+behaviour and adds transitions in order to formally achieve
+a locally free input. This function is meant to ease manual editing
+of I/O systems.
+</p>
+
+<fexample/>
+
+<p>
+Applying <ffnct>FreeInput</ffnct>
+to the example given at <ftype>IoSystem</ftype>,
+one obtaines
+</p>
+<p>
+<fimage fsrc="tmp_ios_system1f"/> 
+</p>
+<p>
+Note that the resulting system does not possess
+an omega-free input, since once in state <tt>s2</tt>,
+the execution can not be controlled by choosing output events
+to attain a marked state.
+</p>
+
+
+
+<fconditions/>
+<p>
+Determinism of the specified <ftype>IoSystem</ftype> is maintained.
+</p>
+</ffnct_reference>
+
+
+</ReferencePage>
+
+  

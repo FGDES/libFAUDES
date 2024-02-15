@@ -1,0 +1,83 @@
+<Generator>
+"SupConNB((rts1[0]||rts1[0]||rts1[0]_3-4),(rts1[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((rts1[0]||rts1[0]||rts1[0]_3-4),(rts1[0]_spec))
+%  States:        35
+%  Init/Marked:   1/1
+%  Events:        24
+%  Transitions:   42
+%  StateSymbols:  0
+%  Attrib. E/S/T: 9/0/0
+% 
+
+<Alphabet>
+"rts1+x"      +C+           "rts1-x"      +C+           "rts1_1"      "rts1_1-2"    
++C+           "rts1_2"      "rts1_2-1"    +C+           "rts1_2-3"    +C+           
+"rts1ar1"     "rts1ar2"     "rts1lv1"     "rts1lv2"     "rts1stp"     +C+           
+"rts1_3"      "rts1_3-2"    +C+           "rts1_3-4"    +C+           "rts1ar3"     
+"rts1lv3"     "rts1_4"      "rts1_4-3"    +C+           "rts1ar4"     "rts1lv3+x"   
+"rts1lv4"     "rts1lv4-x"   "crash"       
+</Alphabet>
+
+<States>
+<Consecutive>
+1             35            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "rts1_2-1"    2             
+1             "rts1_2-3"    3             
+2             "rts1-x"      26            
+3             "rts1-x"      4             
+4             "rts1lv2"     5             
+5             "rts1ar3"     6             
+6             "rts1stp"     7             
+7             "rts1_3"      8             
+8             "rts1_3-4"    9             
+9             "rts1-x"      10            
+10            "rts1lv3+x"   11            
+11            "rts1ar4"     12            
+11            "crash"       11            
+12            "rts1stp"     13            
+12            "crash"       12            
+13            "rts1_4"      14            
+13            "crash"       13            
+14            "rts1_4-3"    15            
+14            "crash"       14            
+15            "rts1+x"      16            
+15            "crash"       15            
+16            "rts1lv4-x"   17            
+16            "crash"       16            
+17            "rts1ar3"     18            
+18            "rts1stp"     19            
+19            "rts1_3"      20            
+20            "rts1_3-2"    21            
+21            "rts1+x"      22            
+22            "rts1lv3"     23            
+23            "rts1ar2"     24            
+24            "rts1stp"     25            
+25            "rts1_2"      1             
+26            "rts1lv2"     27            
+27            "rts1ar1"     28            
+28            "rts1stp"     29            
+29            "rts1_1"      30            
+30            "rts1_1-2"    31            
+31            "rts1+x"      32            
+32            "rts1lv1"     33            
+33            "rts1ar2"     34            
+34            "rts1stp"     35            
+35            "rts1_2"      1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

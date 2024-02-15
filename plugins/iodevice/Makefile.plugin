@@ -1,0 +1,186 @@
+#
+# Makefile for libfaudes io device plug-in, tmoor 200808
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate this plug-in
+#
+# FAUDES_PLUGINS += iodevice
+#
+# Note: this plug-in contributes to the rti docu of the simulator
+
+
+###############################################################################
+# DEFINES to control device types
+#
+
+# Simple tcp/ip based network devices
+FAUDES_OPTIONS += iop_simplenet
+
+# Compile with Modbus/TCP support 
+FAUDES_OPTIONS += iop_modbus
+
+# Compile with comedi support (requires comedi kernel module)
+#FAUDES_OPTIONS += iop_comedi
+
+# Compile with wago kbus support (requires WAGO kbusDemo archive)
+#FAUDES_OPTIONS += iop_wago
+
+# Compile with serial process image support 
+#FAUDES_OPTIONS += iop_serial 
+
+# Compile with d3ripURT support (requires realtime kernel patch and d3rip libraries)
+#FAUDES_OPTIONS += iop_d3ripURT
+
+# Compile with d3ripDART support (requires realtime kernel patch and d3rip libraries)
+#FAUDES_OPTIONS += iop_d3ripDART
+
+###############################################################################
+# DEFINES to control console output ie debug level
+#
+
+# Print debug messages, incl background threads etc
+FAUDES_DEBUG += iop_threads
+
+# Print more debug messages
+#FAUDES_DEBUG += iop_verbose
+
+# Debug performance, ie generate and report timimg info
+FAUDES_DEBUG += iop_performance
+
+
+#
+# set up paths relative to faudes path
+IOD_NAME= iodevice
+IOD_BASE=   ./plugins/$(IOD_NAME)
+IOD_SRCDIR= $(IOD_BASE)/src
+
+#
+# source files
+IOD_CPPFILES = iop_vdevice.cpp iop_xdevice.cpp iop_sdevice.cpp iop_simplenet.cpp \
+  iop_comedi.cpp iop_wago.cpp iop_serial.cpp iop_modbus.cpp iop_d3ripURT.cpp iop_d3ripDART.cpp
+IOD_INCLUDE  = iop_include.h
+IOD_RTIDEFS = iop_definitions.rti
+IOD_RTIFREF = simulator_iointro.fref simulator_exdetails.fref simulator_devices.fref simulator_decdemo.fref 
+
+#
+# fix directories
+IOD_HEADERS = $(IOD_CPPFILES:.cpp=.h) $(IOD_INCLUDE)
+IOD_SOURCES = $(IOD_CPPFILES:%=$(IOD_SRCDIR)/%)
+IOD_OBJECTS = $(IOD_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+IOD_RTIDEFS := $(IOD_RTIDEFS:%=$(IOD_SRCDIR)/registry/%)
+IOD_RTIFREF := $(IOD_RTIFREF:%=$(IOD_SRCDIR)/registry/%)
+
+
+#
+# include my plugin to configuration
+$(INCLUDEDIR)/$(IOD_INCLUDE): $(IOD_SRCDIR)/$(IOD_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(IOD_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* iodevice configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_IODEVICE" >> $(INCLUDEDIR)/configuration.h
+ifeq (iop_simplenet,$(findstring iop_simplenet,$(FAUDES_OPTIONS)))
+	echo "#define  FAUDES_IODEVICE_SIMPLENET" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_comedi,$(findstring iop_comedi,$(FAUDES_OPTIONS)))
+	echo "#define  FAUDES_IODEVICE_COMEDI" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_wago,$(findstring iop_wago,$(FAUDES_OPTIONS)))
+	echo "#define  FAUDES_IODEVICE_WAGO" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_serial,$(findstring iop_serial,$(FAUDES_OPTIONS)))
+	echo "#define  FAUDES_IODEVICE_SERIAL" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_modbus,$(findstring iop_modbus,$(FAUDES_OPTIONS)))
+	echo "#define  FAUDES_IODEVICE_MODBUS" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_d3ripURT,$(findstring iop_d3ripURT,$(FAUDES_OPTIONS)))
+	echo "#define  FAUDES_IODEVICE_D3RIP_URT 1" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_d3ripDART,$(findstring iop_d3ripDART,$(FAUDES_OPTIONS)))
+	echo "#define  FAUDES_IODEVICE_D3RIP_DART 1" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_threads,$(findstring iop_threads,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_IODEVICE" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_verbose,$(findstring iop_verbose,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_IOVERBOSE" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (iop_performance,$(findstring iop_performance,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_IOPERF" >> $(INCLUDEDIR)/configuration.h
+endif
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+
+#
+# wago supplied software targets via external make file
+wago-compile: 
+	make -C $(IOD_BASE)/libwpc
+wago-distclean: 
+	make -C $(IOD_BASE)/libwpc dist-clean
+wago-clean: 
+	make -C $(IOD_BASE)/libwpc clean
+$(IOD_BASE)/libwpc/wago_ipc_kbus.o: wago-compile
+	@echo "wago libs done ok"
+
+
+
+#
+# advertise plugin
+
+SOURCES += $(IOD_SOURCES)
+OBJECTS += $(IOD_OBJECTS)
+HEADERS += $(IOD_HEADERS)
+VPATH   += $(IOD_SRCDIR)
+
+# add-ons for particular devices, posix
+ifneq ($(FAUDES_PLATFORM),gcc_win)
+
+# posix systems: optional with comedi
+ifeq (iop_comedi,$(findstring iop_comedi,$(FAUDES_OPTIONS)))
+LDFLAGS += -lcomedi
+endif
+
+# posix systems: optional with wago
+ifeq (iop_wago,$(findstring iop_wago,$(FAUDES_OPTIONS)))
+LDFLAGS += -static
+LDFLAGS += $(IOD_BASE)/libwpc/libkbus.a
+LDFLAGS += $(IOD_BASE)/libwpc/libuio.a
+DISTCLEANTARGETS += wago-distclean
+CLEANTARGETS += wago-clean
+PREPARETARGETS += wago-compile
+OBJECTSEXT  += $(IOD_BASE)/libwpc/wago_ipc_kbus.o
+endif
+
+# posix systems: optional with d3rip
+ifeq (iop_d3ripURT,$(findstring iop_d3ripURT,$(FAUDES_OPTIONS)))
+LDFLAGS += -lrt
+endif
+
+# posix systems: optional with d3rip
+ifeq (iop_d3ripDART,$(findstring iop_d3ripDART,$(FAUDES_OPTIONS)))
+LDFLAGS += -lrt
+endif
+
+# add-ons for particular devices, win32
+else
+
+# no such
+
+# add-ons: endif
+endif
+
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(IOD_NAME)
+RTIDEFS += $(IOD_RTIDEFS)
+RTIFREF += $(IOD_RTIFREF)
+
+
+#
+# include tutorial
+
+include $(IOD_BASE)/Makefile.tutorial
+

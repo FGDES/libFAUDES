@@ -1,0 +1,85 @@
+#
+# makefile for libfaudes observer plugin
+#
+# include Makefile, tmoor200807
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += observer
+#
+
+# Print observer debug messages
+#FAUDES_DEBUG += op_function
+
+# Generate debuging plots
+#FAUDES_DEBUG += op_plots
+
+    
+#
+# set up paths for observer plugin
+
+OP_NAME   = observer
+OP_BASE   = ./plugins/$(OP_NAME)
+OP_SRCDIR = $(OP_BASE)/src
+
+
+#
+# source files
+
+OP_CPPFILES = op_mc.cpp op_obserververification.cpp op_observercomputation.cpp\
+  op_partition.cpp op_bisimulation.cpp
+OP_INCLUDE = op_include.h
+OP_RTIDEFS = op_definitions.rti
+OP_RTIGTML = observer_index.gtml observer_macros.gtml observer_misc.gtml observer_calc.gtml observer_test.gtml observer_example.gtml
+
+#
+# fix directories
+
+OP_HEADERS = $(OP_CPPFILES:.cpp=.h) $(OP_INCLUDE) op_debug.h
+OP_SOURCES = $(OP_CPPFILES:%=$(OP_SRCDIR)/%)
+OP_OBJECTS = $(OP_CPPFILES:%.cpp=$(OBJDIR)/%.o)
+OP_RTIDEFS := $(OP_RTIDEFS:%=$(OP_SRCDIR)/registry/%)
+OP_RTIGTML := $(OP_RTIGTML:%=$(OP_SRCDIR)/registry/%)
+
+
+#
+# append my plugin to configuration
+$(INCLUDEDIR)/$(OP_INCLUDE): $(OP_SRCDIR)/$(OP_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(OP_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* observer configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_OBSERVER" >> $(INCLUDEDIR)/configuration.h
+ifeq (op_function,$(findstring op_function,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_OPFUNCTION" >> $(INCLUDEDIR)/configuration.h
+endif
+ifeq (op_plot,$(findstring op_plot,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_OPPLOT" >> $(INCLUDEDIR)/configuration.h
+endif
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(OP_SOURCES)
+OBJECTS += $(OP_OBJECTS)
+HEADERS += $(OP_HEADERS)
+VPATH   += $(OP_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(OP_NAME)
+RTIDEFS += $(OP_RTIDEFS)
+RTIGTML += $(OP_RTIGTML)
+
+#
+# advertise luabindings
+LBP_INTERFACES += $(PEX_SRCDIR)/registry/op_interface.i 
+LBP_LUAMODULES += observer
+
+#
+# include tutorial
+
+include $(OP_BASE)/Makefile.tutorial
+

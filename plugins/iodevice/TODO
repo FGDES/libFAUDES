@@ -1,0 +1,12 @@
+iodevice TODO-List
+
+- DoxyGen compiles without failure but content has to be rvised
+ 
+- timing and performance has to be revised, e.g. dont read one sensor after the other instead
+  use "input by word" provided by comedi-framework
+
+- DoWrite~/DoRead~ - function still overwrite old files
+
+- write a class sDevice::pDevice which provides access to parallel-port
+
+- revise nDevice to have a proper implemetation 

@@ -1,0 +1,181 @@
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component feed
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component place 2
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   6
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component place 3
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component place 4
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component place 5
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component place 6
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component place 7
+% 
+%  States:        7
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for plant component exit at place 7
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for specification efeeda
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: SupGenVec_i [at syn_7_compsynth.cpp:104]
+% 
+%  Statistics for specification exit at place T
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: Monolithic Representation [at syn_7_compsynth.cpp:168]
+% 
+%  Statistics for specification exit at place T||spec...onent feed||plant component place 2
+% 
+%  States:        1947
+%  Init/Marked:   1/1
+%  Events:        12
+%  Transitions:   4233
+%  StateSymbols:  1947
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: Controllablity Test [at syn_7_compsynth.cpp:190]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: Nonblocking Test [at syn_7_compsynth.cpp:191]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

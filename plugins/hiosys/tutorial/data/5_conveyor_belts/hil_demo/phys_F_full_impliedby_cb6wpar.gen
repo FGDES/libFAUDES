@@ -1,0 +1,33 @@
+<Generator>
+"phys_F_full_impliedby_cb6wpar"
+
+
+
+<Alphabet>
+
+"cb6wpar" "F_full"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb6wpar" 2
+2            "F_full"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

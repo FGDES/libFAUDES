@@ -1,0 +1,65 @@
+<Generator>
+"elevator supervisor (core) [minstate]" 
+
+% 
+%  Statistics for elevator supervisor (core) [minstate]
+%  States:        10
+%  Init/Marked:   1/2
+%  Events:        9
+%  Transitions:   28
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+"c_up"        +C+           "c_down"      +C+           "c_stp"       +C+           
+"c_arlw"      "c_arup"      "c_lvlw"      "c_lvup"      "o_upb"       "o_lwb"       
+</Alphabet>
+
+<States>
+<Consecutive>
+1             10            
+</Consecutive>
+</States>
+
+<TransRel>
+2             "c_up"        6             
+2             "o_upb"       2             
+2             "o_lwb"       2             
+1             "o_upb"       2             
+1             "o_lwb"       2             
+3             "c_down"      7             
+3             "o_upb"       3             
+3             "o_lwb"       3             
+4             "c_arlw"      8             
+4             "o_upb"       4             
+4             "o_lwb"       4             
+5             "c_arup"      10            
+5             "o_upb"       5             
+5             "o_lwb"       5             
+6             "c_lvlw"      5             
+6             "o_upb"       6             
+6             "o_lwb"       6             
+7             "c_lvup"      4             
+7             "o_upb"       7             
+7             "o_lwb"       7             
+8             "c_stp"       1             
+8             "o_upb"       8             
+8             "o_lwb"       8             
+9             "o_upb"       3             
+9             "o_lwb"       3             
+10            "c_stp"       9             
+10            "o_upb"       10            
+10            "o_lwb"       10            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             9             
+</MarkedStates>
+
+
+</Generator>

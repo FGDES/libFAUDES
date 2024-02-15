@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="2_Step-By-Step" title="HioSys - Step 1">
+
+<h1>
+HioSys PlugIn
+</h1>
+<h2>
+The I/O-Based Approach - Step by Step
+</h2>
+<p>
+This page gives stepwise instructions on how to apply the I/O-based approach
+using the HioSys PlugIn.
+</p>
+
+<p>
+Suppose we are provided a discrete event system consisting of n plant components
+that in their particular configuration interact via shared resources. As
+it is typical for a model based approach, the first step is the design of
+a plant model.
+</p>
+<p>
+<small><strong>Example: Transport Unit.</strong> As an illustrating example, we consider a
+chain of simple transport units (TU&apos;s). In the tutorial "hio_4_transport_unit",
+you can recover each of the below steps in a C++ program
+(<a href="../csource/hio__4__transport__unit_8cpp.html">hio_4_transport_unit.cpp</a>)
+or in a luafaudes-script
+(<a href="../luafaudes/hio_4_transport_unit.html">hio_4_transport_unit.lua</a>), both
+exhibiting the design of a controller hierarchy for a chain of 8 TU&apos;s, alphabetically
+numbered from A to H.
+</small>
+</p>
+<p>
+<table border="0">
+<tr> <td align="center"> <img fsrc="FAUDES_IMAGES/hio_transport_unit_chain.png"/></td> </tr>
+<tr> <td align="center"><small>chain of transport units</small></td> </tr>
+</table>
+</p>
+
+<p>
+<ul class="l2">
+<li><a href="#step1">Step 1: Component-Wise Plant Modeling</a></li>
+<li><a href="hiosys_stepbystep_2.html">Step 2: Component-Wise Specification and Controller Design</a></li>
+<li><a href="hiosys_stepbystep_3.html">Step 3: Abstraction</a></li>
+<li><a href="hiosys_stepbystep_4.html">Step 4: Subsystem Composition</a></li>
+<li><a href="hiosys_stepbystep_5.html">Step 5: Environment Modeling</a></li>
+<li><a href="hiosys_stepbystep_6.html">Step 6: Superposed Specification and Controller Design</a></li>
+</ul>
+</p>
+
+
+<h3 id="step1">
+Step 1: Component-Wise Plant Modeling
+</h3>
+
+
+<p>
+According to the I/O-based approach, the individual plant
+components are modeled independently (no shared events) as I/O plants <fimath>S_{PE,i}</fimath>
+with corresponding constraints <fimath>S_{P,i}</fimath> ("reasonable operation...") and
+<fimath>S_{E,i}</fimath> ("...within a reasonable environment").
+To design an I/O-plant model, HioSys offers the generator type
+<a href="hiosys_types.html#plant">HioPlant</a>. A HioPlant is designed by respecting
+the following <strong>rules</strong>:
+<ul class="12">
+<li>There are exactly 4 types of events: <fimath>U_P, Y_P, U_E, Y_E</fimath>. The event
+ attributes have to be set accordingly.</li>
+<li>There are only 3 Types of states: <fimath>Q_{UP}, Q_{UE}, Q_Y</fimath> defined by
+ the type of events possible in that type of state, where in a <fimath>Q_{UP}</fimath>-
+ state, only <fimath>Y_P</fimath>- or <fimath>Y_E</fimath>- events are possible. Setting according
+ state attributes is optional.</li>
+<li>The initial state is of type <fimath>Q_Y</fimath>.</li>
+<li>Transitions are set such that only event-pairs <fimath>Y_P U_P</fimath> or <fimath>Y_E U_E</fimath>
+ can occur.</li>
+<li>After a <fimath>Y_P</fimath>-event, all <fimath>U_P</fimath>-events are possible (free input).</li>
+<li>After a <fimath>Y_E</fimath>-event, all <fimath>U_E</fimath>-events are possible (free input).</li>
+<li>All states are marked to achieve a prefix-closed system (<a href="hiosys_types.html#closed">remark...</a>).</li>
+</ul>
+</p>
+<p>
+To verify I/O-plant form, run <ffnct>IsHioPlantForm</ffnct>.
+</p>
+<p>
+<small><strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+Reasonable components of the transport unit chain are easily identified by the single
+transport units. The possible I/O-plant model of a TU is shown in the following
+HioPlant generator.
+</small>
+</p>
+<p>
+<table border="0">
+
+<tr><td valign="bottom">
+
+<table border="0">
+<tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr>
+<tr><td align="center"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img fsrc="FAUDES_IMAGES/hio_transport_unit_physical.png"/></td></tr>
+<tr><td align="center"><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; single transport unit</small></td></tr>
+<tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr><tr><td>&nbsp; </td></tr>
+<tr><td align="center" valign="bottom"><img fsrc="FAUDES_IMAGES/hio_transport_unit_hioplant.png"/> </td></tr>
+<tr><td>&nbsp; </td></tr>
+</table>
+</td>
+<td>
+<small> 
+<pre>
+  &lt;Generator&gt; "Transport Unit"
+
+  &lt;Alphabet&gt;
+  "no_op" +UP+ "del_tr" +UP+ "take_fl" +UP+
+  "empty" +YP+ "full" +YP+
+  "nack" +UE+ "pack" +UE+
+  "req_fl" +YE+ "req_tr" +YE+
+  &lt;/Alphabet&gt;
+
+  &lt;States&gt;
+  "1" "2" "3" "4" "5" "6" "7" "8" "9" "Err"
+  &lt; /States&gt;
+
+  &lt;TransRel&gt;
+  "1" "empty" "2"
+  "2" "no_op" "1"
+  "2" "take_fl" "3"
+  "2" "del_tr" "Err"
+  "3" "req_fl" "4"
+  "4" "nack" "3"
+  "4" "pack" "5"
+  "5" "full" "6"
+  "6" "no_op" "5"
+  "6" "del_tr" "7"
+  "6" "take_fl" "Err"
+  "7" "req_tr" "8"
+  "8" "nack" "7"
+  "8" "pack" "1"
+  &lt;/TransRel&gt;
+
+  &lt;InitStates&gt;
+  "1"
+  &lt;/InitStates&gt;
+
+  &lt;MarkedStates&gt;
+  "1" "2" "3" "4" "5" "6" "7" "8" "9" "Err"
+  &lt;/MarkedStates&gt;
+
+  &lt;/Generator&gt;
+</pre>
+</small>
+</td></tr>
+<tr>
+<td align="center"><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HioPlant model - graph</small></td>
+<td align="center"><small>HioPlant model - token-I/O</small></td>
+</tr>
+</table>
+</p>
+<p>
+<small>
+The TU consists of a conveyor belt carrying a box that can hold the workpiece to be transported.
+A spring sensor inside the box detects the absence or presence of a workpiece (<i>empty</i>, <i>full</i>).
+The initial state (state 1) is defined such that the sensor reports <i>empty</i>. The operator
+can choose between three different commands (state 2). After the <i>no_op</i> (no operation)
+command, the TU does not move, and the system remains in the initial state. The command
+<i>del_tr</i> (deliver to right) leads to an error state as there is currently no workpiece present to deliver.
+Choosing the command <i>take_fl</i> (take from left) prompts the TU to move the box to its
+left border (state 3). Now it depends on the environment if a workpiece is provided from the
+left, which is modeled by the event <i>req_fl</i> unobservable to the operator. For a plant description
+that is independent from the environment, we introduce the environment-events <i>pack</i> and <i>nack</i>
+(positive/negative acknowledge) respecting that the environment may or may not comply with the
+requests of the plant. If the environment is not in the condition to provide a workpiece (<i>nack</i>),
+the request is repeated. When a workpiece is provided from the environment, the sensor reports
+<i>full</i>. Now (state 6), the command <i>take_fl</i> leads to an error behaviour (the box can carry only
+one workpiece), and after <i>no_op</i> the plant still reports <i>full</i>. By the command <i>del_tr</i>, the belt
+moves the box to the right border. The event <i>req_tr</i> models the need for the workpiece to be withdrawn
+to the right by the environment. In case of <i>pack</i>, the system returns to its initial state.
+
+By  <fimath>(U_P,Y_P) := (\{no_op, take_fl, del_tr\}, \{empty, full\})</fimath>, we identify the interaction with the operator,
+<fimath>(U_E,Y_E) := (\{pack,nack\}, \{req_fl, req_tr\})</fimath> describes interaction with the environment.
+Note that <fimath>(UP,YP,UE,YE,LPE)</fimath> features all I/O-plant properties posed in the formal Definition.
+</small>
+</p>
+
+<p>
+Together with the I/O plant model <fimath>S_{PE}</fimath>, the <strong>constraints</strong> <fimath>S_P</fimath> and
+<fimath>S_E</fimath> are designed, such that <fimath>S_{PE}</fimath> is complete and <fimath>Y_P</fimath>-live
+with respect to <fimath>S_P</fimath> and <fimath>S_E</fimath> (see <a href="hiosys_liveness.html">liveness</a>). This
+means that the two constraints pose
+basic external conditions for liveness of the I/O plant, that depend from each other in that
+ they have to be met <i>at the same time</i> by the operator (e.g. controller) and the
+environment. Thus, in general, the constraints are not unique, see the example below.
+ In fact, they usually depend on
+the context and are designed by the user as part of the modeling process. As an I/O
+constraint must feature the behaviour of a controller-I/O port, a
+<a href="hiosys_types.html#constraint">HioConstraint</a> generator is designed by the following rules:
+
+<ul class="12">
+<li>There are exactly 2 types of events: <fimath>U, Y</fimath> (e.g. <fimath>U_P, Y_P</fimath> for the
+operator constraint). The event attributes have to
+be set accordingly.</li>
+<li>There are only 2 Types of states: <fimath>Q_U, Q_Y</fimath> defined by
+ the type of events possible in that type of state. Setting according
+ state attributes is optional.</li>
+<li>The initial state is of type <fimath>Q_Y</fimath>.</li>
+<li>Transitions are set such that only event-pairs <fimath>Y U</fimath>
+ can occur.</li>
+<li>After a <fimath>U</fimath>-event, all <fimath>Y</fimath>-events must be accepted.</li>
+<li>After a <fimath>Y</fimath>-event, at least one <fimath>U</fimath>-event must be possible (completeness).</li>
+<li>All states are marked to achieve a prefix-closed system (<a href="hiosys_types.html#closed">remark...</a>).</li>
+</ul>
+</p>
+
+<p>
+For a single plant component (rather than an I/O shuffle), the operator constraint
+can be <i>synthesized</i> for a given I/O plant with environment constraint: simply run
+<ffnct>HioSynthMonolithic</ffnct> with an empty specification and an empty operator constraint. The
+resulting I/O-controller will maintain completeness and <fimath>Y_P</fimath>-liveness of the I/O plant; hence, its projection
+(<ffnct>Project</ffnct>) to <fimath>U_P\cup Y_P</fimath> is an appropriate operator constraint.
+Attention: do not synthesis the operator constraint directly for an I/O shuffle of plants, but
+for the individual plants instead and compose them to one constraint! (Liveness of the individual
+plants w.r.t. their constraints induces liveness of the I/O shuffle w.r.t. the constraints'
+ composition (<ffnct>Parallel</ffnct>), but not vice versa.)
+</p>
+
+<small>
+  <p> 
+    <strong>Transport Unit.</strong>(
+    <a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+    &nbsp; 
+    <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+    Temporarily, assume minimal (i.e. no) constraints for the model
+    of the TU which corresponds to arbitrary external configurations. Note that SPE is neither complete
+    nor <fimath>Y_P</fimath>-live w.r.t. these constraints. As seen in the above figure, completeness is violated in
+    the <i>Err</i>-state because no further event is possible. Moreover, <fimath>Y_P</fimath>-liveness gets lost by the
+    <i>req_* nack</i> -loops in states 3,4 and 7,8. This is because the TU&apos;s ability to
+    <i>continually</i> transport workpieces depends a) on the operator, as he has to operate the
+    events del_tr and take_fl in a reasonable order, and b) on the environment, as it has to provide or
+    accept workpieces from time to time.
+    There are several possible external configurations for liveness of the plant:
+    Keeping the environment constraint minimal, a suitable operator constraint can allow for <i>no_op</i>
+    as the only command, as the extreme case, that the environment <i>never</i> provides or
+    accepts workpieces as requested, is not excluded. So, with a minimal environment constraint, the
+    operator constraint becomes too restrictive.
+    Alternative constraints are shown in the below picture.
+  </p>
+</small>
+<p>
+<table border="0">
+<tr> 
+<td align="center"><a class="faudes_image" href="hiosys_tu_envconstr.html"><img fsrc="FAUDES_IMAGES/hio_transport_unit_envconstr.png"/></a></td>
+<td>&nbsp;&nbsp;</td>
+<td align="center"><a class="faudes_image" href="hiosys_tu_opconstr.html"><img fsrc="FAUDES_IMAGES/hio_transport_unit_opconstr.png"/></a></td>
+</tr>
+<tr>
+<td align="center"><small>environment constraint</small></td>
+<td>&nbsp;&nbsp;</td>
+<td align="center"><small>operator constraint</small></td>
+</tr>
+</table>
+</p>
+<small>
+<p>
+The environment constraint <fimath>S_E=(U_E,Y_E,L_E)</fimath> (left picture) models
+the prohibition of the event <i>nack</i>, i.e., the assumption that requests of the plant are always
+accepted by the environment; introducing this constraint means at the same time introducing a
+requirement that is met by the hierarchy of those controllers that control the related environment of the TU,
+which is formalized Theorem V.7 in <fcite name="H1"/>. For that reason, only the local <i>operator</i>
+constraints are enforced immediately by the local controller (using <ffnct>HioSynthMonolithic</ffnct>),
+while the local <i>environment</i> constraints are passed on to the synthesis of a superposed controller
+(using <ffnct>HioSynthHierarchical</ffnct>).
+constraints are parameter
+With this new environment constraint, only the avoidance of the deadlock state <i>Err</i> falls
+to the operator constraint, which is obviously achieved by the correct alternation of the commands
+take_fl and del_tr, see right picture.
+</p>
+</small>
+
+<p>
+The modeling step leads to one I/O plant per component and corresponding constraints; i.e. for
+<fimath>i = 1..n, S_{PE,i} = (UP_i,YP_i,UE_i,YE_i,L_{PE,i}), S_{P,i} = (UP_i,YP_i,L_{P,i})</fimath>
+where each I/O plant <fimath>S_{PE</fimath> is complete and
+<fimath>YP_i-live</fimath> w.r.t. the constraints <fimath>S_{P</fimath> and
+<fimath>S_{E</fimath>. As at this stage all components are regarded as independent entities
+with no synchronization built in, the alphabets of the components are disjunct.
+</p>
+
+<p>
+<img fsrc="FAUDES_IMAGES/hio_tu_example_plants.png"/>
+</p>
+
+<p>
+<table class="plain" >
+<colgroup>
+<col width="33%"></col>
+<col width="33%"></col>
+<col width="33%"></col>
+</colgroup>
+<tr>
+<td>&nbsp; </td>
+<td><a href="hiosys_index.html">HioSys Home</a></td>
+<td><a href="hiosys_stepbystep_2.html">Step2 &gt;&gt;</a></td>
+</tr>
+</table>
+</p>
+</ReferencePage>
+
+  

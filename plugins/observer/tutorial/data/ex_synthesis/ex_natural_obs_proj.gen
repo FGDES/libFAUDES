@@ -1,0 +1,40 @@
+<Generator>
+Project(observer_verification1) 
+
+% 
+%  Statistics for Project(observer_verification1)
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+alpha         beta          gamma         delta         h             +C+          
+</Alphabet>
+
+<States>
+1              2              3              4             
+</States>
+
+<TransRel>
+1              alpha         3             
+2              delta         1             
+3              beta          2             
+3              h             4             
+4              gamma         2             
+</TransRel>
+
+<InitStates>
+2             
+</InitStates>
+
+<MarkedStates>
+2             
+</MarkedStates>
+
+
+</Generator>

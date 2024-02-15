@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE DeviceContainer SYSTEM "devicecontainer.dtd">
+
+<!--
+Device configuration for the elevator/parallel-IO setup.
+
+Signal values are read from/written to digital IO boards
+via the comedi framework. Since libFAUDES comedi devices
+are either exclusivly input or exclusively output, the
+elevator setup is organized as a container device.
+-->
+
+<DeviceContainer name="LrtElevatorPIO"> 
+
+<!-- Time scale in ms/ftu -->
+<!-- Note: the global setting overwrites per device time scales-->
+<TimeScale value="10"/> 
+
+<!-- List of devices -->
+<Devices> 
+
+<!-- Device for Input signals resp. events -->
+<ComediDevice name="LrtElevatorInput"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="10"/> 
+
+<!-- Sample interval for edge detection in us -->
+<SampleInterval value="100"/> 
+
+<!-- Sytem device file -->
+<DeviceFile value="/dev/comedi0"/> 
+
+<!-- Trigger based event definitition to follow -->
+<EventConfiguration> 
+
+<!-- Cabin sensor: arrive at upper position -->
+<Event name="c_arup" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="6"/> 
+</Triggers> 
+</Event> 
+
+<!-- Cabin sensor: leave upper position -->
+<Event name="c_lvup" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="6"/> 
+</Triggers> 
+</Event> 
+
+<!-- Cabin sensor: arrive at lower position -->
+<Event name="c_arlw" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="4"/> 
+</Triggers> 
+</Event> 
+
+<!-- Cabin sensor: leave lower position -->
+<Event name="c_lvlw" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="4"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door reached closed position -->
+<Event name="d_arcl" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="8"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door leaving closed position -->
+<Event name="d_lvcl" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="8"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door recahed open position -->
+<Event name="d_arop" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="10"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: door leaving open position -->
+<Event name="d_lvop" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="10"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: light break occupied -->
+<Event name="d_lbbl" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="16"/> 
+</Triggers> 
+</Event> 
+
+<!-- Door sensor: light break released -->
+<Event name="d_lbrl" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="16"/> 
+</Triggers> 
+</Event> 
+
+<!-- Opertor sensor: upper button pressed -->
+<Event name="o_upb" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="12"/> 
+</Triggers> 
+</Event> 
+
+<!-- Opertor sensor: lower button pressed -->
+<Event name="o_lwb" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="14"/> 
+</Triggers> 
+</Event> 
+
+</EventConfiguration> 
+</ComediDevice> 
+
+
+
+<!-- Device for Output signals resp. events -->
+<ComediDevice name="LrtElevatorOuput"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="10"/> 
+
+<!-- Sample interval for edge detection in ns -->
+<SampleInterval value="100"/> 
+
+<!-- Sytem device file -->
+<DeviceFile value="/dev/comedi1"/> 
+
+<!-- Action based event definitition to follow -->
+<EventConfiguration> 
+
+<!-- Cabin actuator: stop motor  -->
+<Event name="c_stp" iotype="output"> 
+<Actions> 
+<Clr address="0"/> 
+<Clr address="2"/> 
+</Actions> 
+</Event> 
+
+<!-- Cabin actuator: move upwards -->
+<Event name="c_up" iotype="output"> 
+<Actions> 
+<Clr address="2"/> 
+<Set address="0"/> 
+</Actions> 
+</Event> 
+
+<!-- Cabin actuator: move downwards -->
+<Event name="c_down" iotype="output"> 
+<Actions> 
+<Clr address="0"/> 
+<Set address="2"/> 
+</Actions> 
+</Event> 
+
+<!-- Door actuator: stop motor  -->
+<Event name="d_stp" iotype="output"> 
+<Actions> 
+<Clr address="4"/> 
+<Clr address="6"/> 
+</Actions> 
+</Event> 
+
+<!-- Door actuator: run motor to open  -->
+<Event name="d_open" iotype="output"> 
+<Actions> 
+<Clr address="6"/> 
+<Set address="4"/> 
+</Actions> 
+</Event> 
+
+<!-- Door actuator: run motor to close  -->
+<Event name="d_close" iotype="output"> 
+<Actions> 
+<Clr address="4"/> 
+<Set address="6"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: illuminate button upstairs -->
+<Event name="o_uplon" iotype="output"> 
+<Actions> 
+<Set address="8"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: turn of upstairs button-light -->
+<Event name="o_uploff" iotype="output"> 
+<Actions> 
+<Clr address="8"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: illuminate button downstairs -->
+<Event name="o_lwlon" iotype="output"> 
+<Actions> 
+<Set address="10"/> 
+</Actions> 
+</Event> 
+
+<!-- Operator actuator: turn off downstairs button-light -->
+<Event name="o_lwloff" iotype="output"> 
+<Actions> 
+<Clr address="10"/> 
+</Actions> 
+</Event> 
+
+</EventConfiguration> 
+</ComediDevice> 
+
+</Devices> 
+</DeviceContainer> 

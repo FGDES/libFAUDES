@@ -1,0 +1,34 @@
+<Generator>
+"two place buffer"
+
+% this two place buffer was used for tests of
+% supervision under partial observation; note
+% that only the full buffer state is not marked
+
+<Alphabet>
+"alpha_2" "beta_1"
+</Alphabet>
+
+<States>
+"E" "F1" "F2"
+</States>
+
+<TransRel>
+"E" "beta_1"   "F1"
+"F1" "alpha_2" "E"
+"F1" "beta_1"  "F2"
+"F2" "alpha_2" "F1"
+</TransRel>
+
+<InitStates>
+"E"
+</InitStates>
+
+<MarkedStates>
+"E" 
+"F1" 
+"F2"
+</MarkedStates>
+
+
+</Generator>

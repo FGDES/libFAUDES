@@ -1,0 +1,43 @@
+=====================================================================
+
+Spellchecking for libFAUDES online documentation.
+
+=====================================================================
+
+In libfaudes/tools/aspell we provide two shell scripts as a systematic
+approach to spellcheck the fref source files of the libFAUDES online
+documentation. Both scripts 
+
+*** MUST BE INVOKED FROM THE LIBFAUDES ROOT DIRECTORY ***
+
+=====================================================================
+
+1) aspell_file.sh
+
+This script spellchecks an individual fref file via the UNIX tool aspell.
+It uses the british english dictionary and the personal word list
+
+ ./libfaudes/tools/aspell/faudeswords.txt. 
+
+Whenever a file is spellchecked, the filename together with an md5sum is recorded
+as ./libfaudes/tools/aspell/*.md5. This registers the file for future spellchecks, see 2)
+
+
+Example: to spellcheck the corefaudes documentation page, run
+
+./libfaudes> ./tools/aspell/aspell_file.sh src/registry/corefaudes_index.fref
+
+
+=====================================================================
+
+2) aspell_faudes.sh
+
+This script spellchecks all previously registered file that changed since
+the last spellcheck.
+
+Example:
+
+./libfaudes> ./tools/aspell/aspell_faudes.sh
+
+=====================================================================
+

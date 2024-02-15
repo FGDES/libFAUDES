@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Synthesis" page="4_Misc_Functions" title="Synthesis - Misc Functions">
+
+<fsummary>
+Misc synthesis related functions.
+</fsummary>
+
+<h1>
+Misc Synthesis Related Functions
+</h1>
+
+<p>
+Functions in this section are either still experimental
+or simply did not fit into another section.
+</p>
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupTconNB">
+
+<fdetails/>
+
+<p>
+The temporal concepts of forcibility and preemptability are most conveniently 
+studied in the context of timed discrete-event systems (TDES). However, 
+the current version of libFAUDES does not provide conversion routines from 
+timed activity graphs to timed discrete-event systems. For the time being, there 
+is only a pragmatic implementation for the synthesis of the following 
+notion of controllability.
+</p>
+
+<p>
+Consider two languages <fimath>L</fimath> and <fimath>K</fimath> over a common alphabet <fimath>\Sigma</fimath>,
+a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+a set of forcible events <fimath>\Sigma_{f} \subseteq \Sigma</fimath>,
+and a set of preemptable events <fimath>\Sigma_{p} \subseteq \Sigma_{uc}</fimath>
+with <fimath>\Sigma_{f}\cap \Sigma_{p}=\emptyset</fimath>.
+</p>
+ 
+<p>
+Then <fimath>K</fimath> is said to be <i>controllable w.r.t. <fimath>(L,\Sigma_{uc},\Sigma_{f},\Sigma_{p})
+</fimath></i> iff for all <fimath>s\in \Closure{K}</fimath>
+<br/>
+<br/>
+<fdmath>s\Sigma_{f} \,\cap\, \Closure{K} = \emptyset \quad\Rightarrow\quad
+s\Sigma_{uc}\, \cap\, \Closure{L} \ \subseteq \ \Closure{K}</fdmath>
+<br/>
+<fdmath>s\Sigma_{f} \,\cap\, \Closure{K} \neq \emptyset \quad\Rightarrow\quad
+s(\Sigma_{uc} - \Sigma_{p})\, \cap\, \Closure{L} \ \subseteq \ \Closure{K}</fdmath>&nbsp;.
+</p>
+
+<p>
+For <fdmath>\Sigma_{p}=\{\text{tick}\}\subseteq \Sigma_{uc}</fdmath>,
+the above notion of controllability should match the common setting of
+controllability for TDES.
+</p>
+
+
+<p>
+The function <ffnct>SupTconNB</ffnct> seeks to compute the supremal controllable subset 
+of <fimath>K \cap L</fimath> with <fimath>K=Lm(GCand)</fimath> and <fimath>L=Lm(GPlant)</fimath>,
+referring to the above deefinition. The current implementation inspects the transitions in
+the product composition <fimath>GPlant \times GCand</fimath> and removes those which conflict
+with the definition until a trim generator is obtained.
+</p>
+
+
+
+<fconditions/>
+<p>
+This implementation requires the alphabets of plant and specification
+to match. 
+Furthermore, both generators must be deterministic. 
+Effectively, the specification is intersected with the plant
+language. 
+</p>
+
+<p>
+[Experimental!]
+The implemenation needs more testing -- please report back on unexpected behaiour.
+</p>
+
+<p>
+[Note]
+We should introduce a preemptable flag in the <ftype>System</ftype> data-type for more a convenient user interface.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="IsStdSynthesisConsistent">
+
+<fdetails/>
+
+<p>
+Given a plant and an abstraction thereof, we ask the question whether 
+any controller designed for the abstraction leads to a well-posed closed loop 
+when applied to the actual plant. Answers to this question not only depend 
+on the abstractions under consideration, but also on the detailed set of requirements
+imposed on the closed loop: on the abstraction level, closed-loop propeties 
+are satisfied by design, while for the actual closed loop they need to be
+implied by the abstraction at hand. 
+</p>
+
+<p>
+For the natural projection as an abstraction, the corresponding inverse projection
+for controller implementation, and the common closed-loop requirements
+of controllability and non-conflictingness, the above question has been discussed
+in  <fcite name="S10"/>. 
+In particular, it is demonstrated by example that the well-studied natural observer property
+is a sufficient but restrictive condition for an affirmative answer.
+The below test implements (a variation of) the sufficient and necessary criterion
+developed in  <fcite name="S10"/>.  
+</p>
+
+
+<p>
+Given a plant behaviour <fimath>L=Lm(GPlant)</fimath>, consider an abstraction <fimath>L_o=Lm(GPlant0)</fimath>
+obtained by natural projection, i.e.,  <fimath>L_o = \Pro{o}(L)</fimath>.
+Then, the function <ffnct>IsStdSynthesisConsistent</ffnct> returns true if and only if for any controllable and relatively closed 
+sublanguage <fimath>K_o\subseteq L_o</fimath>,
+the language <fimath>\ProInv{o}(K_o) \cap L</fimath> is a
+controllable and relatively closed sublanguage of the actual plant <fimath>L</fimath>.
+</p>
+
+<p>
+Acknowledgement: the initial version of this functions was implemented by
+Matthias Leinfelder in course of his bachelor thesis.
+</p>
+
+<fexample/>
+
+<p>
+The below example is taken from <fcite name="S10"/> and refers to the
+alphabets <fimath>\Sigma_o=\{\mathsf{r},\ \mathsf{p},\ \mathsf{a}\}</fimath> and 
+<fimath>\Sigma_{c}=\{\mathsf{a},\ \mathsf{p}\}</fimath>.
+</p>
+<table class="plain"> 
+<tr> <td> Plant GPlant</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_5_planta"/> </td> </tr>
+<tr> <td> Abstraction GPlant0</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_5_planta0"/> </td> </tr>
+</table> 
+<p>
+The function <ffnct>IsStdSynthesisConsistent</ffnct> returns true, to indicate that the abstraction
+is suitable for the common synthesis approach. Note, though, the projection 
+fails to be a natural observer.
+</p>
+
+
+<fconditions/>
+<p>
+Both generators must be deterministic. The abstraction <i>GPlant0</i> must have been obtained
+from the plant <i>GPlant</i> by natural projection; this prerequisit is not tested (!). The set of controllable 
+events must be a subset of the abstraction alphabet specified by <i>GPlant0</i>.
+</p>
+
+
+</ffnct_reference>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="SupReduce">
+
+
+<fdetails/>
+
+<p>
+Given a plant and a supervisor,
+this function seeks to compute an alternative supervisor with 
+a reduced state count, while maintaining the closed-loop behaviour.
+<ffnct>SupReduce</ffnct> returns "true" to indicate success.
+</p>
+
+<p>
+The problem of supervisor reduction was first discussed in <fcite name="S6"/>.
+When plant and supervisor are given as gerenators <fimath>G</fimath> and <fimath>S</fimath>
+over a common alphabet <fimath>\Sigma</fimath>,
+one seeks for a state minimal supervisor <fimath>S_{red}</fimath> 
+and an alphabet <fimath>\Sigma_{red}</fimath> such that
+<br/>
+<br/>
+<fdmath>G\ \parallel\ S \ \  = \ \ G \ \parallel\  S_{red}</fdmath> .
+<br/>
+<br/>
+It is shown in <fcite name="S6"/> that the above supervisor reduction problem is NP-hard. However, 
+<fcite name="S6"/> also provides a polynomial-time algorithm to find a supervisor with a 
+potentially reduced state size. This algorithm is implemented by the function  <ffnct>SupReduce</ffnct>
+</p>
+
+
+<fexample/>
+
+<p>
+The below example is taken from <fcite name="S6"/>. We have
+</p>
+<table class="plain"> 
+<tr> <td> Plant GPlant</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_3_plant1"/> </td> </tr>
+<tr> <td> Initial Supervisor GSup</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_3_sup1"/> </td> </tr>
+<tr> <td> Reduced Supervisor GReducedSup</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_3_reduced1"/> </td> </tr>
+</table> 
+
+<p>
+The reduced supervisor has only three states and a reduced alphabet 
+<fimath>\Sigma = \{\texttt{alpha},\texttt{beta}\}</fimath>.
+In this example, it turns out that the supervisor <fimath>GSup</fimath> 
+does not need to take any action in states 1 and 4. 
+Hence, these two states can be merged to state 1 in the reduced supervisor 
+<fimath>GSupRed</fimath>. It also has to be noted 
+that the supervisor does not need to take any action if the events <tt>gamma</tt> or 
+<tt>delta</tt> occur. Hence, 
+these events do not appear in the alphabet of <fimath>GSupRed</fimath>. 
+</p>
+
+
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of the 
+given plant and supervisor to match. 
+Furthermore, both generators must be deterministic. 
+</p>
+
+
+</ffnct_reference>
+
+
+
+
+</ReferencePage>
+
+  

@@ -1,0 +1,46 @@
+%%% test mark: diagnoser d2 [at diag_1_eventdiagnosis.cpp:112]
+% 
+%  Statistics for Diagnoser
+% 
+%  States:        3
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   3
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/3/0
+% 
+% 
+% 
+% 
+
+%%% test mark: diag failuretype [at diag_1_eventdiagnosis.cpp:180]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: diag indicator [at diag_1_eventdiagnosis.cpp:196]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: synthesis failure types [at diag_1_eventdiagnosis.cpp:226]
+% 
+%  Statistics for Generator
+% 
+%  States:        5
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   7
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/5/0
+% 
+% 
+% 
+% 
+

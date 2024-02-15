@@ -1,0 +1,122 @@
+<Generator>
+"cb12[0]"     
+
+% 
+%  Statistics for cb12[0]
+%  States:        55
+%  Init/Marked:   1/1
+%  Events:        25
+%  Transitions:   83
+%  StateSymbols:  55
+%  Attrib. E/S/T: 12/0/0
+% 
+
+<Alphabet>
+"cb3-12"      +C+           "cb5-12"      +C+           "cb12-5"      
++C+           "cb12-4"      +C+           
+"cb12+y+x"    +C+           "cb12-3"      +C+           "cb12-8"      +C+           
+"cb12-y-x"    +C+           "cb12stp"     +C+           "cb12wpar"    "cb12wplv3"   
+"cb12wplv4"   "cb12wplv5"   "cb12wplv8"   "cb4-12"      +C+           "cb8-12"      
++C+           "t_rt2-cb12\cb12" +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"          "14"          
+"15"          "16"          "17"          "18"          "19"          "2"           
+"20"          "21"          "22"          "23"          "24"          "25"          
+"26"          "27"          "28"          "29"          "3"           "30"          
+"31"          "32"          "33"          "34"          "4"           "5"           
+"6"           "7"           "8"           "9"           "dummy_10"    "dummy_12"    
+"dummy_16"    "dummy_20"    "dummy_21"   
+"dummy_24"    "dummy_28"    "dummy_29"    "dummy_3"     
+"dummy_32"    "dummy_4"     "dummy_7"     "dummy_8"         
+</States>
+
+<TransRel>
+"1"           "cb3-12"      "2"           
+"1"           "cb5-12"      "27"          
+"1"           "cb4-12"      "6"           
+"1"           "cb8-12"      "19"          
+"10"          "cb12-4"      "15"          
+"10"          "cb12-3"      "11"          
+"10"          "cb12-8"      "23"          
+"10"          "t_rt2-cb12\cb12" "dummy_10"    
+"11"          "cb12+y+x"    "12"          
+"12"          "cb12stp"     "11"          
+"12"          "t_rt2-cb12\cb12" "dummy_12"    
+"13"          "cb12stp"     "14"          
+"14"          "cb12+y+x"    "13"          
+"14"          "t_rt2-cb12\cb12" "1"    
+"15"          "cb12-y-x"    "16"          
+"16"          "cb12stp"     "15"          
+"16"          "t_rt2-cb12\cb12" "dummy_16"    
+"17"          "cb12stp"     "18"          
+"18"          "cb12-y-x"    "17"          
+"18"          "t_rt2-cb12\cb12" "1"    
+"19"          "cb12+y+x"    "20"          
+"2"           "cb12-y-x"    "3"           
+"20"          "cb12stp"     "19"          
+"20"          "t_rt2-cb12\cb12" "dummy_20"    
+"21"          "cb12stp"     "22"          
+"21"          "t_rt2-cb12\cb12" "dummy_21"    
+"22"          "cb12+y+x"    "21"          
+"22"          "t_rt2-cb12\cb12" "10"    
+"23"          "cb12-y-x"    "24"          
+"24"          "cb12stp"     "23"          
+"24"          "t_rt2-cb12\cb12" "dummy_24"    
+"25"          "cb12stp"     "26"          
+"26"          "cb12-y-x"    "25"          
+"26"          "t_rt2-cb12\cb12" "1"    
+"27"          "cb12-y-x"    "28"          
+"28"          "cb12stp"     "27"          
+"28"          "t_rt2-cb12\cb12" "dummy_28"    
+"29"          "cb12stp"     "30"          
+"29"          "t_rt2-cb12\cb12" "dummy_29"    
+"3"           "cb12stp"     "2"           
+"3"           "t_rt2-cb12\cb12" "dummy_3"     
+"30"          "cb12-y-x"    "29"          
+"30"          "t_rt2-cb12\cb12" "10"    
+"31"          "cb12+y+x"    "32"          
+"32"          "cb12stp"     "31"          
+"32"          "t_rt2-cb12\cb12" "dummy_32"    
+"33"          "cb12stp"     "34"          
+"34"          "cb12+y+x"    "33"          
+"34"          "t_rt2-cb12\cb12" "1"    
+"4"           "cb12stp"     "5"           
+"4"           "t_rt2-cb12\cb12" "dummy_4"     
+"5"           "cb12-y-x"    "4"           
+"5"           "t_rt2-cb12\cb12" "10"     
+"6"           "cb12+y+x"    "7"           
+"7"           "cb12stp"     "6"           
+"7"           "t_rt2-cb12\cb12" "dummy_7"     
+"8"           "cb12stp"     "9"           
+"8"           "t_rt2-cb12\cb12" "dummy_8"     
+"9"           "cb12+y+x"    "8"           
+"9"           "t_rt2-cb12\cb12" "10"     
+"dummy_10"    "cb12-5"      "31"          
+"dummy_12"    "cb12wplv3"   "13"                     
+"dummy_16"    "cb12wplv4"   "17"                     
+"dummy_20"    "cb12wpar"    "21"          
+"dummy_21"    "cb12wplv3"   "20"                   
+"dummy_24"    "cb12wplv8"   "25"                     
+"dummy_28"    "cb12wpar"    "29"          
+"dummy_29"    "cb12wplv4"   "28"          
+"dummy_29"    "cb12wplv8"   "28"          
+"dummy_3"     "cb12wpar"    "4"                     
+"dummy_32"    "cb12wplv5"   "33"                     
+"dummy_4"     "cb12wplv4"   "3"           
+"dummy_4"     "cb12wplv8"   "3"                     
+"dummy_7"     "cb12wpar"    "8"           
+"dummy_8"     "cb12wplv3"   "7"                     
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,33 @@
+<Generator>
+"phys_B_full_impliedby_cb4wpar"
+
+
+
+<Alphabet>
+
+"cb4wpar" "B_full"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb4wpar" 2
+2            "B_full"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

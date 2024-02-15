@@ -1,0 +1,50 @@
+<Generator name="Project(SupConNB((rts1[0]||rts1[0]||rts1[0]_3-4),(rts1[0]_spec))) [minstate]">
+
+% 
+%  Statistics for Project(SupConNB((rts1[0]||rts1[0]||rts1[0]_3-4),(rts1[0]_spec))) [minstate]
+% 
+%  States:        11
+%  Init/Marked:   1/1
+%  Events:        8
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 9/0/0
+% 
+
+<Alphabet>
+rts1_1        rts1_1-2      +C+           rts1_2        rts1_2-1      +C+          
+rts1_2-3      +C+           rts1stp       +C+           rts1_4        rts1_4-3     
++C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              11            
+</Consecutive>
+</States>
+
+<TransRel>
+1              rts1_2-1      11            
+1              rts1_2-3      2             
+2              rts1stp       10            
+3              rts1_1        4             
+4              rts1_1-2      8             
+5              rts1_4-3      9             
+6              rts1_4        5             
+7              rts1_2        1             
+8              rts1stp       7             
+9              rts1stp       8             
+10             rts1stp       6             
+11             rts1stp       3             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

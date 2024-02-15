@@ -1,0 +1,121 @@
+<Generator> "specABCD"
+
+<Alphabet>
+"req_fl_ABCD" "req_tr_ABCD" 
+"nack_ABCD" "pack_ABCD"
+"idle_ABCD" "busy_ABCD" "l2r_ABCD" "stby_ABCD" "clr_tr_ABCD"
+</Alphabet>
+
+<States>
+"Empty" "aw_mode" "aw_mode2" "one_wp" "0_right_Y" "1_right_Y" 
+"0_right_U" "1fl_right_U"
+"2_right_Y" "2tr_right_U" "1tr_right_U"
+
+"2fl_right_U" "3_wp" "aw_mode3" "3_right_Y"
+"3fl_right_U" "3tr_right_U"
+"4_right_Y" "4tr_right_U"
+
+"two_wp" "aw_mode3" "1tr_right_Y" "2tr_right_Y" "3tr_right_Y" "aw_mode4"
+</States>
+
+<TransRel>
+"Empty" 	"idle_ABCD"			"aw_mode"      
+"aw_mode" 	"l2r_ABCD"		"0_right_Y"
+"aw_mode"	"stby_ABCD"		"Empty"
+"aw_mode"	"clr_tr_ABCD"		"Empty"
+
+"0_right_Y"	"req_fl_ABCD"	        "0_right_U"
+
+"0_right_U"	"pack_ABCD"	        "one_wp"
+"0_right_U"	"nack_ABCD"	        "Empty"
+
+"one_wp" "busy_ABCD" "aw_mode2"
+
+"aw_mode2" "l2r_ABCD" "1_right_Y"
+"aw_mode2" "stby_ABCD" "one_wp"
+"aw_mode2" "clr_tr_ABCD" "1tr_right_Y"
+
+"1_right_Y"	"req_fl_ABCD" "1fl_right_U"
+"1tr_right_Y" "req_tr_ABCD" "1tr_right_U"
+
+"1tr_right_U"  "pack_ABCD" "Empty"
+"1fl_right_U"	"nack_ABCD" "one_wp"
+
+"1fl_right_U" "pack_ABCD" "two_wp"
+"1fl_right_U"	"nack_ABCD" "one_wp"
+
+"two_wp" "busy_ABCD" "aw_mode3"
+
+"aw_mode3" 	"l2r_ABCD"		"2_right_Y"
+"aw_mode3"	"stby_ABCD"		"two_wp"
+"aw_mode3"	"clr_tr_ABCD"		"2tr_right_Y"
+
+"2tr_right_Y" "req_tr_ABCD" "2tr_right_U"
+
+"2_right_Y"	"req_fl_ABCD"	"2fl_right_U"
+
+"2tr_right_U" "pack_ABCD" "one_wp"
+"2tr_right_U"	"nack_ABCD" "two_wp"
+
+
+
+"2fl_right_U"	"pack_ABCD" "3_wp"
+"2fl_right_U"	"nack_ABCD" "two_wp"
+
+"3_wp" "busy_ABCD" "aw_mode4"
+
+"aw_mode4" "l2r_ABCD" "3_right_Y"
+"aw_mode4" "stby_ABCD" "3_wp"
+"aw_mode4" "clr_tr_ABCD" "3tr_right_Y"
+
+"3_right_Y"	"req_fl_ABCD" "3fl_right_U"
+
+"3tr_right_Y" "req_tr_ABCD" "3tr_right_U"
+
+"3tr_right_U"  "pack_ABCD" "two_wp"
+"3tr_right_U"  "nack_ABCD" "3_wp"
+
+"3fl_right_U" "pack_ABCD" "4_right_Y"
+"3fl_right_U" "nack_ABCD" "3_wp"
+
+"4_right_Y" "req_tr_ABCD" "4tr_right_U"
+
+"4tr_right_U" "pack_ABCD" "3_wp"
+"4tr_right_U"	"nack_ABCD" "4_right_Y"
+</TransRel>
+
+<InitStates>
+"Empty"         
+</InitStates>
+
+<MarkedStates>
+"Empty" "aw_mode" "aw_mode2" "one_wp" "0_right_Y" "1_right_Y" 
+"0_right_U" "1fl_right_U"
+"2_right_Y" "2tr_right_U" "1tr_right_U"
+
+"2fl_right_U" "3_wp" "aw_mode3" "3_right_Y"
+"3fl_right_U" "3tr_right_U"
+"4_right_Y" "4tr_right_U"
+
+"two_wp" "aw_mode3" "1tr_right_Y" "2tr_right_Y" "3tr_right_Y" "aw_mode4"
+</MarkedStates>
+
+</Generator>
+
+<y_lo_ev>
+"req_fr_ABCD" "req_fl_ABCD" "req_tr_ABCD" "req_tl_ABCD"
+</y_lo_ev>
+
+<u_lo_ev>
+"nack_ABCD" "pack_ABCD"
+</u_lo_ev>
+
+<y_hi_ev>
+"idle_ABCD"
+</y_hi_ev>
+
+<u_hi_ev>
+"l2r_ABCD" "right2left_ABCD" "stby_ABCD"
+</u_hi_ev>
+
+

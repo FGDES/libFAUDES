@@ -1,0 +1,60 @@
+% Elevator example: door specification (safety)
+
+<Generator>
+"E_drsaf1"
+
+<Alphabet>
+"c_stp"
+"c_up"
+"c_down"
+"d_stp"
+"d_open"
+"d_close"
+"a_open"
+"a_close"
+</Alphabet>
+
+<States>
+"Open"
+"Closed"
+"Opening"
+"Moving"
+</States>
+
+<TransRel>
+% Init, door is open
+"Open" "a_close" "Closed"
+"Open" "a_open"  "Open"
+"Open" "d_stp"   "Open"
+"Open" "d_open"  "Open"
+"Open" "d_close" "Open"
+
+% Opening, door is opening"
+"Opening" "d_stp"   "Opening"
+"Opening" "d_open"   "Opening"
+"Opening" "d_close"   "Opening"
+"Opening" "a_open"   "Open"
+
+% Door is closed, may operate cabin
+"Closed" "d_open" "Opening"
+"Closed" "c_up"   "Moving"
+"Closed" "c_down" "Moving"
+
+% Door is closed, cabin is moving
+"Moving" "c_stp" "Closed"
+"Moving" "c_up"  "Moving"
+"Moving" "c_down"  "Moving"
+
+
+</TransRel>
+
+<InitStates>
+"Open"
+</InitStates>
+
+<MarkedStates>
+"Open"
+"Closed"
+</MarkedStates>
+
+</Generator>

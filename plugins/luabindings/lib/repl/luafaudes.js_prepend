@@ -1,0 +1,13 @@
+// pre-load to emcc runtime for io hooks
+
+var Module = {
+ stdouthook: null,
+ stdout: function(msg) {
+    Module['stdouthook'](msg);
+ },
+ stderrhook: null,
+ stderr: function(msg) {
+    Module['stderrhook'](msg);
+ } 
+}
+  

@@ -1,0 +1,36 @@
+<Generator name="Project(SupConNB((cb9[0]),(cb9[0]_spec))) [minstate]">
+
+% 
+%  Statistics for Project(SupConNB((cb9[0]),(cb9[0]_spec))) [minstate]
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 10/0/0
+% 
+
+<Alphabet>
+cb15-9        +C+           cb9-13        +C+          
+</Alphabet>
+
+<States>
+1              2             
+</States>
+
+<TransRel>
+1              cb15-9        2             
+2              cb9-13        1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,20 @@
+<!ELEMENT LuaFunctionDefinition  (Documentation,Keywords,VariantSignatures,LuaCode)>
+<!ATTLIST LuaFunctionDefinition name CDATA #REQUIRED>
+
+<!ELEMENT Documentation (#PCDATA)>
+<!ATTLIST Documentation ref CDATA #IMPLIED>
+
+<!ELEMENT Keywords (#PCDATA)>
+
+<!ELEMENT VariantSignatures (Signature)+>
+<!ELEMENT Signature (Parameter)+>
+<!ATTLIST Signature name CDATA #REQUIRED>
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter name CDATA #REQUIRED>
+<!ATTLIST Parameter ftype CDATA #REQUIRED>
+<!ATTLIST Parameter access (In|Out|InOut) #REQUIRED>
+<!ATTLIST Parameter creturn (true|false) #IMPLIED>
+
+<!ELEMENT LuaCode ANY>
+
+

@@ -1,0 +1,27 @@
+<Generator>
+"simple machine"
+
+<Alphabet>
+"alpha" "beta" "mue" "lambda"
+</Alphabet>
+
+<States>
+"idle" "busy" "down"
+</States>
+
+<TransRel>
+"idle" "alpha" "busy"
+"busy" "beta" "idle"
+"busy" "mue" "down"
+"down" "lambda" "idle"
+</TransRel>
+
+<InitStates>
+"idle"
+</InitStates>
+
+<MarkedStates>
+"idle"
+</MarkedStates>
+
+</Generator>

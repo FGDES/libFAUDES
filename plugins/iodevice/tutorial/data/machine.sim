@@ -1,0 +1,55 @@
+% Example configuration for io simulator
+
+% We configure the executor to runs the simple
+% machine with 
+% * gauss distributed beta and mue events 
+% * priority disabled alpha and lambda events
+
+% The example is used to test the simplenet device
+% class. 
+
+<Executor>
+
+% specify generators
+<Generators>
+"machine.gen"
+</Generators>
+
+% specify conditions
+<Conditions>
+</Conditions>
+
+% specify event attributes
+<SimEventAttributes>
+
+"alpha"     
+<Priority>
+-50            
+</Priority>
+
+"beta"      
+<Stochastic>
++Trigger+      +Gauss+       
+<Parameter>
+75            20             
+</Parameter>
+</Stochastic>
+
+"mue"       
+<Stochastic>
++Delay+      +Gauss+       
+<Parameter>
+150           5             
+</Parameter>
+</Stochastic>
+
+"lambda"       
+<Priority>
+-50            
+</Priority>
+
+
+</SimEventAttributes>
+
+% end
+</Executor>

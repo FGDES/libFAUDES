@@ -1,0 +1,1151 @@
+/* 
+design: 
+
+1) faudes.css is self contained for libFAUDES off-line documentation
+2) for other use of libFAUDES documentation (e.g. in the context of the
+   fgdes online version, or in the context of destool) we append
+   additional css fragments to overwrite relevant parameters
+
+*/
+
+
+/*
+yellow
+#FFF3CC
+#FFDB7B;
+#E0B75B;
+*/
+
+/*
+blue
+#E0E8FF
+#C0D0FF;
+#B0B0D0;
+*/
+
+/*
+grey
+#D0D0D0
+#B0B0B0
+#909090
+*/
+
+/* body padding */
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background: white;
+  color: black;
+}
+
+/* scrollbar allways on */
+
+html {
+    overflow-y: scroll; 
+    height: 100%;
+}
+
+/* dislike small tt font */
+tt {
+    font-size: 125%;
+} 
+
+/* 1000px centered layout with two nested divs */
+
+div#cwrapper1000 {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  z-index: 0;
+}
+
+div#dwrapper1000 {
+  width: 960px; /* 1000px minus margins */
+  margin: 0;
+  margin-top: 10px;
+  padding-top: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  text-align: left;
+  display: inline-block;
+  background-color: #FFFEF4;
+}
+
+/* 1000px centered layout companion for botton navigation */
+
+div#cxwrapper1000 {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  position: fixed; left: 0px; bottom: 0px;
+  z-index: 10;
+  /* background-color: green; */ 
+}
+
+div#dxwrapper1000 {
+  width: 960px; /* 1000px minus margins minus gap*/
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: left;
+  display: inline-block;
+  /*background-color: blue; */ 
+  position: relative;
+  z-index: 20;
+}
+
+
+/* faudes typeface classes */
+
+body, h1, h2, h3, h4, h5, h6, p, center,td, th, ul, ol, dl, div {
+  color: black;  
+  font-size: 100%;
+  font-weight:normal;
+  font-family: Verdana, Arial, Helvetica, sans-serif; 
+}
+
+.text_normal {
+  font-weight: normal;
+  font-size: 100%;
+  color: black;
+}
+
+.text_large {
+  font-weight: normal;
+  font-size: 160%;
+  color: black;
+}
+
+.text_small {
+  font-weight: normal;
+  font-size: 70%;
+  color: gray;	
+}
+
+.text_important {
+  color: #803023;
+  font-weight: bold;
+}
+
+
+.text_center {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* faudes website style */
+
+strong {
+  font-weight: bold;
+  font-size: 100%;
+  color: black;
+}
+
+p {
+  margin: 0px;
+  margin-bottom: 20px;
+}
+
+br {
+  margin: 0px;  /* does not work */ 
+  height: 0px;  /* does not work either */ 
+}
+
+center {
+  margin-left:  0px;
+  margin-right: 0px;
+  margin-top:   0px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  background-color: #FFF3CC;
+  border-top: 1px solid #E0D3AC;
+  border-bottom: 1px solid #E0D3AC;
+  text-align: left;
+  font-weight:bold;
+  font-size: 160%;
+  margin-top: 0px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  margin-bottom: 20px;
+  padding: 2px;
+  padding-left:  20px;
+  color: black;
+}
+
+h2 {
+  background-color: #FFF3CC;
+  border-top: 1px solid #E0D3AC;
+  border-bottom: 1px solid #E0D3AC;
+  text-align: left;
+  font-weight:bold;
+  font-size: 120%;
+  margin-top: 9px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  margin-bottom: 20px;
+  padding: 2px;
+  padding-left:  20px;
+  color: black;
+}
+
+h3 {
+  font-weight:bold;
+  text-align: left;
+  background-color: #FFF3CC;
+  border-top: 1px solid #E0D3AC;
+  border-bottom: 1px solid #E0D3AC;
+  margin-top: 7px;
+  margin-bottom: 20px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  padding: 2px;
+  padding-left:  20px;
+  color: black;
+} 
+
+h4 {
+  text-align: left;
+  font-weight:bold;
+  font-size: 100%;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  padding: 2px;
+  padding-left:  20px;
+  color: black;
+}
+
+h5 {
+  text-align: left;
+  font-weight:bold;
+  font-size: 100%;
+  margin-left:  -20px;
+  margin-right: -20px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  padding: 0px;
+  padding-left:  20px;
+  color: black;
+}
+
+caption { 
+  font-weight: bold 
+}
+
+hr { 
+	height: 1px;
+	border: none;
+	border-top: 1px solid black;
+}
+
+p.bottom_line {
+  font-weight: normal;
+  font-size: 70%;
+  color: gray;	
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+p.bottom_line_warning {
+  font-weight: normal;
+  font-size: 70%;
+  color: gray;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+/* anchors */
+a:link {
+  color: #153788;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #1b77c5;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+/* code examples */
+
+pre {
+  margin-left:   0px;
+  margin-right:  0px;
+  margin-bottom: 20px;
+  padding: 5px;
+  border: 1px solid #CCCCCC;
+  background-color: #EEEEEE;
+
+  white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
+  white-space: -pre-wrap;     /* Opera */
+  white-space: -o-pre-wrap;   /* Opera */
+  white-space: pre-wrap;      /* CSS3 - Text module */
+  word-wrap: break-word;      /* IE 5.5+ */
+}
+
+/* warning box */
+
+div.warning  {
+  font-weight: normal;
+  text-align: center;
+  background-color: #CCFFD8;
+  border: 1px solid #ACE0B8;
+  padding: 10px;
+  padding-left:  30px;
+  padding-right: 30px;
+  padding-top: 8px;
+  margin: 30px;
+  margin-left: 20%;
+  margin-right: 20%;
+} 
+
+.warning p {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+
+
+/* references */
+
+div.references  {
+  font-size: 80%;
+} 
+
+.references p {
+  color: grey;
+}
+
+
+/* ordered faudes list */
+ol.lo {
+  margin-left: 30px;
+  margin-right: 10px;
+  list-style-type: decimal;
+}
+
+.lo li {
+  margin-left: 0px;
+  margin-top:  0px;
+  margin-bottom:  0px;
+}
+
+/* unordered faudes list */
+ul {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 20px;
+}
+
+/* unordered faudes list level 1 element */
+.l1 li {
+  margin-left: 0px;
+  margin-top:  0px;
+  list-style: circle outside; 
+  color: #B8A044; 
+}
+
+.l1 p {
+  color: black; 
+}
+
+.l1 pre {
+  color: black; 
+}
+
+/* unordered faudes list level 2 element */
+
+.l2 li {
+  margin-left: 0px;
+  margin-top:  0px;
+  list-style: circle outside; 
+  color: #B8A044; 
+}
+
+.l2 p {
+  margin-left: 0px;
+  margin-top:  0px;
+  margin-bottom:  0px;
+  color: black; 
+}
+
+.l2 pre {
+  color: black; 
+}
+
+/* silent table */
+
+table.blank {
+  padding: 0px;
+  margin: 0;
+  border-spacing: 0px;
+  border-width: 0px;
+}    
+
+table.plain {
+  width: 100%;
+  padding: 0px;
+  margin-left: 0px;
+  margin-right: 0px; /* 40/20 100% hack */ 
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border-spacing: 0px;
+  border-width: 0px;
+}    
+
+.plain tr {
+    padding: 0px;
+    margin: 0px;
+}    
+
+.plain td {
+  padding: 0px;
+  margin: 0px;
+}    
+
+td.tdborder {
+  margin: -3px;
+  padding: 0px;
+  border: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #CCCCCC;
+}
+
+
+/* silent text table */
+
+table.vtop {
+  padding: 0px;
+  margin: 0px;
+  border-spacing: 0px;
+  border-width: 0px;
+}    
+
+
+.vtop tr {
+  padding-top: 0px;
+  padding-bottom: 5px;
+}    
+
+.vtop td {
+  vertical-align: top;
+}    
+
+
+
+/* small text table */
+
+
+table.small_table {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  font-size: 85%;
+  border: 1px;
+  border-style: solid;
+  border-color: #CCCCCC;
+  border-spacing: 0px;
+}    
+
+.small_table tr {
+  padding: 0px;
+  margin: 0px;
+  border: 1px;
+}    
+
+.small_table td {
+  padding: 3px;
+  text-align: left;
+  border: 1px;
+}
+.small_table th {
+  padding: 3px;
+  background: #EEEEEE;
+  text-align: left;
+}
+
+/* image link */
+.faudes_image img {
+  text-decoration: none;
+  border: none;
+}
+
+/* math spans, lineheight */
+
+
+span.faudes_imath {
+ /* white-space: nowrap; */ 
+}
+
+span.faudes_dmath {
+ white-space: nowrap; 
+}
+
+.faudes_fmath {
+ font-family: "Unicode Symbols","Arial Unicode MS", "Verdana";
+}
+
+
+span.faudes_sup {
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  bottom: 0.5ex;
+}
+
+.faudes_imath sup {
+  font-size: 120%;
+  vertical-align: +0.2ex;
+}
+
+.faudes_dmath sup {
+  font-size: 120%;
+  vertical-align: +0.2ex;
+}
+
+/* registry signature */
+
+.registry_function h3 {
+} 
+
+.registry_function p {
+} 
+
+div.registry_signature {
+  margin: 0px;
+  margin-bottom: 20px;
+  padding: 0px;
+}
+
+.registry_signature p {
+  margin: 0px;
+  margin-bottom: 0px;
+  padding-left:30px;
+  text-indent: -30px;
+}
+
+.registry_signature span {
+  white-space: nowrap; 
+}
+
+/* registry table of contents */
+
+table.registry_toc {
+  width: 100%;
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 0px;
+  margin-right: 0px; 
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border-spacing: 0px;
+  border-width: 0px;
+}    
+
+.registry_toc td {
+  padding: 5px;
+  padding-top: 0px;
+}
+
+
+/* registry listing (aka 3rd level navigation) */
+
+ul.registry_list, ul.registry_list * {
+  padding: 0; 
+  margin: 0; 
+  border: none 0px;
+  list-style-type: none;
+  white-space: nowrap;
+}
+
+ul.registry_list {
+  max-width: 160px; 
+  border-top: 1px solid #CCCCCC;
+}
+
+ul.registry_list > li {
+  overflow: hidden;
+  position: relative; 
+  border-bottom: 1px solid #CCCCCC;
+  background-color: #EEEEEE;
+  z-index: 1;
+}
+
+ul.registry_list > li li {
+  background-color: #FCFCFC;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+ul.registry_list > li li:last-child {
+  border-bottom: 0px solid;
+}
+
+ul.registry_list li.registry_heading {
+  background-color: #CCCCCC;
+  font-weight: bold;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+ul.registry_list > li.registry_item:hover {
+  overflow: visible;
+  background-color: #CCCCCC;
+  z-index: 5;
+}
+
+ul.registry_list > li.registry_pitem:hover {
+  overflow: visible;
+  background-color: #CCCCCC;
+  z-index: 5;
+}
+
+
+ul.registry_list > li.registry_pitem > ul {
+  display: none;
+  min-width: 160px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: -4px;
+  background-color: #EEEEEE;
+  border: solid black 1px;
+}
+
+
+ul.registry_list > li:hover > ul {
+  display: block; 
+  position: absolute; 
+  top: 20px; left: 80%;
+  z-index: 10;
+}
+
+
+ul.registry_list > li.registry_pitem li.registry_item:hover {
+  background-color: #CCCCCC;
+  z-index: 5;
+}
+
+
+ul.registry_list li > a {
+  display: block;
+  text-decoration: none;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-bottom: none; /*  1px solid #CCCCCC; */
+  border-top: none; /* 1px solid #CCCCCC; */
+}
+
+ul.registry_list > li > a {
+  display: block;
+  overflow: hidden;
+  position: relative; top: 0px; left: 0px; width: auto; /* width auto = 100% incl padding */ 
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #CCCCCC;
+  border-top: 1px solid #CCCCCC;
+  margin-bottom: -1px;
+  margin-top: -1px;
+  z-index: 10;
+}
+
+ul.registry_list li > a.registry_blinda {
+  position: absolute; top: 0px; left: 0px;
+  display: none;
+  padding: 0px;
+  margin: 0px;
+  border-bottom: 0px solid #EEEEEE;
+  border-top: 0px solid #EEEEEE;
+  margin-bottom: -2px;
+  margin-top: -1px;
+  height: 100%; 
+  width: 100%;
+  z-index: 3;
+}
+
+
+ul.registry_list li > ul > li > a {
+  display: block;
+  /* overflow: visible; */
+}
+
+ul.registry_list a:visited {
+  color: #153788;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+
+ul.registry_list > li:hover > a {
+  display: inline;
+  position: relative;
+  background-color: #CCCCCC; 
+}
+
+ul.registry_list li:hover > a.registry_blinda {
+ display: block;
+ /* background-color: red; */
+ overflow: hidden;
+ position: absolute; top: 0px; left: 0px;
+}
+
+ul.registry_list ul li:hover > a {
+  background-color: #CCCCCC; 
+}
+
+
+/* registry listing (fixup for bottom navigateion) */
+
+div.registry_trigger {
+  position: absolute; left: 0px; bottom: 20px;
+  /* background-color: red; */
+  text-align: center;
+  margin-left: 10px; 
+  width: 60px;
+  height: 30px;
+}
+
+div.registry_trigger > span {
+  position: relative; bottom: 5px;
+  color: #888888;
+  font-size: 175%;
+  vertical-align: middle;
+  margin: 0px; /* -left: -10px; */
+  padding: 3px;
+  border: 1px solid #CCCCCC;
+  background-color: #F8F8F8; 
+  opacity: 0.5;
+}
+
+div.registry_trigger > ul.registry_list {
+  position: absolute; bottom: 0px; left: 50px;
+  text-align: left;
+  margin-left: 0px;
+  margin-bottom: 10px;
+  min-width: 200px;
+  max-width: 600px;
+  border: 1px solid #888888;
+  display: inline-block;
+  visibility: hidden;
+  z-index: 21; 
+}
+
+div.registry_trigger:hover > ul.registry_list {
+  visibility: visible;
+  z-index: 21; 
+}
+
+div.registry_trigger > ul.registry_list > li.registry_item {
+  position: relative;
+  background-color: #FCFCFC;
+  z-index: 22; 
+}
+
+div.registry_trigger > ul.registry_list > li.registry_item:last-child {
+  border-bottom: 0px solid;
+}
+
+div.registry_trigger > ul.registry_list > li.registry_blanc {
+  position: relative;
+  background-color: #FCFCFC;
+  z-index: 22; 
+}
+
+div.registry_trigger > ul.registry_list > li.registry_item > a {
+  /* color: black; */
+  font-weight: normal;
+  text-decoration: none;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-bottom: 0px none; 
+  border-top: 0px none;
+  width: auto;
+}
+
+
+
+/*
+div#dxwrapper1000 > ul.registry_list > li:hover > a {
+  color: black;
+}
+*/
+
+
+
+/* put regitry page in a table layout */
+
+table#registry_page {
+  width: 1000px;
+  /* overflow: hidden; */  /* prevent firefox horizontal scrollbar */
+  height: 100%;
+  margin: 0px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  padding: 0px;
+  border-style: none;
+  border-width: 0px;
+  border-spacing: 0px;
+  border-collapse: collapse; 
+}    
+
+tr#registry_row {
+  padding: 0px;
+  margin: 0px;
+}
+
+td#registry_index {
+  background-color: #EEEEEE;
+  text-align: left;
+  vertical-align: top;
+  padding: 0px;
+  margin: 0px;
+}    
+
+td#registry_content {
+  text-align: left;
+  vertical-align: top;
+  padding: 0px;
+  padding-right: 20px;
+  padding-left: 25px; /* extra 5px */
+  margin: 0px;
+}    
+
+
+
+
+/* navigation menu (rewrite this with class) */
+
+table#navigation {
+  width: 100%;
+  margin: 0px;
+  padding: 0px; 
+  border-spacing: 0px;
+  border-collapse: collapse; 
+  border: none; 
+  border-bottom: 15px solid white;
+  background-color: white;
+}  
+
+#navigation a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: small;
+}
+
+table.book_line {
+  margin: 0px;
+  padding: 0px;
+  border-style: none;
+  border-width: 0px;
+  border-spacing: 0px;
+  border-collapse: collapse; 
+  table-layout: auto;
+  font-weight: bold;
+  font-size: small;
+}  
+
+.book_line tr {
+  margin: 0px;
+  padding: 0px; 
+}
+
+.book_line td {
+  margin: 0px;
+  padding: 0px; 
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.book_this div {
+  margin: 0px;
+  padding: 5px; 
+  padding-left: 12px; 
+  padding-right: 12px; 
+  padding-bottom: 10px;
+  margin-right: 15px;
+  background-color: #D0D0D0;
+}
+
+
+.book_this a, .book_this a:visited {
+  color: black;
+}
+
+
+.book_other div {
+  margin: 0px;
+  padding: 5px; 
+  padding-left: 12px; 
+  padding-right: 12px; 
+  margin-right: 15px;
+  color: #b0b0b0;
+  background-color: #f0f0f0;
+}
+
+.book_other a, .book_other a:visited {
+  color: #b0b0b0;
+  background-color: #f0f0f0;
+}
+
+
+.book_exit div {
+  margin: 0px;
+  margin-left: 15px;
+  padding: 5px; 
+  padding-left: 12px; 
+  padding-right: 12px; 
+  color: #b0b0b0;
+  background-color: #f0f0f0;
+}
+
+.book_exit a, .book_exit a:visited {
+  color: #b0b0b0;
+  background-color: #f0f0f0;
+}
+
+
+table.chapter_line {
+  margin: 0px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  padding: 0px; 
+  border-spacing: 0px;
+  border-collapse: collapse; 
+  table-layout: auto;
+  font-weight: bold;
+  font-size: small;
+  border: none; 
+  border-bottom: 10px solid white;
+  background-color: white;
+}  
+
+.chapter_line tr {
+  margin: 0px;
+  padding: 0px; 
+}
+
+.chapter_line td {
+  margin: 0px;
+  padding: 0px; 
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.chapter_line a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: small;
+}
+
+.chapter_this div {
+  margin: 0px;
+  margin-right: 0px;
+  padding: 7px; 
+  padding-left: 0px; 
+  padding-right: 10px; 
+}
+
+.chapter_this a {
+  margin: 0px;
+  padding: 1px; 
+  padding-left: 5px; 
+  padding-right: 5px; 
+  background-color: black; 
+  color: #FFDB7B;
+  border: 1px solid #E0B75B;
+}
+
+.chapter_other div {
+  margin: 0px;
+  margin-right: 0px;
+  padding: 7px; 
+  padding-left: 0px; 
+  padding-right: 10px; 
+}
+
+.chapter_other a {
+  margin: 0px;
+  padding: 1px; 
+  padding-left: 5px; 
+  padding-right: 5px; 
+  color: black;
+  background-color: #FFDB7B;
+  border: 1px solid #E0B75B;
+}
+
+.chapter_exit div {
+  margin: 0px;
+  margin-right: 0px;
+  padding: 7px; 
+  padding-left: 10px; 
+  padding-right: 0px; 
+  /* border: 1px solid red; */
+}
+
+.chapter_exit a {
+  margin: 0px;
+  padding: 1px; 
+  padding-left: 5px; 
+  padding-right: 5px; 
+  color: black;
+  background-color: #FFDB7B;
+  border: 1px solid #E0B75B;
+}
+
+.chapter_exit a:hover, .chapter_other a:hover {
+  background-color: black; 
+  color: #FFDB7B;
+}
+
+
+/* lua code add-on ***/
+
+pre.lua_code {}
+span.lua_comment { color: #00a000; }
+span.lua_string { color: #0000c0; }
+span.lua_keyword { color: #a00000; font-weight: bold; }
+span.lua_library { color: #a000a0; }
+
+/* faudes doxygen addon ***/
+
+table.large_image_table {
+  margin-right: -1000px; 
+  border: 0;
+}
+
+/* faudes doxygen fix: paragraph margins ***/
+
+div.contents {
+  margin-left: 0px;
+  margin-right: 0px;
+        /* faudes: overwrite for fixed width */
+        padding: 12px;
+        margin-right: auto;
+        width: 819px;
+}
+
+.contents p {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.mdescRight p {
+  margin: 0px;
+}
+
+.contents h1 {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 22px;
+}
+
+.contents h2 {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 22px;
+}
+
+.contents h3 {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 22px;
+}
+
+/* doxygen fix: hide strategic headline  ***/
+div.contents > a#details:first-child + h2 {
+    display:none;
+}
+
+/* doxygen adaption ***/
+/* extracted "doxygen -w html", good for 1.4.4, 1.5.5, 1.8.1 */
+
+table.memname {
+  margin-right: -1000px;  /* adapt */
+  overflow: visible;
+}
+
+a.anchor {
+  color: #000000; /* adapt */
+}
+
+DIV.qindex {
+	/* width: 100%; */ /* adapt */
+	background-color: #e8eef2;
+	border: 1px solid #84b0c7;
+	text-align: center;
+	padding: 2px;
+        margin-left: 0px; /* adapt */
+        margin-right: 7px; /* adapt ... not functional*/
+	line-height: 140%;
+}
+
+DIV.nav {
+        width: 100%;
+        background-color: #eeeeff;
+        border: 1px solid #b0b0b0;
+        text-align: center;
+        margin: 0px;  /* adapt */
+        padding: 0px; /* adapt */
+        line-height: 140%;
+}
+
+DIV.navpath {
+	/* width: 100%; */
+	background-color: #e8eef2;
+	border: 1px solid #84b0c7;
+	text-align: center;
+	padding: 2px;
+	margin: 2px;
+        margin-top: 0px; /* adapt */
+        margin-left: 0px; /* adapt */
+        margin-right: 77px; /* adapt ?? not functional .. want  0px*/
+	line-height: 140%;
+}
+DIV.navtab {
+       background-color: #e8eef2;
+       border: 1px solid #84b0c7;
+       text-align: center;
+       margin: 2px;
+       margin-right: 15px;
+       padding: 2px;
+}
+TD.navtab {
+       font-size: 70%;
+}
+
+table.mdTable {
+       margin-right: -1000px; /* adapt */
+}
+
+/*
+pre.fragment {
+       margin-right: -1000px; adapt
+}
+*/

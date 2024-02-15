@@ -1,0 +1,30 @@
+%%% test mark: red1 [at syn_3_reduction.lua]
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: red2 [at syn_3_reduction.lua]
+% 
+%  Statistics for Generator
+% 
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/0/0
+% 
+% 
+% 
+% 
+

@@ -1,0 +1,54 @@
+#
+# makefile for libfaudes timed plugin, tmoor 200709
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += timed
+#
+
+
+#
+# set up paths relative to faudes path
+
+TP_BASE=   ./plugins/timed
+TP_SRCDIR= ./plugins/timed/src
+
+#
+# source files
+
+TP_CPPFILES = tp_timeinterval.cpp tp_timeconstraint.cpp tp_attributes.cpp tp_tgenerator.cpp tp_tparallel.cpp
+TP_INCLUDE = tp_include.h
+
+#
+# other files 
+
+TP_HEADERS = $(TP_CPPFILES:.cpp=.h) $(TP_INCLUDE)
+TP_SOURCES = $(TP_CPPFILES:%=$(TP_SRCDIR)/%)
+TP_OBJECTS = $(TP_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+
+#
+# append my plugin to configuration
+
+$(INCLUDEDIR)/$(TP_INCLUDE): $(TP_SRCDIR)/$(TP_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(TP_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* timed configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_TIMED" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+
+#
+# advertise plugin
+
+SOURCES += $(TP_SOURCES)
+OBJECTS += $(TP_OBJECTS)
+HEADERS += $(TP_HEADERS)
+VPATH   += $(TP_SRCDIR)
+
+#
+# include tutorial
+
+include $(TP_BASE)/Makefile.tutorial
+

@@ -1,0 +1,31 @@
+<cGenerator>
+<Generator>
+"Det(Pro(SupConNB((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]" 
+<Alphabet>
+"mh1end"      "mh1start"    
+</Alphabet>
+<States>
+2             
+</States>
+<TransRel>
+2             "mh1end"      1             
+1             "mh1start"    2             
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"mh1start"    
+</Controllable>
+<Observable>
+"mh1end"      "mh1start"    
+</Observable>
+
+</cGenerator>

@@ -1,0 +1,49 @@
+%%% test mark: sys1 [at ios_1_system.cpp:129]
+% 
+%  Statistics for IOSystem1
+% 
+%  States:        6
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   11
+%  StateSymbols:  4
+%  Attrib. E/S/T: 4/4/0
+% 
+% 
+% 
+% 
+
+%%% test mark: isio [at ios_1_system.cpp:130]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: isfree [at ios_1_system.cpp:131]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: iswfree [at ios_1_system.cpp:132]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: qerr [at ios_1_system.cpp:133]
+% 
+%  Statistics for ErrorStates
+% 
+%  Size: 2
+%  Shared Data: #0 clients
+% 
+% 
+% 
+

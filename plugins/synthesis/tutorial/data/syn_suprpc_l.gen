@@ -1,0 +1,28 @@
+<Generator>
+"L" 
+
+
+<Alphabet>
+alpha beta
+</Alphabet>
+
+<States>
+1              2                          
+</States>
+
+<TransRel>
+1  alpha  1
+1  beta   2
+2  beta   1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1
+</MarkedStates>
+
+
+</Generator>

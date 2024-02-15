@@ -1,0 +1,27 @@
+<Generator name="noblo_ae">
+          
+% showt form input, stateset and alphabet implicit
+
+<T>
+1 a 22
+1 tau 24
+
+22 tau 2
+24 a 4
+24 a 3
+
+2 b 2
+2 b 3
+2 c 5
+2 b 4
+
+3 c 1
+
+4 tau 40
+40 c 6
+</T>
+
+<I> 1 </I>
+<M> 3 6 </M>
+
+</Generator>

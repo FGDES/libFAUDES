@@ -1,0 +1,87 @@
+#
+# makefile for libfaudes hybrid systems plug-in, tmoor 201604
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += hybrid
+#
+
+#
+# Print miscellenous debug messages
+
+FAUDES_DEBUG += hyb_misc
+
+
+#
+# set up paths relative to faudes path
+
+HYB_NAME   = hybrid
+HYB_BASE   = ./plugins/$(HYB_NAME)
+HYB_SRCDIR = $(HYB_BASE)/src
+
+#
+# list source files
+
+HYB_CPPFILES = hyb_parameter.cpp hyb_attributes.cpp hyb_hgenerator.cpp \
+    hyb_compute.cpp hyb_reachability.cpp hyb_experiment.cpp hyb_abstraction.cpp
+HYB_INCLUDE = hyb_include.h
+HYB_RTIDEFS = hyb_definitions.rti
+HYB_RTIFREF = hybrid_index.fref 
+
+#
+# fix directories
+
+HYB_HEADERS = $(HYB_CPPFILES:.cpp=.h) $(HYB_INCLUDE)
+HYB_SOURCES = $(HYB_CPPFILES:%=$(HYB_SRCDIR)/%)
+HYB_OBJECTS = $(HYB_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+HYB_RTIDEFS := $(HYB_RTIDEFS:%=$(HYB_SRCDIR)/registry/%)
+HYB_RTIFREF := $(HYB_RTIFREF:%=$(HYB_SRCDIR)/registry/%)
+
+
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(HYB_INCLUDE): $(HYB_SRCDIR)/$(HYB_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(HYB_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* hybrid plugin configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_HYBRID" >> $(INCLUDEDIR)/configuration.h
+ifeq (hyb_misc,$(findstring hyb_misc,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_HYBRID" >> $(INCLUDEDIR)/configuration.h
+endif
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+
+# using PPL (this will do linux/osx only)
+LNKLIBS += -lppl -lgmp
+
+
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(HYB_SOURCES)
+OBJECTS += $(HYB_OBJECTS)
+HEADERS += $(HYB_HEADERS)
+VPATH   += $(HYB_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(HYB_NAME)
+RTIDEFS += $(HYB_RTIDEFS)
+RTIFREF += $(HYB_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(HYB_SRCDIR)/registry/hyb_interface.i 
+SWGMODULES += $(HYB_NAME)
+
+#
+# include tutorial 
+
+include $(HYB_BASE)/Makefile.tutorial

@@ -1,0 +1,140 @@
+%%% test mark: set difference [at 2_containers.cpp:157]
+% 
+%  Statistics for NameSet
+% 
+%  Size: 2
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: set union [at 2_containers.cpp:158]
+% 
+%  Statistics for NameSet
+% 
+%  Size: 5
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: set intersection [at 2_containers.cpp:159]
+% 
+%  Statistics for NameSet
+% 
+%  Size: 2
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: attrbibutes eq0 [at 2_containers.cpp:293]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: attrbibutes eq1 [at 2_containers.cpp:294]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: attrbibutes eq2 [at 2_containers.cpp:295]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: attrbibutes eq3 [at 2_containers.cpp:296]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: vect element cast [at 2_containers.cpp:341]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: deferred copy A [at 2_containers.cpp:367]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 44
+%  Shared Data: #1 clients
+% 
+% 
+% 
+
+%%% test mark: deferred copy B [at 2_containers.cpp:368]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 44
+%  Shared Data: #1 clients
+% 
+% 
+% 
+
+%%% test mark: deferred copy A - 2 [at 2_containers.cpp:381]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 44
+%  Shared Data: #1 clients
+% 
+% 
+% 
+
+%%% test mark: deferred copy B - 2 [at 2_containers.cpp:382]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 44
+%  Shared Data: #1 clients
+% 
+% 
+% 
+
+%%% test mark: deferred copy A - 3 [at 2_containers.cpp:421]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 44
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: deferred copy B - 3 [at 2_containers.cpp:422]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 44
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: deferred copy C - 3 [at 2_containers.cpp:423]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 45
+%  Shared Data: #0 clients
+% 
+% 
+% 
+

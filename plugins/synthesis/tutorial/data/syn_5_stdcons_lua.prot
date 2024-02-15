@@ -1,0 +1,16 @@
+%%% test mark: std consistency A [at syn_5_stdcons.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: std consistency B [at syn_5_stdcons.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+

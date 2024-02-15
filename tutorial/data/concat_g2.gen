@@ -1,0 +1,35 @@
+<Generator>
+"g2"          
+
+%
+% Statistics for g2
+% States:        2
+% Init/Marked:   1/2
+% Events:        1
+% Transitions:   1
+% StateSymbols:  2
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"a"           
+</Alphabet>
+
+<States>
+"1"           "2"           
+</States>
+
+<TransRel>
+"1"           "a"           "2"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           "2"           
+</MarkedStates>
+
+
+</Generator>

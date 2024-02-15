@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type AttributeIosEvent -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IoSystem::AttributeIosEvent" ctype="faudes::AttributeIosEvent"> 
+
+<Keywords> 
+IoSystem      
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type AttributeIosState -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IoSystem::AttributeIosState" ctype="faudes::AttributeIosState"> 
+
+<Keywords> 
+IoSystem      
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type IosAlphabet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IoSystem::IosAlphabet" ctype="faudes::IosEventSet" autoregister="true"> 
+
+<XElementTag value="Event"/>
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type IoSystem -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IoSystem::IoSystem" ctype="faudes::IoSystem" autoregister="true"> 
+
+<Documentation ref="iosystem_sysdef.html#IoSystem"> 
+Generator with I/O system state and event attributes.
+</Documentation> 
+<Keywords> 
+IoSystem      "io systems"  "plant model"  generator     
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IoFreeInput -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::IoFreeInput" ctype="faudes::IoFreeInput"> 
+
+<Documentation ref="iosystem_sysdef.html#IoFreeInput"> 
+Inserts transitions to obtain a free input.
+</Documentation> 
+<Keywords> 
+IoSystem      "io form"     "io system"   generator     "free input"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IoFreeInput(GArg)"> 
+<Parameter name="GArg" ftype="IoSystem" access="InOut"/> 
+</Signature> 
+<Signature name="IoFreeInput(GArg,SigU)"> 
+<Parameter name="GArg" ftype="Generator" access="InOut"/> 
+<Parameter name="SigU" ftype="EventSet" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IoStatePartition -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::IoStatePartition" ctype="faudes::IoStatePartition"> 
+
+<Keywords> 
+IoSystem      
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IoStatePartition(System)"> 
+<Parameter name="GArg" ftype="IoSystem" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IoSynthesis -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::IoSynthesis" ctype="faudes::IoSynthesis"> 
+
+<Documentation ref="iosystem_synth.html#IoSynthesis"> 
+Controller synthesis for I/O systems.
+</Documentation> 
+<Keywords> 
+IoSystem      "io form"     "io system"   generator     synthesis     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IoSynthesis(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="IoSystem" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="IoSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IoSynthesisNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::IoSynthesisNB" ctype="faudes::IoSynthesisNB"> 
+
+<Documentation ref="iosystem_synth.html#IoSynthesisNB"> 
+Controller synthesis for I/O systems (marked languages).
+</Documentation> 
+<Keywords> 
+IoSystem      "io form"     "io system"   generator     synthesis     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IoSynthesisNB(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="IoSystem" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="IoSystem" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsInputLocallyFree -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::IsInputLocallyFree" ctype="faudes::IsInputLocallyFree"> 
+
+<Documentation ref="iosystem_sysdef.html#IsInputLocallyFree"> 
+Test for the input to be locally free.
+</Documentation> 
+<Keywords> 
+IoSystem      "io form"     "io system"   generator     non-anticipating  "free input"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsInputLocallyFree(GArg,BRes)"> 
+<Parameter name="GArg" ftype="IoSystem" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsInputOmegaFree -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::IsInputOmegaFree" ctype="faudes::IsInputOmegaFree"> 
+
+<Documentation ref="iosystem_sysdef.html#IsInputOmegaFree"> 
+Test for the input to be free in the behavioral sense.
+</Documentation> 
+<Keywords> 
+IoSystem      "io form"     "io system"   generator     nonanticipating  "free input"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsInputOmegaFree(GArg,BRes)"> 
+<Parameter name="GArg" ftype="IoSystem" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsIoSystem -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::IsIoSystem" ctype="faudes::IsIoSystem"> 
+
+<Documentation ref="iosystem_sysdef.html#IsIoSystem"> 
+Test for basic I/O properties.
+</Documentation> 
+<Keywords> 
+IoSystem      "io form"     "io system"   generator     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsIoSystem(GArg,BRes)"> 
+<Parameter name="GArg" ftype="IoSystem" access="InOut"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RemoveIoDummyStates -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="IoSystem::RemoveIoDummyStates" ctype="faudes::RemoveIoDummyStates"> 
+
+<Keywords> 
+IoSystem      
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RemoveIoDummyStates(GArg)"> 
+<Parameter name="GArg" ftype="IoSystem" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry> 

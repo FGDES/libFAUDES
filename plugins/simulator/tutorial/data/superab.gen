@@ -1,0 +1,62 @@
+<Generator>
+"supervisor ab"
+
+% 
+%  Statistics for supervisor ab
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        8
+%  Transitions:   25
+%  StateSymbols:  12
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+"beta_a"      "alpha_a"     "mue_a"       "lambda_a"    "alpha_b"     "beta_b"      
+"mue_b"       "lambda_b"    
+</Alphabet>
+
+<States>
+"idle|idle|1|empty" "busy|idle|1|empty" "idle|idle|1|full" "down|idle|1|empty" "idle|busy|1|empty" "busy|busy|1|empty" 
+"idle|down|1|empty" "busy|down|1|empty" "idle|down|1|full" "down|down|1|empty" "idle|busy|1|full" "down|busy|1|empty" 
+</States>
+
+<TransRel>
+"idle|idle|1|empty" "alpha_a"     "busy|idle|1|empty" 
+"busy|idle|1|empty" "beta_a"      "idle|idle|1|full" 
+"busy|idle|1|empty" "mue_a"       "down|idle|1|empty" 
+"idle|idle|1|full" "alpha_b"     "idle|busy|1|empty" 
+"down|idle|1|empty" "lambda_a"    "idle|idle|1|empty" 
+"idle|busy|1|empty" "alpha_a"     "busy|busy|1|empty" 
+"idle|busy|1|empty" "beta_b"      "idle|idle|1|empty" 
+"idle|busy|1|empty" "mue_b"       "idle|down|1|empty" 
+"busy|busy|1|empty" "beta_a"      "idle|busy|1|full" 
+"busy|busy|1|empty" "mue_a"       "down|busy|1|empty" 
+"busy|busy|1|empty" "beta_b"      "busy|idle|1|empty" 
+"busy|busy|1|empty" "mue_b"       "busy|down|1|empty" 
+"idle|down|1|empty" "alpha_a"     "busy|down|1|empty" 
+"idle|down|1|empty" "lambda_b"    "idle|idle|1|empty" 
+"busy|down|1|empty" "beta_a"      "idle|down|1|full" 
+"busy|down|1|empty" "mue_a"       "down|down|1|empty" 
+"busy|down|1|empty" "lambda_b"    "busy|idle|1|empty" 
+"idle|down|1|full" "lambda_b"    "idle|idle|1|full" 
+"down|down|1|empty" "lambda_a"    "idle|down|1|empty" 
+"down|down|1|empty" "lambda_b"    "down|idle|1|empty" 
+"idle|busy|1|full" "beta_b"      "idle|idle|1|full" 
+"idle|busy|1|full" "mue_b"       "idle|down|1|full" 
+"down|busy|1|empty" "lambda_a"    "idle|busy|1|empty" 
+"down|busy|1|empty" "beta_b"      "down|idle|1|empty" 
+"down|busy|1|empty" "mue_b"       "down|down|1|empty" 
+</TransRel>
+
+<InitStates>
+"idle|idle|1|empty" 
+</InitStates>
+
+<MarkedStates>
+"idle|idle|1|empty" 
+</MarkedStates>
+
+
+</Generator>
+

@@ -1,0 +1,43 @@
+<Generator>
+"cb1[1]_spec" 
+
+% 
+%  Statistics for cb1[1]_spec
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   8
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+"sf-cb1"      +C+           "cb1bwpar"    "cb1awpar"    "cb1stp"      +C+           
+"cb1-x"       +C+           
+</Alphabet>
+
+<States>
+1             2             3             
+</States>
+
+<TransRel>
+1             "sf-cb1"      1             
+1             "cb1-x"       2             
+2             "sf-cb1"      2             
+2             "cb1bwpar"    3             
+2             "cb1awpar"    3                        
+3             "cb1awpar"    3 
+3             "cb1bwpar"    3             
+3             "cb1stp"      1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1         2		3    
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,34 @@
+<Generator> "Operator Constraint A" 
+
+<Alphabet>
+"no_op_A" +Y+
+"del_tr_A" +Y+
+"take_fl_A" +Y+
+"empty_A" +U+
+"full_A" +U+
+</Alphabet>
+
+<States>
+"1" "2" "3" "4"
+</States>
+
+<TransRel>
+"1" "empty_A" "2"
+"1" "full_A" "2"
+"2" "no_op_A" "1"
+"2" "take_fl_A" "3"
+"3" "empty_A" "4"
+"3" "full_A" "4" 
+"4" "del_tr_A" "1"
+"4" "no_op_A" "3"
+</TransRel>
+
+<InitStates>
+"1"            
+</InitStates>
+
+<MarkedStates>
+"1" "2" "3" "4"
+</MarkedStates>
+
+</Generator>

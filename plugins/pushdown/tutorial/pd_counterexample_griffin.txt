@@ -1,0 +1,106 @@
+<Generator>
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/3
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/0/3
+% 
+
+<Alphabet>
+a             +C+           b             +C+           u            
+</Alphabet>
+
+<States>
+q0            q1            q2           
+</States>
+
+<TransRel>
+q0            a             q0           
+<PopPushes>
+<PopPush>
+<Pop name="dot"/>
+<Push name="dot"/>
+<Push name="dot"/>
+</PopPush>
+<PopPush>
+<Pop name="square"/>
+<Push name="dot"/>
+<Push name="square"/>
+</PopPush>
+</PopPushes>
+q0            b             q1           
+<PopPushes>
+<PopPush>
+<Pop name="dot"/>
+<Push name="lambda"/>
+</PopPush>
+</PopPushes>
+q1            u             q2           
+<PopPushes>
+<PopPush>
+<Pop name="dot"/>
+<Push name="dot"/>
+</PopPush>
+</PopPushes>
+</TransRel>
+
+<InitStates>
+q0           
+</InitStates>
+
+<MarkedStates>
+q0            q1            q2           
+</MarkedStates>
+
+<StackSymbols>
+<Element name="lambda"/>
+<Element name="dot"/>
+<Element name="square"/>
+</StackSymbols>
+<StackBottom name="square"/>
+
+</Generator>
+<Generator>
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/3
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  3
+%  Attrib. E/S/T: 2/0/0
+% 
+
+<Alphabet>
+a             +C+           b             +C+           u            
+</Alphabet>
+
+<States>
+p0            p1            p2           
+</States>
+
+<TransRel>
+p0            a             p0           
+p0            b             p1           
+p1            u             p2           
+</TransRel>
+
+<InitStates>
+p0           
+</InitStates>
+
+<MarkedStates>
+p0            p1            p2           
+</MarkedStates>
+
+
+</Generator>

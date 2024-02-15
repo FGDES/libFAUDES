@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Observer" page="3_Synthesis" title="Observer - Synthesis">
+
+<h1>
+Observer Synthesis
+</h1>
+
+<p>
+Verification algorithms for various conditions on natural projections of plant languages <fimath>L(G)</fimath> that are sufficient for the nonblocking and maximally permissive hierarchical supervisor synthesis are provided on the <a href="observer_test.html"> Observer Test</a> page. In contrast, the algorithms described on this page are concerned with the situation where these sufficient conditions are not fulfilled such that a given natural projection has to be modified in order to perform a hierarchical supervisor synthesis. In the observer plug-in, such modifications are offered for the natural observer condition (<ffnct>NaturalObserverExtension</ffnct>,<ffnct>NaturalObserverRelabeling</ffnct>) and the msa-observer condition (<ffnct>MsaObserver</ffnct>) in order to achieve nonblocking hierarchical control and for the combination of both conditions with local control consistency (<ffnct>NaturalObserverLcc</ffnct>,<ffnct>MsaObserverLcc</ffnct>) in order to achieve nonblocking and maximally permissive control. 
+</p>
+
+<p>
+The general approach taken in our algorithms is to extend the projection alphabet of a given natural projection until the repective sufficient condition is fulfilled. In the algorithmic implementation, we use the fact that all conditions can be represented in terms of a specific equivalence relation (quasi-congruence) for a dynamic system that is defined on the state space of the plant automaton <fimath>G</fimath> <fcite name="O5"/>. After obtaining an appropriate dynamic system representation for each condition, either the heuristic alphabet extension algorithm in <fcite name="O6"/> is used to obtain a suitable alphabet extension (<ffnct>NaturalObserverExtension</ffnct>, <ffnct>NaturalObserverLcc</ffnct>, <ffnct>MsaObserver</ffnct>, <ffnct>MsaObserverLcc</ffnct>) or an appropriate event relabeling is performed according to <fcite name="O1"/> (<ffnct>NaturalObserverRelabeling</ffnct>). 
+</p>
+
+
+<ffnct_reference name="NaturalObserverExtension">
+
+<fdetails/>
+
+<p>
+This function extends a given projection alphabet <fimath>\Sigma_h</fimath> such that the resulting projection is a natural observer for the marked language of the given generator <fimath>GArg</fimath>. 
+</p>
+
+<fconditions/>
+<p>
+The alphabet <fimath>\Sigma_h</fimath> has to be a subset of the alphabet of <fimath>GArg</fimath>. 
+<fimath>GArg</fimath> must be a deterministic generator. 
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="NaturalObserverRelabeling">
+
+<fdetails/>
+
+<p>
+This function relabels events in a given generator <fimath>GPlant</fimath> and relabels and extends a given projection alphabet <fimath>\SigmaHi</fimath> to a new projection alphabet <fimath>\SigmaHiNew</fimath> such that the resulting natural projection is a natural observer for the marked language of  the modified generator <fimath>GPlant</fimath>. 
+</p>
+
+<fconditions/>
+
+<p>
+The alphabet <fimath>\SigmaHi</fimath> has to be a subset of the alphabet of <fimath>GPlant</fimath>. 
+<fimath>GPlant</fimath> must be a deterministic generator. 
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="NaturalObserverLcc">
+
+<fdetails/>
+
+<p>
+This function extends a given projection alphabet <fimath>\Sigma_h</fimath> such that the resulting projection is both a natural observer for the marked language of the given generator <fimath>Plant</fimath> and locally control consistent for the system <fimath>Plant</fimath> with the controllable events <fimath>\Sigma_c</fimath>. 
+</p>
+
+<fconditions/>
+
+<p>
+The alphabet <fimath>\Sigma_h</fimath> has to be a subset of the alphabet of <fimath>Plant</fimath>. 
+<fimath>Plant</fimath> must be a deterministic generator. 
+</p>
+
+</ffnct_reference>
+
+<ffnct_reference name="MsaObserver">
+
+<fdetails/>
+
+<p>
+This function extends a given projection alphabet <fimath>\Sigma_h</fimath> such that the resulting projection is an msa-observer for the marked language of the given generator <fimath>GArg</fimath>. 
+</p>
+
+<fconditions/>
+
+<p>
+The alphabet <fimath>\Sigma_h</fimath> has to be a subset of the alphabet of <fimath>GArg</fimath>. 
+<fimath>GArg</fimath> must be a deterministic generator. 
+</p>
+
+</ffnct_reference>
+
+
+
+<ffnct_reference name="MsaObserverLcc">
+
+<fdetails/>
+
+<p>
+This function extends a given projection alphabet <fimath>\Sigma_h</fimath> such that the resulting projection is both an msa-observer for the marked language of the given generator <fimath>GArg</fimath> and locally control consistent for the system <fimath>GArg</fimath> with the controllable events <fimath>\Sigma_c</fimath>. 
+</p>
+
+<fconditions/>
+
+<p>
+The alphabet <fimath>\Sigma_h</fimath> has to be a subset of the alphabet of <fimath>GArg</fimath>. 
+<fimath>GArg</fimath> must be a deterministic generator. 
+</p>
+
+</ffnct_reference></ReferencePage>
+
+  

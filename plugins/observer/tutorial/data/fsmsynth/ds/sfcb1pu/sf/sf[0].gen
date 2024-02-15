@@ -1,0 +1,62 @@
+<Generator>
+"sf[0]"       
+
+% 
+%  Statistics for sf[0]
+%  States:        17
+%  Init/Marked:   1/2
+%  Events:        8
+%  Transitions:   27
+%  StateSymbols:  17
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"sf-cb1"      +C+           "sfmv"        +C+           "sfnr"        "sfr"         
+"sfstp"       +C+           "sfwpar"      "sfwplv"      "t_sf"        +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"          "14"          
+"2"           "3"           "4"           "5"           "6"           "8"           
+"9"              
+</States>
+
+<TransRel>
+"1"           "sf-cb1"      "1"           
+"1"           "sfmv"        "2"           
+"1"           "sfwpar"      "5"           
+"10"          "sfmv"        "4"           
+"11"          "sfmv"        "12"          
+"12"          "sfstp"       "11"          
+"13"          "sfnr"        "12"          
+"14"          "sfstp"       "5"           
+"14"          "t_sf"        "13"          
+"2"           "sfstp"       "1"           
+"2"           "t_sf"        "3"  
+"2"		"sfwpar"		"14"         
+"3"           "sfnr"        "4"   
+"3"		"sfwpar"		"13"        
+"4"           "sfstp"       "10"           
+"4"		"sfwpar"		"12"
+"4"		"sfr"			"2"  
+"5"           "sf-cb1"      "5"           
+"5"           "sfmv"        "6"           
+"6"           "sfstp"       "5"               
+"8"           "sfstp"       "9"           
+"8"           "sfwplv"        "4"     
+"9"           "sfmv"        "8"           
+"12"    "sfr"         "14"                 
+"6"     "sfnr"        "8"                  
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"      "6"      
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,200 @@
+<Generator>
+"plant_cb12" 
+
+<Alphabet>
+"cb4-12" "cb5-12" "cb12-4" "cb12-5"
+"cb12stp" "cb12+x-y" "cb12-x+y"
+"cb12wpar" "cb12wplv"
+</Alphabet>
+
+<States>
+1
+2
+3 <Invariant> "c" "LE" 1500 </Invariant>
+4 <Invariant> "c" "LE" 80 </Invariant>
+5
+6 <Invariant> "c" "LE" 1500 </Invariant>
+7 <Invariant> "c" "LE" 80 </Invariant>
+8
+9
+10
+11 <Invariant> "c" "LE" 1500 </Invariant>
+12 <Invariant> "c" "LE" 1500 </Invariant>
+</States>
+
+<TransRel>
+1 "cb12+x-y" 2
+1 "cb12-x+y" 5
+
+2 "cb12stp" 1
+2 "cb12-x+y" 5
+2 "cb4-12" 3
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+3  "cb12stp" 8
+3 "cb12-x+y" 12
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+3 "cb12wpar" 4
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+4 "cb12stp" 10
+4 "cb12-x+y" 7
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+4 "cb12wplv" 11
+<Timing>
+<Guard>    
+"c" "GE" 80
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+5 "cb12stp" 1
+5 "cb12+x-y" 2
+5 "cb5-12" 6
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+6  "cb12stp" 9
+6 "cb12+x-y" 11
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing> 
+6 "cb12wpar" 7
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+7 "cb12stp" 10
+7 "cb12+x-y" 4
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+7 "cb12wplv" 12
+<Timing>
+<Guard>    
+"c" "GE" 80
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+8 "cb12+x-y" 3
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+8 "cb12-x+y" 12
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+9 "cb12+x-y" 11
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+9 "cb12-x+y" 6
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+10 "cb12+x-y" 4
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+10 "cb12-x+y" 7
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+11 "cb12stp" 9
+11 "cb12-x+y" 6
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+11 "cb12-5" 2
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+
+12 "cb12stp" 8
+12 "cb12+x-y" 3
+<Timing>
+<Resets>
+"c"
+</Resets>
+</Timing>
+12 "cb12-4" 5
+<Timing>
+<Guard>    
+"c" "GE" 1500
+</Guard>
+<Resets>
+"c"
+</Resets>
+</Timing>
+</TransRel>
+
+<InitStates>
+1     
+</InitStates>
+
+<MarkedStates>
+1    
+</MarkedStates>
+
+<Clocks>
+"c" 
+</Clocks>
+
+</Generator>
+

@@ -1,0 +1,41 @@
+%%% test mark: test lang diag [at diag_2_languagediagnosis.cpp:52]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: test lang diag [at diag_2_languagediagnosis.cpp:69]
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/3/0
+% 
+% 
+% 
+% 
+
+%%% test mark: observer fail [at diag_2_languagediagnosis.cpp:105]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: observer pass [at diag_2_languagediagnosis.cpp:106]
+% 
+%  Statistics for HiAlph
+% 
+%  Size: 5
+%  Shared Data: #0 clients
+% 
+% 
+% 
+

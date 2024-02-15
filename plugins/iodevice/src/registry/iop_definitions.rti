@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type ContainerDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::DeviceContainer" ctype="faudes::xDevice" autoregister="true"> 
+
+<Documentation ref="simulator_devices.html#DeviceContainer"> 
+Merge individual IO devices.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      executor      simulation    interface     hardware      
+edge          comedi        
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type ComediDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::ComediDevice"> 
+
+<Documentation ref="simulator_devices.html#ComediDevice"> 
+Access digital IO hardware within the comedi framework.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      executor      simulation    interface     hardware      
+edge          comedi        
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type SignalDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::SignalDevice"> 
+
+<Documentation ref="simulator_devices.html#SignalDevice"> 
+Abstract interface for signal based event detection and execution.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      executor      simulation    interface     hardware      
+edge          
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type SimplenetDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::SimplenetDevice"> 
+
+<Documentation ref="simulator_devices.html#SimplenetDevice"> 
+Network based communication of events.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      executor      simulation    interface     network       
+tcp/ip        
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type WagoDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::WagoDevice"> 
+
+<Documentation ref="simulator_devices.html#WagoDevice"> 
+Access digital IO hardware by Wago Kbus interface.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      executor      simulation    interface     hardware      
+kbus          wago          
+</Keywords> 
+
+</TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type SpiDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::SpiDevice"> 
+
+<Documentation ref="simulator_devices.html#SpiDevice"> 
+Synchronize process image via serial interface.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      executor      simulation    interface     hardware  "serial interface"    
+</Keywords> 
+
+</TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type ModbusDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::ModbusDevice"> 
+
+<Documentation ref="simulator_devices.html#ModbusDevice"> 
+Synchronize process image via Modbus/TCP protocol.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      executor      simulation    interface     hardware  Modbus    
+</Keywords> 
+
+</TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type D3RIP-URTDevice -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="IODevice::D3RipUrtDevice"> 
+
+<Documentation ref="simulator_devices.html#D3RipUrtDevice"> 
+Synchronize events via D3RIP protocols.
+</Documentation> 
+<Keywords> 
+Simulator     iodevice      D3RIP      ethernet    simulation     network     
+</Keywords> 
+
+</TypeDefinition> 
+
+
+
+</Registry> 

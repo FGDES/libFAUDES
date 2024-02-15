@@ -1,0 +1,58 @@
+<Generator name="rt3cb13cb5rt2cb12[2]_spec||rt3cb13cb5rt2cb12[2]_spec">
+
+% 
+%  Statistics for rt3cb13cb5rt2cb12[2]_spec||rt3cb13cb5rt2cb12[2]_spec
+% 
+%  States:        10
+%  Init/Marked:   1/1
+%  Events:        9
+%  Transitions:   21
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+cb2-13        cb3-12        cb12-4        cb13-6        cb6-13        cb5-12       
+cb5-13        cb12-5        cb9-13       
+</Alphabet>
+
+<States>
+<Consecutive>
+1              10            
+</Consecutive>
+</States>
+
+<TransRel>
+1              cb2-13        2             
+1              cb3-12        4             
+1              cb9-13        3             
+2              cb3-12        5             
+2              cb13-6        9             
+3              cb3-12        6             
+3              cb13-6        1             
+4              cb2-13        5             
+4              cb12-4        1             
+4              cb9-13        6             
+5              cb12-4        2             
+5              cb13-6        7             
+6              cb12-4        3             
+6              cb13-6        4             
+7              cb12-4        9             
+7              cb6-13        8             
+8              cb12-4        10            
+9              cb3-12        7             
+9              cb6-13        10            
+10             cb3-12        8             
+10             cb5-12        4             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

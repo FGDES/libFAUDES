@@ -1,0 +1,35 @@
+<cGenerator>
+<Generator>
+"Det(Pro(Det(Pro(SupConNB((Det(Pro(SupConNB((rts1[0]),(rts1[0]||rts1[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb15[0]),(cb15[0]_spec)))) [minstate]),(rts1cb15[1]_spec)))) [minstate]||rc1[1])) [minstate]" 
+<Alphabet>
+"rts1_2-1"    "rts1_2-3"    "cb15-9"      "cb7-15"      "wp15-9"      "wp7-15"      
+</Alphabet>
+<States>
+5             
+</States>
+<TransRel>
+2             "rts1_2-1"    1             
+2             "rts1_2-3"    3             
+1             "cb7-15"      4             
+3             "cb15-9"      5             
+4             "wp7-15"      2             
+5             "wp15-9"      1             
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"rts1_2-1"    "rts1_2-3"    "cb15-9"      "cb7-15"      
+</Controllable>
+<Observable>
+"rts1_2-1"    "rts1_2-3"    "cb15-9"      "cb7-15"      "wp15-9"      "wp7-15"      
+</Observable>
+
+</cGenerator>

@@ -1,0 +1,33 @@
+<Generator>
+"phys_D_full_impliedby_cb5wpar"
+
+
+
+<Alphabet>
+
+"cb5wpar" "D_full"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb5wpar" 2
+2            "D_full"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

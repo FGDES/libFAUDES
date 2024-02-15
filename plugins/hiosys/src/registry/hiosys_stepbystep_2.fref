@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Step 2">
+
+<h1> HioSys PlugIn</h1>
+<h2>The I/O-Based Approach - Step by Step</h2>
+<p>
+<ul class="l2">
+<li><a href="hiosys_stepbystep.html#step1">Step 1: Component-Wise Plant Modeling</a></li>
+<li><a href="hiosys_stepbystep_2.html">Step 2: Component-Wise Specification and Controller Design</a></li>
+<li><a href="hiosys_stepbystep_3.html">Step 3: Abstraction</a></li>
+<li><a href="hiosys_stepbystep_4.html">Step 4: Subsystem Composition</a></li>
+<li><a href="hiosys_stepbystep_5.html">Step 5: Environment Modeling</a></li>
+<li><a href="hiosys_stepbystep_6.html">Step 6: Superposed Specification and Controller Design</a></li>
+</ul>
+</p>
+<h3 id="step2">Step 2: Component-Wise Specification and Controller Design</h3>
+<p>
+  For each component, if desired, a local I/O controller can be designed
+  according to an individual specification, i.e. at this stage, we face a
+  monolithic controller synthesis problem.
+  The task of the I/O controller is to assist the operator in manipulating the environment according
+  to that specification; see a) and c) in the below figure.
+</p>
+<p>
+<table border="0">
+<tr> <td valign="bottom"> <img fsrc="FAUDES_IMAGES/hio_synthesis_problem.png"/> </td></tr>
+<tr><td align="center"><i>Synthesis problem, monolithic</i></td></tr>
+</table>
+</p>
+
+<p>
+  We propose to draft the <strong>specification</strong> as an
+  I/O-plant model <fimath>S_{specCE}=(\Sigma_{CE},L_{CE})</fimath> of the <i>desired</i> external
+  closed loop, see figure c):
+  by its plant-I/O port <fimath>(U_C,Y_C)</fimath> we introduce a set <fimath>U_C</fimath> of
+  abstract desired tasks (modes of operation) for the closed loop and a set
+  <fimath>Y_C</fimath> of desired responses of the closed loop to the operator. For each task
+  <fimath>\mu \in U_C</fimath>, the specification expresses the desired effect of the closed loop
+  on the environment by sequences over the <fimath>(U_E,Y_E)</fimath>-port and one or more associated
+  responses <fimath>\nu \in Y_C</fimath> denoting status, failure or completion of the task. To take
+  into account and to exclude
+  misbehaviour by the operator (e.g. tries to trigger a final task before a respective
+  initial task), an operator constraint <fimath>S_C=(\Sigma_{C},L_{C})</fimath> can be
+  introduced. The original constraint <fimath>S_E=(\Sigma_{E},L_{E})</fimath> for
+  <a href="hiosys_liveness.html">liveness</a> of the plant
+  <fimath>S_{PE}</fimath> may also be assumed for <fimath>S_{specCE}</fimath> such that all in all
+  <fimath>S_{specCE}</fimath> is reasonably designed to be complete and  <fimath>Y_C</fimath>-live w.r.t.
+  <fimath>S_{C}</fimath> and <fimath>S_{E}</fimath>.
+</p>
+
+<p>
+<small>
+  <strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+  &nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+  For the TU, a specification can be designed by the system <fimath>S_{specCE}</fimath> with
+  <fimath>\Sigma_C := U_C \dcup Y_C = \{stby, l2r\} \dcup \{idle\}</fimath> and
+  <fimath>L_{specCE}</fimath> as seen in the below Figure.
+</small>
+</p>
+<p>
+<table border="0">
+<tr><td><a class="faudes_image" href="hiosys_tu_spec.html"><img fsrc="FAUDES_IMAGES/hio_transport_unit_spec.png"/></a></td></tr>
+<tr><td align="center"><small>Specification for the TU</small></td></tr>
+</table>
+</p>
+
+<small>
+<p>
+By the measurement event idle we introduce a feedback to the operator notifying that the TU is
+ready for transport of the next workpiece. We specify that the operator can choose between two
+operational modes. After the command <i>stby</i> (standby), no interaction with the environment is
+desired. With the command <i>l2r</i> (left to right) we specify that a workpiece from left is requested
+from the environment (<i>req_fl</i>). In case of positive acknowledge, the workpiece shall be provided
+to the right (<i>req_tr</i>). Note that the specification is complete and <fimath>Y_C</fimath>-live w.r.t. a
+minimal <fimath>S_{C}</fimath> and the given <fimath>S_{E}</fimath>, i.e. we allow the operator for arbitrary
+orders of the commands <i>stby</i> and <i>l2r</i> and may
+assume the same constraints on the environment as for the original plant. Now, it is the controller's
+task to enforce appropriate <fimath>\Sigma_{P}</fimath>-sequences on the plant to achieve the specified
+behaviour with respect to the environment.
+</p>
+</small>
+
+<p>
+An <strong>I/O controller</strong> for the single plant component that enforces the specification while
+guaranteeing the desired <a href="hiosys_liveness.html">liveness properties</a> for the closed loop is
+conveniently computed using the function <ffnct>HioSynthMonolithic</ffnct>. Note that these guarantees are
+lost unless the closed loop's surroundings pose a (language) subset of the constraints
+<fimath>S_{C}</fimath> and <fimath>S_{E}</fimath>.
+</p>
+
+<small>
+<p>
+<strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+For the I/O controller synthesis problem of the TU, our synthesis algorithm
+returns the controller <fimath>S_{CP}</fimath> as depicted below.
+</p>
+<p>
+<table border="0">
+<tr><td><a class="faudes_image" href="hiosys_tu_controller.html"><img fsrc="FAUDES_IMAGES/hio_transport_unit_controller.png"/></a></td></tr>
+<tr><td align="center"><small>Controller for the TU</small></td></tr>
+</table>
+</p>
+<p>
+Formally, the I/O controller accepts all measurement events of the plant, even those that can actually
+not occur; the respective transitions are denoted by gray arrows leading to error states that
+represent an error behaviour and are never reached. It is verified that if the
+environment constraint <fimath>S_{E}</fimath> is fulfilled (<fimath>S_{C}</fimath> was chosen minimal), the
+closed loop is complete and YC-live and features the external behaviour specified by
+<fimath>S_{specCE}</fimath>. Using <ffnct>Parallel</ffnct> and <ffnct>Project</ffnct>, you can compute the
+full closed loop <fimath>S_{CPE}</fimath> with <fimath>L_{CPE}=L_{CP}||L_{PE}</fimath> and the external
+closed loop <fimath>S_{CE}</fimath> with <fimath>L_{CE}=\Pro{CE}(L_{CPE})</fimath>, e.g. for the TU with
+index A:
+</p>
+<p>
+<table class="plain">
+<!-- <tr><td> <img fsrc="tmp_hio_tu_full_loop_A"/> </img> </td></tr> -->
+<tr><td><i> <small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Full closed loop</small></i> </td></tr>
+<!-- <tr><td> <img fsrc="tmp_hio_tu_ext_loop_A"/> </img> </td></tr> -->
+<tr><td> <i><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; External closed loop</small></i> </td></tr>
+</table>
+</p>
+<p>
+In this simple example, the
+external closed loop even matches exactly with the specification, which is not the general case. In the
+tutorial, an identical local controller is designed for all 8 TU&apos;s (TU A to TU H).
+</p>
+</small>
+<p>
+The external closed loop is guaranteed to be an I/O plant.
+Hence, after the design of local controllers, the overall system is still given as a set of n I/O plants,
+where the I/O-plant model of a controlled component is given as the external closed loop of the
+uncontrolled I/O plant and its I/O controller.
+</p>
+<p>
+  <img fsrc="FAUDES_IMAGES/hio_tu_example_closedloops.png"/>
+</p>
+<p>
+ <table class="plain" >
+    <colgroup>
+      <col width="33%" > </col>
+      <col width="33%" > </col>
+      <col width="33%" > </col>
+    </colgroup>
+    <tr>
+      <td><a href="hiosys_stepbystep.html#step1">&lt;&lt; Step1</a> </td>
+      <td><a href="hiosys_index.html">HioSys Home</a></td>
+      <td><a href="hiosys_stepbystep_3.html">Step3 &gt;&gt;</a></td>
+    </tr>
+  </table>
+</p>
+</ReferencePage>
+
+  

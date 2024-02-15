@@ -1,0 +1,43 @@
+<Generator>
+"g"           
+
+%
+% Statistics for g
+% States:        7
+% Init/Marked:   1/1
+% Events:        4
+% Transitions:   8
+% StateSymbols:  7
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"a"           "b"           "c"           "d"           
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           "5"           "6"           
+"7"           
+</States>
+
+<TransRel>
+"1"           "a"           "2"           
+"2"           "b"           "3"           
+"2"           "c"           "4"           
+"2"           "d"           "6"           
+"4"           "a"           "5"           
+"4"           "b"           "2"           
+"6"           "a"           "7"           
+"7"           "b"           "6"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"3"           
+</MarkedStates>
+
+
+</Generator>

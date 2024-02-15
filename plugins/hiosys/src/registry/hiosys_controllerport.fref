@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Controller Port">
+
+
+<h1>
+HioSys I/O Systems
+</h1>
+
+<h2>
+Controller-I/O port
+</h2>
+<p>
+The controller-I/O port <fimath>(U,Y)</fimath> is a complement of the plant-I/O port in the sense that
+it accepts any <fimath>Y</fimath>-event issued by a plant-I/O port. In return, it can
+provide an event out of <fimath>U</fimath>. A controller-I/O port can be connected
+to a plant-I/O port.
+</p>
+
+<h3>
+Definition
+</h3>
+<p>
+A controller-I/O port of a system <fimath>(L,\Sigma)</fimath> is a tuple <fimath>(U,Y)</fimath>, with
+</p>
+<ul class="l2">
+<li><p> <fdmath>\Sigma=W\dcup U\dcup Y,~U\neq\emptyset\neq Y</fdmath>; </p></li>
+<li><p> <fdmath>L\subseteq\Closure{(YW^*U)^*}</fdmath>; </p></li>
+<li><p> <fdmath>(\forall s\in\Sigma^*U\cup\{\epsilon\}, \nu\in Y)[s\in L\Rightarrow s\nu\in L]</fdmath>; </p></li>
+</ul>
+<p>
+The first bullet point separates events <fimath>U</fimath> from events 
+<fimath>Y</fimath> and remaining events <fimath>W</fimath>. The second and third bullet points require
+to accept any event <fimath>Y</fimath> as an input an to optionally reply by some event <fimath>U</fimath> as
+output, after possible negotiation with some other system via <fimath>W</fimath>.
+</p>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a> | <a href="hiosys_types.html">HioSys I/O Systems</a>
+</p>
+</ReferencePage>
+
+  

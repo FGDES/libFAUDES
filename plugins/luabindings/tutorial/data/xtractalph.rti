@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE LuaFunctionDefinition SYSTEM "http://www.faudes.org/dtd/1.0/luafunctiondefinition.dtd">
+<LuaFunctionDefinition name="ExtIntro::ExtractAlphabet">
+
+<!--
+This tutorial illustrates libFAUDES extensions via
+luafaudes scripts. The below faudes function can be registered with the
+libFAUDES run-time interface and, when executed, runs the specified
+Lua script.
+-->
+
+
+<Documentation> 
+Extract the alphabet from a generator.
+</Documentation>
+<Keywords> "ExtIntro" "luaextension" "example 2" </Keywords>
+
+<VariantSignatures>
+<Signature name="Sigma(Gen)">
+<Parameter name="Gen"    ftype="Generator"   access="In"/>
+<Parameter name="Sigma"  ftype="EventSet"    access="Out"/>
+</Signature>
+</VariantSignatures>
+
+<LuaCode> 
+<![CDATA[
+
+-- Extension reports on loading
+print('loading luaextension "ExtractAlphabet"')
+
+-- Define my function (mangled version of variant name)
+function faudes.Sigma_Gen(gen,sig)
+
+
+-- Function reports on execution
+print(string.format('ExtractAlphabet: sz=%d',gen:Alphabet():Size()))
+
+-- Perform extraction
+gensig = gen:Alphabet()
+
+-- Assign to parameter reference
+sig:Assign(gensig)
+
+-- Done
+return 
+
+-- End of function definition
+end
+
+-- Extension reports on loading
+print('loading luaextension: done')
+]]>
+</LuaCode>
+
+</LuaFunctionDefinition>

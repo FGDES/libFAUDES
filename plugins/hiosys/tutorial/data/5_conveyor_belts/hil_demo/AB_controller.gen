@@ -1,0 +1,1120 @@
+<Generator>
+"controllerAB" 
+
+% 
+%  Statistics for controllerAB
+% 
+%  States:        263
+%  Init/Marked:   1/263
+%  Events:        22
+%  Transitions:   948
+%  StateSymbols:  0
+%  Attrib. E/S/T: 22/263/0
+% 
+
+<Alphabet>
+"A_STP"       +UP+          "A_TR"        +UP+          "A_FL"        +UP+          
+"A_WAIT"      +YP+          "A_FULL"      +YP+          "A_ARRTL"     +YP+          
+"A_ARRTR"     +YP+          "B_STP"       +UP+          "B_TR"        +UP+          
+"B_FL"        +UP+          "B_WAIT"      +YP+          "B_FULL"      +YP+          
+"B_ARRTL"     +YP+          "B_ARRTR"     +YP+          "AB_FREE"     +YC+          
+"AB_WAIT"     +YC+          "AB_FULL"     +YC+          "AB_OCC"      +YC+          
+"AB_ARRTR"    +YC+          "AB_STP"      +UC+          "AB_TR"       +UC+          
+"AB_FL"       +UC+          
+</Alphabet>
+
+<States>
+1             +QYp+         2             +QUp+         3             +QYcUp+       
+4             +QUp+         5             +QUp+         6             +QYcUp+       
+7             +QYcUp+       8             +QYp+         9             +QYcUp+       
+10            +QYcUp+       11            +QYcUp+       12            +QYcUp+       
+13            +QYcUp+       14            +QYcUp+       15            +QYcUp+       
+16            +QYcUp+       17            +QYcUp+       18            +QYcUp+       
+19            +QYcUp+       20            +QYcUp+       21            +QYcUp+       
+22            +QYcUp+       23            +QYcUp+       24            +QYcUp+       
+25            +QYcUp+       26            +QYcUp+       27            +QYcUp+       
+28            +QYcUp+       29            +QYcUp+       30            +QUp+         
+31            +QUp+         32            +QUp+         33            +QUp+         
+34            +QUp+         35            +QUp+         36            +QUp+         
+37            +QUp+         38            +QUc+         39            +QUc+         
+40            +QUc+         41            +QUc+         42            +QYp+         
+43            +QYp+         44            +QYp+         45            +QYp+         
+46            +QYp+         47            +QYp+         48            +QYp+         
+49            +QYp+         50            +QUc+         51            +QUc+         
+52            +QYp+         53            +QUc+         54            +QUc+         
+55            +QYp+         56            +QYp+         57            +QYp+         
+58            +QYp+         59            +QYp+         60            +QYp+         
+61            +QYp+         62            +QYp+         63            +QYp+         
+64            +QYp+         65            +QYp+         66            +QYp+         
+67            +QYp+         68            +QYp+         69            +QYp+         
+70            +QYp+         71            +QYp+         72            +QYp+         
+73            +QYp+         74            +QYp+         75            +QYp+         
+76            +QYp+         77            +QYp+         78            +QYp+         
+79            +QYp+         80            +QYp+         81            +QYp+         
+82            +QYp+         83            +QYp+         84            +QYp+         
+85            +QYp+         86            +QYp+         87            +QYp+         
+88            +QYp+         89            +QUc+         90            +QUc+         
+91            +QUc+         92            +QYp+         93            +QUc+         
+94            +QYp+         95            +QUc+         96            +QUc+         
+97            +QYp+         98            +QYp+         99            +QUc+         
+100           +QUc+         101           +QYp+         102           +QUc+         
+103           +QUc+         104           +QUc+         105           +QUc+         
+106           +QUc+         107           +QUc+         108           +QYcUp+       
+109           +QYp+         110           +QYcUp+       111           +QYcUp+       
+112           +QYcUp+       113           +QYcUp+       114           +QUp+         
+115           +QYcUp+       116           +QUp+         117           +QUc+         
+118           +QYcUp+       119           +QYp+         120           +QUp+         
+121           +QUp+         122           +QYcUp+       123           +QUc+         
+124           +QUp+         125           +QUp+         126           +QYp+         
+127           +QUc+         128           +QUp+         129           +QYcUp+       
+130           +QYcUp+       131           +QYcUp+       132           +QYcUp+       
+133           +QYcUp+       134           +QYcUp+       135           +QUp+         
+136           +QYcUp+       137           +QYcUp+       138           +QUp+         
+139           +QYcUp+       140           +QUp+         141           +QYcUp+       
+142           +QUp+         143           +QYcUp+       144           +QYcUp+       
+145           +QUp+         146           +QYcUp+       147           +QYcUp+       
+148           +QUp+         149           +QYcUp+       150           +QUp+         
+151           +QYp+         152           +QYcUp+       153           +QYcUp+       
+154           +QUp+         155           +QYcUp+       156           +QUp+         
+157           +QUp+         158           +QYcUp+       159           +QUp+         
+160           +QYcUp+       161           +QUp+         162           +QYcUp+       
+163           +QYcUp+       164           +QUp+         165           +QYcUp+       
+166           +QUp+         167           +QYcUp+       168           +QUp+         
+169           +QYcUp+       170           +QYp+         171           +QYcUp+       
+172           +QUp+         173           +QYcUp+       174           +QUp+         
+175           +QYp+         176           +QUp+         177           +QUp+         
+178           +QUp+         179           +QUp+         180           +QUp+         
+181           +QUp+         182           +QUp+         183           +QUp+         
+184           +QYcUp+       185           +QUp+         186           +QYcUp+       
+187           +QUp+         188           +QYcUp+       189           +QYcUp+       
+190           +QYcUp+       191           +QYcUp+       192           +QUp+         
+193           +QYp+         194           +QYp+         195           +QUp+         
+196           +QYp+         197           +QUc+         198           +QUc+         
+199           +QYp+         200           +QUc+         201           +QYcUp+       
+202           +QYp+         203           +QYp+         204           +QUc+         
+205           +QYcUp+       206           +QUc+         207           +QYp+         
+208           +QUc+         209           +QUc+         210           +QUc+         
+211           +QUc+         212           +QYp+         213           +QUc+         
+214           +QYp+         215           +QYp+         216           +QUc+         
+217           +QUc+         218           +QUc+         219           +QUp+         
+220           +QYcUp+       221           +QUp+         222           +QUp+         
+223           +QUp+         224           +QYcUp+       225           +QYcUp+       
+226           +QYcUp+       227           +QYcUp+       228           +QUp+         
+229           +QYcUp+       230           +QYcUp+       231           +QUp+         
+232           +QYp+         233           +QUp+         234           +QUp+         
+235           +QYcUp+       236           +QUc+         237           +QYp+         
+238           +QUc+         239           +QYp+         240           +QUc+         
+241           +QYp+         242           +QYp+         243           +QYp+         
+244           +QYp+         245           +QUc+         246           +QUp+         
+247           +QUp+         248           +QYcUp+       249           +QYp+         
+250           +QUp+         251           +QYcUp+       252           +QYcUp+       
+253           +QUp+         254           +QYp+         255           +QYp+         
+256           +QUp+         257           +QUp+         258           +QUc+         
+259           +QUp+         260           +QYp+         261           +QYp+         
+262           +QYcUp+       263           +QUp+         
+</States>
+
+<TransRel>
+2             "A_STP"       8             
+2             "A_TR"        8             
+2             "A_FL"        8             
+2             "B_STP"       8             
+2             "B_TR"        8             
+2             "B_FL"        8             
+3             "A_TR"        46            
+3             "AB_WAIT"     91            
+4             "A_STP"       254           
+4             "A_FL"        232           
+5             "A_FL"        232           
+6             "A_STP"       47            
+6             "A_TR"        44            
+6             "AB_WAIT"     96            
+7             "A_STP"       193           
+7             "AB_FREE"     39            
+8             "A_WAIT"      2             
+8             "A_FULL"      2             
+8             "A_ARRTL"     2             
+8             "A_ARRTR"     2             
+8             "B_WAIT"      2             
+8             "B_FULL"      2             
+8             "B_ARRTL"     2             
+8             "B_ARRTR"     2             
+9             "B_STP"       241           
+9             "B_TR"        202           
+9             "AB_ARRTR"    240           
+10            "B_TR"        202           
+10            "AB_ARRTR"    238           
+11            "B_STP"       59            
+11            "B_FL"        47            
+11            "AB_WAIT"     100           
+12            "B_FL"        47            
+12            "AB_WAIT"     104           
+13            "B_STP"       56            
+13            "AB_FREE"     54            
+14            "AB_FREE"     51            
+15            "A_STP"       63            
+15            "AB_WAIT"     38            
+16            "B_STP"       45            
+16            "AB_WAIT"     197           
+17            "AB_WAIT"     50            
+18            "A_TR"        68            
+18            "AB_ARRTR"    93            
+19            "A_STP"       64            
+19            "A_TR"        67            
+19            "AB_ARRTR"    216           
+20            "B_STP"       74            
+20            "B_FL"        64            
+20            "AB_ARRTR"    99            
+21            "B_FL"        64            
+21            "AB_ARRTR"    102           
+22            "A_STP"       76            
+22            "AB_OCC"      90            
+23            "B_STP"       232           
+23            "AB_FULL"     206           
+24            "AB_FULL"     105           
+25            "B_STP"       175           
+25            "AB_OCC"      40            
+26            "AB_OCC"      40            
+27            "A_STP"       202           
+27            "AB_ARRTR"    236           
+28            "B_STP"       194           
+28            "AB_ARRTR"    210           
+29            "AB_ARRTR"    107           
+30            "B_STP"       241           
+30            "B_TR"        202           
+31            "B_TR"        199           
+32            "A_TR"        86            
+33            "A_STP"       47            
+33            "A_TR"        44            
+34            "B_STP"       59            
+34            "B_FL"        47            
+35            "B_FL"        249           
+36            "A_STP"       48            
+37            "B_STP"       46            
+38            "AB_STP"      148           
+38            "AB_TR"       253           
+38            "AB_FL"       246           
+39            "AB_STP"      135           
+39            "AB_FL"       4             
+40            "AB_STP"      164           
+40            "AB_TR"       30            
+41            "AB_STP"      223           
+42            "A_WAIT"      225           
+42            "A_FULL"      2             
+42            "A_ARRTL"     2             
+42            "A_ARRTR"     2             
+42            "B_WAIT"      2             
+42            "B_FULL"      2             
+42            "B_ARRTL"     2             
+42            "B_ARRTR"     29            
+43            "A_WAIT"      2             
+43            "A_FULL"      205           
+43            "A_ARRTL"     2             
+43            "A_ARRTR"     2             
+43            "B_WAIT"      248           
+43            "B_FULL"      2             
+43            "B_ARRTL"     2             
+43            "B_ARRTR"     2             
+44            "A_WAIT"      2             
+44            "A_FULL"      2             
+44            "A_ARRTL"     2             
+44            "A_ARRTR"     130           
+44            "B_WAIT"      2             
+44            "B_FULL"      118           
+44            "B_ARRTL"     2             
+44            "B_ARRTR"     2             
+45            "A_WAIT"      3             
+45            "A_FULL"      2             
+45            "A_ARRTL"     2             
+45            "A_ARRTR"     2             
+45            "B_WAIT"      16            
+45            "B_FULL"      2             
+45            "B_ARRTL"     2             
+45            "B_ARRTR"     2             
+46            "A_WAIT"      2             
+46            "A_FULL"      2             
+46            "A_ARRTL"     2             
+46            "A_ARRTR"     152           
+46            "B_WAIT"      118           
+46            "B_FULL"      2             
+46            "B_ARRTL"     2             
+46            "B_ARRTR"     2             
+47            "A_WAIT"      6             
+47            "A_FULL"      2             
+47            "A_ARRTL"     2             
+47            "A_ARRTR"     2             
+47            "B_WAIT"      2             
+47            "B_FULL"      191           
+47            "B_ARRTL"     2             
+47            "B_ARRTR"     2             
+48            "A_WAIT"      246           
+48            "A_FULL"      2             
+48            "A_ARRTL"     2             
+48            "A_ARRTR"     2             
+48            "B_WAIT"      259           
+48            "B_FULL"      2             
+48            "B_ARRTL"     2             
+48            "B_ARRTR"     2             
+49            "A_WAIT"      247           
+49            "A_FULL"      2             
+49            "A_ARRTL"     2             
+49            "A_ARRTR"     2             
+49            "B_WAIT"      259           
+49            "B_FULL"      2             
+49            "B_ARRTL"     2             
+49            "B_ARRTR"     2             
+50            "AB_STP"      148           
+50            "AB_TR"       253           
+50            "AB_FL"       247           
+51            "AB_STP"      135           
+51            "AB_FL"       5             
+52            "A_WAIT"      115           
+52            "A_FULL"      2             
+52            "A_ARRTL"     2             
+52            "A_ARRTR"     2             
+52            "B_WAIT"      16            
+52            "B_FULL"      2             
+52            "B_ARRTL"     2             
+52            "B_ARRTR"     2             
+53            "AB_STP"      185           
+53            "AB_TR"       228           
+53            "AB_FL"       259           
+54            "AB_STP"      128           
+54            "AB_FL"       121           
+55            "A_WAIT"      130           
+55            "A_FULL"      2             
+55            "A_ARRTL"     2             
+55            "A_ARRTR"     2             
+55            "B_WAIT"      2             
+55            "B_FULL"      133           
+55            "B_ARRTL"     2             
+55            "B_ARRTR"     2             
+56            "A_WAIT"      110           
+56            "A_FULL"      2             
+56            "A_ARRTL"     2             
+56            "A_ARRTR"     2             
+56            "B_WAIT"      13            
+56            "B_FULL"      2             
+56            "B_ARRTL"     2             
+56            "B_ARRTR"     2             
+57            "A_WAIT"      252           
+57            "A_FULL"      2             
+57            "A_ARRTL"     2             
+57            "A_ARRTR"     2             
+57            "B_WAIT"      229           
+57            "B_FULL"      2             
+57            "B_ARRTL"     2             
+57            "B_ARRTR"     2             
+58            "A_WAIT"      251           
+58            "A_FULL"      2             
+58            "A_ARRTL"     2             
+58            "A_ARRTR"     2             
+58            "B_WAIT"      227           
+58            "B_FULL"      2             
+58            "B_ARRTL"     2             
+58            "B_ARRTR"     2             
+59            "A_WAIT"      147           
+59            "A_FULL"      2             
+59            "A_ARRTL"     2             
+59            "A_ARRTR"     2             
+59            "B_WAIT"      11            
+59            "B_FULL"      2             
+59            "B_ARRTL"     2             
+59            "B_ARRTR"     2             
+60            "A_WAIT"      147           
+60            "A_FULL"      2             
+60            "A_ARRTL"     2             
+60            "A_ARRTR"     2             
+60            "B_WAIT"      12            
+60            "B_FULL"      2             
+60            "B_ARRTL"     2             
+60            "B_ARRTR"     2             
+61            "A_WAIT"      14            
+61            "A_FULL"      2             
+61            "A_ARRTL"     2             
+61            "A_ARRTR"     2             
+61            "B_WAIT"      139           
+61            "B_FULL"      2             
+61            "B_ARRTL"     2             
+61            "B_ARRTR"     2             
+62            "A_WAIT"      137           
+62            "A_FULL"      2             
+62            "A_ARRTL"     2             
+62            "A_ARRTR"     2             
+62            "B_WAIT"      131           
+62            "B_FULL"      2             
+62            "B_ARRTL"     2             
+62            "B_ARRTR"     2             
+63            "A_WAIT"      15            
+63            "A_FULL"      2             
+63            "A_ARRTL"     2             
+63            "A_ARRTR"     2             
+63            "B_WAIT"      122           
+63            "B_FULL"      2             
+63            "B_ARRTL"     2             
+63            "B_ARRTR"     2             
+64            "A_WAIT"      19            
+64            "A_FULL"      2             
+64            "A_ARRTL"     2             
+64            "A_ARRTR"     2             
+64            "B_WAIT"      2             
+64            "B_FULL"      162           
+64            "B_ARRTL"     2             
+64            "B_ARRTR"     2             
+65            "A_WAIT"      220           
+65            "A_FULL"      2             
+65            "A_ARRTL"     2             
+65            "A_ARRTR"     2             
+65            "B_WAIT"      149           
+65            "B_FULL"      2             
+65            "B_ARRTL"     2             
+65            "B_ARRTR"     2             
+66            "A_WAIT"      17            
+66            "A_FULL"      2             
+66            "A_ARRTL"     2             
+66            "A_ARRTR"     2             
+66            "B_WAIT"      122           
+66            "B_FULL"      2             
+66            "B_ARRTL"     2             
+66            "B_ARRTR"     2             
+67            "A_WAIT"      2             
+67            "A_FULL"      2             
+67            "A_ARRTL"     2             
+67            "A_ARRTR"     146           
+67            "B_WAIT"      2             
+67            "B_FULL"      144           
+67            "B_ARRTL"     2             
+67            "B_ARRTR"     2             
+68            "A_WAIT"      2             
+68            "A_FULL"      2             
+68            "A_ARRTL"     2             
+68            "A_ARRTR"     252           
+68            "B_WAIT"      144           
+68            "B_FULL"      2             
+68            "B_ARRTL"     2             
+68            "B_ARRTR"     2             
+69            "A_WAIT"      184           
+69            "A_FULL"      2             
+69            "A_ARRTL"     2             
+69            "A_ARRTR"     2             
+69            "B_WAIT"      134           
+69            "B_FULL"      2             
+69            "B_ARRTL"     2             
+69            "B_ARRTR"     2             
+70            "A_WAIT"      153           
+70            "A_FULL"      2             
+70            "A_ARRTL"     2             
+70            "A_ARRTR"     2             
+70            "B_WAIT"      129           
+70            "B_FULL"      2             
+70            "B_ARRTL"     2             
+70            "B_ARRTR"     2             
+71            "A_WAIT"      18            
+71            "A_FULL"      2             
+71            "A_ARRTL"     2             
+71            "A_ARRTR"     2             
+71            "B_WAIT"      160           
+71            "B_FULL"      2             
+71            "B_ARRTL"     2             
+71            "B_ARRTR"     2             
+72            "A_WAIT"      155           
+72            "A_FULL"      2             
+72            "A_ARRTL"     2             
+72            "A_ARRTR"     2             
+72            "B_WAIT"      160           
+72            "B_FULL"      2             
+72            "B_ARRTL"     2             
+72            "B_ARRTR"     2             
+73            "A_WAIT"      146           
+73            "A_FULL"      2             
+73            "A_ARRTL"     2             
+73            "A_ARRTR"     2             
+73            "B_WAIT"      2             
+73            "B_FULL"      28            
+73            "B_ARRTL"     2             
+73            "B_ARRTR"     2             
+74            "A_WAIT"      167           
+74            "A_FULL"      2             
+74            "A_ARRTL"     2             
+74            "A_ARRTR"     2             
+74            "B_WAIT"      20            
+74            "B_FULL"      2             
+74            "B_ARRTL"     2             
+74            "B_ARRTR"     2             
+75            "A_WAIT"      167           
+75            "A_FULL"      2             
+75            "A_ARRTL"     2             
+75            "A_ARRTR"     2             
+75            "B_WAIT"      21            
+75            "B_FULL"      2             
+75            "B_ARRTL"     2             
+75            "B_ARRTR"     2             
+76            "A_WAIT"      22            
+76            "A_FULL"      2             
+76            "A_ARRTL"     2             
+76            "A_ARRTR"     2             
+76            "B_WAIT"      173           
+76            "B_FULL"      2             
+76            "B_ARRTL"     2             
+76            "B_ARRTR"     2             
+77            "A_WAIT"      111           
+77            "A_FULL"      2             
+77            "A_ARRTL"     2             
+77            "A_ARRTR"     2             
+77            "B_WAIT"      173           
+77            "B_FULL"      2             
+77            "B_ARRTL"     2             
+77            "B_ARRTR"     2             
+78            "A_WAIT"      2             
+78            "A_FULL"      142           
+78            "A_ARRTL"     2             
+78            "A_ARRTR"     2             
+78            "B_WAIT"      231           
+78            "B_FULL"      2             
+78            "B_ARRTL"     2             
+78            "B_ARRTR"     2             
+79            "A_WAIT"      171           
+79            "A_FULL"      2             
+79            "A_ARRTL"     2             
+79            "A_ARRTR"     2             
+79            "B_WAIT"      26            
+79            "B_FULL"      2             
+79            "B_ARRTL"     2             
+79            "B_ARRTR"     2             
+80            "A_WAIT"      250           
+80            "A_FULL"      2             
+80            "A_ARRTL"     2             
+80            "A_ARRTR"     2             
+80            "B_WAIT"      223           
+80            "B_FULL"      2             
+80            "B_ARRTL"     2             
+80            "B_ARRTR"     2             
+81            "A_WAIT"      221           
+81            "A_FULL"      2             
+81            "A_ARRTL"     2             
+81            "A_ARRTR"     2             
+81            "B_WAIT"      2             
+81            "B_FULL"      2             
+81            "B_ARRTL"     2             
+81            "B_ARRTR"     128           
+82            "A_WAIT"      262           
+82            "A_FULL"      2             
+82            "A_ARRTL"     2             
+82            "A_ARRTR"     2             
+82            "B_WAIT"      230           
+82            "B_FULL"      2             
+82            "B_ARRTL"     2             
+82            "B_ARRTR"     2             
+83            "A_WAIT"      233           
+83            "A_FULL"      2             
+83            "A_ARRTL"     2             
+83            "A_ARRTR"     2             
+83            "B_WAIT"      2             
+83            "B_FULL"      182           
+83            "B_ARRTL"     2             
+83            "B_ARRTR"     2             
+84            "A_WAIT"      190           
+84            "A_FULL"      2             
+84            "A_ARRTL"     2             
+84            "A_ARRTR"     2             
+84            "B_WAIT"      169           
+84            "B_FULL"      2             
+84            "B_ARRTL"     2             
+84            "B_ARRTR"     2             
+85            "A_WAIT"      2             
+85            "A_FULL"      2             
+85            "A_ARRTL"     2             
+85            "A_ARRTR"     219           
+85            "B_WAIT"      2             
+85            "B_FULL"      177           
+85            "B_ARRTL"     2             
+85            "B_ARRTR"     2             
+86            "A_WAIT"      2             
+86            "A_FULL"      2             
+86            "A_ARRTL"     2             
+86            "A_ARRTR"     36            
+86            "B_WAIT"      177           
+86            "B_FULL"      2             
+86            "B_ARRTL"     2             
+86            "B_ARRTR"     2             
+87            "A_WAIT"      186           
+87            "A_FULL"      2             
+87            "A_ARRTL"     2             
+87            "A_ARRTR"     2             
+87            "B_WAIT"      224           
+87            "B_FULL"      2             
+87            "B_ARRTL"     2             
+87            "B_ARRTR"     2             
+88            "A_WAIT"      250           
+88            "A_FULL"      2             
+88            "A_ARRTL"     2             
+88            "A_ARRTR"     2             
+88            "B_WAIT"      222           
+88            "B_FULL"      2             
+88            "B_ARRTL"     2             
+88            "B_ARRTR"     2             
+89            "AB_STP"      222           
+90            "AB_STP"      168           
+90            "AB_TR"       138           
+91            "AB_STP"      116           
+91            "AB_TR"       156           
+91            "AB_FL"       32            
+92            "A_WAIT"      180           
+92            "A_FULL"      2             
+92            "A_ARRTL"     2             
+92            "A_ARRTR"     2             
+92            "B_WAIT"      234           
+92            "B_FULL"      2             
+92            "B_ARRTL"     2             
+92            "B_ARRTR"     2             
+93            "AB_STP"      180           
+94            "A_WAIT"      179           
+94            "A_FULL"      2             
+94            "A_ARRTL"     2             
+94            "A_ARRTR"     2             
+94            "B_WAIT"      182           
+94            "B_FULL"      2             
+94            "B_ARRTL"     2             
+94            "B_ARRTR"     2             
+95            "AB_STP"      181           
+96            "AB_STP"      33            
+96            "AB_TR"       120           
+96            "AB_FL"       233           
+97            "A_WAIT"      219           
+97            "A_FULL"      2             
+97            "A_ARRTL"     2             
+97            "A_ARRTR"     2             
+97            "B_WAIT"      2             
+97            "B_FULL"      259           
+97            "B_ARRTL"     2             
+97            "B_ARRTR"     2             
+98            "A_WAIT"      263           
+98            "A_FULL"      2             
+98            "A_ARRTL"     2             
+98            "A_ARRTR"     2             
+98            "B_WAIT"      257           
+98            "B_FULL"      2             
+98            "B_ARRTL"     2             
+98            "B_ARRTR"     2             
+99            "AB_STP"      157           
+100           "AB_STP"      34            
+100           "AB_TR"       124           
+100           "AB_FL"       257           
+101           "A_WAIT"      263           
+101           "A_FULL"      2             
+101           "A_ARRTL"     2             
+101           "A_ARRTR"     2             
+101           "B_WAIT"      256           
+101           "B_FULL"      2             
+101           "B_ARRTL"     2             
+101           "B_ARRTR"     2             
+102           "AB_STP"      35            
+103           "AB_STP"      148           
+103           "AB_TR"       253           
+103           "AB_FL"       36            
+104           "AB_STP"      34            
+104           "AB_TR"       124           
+104           "AB_FL"       256           
+105           "AB_STP"      142           
+106           "AB_STP"      37            
+106           "AB_TR"       150           
+106           "AB_FL"       177           
+107           "AB_STP"      128           
+108           "A_STP"       70            
+108           "AB_WAIT"     50            
+109           "A_WAIT"      108           
+109           "A_FULL"      2             
+109           "A_ARRTL"     2             
+109           "A_ARRTR"     2             
+109           "B_WAIT"      158           
+109           "B_FULL"      2             
+109           "B_ARRTL"     2             
+109           "B_ARRTR"     2             
+110           "A_STP"       62            
+110           "AB_FREE"     51            
+111           "AB_OCC"      90            
+112           "B_STP"       244           
+112           "B_TR"        202           
+112           "AB_ARRTR"    238           
+113           "A_STP"       243           
+113           "AB_ARRTR"    258           
+114           "B_STP"       239           
+114           "B_TR"        199           
+115           "A_STP"       52            
+115           "A_TR"        46            
+115           "AB_WAIT"     117           
+116           "A_STP"       52            
+116           "A_TR"        46            
+117           "AB_STP"      116           
+117           "AB_TR"       156           
+117           "AB_FL"       179           
+118           "B_STP"       46            
+118           "AB_WAIT"     106           
+119           "A_WAIT"      132           
+119           "A_FULL"      2             
+119           "A_ARRTL"     2             
+119           "A_ARRTR"     2             
+119           "B_WAIT"      191           
+119           "B_FULL"      2             
+119           "B_ARRTL"     2             
+119           "B_ARRTR"     2             
+120           "A_STP"       64            
+120           "A_TR"        67            
+121           "B_STP"       255           
+122           "B_STP"       66            
+122           "AB_WAIT"     53            
+123           "AB_STP"      185           
+123           "AB_TR"       140           
+123           "AB_FL"       259           
+124           "B_STP"       74            
+124           "B_FL"        64            
+125           "A_STP"       55            
+126           "A_WAIT"      2             
+126           "A_FULL"      2             
+126           "A_ARRTL"     2             
+126           "A_ARRTR"     250           
+126           "B_WAIT"      195           
+126           "B_FULL"      2             
+126           "B_ARRTL"     2             
+126           "B_ARRTR"     2             
+127           "AB_STP"      125           
+127           "AB_TR"       154           
+127           "AB_FL"       219           
+128           "B_STP"       56            
+129           "AB_WAIT"     53            
+130           "A_STP"       55            
+130           "AB_WAIT"     127           
+131           "AB_FREE"     54            
+132           "A_STP"       69            
+132           "A_TR"        46            
+132           "AB_WAIT"     91            
+133           "B_STP"       109           
+133           "AB_WAIT"     123           
+134           "AB_WAIT"     197           
+135           "A_STP"       193           
+136           "A_STP"       151           
+136           "AB_WAIT"     198           
+137           "A_STP"       62            
+137           "AB_FREE"     39            
+138           "A_STP"       243           
+139           "B_STP"       61            
+139           "AB_FREE"     54            
+140           "B_STP"       194           
+1             "A_WAIT"      110           
+1             "A_FULL"      2             
+1             "A_ARRTL"     2             
+1             "A_ARRTR"     2             
+1             "B_WAIT"      139           
+1             "B_FULL"      2             
+1             "B_ARRTL"     2             
+1             "B_ARRTR"     2             
+141           "A_STP"       242           
+141           "AB_ARRTR"    258           
+142           "A_STP"       151           
+143           "B_STP"       244           
+143           "B_TR"        202           
+143           "AB_ARRTR"    240           
+144           "B_STP"       68            
+144           "AB_ARRTR"    217           
+145           "B_STP"       59            
+146           "A_STP"       73            
+146           "AB_ARRTR"    213           
+147           "A_STP"       60            
+147           "AB_WAIT"     198           
+148           "A_STP"       63            
+149           "B_STP"       65            
+149           "B_FL"        47            
+149           "AB_WAIT"     100           
+150           "B_STP"       68            
+151           "A_WAIT"      136           
+151           "A_FULL"      2             
+151           "A_ARRTL"     2             
+151           "A_ARRTR"     2             
+151           "B_WAIT"      189           
+151           "B_FULL"      2             
+151           "B_ARRTL"     2             
+151           "B_ARRTR"     2             
+152           "A_STP"       63            
+152           "AB_WAIT"     103           
+153           "A_STP"       70            
+153           "AB_WAIT"     38            
+154           "A_STP"       73            
+155           "A_STP"       72            
+155           "A_TR"        68            
+155           "AB_ARRTR"    95            
+156           "A_STP"       72            
+156           "A_TR"        68            
+157           "B_STP"       261           
+157           "B_FL"        249           
+158           "B_STP"       109           
+158           "AB_WAIT"     53            
+159           "A_STP"       249           
+159           "A_TR"        212           
+160           "B_STP"       71            
+160           "AB_ARRTR"    211           
+161           "B_STP"       207           
+162           "B_STP"       207           
+162           "AB_ARRTR"    211           
+163           "A_STP"       87            
+163           "A_TR"        68            
+163           "AB_ARRTR"    93            
+164           "B_STP"       175           
+165           "A_STP"       170           
+165           "AB_ARRTR"    218           
+166           "A_STP"       170           
+167           "A_STP"       75            
+167           "AB_ARRTR"    218           
+168           "A_STP"       76            
+169           "B_STP"       84            
+169           "B_FL"        64            
+169           "AB_ARRTR"    99            
+170           "A_WAIT"      165           
+170           "A_FULL"      2             
+170           "A_ARRTL"     2             
+170           "A_ARRTR"     2             
+170           "B_WAIT"      188           
+170           "B_FULL"      2             
+170           "B_ARRTL"     2             
+170           "B_ARRTR"     2             
+171           "A_STP"       79            
+171           "AB_OCC"      90            
+172           "A_STP"       199           
+173           "B_STP"       77            
+173           "AB_OCC"      40            
+174           "B_STP"       203           
+175           "A_WAIT"      171           
+175           "A_FULL"      2             
+175           "A_ARRTL"     2             
+175           "A_ARRTR"     2             
+175           "B_WAIT"      25            
+175           "B_FULL"      2             
+175           "B_ARRTL"     2             
+175           "B_ARRTR"     2             
+176           "B_STP"       80            
+177           "B_STP"       86            
+178           "A_STP"       237           
+179           "A_STP"       94            
+179           "A_TR"        86            
+180           "A_TR"        126           
+181           "A_STP"       214           
+181           "A_TR"        126           
+182           "B_STP"       215           
+183           "A_STP"       196           
+184           "A_STP"       69            
+184           "A_TR"        46            
+184           "AB_WAIT"     117           
+185           "B_STP"       109           
+186           "A_STP"       87            
+186           "A_TR"        68            
+186           "AB_ARRTR"    95            
+187           "A_STP"       260           
+188           "B_STP"       84            
+188           "B_FL"        64            
+188           "AB_ARRTR"    102           
+189           "B_STP"       65            
+189           "B_FL"        47            
+189           "AB_WAIT"     104           
+190           "AB_ARRTR"    218           
+191           "B_STP"       119           
+191           "AB_WAIT"     197           
+192           "B_STP"       119           
+193           "A_WAIT"      7             
+193           "A_FULL"      2             
+193           "A_ARRTL"     2             
+193           "A_ARRTR"     2             
+193           "B_WAIT"      139           
+193           "B_FULL"      2             
+193           "B_ARRTL"     2             
+193           "B_ARRTR"     2             
+194           "A_WAIT"      251           
+194           "A_FULL"      2             
+194           "A_ARRTL"     2             
+194           "A_ARRTR"     2             
+194           "B_WAIT"      226           
+194           "B_FULL"      2             
+194           "B_ARRTL"     2             
+194           "B_ARRTR"     2             
+195           "B_STP"       126           
+196           "A_WAIT"      183           
+196           "A_FULL"      2             
+196           "A_ARRTL"     2             
+196           "A_ARRTR"     2             
+196           "B_WAIT"      2             
+196           "B_FULL"      176           
+196           "B_ARRTL"     2             
+196           "B_ARRTR"     2             
+197           "AB_STP"      192           
+197           "AB_TR"       161           
+197           "AB_FL"       182           
+198           "AB_STP"      142           
+198           "AB_TR"       166           
+198           "AB_FL"       263           
+199           "A_WAIT"      172           
+199           "A_FULL"      2             
+199           "A_ARRTL"     2             
+199           "A_ARRTR"     2             
+199           "B_WAIT"      2             
+199           "B_FULL"      2             
+199           "B_ARRTL"     2             
+199           "B_ARRTR"     145           
+200           "AB_STP"      145           
+201           "AB_ARRTR"    200           
+202           "A_WAIT"      27            
+202           "A_FULL"      2             
+202           "A_ARRTL"     2             
+202           "A_ARRTR"     2             
+202           "B_WAIT"      2             
+202           "B_FULL"      2             
+202           "B_ARRTL"     2             
+202           "B_ARRTR"     201           
+203           "A_WAIT"      2             
+203           "A_FULL"      168           
+203           "A_ARRTL"     2             
+203           "A_ARRTR"     2             
+203           "B_WAIT"      174           
+203           "B_FULL"      2             
+203           "B_ARRTL"     2             
+203           "B_ARRTR"     2             
+204           "AB_STP"      168           
+205           "AB_FULL"     204           
+206           "AB_STP"      231           
+207           "A_WAIT"      163           
+207           "A_FULL"      2             
+207           "A_ARRTL"     2             
+207           "A_ARRTR"     2             
+207           "B_WAIT"      162           
+207           "B_FULL"      2             
+207           "B_ARRTL"     2             
+207           "B_ARRTR"     2             
+208           "AB_STP"      221           
+209           "AB_STP"      250           
+210           "AB_STP"      176           
+211           "AB_STP"      234           
+212           "A_WAIT"      2             
+212           "A_FULL"      2             
+212           "A_ARRTL"     2             
+212           "A_ARRTR"     183           
+212           "B_WAIT"      2             
+212           "B_FULL"      195           
+212           "B_ARRTL"     2             
+212           "B_ARRTR"     2             
+213           "AB_STP"      183           
+214           "A_WAIT"      181           
+214           "A_FULL"      2             
+214           "A_ARRTL"     2             
+214           "A_ARRTR"     2             
+214           "B_WAIT"      234           
+214           "B_FULL"      2             
+214           "B_ARRTL"     2             
+214           "B_ARRTR"     2             
+215           "A_WAIT"      32            
+215           "A_FULL"      2             
+215           "A_ARRTL"     2             
+215           "A_ARRTR"     2             
+215           "B_WAIT"      182           
+215           "B_FULL"      2             
+215           "B_ARRTL"     2             
+215           "B_ARRTR"     2             
+216           "AB_STP"      159           
+217           "AB_STP"      195           
+218           "AB_STP"      187           
+219           "A_STP"       97            
+220           "AB_WAIT"     198           
+221           "A_STP"       81            
+222           "B_TR"        81            
+223           "B_STP"       80            
+223           "B_TR"        81            
+224           "AB_ARRTR"    211           
+225           "A_STP"       42            
+225           "AB_ARRTR"    208           
+226           "B_STP"       194           
+226           "B_TR"        42            
+226           "AB_ARRTR"    41            
+227           "B_TR"        42            
+227           "AB_ARRTR"    89            
+228           "B_STP"       194           
+228           "B_TR"        42            
+229           "B_STP"       82            
+229           "B_TR"        42            
+229           "AB_ARRTR"    89            
+230           "B_STP"       82            
+230           "B_TR"        42            
+230           "AB_ARRTR"    41            
+231           "B_STP"       78            
+232           "A_WAIT"      2             
+232           "A_FULL"      24            
+232           "A_ARRTL"     2             
+232           "A_ARRTR"     2             
+232           "B_WAIT"      23            
+232           "B_FULL"      2             
+232           "B_ARRTL"     2             
+232           "B_ARRTR"     2             
+233           "A_STP"       83            
+233           "A_TR"        85            
+234           "B_STP"       92            
+235           "AB_ARRTR"    258           
+236           "AB_STP"      172           
+237           "A_WAIT"      178           
+237           "A_FULL"      2             
+237           "A_ARRTL"     2             
+237           "A_ARRTR"     2             
+237           "B_WAIT"      31            
+237           "B_FULL"      2             
+237           "B_ARRTL"     2             
+237           "B_ARRTR"     2             
+238           "AB_STP"      31            
+239           "A_WAIT"      178           
+239           "A_FULL"      2             
+239           "A_ARRTL"     2             
+239           "A_ARRTR"     2             
+239           "B_WAIT"      114           
+239           "B_FULL"      2             
+239           "B_ARRTL"     2             
+239           "B_ARRTR"     2             
+240           "AB_STP"      114           
+241           "A_WAIT"      141           
+241           "A_FULL"      2             
+241           "A_ARRTL"     2             
+241           "A_ARRTR"     2             
+241           "B_WAIT"      9             
+241           "B_FULL"      2             
+241           "B_ARRTL"     2             
+241           "B_ARRTR"     2             
+242           "A_WAIT"      141           
+242           "A_FULL"      2             
+242           "A_ARRTL"     2             
+242           "A_ARRTR"     2             
+242           "B_WAIT"      10            
+242           "B_FULL"      2             
+242           "B_ARRTL"     2             
+242           "B_ARRTR"     2             
+243           "A_WAIT"      113           
+243           "A_FULL"      2             
+243           "A_ARRTL"     2             
+243           "A_ARRTR"     2             
+243           "B_WAIT"      112           
+243           "B_FULL"      2             
+243           "B_ARRTL"     2             
+243           "B_ARRTR"     2             
+244           "A_WAIT"      235           
+244           "A_FULL"      2             
+244           "A_ARRTL"     2             
+244           "A_ARRTR"     2             
+244           "B_WAIT"      143           
+244           "B_FULL"      2             
+244           "B_ARRTL"     2             
+244           "B_ARRTR"     2             
+245           "AB_STP"      174           
+246           "A_STP"       48            
+246           "A_FL"        43            
+247           "A_FL"        43            
+248           "B_STP"       43            
+248           "AB_FULL"     245           
+249           "A_WAIT"      159           
+249           "A_FULL"      2             
+249           "A_ARRTL"     2             
+249           "A_ARRTR"     2             
+249           "B_WAIT"      2             
+249           "B_FULL"      234           
+249           "B_ARRTL"     2             
+249           "B_ARRTR"     2             
+250           "A_STP"       88            
+251           "A_STP"       58            
+251           "AB_ARRTR"    209           
+252           "A_STP"       57            
+252           "AB_ARRTR"    209           
+253           "A_STP"       57            
+254           "A_WAIT"      4             
+254           "A_FULL"      2             
+254           "A_ARRTL"     2             
+254           "A_ARRTR"     2             
+254           "B_WAIT"      121           
+254           "B_FULL"      2             
+254           "B_ARRTL"     2             
+254           "B_ARRTR"     2             
+255           "A_WAIT"      5             
+255           "A_FULL"      2             
+255           "A_ARRTL"     2             
+255           "A_ARRTR"     2             
+255           "B_WAIT"      121           
+255           "B_FULL"      2             
+255           "B_ARRTL"     2             
+255           "B_ARRTR"     2             
+256           "B_FL"        83            
+257           "B_STP"       98            
+257           "B_FL"        83            
+258           "AB_STP"      178           
+259           "B_STP"       49            
+260           "A_WAIT"      187           
+260           "A_FULL"      2             
+260           "A_ARRTL"     2             
+260           "A_ARRTR"     2             
+260           "B_WAIT"      35            
+260           "B_FULL"      2             
+260           "B_ARRTL"     2             
+260           "B_ARRTR"     2             
+261           "A_WAIT"      187           
+261           "A_FULL"      2             
+261           "A_ARRTL"     2             
+261           "A_ARRTR"     2             
+261           "B_WAIT"      157           
+261           "B_FULL"      2             
+261           "B_ARRTL"     2             
+261           "B_ARRTR"     2             
+262           "AB_ARRTR"    209           
+263           "A_STP"       101           
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3             4             5             6             
+7             8             9             10            11            12            
+13            14            15            16            17            18            
+19            20            21            22            23            24            
+25            26            27            28            29            30            
+31            32            33            34            35            36            
+37            38            39            40            41            42            
+43            44            45            46            47            48            
+49            50            51            52            53            54            
+55            56            57            58            59            60            
+61            62            63            64            65            66            
+67            68            69            70            71            72            
+73            74            75            76            77            78            
+79            80            81            82            83            84            
+85            86            87            88            89            90            
+91            92            93            94            95            96            
+97            98            99            100           101           102           
+103           104           105           106           107           108           
+109           110           111           112           113           114           
+115           116           117           118           119           120           
+121           122           123           124           125           126           
+127           128           129           130           131           132           
+133           134           135           136           137           138           
+139           140           141           142           143           144           
+145           146           147           148           149           150           
+151           152           153           154           155           156           
+157           158           159           160           161           162           
+163           164           165           166           167           168           
+169           170           171           172           173           174           
+175           176           177           178           179           180           
+181           182           183           184           185           186           
+187           188           189           190           191           192           
+193           194           195           196           197           198           
+199           200           201           202           203           204           
+205           206           207           208           209           210           
+211           212           213           214           215           216           
+217           218           219           220           221           222           
+223           224           225           226           227           228           
+229           230           231           232           233           234           
+235           236           237           238           239           240           
+241           242           243           244           245           246           
+247           248           249           250           251           252           
+253           254           255           256           257           258           
+259           260           261           262           263           
+</MarkedStates>
+
+
+</Generator>

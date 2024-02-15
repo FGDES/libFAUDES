@@ -1,0 +1,42 @@
+% Elevator example: specification, operator commands
+
+<Generator>
+"E_opcmd"
+
+<Alphabet>
+"o_upb"
+"o_lwb"
+"c_stp"
+"c_up"
+"c_down"
+</Alphabet>
+
+<States>
+"Idle"
+"Busy"
+</States>
+
+<TransRel>
+% Idle, wait for command
+"Idle" "o_upb" "Busy"
+"Idle" "o_lwb" "Busy"
+
+% Busy, wait for mission accomplished
+"Busy" "c_stp" "Idle"
+"Busy" "c_up"  "Busy"
+"Busy" "c_down" "Busy"
+"Busy" "o_upb" "Busy"
+"Busy" "o_lwb" "Busy"
+
+
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>
+"Idle"
+</MarkedStates>
+
+</Generator>

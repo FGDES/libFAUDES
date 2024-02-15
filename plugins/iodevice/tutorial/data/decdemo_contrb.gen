@@ -1,0 +1,42 @@
+% Example "decdemo", ContrB (mainenance). 
+
+% We control the maintenance unit to behave like
+% the simple machine w.r.t. events "mue" and "lambda"
+
+<Generator>
+"Controller B (maintenance unit)"
+<Alphabet>
+"m_request"
+"mue" 
+"m_start"         
+"m_complete"
+"m_stop"         
+"lambda"
+</Alphabet>
+
+<States>
+"IdleBusy"    
+"Down"  
+"Repair1"    
+"Repair2"    
+"Repair3"    
+"MComplete"        
+</States>
+
+<TransRel>
+"IdleBusy"    "m_request"    "Down"    
+"Down"        "mue"          "Repair1"
+"Repair1"     "m_start"      "Repair2"
+"Repair2"     "m_complete"   "Repair3" 
+"Repair3"     "m_stop"       "MComplete" 
+"MComplete"   "lambda"       "IdleBusy"
+</TransRel>
+
+<InitStates>
+"IdleBusy"        
+</InitStates>
+<MarkedStates>
+"IdleBusy"        
+</MarkedStates>
+
+</Generator>

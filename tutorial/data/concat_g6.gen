@@ -1,0 +1,26 @@
+<Generator>
+"g6"          
+
+<Alphabet>
+"b" "c"           
+</Alphabet>
+
+<States>
+"1"           "2"           
+</States>
+
+<TransRel>
+"1"           "b"           "2"           
+"2"           "c"           "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"2"           
+</MarkedStates>
+
+
+</Generator>

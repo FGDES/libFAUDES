@@ -1,0 +1,199 @@
+%%% test mark: spec controllable [at syn_1_simple.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: spec relmarked [at syn_1_simple.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: clspec relmarked [at syn_1_simple.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: super cl [at syn_1_simple.lua]
+% 
+%  Statistics for supervisor
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  6
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: super [at syn_1_simple.lua]
+% 
+%  Statistics for supervisor
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  6
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: super controllable [at syn_1_simple.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: super relclosed [at syn_1_simple.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: supervisor [at syn_1_simple.lua]
+% 
+%  Statistics for supervisor
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  6
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: sup normal [at syn_1_simple.lua]
+% 
+%  Statistics for SupNorm(PrefixClosure(very simple machine_1||very simple machine_2), Intersection(SelfLoop(buffer,Alphab... machine_1||very simple machine_2)))
+% 
+%  States:        3
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   2
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: normal 1 [at syn_1_simple.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: closed loop 1 [at syn_1_simple.lua]
+% 
+%  Statistics for PrefixClosure(very simple machine_1...|Project(PrefixClosure(supervisor))
+% 
+%  States:        8
+%  Init/Marked:   1/8
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: normal 2 [at syn_1_simple.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: closed loop 2 [at syn_1_simple.lua]
+% 
+%  Statistics for PrefixClosure(very simple machine_1...|Project(PrefixClosure(supervisor))
+% 
+%  States:        6
+%  Init/Marked:   1/6
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: doublcheck 2 [at syn_1_simple.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: supervisor partial obs, closed [at syn_1_simple.lua]
+% 
+%  Statistics for SupConNormClosed(very simple machine_1||very simple machine_2, PrefixClosure(buffer))
+% 
+%  States:        3
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: supervisor partial obs, nb [at syn_1_simple.lua]
+% 
+%  Statistics for SupConNormNB(very simple machine_1||very simple machine_2, PrefixClosure(buffer))
+% 
+%  States:        3
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: supervisor partial obs, nb buffer2 [at syn_1_simple.lua]
+% 
+%  Statistics for SupConNormNB(very simple machine_1||very simple machine_2, two place buffer)
+% 
+%  States:        9
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   13
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+

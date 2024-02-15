@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Convenience" page="Index" title="Convenience Functions">
+
+<h1>Convenience Functions</h1>
+
+<p>
+This LuaExtension is used to collect functions that 
+are meant to simplify common tasks in discrete event 
+system design. It's a developers scratch-pad: anything that
+turns out useful indeed will be implemented in the
+respective plug-in
+</p>
+ 
+<p>
+<br/>
+<br/>
+Copyright (C) 2011, Thomas Moor.
+<br/>
+<br/>
+</p>
+
+
+
+<ffnct_reference name="StdSynthesis"/>
+
+
+</ReferencePage>

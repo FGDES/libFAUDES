@@ -1,0 +1,31 @@
+% One workpiece buffer for two simple machines
+
+% Takes workiece from machine a (beta_a)
+% Supplies workpiece to machine b (alpha_b)
+
+<Generator>
+"buffer"
+
+<Alphabet>
+"beta_a" "alpha_b" 
+</Alphabet>
+
+<States>
+"empty" "full"
+</States>
+
+<TransRel>
+"empty" "beta_a" "full"
+"full" "alpha_b" "empty"
+</TransRel>
+
+<InitStates>
+"empty"
+</InitStates>
+
+<MarkedStates>
+"empty" 
+</MarkedStates>
+
+
+</Generator>

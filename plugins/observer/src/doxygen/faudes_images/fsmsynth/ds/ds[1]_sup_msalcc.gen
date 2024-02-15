@@ -1,0 +1,48 @@
+<Generator>
+"SupConNB((Project(SupConNB((Project...spec)))),(sf[0]_spec||sf[0]_spec2))" 
+
+% 
+%  Statistics for SupConNB((Project(SupConNB((Project...spec)))),(sf[0]_spec||sf[0]_spec2))
+% 
+%  States:        8
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   10
+%  StateSymbols:  0
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"cb2-13"      +C+           "sf-2"        +C+           "cb3-12"      +C+           
+"cb1-3"       +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             8             
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb1-3"       2             
+2             "cb3-12"      3             
+3             "cb1-3"       4             
+4             "sf-2"        5             
+4             "cb3-12"      6             
+5             "cb3-12"      7             
+6             "sf-2"        7             
+7             "cb2-13"      1             
+7             "cb1-3"       8             
+8             "cb2-13"      2             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,28 @@
+<Generator> "LE_A" 
+
+<Alphabet>
+"A_nack"
+</Alphabet>
+
+<States>
+<Consecutive>
+1 1
+</Consecutive>
+</States>
+
+<TransRel>
+
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+<Consecutive>
+1 1
+</Consecutive>
+</MarkedStates>
+
+</Generator>
+

@@ -1,0 +1,35 @@
+<cGenerator>
+<Generator>
+"sf[0]_spec2"  
+<Alphabet>
+"wp2-13"   "sf-cb1"
+</Alphabet>
+<States>
+1 2 3 4 
+</States>
+<TransRel>
+1	"sf-cb1"	2
+1	"wp2-13"	1
+2	"sf-cb1"	3
+2	"wp2-13"	2
+3	"sf-cb1"	4
+3	"wp2-13"	3
+4	"wp2-13"	1
+</TransRel>
+<InitStates>
+1          
+</InitStates>
+<MarkedStates>
+1          
+</MarkedStates>
+
+</Generator>
+
+
+<Controllable>
+"sf-cb1" </Controllable>
+<Observable>
+"wp2-13"   "sf-cb1" 
+</Observable>
+
+</cGenerator>

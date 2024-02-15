@@ -1,0 +1,17 @@
+<!-- ---------------------------------------------------- -->
+<!-- Chapter Navigation   ------------------------------- -->
+<!-- ---------------------------------------------------- -->
+<table class="chapter_line" ftcclass="chapter_this" focclass="chapter_other" fxcclass="chapter_exit">
+<tr>
+<td fchapter="about"><div><a fhref="FAUDES_CHAPTERS/faudes_about.html">About</a></div></td>
+<td fchapter="reference"><div><a fhref="FAUDES_REFERENCE/index.html">User Reference</a></div></td>
+<td fchapter="cppapi"><div><a fhref="FAUDES_CSOURCE/index.html">C++ API</a></div></td>
+<td fchapter="luafaudes"><div><a fhref="FAUDES_LUAFAUDES/index.html">luafaudes</a></div></td>
+<td fchapter="developer"><div><a fhref="FAUDES_CHAPTERS/faudes_developer.html">Developer</a></div></td>
+<td fchapter="links"><div><a fhref="FAUDES_CHAPTERS/faudes_links.html">Links</a></div></td>
+<!-- online link -->
+<td width="100%"> &emsp; </td>
+<td fchapter="exit"><div><a fhref="FAUDES_ONLINE">libFAUDES online</a></div></td> 
+</tr>
+</table>
+

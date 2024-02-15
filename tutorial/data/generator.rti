@@ -1,0 +1,18 @@
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- RTI tutorial: faudes type definition "System"       -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="CoreFaudes::System"> 
+
+<Documentation ref="registry/td_generator.html"> 
+A System is a Generator with controllability attributes.
+</Documentation> 
+<Keywords> 
+Generator     Language      Transitions   
+</Keywords> 
+
+</TypeDefinition> 
+
+

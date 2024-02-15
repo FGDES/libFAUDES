@@ -1,0 +1,71 @@
+<Generator>
+"Project(SupConNB((cb16[0]),(cb16[0]...ts2[0] [minstate]),(rts2[0]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((cb16[0]),(cb16[0]...ts2[0] [minstate]),(rts2[0]_spec)))
+% 
+%  States:        16
+%  Init/Marked:   1/1
+%  Events:        9
+%  Transitions:   32
+%  StateSymbols:  0
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+"cb16-rc2"    +C+           "cb16stp"     +C+           "cb10-16"     +C+           
+"rts2_6"      "rts2_6-5"    +C+           "rts2_5"      "rts2_5-6"    +C+           
+"rts2_5-4"    +C+           "rts2_4-5"    +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             16            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb10-16"     2             
+1             "rts2_5-6"    3             
+2             "cb16stp"     11            
+2             "rts2_5-6"    4             
+3             "cb10-16"     4             
+3             "rts2_6"      5             
+4             "cb16stp"     13            
+4             "rts2_6"      6             
+5             "cb10-16"     6             
+5             "rts2_6-5"    7             
+6             "cb16stp"     15            
+6             "rts2_6-5"    8             
+7             "cb10-16"     8             
+7             "rts2_5"      1             
+8             "cb16stp"     9             
+8             "rts2_5"      2             
+9             "cb16-rc2"    10            
+9             "rts2_5"      11            
+10            "cb16stp"     7             
+10            "rts2_5"      12            
+11            "cb16-rc2"    12            
+11            "rts2_5-6"    13            
+12            "cb16stp"     1             
+12            "rts2_5-6"    14            
+13            "cb16-rc2"    14            
+13            "rts2_6"      15            
+14            "cb16stp"     3             
+14            "rts2_6"      16            
+15            "cb16-rc2"    16            
+15            "rts2_6-5"    9             
+16            "cb16stp"     5             
+16            "rts2_6-5"    10            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

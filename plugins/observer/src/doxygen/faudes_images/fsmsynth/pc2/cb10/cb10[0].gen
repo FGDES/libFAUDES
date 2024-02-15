@@ -1,0 +1,72 @@
+<Generator>
+"cb10[0]"     
+
+% 
+%  Statistics for cb10[0]
+%  States:        24
+%  Init/Marked:   1/1
+%  Events:        15
+%  Transitions:   36
+%  StateSymbols:  24
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb10+y"      +C+           "cb10-14"     +C+           "cb10-16"     +C+           
+"cb10-y"      +C+           "cb10stp"     +C+           "cb10wpar"    "cb10wplv14"  
+"cb10wplv16"  "cb14-10"     +C+           "cb16-10"     +C+           "t_modul4\cb10" 
++C+          
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"         
+"15"          "16"          "17"         "2"           "3"           
+"4"          "6"           "7"           "8"        
+"dummy_12"    "dummy_16"    "dummy_3"     "dummy_4"     "dummy_7"     "dummy_8"     
+</States>
+
+<TransRel>
+"1"           "cb14-10"     "2"           
+"1"           "cb16-10"     "6"           
+"10"          "cb10-14"     "11"          
+"10"          "cb10-16"     "15"          
+"11"          "cb10+y"      "12"          
+"12"          "cb10stp"     "11"          
+"12"          "t_modul4\cb10" "dummy_12"    
+"13"          "cb10stp"     "1"          
+"1"          "cb10+y"      "13"                    
+"15"          "cb10-y"      "16"          
+"16"          "cb10stp"     "15"          
+"16"          "t_modul4\cb10" "dummy_16"    
+"17"          "cb10stp"     "1"          
+"1"          "cb10-y"      "17"                    
+"2"           "cb10-y"      "3"           
+"3"           "cb10stp"     "2"           
+"3"           "t_modul4\cb10" "dummy_3"     
+"4"           "cb10stp"     "10"           
+"4"           "t_modul4\cb10" "dummy_4"     
+"10"           "cb10-y"      "4"                    
+"6"           "cb10+y"      "7"           
+"7"           "cb10stp"     "6"           
+"7"           "t_modul4\cb10" "dummy_7"     
+"8"           "cb10stp"     "10"           
+"8"           "t_modul4\cb10" "dummy_8"     
+"10"           "cb10+y"      "8"                    
+"dummy_12"    "cb10wplv14"  "13"          
+"dummy_16"    "cb10wplv16"  "17"          
+"dummy_3"     "cb10wpar"    "4"           
+"dummy_4"     "cb10wplv16"  "3"           
+"dummy_7"     "cb10wpar"    "8"           
+"dummy_8"     "cb10wplv14"  "7"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

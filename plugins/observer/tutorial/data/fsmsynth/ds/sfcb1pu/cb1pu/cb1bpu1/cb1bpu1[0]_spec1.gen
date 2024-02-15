@@ -1,0 +1,25 @@
+<Generator>
+"cb1bpu1[0]_spec" 
+<Alphabet>
+"cb1-3"   +C+    "cb1bwplv"    "cb1bwpar"    "pu1rdy"  +C+    "cb1-x"   +C+    "cb1stp"   +C+  
+</Alphabet>
+<States>
+1		2             
+</States>
+<TransRel>
+1             "cb1-3"       2             
+1             "cb1bwplv"    1             
+1             "cb1bwpar"    1             
+1             "cb1-x"       1             
+1             "cb1stp"      1    
+2             "cb1bwplv"    2           
+2             "pu1rdy"      1             
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             2
+</MarkedStates>
+
+</Generator>

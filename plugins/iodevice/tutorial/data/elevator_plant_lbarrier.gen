@@ -1,0 +1,43 @@
+% Elevator example: plant (light bracket)
+
+<Generator>
+"E_lbracket"
+
+<Alphabet>
+"d_lbbl"
+"d_lbrl"
+"d_arcl"
+"d_lvcl"
+</Alphabet>
+
+<States>
+"Free"
+"Block"
+"Closed"
+</States>
+
+<TransRel>
+
+% Track light bracket, free
+"Free"  "d_lbbl"  "Block"
+"Free"  "d_arcl"  "Closed"
+
+% Track light bracket, blocked
+"Block" "d_lbrl"  "Free"
+
+% Door is closed
+"Closed" "d_lvcl" "Free"
+
+</TransRel>
+
+
+<InitStates>
+"Free"
+</InitStates>
+
+<MarkedStates>
+"Free" 
+"Closed"
+</MarkedStates>
+
+</Generator>

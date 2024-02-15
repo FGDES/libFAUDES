@@ -1,0 +1,41 @@
+%%% test mark: large gen [at lbp_1_extension.cpp:96]
+% 
+%  Statistics for Generator
+% 
+%  States:        10
+%  Init/Marked:   0/0
+%  Events:        5
+%  Transitions:   0
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: alphabet [at lbp_1_extension.cpp:119]
+% 
+%  Statistics for Alphabet
+% 
+%  Size: 5
+%  Shared Data: #3 clients
+% 
+% 
+% 
+
+%%% test mark: dynamic up-cast (a) [at lbp_1_extension.cpp:151]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: dynamic up-cast (a) [at lbp_1_extension.cpp:152]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

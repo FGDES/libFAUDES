@@ -1,0 +1,64 @@
+diagnosis plug-in TODO (tmoor 20090914)
+
+===== required future work
+
+* decentralised diagnoser synthesis procedure
+
+* diagnoser synthesis w.r.t. specification (test, check, fix)
+
+===== docu/features
+
+* have a simple positive example in the user reference of IsDecentralizedDiagnosable
+
+* have extensive luafaudes tutorial
+
+* provide lua access FailureTypeMap
+
+* have token io examples in doxygen docu (?)
+
+* remove redundent text from doxygen docu (?)
+
+* have more details in user reference (parameter conditions, formal definitions)
+
+
+==== design details/conventions
+
+* have vGenerator whenever observability is not relevant
+
+* fix/check: the == op of AttributeDiagState does NOT test failuire lables; searching for
+  attributes therefor returns too optimistic results!! 
+
+* have alternative vGenerator/Sigma0 interface
+
+* fix/check: token io, clear, isdefault for derived classes (call base)
+
+* fix/check: copy constructor and assignment for derived classes (implement)
+
+* use pContext wehen writing states; support statenames in diagnoser estimates
+
+* make FailurTypeMap a Type rather than an attribute
+
+* data consistency in the diagnoser is not ensured; rather than to derive
+  from generator, consider a independant class with generator access,
+  separate, read only access and writing
+
+* replace AddXXXXX by InsertXXXX; also have EraseXXXXXX; e.g. FailureTypeMap
+
+* replace MeetXXXX by CheckXXXXX
+
+* circumvent GetXXXX / SetXXXX; e.g. diagGenerator
+
+* check/fix: have const-ref argument rather than ref whereever possible
+
+* use duebug macro for various Write("tmp_XXXXX"); have seperate debug macro for
+  statistics on intermediate results 
+
+* use references in decetralized api to avoid copy of generators
+
+
+==== proposed libFAUDES extensions
+
+* consider faudes::Type as attribute base ?
+ 
+* move generalized CycleTest function to corefaudes.
+

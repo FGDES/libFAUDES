@@ -1,0 +1,72 @@
+<Generator>
+"cb7[0]"      
+
+% 
+%  Statistics for cb7[0]
+%  States:        24
+%  Init/Marked:   1/1
+%  Events:        15
+%  Transitions:   36
+%  StateSymbols:  24
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb11-7"      +C+           "cb15-7"      +C+           "cb7+y"       +C+           
+"cb7-11"      +C+           "cb7-15"      +C+           "cb7-y"       +C+           
+"cb7stp"      +C+           "cb7wpar"     "cb7wplv11"   "cb7wplv15"   "t_modul3\cb7" 
++C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"          
+"15"          "16"          "17"          "2"           "3"           
+"4"           "6"           "7"           "8"                    
+"dummy_12"    "dummy_16"    "dummy_3"     "dummy_4"     "dummy_7"     "dummy_8"     
+</States>
+
+<TransRel>
+"1"           "cb11-7"      "2"           
+"1"           "cb15-7"      "6"           
+"10"          "cb7-11"      "11"          
+"10"          "cb7-15"      "15"          
+"11"          "cb7+y"       "12"          
+"12"          "cb7stp"      "11"          
+"12"          "t_modul3\cb7" "dummy_12"    
+"13"          "cb7stp"      "1"          
+"1"          "cb7+y"       "13"                    
+"15"          "cb7-y"       "16"          
+"16"          "cb7stp"      "15"          
+"16"          "t_modul3\cb7" "dummy_16"    
+"17"          "cb7stp"      "1"          
+"1"          "cb7-y"       "17"                    
+"2"           "cb7-y"       "3"           
+"3"           "cb7stp"      "2"           
+"3"           "t_modul3\cb7" "dummy_3"     
+"4"           "cb7stp"      "10"           
+"4"           "t_modul3\cb7" "dummy_4"     
+"10"           "cb7-y"       "4"                   
+"6"           "cb7+y"       "7"           
+"7"           "cb7stp"      "6"           
+"7"           "t_modul3\cb7" "dummy_7"     
+"8"           "cb7stp"      "10"           
+"8"           "t_modul3\cb7" "dummy_8"     
+"10"           "cb7+y"       "8"                  
+"dummy_12"    "cb7wplv11"   "13"          
+"dummy_16"    "cb7wplv15"   "17"          
+"dummy_3"     "cb7wpar"     "4"           
+"dummy_4"     "cb7wplv15"   "3"           
+"dummy_7"     "cb7wpar"     "8"           
+"dummy_8"     "cb7wplv11"   "7"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,176 @@
+#
+# Makefile for libfaudes python bindings plugin, tmoor 20230126
+#
+# Included by faudes main Makefile
+#
+# Insert the following line in main Makefile to activate this plugin;
+#
+# FAUDES_PLUGINS += pybindings
+#
+# Notes:
+# - "pybindings" must come after all plugins that provide bindings
+#   (otherwise dependencies will not be resolved correctly)
+# - "pybindings" must not be used simltaneously with  "luabindings"
+# - "pybindings" only work with shared object linking
+#
+#
+# Make targets introduced by the luabindings pluging
+#
+# - pybindings-configure  generate loader, run SWIG to generate wrapper code (SWIG required!)
+# - pybindings-compile    compile all python and lbp sources 
+# - pybindings-clean      remove all SWIG generated wrapper code
+# - pybindings-report     report Python related compiler settings
+#
+
+########################################################
+# Specify which python to link to (where libpython.so is and Python.h resides)
+########################################################
+
+# figure automatically via Python sysconfig (Linux)
+ifeq ($(FAUDES_PLATFORM),gcc_linux)
+PBP_PYTHON_LNK = -L$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
+PBP_PYTHON_LNK += $(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
+PBP_PYTHON_INC += -I$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+endif
+
+# figure automatically via Python sysconfig (OsX)
+ifeq ($(FAUDES_PLATFORM),gcc_osx)
+PBP_PYTHON_LNK = $(shell python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
+PBP_PYTHON_INC = -I $(shell python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+endif
+
+
+# test: manual settings for OsX 11 Python 3.10 from macport 
+#PBP_PYTHON_LNK = /opt/local/Library/Frameworks/Python.framework/Versions/3.10/lib/libpython3.10.dylib
+#PBP_PYTHON_INC = -I/opt/local/Library/Frameworks/Python.framework/Headers
+
+# test: manual settings for Ubuntu 22.04 LTS with Python 3.10
+#PBP_PYTHON_LNK = /usr/lib/python3.10/config-3.10-x86_64-linux-gnu/libpython3.10.so
+#PBP_PYTHON_INC = -I/usr/include/python3.10/
+
+pybindings-report:
+	@echo " ============================== " 
+	@echo "libFAUDES-make: using python headers at   " $(PBP_PYTHON_INC)
+	@echo "libFAUDES-make: using extra linker flags  " $(PBP_PYTHON_LNK)
+	@echo " ============================== " 
+
+#
+# Print pybinding debug messages
+#FAUDES_DEBUG += pbp_debug
+
+#
+# set up paths relative to faudes path
+PBP_BASE =   ./plugins/pybindings
+PBP_SRCDIR = ./plugins/pybindings/src
+PBP_OBJDIR = ./plugins/pybindings/obj
+
+#
+# libfaudes source files (dummies)
+PBP_CPPFILES = 
+PBP_INCLUDE  = pbp_include.h
+
+
+
+#
+# std plug-in file lists
+PBP_HEADERS = $(PBP_CPPFILES:.cpp=.h) $(PBP_INCLUDE)
+PBP_SOURCES = $(PBP_CPPFILES:%=$(PBP_SRCDIR)/%) 
+PBP_OBJECTS = $(PBP_SOURCES:$(PBP_SRCDIR)/%.cpp=$(PBP_OBJDIR)/%$(DOT_O)) 
+
+
+########################################################
+# swig section: generate and record interface files 
+########################################################
+
+#
+# swig flags
+PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) $(SWGINCLUDE) -c++ -python -DSWIG_TYPE_TABLE=pyfaudes  
+
+#
+# c-flags for swig generated c-code
+PBP_SWIGOPTS = $(PBP_PYTHON_INC) -Wno-misleading-indentation
+
+
+#
+# build overall interface 
+$(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
+	echo "// ###### auto-generated overall swig interface file" > $@
+	echo "#define SwigModule \"SwigLibFaudes\" " >> $@
+	echo "%module(docstring=\"libFAUDES Python bindings --- see https://fgdes.tf.fau.de\") faudes" >> $@
+	echo " " >> $@
+	echo "// ###### merge all plugin interface files  " >> $@
+	echo " " >> $@
+	cat $(SWGINTERFACES) >> $@
+	echo " " >> $@
+	echo " " >> $@
+	echo "// ##### load all rti definied functions " >> $@
+	echo "%include \"../../../include/rtiautoload.i\" " >> $@
+	echo " " >> $@
+#
+# option for rti2code (cheep workaround for conditionals in SWIG pre 4.1.0)
+PBP_RTIFLAT = -flat
+
+#
+# run swig (incl. copy faudes.py to the tutorials)
+$(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i
+	$(SWIG) $(PBP_SWIGOPTIONS) -o $@ $< 
+
+
+
+
+########################################################
+# compile section: compile to object files
+########################################################
+
+# implicit rule .cpp -> .o for all std lbp-objects (aint any at the time)
+$(PBP_OBJDIR)/%$(DOT_O): $(PBP_SRCDIR)/%.cpp 
+	$(CXX) -c -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+
+# implicit rule .cpp -> .o for all generated cpp sources (only the one at this time)
+$(PBP_OBJDIR)/%$(DOT_O): $(PBP_OBJDIR)/%.cpp 
+	$(CXX) -c $(CFLAGS) $(LIBOPTS) $(PBP_SWIGOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+
+########################################################
+# faudes plugin infrastructure
+########################################################
+
+
+#
+# append my plugin to configuration
+$(INCLUDEDIR)/$(PBP_INCLUDE): $(PBP_SRCDIR)/$(PBP_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(PBP_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* pybindings configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_PYBINDINGS" >> $(INCLUDEDIR)/configuration.h
+ifeq (pbp_debug,$(findstring pbp_debug,$(FAUDES_DEBUG)))
+	echo "#define  FAUDES_DEBUG_PYBINDINGS" >> $(INCLUDEDIR)/configuration.h
+endif
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+
+
+#
+# test targets
+pybindings-configure: $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
+
+
+#
+# advertise plug-in
+SOURCES += $(PBP_SOURCES)
+OBJECTS += $(PBP_OBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper.o
+HEADERS += $(PBP_HEADERS) 
+LNKLIBS += $(PBP_PYTHON_LNK)
+VPATH   += $(PBP_SRCDIR)
+CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
+CONFIGURETARGETS += pybindings-configure pybindings-report
+
+#
+# include tutorial
+include $(PBP_BASE)/Makefile.tutorial
+
+
+
+
+
+
+

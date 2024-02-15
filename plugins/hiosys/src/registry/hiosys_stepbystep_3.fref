@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Step 3">
+
+<h1>
+HioSys PlugIn
+</h1>
+<h2>
+The I/O-Based Approach - Step by Step
+</h2>
+
+<p>
+<ul class="l2">
+<li><a href="hiosys_stepbystep.html#step1">Step 1: Component-Wise Plant Modeling</a></li>
+<li><a href="hiosys_stepbystep_2.html">Step 2: Component-Wise Specification and Controller Design</a></li>
+<li><a href="hiosys_stepbystep_3.html">Step 3: Abstraction</a></li>
+<li><a href="hiosys_stepbystep_4.html">Step 4: Subsystem Composition</a></li>
+<li><a href="hiosys_stepbystep_5.html">Step 5: Environment Modeling</a></li>
+<li><a href="hiosys_stepbystep_6.html">Step 6: Superposed Specification and Controller Design</a></li>
+</ul>
+</p>
+
+
+<h3 id="step3">
+Step 3: Abstraction
+</h3>
+
+
+<p>
+For the next hierarchical level, the original I/O plant components (uncontrolled
+plants or closed loops) can replaced by an abstraction that captures only the
+behaviour that is relevant for superposed control action. Aside from matching alphabets, the only
+formal design rule for an
+abstraction <fimath>S'_{PE}</fimath> of an I/O plant <fimath>S_{PE}</fimath> is the following language
+inclusion:
+</p>
+
+<p>
+<fimath>L_{PE}\subseteq L'_{PE}</fimath>
+</p>
+
+<p>
+By Theorem IV.8 in <fcite name="H1"/>, any controller that is designed for the plant abstraction and the original
+constraints <fimath>S_{P}</fimath> and <fimath>S_{E}</fimath> is guaranteed to also solve the original
+control problem. However, as a well-known downside of abstraction-based control,
+there is no guarantee that there exists a non-trivial controller for the plant abstraction even if
+there does exist one for the original plant. Hence the question, how to obtain a "good" abstraction,
+i.e. an abstraction that can be realized on a state space that is small in comparison to the original
+plant while still allowing for successful controller synthesis.
+For <i>controlled</i> components, we propose the safety specification
+ of the preceding design step (Step 2 or 5) as a plant abstraction of the external closed-loop behaviour
+<fimath>S_{CE}</fimath>, as, by being enforced on the plant, it meets the above abstraction condition and
+represents those aspects of the preceding design step that are relevant for subsequent controller
+design. Consequently, we expect to obtain a non-trivial solution based on that abstraction. Moreover,
+the closed loops of controlled plant components never need to be computed, as instead the specifications
+are used for superposed controller design.
+</p>
+
+<p>
+<small><strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+For the next hierarchical level, the closed loops of all locally controlled TU&apos;s are replaced by the
+local specifications designed in <a href="hiosys_stepbystep_2.html">Step 2</a>. Although the external
+closed loops are identical with the specification (i.e. the abstraction is trivial), we achieve a state
+space reduction from 11 states (full closed loop) to 6 states, which results from the introduction of
+abstract operator commands by the specification and the information hiding caused by the only external
+view on the alphabet <fimath>\Sigma_{CE}</fimath> rather than <fimath>\Sigma_{CPE}</fimath>.
+</small></p>
+
+<p>
+<img fsrc="FAUDES_IMAGES/hio_tu_example_abstraction.png"/>
+</p>
+
+
+<p>
+<table class="plain" >
+  <colgroup>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+  </colgroup>
+<tr>
+  <td><a href="hiosys_stepbystep_2.html">&lt;&lt; Step2</a> </td>
+  <td><a href="hiosys_index.html">HioSys Home</a></td>
+  <td><a href="hiosys_stepbystep_4.html">Step4 &gt;&gt;</a></td>
+</tr>
+</table>
+</p></ReferencePage>
+
+  

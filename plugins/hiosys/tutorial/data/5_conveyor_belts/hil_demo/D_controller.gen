@@ -1,0 +1,109 @@
+<Generator>
+"HioSynth(plant_A,spec_A)_D_" 
+
+% 
+%  Statistics for HioSynth(plant_A,spec_A)_D_
+% 
+%  States:        27
+%  Init/Marked:   1/27
+%  Events:        14
+%  Transitions:   58
+%  StateSymbols:  0
+%  Attrib. E/S/T: 14/27/0
+% 
+
+<Alphabet>
+"D_r"         +UP+          "D_l"         +UP+          "D_stp"       +UP+          
+"D_wait"      +YP+          "D_full"      +YP+          "D_arrtl"     +YP+          
+"D_arrtr"     +YP+          "D_STP"       +UC+          "D_TR"        +UC+          
+"D_FL"        +UC+          "D_WAIT"      +YC+          "D_FULL"      +YC+          
+"D_ARRTL"     +YC+          "D_ARRTR"     +YC+          
+</Alphabet>
+
+<States>
+1             +QYp+         2             +QUp+         3             +QUp+         
+4             +QUp+         5             +QYp+         6             +QYcUp+       
+7             +QUc+         8             +QYcUp+       9             +QUc+         
+10            +QUc+         11            +QYcUp+       12            +QYcUp+       
+13            +QYcUp+       14            +QUp+         15            +QYp+         
+16            +QYp+         17            +QYp+         18            +QYp+         
+19            +QYp+         20            +QUc+         21            +QYcUp+       
+22            +QYp+         23            +QUp+         24            +QUp+         
+25            +QUc+         26            +QUp+         27            +QUc+         
+</States>
+
+<TransRel>
+2             "D_r"         5             
+2             "D_l"         5             
+2             "D_stp"       5             
+3             "D_stp"       15            
+4             "D_r"         19            
+4             "D_stp"       22            
+5             "D_wait"      2             
+5             "D_full"      2             
+5             "D_arrtl"     2             
+5             "D_arrtr"     2             
+6             "D_r"         18            
+6             "D_FULL"      20            
+7             "D_STP"       3             
+7             "D_TR"        4             
+8             "D_WAIT"      7             
+9             "D_STP"       23            
+9             "D_FL"        26            
+10            "D_STP"       23            
+11            "D_FULL"      27            
+12            "D_r"         19            
+12            "D_ARRTR"     25            
+13            "D_ARRTR"     10            
+14            "D_r"         16            
+15            "D_wait"      8             
+15            "D_full"      2             
+15            "D_arrtl"     2             
+15            "D_arrtr"     2             
+16            "D_wait"      14            
+16            "D_full"      3             
+16            "D_arrtl"     2             
+16            "D_arrtr"     2             
+17            "D_wait"      24            
+17            "D_full"      2             
+17            "D_arrtl"     2             
+17            "D_arrtr"     23            
+18            "D_wait"      6             
+18            "D_full"      11            
+18            "D_arrtl"     2             
+18            "D_arrtr"     2             
+19            "D_wait"      12            
+19            "D_full"      2             
+19            "D_arrtl"     2             
+19            "D_arrtr"     13            
+20            "D_STP"       14            
+21            "D_WAIT"      9             
+22            "D_wait"      12            
+22            "D_full"      2             
+22            "D_arrtl"     2             
+22            "D_arrtr"     2             
+1             "D_wait"      21            
+1             "D_full"      2             
+1             "D_arrtl"     2             
+1             "D_arrtr"     2             
+23            "D_stp"       1             
+24            "D_r"         17            
+25            "D_STP"       24            
+26            "D_r"         18            
+27            "D_STP"       3             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3             4             5             6             
+7             8             9             10            11            12            
+13            14            15            16            17            18            
+19            20            21            22            23            24            
+25            26            27            
+</MarkedStates>
+
+
+</Generator>

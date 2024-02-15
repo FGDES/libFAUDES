@@ -1,0 +1,52 @@
+<Generator>
+"SupConNB((Project(SupConNB((cb12[0]...(rt2[0]_spec)))),(rt2cb12[1]_spec))" 
+
+% 
+%  Statistics for SupConNB((Project(SupConNB((cb12[0]...(rt2[0]_spec)))),(rt2cb12[1]_spec))
+% 
+%  States:        10
+%  Init/Marked:   1/2
+%  Events:        12
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 12/0/0
+% 
+
+<Alphabet>
+"cb3-12"      +C+           "cb12-4"      +C+           "cb4-12"      +C+           
+"cb5-12"      +C+           "cb12-5"      +C+           "cb12-3"      +C+           
+"cb12-8"      +C+           "cb12stp"     +C+           "cb8-12"      +C+           
+"rt2xy"       +C+           "rt2yx"       +C+           "rt2stp"      +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             10            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb3-12"      2             
+2             "cb12stp"     3             
+2             "rt2yx"       4             
+3             "rt2yx"       10            
+4             "rt2stp"      5             
+5             "cb12stp"     6             
+6             "cb12-4"      7             
+7             "cb12stp"     8             
+8             "cb5-12"      5             
+8             "rt2xy"       9             
+9             "rt2stp"      1             
+10            "rt2stp"      6             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             8             
+</MarkedStates>
+
+
+</Generator>

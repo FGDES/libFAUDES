@@ -1,0 +1,51 @@
+#
+# makefile for libfaudes luabindings plugin tutorial, tmoor 200810
+#
+# included by Makefile.plugin
+#
+
+#
+# set up paths relative to faudes dir
+
+LBP_TUTORIAL_DIR = ./plugins/luabindings/tutorial
+
+#
+# source files
+
+LBP_TUTORIAL_CPPFILES = \
+	luafaudes.cpp lbp_1_extension.cpp
+ 
+#
+# executables
+
+LBP_TUTORIAL_EXECUTABLES = \
+	luafaudes lbp_1_extension
+
+LBP_TUTORIAL_EXECUTABLES := $(LBP_TUTORIAL_EXECUTABLES:%=$(LBP_TUTORIAL_DIR)/%$(DOT_EXE))
+
+
+# use LUAOPTS also when compiling apps --- should realy go to CFRAGS
+FNCT_COMP_LAPP = $(CXX) -c $(CFLAGS) $(LBP_LUAOPTS) $(APPOPTS) $(call FNCT_FIXDIRSEP,$(1)) $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2))
+
+
+#
+# dependencies for test targets
+$(LBP_TUTORIAL_DIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
+	$(call FNCT_COMP_LAPP,$<,$(OBJDIR)/$*$(DOT_O))
+	$(call FNCT_LINK_APP,$(OBJDIR)/$*$(DOT_O),$@)
+	$(call FNCT_POST_APP,$@)
+
+$(BINDIR)/luafaudes$(DOT_EXE): $(LBP_TUTORIAL_DIR)/luafaudes$(DOT_EXE)
+	$(CP) $< $@
+
+###################################
+# advertise tutorial to main makefile
+###################################
+
+VPATH += $(LBP_TUTORIAL_DIR)
+TUTORIAL_EXECUTABLES += $(LBP_TUTORIAL_EXECUTABLES)
+CLEANFILES += $(LBP_TUTORIAL_EXECUTABLES)
+SOURCES += $(LBP_TUTORIAL_CPPFILES:%=$(LBP_TUTORIAL_DIR)/%)
+EXECUTABLES += $(BINDIR)/luafaudes$(DOT_EXE)
+
+

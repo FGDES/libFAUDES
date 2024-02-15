@@ -1,0 +1,27 @@
+<Generator>
+"process and transport"
+
+<Alphabet>
+f +o+
+r 
+a +C+
+p +C+
+</Alphabet>
+
+<TransRel>
+F1 f F2
+F2 f F3
+F3 r P2
+P2 p P2
+P2 a F2
+F2 r P1
+P1 p P1
+P1 f P2
+P1 a F1
+</TransRel>
+
+<InitStates> F1 </InitStates>
+
+<MarkedStates> F1 </MarkedStates>
+
+</Generator>

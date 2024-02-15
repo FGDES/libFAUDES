@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function LocalObservationConsistency -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Observability::LocalObservationConsistency" ctype="faudes::LocalObservationConsistency"> 
+
+<!--
+<Documentation ref="observability_index.html#LocalObservationConsistency"> 
+ -->
+<Documentation> 
+Tests for local observation consistency.
+</Documentation> 
+<Keywords> 
+Synthesis     observability  generator  abstraction consistency    
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="LocalObservationConsistency(G,K,Sigma,E)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="System" access="In"/> 
+<Parameter name="AHigh" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+</Registry> 

@@ -1,0 +1,27 @@
+LIB_TUTORIAL_DIR = tutorial
+
+LIB_TUTORIAL_CPPFILES = \
+	1_generator.cpp 2_containers.cpp 3_functions.cpp 4_cgenerator.cpp 5_attributes.cpp 6_algorithm.cpp 7_interface.cpp # perfloop.cpp
+
+LIB_TUTORIAL_EXECUTABLES := $(LIB_TUTORIAL_CPPFILES:%.cpp=$(LIB_TUTORIAL_DIR)/%$(DOT_EXE))
+
+
+####################################
+# implicit rules for compiling test targets
+####################################
+
+$(LIB_TUTORIAL_DIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
+	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$*$(DOT_O))
+	$(call FNCT_LINK_APP,$(OBJDIR)/$*$(DOT_O),$@)
+	$(call FNCT_POST_APP,$@)
+
+
+###################################
+# advertise tutorial to main makefile
+###################################
+
+TUTORIAL_EXECUTABLES += $(LIB_TUTORIAL_EXECUTABLES)
+CLEANFILES += $(LIB_TUTORIAL_EXECUTABLES)
+SOURCES += $(LIB_TUTORIAL_CPPFILES:%=$(LIB_TUTORIAL_DIR)/%)
+VPATH += $(LIB_TUTORIAL_DIR)
+

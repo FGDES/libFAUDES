@@ -1,0 +1,56 @@
+<Generator>
+"SupConNB((mh1[0]||d1[0]),(mh1d1[0]_spec))" 
+
+% 
+%  Statistics for SupConNB((mh1[0]||d1[0]),(mh1d1[0]_spec))
+% 
+%  States:        16
+%  Init/Marked:   1/1
+%  Events:        13
+%  Transitions:   16
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"t_modul3cb4-mh1-d1mh1d1" +C+           "mh1ar+z"     "mh1ar-z"     "mh1end"      "mh1f"        
+"mh1lv+z"     "mh1lv-z"     "mh1mv+z"     +C+           "mh1mv-z"     +C+           
+"mh1start"    +C+           "mh1stp"      +C+           "d1run"       +C+           
+"d1stp"       
+</Alphabet>
+
+<States>
+<Consecutive>
+1             16            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "mh1start"    2             
+2             "mh1mv-z"     3             
+3             "t_modul3cb4-mh1-d1mh1d1" 4             
+4             "mh1lv+z"     5             
+5             "t_modul3cb4-mh1-d1mh1d1" 6             
+6             "mh1ar-z"     7             
+7             "mh1stp"      8             
+8             "d1run"       9             
+9             "d1stp"       10            
+10            "mh1mv+z"     11            
+11            "t_modul3cb4-mh1-d1mh1d1" 12            
+12            "mh1lv-z"     13            
+13            "t_modul3cb4-mh1-d1mh1d1" 14            
+14            "mh1ar+z"     15            
+15            "mh1stp"      16            
+16            "mh1end"      1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

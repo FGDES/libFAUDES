@@ -1,0 +1,379 @@
+% Example hybrid automaton for Token IO Demo
+%
+%
+<Generator name="lha io example" ftype="LinearHybridAutomaton">
+
+<Alphabet>
+
+<Event name="y_north"/>
+<Event name="y_south"/>
+<Event name="y_west"/>
+<Event name="y_east"/>
+<Event name="u_north_east"> <Controllable/> </Event>
+<Event name="u_south_east"> <Controllable/> </Event>
+<Event name="u_north_west"> <Controllable/> </Event>
+<Event name="u_south_west"> <Controllable/> </Event>
+
+</Alphabet>
+
+<StateSet>
+
+<State id="1" name="NorthEast">
+<Rate>
+<AMatrix rows="4" columns="2">
+ 100             0             
+-100             0             
+ 0             100             
+ 0            -100             
+</AMatrix>
+<BVector count="4">
+50         -25         50        -25             
+</BVector>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1            
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100            0              10             0             
+</BVector>
+</Invariant>
+</State>
+
+<State id="2" name="SouthEast">
+<Rate>
+<AMatrix rows="4" columns="2">
+ 100             0             
+-100             0             
+ 0             100             
+ 0            -100             
+</AMatrix>
+<BVector count="4">
+50         -25         -25        50             
+</BVector>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1             
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100             0              10            0             
+</BVector>
+</Invariant>
+</State>
+
+
+<State id="3" name="NorthWest">
+<Rate>
+<AMatrix rows="4" columns="2">
+ 100             0             
+-100             0             
+ 0             100             
+ 0            -100             
+</AMatrix>
+<BVector count="4">
+-25         50         50        -25             
+</BVector>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1            
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100            0              10             0             
+</BVector>
+</Invariant>
+</State>
+
+<State id="4" name="SouthWest">
+<Rate>
+<AMatrix rows="4" columns="2">
+ 100             0             
+-100             0             
+ 0             100             
+ 0            -100             
+</AMatrix>
+<BVector count="4">
+-25         50         -25        50             
+</BVector>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1             
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100             0              10            0             
+</BVector>
+</Invariant>
+</State>
+
+<State id="10" name="ChooseInput">
+<Initial/>
+<Rate>
+<AMatrix rows="2" columns="2">
+ 1             0             
+-1             0             
+</AMatrix>
+<BVector count="2">
+-1             -1
+</BVector>
+</Rate>
+<Invariant>
+<AMatrix rows="4" columns="2">
+ 1             0             
+-1             0             
+ 0             1             
+ 0            -1             
+</AMatrix>
+<BVector count="4">
+100             0              10            0             
+</BVector>
+</Invariant>
+</State>
+</StateSet>
+
+<TransitionRelation>
+
+%% transition from state 1 (north-east)
+
+<Transition x1="1" event="y_north" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              -1            
+</AMatrix>
+<BVector count="1">
+-9             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="1" event="y_south" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              1            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="1" event="y_west" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+1              0            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="1" event="y_east" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+-1              0            
+</AMatrix>
+<BVector count="1">
+-99             
+</BVector>
+</Guard>
+</Transition>
+
+%% transition from state 2 (south-east)
+
+<Transition x1="2" event="y_north" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              -1            
+</AMatrix>
+<BVector count="1">
+-9             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="2" event="y_south" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              1            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="2" event="y_west" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+1              0            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="2" event="y_east" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+-1              0            
+</AMatrix>
+<BVector count="1">
+-99             
+</BVector>
+</Guard>
+</Transition>
+
+%% transition from state 3 (north-west)
+
+<Transition x1="3" event="y_north" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              -1            
+</AMatrix>
+<BVector count="1">
+-9             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="3" event="y_south" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              1            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="3" event="y_west" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+1              0            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="3" event="y_east" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+-1              0            
+</AMatrix>
+<BVector count="1">
+-99             
+</BVector>
+</Guard>
+</Transition>
+
+%% transition from state 4 (south-west)
+
+<Transition x1="4" event="y_north" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              -1            
+</AMatrix>
+<BVector count="1">
+-9             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="4" event="y_south" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+0              1            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="4" event="y_west" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+1              0            
+</AMatrix>
+<BVector count="1">
+1             
+</BVector>
+</Guard>
+</Transition>
+
+<Transition x1="4" event="y_east" x2="10">
+<Guard>
+<AMatrix rows="1" columns="2">
+-1              0            
+</AMatrix>
+<BVector count="1">
+-99             
+</BVector>
+</Guard>
+</Transition>
+
+%% transitions from ChooseInput
+
+<Transition x1="10" event="u_north_east" x2="1">
+<Guard>
+<AMatrix rows="0" columns="2"/>
+<BVector count="0"/>
+</Guard>
+</Transition>
+
+<Transition x1="10" event="u_south_east" x2="2">
+<Guard>
+<AMatrix rows="0" columns="2"/>
+<BVector count="0"/>
+</Guard>
+</Transition>
+
+<Transition x1="10" event="u_north_west" x2="3">
+<Guard>
+<AMatrix rows="0" columns="2"/>
+<BVector count="0"/>
+</Guard>
+</Transition>
+
+<Transition x1="10" event="u_south_west" x2="4">
+<Guard>
+<AMatrix rows="0" columns="2"/>
+<BVector count="0"/>
+</Guard>
+</Transition>
+
+</TransitionRelation>
+
+<LhaStateSpace>
+<AMatrix rows="4" columns="2">
+1              0             
+-1             0             
+0              1             
+0              -1             
+</AMatrix>
+<BVector count="4">
+100             0              10             0             
+</BVector>
+</LhaStateSpace>
+
+</Generator>
+
+

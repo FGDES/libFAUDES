@@ -1,0 +1,51 @@
+% Example "decdemo", PlantB (maintenance). 
+
+% The maintenance unit can at any time 
+% be truned on or turned off. When a maintenance
+% request is received and the unit is 
+% tured on, it will eventually complete the
+% maintenance task.  
+
+<Generator>
+"PlantB (maintenance)"
+<Alphabet>
+"m_start"   +C+
+"m_stop"    +C+
+"m_request"        
+"m_complete"         
+</Alphabet>
+
+<States>
+"MOff" "MOn" 
+"MOffR" "MOnR" 
+</States>
+
+<TransRel>
+"MOff"        "m_start"         "MOn"
+"MOff"        "m_stop"          "MOff"
+"MOn"         "m_start"         "MOn"
+"MOn"         "m_stop"          "MOff"
+
+"MOff"        "m_request"       "MOffR"
+"MOn"         "m_request"       "MOnR"
+
+"MOffR"       "m_start"         "MOnR"
+"MOffR"       "m_stop"          "MOffR"
+"MOffR"       "m_request"       "MOffR"
+"MOnR"        "m_start"         "MOnR"
+"MOnR"        "m_stop"          "MOffR"
+"MOnR"        "m_request"       "MOnR"
+
+"MOnR"        "m_complete"      "MOn"
+
+</TransRel>
+
+<InitStates>
+"MOff"
+</InitStates>
+
+<MarkedStates>
+"MOff" "MOn" "MOffR" 
+</MarkedStates>
+
+</Generator>

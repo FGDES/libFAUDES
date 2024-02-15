@@ -1,0 +1,46 @@
+#
+# This is the makefile for the libfaudes diagnosis plug-in tutorial, T.Barthel 2009
+#
+# included by Makefile.plugin
+#
+
+
+#
+# set up paths relative to faudes dir
+
+OBS_TUTORIAL_DIR = ./plugins/observability/tutorial
+
+#
+# source files
+
+OBS_TUTORIAL_CPPFILES = \
+	obs_1_simple.cpp
+
+#
+# executables
+
+OBS_TUTORIAL_EXECUTABLES = \
+	obs_1_simple
+
+OBS_TUTORIAL_EXECUTABLES := $(OBS_TUTORIAL_EXECUTABLES:%=$(OBS_TUTORIAL_DIR)/%$(DOT_EXE))
+
+####################################
+# implicit rules for compiling test targets
+####################################
+
+$(OBS_TUTORIAL_DIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
+	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$*$(DOT_O))
+	$(call FNCT_LINK_APP,$(OBJDIR)/$*$(DOT_O),$@)
+	$(call FNCT_POST_APP,$@)
+
+
+
+###################################
+# advertise tutorial to main makefile
+###################################
+
+VPATH += $(OBS_TUTORIAL_DIR)
+TUTORIAL_EXECUTABLES += $(OBS_TUTORIAL_EXECUTABLES)
+CLEANFILES += $(OBS_TUTORIAL_EXECUTABLES)
+SOURCES += $(OBS_TUTORIAL_CPPFILES:%=$(OBS_TUTORIAL_DIR)/%)
+

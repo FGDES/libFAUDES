@@ -1,0 +1,55 @@
+<Generator>
+"cb4[0]_spec" 
+
+% 
+%  Statistics for cb4[0]_spec
+%  States:        18
+%  Init/Marked:   1/1
+%  Events:        15
+%  Transitions:   20
+%  StateSymbols:  18
+%  Attrib. E/S/T: 8/0/0
+% 
+
+<Alphabet>
+"cb11-4"      +C+           "cb12-4"      +C+           "cb4+x"       +C+           
+"cb4-11"      +C+           "cb4-12"      +C+           "cb4-x"       +C+           
+"cb4stp"      +C+           "cb4wpar"     "cb4wplv11"   "cb4wplv12"   "t_modul3\cb4-mh1-d1\cb4" 
++C+         
+</Alphabet>
+
+<States>
+"1"           "10"          
+"15"          "16"          "17"                  "2"           "3"           
+"4"                      
+</States>
+
+<TransRel>
+"1"           "cb12-4"      "2"           
+"1"           "t_modul3\cb4-mh1-d1\cb4" "1"           
+"10"          "cb4-11"      "15"          
+"10"          "t_modul3\cb4-mh1-d1\cb4" "10"          
+"15"          "cb4-x"       "16"          
+"15"          "t_modul3\cb4-mh1-d1\cb4" "15"          
+"16"          "cb4wplv11"   "17"          
+"16"          "t_modul3\cb4-mh1-d1\cb4" "16"          
+"17"          "cb4stp"      "1"          
+"17"          "t_modul3\cb4-mh1-d1\cb4" "17"                   
+"2"           "cb4-x"       "3"           
+"2"           "t_modul3\cb4-mh1-d1\cb4" "2"           
+"3"           "cb4wpar"     "4"           
+"3"           "t_modul3\cb4-mh1-d1\cb4" "3"           
+"4"           "cb4stp"      "10"           
+"4"           "t_modul3\cb4-mh1-d1\cb4" "4"                 
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

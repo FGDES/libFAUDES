@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE SimplenetDevice SYSTEM "simplenetdevice.dtd">
+
+<!-- 
+This simplenet device defines events for the simple 
+supervisor, to go with the simple machine:
+- beta and mue are subscribed from the plant node
+- alpha and lambda are provided to whoever connects 
+Thus, inputs of the supervisor are plant outputs and vice
+versa.
+-->
+
+<SimplenetDevice name="SimpleSupervisor"> 
+
+<!-- Time scale in ms/ftu -->
+<TimeScale value="1000"/> 
+
+<!-- Ip address of this node's server role, incl. tcp port -->
+<ServerAddress value="localhost:40001"/> 
+
+<!-- Ip address for node resolution via UDP broadcast (optional) -->
+<BroadcastAddress value="255.255.255.255:35000"/> 
+
+<!-- Network topology -->
+<Network name="SimpleLoop"> 
+<Node name="SimpleMachine"/> 
+<Node name="SimpleSupervisor"/> 
+</Network> 
+
+<!-- Event configuration -->
+<EventConfiguration> 
+<Event name="alpha" iotype="output"/> 
+<Event name="beta" iotype="input"/> 
+<Event name="mue" iotype="input"/> 
+<Event name="lambda" iotype="output"/> 
+</EventConfiguration> 
+
+</SimplenetDevice> 

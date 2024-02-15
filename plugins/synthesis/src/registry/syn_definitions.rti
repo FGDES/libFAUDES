@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsControllable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::IsControllable" ctype="faudes::IsControllable"> 
+
+<Documentation ref="synthesis_controllability.html#IsControllable"> 
+Tests controllablity condition.
+</Documentation> 
+<Keywords> 
+Synthesis     controllability  generator     controllable  supervisor    
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsControllabel(G,Sigma,K)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACntrl" ftype="EventSet" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+<Signature name="IsControllabel(G,K)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsNormal -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::IsNormal" ctype="faudes::IsNormal"> 
+
+<Documentation ref="synthesis_normality.html#IsNormal"> 
+Tests normality condition.
+</Documentation> 
+<Keywords> 
+Synthesis     normality     observable    generator     normal        supervisor    
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsNormal(L,Sigma_o,K)"> 
+<Parameter name="L" ftype="Generator" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="K" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+<Signature name="IsNormal(G,C)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsOmegaControllable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::IsOmegaControllable" ctype="faudes::IsOmegaControllable"> 
+
+<Documentation ref="synthesis_omega.html#IsOmegaControllable"> 
+Test controllablity condition.
+</Documentation> 
+<Keywords> 
+Synthesis     controllability  generator     controllable  supervisor    "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsOmegaControllabel(G,Sigma,K)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACntrl" ftype="EventSet" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+<Signature name="IsOmegaControllabel(G,K)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsRelativelyMarked -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::IsRelativelyMarked" ctype="faudes::IsRelativelyMarked"> 
+
+<Documentation ref="synthesis_controllability.html#IsRelativelyMarked"> 
+Test for relative marking.
+</Documentation> 
+<Keywords> 
+Synthesis     controllability  "relative closed"  "relative marked"  nonblocking   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsRelativelyMarked(GPlant,GCand)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsRelativelyOmegaClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::IsRelativelyOmegaClosed" ctype="faudes::IsRelativelyOmegaClosed"> 
+
+<Documentation ref="synthesis_omega.html#IsRelativelyOmegaClosed"> 
+Test for relative omega-closedness.
+</Documentation> 
+<Keywords> 
+Synthesis     controllability  "relative closed"  "relative marked"  nonblocking   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsRelativelyOmegaClosed(GPlant,GCand)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsRelativelyPrefixClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::IsRelativelyPrefixClosed" ctype="faudes::IsRelativelyPrefixClosed"> 
+
+<Documentation ref="synthesis_controllability.html#IsRelativelyPrefixClosed"> 
+Test for relative prefix-closedness.
+</Documentation> 
+<Keywords> 
+Synthesis     controllability  "relatively closed"  "relatively marked"  nonblocking   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsRelativelyPrefixClosed(GPlant,GCand)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupRelativelyPrefixClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupRelativelyPrefixClosed" ctype="faudes::SupRelativelyPrefixClosed"> 
+
+<Documentation ref="synthesis_controllability.html#SupRelativelyPrefixClosed"> 
+Computes the supremal relatively prefix-closed sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis   "supremal sublanguage" controllability   "relatively prefix closed" "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupR(GPlant,GSpec,GRes)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupConNormCmplNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupConNormCmplNB" ctype="faudes::SupConNormCmplNB"> 
+
+<Documentation ref="synthesis_omega.html#SupConNormCmplNB"> 
+Computes the supremal controllable normal and complete sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis  "supremal sublanguage"  controllability  controllable  normal complete "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupCNC(GPlant,GSpec,GRes)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupCNC(GPlant,AContr,AObs,GSpec,GRes)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function OmegaSupConNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::OmegaSupConNB" ctype="faudes::OmegaSupConNB"> 
+
+<Documentation ref="synthesis_omega.html#OmegaSupConNB"> 
+Synthesis for omega-languages.
+</Documentation> 
+<Keywords> 
+Synthesis     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="OmegaSupConNB(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="OmegaSupConNB(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function OmegaConNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::OmegaConNB" ctype="faudes::OmegaConNB"> 
+
+<Documentation ref="synthesis_omega.html#OmegaConNB"> 
+Synthesis for omega-languages.
+</Documentation> 
+<Keywords> 
+Synthesis     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="OmegaConNB(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="OmegaConNB(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function OmegaSupConNormNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::OmegaSupConNormNB" ctype="faudes::OmegaSupConNormNB"> 
+
+<Documentation ref="synthesis_omega.html#OmegaSupConNB"> 
+Synthesis for omega-languages (experimental!).
+</Documentation> 
+<Keywords> 
+Synthesis     "supremal sublanguage" controllability  controllable  normality "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="OmegaSupConNormNB(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="OmegaSupConNormNB(GPlant,AContr,AObs,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function OmegaConNormNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::OmegaConNormNB" ctype="faudes::OmegaConNormNB"> 
+
+<Documentation ref="synthesis_omega.html#OmegaConNormNB"> 
+Synthesis for omega-languages (experimental!).
+</Documentation> 
+<Keywords> 
+Synthesis     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="OmegaConNormNB(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="OmegaConNormNB(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupConClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupConClosed" ctype="faudes::SupConClosed"> 
+
+<Documentation ref="synthesis_controllability.html#SupConClosed"> 
+Computes the supremal controllable sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis     "supremal sublanguage" controllability  controllable  "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupC(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupC(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupConCmplClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupConCmplClosed" ctype="faudes::SupConCmplClosed"> 
+
+<Documentation ref="synthesis_omega.html#SupConCmplClosed"> 
+Computes the supremal controllable and complete sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis  "supremal sublanguage"  controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupCC(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupCC(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupConCmplNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupConCmplNB" ctype="faudes::SupConCmplNB"> 
+
+<Documentation ref="synthesis_omega.html#SupConCmplNB"> 
+Computes the supremal controllable and complete sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis  "supremal sublanguage"  controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupCC(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupCC(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupConNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupConNB" ctype="faudes::SupConNB"> 
+
+<Documentation ref="synthesis_controllability.html#SupConNB"> 
+Computes the supremal controllable sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis   "supremal sublanguage"  controllability  controllable  "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupC(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupC(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupNorm -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupNorm" ctype="faudes::SupNorm"> 
+
+<Documentation ref="synthesis_normality.html#SupNorm"> 
+Computes the supremal normal sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis    "supremal sublanguage"  normality      observable    "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupN(L,AObs,K,GRes)"> 
+<Parameter name="L" ftype="Generator" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="K" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupN(GPlant,GCand,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupNormClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupNormClosed" ctype="faudes::SupNormClosed"> 
+
+<Documentation ref="synthesis_normality.html#SupNormClosed"> 
+Computes the supremal normal and closed sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis     "supremal sublanguage" normality      observable    "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupN(L,K,AObs,GRes)"> 
+<Parameter name="L" ftype="Generator" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="K" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupN(GPlant,GCand,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupConNormClosed                          -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupConNormClosed" ctype="faudes::SupConNormClosed"> 
+
+<Documentation ref="synthesis_normality.html#SupConNormClosed"> 
+Computes the supremal controllable, normal and closed sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis    "supremal sublanguage" normality     supremal    controllable observable    "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupCN(L,E,ACtrl,AObs,GRes)"> 
+<Parameter name="L" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="E" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupCN(GPlant,GSpec,GRes)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupConNormNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupConNormNB" ctype="faudes::SupConNormNB"> 
+
+<Documentation ref="synthesis_normality.html#SupConNormNB"> 
+Computes the supremal controllable and normal sublanguage.
+</Documentation> 
+<Keywords> 
+Synthesis  "supremal sublanguage"   normality     supremal    controllable observable    "controller synthesis"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupCN(L,E,ACtrl,AObs,GRes)"> 
+<Parameter name="L" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="E" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupCN(GPlant,GSpec,GRes)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupTconNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupTconNB" ctype="faudes::SupTconNB"> 
+
+<Documentation ref="synthesis_misc.html#SupTconNB"> 
+Computes the supremal controllable sublanguage w.r.t. forcible/preemptyble events.
+</Documentation> 
+<Keywords> 
+Synthesis  "supremal sublanguage"  controllability  controllable  forcible preemtable "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupTc(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupTc(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AForcib" ftype="EventSet" access="In"/> 
+<Parameter name="APreemp" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsStdSynthesisConsistent -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::IsStdSynthesisConsistent" ctype="faudes::IsStdSynthesisConsistent"> 
+
+<Documentation ref="synthesis_misc.html#IsStdSynthesisConsistent"> 
+Test consistency of an abstraction w.r.t. standard controller synthesis.
+</Documentation> 
+<Keywords> 
+Synthesis  controllability  controllable  non-blocking non-conflicting abstractions
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsStdSynCons(GPlant,GPlant0,BRes)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GPlant0" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+<Signature name="IsStdSynCons(GPlant,ACtrl,GPlant0,BRes)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GPlant0" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupReduce				 -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupReduce" ctype="faudes::SupReduce"> 
+
+<Documentation ref="synthesis_misc.html#SupReduce"> 
+Compute a reduced supervisor.
+</Documentation> 
+<Keywords> 
+Synthesis  controllability reduction     
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="SupReduce(GPlant,GSup,GReducedSup)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSup" ftype="System" access="In"/> 
+<Parameter name="GReducedSup" ftype="System" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+</Registry> 

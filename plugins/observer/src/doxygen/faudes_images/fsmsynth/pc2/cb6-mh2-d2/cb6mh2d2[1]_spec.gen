@@ -1,0 +1,40 @@
+<Generator>
+"cb6mh2d2[1]_spec" 
+
+% 
+%  Statistics for cb6mh2d2[1]_spec
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        7
+%  Transitions:   5
+%  StateSymbols:  4
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"cb14-6"      +C+           "cb6-13"      +C+           "cb6-14"      +C+           
+"cb13-6"   +C+     "mh2end"      "mh2start"    +C+           
+</Alphabet>
+
+<States>
+"1"           "2"           "3"           "4"           
+</States>
+
+<TransRel>
+"1"           "cb13-6"      "2"           
+"2"           "mh2start"    "3"           
+"3"           "mh2end"      "4"           
+"4"           "cb6-13"      "1"           
+"4"           "cb6-14"      "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

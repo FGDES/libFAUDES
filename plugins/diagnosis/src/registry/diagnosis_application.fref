@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Diagnosis" page="5_Application_Example" title="Diagnosis - Example"> 
+
+<h1> Modular Diagnosis </h1>
+
+<p>
+  For further illustration, we now study a small application example that consists of two components of our Fischertechnik manufacturing 
+  system model in the context of modular diagnosis and decentralized diagnosis. The relevant part of the system is depicted in the 
+  following picture. 
+</p>
+
+
+<table class="plain"> 
+<tr> <th align="left"> Component SF (Stack feeder) and C1 (Conveyor belt C1) </th> </tr> 
+<tr> <td align="left"> <img fsrc="FAUDES_IMAGES/diag_application_picture.png"/> </td> </tr> 
+</table>
+
+<h2> Basic Description of the System </h2>
+
+<p>
+The SF comprises a tower that can hold wooden parts and a belt that
+can move parts until they reach the neighboring conveyor belt C1 (event <tt>pass</tt>).  A light barrier detects if parts
+arrive at or leave the belt of SF which is modeled by the events <tt>sfa</tt> and <tt>sfl</tt>,
+respectively. In addition, the belt of the SF can start and stop moving (events
+<tt>sfmv</tt> and <tt>sfs</tt>). Its motion is initiated by the event <tt>sf-c1</tt> that is shared with
+C1. The desired behavior of SF according to a previously performed supervisor design is
+given by the automaton <fimath>D_{SF}</fimath>.  Similarly, the desired behavior of C1 is characterized by the automaton <fimath>D_{C1}</fimath>. After the transport of a part is initiated by <tt>sf-c1</tt>, C1 starts to move
+(<tt>c1mv</tt>). As soon as the part
+arrives at the sensor of C1 (<tt>c1a</tt>), C1 stops (<tt>c1s</tt>) and becomes ready for a
+new transport whenever the part is removed from C1 (<tt>c1l</tt>).
+</p>
+
+<table class="plain"> 
+<tr> <th align="left"> Component <fimath>D_{SF}</fimath> (Specifiation <fimath>K_{SF}</fimath>)</th></tr>
+<tr> <td> <fimage fsrc="tmp_diag_specification_3_modular_sf"/> </td> </tr>
+<tr><td>&nbsp;</td></tr>
+<tr> <th align="left"> Component  <fimath>D_{C1}</fimath> (Specification <fimath>K_{C1}</fimath>)</th></tr>
+<tr> <td> <fimage fsrc="tmp_diag_specification_3_modular_c1"/> </td> </tr>
+</table>
+
+
+<h2> Modular Diagnosis </h2>
+
+<p>
+The faulty behavior of both components is modeled the two component automata <fimath>G_{SF}</fimath> and <fimath>G_{C1}</fimath> in the subsequent figure. In particular, the event <tt>f_pjm</tt> in <fimath>G_{SF}</fimath> represents the situation, where the stack feeder is jammed such that no part can leave anymore. Moreover, the event <tt>f_pfd</tt> in <fimath>G_{C1}</fimath> models that a part falls from the conveyor belt and thus cannot arrive at the sensor of C1. In both cases, the additional timer events <tt>t_sf</tt> and <tt>t_c1</tt> capture an unusually long passage of time. The corresponding specification automata are shown in the figure above. In this application example, all events except for the failures <tt>f_pjm</tt>,  <tt>f_pfd</tt> and the shared event <tt>pass</tt> are observable. 
+</p>
+
+<table class="plain"> 
+<tr> 
+<th align="left"> Component <fimath>G_{SF}</fimath></th> 
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_3_modular_sf"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr>
+<th align="left"> Local specification <fimath>K_{SF}</fimath> </th>
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_specification_3_modular_sf"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr> 
+<th align="left"> Component <fimath>G_{C1}</fimath></th> 
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_3_modular_c1"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr>
+<th align="left"> Local specification <fimath>K_{C1}</fimath> </th>
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_specification_3_modular_c1"/> </td>
+</tr> 
+</table>
+
+<p>
+Our goal is now to perform modular diagnosis in order to detect the potential failures in the system components SF and C1. That is, we require that SF can detect the occurrence of <tt>f_pjm</tt> based on its own observation, while C1 is able to find out if <tt>f_pfd</tt> happened only using the observable events of C1. To this end, we use the function <ffnct>IsModularDiagnosable</ffnct> which confirms that the system is modularly diagnosable. 
+</p>
+
+<p>
+In addition, we compute the moduar diagnosers for both system components with the function <ffnct>ModularDiagnoser</ffnct>. The resulting diagnoser automata are shown in the figure below. It is readily observed that the diagnoser for SF detects the occurrence of a failure as soon as the timer event <tt>t_sf</tt> happens, while C1 can uniquely resolve the occurrence of <tt>f_pfd</tt> after the occurrence of the timer event <tt>t_c1</tt>. 
+</p>
+
+<table class="plain"> 
+<tr> <th align="left"> Diagnoser for <fimath>G_{SF}</fimath></th> </tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_3_modular_sf"/>  </td> </tr>
+<tr> <td>&nbsp;</td> </tr>
+<tr> <th align="left"> Diagnoser for <fimath>G_{C1}</fimath> </th></tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_3_modular_c1"/> </td> </tr>
+</table>
+
+
+<h2> Decentralized Diagnosis </h2>
+
+<p>
+For the decentralized diagnosis example, the faulty behavior of both components is modeled the two component automata <fimath>G_{SF}</fimath> and <fimath>G_{C1}</fimath> in the subsequent figure. In particular, the event <tt>diag</tt> in <fimath>G_{SF}</fimath> represents the situation, where a part is not put correctly but is located diagonally with respect to the direction of the belt. In that case, the belt will periodically lift the part, triggering the events <tt>sfl</tt> and <tt>sfa</tt>, whereas the part never arrives at C1. Moreover, the event <tt>block</tt> in <fimath>G_{C1}</fimath> models that a part cannot be transported by the SF but is blocked at its initial position. Considering C1, the additional timer event <tt>timer</tt> captures the case where too much time passes after the occurrence of <tt>c1mv</tt>. In this application example, the events <tt>block</tt> and <tt>diag</tt> are unobservable.
+</p>
+
+<table class="plain"> 
+<tr> 
+<th align="left"> Component <fimath>G_{SF}</fimath></th> 
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_4_decentralized_sf"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr> 
+<th align="left"> Component <fimath>G_{C1}</fimath></th> 
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_4_decentralized_c1"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<p>
+Our goal is now to perform modular decentralized diagnosis in order to detect the potential failures in the system components SF and C1. That is, we require that the possible failures can be detected by any of the two local sites SF or C1. Different from modular diagnosis as described above, it is not required that both failures that occur in the component SF are also detected by the corresponding local diagnoser for SF. We use the function <ffnct>IsCoDiagnosable</ffnct> which confirms that the system is co-diagnosable. 
+</p>
+
+<p>
+In addition, we compute the moduar decentralized diagnosers for both system components with the function <ffnct>DecentralizedModularDiagnoser</ffnct>. The resulting diagnoser automata are shown in the figure below. It is readily observed that the diagnoser for SF detects the occurrence of the failure <tt>diag</tt> as soon as  <tt>sfl</tt> happens directly after <tt>sfa</tt>, while C1 can uniquely resolve the occurrence of <tt>block</tt> after the occurrence of the timer event <tt>timer</tt>. 
+</p>
+
+<table class="plain"> 
+<tr> <th align="left"> Diagnoser for <fimath>G_{SF}</fimath> </th> </tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_4_decentralized_sf"/> </td> </tr>
+<tr> <td>&nbsp;</td></tr>
+<tr> <th align="left"> Diagnoser for <fimath>G_{C1}</fimath> </th> </tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_4_decentralized_c1"/> </td> </tr>
+</table>
+
+</ReferencePage>
+
+  

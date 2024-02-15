@@ -1,0 +1,55 @@
+<Generator name="SupConNB((Project(SupConNB((mh2[0]|...))) [minstate]),(cb6mh2d2[1]_spec))">
+
+% 
+%  Statistics for SupConNB((Project(SupConNB((mh2[0]|...))) [minstate]),(cb6mh2d2[1]_spec))
+% 
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        8
+%  Transitions:   17
+%  StateSymbols:  0
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+cb14-6        +C+           cb6-14        +C+           cb13-6        +C+          
+cb6-13        +C+           cb6stp        +C+           mh2end        mh2start     
++C+           mh2stp        +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              12            
+</Consecutive>
+</States>
+
+<TransRel>
+1              cb13-6        2             
+2              cb6stp        3             
+2              mh2start      4             
+3              mh2start      5             
+4              cb6stp        5             
+4              mh2stp        6             
+5              mh2stp        7             
+6              cb6stp        7             
+6              mh2stp        8             
+7              mh2stp        9             
+8              cb6stp        9             
+8              mh2end        10            
+9              mh2end        11            
+10             cb6stp        11            
+11             cb6-14        12            
+11             cb6-13        12            
+12             cb6stp        1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

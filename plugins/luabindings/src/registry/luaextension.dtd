@@ -1,0 +1,16 @@
+<!ELEMENT LuaExtension (LuaFunctionDefinition|ReferencePage|ImageFile|DataFile|LuaTutorial)*>
+<!ATTLIST LuaExtension name CDATA #REQUIRED>
+
+<!ELEMENT LuaTutorial ANY>
+<!ATTLIST LuaTutorial name CDATA #REQUIRED>
+<!ELEMENT DataFile ANY>
+<!ATTLIST DataFile name CDATA #REQUIRED>
+<!ELEMENT ImageFile ANY>
+<!ATTLIST ImageFile name CDATA #REQUIRED>
+
+<!ENTITY % referencepage.dtd SYSTEM 
+          "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+%referencepage.dtd;
+<!ENTITY % luafunction.dtd SYSTEM 
+          "http://www.faudes.org/dtd/1.0/luafunction.dtd">
+%luafunction.dtd;

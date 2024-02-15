@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="IoSystem" page="3_Synthesis" title="I/O Systems - Synthesis">
+
+<h1>
+I/O Systems Controller Synthesis
+</h1>
+
+
+<p>
+Since I/O systems refer to the inifinite time axis,
+conditions imposed on the closed-loop are essentially the
+same as for the supervision of omega-languages; see
+<fcite name="S3"/>,
+<fcite name="S5"/>. 
+In the context of an abstraction based design, however,
+the formal nonblocking property becomes nontrivial.
+Technically, we impose the following admissibility condition,
+which is closely related to omega-controllablity
+proposed in <fcite name="S5"/>:
+</p>
+
+
+<p>
+Given an alphabet 
+<fimath>\Sigma=U\dcup Y</fimath> partitioned in input events
+<fimath>U</fimath> and output events <fimath>Y</fimath>, and consider
+a plant <fimath>L\subseteq\Sigma^\omega</fimath>.
+Then, a controller <fimath>H\subseteq\Sigma^\omega</fimath> is 
+<i>omega-admissible</i> w.r.t. <fimath>L</fimath>, if
+<br/>
+for all <fimath>s\in \Prefix{L}\cap\Prefix{H}</fimath>
+there exists a  <fimath>V\subseteq L\cap H</fimath>, <fimath>s\in\Prefix{V}</fimath>,
+such that
+</p>
+<ul  class="l2">
+<li><p>
+<fimath>\Prefix{V}</fimath> is controllable w.r.t. <fimath>(\Prefix{L},Y)</fimath>, and
+</p></li>
+<li><p>
+<fimath>V</fimath> is relatively omega-closed w.r.t. <fimath>L</fimath>.
+</p></li>
+</ul>
+
+
+<p>
+<b>Note 1:</b>
+omega-admissibility of a controller implies an omega-nonblocking closed loop, i.e.:
+<br/>
+<br/>
+<fdmath>\Prefix{L}\cap\Prefix{H}\,=\,\Prefix{L\cap H}</fdmath>
+<br/>
+<br/>
+Thus, the closed-loop behaviour under admissible control is
+adequately modelled by the intersection <fimath>K:=L\cap H</fimath>.
+The latter can be verified to be omega-admissible itself.
+<br/>
+<br/>
+</p>
+
+
+<p>
+<b>Note 2:</b>
+omega-admissibility is retained under arbitrary unions. 
+In particular, given a language inclusion specification <fimath>E</fimath>,
+the supremum
+<br/>
+<br/>
+<fimath>H^\uparrow := \sup \{ \ H\ | \ L\cap H\subseteq E,\ H \text{ is omega-admissible w.r.t. } L\ \}</fimath> 
+<br/>
+<br/>
+exists uniquely and is omega-admissible itself.
+The supremal closed-loop behaviour is denoted
+<fimath>K^\uparrow:= L\cap H^\uparrow</fimath> and we have
+<br/>
+<br/>
+<fimath>K^\uparrow = \sup \{ \ K\subseteq L\cap E\ | \ K \text{ is omega-admissible w.r.t. } L\ \}</fimath> 
+<br/>
+<br/>
+</p>
+
+
+
+
+
+
+<ffnct_reference name="IoSynthesisNB">
+
+<fdetails/>
+<p>
+Given a plant <fimath>L=Bm(GPlant)</fimath> and a 
+specification <fimath>E=Bm(GSpec)</fimath>, this procedure
+computes a realisation of the supremal closed-loop behaviour
+under omega-admissible control, i.e., 
+<br/>
+<fimath>Bm(GSupervisor) = \sup \{ \ K\subseteq L\cap E,\ K \text{ is omega-admissible w.r.t. } L\ \}</fimath> 
+</p>
+
+<p>
+This implementation invokes <ffnct>OmegaSupConNB</ffnct> for
+the actual synthesis where Y are considered the uncontrollable
+events. 
+The event attributes of the result are configured accordingly.
+</p>
+
+<fexample/>
+<p>
+We give a variation of the 
+<a href="iosystem_index.html#example">vehicle example</a>,
+with an alternative abstraction and specification,
+both involving liveness properties.
+Since the actual plant is an I/O system with
+an omega-free input 
+the resulting controller is also admissible to the actual plant;
+see also <ffnct>IsIoSystem</ffnct> and <ffnct>IsInputOmegaFree</ffnct>.
+</p>
+
+
+<table class="plain">
+<tr>
+<td>Abstraction L'</td>
+<td></td>
+<td>Specification E</td>
+</tr>
+<tr>
+<td valign="top"><img align="top" fsrc="FAUDES_IMAGES/ios_abstractionb2.png"/></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td valign="top"><img align="top" fsrc="FAUDES_IMAGES/ios_specificationb2.png"/></td>
+</tr>
+<tr>
+<td colspan="3">Supervisor H</td>
+</tr>
+<tr>
+<td colspan="3"><img fsrc="FAUDES_IMAGES/ios_supervisorb2.png"/></td>
+</tr>
+</table>
+
+
+<fconditions/>
+<p>
+This implementation requires the alphabets of plant and specification
+to match. 
+Furthermore, both generators must be deterministic. 
+Effectively, the specification is intersected with the plant.
+The result will be deterministic and omega-trim.
+</p>
+
+</ffnct_reference>
+
+
+<ffnct_reference name="IoSynthesis">
+
+<fdetails/>
+<p>
+Given a plant <fimath>L=B(GPlant)</fimath> and a 
+specification <fimath>E=B(GSpec)</fimath>, this procedure
+computes a realisation of the supremal closed-loop behaviour
+under omega-admissible control, i.e., <fimath>K^\uparrow=B(GSupervisor)</fimath>.
+In contrast to <ffnct>IoSynthesisNB</ffnct>, this procedure operates
+on the generated languages and
+ignores any marking.
+</p>
+
+<p>
+For omega-closed languages L and H, omega-admissibility 
+is equivalent to
+</p>
+<ul  class="l2">
+<li><p>
+<fimath>\Prefix{L}\cap\Prefix{V}</fimath> is controllable w.r.t. <fimath>(\Prefix{L},Y)</fimath>, and
+</p></li>
+<li><p>
+<fimath>L</fimath> and <fimath>H</fimath> are <i>locally nonblocking</i>, i.e.
+<fimath>\Prefix{L}\cap\Prefix{H}</fimath> is complete,
+</p></li>
+</ul>
+<p>
+and, thus, <ffnct>SupConCmplClosed</ffnct> is invoked for the
+actual synthesis procedure.
+</p>
+
+
+<fexample/>
+<p>
+The <a href="iosystem_index.html#example">vehicle example</a> has been
+synthesized with <ffnct>IoSynthesis</ffnct>. 
+Since the actual plant is an I/O system with
+an omega-free input 
+the resulting controller is also omega-admissible to the actual plant;
+see also <ffnct>IsIoSystem</ffnct> and <ffnct>IsInputOmegaFree</ffnct>.
+</p>
+
+
+<fconditions/>
+<p>
+This implementation requires the alphabets of plant and specification
+to match. 
+Furthermore, both generators must be deterministic. 
+Effectively, the specification is intersected with the plant.
+The result will be deterministic and accessible.
+</p>
+
+</ffnct_reference>
+</ReferencePage>
+
+  

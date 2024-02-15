@@ -1,0 +1,26 @@
+% Example "decdemo", ContrB (mainenance). 
+
+% Set up the executor to run Controller B
+<Executor>
+
+% Specify explicit generators
+<Generators>
+"decdemo_contrb.gen"
+</Generators>
+
+% specify conditions
+<Conditions>
+</Conditions>
+
+% specify event attributes
+<SimEventAttributes>
+
+"m_request"
+<Priority> -50 </Priority>
+"m_complete"     
+<Priority> -50 </Priority>
+
+</SimEventAttributes>
+
+% end
+</Executor>

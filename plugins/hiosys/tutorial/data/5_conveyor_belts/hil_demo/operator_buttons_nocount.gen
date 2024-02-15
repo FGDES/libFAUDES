@@ -1,0 +1,36 @@
+<Generator>
+"Operator"
+
+
+
+<Alphabet>
+
+"ABCDEFGH_STP"    "ABCDEFGH_TR"     "ABCDEFGH_FL"
+"rts1ar3"   "rts1ar4"   
+     
+</Alphabet>
+
+<States>
+"OP_1" "OP_2" "OP_3"
+</States>
+
+<TransRel>
+"OP_1"            "ABCDEFGH_STP" "OP_1"
+"OP_1"            "rts1ar3" "OP_2"
+"OP_1"            "rts1ar4" "OP_3"
+"OP_2"            "ABCDEFGH_FL" "OP_1"
+"OP_2"            "ABCDEFGH_STP" "OP_1"
+"OP_3"            "ABCDEFGH_TR" "OP_1"
+"OP_3"            "ABCDEFGH_STP" "OP_1"
+</TransRel>
+
+<InitStates>
+"OP_1"             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

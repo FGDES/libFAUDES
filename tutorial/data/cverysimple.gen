@@ -1,0 +1,36 @@
+<cGenerator>
+<Generator>
+"very simple machine"
+
+<Alphabet>
+"alpha" "beta" 
+</Alphabet>
+
+<States>
+"idle" "busy" 
+</States>
+
+<TransRel>
+"idle" "alpha" "busy"
+"busy" "beta" "idle"
+</TransRel>
+
+<InitStates>
+"idle"
+</InitStates>
+
+<MarkedStates>
+"idle"
+</MarkedStates>
+
+</Generator>
+
+
+<EventAttributes>
+
+<Controllable>
+"alpha" 
+</Controllable>
+
+</EventAttributes>
+</cGenerator>

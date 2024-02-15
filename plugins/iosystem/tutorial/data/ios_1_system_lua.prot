@@ -1,0 +1,30 @@
+%%% test mark: system1 [at ios_1_system.lua]
+% 
+%  Statistics for IOSystem1
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   6
+%  StateSymbols:  4
+%  Attrib. E/S/T: 4/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: xml io [at ios_1_system.lua]
+% 
+%  Statistics for IOSystem1
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   6
+%  StateSymbols:  4
+%  Attrib. E/S/T: 4/4/0
+% 
+% 
+% 
+% 
+

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE DeviceContainer SYSTEM "devicecontainer.dtd">
+
+<!--
+Device configuration for the conveyor/parallel-IO setup.
+
+Signal values are read from/written to digital IO boards
+via the comedi framework. Since libFAUDES comedi devices
+are either exclusivly input or exclusively output, the
+elevator setup is organized as a container device.
+-->
+
+<DeviceContainer name="LrtLabSignalIO"> 
+
+<!-- Time scale in ms/ftiu -->
+<!-- Note: the global setting overwrites per device time scales-->
+<TimeScale value="10"/> 
+
+<!-- List of devices -->
+<Devices> 
+
+<!-- Device for Input signals resp. events -->
+<ComediDevice name="LrtLabInputDevice"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="10"/> 
+
+<!-- Sample interval for edge detection in ns -->
+<SampleInterval value="100"/> 
+
+<!-- Sytem device file -->
+<DeviceFile value="/dev/comedi0"/> 
+
+<!-- Trigger based event definitition to follow -->
+<EventConfiguration> 
+
+<Event name="SensorA+" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="26"/> 
+</Triggers> 
+</Event> 
+
+<Event name="SensorA-" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="26"/> 
+</Triggers> 
+</Event> 
+
+<Event name="SensorB+" iotype="input"> 
+<Triggers> 
+<PositiveEdge address="29"/> 
+</Triggers> 
+</Event> 
+
+<Event name="SensorB-" iotype="input"> 
+<Triggers> 
+<NegativeEdge address="29"/> 
+</Triggers> 
+</Event> 
+
+</EventConfiguration> 
+</ComediDevice> 
+
+
+<!-- Device for Output signals resp. events -->
+<ComediDevice name="LrtLabOuputDevice"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="500"/> 
+
+<!-- Sample interval for edge detection in ns -->
+<SampleInterval value="100"/> 
+
+<!-- Sytem device file -->
+<DeviceFile value="/dev/comedi1"/> 
+
+<!-- Action based event definitition to follow -->
+<EventConfiguration> 
+
+<Event name="Reset" iotype="output"> 
+<Actions> 
+<Clr address="28"/> 
+<Clr address="26"/> 
+<Clr address="44"/> 
+<Clr address="46"/> 
+</Actions> 
+</Event> 
+
+<Event name="MotorA+x" iotype="output"> 
+<Actions> 
+<Clr address="28"/> 
+<Set address="26"/> 
+</Actions> 
+</Event> 
+
+<Event name="MotorA-x" iotype="output"> 
+<Actions> 
+<Clr address="26"/> 
+<Set address="28"/> 
+</Actions> 
+</Event> 
+
+<Event name="MotorAstp" iotype="output"> 
+<Actions> 
+<Clr address="26"/> 
+<Clr address="28"/> 
+</Actions> 
+</Event> 
+
+<Event name="MotorB+x" iotype="output"> 
+<Actions> 
+<Clr address="46"/> 
+<Set address="44"/> 
+</Actions> 
+</Event> 
+
+<Event name="MotorB-x" iotype="output"> 
+<Actions> 
+<Clr address="44"/> 
+<Set address="46"/> 
+</Actions> 
+</Event> 
+
+<Event name="MotorBstp" iotype="output"> 
+<Actions> 
+<Clr address="44"/> 
+<Clr address="46"/> 
+</Actions> 
+</Event> 
+
+</EventConfiguration> 
+</ComediDevice> 
+
+</Devices> 
+</DeviceContainer> 

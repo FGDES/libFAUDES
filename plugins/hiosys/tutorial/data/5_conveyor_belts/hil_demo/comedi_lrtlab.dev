@@ -1,0 +1,1608 @@
+<DeviceContainer>
+
+"LrtLabCompleteIO"   % overall device name
+1                    % ms/ftu (overwrites per device def)
+
+<Devices>
+
+<ComediDevice>   
+
+"LrtLabInputs"       	        % device name
+1   		        	% faudes time unit scaling factor in ms/ftu
+64                      	% max bitaddress   
+100                     	% background sample period in nsec
+"/dev/comedi0"          	% system device file
+
+<EventConfiguration>
+
+"sfwpar"
+<Sensor>
+<Triggers>
+0 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"sfwplv"
+<Sensor>
+<Triggers>
+0 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"sfr"
+<Sensor>
+<Triggers>
+2 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"sfnr"
+<Sensor>
+<Triggers>
+2 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"pu1ar-y"
+<Sensor>
+<Triggers>
+4 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"pu1lv-y"
+<Sensor>
+<Triggers>
+4 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"pu1ar+y"
+<Sensor>
+<Triggers>
+6 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"pu1lv+y"
+<Sensor>
+<Triggers>
+6 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb1bwpar"
+<Sensor>
+<Triggers>
+8 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb1bwplv"
+<Sensor>
+<Triggers>
+8 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"pu2ar-y"
+<Sensor>
+<Triggers>
+10 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"pu2lv-y"
+<Sensor>
+<Triggers>
+10 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"pu2ar+y"
+<Sensor>
+<Triggers>
+12 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"pu2lv+y"
+<Sensor>
+<Triggers>
+12 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb1awpar"
+<Sensor>
+<Triggers>
+14 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb1awplv"
+<Sensor>
+<Triggers>
+14 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"depwpar"
+<Sensor>
+<Triggers>
+16 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"depwplv"
+<Sensor>
+<Triggers>
+16 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb2wpar"
+<Sensor>
+<Triggers>
+18 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb2wplv"
+<Sensor>
+<Triggers>
+18 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb3wpar"
+<Sensor>
+<Triggers>
+20 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb3wplv"
+<Sensor>
+<Triggers>
+20 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb4wpar"
+<Sensor>
+<Triggers>
+22 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb11wplv4"
+<Sensor>
+<Triggers>
+22 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb12wplv4"
+<Sensor>
+<Triggers>
+22 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb4wplv"
+<Sensor>
+<Triggers>
+22 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb5wpar"
+<Sensor>
+<Triggers>
+24 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb12wplv5"
+<Sensor>
+<Triggers>
+24 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb13wplv5"
+<Sensor>
+<Triggers>
+24 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb5wplv"
+<Sensor>
+<Triggers>
+24 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb6wpar"
+<Sensor>
+<Triggers>
+26 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb13wplv6"
+<Sensor>
+<Triggers>
+26 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb14wplv6"
+<Sensor>
+<Triggers>
+26 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb6wplv"
+<Sensor>
+<Triggers>
+26 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb7wpar"
+<Sensor>
+<Triggers>
+28 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb11wplv7"
+<Sensor>
+<Triggers>
+28 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb15wplv7"
+<Sensor>
+<Triggers>
+28 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb7wplv"
+<Sensor>
+<Triggers>
+28 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb8wpar"
+<Sensor>
+<Triggers>
+30 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb12wplv8"
+<Sensor>
+<Triggers>
+30 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb15wplv8"
+<Sensor>
+<Triggers>
+30 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb16wplv8"
+<Sensor>
+<Triggers>
+30 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb8wplv"
+<Sensor>
+<Triggers>
+30 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb9wpar"
+<Sensor>
+<Triggers>
+3 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb13wplv9"
+<Sensor>
+<Triggers>
+3 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb15wplv9"
+<Sensor>
+<Triggers>
+3 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb16wplv9"
+<Sensor>
+<Triggers>
+3 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+
+"cb9wplv"
+<Sensor>
+<Triggers>
+3 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb16wplv10"
+<Sensor>
+<Triggers>
+5 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb10wpar"
+<Sensor>
+<Triggers>
+5 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb14wplv10"
+<Sensor>
+<Triggers>
+5 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb16wplv10"
+<Sensor>
+<Triggers>
+5 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb10wplv"
+<Sensor>
+<Triggers>
+5 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb11wpar"
+<Sensor>
+<Triggers>
+11 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb4wplv11"
+<Sensor>
+<Triggers>
+11 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb7wplv11"
+<Sensor>
+<Triggers>
+11 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb11wplv"
+<Sensor>
+<Triggers>
+11 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb12wpar"
+<Sensor>
+<Triggers>
+17 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb3wplv12"
+<Sensor>
+<Triggers>
+17 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb4wplv12"
+<Sensor>
+<Triggers>
+17 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb5wplv12"
+<Sensor>
+<Triggers>
+17 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+
+"cb8wplv12"
+<Sensor>
+<Triggers>
+17 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb12wplv"
+<Sensor>
+<Triggers>
+17 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb9wplv13"
+<Sensor>
+<Triggers>
+23 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb13wpar"
+<Sensor>
+<Triggers>
+23 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb2wplv13"
+<Sensor>
+<Triggers>
+23 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb5wplv13"
+<Sensor>
+<Triggers>
+23 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb6wplv13"
+<Sensor>
+<Triggers>
+23 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb9wplv13"
+<Sensor>
+<Triggers>
+23 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb13wplv"
+<Sensor>
+<Triggers>
+23 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb14wpar"
+<Sensor>
+<Triggers>
+29 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb6wplv14"
+<Sensor>
+<Triggers>
+29 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb10wplv14"
+<Sensor>
+<Triggers>
+29 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb14wplv"
+<Sensor>
+<Triggers>
+29 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb15wpar"
+<Sensor>
+<Triggers>
+34 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb7wplv15"
+<Sensor>
+<Triggers>
+34 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb8wplv15"
+<Sensor>
+<Triggers>
+34 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb9wplv15"
+<Sensor>
+<Triggers>
+34 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb15wplv"
+<Sensor>
+<Triggers>
+34 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"cb16wpar"
+<Sensor>
+<Triggers>
+36 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb9wplv16"
+<Sensor>
+<Triggers>
+36 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb10wplv16"
+<Sensor>
+<Triggers>
+36 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb16wplv"
+<Sensor>
+<Triggers>
+36 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+
+
+"rt1ary"
+<Sensor>
+<Triggers>
+7 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt1lvy"
+<Sensor>
+<Triggers>
+7 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rt1arx"
+<Sensor>
+<Triggers>
+9 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt1lvx"
+<Sensor>
+<Triggers>
+9 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rt2ary"
+<Sensor>
+<Triggers>
+15 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt2lvy"
+<Sensor>
+<Triggers>
+15 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rt2arx"
+<Sensor>
+<Triggers>
+13 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt2lvx"
+<Sensor>
+<Triggers>
+13 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rt3ary"
+<Sensor>
+<Triggers>
+21 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt3lvy"
+<Sensor>
+<Triggers>
+21 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rt3arx"
+<Sensor>
+<Triggers>
+19 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt3lvx"
+<Sensor>
+<Triggers>
+19 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rt4ary"
+<Sensor>
+<Triggers>
+27 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt4lvy"
+<Sensor>
+<Triggers>
+27 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rt4arx"
+<Sensor>
+<Triggers>
+25 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rt4lvx"
+<Sensor>
+<Triggers>
+25 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rc1wpar"
+<Sensor>
+<Triggers>
+31 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb15wplvrc1"
+<Sensor>
+<Triggers>
+31 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rc1wplv"
+<Sensor>
+<Triggers>
+31 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rc1rdy"
+<Sensor>
+<Triggers>
+31 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rc2wpar"
+<Sensor>
+<Triggers>
+32 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"cb16wplvrc2"
+<Sensor>
+<Triggers>
+32 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rc2wplv"
+<Sensor>
+<Triggers>
+32 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rc2rdy"
+<Sensor>
+<Triggers>
+32 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1ar1"
+<Sensor>
+<Triggers>
+40 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1lv1"
+<Sensor>
+<Triggers>
+40 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1ar2"
+<Sensor>
+<Triggers>
+42 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1lv2"
+<Sensor>
+<Triggers>
+42 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1ar3"
+<Sensor>
+<Triggers>
+44 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1lv3"
+<Sensor>
+<Triggers>
+44 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1ar4"
+<Sensor>
+<Triggers>
+46 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1lv4"
+<Sensor>
+<Triggers>
+46 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1ar5"
+<Sensor>
+<Triggers>
+48 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1lv5"
+<Sensor>
+<Triggers>
+48 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1ar6"
+<Sensor>
+<Triggers>
+50 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts1lv6"
+<Sensor>
+<Triggers>
+50 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2ar1"
+<Sensor>
+<Triggers>
+40 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2lv1"
+<Sensor>
+<Triggers>
+40 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2ar2"
+<Sensor>
+<Triggers>
+42 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2lv2"
+<Sensor>
+<Triggers>
+42 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2ar3"
+<Sensor>
+<Triggers>
+44 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2lv3"
+<Sensor>
+<Triggers>
+44 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2ar4"
+<Sensor>
+<Triggers>
+46 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2lv4"
+<Sensor>
+<Triggers>
+46 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2ar5"
+<Sensor>
+<Triggers>
+48 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2lv5"
+<Sensor>
+<Triggers>
+48 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2ar6"
+<Sensor>
+<Triggers>
+50 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"rts2lv6"
+<Sensor>
+<Triggers>
+50 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"mh1ar+z"
+<Sensor>
+<Triggers>
+52 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"mh1lv+z"
+<Sensor>
+<Triggers>
+52 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"mh1ar-z"
+<Sensor>
+<Triggers>
+54 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"mh1lv-z"
+<Sensor>
+<Triggers>
+54 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"mh2ar+z"
+<Sensor>
+<Triggers>
+56 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"mh2lv+z"
+<Sensor>
+<Triggers>
+56 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+"mh2ar-z"
+<Sensor>
+<Triggers>
+58 +NegEdge+ 
+</Triggers>
+</Sensor>
+
+"mh2lv-z"
+<Sensor>
+<Triggers>
+58 +PosEdge+ 
+</Triggers>
+</Sensor>
+
+</EventConfiguration>
+
+</ComediDevice>
+
+<ComediDevice>
+
+"LrtLabOuputs"   	        % device name
+1   		        	% faudes time unit scaling factor in ms/ftu
+64                     		% max bitaddress
+100                		% background sample period in nsec
+"/dev/comedi1"     		% system device file
+
+<EventConfiguration>
+
+"sfmv"
+<Actuator>
+<Actions>
+0 +Clr+ 0 +Set+ 
+</Actions>
+</Actuator>
+
+"sfstp"
+<Actuator>
+<Actions>
+0 +Clr+ 
+</Actions>
+</Actuator>
+
+"pu1mv-y"
+<Actuator>
+<Actions>
+4 +Clr+ 2 +Set+ 
+</Actions>
+</Actuator>
+
+"pu1mv+y"
+<Actuator>
+<Actions>
+2 +Clr+ 4 +Set+ 
+</Actions>
+</Actuator>
+
+"pu1stp"
+<Actuator>
+<Actions>
+2 +Clr+ 4 +Clr+ 
+</Actions>
+</Actuator>
+
+"pu2mv-y"
+<Actuator>
+<Actions>
+8 +Clr+ 6 +Set+ 
+</Actions>
+</Actuator>
+
+"pu2mv+y"
+<Actuator>
+<Actions>
+6 +Clr+ 8 +Set+ 
+</Actions>
+</Actuator>
+
+"pu2stp"
+<Actuator>
+<Actions>
+6 +Clr+ 8 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb1+x"
+<Actuator>
+<Actions>
+12 +Clr+ 10 +Set+ 
+</Actions>
+</Actuator>
+
+"cb1-x"
+<Actuator>
+<Actions>
+10 +Clr+ 12 +Set+ 
+</Actions>
+</Actuator>
+
+"cb1stp"
+<Actuator>
+<Actions>
+10 +Clr+ 12 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb2-y"
+<Actuator>
+<Actions>
+14 +Clr+ 14 +Set+ 
+</Actions>
+</Actuator>
+
+"cb2stp"
+<Actuator>
+<Actions>
+14 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb3-y"
+<Actuator>
+<Actions>
+16 +Clr+ 16 +Set+ 
+</Actions>
+</Actuator>
+
+"cb3stp"
+<Actuator>
+<Actions>
+16 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb4+x"
+<Actuator>
+<Actions>
+20 +Clr+ 18 +Set+ 
+</Actions>
+</Actuator>
+
+"cb4-x"
+<Actuator>
+<Actions>
+18 +Clr+ 20 +Set+ 
+</Actions>
+</Actuator>
+
+"cb4stp"
+<Actuator>
+<Actions>
+18 +Clr+ 20 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb5+x"
+<Actuator>
+<Actions>
+24 +Clr+ 22 +Set+ 
+</Actions>
+</Actuator>
+
+"cb5-x"
+<Actuator>
+<Actions>
+22 +Clr+ 24 +Set+ 
+</Actions>
+</Actuator>
+
+"cb5stp"
+<Actuator>
+<Actions>
+22 +Clr+ 24 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb6+x"
+<Actuator>
+<Actions>
+28 +Clr+ 26 +Set+ 
+</Actions>
+</Actuator>
+
+"cb6-x"
+<Actuator>
+<Actions>
+26 +Clr+ 28 +Set+ 
+</Actions>
+</Actuator>
+
+"cb6stp"
+<Actuator>
+<Actions>
+26 +Clr+ 28 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb7+y"
+<Actuator>
+<Actions>
+3 +Clr+ 30 +Set+ 
+</Actions>
+</Actuator>
+
+"cb7-y"
+<Actuator>
+<Actions>
+30 +Clr+ 3 +Set+ 
+</Actions>
+</Actuator>
+
+"cb7stp"
+<Actuator>
+<Actions>
+3 +Clr+ 30 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb8+y"
+<Actuator>
+<Actions>
+7 +Clr+ 5 +Set+ 
+</Actions>
+</Actuator>
+
+"cb8-y"
+<Actuator>
+<Actions>
+5 +Clr+ 7 +Set+ 
+</Actions>
+</Actuator>
+
+"cb8stp"
+<Actuator>
+<Actions>
+5 +Clr+ 7 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb9+y"
+<Actuator>
+<Actions>
+11 +Clr+ 9 +Set+ 
+</Actions>
+</Actuator>
+
+"cb9-y"
+<Actuator>
+<Actions>
+9 +Clr+ 11 +Set+ 
+</Actions>
+</Actuator>
+
+"cb9stp"
+<Actuator>
+<Actions>
+9 +Clr+ 11 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb10+y"
+<Actuator>
+<Actions>
+15 +Clr+ 13 +Set+ 
+</Actions>
+</Actuator>
+
+"cb10-y"
+<Actuator>
+<Actions>
+13 +Clr+ 15 +Set+ 
+</Actions>
+</Actuator>
+
+"cb10stp"
+<Actuator>
+<Actions>
+13 +Clr+ 15 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb11+x+y"
+<Actuator>
+<Actions>
+23 +Clr+ 21 +Set+ 
+</Actions>
+</Actuator>
+
+"cb11-x-y"
+<Actuator>
+<Actions>
+21 +Clr+ 23 +Set+ 
+</Actions>
+</Actuator>
+
+"cb11stp"
+<Actuator>
+<Actions>
+21 +Clr+ 23 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb12+x-y"
+<Actuator>
+<Actions>
+31 +Clr+ 29 +Set+ 
+</Actions>
+</Actuator>
+
+"cb12-x+y"
+<Actuator>
+<Actions>
+29 +Clr+ 31 +Set+ 
+</Actions>
+</Actuator>
+
+"cb12stp"
+<Actuator>
+<Actions>
+29 +Clr+ 31 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb13+x-y"
+<Actuator>
+<Actions>
+38 +Clr+ 36 +Set+ 
+</Actions>
+</Actuator>
+
+"cb13-x+y"
+<Actuator>
+<Actions>
+36 +Clr+ 38 +Set+ 
+</Actions>
+</Actuator>
+
+"cb13stp"
+<Actuator>
+<Actions>
+36 +Clr+ 38 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb14+x-y"
+<Actuator>
+<Actions>
+46 +Clr+ 44 +Set+ 
+</Actions>
+</Actuator>
+
+"cb14-x+y"
+<Actuator>
+<Actions>
+44 +Clr+ 46 +Set+ 
+</Actions>
+</Actuator>
+
+"cb14stp"
+<Actuator>
+<Actions>
+44 +Clr+ 46 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb15+y"
+<Actuator>
+<Actions>
+54 +Clr+ 52 +Set+ 
+</Actions>
+</Actuator>
+
+"cb15-y"
+<Actuator>
+<Actions>
+52 +Clr+ 54 +Set+ 
+</Actions>
+</Actuator>
+
+"cb15stp"
+<Actuator>
+<Actions>
+52 +Clr+ 54 +Clr+ 
+</Actions>
+</Actuator>
+
+"cb16+y"
+<Actuator>
+<Actions>
+62 +Clr+ 60 +Set+ 
+</Actions>
+</Actuator>
+
+"cb16-y"
+<Actuator>
+<Actions>
+60 +Clr+ 62 +Set+ 
+</Actions>
+</Actuator>
+
+"cb16stp"
+<Actuator>
+<Actions>
+60 +Clr+ 62 +Clr+ 
+</Actions>
+</Actuator>
+
+"rt1mvy"
+<Actuator>
+<Actions>
+19 +Clr+ 17 +Set+ 
+</Actions>
+</Actuator>
+
+"rt1mvx"
+<Actuator>
+<Actions>
+17 +Clr+ 19 +Set+ 
+</Actions>
+</Actuator>
+
+"rt1stp"
+<Actuator>
+<Actions>
+17 +Clr+ 19 +Clr+ 
+</Actions>
+</Actuator>
+
+"rt2mvy"
+<Actuator>
+<Actions>
+25 +Clr+ 27 +Set+ 
+</Actions>
+</Actuator>
+
+"rt2mvx"
+<Actuator>
+<Actions>
+27 +Clr+ 25 +Set+ 
+</Actions>
+</Actuator>
+
+"rt2stp"
+<Actuator>
+<Actions>
+25 +Clr+ 27 +Clr+ 
+</Actions>
+</Actuator>
+
+"rt3mvy"
+<Actuator>
+<Actions>
+32 +Clr+ 34 +Set+ 
+</Actions>
+</Actuator>
+
+"rt3mvx"
+<Actuator>
+<Actions>
+34 +Clr+ 32 +Set+ 
+</Actions>
+</Actuator>
+
+"rt3stp"
+<Actuator>
+<Actions>
+32 +Clr+ 34 +Clr+ 
+</Actions>
+</Actuator>
+
+"rt4mvy"
+<Actuator>
+<Actions>
+40 +Clr+ 42 +Set+ 
+</Actions>
+</Actuator>
+
+"rt4mvx"
+<Actuator>
+<Actions>
+42 +Clr+ 40 +Set+ 
+</Actions>
+</Actuator>
+
+"rt4stp"
+<Actuator>
+<Actions>
+40 +Clr+ 42 +Clr+ 
+</Actions>
+</Actuator>
+
+"rts1+x"
+<Actuator>
+<Actions>
+50 +Clr+ 48 +Set+ 
+</Actions>
+</Actuator>
+
+"rts1-x"
+<Actuator>
+<Actions>
+48 +Clr+ 50 +Set+ 
+</Actions>
+</Actuator>
+
+"rts1stp"
+<Actuator>
+<Actions>
+48 +Clr+ 50 +Clr+ 
+</Actions>
+</Actuator>
+
+"rts2+x"
+<Actuator>
+<Actions>
+58 +Clr+ 56 +Set+ 
+</Actions>
+</Actuator>
+
+"rts2-x"
+<Actuator>
+<Actions>
+56 +Clr+ 58 +Set+ 
+</Actions>
+</Actuator>
+
+"rts2stp"
+<Actuator>
+<Actions>
+56 +Clr+ 58 +Clr+ 
+</Actions>
+</Actuator>
+
+"mh1mv+z"
+<Actuator>
+<Actions>
+35 +Clr+ 33 +Set+ 
+</Actions>
+</Actuator>
+
+"mh1mv-z"
+<Actuator>
+<Actions>
+33 +Clr+ 35 +Set+ 
+</Actions>
+</Actuator>
+
+"mh1stp"
+<Actuator>
+<Actions>
+33 +Clr+ 35 +Clr+ 
+</Actions>
+</Actuator>
+
+"mh2mv+z"
+<Actuator>
+<Actions>
+41 +Clr+ 39 +Set+ 
+</Actions>
+</Actuator>
+
+"mh2mv-z"
+<Actuator>
+<Actions>
+39 +Clr+ 41 +Set+ 
+</Actions>
+</Actuator>
+
+"mh2stp"
+<Actuator>
+<Actions>
+39 +Clr+ 41 +Clr+ 
+</Actions>
+</Actuator>
+
+"d1run"
+<Actuator>
+<Actions>
+37 +Set+ 
+</Actions>
+</Actuator>
+
+"d1stp"
+<Actuator>
+<Actions>
+37 +Clr+ 
+</Actions>
+</Actuator>
+
+"d2run"
+<Actuator>
+<Actions>
+43 +Set+ 
+</Actions>
+</Actuator>
+
+"d2stp"
+<Actuator>
+<Actions>
+43 +Clr+ 
+</Actions>
+</Actuator>
+
+"reset"
+<Actuator>
+<Actions>
+0   +Clr+   1  +Clr+   2 +Clr+   3  +Clr+   4  +Clr+  
+5   +Clr+   6  +Clr+   7 +Clr+   8  +Clr+   9  +Clr+  
+10  +Clr+  11  +Clr+  12 +Clr+  13  +Clr+  14  +Clr+  
+15  +Clr+  16  +Clr+  17 +Clr+  18  +Clr+  19  +Clr+  
+20  +Clr+  21  +Clr+  22 +Clr+  23  +Clr+  24  +Clr+  
+25  +Clr+  26  +Clr+  27 +Clr+  28  +Clr+  29  +Clr+  
+30  +Clr+  31  +Clr+  32 +Clr+  33  +Clr+  34  +Clr+  
+35  +Clr+  36  +Clr+  37 +Clr+  38  +Clr+  39  +Clr+  
+40  +Clr+  41  +Clr+  42 +Clr+  43  +Clr+  44  +Clr+  
+45  +Clr+  46  +Clr+  47 +Clr+  48  +Clr+  49  +Clr+  
+50  +Clr+  51  +Clr+  52 +Clr+  53  +Clr+  54  +Clr+  
+55  +Clr+  56  +Clr+  57 +Clr+  58  +Clr+  59  +Clr+  
+60  +Clr+  61  +Clr+  62 +Clr+  63  +Clr+  
+</Actions>
+</Actuator>
+
+</EventConfiguration>
+
+</ComediDevice>
+
+</Devices>
+
+</DeviceContainer>

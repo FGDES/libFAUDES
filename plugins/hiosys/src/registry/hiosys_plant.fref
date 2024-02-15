@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Plant">
+
+<h1>
+HioSys I/O Systems
+</h1>
+
+<h2>
+HioPlant
+</h2>
+
+
+<p>
+<table border="0">
+<tr> 
+<td> <img fsrc="FAUDES_IMAGES/hio_hioplant.png"/> </td>
+<td>
+The data-type <strong>HioPlant</strong> is a <ftype>Generator</ftype> that is suited to model the I/O-system <strong>I/O plant</strong>.
+An I/O plant <fimath>S_{PE}=(\Sigma_{PE},L_{PE})</fimath> describes a process (or process component) as a mechanism,
+by which an operator can manipulate the environment of the process (component).
+Hence, an I/O plant is a discrete event system with two <a href="hiosys_index.html#plantport">plant-I/O ports</a>
+to interact with an <i>operator</i>
+and its <i>environment</i>, respectively. The event sets are denoted
+<i>Up</i> and <i>Yp</i> for operator interaction and
+<i>Ue</i> and <i>Ye</i> for environment interaction. Thus,
+the overall alphabet is composed as disjoint union
+<fimath>\Sigma=Up\cup Yp\cup Ue\cup Ye</fimath>.
+</td>
+</tr>
+</table>
+</p>
+
+<h3>
+I/O plant: Definition
+</h3>
+
+<p>
+An I/O plant is a tuple <fimath>S_{PE} = (U_P,Y_P,U_E,Y_E,L_{PE})</fimath>, where
+<ul class="l2">
+<li><p><fimath>\Sigma_{PE}</fimath> is an alphabet with 
+<fimath>\Sigma_{PE} := \Sigma_{P} \dcup \Sigma_{E}</fimath>,</p></li>
+
+<li><p><fimath>L_{PE}</fimath> is a language over <fimath>\Sigma_{PE}</fimath>, and</p></li>
+
+<li><p><fimath>(U_P,Y_P)</fimath> and <fimath>(U_E,Y_E)</fimath> are plant-I/O ports of <fimath>S_{PE}</fimath>.</p></li>
+</ul>
+</p>
+<p>
+As a consequence of its definition, an I/O plant has the language format <fimath>L_{PE}\subseteq\Closure{(Y_PU_P + Y_EU_E)^*}</fimath> and thus exhibits
+ alternation of input and output and interaction with either the operator or the environment.<br/>
+By the function <ffnct>IsHioPlantForm</ffnct>, an HioPlant generator can be tested for compatibility with the above definition.
+</p>
+
+<p>
+<a href="hiosys_index.html">HioSys Home</a> | <a href="hiosys_types.html">HioSys I/O Systems</a>
+</p>
+</ReferencePage>
+
+  

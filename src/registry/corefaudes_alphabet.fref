@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="02_Alphabets" title="CoreFaudes - Alphabets">
+<h1>
+<a id="EventSet">EventSet</a>/
+<a id="Alphabet">Alphabet</a>
+</h1>
+
+<p>
+An <ftype>EventSet</ftype> is a set of named events. 
+It is internally represented as an set of indices that refer to a global symbol-table 
+to map indices to symbolic names.
+Valid symbolic names are strings of printable ASCII characters, excluding 
+the double quote <tt>&quot;</tt>, the hash <tt>#</tt> and any white space. 
+It is not recommended to use symbolic names that can be misinterpreted
+as number, i.e., consists only of digits.
+</p>
+
+
+<p> 
+The token-IO format is as follows:
+</p>
+<pre>
+&lt;Alphabet&gt; "alpha" "beta" "gamma" &lt;/Alphabet&gt;
+</pre>
+
+<p>
+The derived type <ftype>Alphabet</ftype> is an <ftype>EventSet</ftype> that
+records an attribute value for each event. Attributes are used to
+indicate controllability, observability, forcibility and whether or not the respective 
+event is regarded as an high-level event. The attributes are local to the set,
+i.e. whether an event is observable depends on the perspective one takes. The default
+attribute is non-controllable, non-forcible, observable and high-level.
+</p>
+
+
+<p> 
+The token-IO format is as follows.
+</p>
+<pre>
+&lt;Alphabet&gt;
+"alpha" +C+      % observable and controllable
+"beta"  +o+      % not observable
+"gamma"          % default, i.e. +cOfA+
+&lt;/Alphabet&gt;
+</pre>
+
+<p>
+As indicated by the example, the attribute value is specified as an option token <tt>+xyz+</tt>, 
+where each letter in <tt>xyz</tt> represents a boolean property. Uppercase and lowercase letter 
+indicate the presence or absence of the property, respectively. Supported properties
+are controllability <tt>c</tt>,
+observability <tt>o</tt>,
+forcibility <tt>f</tt>.
+and high-level alphabet membership  <tt>a</tt>.
+</p>
+
+<p>
+Functions, that expect <ftype>EventSet</ftype>-typed arguments (are meant to) 
+also accept <ftype>Alphabet</ftype>s instead. When indicated by the documentation,
+such functions will interpret the respective attributes appropriately. Otherwise
+they are simply ignored. If event attributes are not relevant to your application,
+it is recommended to stick to <ftype>EventSet</ftype>-typed variables.
+</p>
+
+
+
+<ffnct_reference name="AlphabetUnion">
+<p>
+Note: When an <ftype>Alphabet</ftype> typed result is specified,
+attributes of the respective arguments are maintained.
+</p>
+<p>
+Note: alphabets are extracted from generator arguments.
+</p>
+</ffnct_reference>
+
+<ffnct_reference name="AlphabetIntersection">
+<p>
+Note: When an <ftype>Alphabet</ftype> typed result is specified,
+attributes of the respective arguments are maintained.
+</p>
+<p>
+Note: alphabets are extracted from generator arguments.
+</p>
+</ffnct_reference>
+
+<ffnct_reference name="AlphabetDifference">
+<p>
+Note: When an <ftype>Alphabet</ftype> typed result is specified,
+attributes of the respective arguments are maintained.
+</p>
+</ffnct_reference>
+
+<ffnct_reference name="AlphabetExtract">
+<p>
+Note: see also <ffnct>AlphabetUnion</ffnct> and <ffnct>AlphabetIntersection</ffnct>
+for the extraction of alphabets from multiple generators.
+</p>
+</ffnct_reference>
+
+
+<ffnct_reference name="AlphabetEquality">
+<p>
+Note: Attributes are ignored for the pupose of set comparison.
+</p>
+</ffnct_reference>
+
+<ffnct_reference name="AlphabetInclusion">
+<p>
+Note: Attributes are ignored for the pupose of set comparison.
+</p>
+</ffnct_reference>
+
+</ReferencePage>
+
+  

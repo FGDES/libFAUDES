@@ -1,0 +1,111 @@
+
+<Generator>
+"G4"
+
+<Alphabet>
+"cb2-13"      "wp2-13"      "cb3-12"      "wp3-12"      "sf-2"        "cb1awpar"    
+"cb1stp"      "sf-cb1"      "cb1-3"       "cb1bwpar"    "sf-3"        
+</Alphabet>
+ <States>   <Consecutive>    1   
+60            
+ </Consecutive>    </States>  
+<TransRel>
+1             "sf-cb1"      2             
+2             "cb1awpar"    3             
+3             "cb1stp"      4             
+4             "sf-3"        5             
+5             "sf-cb1"      6             
+5             "cb1bwpar"    7             
+6             "cb1awpar"    50            
+6             "cb1bwpar"    51            
+7             "cb1stp"      8             
+8             "sf-cb1"      9             
+8             "cb1-3"       10            
+9             "cb1-3"       12            
+10            "cb3-12"      11            
+10            "sf-cb1"      12            
+11            "wp3-12"      49            
+11            "sf-cb1"      13            
+12            "cb3-12"      13            
+12            "cb1awpar"    14            
+13            "wp3-12"      48            
+13            "cb1awpar"    15            
+14            "cb3-12"      15            
+14            "cb1stp"      16            
+15            "wp3-12"      47            
+15            "cb1stp"      17            
+16            "cb3-12"      17            
+16            "sf-3"        18            
+17            "wp3-12"      46            
+17            "sf-3"        19            
+18            "cb3-12"      19            
+18            "cb1bwpar"    20            
+19            "wp3-12"      45            
+19            "cb1bwpar"    21            
+20            "cb3-12"      21            
+20            "cb1stp"      22            
+21            "wp3-12"      44            
+21            "cb1stp"      23            
+22            "cb3-12"      23            
+22            "sf-cb1"      24            
+23            "wp3-12"      40            
+23            "sf-cb1"      25            
+24            "cb3-12"      25            
+25            "wp3-12"      26            
+26            "cb1-3"       27            
+27            "cb3-12"      28            
+27            "cb1awpar"    29            
+28            "wp3-12"      39            
+28            "cb1awpar"    30            
+29            "cb3-12"      30            
+29            "cb1stp"      31            
+30            "wp3-12"      38            
+30            "cb1stp"      32            
+31            "cb3-12"      32            
+31            "sf-2"        33            
+32            "wp3-12"      37            
+32            "sf-2"        34            
+33            "cb3-12"      34            
+34            "wp3-12"      35            
+35            "cb2-13"      36            
+36            "wp2-13"      1             
+37            "sf-2"        35            
+38            "cb1stp"      37            
+39            "cb1awpar"    38            
+40            "sf-cb1"      26            
+40            "cb1-3"       41            
+41            "cb3-12"      42            
+41            "sf-cb1"      27            
+42            "wp3-12"      43            
+42            "sf-cb1"      28            
+43            "sf-cb1"      39            
+44            "cb1stp"      40            
+45            "cb1bwpar"    44            
+46            "sf-3"        45            
+47            "cb1stp"      46            
+48            "cb1awpar"    47            
+49            "sf-cb1"      48            
+50            "cb1stp"      52            
+50            "cb1bwpar"    53            
+51            "cb1stp"      9             
+52            "sf-3"        59            
+53            "cb1stp"      54            
+54            "sf-3"        55            
+55            "cb1-3"       56            
+56            "cb3-12"      57            
+56            "cb1bwpar"    20            
+57            "wp3-12"      58            
+57            "cb1bwpar"    21            
+58            "cb1bwpar"    44            
+59            "cb1bwpar"    60            
+60            "cb1stp"      55            
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+

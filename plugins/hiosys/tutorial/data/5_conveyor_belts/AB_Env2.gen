@@ -1,0 +1,61 @@
+<Generator>
+"Environment AB"
+
+% This generator models the decision if the 
+% compound of cb A and B free (state 1) or holds at least one workpiece 
+% (state 3) or is occupied with the max number of workpieces (state 2).
+% Accordingly, the event A_occfl is translated to AB_accfl
+% ("accepted from left", st.3) or AB_occfl ("occupied from left", st.2).
+% The same way, B_freetr is translated to AB_reltr ("released to 
+% right", st.3) or AB_freetr ("free to right", st.1).
+% This model itself is not in IO-environment form, but restricts AB_Env1.gen
+% (by parallel composition) to the actual environment model.
+
+%
+% Statistics for Environment AB
+% States:        3
+% Init/Marked:   1/3
+% Events:        8
+% Transitions:   16
+% StateSymbols:  0
+% Attrib. E/S/T: 0/0/0
+%
+
+<Alphabet>
+"A_occfl" +YE+     "A_freetr" +YE+    "B_occfl" +YE+     "B_freetr" +YE+    "AB_occfl" +YL+    "AB_accfl" +YL+    
+"AB_freetr" +YL+   "AB_reltr" +YL+    
+</Alphabet>
+
+<States>
+1             2             3             
+</States>
+
+<TransRel>
+2             "A_occfl"     2             
+2             "A_freetr"    3             
+2             "B_occfl"     2             
+2             "B_freetr"    3             
+2             "AB_occfl"    2             
+3             "A_occfl"     2             
+3             "A_freetr"    3             
+3             "B_occfl"     3             
+3             "B_freetr"    1             
+3             "AB_accfl"    3             
+3             "AB_reltr"    3             
+1             "A_occfl"     3             
+1             "A_freetr"    1             
+1             "B_occfl"     3             
+1             "B_freetr"    1             
+1             "AB_freetr"   1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             2             3             
+</MarkedStates>
+
+
+</Generator>

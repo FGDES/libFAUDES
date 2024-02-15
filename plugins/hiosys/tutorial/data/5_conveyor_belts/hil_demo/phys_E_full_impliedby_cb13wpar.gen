@@ -1,0 +1,33 @@
+<Generator>
+"phys_E_full_impliedby_cb13wpar"
+
+
+
+<Alphabet>
+
+"cb13wpar" "E_full"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb13wpar" 2
+2            "E_full"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

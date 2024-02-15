@@ -1,0 +1,11 @@
+==========================================================================
+
+libFAUDES Python bindings
+
+==========================================================================
+
+
+A basic variant of Python bindings to core objects and functions. See the
+C++/Doxygen-->Plug-Ins-->"pybindings" for some documentation, and/or the
+example scripts provided in "./tutorial".
+

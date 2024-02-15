@@ -1,0 +1,33 @@
+<Generator>
+"phys_H_arrtr_impliedby_cb16wpar"
+
+
+
+<Alphabet>
+
+"cb16wpar" "H_arrtr"
+     
+</Alphabet>
+
+<States>
+<Consecutive>
+1
+2
+</Consecutive> 
+</States>
+
+<TransRel>
+1            "cb16wpar" 2
+2            "H_arrtr"  1
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+            
+</MarkedStates>
+
+
+</Generator>

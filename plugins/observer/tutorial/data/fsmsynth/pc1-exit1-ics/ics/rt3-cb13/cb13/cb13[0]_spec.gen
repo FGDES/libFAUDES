@@ -1,0 +1,78 @@
+<Generator>
+"cb13[0]_spec" 
+
+% 
+%  Statistics for cb13[0]_spec
+%  States:        23
+%  Init/Marked:   1/1
+%  Events:        17
+%  Transitions:   48
+%  StateSymbols:  23
+%  Attrib. E/S/T: 9/0/0
+% 
+
+<Alphabet>
+"cb2-13"      +C+           "cb13-6"      +C+           "cb6-13"      
++C+           "cb9-13"      +C+           "cb13-5"      +C+           "cb13+y+x"    +C+           "cb13-y-x"    
++C+           "cb13stp"     +C+           "cb13wpar"    "cb13wplv5"   "cb13wplv6"   
+"t_rt3-cb13\cb13" +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "15"          "16"          "17"                
+"19"          "2"           "20"          "21"          "23"          
+"24"          "25"          "27"          "28"          "29"          
+"3"           "30"          "4"                    
+</States>
+
+<TransRel>
+"1"           "cb2-13"      "2"           
+"1"           "cb6-13"      "23"          
+"1"           "cb9-13"      "19"          
+"1"           "t_rt3-cb13\cb13" "1"           
+"10"          "cb13-6"      "15"          
+"10"          "t_rt3-cb13\cb13" "10"          
+"15"          "cb13+y+x"    "16"          
+"15"          "t_rt3-cb13\cb13" "15"          
+"16"          "cb13wplv6"   "17"          
+"16"          "t_rt3-cb13\cb13" "16"          
+"17"          "cb13stp"     "1"          
+"17"          "t_rt3-cb13\cb13" "17"                   
+"19"          "cb13+y+x"    "20"          
+"19"          "t_rt3-cb13\cb13" "19"          
+"2"           "cb13-y-x"    "3"           
+"2"           "t_rt3-cb13\cb13" "2"           
+"20"          "cb13wpar"    "21"          
+"20"          "t_rt3-cb13\cb13" "20"          
+"21"          "cb13stp"     "10"          
+"21"          "t_rt3-cb13\cb13" "21"                   
+"23"          "cb13-y-x"    "24"          
+"23"          "t_rt3-cb13\cb13" "23"          
+"24"          "cb13wpar"    "25"          
+"24"          "t_rt3-cb13\cb13" "24"          
+"25"          "cb13stp"     "27"          
+"25"          "t_rt3-cb13\cb13" "25"                 
+"27"          "cb13-5"      "28"          
+"27"          "t_rt3-cb13\cb13" "27"          
+"28"          "cb13-y-x"    "29"          
+"28"          "t_rt3-cb13\cb13" "28"          
+"29"          "cb13wplv5"   "30"          
+"29"          "t_rt3-cb13\cb13" "29"          
+"3"           "cb13wpar"    "4"           
+"3"           "t_rt3-cb13\cb13" "3"           
+"30"          "cb13stp"     "1"          
+"30"          "t_rt3-cb13\cb13" "30"                   
+"4"           "cb13stp"     "10"           
+"4"           "t_rt3-cb13\cb13" "4"                    
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

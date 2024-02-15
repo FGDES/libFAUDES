@@ -1,0 +1,631 @@
+<ReferencePage chapter="Developer" section="none" title="libFAUDES - C++ Plug-Ins">
+
+
+<h1>Library Extensions by C++ Plug-Ins</h1>
+
+<p>
+Extending libFAUDES by a C++ plug-in in general involves
+</p>
+
+<ul  class="l2">
+<li><p>
+implementation of additional data-types and algorithms;
+</p></li>
+<li><p>
+introduction of documentation via the run-time interface; 
+</p></li>
+<li><p>
+introduction of corresponding skripting bindings (eg. Lua);
+</p></li>
+<li><p>
+integration via the libFAUDES build-system mechanisms.
+</p></li>
+</ul>
+
+<p>
+The overall procedure involves some effort, but we feel it 
+provides a good trade-off in that it makes additional functions
+easily accessible to a broader audience. However, run-time interface,
+user reference and bindings are optional features and one 
+may very well restrict a plug-in to a plain C++ implementation
+of data-types and algorithms.
+</p>
+
+<p>
+We give a walk-through to the above steps by the <i>example</i> plug-in.
+</p>
+
+
+<h2>Relevant Files</h2>
+
+<p>
+The standard library distribution comes with a number of plug-ins, including the
+example plug-in. The latter integrates an alternative accessibility function
+<tt>AlternativeAccessible()</tt> into libFAUDES and is meant as a template for your own plug-in.
+The example plug-in directory is organized as follows:
+</p>
+<pre>
+example -+- README                            short overview on purpose of this plug-in
+         |
+         +- Makefile.plugin                   makefile to integrate this plug-in with the build system
+         |
+         +- src --+- pex_altaccess.h          declaration of function AlternativeAccessible()
+         |        +- pex_altaccess.cpp        definition of function AlternativeAccessible()
+         |        +- pex_include.h            header to include all other headers of this plug-in
+         |        +- doxygen/faudes_images    images for doxygen documentation
+         |        +- registry/pex_*.rti       run-time interface definitions, see below
+         |        +- registry/example_*.fref  run-time interface documentation, see below
+         |        +- registry/pex_interface.i SWIG interface, see below
+         |
+         +- Makefile.tutorial                 extra dependencies for this plug-in's tutorial
+         |
+         +- tutorial +- pex_tutorial.cpp      mini application to illustrate intended usage
+                     |
+                     +- data -+- *            input data to run tutorial with       
+                              +- *.prot       reference protocol, see below
+</pre>
+
+<p>
+The directory name implicitly defines the libFAUDES plug-in name
+i.e. <tt>example</tt>. Furthermore, all source files start
+with a common prefix, i.e. <tt>pex_</tt>, in order to avoid confusion
+with other plug-ins.
+</p>
+
+<h2>Algorithm Implementation</h2>
+<p>The example algorithm to implement converts a given generator to an accessible generator without
+affecting the closed and marked languages. This is done by removing all states that
+cannot be reached from any initial state. For the below generator G, the states to remove are
+labelled 7, 8 and 9.
+</p>
+<p>
+<img fsrc="FAUDES_IMAGES/opitz_g_notacc.png" width="280" height="332" />
+</p>
+<p>The proposed implementation in <tt>src/pex_altaccess.cpp</tt>
+is organized in two stages
+</p>
+<ul class="l2">
+<li><p>
+starting with the initial states, loop to follow transitions and record every state discovered;
+</p></li>
+<li><p>
+delete all states not recorded at the stage above.
+</p></li>
+</ul>
+
+<pre>
+<tt>
+<font color="#7f0055"><b>void&nbsp;</b></font><font color="#000000">AlternativeAccessible</font><font color="#000000">(</font><font color="#000000">vGenerator&amp;&nbsp;rGen</font><font color="#000000">)&nbsp;{</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;create&nbsp;a&nbsp;todo&nbsp;stack&nbsp;for&nbsp;state&nbsp;indices</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">std::stack&lt;Idx&gt;&nbsp;todo;</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;create&nbsp;an&nbsp;empty&nbsp;StateSet&nbsp;for&nbsp;the&nbsp;set&nbsp;of&nbsp;accessible&nbsp;state</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">StateSet&nbsp;accessible_states;</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;iterator&nbsp;for&nbsp;a&nbsp;StateSet</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">StateSet::Iterator&nbsp;sit;</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;initialize&nbsp;the&nbsp;algorithm&nbsp;by&nbsp;pushing&nbsp;all&nbsp;initial&nbsp;states&nbsp;on&nbsp;the&nbsp;todo&nbsp;stack</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>for&nbsp;</b></font><font color="#000000">(</font><font color="#000000">sit&nbsp;=&nbsp;rGen.InitStatesBegin</font><font color="#000000">()</font><font color="#000000">;&nbsp;sit&nbsp;!=&nbsp;rGen.InitStatesEnd</font><font color="#000000">()</font><font color="#000000">;&nbsp;++sit</font><font color="#000000">)&nbsp;{</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">todo.push</font><font color="#000000">(</font><font color="#000000">*sit</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;process&nbsp;the&nbsp;todo&nbsp;stack&nbsp;until&nbsp;it's&nbsp;empty</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#7f0055"><b>while&nbsp;</b></font><font color="#000000">(</font><font color="#000000">not&nbsp;todo.empty</font><font color="#000000">())&nbsp;{</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;get&nbsp;and&nbsp;delete&nbsp;the&nbsp;next&nbsp;state&nbsp;index&nbsp;from&nbsp;the&nbsp;todo&nbsp;stack</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>const&nbsp;</b></font><font color="#000000">Idx&nbsp;current&nbsp;=&nbsp;todo.top</font><font color="#000000">()</font><font color="#000000">;</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">todo.pop</font><font color="#000000">()</font><font color="#000000">;</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;insert&nbsp;the&nbsp;current&nbsp;state&nbsp;in&nbsp;the&nbsp;set&nbsp;of&nbsp;accessible&nbsp;states</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">accessible_states.Insert</font><font color="#000000">(</font><font color="#000000">current</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;create&nbsp;transition&nbsp;iterator&nbsp;for&nbsp;the&nbsp;states&nbsp;of&nbsp;the&nbsp;current&nbsp;state</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">TransSet::Iterator&nbsp;tit&nbsp;=&nbsp;rGen.TransRelBegin</font><font color="#000000">(</font><font color="#000000">current</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">TransSet::Iterator&nbsp;tit_end&nbsp;=&nbsp;rGen.TransRelEnd</font><font color="#000000">(</font><font color="#000000">current</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;push&nbsp;successor&nbsp;states&nbsp;ton&nbsp;todo&nbsp;stack&nbsp;if&nbsp;not&nbsp;already&nbsp;discovered</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>while&nbsp;</b></font><font color="#000000">(</font><font color="#000000">tit&nbsp;!=&nbsp;tit_end</font><font color="#000000">)&nbsp;{</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#7f0055"><b>if&nbsp;</b></font><font color="#000000">(</font><font color="#000000">not&nbsp;accessible_states.Exists</font><font color="#000000">(</font><font color="#000000">tit-&gt;X2</font><font color="#000000">))&nbsp;{</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">todo.push</font><font color="#000000">(</font><font color="#000000">tit-&gt;X2</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">++tit;</font>
+<font color="#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#000000">}</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">}</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#3f7f5f">//&nbsp;delete&nbsp;the&nbsp;states&nbsp;and&nbsp;transitions&nbsp;which&nbsp;are&nbsp;not&nbsp;accessible</font>
+<font color="#ffffff">&nbsp;&nbsp;</font><font color="#000000">rGen.DelStates</font><font color="#000000">(</font><font color="#000000">rGen.States</font><font color="#000000">()&nbsp;</font><font color="#000000">-&nbsp;accessible_states</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#7f0055"><b></b></font><font color="#000000"></font><font color="#000000"></font><font color="#000000"></font><font color="#000000">}</font>
+</tt></pre> 
+<p>
+The function starts by setting up required data structures. These consist of a todo stack and a so-called StateSet,
+which is the FAUDES implementation of a container to hold a set of unique states. Then all initial states
+are pushed on the to-do stack as they are reachable by definition. The main processing is done by removing
+the current top element of the to-do stack, storing this state in the set of accessible states and
+following all transition paths that lead from this state to an unprocessed state. At last the non-accessible
+states and the transitions leading to these states are removed by calling a single operation on the set difference
+of the automaton's states and the accessible states.</p>
+
+<p>
+As it can be seen, the algorithm is implemented by using abstract data-types from either the C++ standard library or from the FAUDES library. In particular, it does not depend on the internal data structure of the Generator class.
+</p>
+
+
+<h2>Doxygen Documentation</h2>
+
+<p>
+The build system runs <tt>doxygen</tt> on all <tt>*.cpp</tt> and <tt>*.h</tt> files
+in the make search path and thus includes the plug-in sources to the doxygen documentation.
+By convention, the overall include file of each plug-in is used to give an overview,
+perhaps including key functions and data-types as well as licensing and copyright information.
+Provided the all further plug-in source code complies with doxygen documentation comments,
+all relevant functions will nicely appear in the libFAUDES
+<a href="csource/main.html">C++ API reference</a>.
+</p>
+
+<p>
+For the example plug-in overview, we add a doxygen section to
+<tt>pex_include.h</tt> and define it to belong to the doxygen
+group <tt>AllPlugins</tt>:
+</p>
+
+<pre>
+/**
+@defgroup ExamplePlugin Example Plugin
+
+@ingroup AllPlugins
+
+@section Overview
+
+This example demonstrates the libFAUDES plug-in mechanism and  
+may serve as a template for setting up ... etc.
+
+@section License
+
+The example plug-in is distributed with libFAUDES and under the terms of
+the LGPL.
+
+@section Contents
+
+*/
+</pre>
+
+<p>
+We document our add-on function in <tt>pex_altaccess.h</tt>
+by a technical description. We also
+tag the function to be a member of the doxygen group <tt>ExamplePlugin</tt>,
+such that it will appear in our overview section Contents.
+The macro <tt>FAUDES_API</tt> expands to a platform dependent directive to
+share the symbol for dynamic linking.
+</p>
+<pre>
+/**
+ * Alternative accessibility algorithm. 
+ * We use the alternative accessibility algorithm from tutorial 6 
+ * for our example plug-in. The implementation uses a to-do stack ... etc.
+ *
+ * &lt;h4&gt;Example:&lt;/h4&gt;
+ * &lt;table width=100%&gt; 
+ * &lt;tr&gt;
+ * &lt;td&gt; @image html pex_g_notacc.png &lt;/td&gt;
+ * &lt;/tr&gt;
+ * &lt;/table&gt;
+ *
+ * @param rGen
+ *   Input generator
+ *
+ * @ingroup ExamplePlugin 
+ */
+ extern FAUDES_API void AlternativeAccessible(vGenerator& rGen);
+</pre>
+
+<p>
+Note that the above doxygen documentation refers to an image file, namely
+<tt>pex_g_notacc.png</tt>. You are meant to supply the file in the
+source directory <tt>.plugins/example/src/doxygen/faudes_images</tt>.
+Since the build system merges all image files to one destination directory,
+the plug-in prefix <tt>pex_</tt> is essential. It is good practice to
+provide a tutorial that actually produces any example data, incl. images files.
+</p>
+
+
+<h2>Tutorial</h2>
+
+<p>
+Each plug-in is meant to provide a number of small C++ applications that demonstrate the
+intended usage of the implemented C++ API and to document test cases.
+Tutorials are located in <tt>example/tutorial/</tt>.
+</p>
+
+<pre>
+/**
+ * &#64;file pex_tutorial.cpp  
+ * Tutorial, example plug-in. More text ...
+ * &#64;ingroup Tutorials
+ * &#64;include pex_tutorial.cpp
+ */
+
+&#35;include "libfaudes.h"
+
+int main() {
+
+  // Apply algorithm to provided input data
+  Generator gen("data/g_notacc.gen");
+  AlternativeAccessible(gen);
+  gen.Write("tmp_altacc.gen");
+
+  // Record test case
+  FAUDES_TEST_DUMP("test alt access",gen)
+
+  // Validate result
+  FAUDES_TEST_DIFF()
+
+  return 0;
+}
+</pre>
+
+<p>
+<strong>Makefile.</strong>
+Dependencies to build the tutorials are included 
+by <tt>Makefile.plugin</tt> from <tt>Makefile.tutorial</tt>.
+The latter must be set up accordingly to integrate the tutorial
+with the libFAUDES build system.
+</p>
+
+<p>
+<strong>Doxygen.</strong>
+Tutorial code is listed in the C++ API reference, Section
+see <a href="csource/group__Tutorials.html">Tutorials</a>.
+This is achieved by specifying the source of each tutorial
+to be in group <tt>&#64;ingroup Tutorials</tt>.
+</p>
+
+
+
+<p>
+<strong>File-I/O.</strong>
+By convention, any input data is provided in the
+directory <tt>example/tutorial/data</tt>.
+For tutorials that generated file output,
+such files should either be named
+<tt>tmp_*</tt> or placed in <tt>example/tutorial/results/*</tt>,
+in order to facilitate clean-up by the build system.
+</p>
+
+
+<p>
+<strong>Test cases.</strong>
+The above example uses the macro <tt>FAUDES_TEST_DUMP(m,d)</tt> 
+to record the correct behaviour for later validation. 
+The file name of the protocol is set to a mangled version 
+of the tutorial source with prefix <tt>tmp_</tt> and suffix <tt>.prot</tt>, e.g.
+<tt>tmp_pex_example_cpp.prot</tt>. 
+Once the routine is considered correct,
+the proposed procedure is to rename the protocol by dropping
+prefix <tt>tmp_</tt> and to use it as reference henceforth.
+The macro <tt>FAUDES_TEST_DIFF()</tt> will exit the tutorial
+on differences between the reference protocol and the actual protocol.
+The main Makefile provides a target <tt>test</tt> that scans all 
+tutorials for reference protocols and performs the respective
+validation.
+</p>
+
+
+
+<h2>Makefile.plugin</h2>
+
+<p>
+The libFAUDES main makefile copies headers to the libFAUDES include directory,
+compiles sources to objects and, finally, links objects to obtain the libFAUDES
+library and utility executables. 
+While processing the main makefile, the build system includes
+<tt>plugins/example/Makefile.plugin</tt>. The latter extends
+the variables <tt>SOURCES</tt>, <tt>OBJECTS</tt>, and <tt>HEADERS</tt> in order to
+indicate additional targets. It also extends the make search path <tt>VPATH</tt>.
+The example <tt>Makefile.plugin</tt> is organized as follows:
+</p>
+
+<h5>1. Define relevant paths and source files.</h5>
+
+<p>
+Note that we only use variables with prefix PEX in order to avoid confusion with
+variables in the main makefile.
+</p>
+
+<pre>
+# Relevant paths
+PEX_NAME   = example
+PEX_BASE   = ./plugins/$(PEX_NAME)
+PEX_SRCDIR = ./plugins/$(PEX_NAME)/src
+
+# List source files
+PEX_CPPFILES = pex_altaccess.cpp
+PEX_INCLUDE = pex_include.h
+
+# Generate paths 
+PEX_HEADERS = $(PEX_CPPFILES:.cpp=.h) $(PEX_INCLUDE)
+PEX_SOURCES = $(PEX_CPPFILES:%=$(PEX_SRCDIR)/%)
+PEX_OBJECTS = $(PEX_CPPFILES:%.cpp=$(OBJDIR)/%.o)
+</pre>
+
+
+<h5>2. Contribute to auto-generated header files.</h5>
+
+<p>
+Applications that use libFAUDES are meant to include all relevant headers by the
+<tt>#include &quot;libfaudes.h&quot;</tt> directive. This in turn includes the auto-generated
+files <tt>include/allplugins.h</tt> and <tt>include/configuration.h</tt>. They list
+include directives for all activated plug-ins and define run-time behaviour macros, respectively.
+</p>
+
+<p>
+The example plug-in requires <tt>pex_include.h</tt> to be registered with
+<tt>allplugins.h</tt> and adds the macro <tt>FAUDES_PLUGIN_EXAMPLE</tt> to <tt>configuration.h</tt>.
+</p>
+
+
+<pre>
+&#35; Append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(PEX_INCLUDE): $(PEX_SRCDIR)/$(PEX_INCLUDE)  
+	cp -pR $&lt; $@
+	echo &quot;#include \&quot;$(PEX_INCLUDE)\&quot;&quot; &gt;&gt; $(INCLUDEDIR)/allplugins.h
+	echo "/* example plugin configuration */" &gt;&gt; $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_EXAMPLE" &gt;&gt; $(INCLUDEDIR)/configuration.h
+	echo " " &gt;&gt; $(INCLUDEDIR)/configuration.h
+</pre>
+
+<h5>3. Advertise plug-in to the libFAUDES build system.</h5>
+<p>
+This includes all additional sources, headers and objects.
+The variable VPATH directs the make tool to find
+sources when resolving (implicit) rules.
+</p>
+
+<pre>
+# Advertise plug-in to libFAUDES build system
+SOURCES += $(PEX_SOURCES)
+OBJECTS += $(PEX_OBJECTS)
+HEADERS += $(PEX_HEADERS)
+VPATH   += $(PEX_SRCDIR)
+</pre>
+
+
+<h2>Run-Time Interface</h2>
+
+<p>
+libFAUDES provides a registry for data-types and functions as a basis
+for applications that transparently pass on libFAUDES extensions to
+the user;
+see  C++ API, Section <a href="csource/group__RunTimeInterface.html">RTI</a>, for
+technical details.
+The build system tries to minimise the
+effort that is required for a plug-in to participate in this optional
+feature. </p>
+
+<p>
+The example plug-in provides only one function, which is registered
+via the XML file <tt>src/registry/pex_definitions.rti</tt>:
+</p>
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1" standalone="no"?&gt;
+&lt;!DOCTYPE Registry SYSTEM "registry.dtd"&gt;
+&lt;Registry&gt; 
+
+&lt;FunctionDefinition name="Example::AltAccessible" ctype="faudes::AlternativeAccessible"&gt; 
+
+&lt;Documentation ref="example_index.html"&gt; 
+Alternative implementation to remove inaccessible states  and related transitions.
+&lt;/Documentation&gt; 
+&lt;Keywords&gt; 
+Example       reachability  reachable     accessible    
+&lt;/Keywords&gt; 
+
+&lt;VariantSignatures&gt; 
+&lt;Signature name="Default"&gt; 
+&lt;Parameter name="Gen" ftype="Generator" access="InOut"/&gt; 
+&lt;/Signature&gt; 
+&lt;/VariantSignatures&gt; 
+
+&lt;/FunctionDefinition&gt; 
+
+&lt;/Registry&gt; 
+</pre>
+
+<p>
+The above token stream declares a function from the plug-in <tt>Example</tt> with name <tt>AltAccessible</tt>
+to be implemented by the C++ function <tt>faudes::AlternativeAccessible</tt>.
+It gives a short description and a reference to a more detailed HTML documentation.
+It is up to you whether you design one document per function or whether
+you collect groups of related functions.
+</p>
+
+<p>
+By convention the list of keywords establishes a two level hierarchical
+structure, where the first keyword specifies a <i>section</i> and the
+second keyword specifies a <i>subsection</i>. 
+It is mandatory to provide section index pages 
+following the naming convention <i>sectionname_index.fref</i>, i.e.
+<tt>example_index.fref</tt> for the example plug-in.
+In most cases, the first keyword aka the section name will coincide
+with the plug-in name. 
+Advanced applications may use additional
+keywords when implementing a search by keyword. 
+</p>
+
+
+<p>
+Regarding signature(s), the libFAUDES run-time interface imposes the 
+following restrictions:
+</p>
+<ul  class="l2">
+<li><p>
+A function may support multiple signatures to match an overloaded
+C++ function declaration. 
+</p></li>
+<li><p>
+Each signature has a name and a list of
+<i>parameters</i>. Each parameter is specified by a record consisting of
+the parameter <i>name</i>, <i>faudes type</i> and an <i>access attribute</i>.
+The type must be known to the registry.  The access attribute may have the value
+<tt>In</tt> to specify an argument, <tt>Out</tt> to specify a result,
+or <tt>InOut</tt>. 
+</p></li>
+<li><p>
+One of the result parameters with access attribute <tt>Out</tt> can be additionally flagged 
+<tt>creturn="true"</tt> 
+to indicate that the corresponding  C++ function implements this result as a 
+<i>return value</i>. However, this feature is supported for the elementary types <tt>Integer</tt>,
+<tt>Boolean</tt> and <tt>String</tt> only.
+</p></li>
+<li><p>
+The specified C++ function must accept the parameters by
+reference exactly as specified by the signature. 
+An exception are the elementary types <tt>Integer</tt>,
+<tt>Boolean</tt> and <tt>String</tt>, which 
+are converted to/from their C++-counterpart automatically.
+Any <i>In</i> parameters must be declared <tt>const</tt>.
+</p></li>
+</ul>
+
+<p>
+Of course, any referenced HTML documentation must be provided. For convenience, the build-system
+pre-processes any documentation by the tool <tt>ref2html</tt> (provided
+with libFAUDES). The example plug-in is fine with one page of documentation
+only, as given in the below  <tt>src/registry/example_index.fref</tt>.
+</p>
+
+<pre>
+&lt;ReferencePage chapter="Reference" section="Example" page="Index" title="Example PlugIn"&gt;
+
+&lt;h1&gt;Example PlugIn&lt;/h1&gt;
+
+&lt;fsummary&gt;
+Example plug-in for demonstration purposes [...]
+&lt;/fsummary&gt;
+
+&lt;p&gt;
+The example plug-in addresses developers [...]
+&lt;/p&gt;
+
+&lt;ffnct_reference name="AltAccessible"&gt;
+&lt;fdetails/&gt;
+&lt;p&gt;
+The function AltAccessible [...] 
+&lt;/p&gt;
+&lt;fconditions/&gt;
+&lt;p&gt;
+Arguments must be such that [...] 
+&lt;/p&gt;
+
+&lt;/ffnct_reference&gt;
+
+&lt;/ReferencePage&gt;
+</pre>
+
+<p>
+The special markup <i>ReferencePage</i>, <i>ffnct_reference</i>, <i>fdetails</i> and <i>fconditions</i>
+are used by the build-system to fill in appropriate headings and signature information.
+For more details and recommendations regarding
+the organisation of HTML documentation, see the <a href="faudes_build.html#userref">build-system documentation</a>.
+</p>
+
+
+<p>
+The libFAUDES build system expects
+run-time interface files to be advertised via <tt>Makefile.plugin</tt>. For
+our example plug-in, we announce one <tt>*.rti</tt> file and one <tt>*.fref</tt> file
+by appending the following lines to <tt>Makefile.plugin</tt>:
+</p>
+
+<pre>
+# advertise rti defs
+PEX_RTIDEFS = pex_definitions.rti
+PEX_RTIFREF = example_index.fref
+
+PEX_RTIDEFS := $(PEX_RTIDEFS:%=$(PEX_SRCDIR)/registry/%)
+PEX_RTIHTML := $(PEX_RTIFREF:%.fref=%.html)
+PEX_RTIFREF := $(PEX_RTIFRF:%=$(PEX_SRCDIR)/registry/%)
+
+RTIPLUGINS += $(PEX_NAME)
+RTIDEFS += $(PEX_RTIDEFS)
+RTIFREF += $(PEX_RTIFREF)
+RTIHTML += $(PEX_RTIHTML)
+</pre>
+
+<p>
+To trigger the re-build of the RTI registry, run the main makefile with
+targets <tt>make rti-clean</tt> and <tt>make rti-prepare</tt>.
+</p> 
+
+<h2>Bindings</h2>
+
+<p>
+The build system tries to minimise the effort that is required
+to access additional functions via <tt>luafaudes</tt>. It does so using
+the tool SWIG to automatically convert so called interface definitions to
+C wrapper code; see <a href="http://www.swig.org">http://www.swig.org</a>.
+</p>
+
+<p>
+The libFAUDES build system expects
+interface files to be advertised via <tt>Makefile.plugin</tt>. For
+our example plug-in, we announce one SWIG module and one interface file by
+appending the following lines to <tt>Makefile.plugin</tt>:
+</p>
+
+<pre>
+# advertise bindings
+SWGINTERFACES += $(PEX_SRCDIR)/registry/pex_interface.i 
+SWGMODULES += example
+</pre>
+
+
+<p>
+The actual interface <tt>pex_interface.i</tt> file resides in the example plug-in:
+</p>
+
+<pre>
+// Set SWIG module name
+// Note: must match libFAUDES plug-in name
+%module example
+
+// Indicate plugin to rti function definitions
+&#35;ifndef SwigModule
+&#35;define SwigModule "SwigExample"
+&#35;endif
+
+// Load std faudes interface
+%include "faudesmodule.i"
+
+// Extra Lua functions: copy to faudes name space
+#ifdef SWIGLUA
+%luacode {
+-- Copy example to faudes name space
+for k,v in pairs(example) do faudes[k]=v end
+}
+#endif
+
+// Add topic to mini help system
+SwigHelpTopic("Example","Example plug-in function");
+
+// Include RTI generated functioninterface 
+&#35;if SwigModule=="SwigExample"
+%include "../../../include/rtiautoload.i"
+&#35;endif
+</pre>
+
+
+<p>
+Since our plug-in provides only functions that are registered with the run-time interface,
+the interface file in this case is just a skeleton. The build system will fill
+in our function by generating the file <tt>include/rtiautoload.i</tt>.
+</p>
+
+
+<p>
+It is good practice to supply comprehensive Lua scripts in the tutorial directory
+that illustrate the intended usage of the plug-ins data-types and functions.
+</p>
+
+<p>
+To trigger the re-build of bindings for Lua, run the main makefile with
+targets <tt>make luabindings-clean</tt> and <tt>make luabindings-prepare</tt>.
+Likewise, there are tagets <tt>make pybindings-clean</tt> and <tt>make pybindings-prepare</tt>.
+The libFAUDES archive provides a copy of SWIG for convenience,
+however, installation is required. 
+</p>
+
+
+</ReferencePage>
+

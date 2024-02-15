@@ -1,0 +1,1344 @@
+ /** @file cfl_bisimulation.cpp Bisimulation relations
+
+    Functions to compute bisimulation relations on dynamic systems (represented
+    by non-deterministic finite automata). 
+
+    The relevant algorithms are described in J.-C. Fernandez, "An implementation 
+    of an efficient algorithm for bisimulation equivalence", Science of Computer 
+    Programming, vol. 13, pp. 219-236, 1990. 
+
+    This code was originally part of the observer plug-in (op_bisimulation.* and
+    op_partition.*). It moved in revised form to corefaudes as of libFAUDES 2.26.
+
+**/
+
+/* FAU Discrete Event Systems Library (libfaudes)
+
+   Copyright (C) 2009, Christian Breindl
+   Copyright (C) 2015, 2016 Thomas Moor
+   Exclusive copyright is granted to Klaus Schmidt
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+
+#include <cfl_bisimulation.h>
+
+#include <string>
+#include <sstream>
+#include <stack>
+
+using namespace std;
+
+//#undef FD_DF
+//#define FD_DF(a) FD_WARN(a)
+
+namespace faudes {
+
+/*
+********************************************* 
+********************************************* 
+
+PART 1: Partition
+
+Objects of class faudes::Pnode represent a set of states with various administration 
+features for the interpretation as a node in a binary tree. Each node states amount 
+to the disjoint union of the two child state sets, with the root of the tree holding the 
+full state set of the generator under consideration. The leaves of the tree then form 
+the current partition in the bisimulation algorithm.
+
+The code used to reside in the observer plug-in as a public class up to version 2.25.  
+
+********************************************* 
+********************************************* 
+*/
+
+
+struct Pnode {
+
+  /** unique partition index (historic/debugging)*/
+  Idx mIndex;
+
+  /** associated set of states (sorted vector)*/
+  std::vector<Idx> mStates;
+
+  /** number of states in this coset */
+  Idx mSize;
+
+  /** ref to relatives */
+  Pnode* pParent;
+  Pnode* pFirstChild;
+  Pnode* pSecondChild;
+
+  /** flag to indicate that ro is stable wrt. this block */
+  bool mRoStable;
+
+  /** report whether this node is the root of a compound splitter (assuming it belongs to a splitter) */
+  bool compound() { return pFirstChild!=NULL;};
+
+  /** pointer to splitter this node belongs to (end for none) */
+  std::list<Pnode*>::iterator iSplitter;
+
+  /** info-map --- first Idx: ev; second Idx: state q; third Idx: number q-ev-successors in this node */
+  std::vector<std::map<Idx,Idx> > mInfoMap;
+
+  /** flag to indicate non-empty info-map per event [false: guarantees no ev-predecessors; true: dont know] */
+  std::vector<bool> mActive; 
+
+  /**
+   * write info-map to console
+   *
+   * @param event
+   *    event for which the info-map shall be plotted
+   */
+  void writeInfoMap(Idx event) const {
+    cout << "infoMap[" << event << "]: ";
+    if(event >= mInfoMap.size()) {
+      cout << "not initialized" << endl;
+      return;
+    }
+    std::map<Idx,Idx>::const_iterator mit = mInfoMap[event].begin();
+    std::map<Idx,Idx>::const_iterator mit_end = mInfoMap[event].end();
+    if(mit == mit_end) {
+      cout << "not initialized" << endl;
+      return;
+    }
+    for(; mit != mit_end; ++mit)
+      cout << " (q: " << (*mit).first << ", #" << (*mit).second <<")"<< endl;
+    cout << endl;
+  };
+};
+
+
+/*
+********************************************* 
+PART 2: Bisimulation
+
+The class faudes::Bisimulation is used to compute the coarsest bisimulation relation
+and to maintain relevant data structures required for the particular implementation.
+The code used to reside in the observer plug-in as a public class up to libFAUDES 2.25. 
+
+********************************************* 
+*/
+
+
+class Bisimulation {
+
+public:
+
+  /**
+   * Contructor: 
+   * keep a reference to the generator and initialize the partition and the W-Tree
+   * to represent the universal equivalence relation, i.e. every two states are equivalent.
+   *
+   * @param g
+   *   Original generator
+   */
+  Bisimulation(const Generator& g);
+
+  /**
+   * Destructor
+   */
+  ~Bisimulation(void);
+
+  /**
+   * Write W-tree to console
+   */
+  void writeW(void);
+
+  /**
+   * Write the set of equivalence classes to console
+   */
+  void writeRo(void);
+
+  /**
+   * Perform fixpoint iteration to obtain the coarset bisimulation relation
+   */
+  void refine(void);
+
+  /**
+   * Extract output generator that represents the resulting quotient automaton.
+   * (need to invoke refine() before)
+   *
+   * @param rMapStateToPartition
+   *   Maps each state to its equivalence class
+   * @param rGenPart
+   *   Generator representing the result of the computation. Each state corresponds to an
+   *   euivalence class
+   */
+  void partition(std::map<Idx,Idx>& rMapStateToPartition, Generator& rGenPart);
+
+
+  /**
+   * Extract the coarsest quasi-congruence as an STL map
+   * (need to invoke refine() before)
+   *
+   * @param rMapStateToPartition
+   *   Maps each state to its equivalence class
+   */
+  void partition(std::map<Idx,Idx>& rMapStateToPartition);
+
+  /**
+   * Extract the coarsest quasi-congruence as a list of equivalence classes.
+   * (need to invoke refine() before)
+   *
+   * @param rPartition
+   *   List of equivcalent sets ogf states
+   */
+  void partition(std::list< StateSet >& rPartition); 
+
+
+private:
+
+  /**
+   * Internal representation of transition relation with consecutive indexed states and events.
+   * Technically, re-indexing is equivalent to "pointers on source indicees" and
+   * buffers log-n searches on libFAUDES set representation of transition relations.
+   */
+  struct State {
+    Idx idx;  // source state idx
+    vector< vector<Idx> > pre; // predecessors by event
+  };
+  vector<State> mRevTrans;   // vector of all states incl rev trans.rel. [starting with 1 -- use min-index for debugging]
+  vector<Idx> mEvents;       // vector of all events [starting with 1]
+
+  // alternative info-map [not used in current implementation]
+  vector<int> mSCount;         // number of successors for current BSmaller/Event 
+  vector<int> mLCount;         // number of successors for current BLarger/Event 
+
+
+  /**
+   *  Keep reference to Automaton
+   */
+  const Generator* pGen;
+
+  /**
+   * Counter to assign a unique index to each node [debugging/cosmetic only]
+   */
+  Idx mNextIndex;
+
+  /**
+   * Wtree. Contains all blocks ever created  
+   */
+  std::vector<Pnode*> mWTree;
+
+  /**
+   * insert new node to W-tree (empty stateset)
+   * note: this method only cares about indexing, and initialisation of node members
+   * note: cross references are left to the caller
+   */
+  Pnode* newnode();
+
+  /**
+   * list of nodes that form the current partition ro (i.e. leaves of mWTree)
+   */
+  std::list<Pnode*> ro;
+
+  /** 
+   * list of splitters (both, compound and simple)
+   */
+  std::list<Pnode*> mW;
+
+  /**
+   * statistics (performance evaluation)
+   */
+  int rscnt; // cnt refeinement wrt simple splitter
+  int rccnt; // cnt refeinement wrt compount splitter
+
+  /**
+   * maintaine W: insert/remove splitter
+   */
+  void insertSplitter(Pnode& B); 
+  void eraseSplitter(Pnode& B); 
+  void releaseSplitter(Pnode& B); 
+  void updateSplitter(Pnode& X); 
+  void rerootSplitter(Pnode& B, list<Pnode*>::iterator spit); 
+
+
+
+  /**
+   * set info map for a node from scratch (api wrapper)
+   *
+   * @param BNode
+   *   node to initialize 
+   */
+  void initializeInfoMap(Pnode& BNode);
+
+  /**
+   * set info map (recursive evaluation)
+   *
+   * @param imapEv
+   *   info-map to extend
+   * @param BStates
+   *   Node to provide target states 
+   * @param ev
+   *   Event to use
+   */
+  void initializeInfoMap(map<Idx,Idx>& imapEv, Pnode& BStates, Idx ev); 
+
+  /**
+   * propagate info map after split of coset (api wrapper). 
+   * (this invalidates the parent info-map)
+   *
+   * @param BParent
+   *   node to propagate 
+   */
+  void propagateInfoMap(Pnode& BParent);
+
+  /**
+   * compute info-maps for two cosets smallerPart and largerPart (recursive evaluation). 
+   *
+   * @param imapSEv
+   *   info-map to extend
+   * @param imapLEv
+   *   info-map to extend
+   * @param BSmallerStates
+   *   Node to provide target states 
+   * @param ev
+   *   Event to use
+   */
+  void propagateInfoMap(map<Idx,Idx>& imapSEv, map<Idx,Idx>& imapLEv, Pnode& BsmallerStates, Idx ev); 
+
+
+  /**
+   * Alternative info-map: using a global vector for current pair of infomaps.
+   * Note: since clearing the vector is O(n), this spoils the complexity. However,
+   * for generators with some 1000 states it outperforms the map contruct.
+   */
+  void initaltInfoMaps(Pnode& BSmaller, Pnode& BLarger, Idx ev);
+  bool initaltInfoMap(Pnode& BNode, vector<int>& imapEv, Idx ev);
+  void invImage(Pnode& B, Idx ev, vector<Idx>& tb);
+  void propagateActiveEv(Pnode& BParent);
+
+  /**
+   * Refine current partition with respect to coset B (simple splitter)
+   *
+   * @param B
+   *   coset to split with
+   */
+  void refineSimple(Pnode& B);
+
+  /**
+   * Refine current partition with respect compound splitter B
+   * (ro is guaranteed to be stable w.r.t the coset B)
+   *
+   * @param B
+   *   root of compound splitter
+   */
+  void refineCompound(Pnode& B);
+
+
+  /**
+   * Function for recursively plotting the W-tree to console [debugging]
+   *
+   * @param node
+   *   Coset
+   */
+  void writeNode(Pnode& node);
+
+};
+
+
+
+// Constructor Bisimulation(g)
+Bisimulation::Bisimulation(const Generator& g)
+{
+  FD_DF("Bisimulation::Bisimulation(" << g.Name() << ")");
+  // simple members
+  pGen=&g;
+  mNextIndex=1;
+  rscnt=0;
+  rccnt=0;
+
+  // encode transition relation [effectively buffer log-n search]
+  map<Idx,Idx> smap;
+  map<Idx,Idx> emap;
+  Idx max=0;
+  mEvents.resize(pGen->Alphabet().Size()+1);
+  EventSet::Iterator eit=pGen->AlphabetBegin();
+  for(; eit != pGen->AlphabetEnd(); ++eit) {
+    emap[*eit]=++max;
+    mEvents[max]=*eit;
+  }
+  max=0;
+  mRevTrans.resize(pGen->States().Size()+1);
+  StateSet::Iterator sit=pGen->StatesBegin();
+  for(; sit != pGen->StatesEnd(); ++sit) {
+    smap[*sit]=++max;
+    mRevTrans[max].idx=*sit;
+    mRevTrans[max].pre.resize(mEvents.size());
+  }
+  TransSet::Iterator tit=pGen->TransRelBegin();
+  for(; tit != pGen->TransRelEnd(); ++tit) {
+    mRevTrans[smap[tit->X2]].pre[emap[tit->Ev]].push_back(smap[tit->X1]);
+  }
+
+  // prepare buffer for alternative info-map
+  //mLCount.resize(mRevTrans.size());
+  //mSCount.resize(mRevTrans.size());
+
+  // create universal partition holding the complete state set
+  Pnode* universe = newnode(); 
+  universe->pParent=NULL;
+
+  Idx st=1;
+  for(;st<mRevTrans.size();++st) universe->mStates.push_back(st); 
+  universe->mSize = universe->mStates.size();
+
+  // add universal Partition to ro and W 
+  ro.push_front(universe);
+  insertSplitter(*universe);
+
+  // this partition is too coarse ... it needs refinement
+  FD_DF("Bisimulation::Bisimulation: leaving function");
+}
+
+// destruct
+Bisimulation::~Bisimulation(void)
+{
+  vector<Pnode*>::iterator wit=mWTree.begin();
+  vector<Pnode*>::iterator wit_end=mWTree.end();
+  for(;wit!=wit_end;++wit) delete *wit;
+
+}
+
+// maintain W-tree: new node
+Pnode* Bisimulation::newnode(void) {
+  Pnode* nn= new Pnode();
+  nn->mIndex=mNextIndex;
+  nn->pFirstChild=NULL;
+  nn->pSecondChild=NULL;
+  nn->mRoStable=false;
+  nn->iSplitter=mW.end();
+  nn->mSize=0;
+  nn->mActive.resize(mEvents.size(),true); // conservative init: "may be active"
+  mNextIndex++;
+  mWTree.push_back(nn);
+  return nn;
+}
+
+
+// Bisimulation::insertSplitter
+// (excl children, must not be splitter, new splitters go to front by default)
+void Bisimulation::insertSplitter(Pnode& B) { 
+  mW.push_front(&B); 
+  B.iSplitter=mW.begin();
+}
+
+
+// Bisimulation::eraseSplitter (keep mem)
+void Bisimulation::eraseSplitter(Pnode& B) {
+  if(B.iSplitter!=mW.end()) {
+    mW.erase(B.iSplitter);
+    B.iSplitter=mW.end(); 
+  }
+}
+
+// Bisimulation::releaseSplitter (free mem)
+void Bisimulation::releaseSplitter(Pnode& B) {
+  // release memory if B is not in ro and no root in W
+  if(B.pFirstChild!=NULL && B.iSplitter==mW.end()) {
+    B.mInfoMap.clear();
+    B.mStates=vector<Idx>();
+  }
+}
+
+// Bisimulation::updateSplitter
+// (after ro-cell X has been split)
+void Bisimulation::updateSplitter(Pnode& X) {
+   
+  // debugging: simple splitters only
+  // (this spoils the order -- however, it performs well on our testdata)
+  if(X.iSplitter!=mW.end()) {
+    mW.erase(X.iSplitter);
+    X.iSplitter=mW.end(); 
+  }
+  insertSplitter(*X.pFirstChild);
+  insertSplitter(*X.pSecondChild);
+  return;
+ 
+  // X was leave of compound splitter: extend compound splitter by children
+  // (general version by original literature)
+  if(X.iSplitter!=mW.end())
+  if(*X.iSplitter != &X) {
+    X.pFirstChild->iSplitter=X.iSplitter;
+    X.pSecondChild->iSplitter=X.iSplitter;
+    return;
+  }
+
+  /*
+  // X was leave of compound splitter: break and replace by simple splitters or one simple and compund
+  // (maintaine max depth of compound "X12->(X1,X2)" )
+  if(X.iSplitter!=mW.end())
+  if(*X.iSplitter != &X) {
+    if(X.pParent->iSplitter!=mW.end()) {
+      mW.erase(X.pParent->iSplitter);
+      X.pParent->iSplitter=mW.end(); 
+    }
+    Pnode* XOther=X.pParent->pFirstChild;
+    if(XOther==&X) XOther=X.pParent->pSecondChild;
+    insertSplitter(*XOther);
+    if(!X.mRoStable) {
+      insertSplitter(*X.pFirstChild);
+      insertSplitter(*X.pSecondChild);
+    } else {
+      //insertSplitter(X);
+      mW.push_back(&X); 
+      X.iSplitter=--mW.end();
+    }
+    return;
+  }
+  */
+
+  // X was a simple splitter and is/becomes stable: make it compound splitter (insert back)
+  if(X.iSplitter!=mW.end())
+  if(X.mRoStable) {
+    mW.erase(X.iSplitter);
+    mW.push_back(&X); 
+    X.iSplitter=--mW.end();
+    X.pFirstChild->iSplitter=X.iSplitter;
+    X.pSecondChild->iSplitter=X.iSplitter;
+    return;
+  }
+
+  // X was a simple splitter: replace by children
+  if(X.iSplitter!=mW.end()) {
+    mW.erase(X.iSplitter);
+    insertSplitter(*X.pFirstChild);
+    insertSplitter(*X.pSecondChild);
+    return;
+  }
+
+  // X was no splitter but was/becomes stable: make it compound splitter (insert back)
+  if(X.mRoStable) {
+    //insertSplitter(X);
+    mW.push_back(&X); 
+    X.iSplitter=--mW.end();
+    X.pFirstChild->iSplitter=X.iSplitter;
+    X.pSecondChild->iSplitter=X.iSplitter;
+    return;
+  }
+
+  // else: make children simple splitters 
+  // (will not happen: if X is no splitter, it ro should be stable w.r.t. X)
+  insertSplitter(*X.pFirstChild);
+  insertSplitter(*X.pSecondChild);
+}
+
+
+// Bisimulation::relinkCompound
+void Bisimulation::rerootSplitter(Pnode& B, list<Pnode*>::iterator spit) { 
+  B.iSplitter=spit; 
+  if(B.pFirstChild!=NULL) {
+    rerootSplitter(*B.pFirstChild,spit);
+    rerootSplitter(*B.pSecondChild,spit);
+  }
+}
+
+
+
+
+// Bisimulation::refineSimple(B)
+void Bisimulation::refineSimple(Pnode& B) {
+  FD_DF("Bisimulation::refineSimple(" << B.mIndex << ")");
+
+  // remove from splitters
+  eraseSplitter(B);
+
+  // set up mInfoMap
+  //initializeInfoMap(B);
+ 
+  // ro will become stable wrt B
+  B.mRoStable=true;
+  
+  // Loop over all events
+  size_t ev=1;
+  for(; ev<mEvents.size(); ++ev) {
+
+    FD_DF("Bisimulation::refineSimple: partitioning for event " << pGen->EventName(mEvents[ev]));
+   
+    // no state has an ev-successor in B --> tb will be empty 
+    if(!B.mActive[ev]) continue;
+
+    // inverse image T_ev^-1{B} of B under specified event
+    vector<Idx> tb;
+
+    // compute T_ev^-1{B} from reverse transition relation
+    // incl. update of mActive with bail out in trivial
+    invImage(B, ev, tb);
+    if(tb.empty()) { B.mActive[ev]=false; continue; }
+    sort(tb.begin(),tb.end());
+
+    /*
+    // retrieve T_ev^-1{B} from info-map
+    map<Idx,Idx> imapEv=B.mInfoMap[ev];
+    map<Idx,Idx>::iterator mit= imapEv.begin();
+    for(;mit!=imapEv.end();++mit) tb.push_back(mit->first);
+    */
+   
+    // figure cosets in ro that are split into the subsets inter and diff
+    list<Pnode*>::iterator rit=ro.begin();
+    while(rit != ro.end()) {
+      Pnode* rop=*rit;
+      FD_DF("Bisimulation::refineSimple: candidate coset to be split has index " << rop->mIndex);
+
+      // singletons can not split
+      if(rop->mSize==1) {++rit; continue;}
+
+      // compute intersection with T_ev^-1{B}
+      vector<Idx> sXinter;
+      std::set_intersection(rop->mStates.begin(), rop->mStates.end(), tb.begin(), tb.end(),       
+	 std::inserter(sXinter, sXinter.begin()));
+   
+      // skip on trivial intersection
+      if(sXinter.empty()) {++rit; continue;}
+      if(sXinter.size()==rop->mStates.size()) {++rit; continue;}
+      FD_DF("Bisimulation::refineSimple: current coset with index " << rop->mIndex << " will be split");
+                
+      // set up new node for intersection 
+      Pnode* nXinter= newnode();
+      nXinter->mSize=sXinter.size();
+      nXinter->mStates.swap(sXinter);
+      rop->pFirstChild=nXinter;
+      nXinter->pParent=rop;
+
+      // set up new node for difference
+      Pnode* nXdiff = newnode();
+      std::set_difference(rop->mStates.begin(), rop->mStates.end(), nXinter->mStates.begin(), nXinter->mStates.end(), 
+         std::inserter(nXdiff->mStates,nXdiff->mStates.begin()));
+      rop->pSecondChild=nXdiff;
+      nXdiff->pParent=rop;
+      nXdiff->mSize=nXdiff->mStates.size();
+
+      // delete stateSet of split coset as the states are now hosted in the child cosets
+      //rop->mStates=vector<Idx>();
+
+      // propagate active events
+      propagateActiveEv(*rop);		
+
+      // split ro
+      ro.erase(rit++);
+      ro.insert(rit,nXinter);
+      ro.insert(rit,nXdiff);
+
+      // update splitter status of ro-cell and children
+      updateSplitter(*rop);
+           
+      // report
+      FD_DF("Bisimulation::refineSimple: the coset with index " << nXinter->mIndex << " has been added to ro");
+      FD_DF("Bisimulation::refineSimple: the coset with index " << nXdiff->mIndex << " has been added to ro");    
+      FD_DF("Bisimulation::refineSimple: the candidate coset has been split");
+
+    
+    } // loop all ro classes
+
+  } //end loop over events
+
+  // free memory
+  releaseSplitter(B);
+
+  // stats
+  ++rscnt;
+
+  FD_DF("Bisimulation::refineSimple(): done " << B.mIndex);
+}
+
+
+// Bisimulation::refineCompound(B)
+void Bisimulation::refineCompound(Pnode& BParent) {
+  FD_DF("Bisimulation::refineCompound(" << BParent.mIndex << ")");
+
+  // it is ensured by the calling function that BParent is root of a compound splitter
+  // in particular, ro is stable w.r.t. the coset BParent
+
+  // remove from splitters
+  eraseSplitter(BParent);
+
+  // propagate info-map
+  propagateInfoMap(BParent);
+
+  // choose the coset with fewer states among B and its sibling coset and let pSmallerPart point to it
+  Pnode* BSmallerPart=BParent.pFirstChild;
+  Pnode* BLargerPart=BParent.pSecondChild;
+  if(BSmallerPart->mSize > BLargerPart->mSize) { 
+    BSmallerPart=BParent.pSecondChild;
+    BLargerPart=BParent.pFirstChild;
+  }
+
+  // ro will be stable wrt both parts
+  BSmallerPart->mRoStable=true;
+  BLargerPart->mRoStable=true;
+   
+  // loop over all events
+  size_t ev=1;
+  for(; ev < mEvents.size(); ++ev){
+
+    // ro-classes will be mapped entirely outside of BParent: there will be no split
+    if(!BParent.mActive[ev]) continue;
+
+    // using alternative info-map
+    // initaltInfoMaps(*BSmallerPart,*BLargerPart,ev);
+
+    // the current event only has to be processed if there are transitions with ev to both parts
+    if(!BSmallerPart->mActive[ev]) continue;
+    if(!BLargerPart->mActive[ev]) continue;
+
+    FD_DF("Bisimulation::refineCompound: partitioning for event " << pGen->EventName(mEvents[ev]));
+
+    // buffer infomap lookup
+    map<Idx, Idx> &   imapSmallerEv = BSmallerPart->mInfoMap[ev];
+    map<Idx, Idx> &   imapLargerEv = BLargerPart->mInfoMap[ev];
+  
+    // loop over all ro-classes
+    FD_DF("Bisimulation::refineCompound: computing predecessor cosets of parent coset with index " << BParent.mIndex);
+    list<Pnode*>::iterator rit=ro.begin();
+    while(rit!=ro.end()) {
+      Pnode* rop= *rit;
+ 
+      // singletons can not be split
+      if(rop->mSize==1) {++rit; continue;}
+
+      // ro is stable w.r.t. BParent, i.e, either all or no states of a ro-class have a successor in BParent
+      // thus, a ro-class cannot be split iff any state of ro has no successor in BParent
+      // choose an arbitrary state from the current ro-class to test this
+      Idx testState = *(rop->mStates.begin());  
+      FD_DF("Bisimulation::refineCompound: candidate coset index " << rop->mIndex << " and test state " << pGen->SStr(testState));
+      // revision 20150910 zhou: use info-map to check whether the test state has a successor in BParent
+      if(imapSmallerEv.find(testState)== imapSmallerEv.end())
+      if(imapLargerEv.find(testState)== imapLargerEv.end()) {++rit; continue;}
+      // ... variant for alternative info-map
+      //if(mLCount[testState]==0) if(mSCount[testState]==0)  {++rit; continue;}
+    
+      // report nontrivial ro-class to split
+      FD_DF("Bisimulation::refineCompound: coset index " << rop->mIndex << " is predecessor for parent coset with index "
+         << BParent.mIndex << " by event = " << pGen->EStr(mEvents[ev]) << ": test for split");
+		
+      // prepare three empty state state sets for later insertion to W-Tree 
+      vector<Idx> sX1;
+      vector<Idx> sX2;
+      vector<Idx> sX3;
+
+      // iteration over all states of current candidate coset
+      // apply rules for splitting cosets into subsets using info-maps 
+      vector<Idx>::iterator sit=rop->mStates.begin();
+      vector<Idx>::iterator sit_end=rop->mStates.end();
+      for(; sit!=sit_end; ++sit) {
+        if(imapSmallerEv.find(*sit)==imapSmallerEv.end()) { sX2.push_back(*sit); continue; } // all to larger
+        if(imapLargerEv.find(*sit)==imapLargerEv.end()) { sX1.push_back(*sit); continue; } // all to smaller
+        sX3.push_back(*sit); // both
+      }
+    
+      // use alternative info-map
+      /*
+      sit_end = rop->mStates.end();
+      for(sit=rop->mStates.begin(); sit!=sit_end; ++sit) {
+        if(mSCount[*sit]==0)  { sX2.push_back(*sit);  continue;}
+        if(mLCount[*sit]==0)  { sX1.push_back(*sit);  continue;}
+	sX3.push_back(*sit);
+      }
+      */
+
+      // insert non empty sets to the W-Tree, no links yet
+      Pnode* nX1 = NULL;
+      Pnode* nX2 = NULL;
+      Pnode* nX3 = NULL;
+      int necnt=0;
+      if(!sX1.empty()) { ++necnt; nX1=newnode(); nX1->mSize=sX1.size(); nX1->mStates.swap(sX1); };
+      if(!sX2.empty()) { ++necnt; nX2=newnode(); nX2->mSize=sX2.size(); nX2->mStates.swap(sX2); };
+      if(!sX3.empty()) { ++necnt; nX3=newnode(); nX3->mSize=sX3.size(); nX3->mStates.swap(sX3); };
+
+      // if not more than one set is empty, no split happens
+      if(necnt<2) {++rit;continue;}
+
+       // report nontrivial ro-class to split
+      FD_DF("Bisimulation::refineCompound: coset index " << rop->mIndex << " split w.r.t parent coset with index "
+         << BParent.mIndex << " by event = " << pGen->EStr(mEvents[ev]) << ": perform split");
+
+      // split current ro-class 
+      ro.erase(rit++);
+      if(nX1!=NULL) ro.insert(rit,nX1);
+      if(nX2!=NULL) ro.insert(rit,nX2); 
+      if(nX3!=NULL) ro.insert(rit,nX3); 
+
+      // update W-tree structure (set cross references)
+      switch( (nX1!=NULL ? 1 : 0) + (nX2!=NULL ? 2 : 0) + (nX3!=NULL ? 4 : 0) )  {
+	case 0: // not possible
+	case 1: // not possible
+	case 2: // not possible
+	case 4: // not possible
+	  break;
+      
+        case 3: //X1 and X2 are not empty
+	  FD_DF("Bisimulation::refineCompound: coset " << rop->mIndex << " has been split into cosets X1 and X2");
+	  rop->pFirstChild=nX1;
+	  rop->pSecondChild=nX2;
+	  nX2->pParent=rop;
+	  nX1->pParent=rop;
+          updateSplitter(*rop);		
+          propagateActiveEv(*rop);
+	  break;
+	     
+	case 5: //X1 and X3 are not empty
+	  FD_DF("Bisimulation::refineCompound: coset " << rop->mIndex << " has been split into cosets X1 and X3");
+	  rop->pFirstChild=nX1;
+	  rop->pSecondChild=nX3;
+	  nX3->pParent=rop;
+	  nX1->pParent=rop;
+          updateSplitter(*rop);		
+          propagateActiveEv(*rop);		
+	  break;
+				
+      	case 6: //X2 and X3 are not empty
+  	  FD_DF("Bisimulation::refineCompound: coset " << rop->mIndex << " has been split into cosets X2 and X3");
+	  rop->pFirstChild=nX2;
+	  rop->pSecondChild=nX3;
+	  nX3->pParent=rop;
+	  nX2->pParent=rop;
+          updateSplitter(*rop);		
+          propagateActiveEv(*rop);		
+ 	  break;
+	       		
+    	case 7: //X1 and X2 and X3 are not empty		
+	  FD_DF("Bisimulation::refineCompound: coset " << rop->mIndex << " has been split into cosets X1, X2 and X3");
+	  // have one extra node parent for X2 and X3
+	  Pnode* nX23=newnode();
+	  std::set_union(nX2->mStates.begin(), nX2->mStates.end(), nX3->mStates.begin(), nX3->mStates.end(),       
+	    std::inserter(nX23->mStates, nX23->mStates.begin()));
+	  // set references
+	  rop->pFirstChild=nX1;
+	  rop->pSecondChild=nX23;
+	  nX1->pParent=rop;
+	  nX23->pParent=rop;
+	  nX23->mSize=nX2->mSize + nX3->mSize;
+	  updateSplitter(*rop);		
+          propagateActiveEv(*rop);		
+ 	  nX23->pFirstChild=nX2;
+	  nX23->pSecondChild=nX3;
+	  nX2->pParent=nX23;
+	  nX3->pParent=nX23;
+          updateSplitter(*nX23);		
+          propagateActiveEv(*nX23);		
+    	  break;
+        
+      } //end switch-case
+
+      // states of split ro-class coset are no longer needed as they are represented by children
+      //rop->mStates=vector<Idx>();
+	
+    } // end iteration over all ro-classes
+  }	
+
+  // insert children: smaller part
+  insertSplitter(*BSmallerPart);
+  rerootSplitter(*BSmallerPart,BSmallerPart->iSplitter);
+  insertSplitter(*BLargerPart);
+  rerootSplitter(*BLargerPart,BLargerPart->iSplitter);
+
+  // free memory
+  releaseSplitter(BParent);
+
+  // stats
+  ++rccnt;
+    
+  FD_DF("Bisimulation::refineCompound: leaving function");
+}
+
+
+// Bisimulation::initializeInfoMap(...) from scratch 
+void Bisimulation::initializeInfoMap(Pnode& BNode) {
+  FD_DF("Bisimulation::inititializeInfoMap(" << BNode.mIndex << ")");
+  // bail out on existing info-map
+  if(BNode.mInfoMap.size()==mEvents.size()) return;
+  // allocate vector
+  BNode.mInfoMap.resize(mEvents.size());
+  // loop all events
+  for(Idx ev=1;ev!=mEvents.size(); ++ev) {
+    // prepare result 
+    map<Idx,Idx>& imapEv = BNode.mInfoMap[ev];
+    imapEv.clear();
+    // invoke recursive evaluation
+    if(BNode.mActive[ev])
+      initializeInfoMap(imapEv,BNode,ev);
+    // update active flag
+    BNode.mActive[ev]= !imapEv.empty();
+  }       
+  FD_DF("Bisimulation::initializeInfoMap: leaving function");
+}
+
+
+// Bisimulation::initializeInfoMap(...) recursive evaluation 
+void Bisimulation::initializeInfoMap(map<Idx,Idx>& imapEv, Pnode& BStates, Idx ev) {
+
+  // if the target node does not hold states, ask children
+  if(BStates.mStates.empty()){
+    initializeInfoMap(imapEv,*(BStates.pFirstChild),ev);
+    initializeInfoMap(imapEv,*(BStates.pSecondChild),ev);
+    return;
+  }
+
+  // loop over states of target node
+  vector<Idx>::iterator xit2=BStates.mStates.begin();
+  vector<Idx>::iterator xit2_end=BStates.mStates.end();
+  for(; xit2!=xit2_end; ++xit2) {
+    // loop over transitions of target state to find predecessors
+    vector< Idx >::iterator tit = mRevTrans[*xit2].pre[ev].begin();
+    vector< Idx >::iterator tit_end = mRevTrans[*xit2].pre[ev].end();
+    for(; tit!=tit_end; ++tit) {
+      // record predecessor 
+      Idx x1=*tit;
+      // increment number of occurrences for found predecessor in smaller part map
+      map<Idx,Idx>::iterator imapEvX1=imapEv.find(x1);
+      if(imapEvX1!=imapEv.end()) ++imapEvX1->second;
+      else imapEv[x1]=1;
+    }
+  }
+}
+
+
+// Bisimulation::propagateInfoMap(BParent)
+// pass on mActive flag -- this is conservative, i.e. some flags may become false later
+void Bisimulation::propagateActiveEv(Pnode& BParent) {
+  BParent.pFirstChild->mActive=BParent.mActive;
+  BParent.pSecondChild->mActive=BParent.mActive;
+}
+
+
+// Bisimulation::propagateInfoMap(BParent) --- simple form, propagate to children
+void Bisimulation::propagateInfoMap(Pnode& BParent) {
+  FD_DF("Bisimulation::propagateInfoMap(" << BParent.mIndex << ") --> " << BParent.pFirstChild->mIndex 
+    << " " << BParent.pSecondChild->mIndex );
+
+  // ensure parent info-map to exist
+  if(BParent.mInfoMap.size()!=mEvents.size()) {
+    FD_WARN("ERROR cannot propagete info-map");
+  }
+
+  // figure smaller part  
+  Pnode* BSmaller = BParent.pFirstChild; 
+  Pnode* BLarger = BParent.pSecondChild; 
+  if(BSmaller->mSize > BLarger->mSize ) { 
+    BSmaller = BParent.pSecondChild; 
+    BLarger = BParent.pFirstChild; 
+  }
+ 
+  // sense if destination info maps have been computed allraedy
+  if(BSmaller->mInfoMap.size()==mEvents.size()) 
+    FD_WARN("WARNING recompute info-map");
+  if(BLarger->mInfoMap.size()==mEvents.size()) 
+    FD_WARN("WARNING recompute info-map");
+
+  // allocate vector
+  BSmaller->mInfoMap.resize(mEvents.size());
+  BLarger->mInfoMap.swap(BParent.mInfoMap); // copy will spoil order [?]
+
+  // loop over events
+  for(Idx ev=1; ev<mEvents.size(); ++ ev) {
+    // prepare result
+    map<Idx,Idx>& imapSEv = BSmaller->mInfoMap[ev];
+    map<Idx,Idx>& imapLEv = BLarger->mInfoMap[ev];
+    imapSEv.clear();
+    // invoke recursive evaluation
+    // note: if parent has no ev-predecessors, the neither do the children
+    if(!imapLEv.empty()) 
+      propagateInfoMap(imapSEv,imapLEv,*BSmaller,ev);
+    // update active flag
+    BSmaller->mActive[ev]= !imapSEv.empty();
+    BLarger->mActive[ev]=  !imapLEv.empty();
+  }
+
+  FD_DF("Bisimulation::propagateInfoMap: leaving function");
+}
+
+
+// Bisimulation::propagateInfoMap(imaps, smallerstates, ev)
+void Bisimulation::propagateInfoMap(map<Idx,Idx>& imapSEv, map<Idx,Idx>& imapLEv, Pnode& BSmallerStates, Idx ev) {
+
+  // if the smaller target node does not hold states, ask children
+  if(BSmallerStates.mStates.empty()){
+    propagateInfoMap(imapSEv,imapLEv,*(BSmallerStates.pFirstChild),ev);
+    propagateInfoMap(imapSEv,imapLEv,*(BSmallerStates.pSecondChild),ev);
+    return;
+  }
+
+  // loop over states of target node
+  vector<Idx>::iterator xit2=BSmallerStates.mStates.begin();
+  vector<Idx>::iterator xit2_end=BSmallerStates.mStates.end();
+  for(; xit2!=xit2_end; ++xit2) {
+    // loop over transitions of target state to find predecessors
+    vector<Idx>::iterator tit = mRevTrans[*xit2].pre[ev].begin();
+    vector<Idx>::iterator tit_end = mRevTrans[*xit2].pre[ev].end();
+    for(; tit!=tit_end; ++tit) {
+      // record predecessor 
+      Idx x1=*tit;
+      // increment number of occurrences for found predecessor in smaller part map
+      map<Idx,Idx>::iterator imapSEvX1=imapSEv.find(x1);
+      if(imapSEvX1!=imapSEv.end()) ++imapSEvX1->second;
+      else imapSEv[x1]=1;
+      //decrement number of occurrences for found predecessor in larger part map
+      map<Idx,Idx>::iterator imapLEvX1=imapLEv.find(x1);
+      --imapLEvX1->second;
+      if(imapLEvX1->second==0) imapLEv.erase(imapLEvX1);
+    }
+  }
+}
+
+
+
+
+// Bisimulation::initaltInfoMap(...)
+// set up info map for smaller and larger part
+// -- Revision 20150725: plain vectors to store info map rather than propagation via per-node maps
+void Bisimulation::initaltInfoMaps(Pnode& BSmaller, Pnode& BLarger, Idx ev) {
+
+  FD_DF("Bisimulation::initaltInfoMap(" << BSmaller.mIndex << "," << BLarger.mIndex << "," << pGen->EventName(ev) << ")");
+
+  // clear info
+  // note: this spoils complexity but it performs well for reasonably small automata
+  // --- worst case: n states -> worst case 2*n splits -> each split has below O(n) fill operation 
+  std::fill(mSCount.begin(), mSCount.end(), 0);
+  std::fill(mLCount.begin(), mLCount.end(), 0);
+
+  // invoke recursive evaluation
+  BSmaller.mActive[ev]=initaltInfoMap(BSmaller, mSCount, ev);
+  BLarger.mActive[ev]=initaltInfoMap(BLarger, mLCount, ev);
+
+}
+
+// initaltInfoMaps(...)
+bool Bisimulation::initaltInfoMap(Pnode& BNode, vector<int>& imapEv, Idx ev) {
+
+  // pass on to children
+  if(BNode.mStates.empty()) {
+    bool f1=initaltInfoMap(*BNode.pFirstChild,imapEv,ev);
+    bool f2=initaltInfoMap(*BNode.pSecondChild,imapEv,ev);
+    return f1 || f2;
+  }
+
+  // iterators over predecessors
+  vector< Idx >::iterator tit;
+  vector< Idx >::iterator tit_end;
+  vector<Idx>::iterator xit2;
+  bool found;
+
+  // loop over all states of current partition BSmaller
+  found=false;
+  xit2 = BNode.mStates.begin();
+  for(; xit2 !=  BNode.mStates.end(); ++xit2) {
+    // loop over all transitions to current target state 
+    tit=mRevTrans[*xit2].pre[ev].begin();
+    tit_end=mRevTrans[*xit2].pre[ev].end();
+    found = found || (tit!=tit_end);
+    for(; tit < tit_end; ++tit) {
+       // record predecessor 		
+       Idx x1=*tit;
+       ++(imapEv[x1]);
+    }
+  }
+  return found;
+}
+
+  
+
+// inverse image
+void Bisimulation::invImage(Pnode& B, Idx ev, vector<Idx>& tb) {
+
+  // if Bstates does not host states, ask children
+  if(B.mStates.empty()) {
+    if(B.pFirstChild!=NULL)
+        invImage(*(B.pFirstChild), ev, tb);
+    if(B.pSecondChild!=NULL)
+        invImage(*(B.pSecondChild), ev, tb);
+    return;
+  }
+
+  // iterators over predecessors
+  vector< Idx >::iterator tit;
+  vector< Idx >::iterator tit_end;
+
+  // loop over all states of current partition B
+  vector<Idx>::iterator xit2 = B.mStates.begin();
+  for(; xit2 !=  B.mStates.end(); ++xit2) {
+    // loop over all transitions to current target state 
+    tit=mRevTrans[*xit2].pre[ev].begin();
+    tit_end=mRevTrans[*xit2].pre[ev].end();
+    for(; tit < tit_end; ++tit) {
+       // record precessor 		
+       Idx x1=*tit;
+       tb.push_back(x1);	
+    }
+  }
+}
+
+
+// Bisimulation::refine()
+void Bisimulation::refine() {
+  FD_DF("Bisimulation::refine()");    
+  //helpers
+  Pnode* B;
+  // refine as long as there are splitters
+  while(!mW.empty()) {
+    // be interuptable
+    FD_WPC(ro.size()-mW.size(), ro.size(), "Bisimulation: blocks/splitters:   " << ro.size() << " / " << mW.size());
+    // the order in which splitters are chosen does not matter ... prefer new blocks
+    B=mW.back();
+    if(!B->compound()) refineSimple(*B);
+    else refineCompound(*B);
+  }
+  FD_DF("Bisimulations::refine(): stats simple #"<< rscnt <<" compound #" << rccnt << " splits #"<<rscnt+rccnt);
+}
+
+
+
+// Bisimulation::partition(rMapStateToPartition, rGenPart)
+void Bisimulation::partition(std::map<Idx,Idx>& rMapStateToPartition, Generator& rGenPart) {
+
+  FD_DF("Bisimulation::partition(rMapStateToPartition," << rGenPart.Name() << ")");
+  
+  // buffered result (lazy)
+  Generator* pResGen= &rGenPart;
+  if(pResGen == pGen) pResGen= rGenPart.New();
+
+  // prepare result
+  pResGen->Clear();
+  pResGen->Name(pGen->Name()+" [bisim]]");
+  pResGen->InjectAlphabet(pGen->Alphabet());
+  bool stateNames= pResGen->StateNamesEnabled() && pGen->StateNamesEnabled();
+  rMapStateToPartition.clear();
+
+  // loop over all elements of ro and create a new state for every coset in ro (ro contains the set of equivalence classes)
+  list<Pnode*>::const_iterator rit = ro.begin();
+  for (; rit != ro.end(); ++rit) {
+    // have a new state
+    std::ostringstream ostr;
+    Idx newstate = pResGen->InsState();        
+    FD_DF("Bisimulation::partition: new state " << newstate << " for coset " 
+	  << (*rit)->mIndex );
+
+    // loop over all original states in current coset
+    vector<Idx>::iterator sit=(*rit)->mStates.begin();
+    for(; sit!=(*rit)->mStates.end(); ++ sit) {
+      // retrieve source state idx
+      Idx st=mRevTrans[*sit].idx;
+      // map every state of the original generator to its equivalence class (= state in rGenPart) 
+      // by creating an entry in the map rMapStateToPartition 
+      rMapStateToPartition[st] = newstate;       
+      // set state names for resulting generator
+      if(stateNames) { 
+        if(pGen->StateName(st)!="") ostr << pGen->StateName(st) << ",";
+        else ostr << st << ",";
+      }
+      // set init states
+      if(pGen->ExistsInitState(st)) 
+  	pResGen->SetInitState(newstate);
+      // set marked states
+      if(pGen->ExistsMarkedState(st)) 
+ 	pResGen->SetMarkedState(newstate);
+    }
+ 
+    // set state name       
+    if(stateNames) {
+      std::string statename = ostr.str();
+      if(statename.length()>=1) statename.erase(statename.length()-1);
+      statename = "{" + statename + "}";
+      pResGen->StateName(newstate, statename); 
+      FD_DF("Bisimulation::partition: new state " << statename);
+    }
+
+  }
+
+  // create transition relation
+  // iterate over all transitions of the original generator
+  TransSet::Iterator tit = pGen->TransRelBegin();
+  for(; tit != pGen->TransRelEnd(); ++tit) {
+    pResGen->SetTransition(rMapStateToPartition[tit->X1], tit->Ev, rMapStateToPartition[tit->X2]);
+    FD_DF("Bisimulation::partition: adding transition: X1=" << pResGen->TStr(*tit) );
+  }
+
+  // resolve buffered result
+  if(pResGen != &rGenPart) {
+    pResGen->Move(rGenPart);
+    delete pResGen;
+  }
+
+  FD_DF("Bisimulation::partition: leaving function");
+}
+
+
+
+// Bisimulation::partition(rMapStateToPartition)
+void Bisimulation::partition(std::map<Idx,Idx>& rMapStateToPartition) {
+  FD_DF("Bisimulation::partition(rMapStateToPartition)");
+
+  // prepare result 
+  rMapStateToPartition.clear();
+
+  // loop over all elements of ro
+  list<Pnode*>::const_iterator rit = ro.begin();
+  for (; rit != ro.end(); ++rit) {
+    vector<Idx>::iterator sit=(*rit)->mStates.begin();
+    for(; sit!=(*rit)->mStates.end(); ++ sit) {
+      // map every state in the current coset to the index of this coset by creating an entry in the map rMapStateToPartition
+      Idx st=mRevTrans[*sit].idx;
+      rMapStateToPartition[st] = (*rit)->mIndex;  
+    }
+  }
+  FD_DF("Bisimulation::partition: leaving function");
+}
+
+
+// Bisimulation::partition(rPartition)
+void Bisimulation::partition(std::list< StateSet >& rPartition) {
+  FD_DF("Bisimulation::partition(rPartition)");
+
+  // prepare result 
+  rPartition.clear();
+
+  // loop over all elements of ro
+  list<Pnode*>::const_iterator rit = ro.begin();
+  for(; rit != ro.end(); ++rit) {
+    if((*rit)->mStates.size()<=1) continue;
+    StateSet tb;
+    vector<Idx>::iterator sit=(*rit)->mStates.begin();
+    for(; sit!=(*rit)->mStates.end(); ++sit) 
+      tb.Insert(mRevTrans[*sit].idx);
+    rPartition.push_back(tb);
+  }
+  FD_DF("Bisimulation::partition: leaving function");
+}
+
+
+// Bisimulation::writeW()
+void Bisimulation::writeW(void)
+{
+  FD_DF("Bisimulation:writeW()");
+  cout << "Plotting the W-tree:" << endl;
+  writeNode(**mW.begin());
+}
+
+// Bisimulation::writeNode(node)
+void Bisimulation::writeNode(Pnode& node)
+{
+  FD_DF("Bisimulation::writeNode(" << node.mIndex << ")");
+  cout << "Coset with index " << node.mIndex << " has the following states:" << endl;
+  vector<Idx>::iterator sit=node.mStates.begin();
+  for(; sit!=node.mStates.end(); ++ sit) cout << *sit << " ";
+  cout << endl;
+  if(node.pParent!=NULL)
+    cout << "Parent coset has index: " << node.pParent->mIndex << endl;
+  else
+    cout << "Coset is the root of the tree" << endl;
+  if(node.pParent!=NULL)
+  if(node.pParent->pFirstChild!=NULL)
+  if(node.mIndex!=node.pParent->pFirstChild->mIndex)
+    cout << "Coset has brother coset with index: " << node.pParent->pFirstChild->mIndex << endl;
+  if(node.pParent!=NULL)
+  if(node.pParent->pSecondChild!=NULL)
+  if(node.mIndex!=node.pParent->pSecondChild->mIndex)
+    cout << "Coset has brother coset with index: " << node.pParent->pSecondChild->mIndex << endl;
+
+  if(node.pFirstChild!=NULL && node.pSecondChild!=NULL)
+    cout << "Child cosets have indices : " << node.pFirstChild->mIndex << " and " << node.pSecondChild->mIndex << endl;
+  else
+    cout << "Coset has no children" << endl;
+  cout << "ro is stable with respect to this coset (1=yes; 0=no): " << node.mRoStable << endl;
+  /*
+  cout << "Info-map of coset: " << endl;
+  EventSet::Iterator eIt;
+  for(eIt=pGen->AlphabetBegin();eIt != pGen->AlphabetEnd(); ++eIt)
+    node.writeInfoMap(*eIt);
+
+  if(node.pFirstChild!=NULL)
+    writeNode(*(node.pFirstChild));
+  if(node.pSecondChild!=NULL)
+    writeNode(*(node.pSecondChild));
+  */
+}
+
+// Bisimulation::writeRo()
+void Bisimulation::writeRo(void)
+{
+  FD_DF("Bisimulation::writeRo()");
+  cout << "The Cosets with the following indices are in ro: " << endl;
+  list<Pnode*>::iterator rit=ro.begin();
+  for(; rit!=ro.end();++rit) 
+    cout << (*rit)->mIndex << endl;
+  cout << endl;
+}
+
+
+
+
+/*
+********************************************* 
+********************************************* 
+PART 3: application interface
+
+Minimal application interface based on plain functions.
+********************************************* 
+********************************************* 
+*/
+
+// calcBisimulation(rGenOrig, rMapStateToPartition)
+void calcBisimulation(const Generator& rGenOrig, map<Idx,Idx>& rMapStateToPartition)
+{
+  FD_DF("calcBisimulation(" << rGenOrig.Name() << ", rMapStateToPartition)");
+  // Construct an instance of the Bisimulation class from rGenOrig
+  Bisimulation bisim = Bisimulation(rGenOrig);
+  // method to compute the bisimulation on rGenOrig
+  bisim.refine();
+#ifdef FAUDES_DEBUG_FUNCTION
+  cout << "The result of the partition refinement is:" << endl;
+  bisim.writeW();
+  bisim.writeRo();
+#endif
+  bisim.partition(rMapStateToPartition);
+  FD_DF("calcBisimulation: leaving function");    
+}
+
+// calcBisimulation(rGenOrig, rMapStateToPartition, rGenPart)
+void calcBisimulation(const Generator& rGenOrig, map<Idx,Idx>& rMapStateToPartition, Generator& rGenPart)
+{
+  FD_DF("calcBisimulation(" << rGenOrig.Name() << ", rMapStateToPartition, " << rGenPart.Name() << ")");
+  // Construct an instance of the Bisimulation class from rGenOrig
+  Bisimulation bisim = Bisimulation(rGenOrig);
+  // method to compute the bisimulation on rGenOrig
+  bisim.refine();
+#ifdef FD_DF_PLOT
+  cout << "The result of the partition refinement is:" << endl;
+  bisim.writeW();
+  bisim.writeRo();
+#endif
+  bisim.partition(rMapStateToPartition, rGenPart);
+  FD_DF("calcBisimulation: leaving function");
+}
+
+// calcBisimulation(rGenOrig, rPartition)
+void calcBisimulation(const Generator& rGenOrig, std::list< StateSet >& rPartition)
+{
+  FD_DF("calcBisimulation(" << rGenOrig.Name() << ", rPartition)");
+  // Construct an instance of the Bisimulation class from rGenOrig
+  Bisimulation bisim = Bisimulation(rGenOrig);
+  // method to compute the bisimulation on rGenOrig
+  bisim.refine();
+#ifdef FD_DF_PLOT
+  cout << "The result of the partition refinement is:" << endl;
+  bisim.writeW();
+  bisim.writeRo();
+#endif
+  FD_DF("calcBisimulation: leaving function");
+  bisim.partition(rPartition);
+}
+
+
+ 
+}

@@ -1,0 +1,39 @@
+<Generator>
+"specAB"      
+
+<Alphabet>
+"idle_AB" +YP+
+"l2r_AB" +UP+
+"stby_AB" +UP+
+"req_fl_AB" +YE+
+"req_tr_AB" +YE+
+"nack_AB" +UE+
+"pack_AB" +UE+
+</Alphabet>
+
+<States>
+"1" "2" "3" "4" "5" "6"
+</States>
+
+<TransRel>
+"1" "idle_AB" "2"
+"2" "stby_AB" "1"
+"2" "l2r_AB" "3"
+"3" "req_fl_AB" "4"
+"4" "nack_AB" "3"
+"4" "pack_AB" "5"
+"5" "req_tr_AB" "6"
+"6" "nack_AB" "5"
+"6" "pack_AB" "1"
+</TransRel>
+
+<InitStates>
+"1"      
+</InitStates>
+
+<MarkedStates>
+"1" "2" "3" "4" "5" "6"
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,46 @@
+<Generator>
+"R_sf(0)"     
+
+% 
+%  Statistics for R_sf(0)
+%  States:        12
+%  Init/Marked:   1/2
+%  Events:        9
+%  Transitions:   15
+%  StateSymbols:  12
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"sf-c1"      +C+       "pass"	+o+     
+"sfl"       "block"      +o+       "diag"	+o+      
+</Alphabet>
+
+<States>
+"sf1"         "sf2"         "sf3"         "sf4"         "sf5"         "sf6"         
+"sf7"      
+</States>
+
+<TransRel>
+"sf1"		"sf-c1"		"sf2"
+"sf1"		"block"		"sf4"
+"sf1"		"diag"		"sf6"
+"sf2"		"sfl"			"sf3"
+"sf2"		"block"		"sf5"
+"sf3"		"pass"		"sf1"
+"sf4"		"sf-c1"		"sf5"
+"sf6"		"sf-c1"		"sf7"
+"sf7"		"sfl"			"sf7"
+</TransRel>
+
+<InitStates>
+"sf1"         
+</InitStates>
+
+<MarkedStates>
+"sf1"         "sf2"         "sf3"         "sf4"         "sf5"         "sf6"         
+"sf7"              
+</MarkedStates>
+
+
+</Generator>

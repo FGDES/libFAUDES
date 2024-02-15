@@ -1,0 +1,57 @@
+<Generator>
+"rt2[0]_spec" 
+
+% 
+%  Statistics for rt2[0]_spec
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        12
+%  Transitions:   24
+%  StateSymbols:  12
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"rt2xy"       +C+           "rt2yx"       +C+           
+"rt2arx"      "rt2ary"      "rt2lvx"      "rt2lvy"      "rt2mvx"      +C+           
+"rt2mvy"      +C+           "rt2stp"      +C+           "t_rt2-cb12\rt2" +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "2"           "3"           
+"4"           "5"            "7"           "8"           "9"           
+</States>
+
+<TransRel>
+"1"           "rt2xy"       "2"           
+"1"           "t_rt2-cb12\rt2" "1"           
+"10"          "rt2arx"      "11"          
+"10"          "t_rt2-cb12\rt2" "10"          
+"11"          "rt2stp"      "1"          
+"11"          "t_rt2-cb12\rt2" "11"                   
+"2"           "rt2mvy"      "3"           
+"2"           "t_rt2-cb12\rt2" "2"           
+"3"           "rt2lvx"      "4"           
+"3"           "t_rt2-cb12\rt2" "3"           
+"4"           "rt2ary"      "5"           
+"4"           "t_rt2-cb12\rt2" "4"           
+"5"           "rt2stp"      "7"           
+"5"           "t_rt2-cb12\rt2" "5"                      
+"7"           "rt2yx"       "8"           
+"7"           "t_rt2-cb12\rt2" "7"           
+"8"           "rt2mvx"      "9"           
+"8"           "t_rt2-cb12\rt2" "8"           
+"9"           "rt2lvy"      "10"          
+"9"           "t_rt2-cb12\rt2" "9"           
+</TransRel>
+
+<InitStates>
+"7"           
+</InitStates>
+
+<MarkedStates>
+"7"           "1"
+</MarkedStates>
+
+
+</Generator>

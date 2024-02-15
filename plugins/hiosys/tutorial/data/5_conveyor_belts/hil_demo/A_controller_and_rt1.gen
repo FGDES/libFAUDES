@@ -1,0 +1,86 @@
+<Generator>
+"A_controller and rt1"
+
+% 1) recognize workpiece arrival (A_full) and A_stp, forbid all A_events
+% and turn rt1 from y position (which is presumed) to x position.
+
+% 2) recognize workpiece has left (A_arrtr) and A_stp, forbid all A_events
+% and turn rt1 from x position (which is presumed) back to y position.
+
+<Alphabet>
+"A_r"         "A_l"         "A_stp"       "A_wait"      "A_full"      "A_arrtl"     
+"A_arrtr"     "A_STP"       "A_TR"        "A_FL"        "A_WAIT"      "A_FULL"      
+"A_ARRTL"     "A_ARRTR"     
+"rt1mvy" "rt1mvx" "rt1ary" "rt1arx" "rt1stp"
+</Alphabet>
+
+<States>
+<Consecutive>
+1             9
+</Consecutive>
+</States>
+
+<TransRel>
+% recognize workpiece arrival, move rt1
+1 "A_full" 2
+2 "A_stp"  3
+3 "rt1mvx" 4
+4 "rt1arx" 5
+5 "rt1stp" 1
+% recognize workpiece has left, move back rt1
+1 "A_arrtr" 6
+6 "A_stp"   7
+7 "rt1mvy"  8
+8 "rt1ary"  9
+9 "rt1stp"  1
+% selfloops in states, where A_events are not forbidden
+1 "A_r" 1
+1 "A_l" 1
+1 "A_stp" 1
+1 "A_wait" 1
+1 "A_arrtl" 1
+1 "A_STP" 1
+1 "A_TR" 1
+1 "A_FL" 1
+1 "A_WAIT" 1
+1 "A_FULL" 1
+1 "A_ARRTL" 1
+1 "A_ARRTR" 1
+2 "A_r" 2
+2 "A_l" 2
+2 "A_full" 2
+2 "A_wait" 2
+2 "A_arrtl" 2
+2 "A_arrtr" 2
+2 "A_STP" 2
+2 "A_TR" 2
+2 "A_FL" 2
+2 "A_WAIT" 2
+2 "A_FULL" 2
+2 "A_ARRTL" 2
+2 "A_ARRTR" 2
+6 "A_r" 6
+6 "A_l" 6
+6 "A_full" 6
+6 "A_wait" 6
+6 "A_arrtl" 6
+6 "A_arrtr" 6
+6 "A_STP" 6
+6 "A_TR" 6
+6 "A_FL" 6
+6 "A_WAIT" 6
+6 "A_FULL" 6
+6 "A_ARRTL" 6
+6 "A_ARRTR" 6
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+        
+</MarkedStates>
+
+
+</Generator>

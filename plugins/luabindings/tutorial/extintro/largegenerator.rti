@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE LuaFunctionDefinition SYSTEM "http://www.faudes.org/dtd/1.0/luafunctiondefinition.dtd">
+
+<LuaFunctionDefinition name="ExtIntro::LargeGenerator">
+<Documentation ref="extintro_largegenerator.html#LargeGenerator"> 
+Construct a generator by random.
+</Documentation>
+<Keywords> "ExtIntro" "large generators" "first example" </Keywords>
+
+<VariantSignatures>
+<Signature name="LargeGen(#Q,#Sigma,GRes)">
+<Parameter name="SizeQ"      ftype="Integer"   access="In"/>
+<Parameter name="SizeSigma"  ftype="Integer"   access="In"/>
+<Parameter name="Res"        ftype="Generator" access="Out" />
+</Signature>
+</VariantSignatures>
+
+<LuaCode> 
+<![CDATA[
+
+-- Extension reports on loading
+faudes.Print('luaextension: ExtIntro: loading LargeGenerator(..)')
+
+-- Define my function (mangled version of variant name)
+function faudes.LargeGen_Q_Sigma_GRes(qn,sn,gen)
+
+-- Function reports on execution
+faudes.Print(string.format('LargeGenerator(...): qn=%d sn=%d',qn,sn))
+
+-- Declare local variables
+local tn,tmax,x1,x2,ev,i
+
+-- Clear result
+gen:Clear()
+ 
+-- Set events
+for i=1,sn do 
+  gen:InsEvent(string.format('e%d',i))
+end
+
+-- Set states
+for i=1,qn do
+  gen:InsState(string.format('s%d',i))
+end
+
+-- Set transitions
+tn=qn*3
+tmax=qn*qn
+while tn>0 and tmax>0 do
+ x1=math.random(1,qn)
+ x2=math.random(1,qn)
+ ev=math.random(1,sn)
+ x1=string.format('s%d',x1)
+ x2=string.format('s%d',x2)
+ ev=string.format('e%d',ev)
+ if not gen:ExistsTransition(x1,ev,x2) then
+   gen:SetTransition(x1,ev,x2)
+   tn=tn-1
+ end
+ tmax=tmax-1
+end
+
+-- End of function definition
+end
+
+]]>
+</LuaCode>
+
+</LuaFunctionDefinition>
+

@@ -1,0 +1,54 @@
+
+<Generator>
+"G9"
+<Alphabet>
+"cb12-4"      "wp7-15"      "cb7-15"      "wp12-4"      "cb11-7"      "wp11-7"      
+"cb4-11"      "wp4-11"      
+</Alphabet>
+ <States>   <Consecutive>    1   
+20            
+ </Consecutive>    </States>  
+<TransRel>
+1             "cb12-4"      2             
+2             "wp12-4"      3             
+3             "cb4-11"      4             
+4             "wp4-11"      5             
+5             "cb12-4"      6             
+5             "cb11-7"      7             
+6             "wp12-4"      20            
+6             "cb11-7"      8             
+7             "cb12-4"      8             
+7             "wp11-7"      9             
+8             "wp12-4"      19            
+8             "wp11-7"      10            
+9             "cb12-4"      10            
+9             "cb7-15"      11            
+10            "cb7-15"      12            
+10            "wp12-4"      16            
+11            "cb12-4"      12            
+11            "wp7-15"      1             
+12            "wp7-15"      2             
+12            "wp12-4"      13            
+13            "wp7-15"      3             
+13            "cb4-11"      14            
+14            "wp7-15"      4             
+14            "wp4-11"      15            
+15            "wp7-15"      5             
+16            "cb7-15"      13            
+16            "cb4-11"      17            
+17            "cb7-15"      14            
+17            "wp4-11"      18            
+18            "cb7-15"      15            
+19            "wp11-7"      16            
+20            "cb11-7"      19            
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+
+

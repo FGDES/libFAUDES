@@ -1,0 +1,62 @@
+% Elevator example: specification (schedule) 
+
+<Generator>
+"E_shed"
+
+<Alphabet>
+"a_start"
+"a_close"
+"a_open"
+"a_done"
+"a_fail"
+"d_open"
+"d_close"
+"c_up"
+"c_down"
+
+</Alphabet>
+
+<States>
+"Idle"
+"CloseA"
+"CloseB"
+"Fail"
+"MoveA"
+"OpenA"
+"OpenB"
+
+</States>
+
+<TransRel>
+% Idle 
+"Idle" "a_start" "CloseA"
+
+"CloseA" "d_close" "CloseB"
+
+"CloseB" "a_close" "MoveA"
+"CloseB" "a_open" "Fail"
+"CloseB" "d_open" "CloseB"
+"CloseB" "d_close" "CloseB"
+
+"Fail"   "a_fail" "Idle"
+
+"MoveA" "c_up"  "MoveA"
+"MoveA" "c_down"  "MoveA"
+"MoveA" "d_open"  "OpenA"
+
+"OpenA" "a_open" "OpenB"
+
+"OpenB" "a_done" "Idle"
+
+
+</TransRel>
+
+<InitStates>
+"Idle"
+</InitStates>
+
+<MarkedStates>
+"Idle"
+</MarkedStates>
+
+</Generator>

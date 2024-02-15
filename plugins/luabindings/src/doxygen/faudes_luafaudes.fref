@@ -1,0 +1,478 @@
+<ReferencePage chapter="luafaudes" section="none" title="luafaudes">
+
+
+<h1>luafaudes Overview</h1>
+
+
+<script language="JavaScript"> 
+var luafaudes=function() {   
+  window.open('luafaudes_repl.html','open_window', 
+    'resizable,dependent, width=720, height=480, left=0, top=0'); 
+};
+</script>
+
+<p>
+<tt>luafaudes</tt> is a scripting environment based on the 
+<a href="http://www.lua.org">Lua</a> interpreter to access libFAUDES data-types
+and functions. 
+For demonstration purposes, the interactive 
+<a href="javascript:luafaudes();"><tt>luafaudes</tt>-console</a> can be
+executed in a browser window, allthough we recommend the installation of native
+executables; 
+see below for further <a href="faudes_luafaudes.html#installation">instructions</a>.
+</p>
+
+<p>
+Technically, the integration of libFAUDES within Lua
+is implemented in the luabindings plug-in. 
+Whilst data-types are adopted by tailored interface definitions, 
+libFAUDES functions are automatically bound via the run-time interface.
+Thus, the <a fhref="FAUDES_REFERENCE/index.html">libFAUDES user-reference</a>
+also applies to <tt>luafaudes</tt> functions.
+</p>
+
+<p>
+The remainder of this page gives directions for first steps with
+<tt>luafaudes</tt>. There is an extra page for more <a href="faudes_luatech.html">technical details</a>
+regarding the intergation of libFAUDES with Lua, addressing a number 
+of potential pitfalls.
+</p>
+
+<h2 id="usage">
+Usage
+</h2>
+
+<p>
+Natively, <tt>luafaudes</tt> is invoked from the <i>command line</i> 
+(also known as <i>shell</i> or  <i>terminal window</i>) provided by
+the operating system; 
+see also  <a href="faudes_luafaudes.html#installation">installation instructions</a>.
+When no arguments are specified, 
+<tt>luafaudes</tt> shows a welcome message at start-up 
+and accepts any valid Lua statement or any valid Lua expresssion 
+at the prompt, e.g.
+</p>
+
+<pre>
+$ ./luafaudes
+Welcome to luafaudes console 
+[...]
+&gt; for i=1,3 do print(i) end
+1
+2
+3
+&gt; 
+</pre>
+
+<p>
+There are many tutorials on the Lua language available from the web, e.g. 
+<a href="http://lua-users.org/wiki/TutorialDirectory" target="_top">http://lua-users.org/wiki/TutorialDirectory</a>.
+<tt>luafaudes</tt> extends Lua to execute libFAUDES functions. 
+Technically, the extensions are installed to the namespace <tt>faudes</tt>, 
+i.e. functions related to libFAUDES are addressed with the prefix <tt>faudes.</tt>.
+The <tt>faudes.Help()</tt> function provides some overview on 
+libFAUDES related features:</p>
+<pre>
+
+For detailed information on algorithms and data structures, please consult
+the libFAUDES doxygen documentation.
+
+All faudes bindings are in the Lua module 'faudes', ie access is via 'faudes.*'.
+You may copy faudes bindings to the global name space by 'faudes.MakeGlobal()'.
+
+libFAUDES Bindings:
+
+  faudes.Help(&quot;EventSet&quot;)            EventSet methods
+  faudes.Help(&quot;Generator&quot;)           Generator methods
+  faudes.Help(&quot;System&quot;)              System methods
+  faudes.Help(&quot;IndexSet&quot;)            IndexSet methods
+  faudes.Help(&quot;TransSet&quot;)            TransSet methods
+  faudes.Help(&quot;Synthesis&quot;)           Synthesis PlugIn
+
+libFAUDES Configuration:
+
+  faudes.StatenamesOn()              enable automatic state names
+  faudes.StatenamesOff()             disable automatic state names
+  faudes.DotExecPath(&quot;filename&quot;)     path of dot executable
+  faudes.Version()                   report libFAUDES version string
+
+luafaudes Console Commands:
+
+  faudes.Print(&quot;message&quot;)            print as faudes debugging message
+  faudes.Error(&quot;message&quot;)            abort script with error message
+  faudes.Mute(bool)                  mute faudes debugging messages
+  Ctrl-C                             exit luafaudes interpreter
+
+&gt; 
+</pre>
+
+<p>
+You may specify a keyword by calling <tt>faudes.Help(&quot;keyword&quot;)</tt> 
+to obtain a list of relevant functions. Plug-ins that provide additional luabindings will
+advertise themselves with their plug-in name as keyword.
+</p>
+
+
+<h2 id="eventsets">
+The EventSet Data Type
+</h2>
+
+<p>
+<tt>luafaudes</tt> maps most libFAUDES C++ classes to Lua user-data pointers with 
+corresponding access functions. The C++ class faudes::EventSet is used as the class
+to represent sets of events within Lua and you can create a variable of that type
+by using the default constructor:
+</p>
+<pre>&gt; alph1 = faudes.EventSet()</pre>
+
+<p>
+<strong class="text_important">Note:</strong> A consequence of mapping to Lua user-data pointers is that, within Lua, 
+the assignment operator <tt>=</tt> does <strong class="text_important">*not*</strong> 
+create a copy of the object, but only passes on the reference. 
+In order to create a copy of a libFAUDES object, you need to explicitly
+invoke the copy constructor or the copy method.
+<pre>
+&gt; alph2 = alph1:Copy()                   -- construct a copy of alph1
+&gt; alph3 = faudes.EventSet(alph1)         -- construct a copy of alph1
+&gt; alph4 = alph1                          -- have another reference to alph1
+</pre>
+</p>
+  
+<p>
+The available methods for EventSet objects are shown by the <tt>faudes.Help(&quot;EventSet&quot;)</tt> command. 
+The first column shows the return type, the second the method name and arguments. 
+</p>
+<pre>
+Luafaudes help topic: &quot;EventSet&quot; [extract]
+
+                 *** Constructors ***
+            EventSet EventSet()
+            EventSet EventSet(EventSet)
+                    
+                 *** Maintenance ***
+              string Name()
+                     Name(string)
+                 int Size()
+                     Lock()
+                     Detach()
+                 int Index(string)
+              string SymbolicName(int)
+                    
+                 *** Element access ***
+                bool Empty()
+                bool Insert(string)
+                bool Erase(string)
+                bool Exists(string)
+                    
+                 *** Set operations ***
+                     InsertSet(EventSet)
+                     EraseSet(EventSet)
+            EventSet SetIntersection(EventSet)
+            EventSet SetUnion(EventSet)
+                    
+</pre>
+
+<p>
+All(most all) methods directly correspond to their C++ counterpart.
+To call a method for an EventSet, the method name is appended to the object by a colon : 
+</p>
+<pre>
+&gt; alph1:Insert(&quot;alpha&quot;)
+&gt; alph1:Insert(&quot;beta&quot;)
+&gt; alph1:Insert(&quot;gamma&quot;)
+</pre>
+<p>
+The integration with the native Lua commands (see Lua documentation) is seamless. 
+E.g. the Lua <tt>print(..)</tt> statement can be used to print the integer index of an individual
+event or the tokenized version of an event set to the screen:
+</p>
+<pre>
+&gt; print(alph1:Index(&quot;beta&quot;))
+2
+&gt; print(alph1)
+&lt;NameSet&gt; &quot;alpha&quot; &quot;beta&quot; &quot;gamma&quot; &lt;/NameSet&gt; 
+</pre>
+<p>
+<strong class="text_important">Note:</strong> Lua automatically converts 
+numbers to strings and vice versa, which can be quite handy. However, if 
+you wanted to insert an event with name <tt>2</tt> by passing a string constant
+<tt>&quot;2&quot;</tt> to the <tt>Insert</tt> method, this may get confused
+with the event index <tt>2</tt>. Thus, it is best <strong class="text_important">*not*</strong> to use names that start with a digit.
+</p>
+
+
+<p>The tutorial section of the luabindings plug-in provides 
+a <a href="1_containers.html">tutorial on containers</a> to
+demonstrate basic access to events sets, state sets and transition relations.
+</p>
+
+
+
+
+
+<h2 id="generators">
+The Generator Data Type
+</h2>
+
+<p>
+The libFAUDES class faudes::vGenerators is used to represent generators
+within Lua. A Generator object is created by the statement
+</p>
+
+<pre>
+&gt; gen1 = faudes.Generator()
+</pre>
+
+<p>
+The available methods for Generator objects are shown by the <tt>faudes.Help(&quot;Generator&quot;)</tt> command. 
+The first column shows the return type, the second the method name:
+</p>
+
+<pre>
+Luafaudes help topic: &quot;Generator&quot; [extract]
+    
+                 *** Constructors ***
+           Generator Generator()
+           Generator Generator(gen)
+           Generator Generator(filename)
+                    
+                 *** Maintenance ***
+                     Name(string)
+              string Name()
+                bool IsDeterministic()
+                                        
+                 *** Alphabet ***
+            EventSet Alphabet()
+                bool InsEvent(name)
+                bool DelEvent(name)
+                bool ExistsEvent(name)
+                    
+                 *** State set ***
+            IndexSet States()
+                 idx InsState(name)
+                bool DelState(name)
+                bool ExistsState(name)
+                     SetInitState(name)
+                     ClrInitState(idx)
+                     SetMarkedState(name)
+                     ClrMarkedState(idx)
+                    
+                 *** Transitions ***
+            TransSet TransRel()
+                bool SetTransition(trans)
+                bool SetTransition(x1,ev,x2)
+                bool SetTransition(x1name,evname,x2name)
+                     ClrTransition(trans)
+                     ClrTransition(x1,ev,x2)
+</pre>
+
+<p>
+As with the EventSet,  a method for a Generator object is called by appending the method to 
+the object with a colon: 
+</p>
+<pre>
+&gt; gen1:InsEvent(&quot;alpha&quot;)
+&gt; gen1:InsEvent(&quot;beta&quot;)
+&gt; gen1:InsEvent(&quot;gamma&quot;)
+&gt; gen1:InsState(&quot;waiting&quot;)
+&gt; gen1:InsState(&quot;working&quot;)
+&gt; gen1:InsState(&quot;dump state&quot;)
+&gt; gen1:SetInitState(&quot;waiting&quot;)
+&gt; gen1:SetMarkedState(&quot;waiting&quot;)
+&gt; gen1:SetTransition(&quot;waiting&quot;, &quot;alpha&quot;, &quot;working&quot;)
+&gt; gen1:SetTransition(&quot;working&quot;, &quot;beta&quot;, &quot;waiting&quot;)
+
+...
+</pre>
+
+<p>
+The tutorial section of the luabindings plug-in provides 
+a <a href="2_generators.html">tutorial on generators</a> to
+demonstrate access to generator class members.
+</p>
+
+
+
+<h2 id="functions">
+Calling libFAUDES Functions
+</h2>
+
+<p> 
+Most algorithms implemented in libFAUDES are also available in luafaudes. 
+To get a list of the available algorithms from the libFAUDES core, type <tt>faudes.Help(&quot;Functions&quot;)</tt>:
+</p>
+<pre>
+Luafaudes help topic: &quot;Functions&quot; [extract]
+
+                 *** Regular expressions ***
+                bool LanguageEquality(gen1_arg, gen2_arg)
+                bool LanguageIncludion(gen1_arg, gen2_arg)
+                bool LanguageDisjoint(gen1_arg, gen2_arg)
+                     LanguageComplement(gen)
+                     LanguageConcatenate(gen1_arg, gen2_arg, gen_res)
+                     LanguageConcatenateNonDet(gen1_arg, gen2_arg, gen_res)
+                     LanguageUnion(gen1_arg, gen2_arg, gen_res)
+                     LanguageIntersection(gen1_arg, gen2_arg, gen_res)
+                     FullLanguage(alph_arg, gen_res)
+                     AlphabetLanguage(alph_arg, gen_res)
+                     KleeneClosure(gen)
+                     KleeneClosureNonDet(gen)
+
+                 *** Reachability ***
+                     Accessible(gen)
+                bool IsAccessible(gen_arg)
+                     CoAccessible(gen)
+                bool IsCoAccessible(gen_arg)
+                     Trim(gen)
+                bool IsTrim(gen_arg)
+
+                 *** Misc ***
+                bool IsDeterministic(gen_arg)
+                     Deterministic(gen_arg, gen_res)
+                     StateMin(gen_arg, gen_res
+                     Project(gen, alph)
+                     InvProject(gen, alph)
+                     PrefixClosure(gen)
+</pre>	
+
+<p>
+The tutorial section of the luabindings plug-in provides 
+a <a href="3_regular.html">tutorial on regular expressions</a>, 
+to demonstrate access to libFAUDES functions.
+</p>
+
+<p>
+For more detailed information on how libFAUDES functions can be accessed
+from the Lua interpreter, see <a href="faudes_luatech.html#functions">details on functions</a>.
+</p>
+
+
+<h2 id="installation">
+Installation
+</h2>
+
+<p>The interpreter <tt>luafaudes</tt> is part of the libFAUDES package, 
+with precompiled versions available for Linux and Windows operating systems. 
+Alternatively, the console window of the libFAUDES GUI <a fhref="DESTOOL_ONLINE">DESTool</a> 
+can be used to run Lua scripts. <a fhref="DESTOOL_ONLINE">DESTool</a> is distributed
+as a developper preview, with binaries available for Linux, Mac OS and Windows.
+</p>
+<ul class="l1">
+<!-- LINUX ----------------------------------- -->
+<li><p>
+To use the Linux precompiled binary that comes with the
+<a fhref="FAUDES_GETLINUX">libFAUDES package</a>,
+open a command shell to un-tar the package and set the
+<tt>PATH</tt> variable accordingly:
+</p>
+<pre>
+$ tar -xvzf libfaudes-current.tar.gz
+$ export PATH=$PATH:$(pwd)/libfaudes-current/bin
+$ luafaudes
+</pre>
+<p>
+In the case you observe error messages about missing   libraries, or if you 
+prefer to run <tt>luafaudes</tt> with advanced readline support (command history, etc)
+you need to re-compile; see the <a fhref="FAUDES_CHAPTERS/faudes_build.html">Build-System Documentation</a>.
+</p></li>
+<!-- WIN32 ----------------------------------- -->
+<li><p>
+To use the <a fhref="FAUDES_GETMSWIN">MS Windows installers</a>,
+download and double-click/execute the provided <tt>libfaudes-setup.exe</tt>. 
+Then open a command shell to set the <tt>PATH</tt> variable accordingly:
+</p>
+<pre>
+C:> set PATH %PATH%;c:\FAUDES\libFAUDES
+C:> luafaudes
+</pre>
+<p>
+There is no advanced readline support for the MS Windows version of <tt>luafaudes</tt>.
+Rather than to use <tt>luafaudes</tt> interactively, we recommend you edit scripts with e.g.
+MS NotePad and run them from the command-line
+</p></li>
+<!-- OTHER/POSIX/MACOSX ----------------------------------- -->
+<li><p>
+To (re-)compile <tt>luafaudes</tt> for POSIX compliant platforms, e.g. Mac OsX, 
+follow the instructions for the libFAUDES <a fhref="FAUDES_CHAPTERS/faudes_build.html">build-system</a>. 
+This will create the binary <tt>luafaudes</tt>.
+</p></li>
+</ul>
+
+<p>
+On startup, <tt>luafaudes</tt> shows a welcome message and the command prompt
+</p>
+<pre>
+Welcome to luafaudes console.
+Versions: libFAUDES 2.18a / synthesis-timed-simulator-iodevice-luabindings / Lua 5.1
+Credits: This libFAUDES interpreter is based on the projects Lua and SWIG.
+Type 'faudes.Help()' for a list of faudes related types and functions.
+
+&gt;
+</pre>
+
+<p>
+To test the installation, run an example script from the luabindings tutorial:
+</p>
+<pre>
+$ cd ./libfaudes/plugins/luabindings/tutorial
+$ ls *.lua
+1_containers.lua 2_generators.lua 3_regular.lua
+$ luafaudes 3_regular.lua
+</pre>
+
+<p>
+By convention, the provided example scripts read input data
+from the <tt>data</tt> subdirectory, relative to the location of the
+script. Thus, it is mandatory to <tt>cd</tt> to the location of the script.
+</p>
+
+
+<p>
+For image output of generator graphs, <tt>luafaudes</tt> relies on the
+the tool <tt>dot</tt> from the <a href="http://www.graphviz.org" target="_top">Graphviz package</a>.
+For most Linux distributions, <tt>dot</tt> can be installed by the package manager or is
+included anyway. For Mac OsX and MS Windows, installers are available from 
+the <a href="http://www.graphviz.org" target="_top">Graphviz site</a>. For all systems,
+the location of the  binary <tt>dot</tt> must either be in the <tt>PATH</tt> variable or  
+specified within <tt>luafaudes</tt> as follows:
+</p>
+<pre>
+Welcome to luafaudes console 
+[...]
+&gt;
+faudes.DotExecPath("/usr/bin/dot")                                   -- eg Linux  
+faudes.DotExecPath("c:\\Programs\Graphviz\dot")                      -- eg Windows
+faudes.DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot"); -- eg MacOS
+&gt;
+gen=faudes.Generator("data/simplemachine.gen")                       -- read generator
+gen:GraphWrite("tmp_simplemachine.jpg");                             -- write image 
+</pre>
+
+
+<!-- experimental/Fragile: hand crafted page navigation -->
+<div id="cxwrapper1000">
+<div id="dxwrapper1000">
+<div class="registry_trigger"> <span>&gt;&gt;</span>
+<ul class="registry_list">
+<li class="registry_heading">luafaudes</li>
+<li class="registry_item"><a href="#usage">Basic Usage</a></li>
+<li class="registry_item"><a href="#eventsets">EventSets</a></li>
+<li class="registry_item"><a href="#generators">Generators</a></li>
+<li class="registry_item"><a href="#functions">Functions</a></li>
+<li class="registry_item"><a href="#installation">Installation</a></li>
+<li class="registry_blanc">&nbsp;</li>
+<li class="registry_item">
+<a href="#">Top of Page</a>
+<a href="#" class="registry_blinda">&nbsp;</a>
+</li>
+</ul></div>
+</div>
+</div>
+
+
+
+</ReferencePage>
+
+
+
+

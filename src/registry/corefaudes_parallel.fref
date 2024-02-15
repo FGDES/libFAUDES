@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="CoreFaudes" page="06_Synchronous_Composition" title="CoreFaudes - Synchronous Composition">
+<h1>
+Synchronous Composition
+</h1>
+
+<p>
+Given two discrete event systems, 
+the synchronous composition is a discrete event system 
+that models the respective component behaviour under the constraint that
+shared events must be executed synchronously. Thus, each component restricts
+the behaviour of the other component.
+</p>
+<p>
+In terms of languages <fimath>L_1</fimath> and <fimath>L_2</fimath> over alphabets <fimath>\Sigma_1</fimath> and 
+<fimath>\Sigma_2</fimath>, respectively, the resulting behaviour is defined
+<br/>
+<br/>
+<fdmath>L_{res} = L_1 \,\parallel\, L_2 := \ProInv{1}(L_1) \,\cap\, \ProInv{2}(L2) = \{s\in\Sigma^*|\ \Pro{1}(s)\in L_1 \text{ and } \Pro{2}(s)\in L_2 \}</fdmath>,
+<br/>
+<br/>
+where <fimath>\ProInv{1}</fimath> and <fimath>\ProInv{2}</fimath> denote the 
+set-valued inverse of the natural <ffnct>Project</ffnct>ions
+<fimath>\Pro{1} : \Sigma^* \rightarrow \Sigma_1^*</fimath>,
+<fimath>\Pro{2} : \Sigma^* \rightarrow \Sigma_2^*</fimath>,
+<fimath>\Sigma = \Sigma_1 \,\cup\, \Sigma_2</fimath>, respectively.
+</p>
+
+<p>
+Note. If the alphabet <fimath>\Sigma_1</fimath> is empty,
+we have either <fimath>L_1=\emptyset</fimath> or
+<fimath>L_1=\{\epsilon\}</fimath>. In this case,
+the synchronous composition technically evaluates to 
+<fimath>L_{res}=\emptyset</fimath> or <fimath>L_{res}=L_2</fimath>,
+respectively. A similar line of thought applies to the situation
+where <fimath>\Sigma_2</fimath> is empty.
+</p>
+
+<p>
+Note. Functions in this section maintain event attributes, provided
+that they match for all arguments.
+</p>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="Parallel">
+
+<fdetails/>
+
+<p>
+Given two generators <i>G1</i> and <i>G2</i>, 
+this function computes the parallel composition <i>GRes</i> = <i>G1</i> || <i>G2</i>, with
+<br/>
+<br/>
+<fdmath>L(GRes) = L(G1) \,\parallel\, L(G2)</fdmath>
+<br/>
+<fdmath>L_m(GRes) = L_m(G1) \,\parallel\, L_m(G2)</fdmath>
+<br/>
+<br/>
+The resulting generators alphabet is the union of the argument alphabets.
+</p>
+
+<p>
+Technically,  <ffnct>Parallel</ffnct> constructs its result on the product
+of the state spaces of <i>G1</i> and <i>G2</i>, i.e. <fimath>Q_{res} = Q_1 \times Q_2</fimath>. 
+Thus, to a resulting state <fimath>q=(q_1,q_2)</fimath> correspond the component states 
+<fimath>q_1</fimath> and <fimath>q_2</fimath>. 
+Transitions are enabled in <i>GRes</i> whenever they are enabled in each component 
+that include the event in their respective alphabet:
+<br/>
+<br/>
+<fdmath>((q_1,q_2),\, o,\, (q_1',q_2')) \in \delta_{res}  \quad\Leftrightarrow</fdmath>
+<br/>
+<fdmath>\quad\quad \sigma\nin\Sigma_1 \ \ \text{or} \ \ (q_1,\,\sigma,\,q_1') \in\delta_1</fdmath> and
+<br/>
+<fdmath>\quad\quad \sigma\nin\Sigma_2 \ \ \text{or} \ \ (q_2,\,\sigma,\,q_2') \in\delta_2</fdmath> 
+<br/>
+<br/>
+</p>
+
+<p>
+There are two more variants of <ffnct>Parallel</ffnct>:
+</p>
+<ul class="l2"> 
+<li><p>
+when called with an vector valued input argument, the overall
+synchronous composition is computed by repetetive invocation of 
+the standard routine;
+</p></li>
+<li><p>
+an optional output argument can be supplied to record a so called
+<i>composition map</i>, which relates 
+the states of the result and the states of the arguments.
+</p></li>
+</ul>
+
+<fexample/>
+
+<p>
+Our first example composes two independent "very simple machines". Since the components 
+do not share any events, the parallel compositions turns out as the so called <i>shuffle product</i>.
+</p>
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_parallel_m1"/> </td>
+<td> <fimage fsrc="tmp_parallel_m2"/> </td>
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table width="100%">
+<tr> <td> Composition G=G1 || G2 </td> </tr>
+<tr> <td> <fimage fsrc="tmp_parallel_m1m2"/> </td> </tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fexample/>
+
+<p>
+In this example, the shared events are 
+{<tt>a</tt>, <tt>b</tt>}. 
+Component <i>G2</i> does not impose any restrictions on the generated language, i.e. 
+<fimath>\ProInv{2}(L(G2))=\Sigma^*</fimath>. 
+However, <i>G2</i> requires the marked language not to end with a <tt>b</tt>-event 
+(when projected to <fimath>\Sigma_2</fimath>).
+</p>
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_parallel_g1"/> </td>
+<td> <fimage fsrc="tmp_parallel_g2"/> </td>
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table width="100%">
+<tr> <td> Composition G=G1 || G2 </td> </tr>
+<tr> <td> <fimage fsrc="tmp_parallel_g1g2"/> </td> </tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fconditions/>
+
+<p>
+In this implementation, only accessible states are generated. 
+On deterministic input this functions constructs a deterministic output.
+The resulting generators controllability attributes are copied
+from the arguments. It is considered
+an error if the controllability flags in the arguments don't match.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="IsNonblocking">
+
+<fdetails/>
+
+<p>
+An individual discrete event system modelled by a generator <i>G</i> 
+may block in the sense that it attains a state from which no marking can be reached. 
+Technically, <i>G</i> is said to be <i>non-blocking</i>, if
+<br/>
+<br/>
+<fdmath>L(G)=\Closure{L_m(G)}</fdmath> .
+<br/>
+<br/>
+The above equality requires that any string generated by <i>G</i> can be extended
+to a marked string. For deterministic generators, an equivalent condition is 
+that any state that is accesible must also be co-accessible. This condition
+is tested by the function <ffnct>IsNonblocking</ffnct>.
+</p>
+
+<p>
+The synchronous composition of two discrete event systems modelled by
+the generators <i>G1</i> and <i>G2</i> may block in the sense that
+the one system prevents the other satisfying its acceptance condition. Formally,
+two languages are <i>non-conflicting</i>, if
+<br/>
+<br/>
+<fdmath>\Closure{\,L_1 \parallel L_2\,} \ =\  \Closure{L_1} \,\parallel\, \Closure{L_2}</fdmath> .
+<br/>
+<br/>
+Here, the righthand side is interpreted as a composition where the synchronisation
+is performed on a per event basis, without considering markings. 
+The equality then guarantees that a marking can allways be reached.
+</p>
+
+<p>
+When applied to two generators, the function <ffnct>IsNonblocking</ffnct> 
+first performs the <ffnct>Parallel</ffnct>composition and then tests, whether the
+resulting generator is non-blocking. Provided that the two individual generators are
+non-blocking, i.e.
+<br/>
+<br/>
+<fdmath>L(G1)=\Closure{L_m(G1)}</fdmath> and
+<br/>
+<fdmath>L(G2)=\Closure{L_m(G2)}</fdmath> ,
+<br/>
+<br/>
+the test returns true iff
+<br/>
+<br/>
+<fdmath>\Closure{\,Lm(G_1) \parallel Lm(G_2)\,} \ =\  \Closure{Lm(G_1)} \,\parallel\, \Closure{Lm(G_2)}</fdmath> .
+</p>
+
+<p>
+When a large number of generators is to be tested for conflicts, performing the 
+overall parallel composition may not be practical. The literature <fcite name="C4"/> addresses 
+such situations and proposes various conflict-equivalent abstraction methods to be applied 
+to the individual systems before composition. These methods are used when invoking 
+<ffnct>IsNonblocking</ffnct> with the <ftype>GeneratorVector</ftype> argument. However, 
+our implementation is still experimental and does not allways achieve the expected performance.
+</p>
+
+
+<fconditions/>
+
+<p>
+For blocking in the sense of accessible but not co-accessible states, no restrictions
+apply.
+For the language based notion of conflicts, the individual generators are must be deterministic
+and non-blocking for a sufficient and necessary test. 
+</p>
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="OmegaParallel">
+
+<fdetails/>
+
+<p>
+
+The marking introduced by the <ffnct>Parallel</ffnct> composition requires that
+each component accepts a string <i>simultaneously</i>. 
+This condition may turn out too restrictive, in particular when 
+focus is on the infinite time behaviour.
+The function <ffnct>OmegaParallel</ffnct> relaxes the acceptance condition, in that it 
+requires each component always to eventually accept the generated prefix,
+but not necessarily simultaneously with the other component: 
+</p>
+<p>
+<br/>
+<fdmath>L(GRes) = L(G1) \,\parallel\, L(G2)</fdmath>
+<br/>
+<fdmath>B_m(GRes) = B_m(G1) \,\parallel\, B_m(G2) </fdmath>
+<br/>
+<fdmath>\quad:=\{w \in \Sigma^w |\ \Pro{1}(w) \in B_m(G1) \text{ and } \Pro{2}(w) \in B_m(G2)\ \}</fdmath>
+<br/>
+<br/>
+where <fimath>B_m(G)</fimath> denotes the omega language realised by G with Buechi acceptance condition, 
+see <ftype>Generator</ftype>.
+</p>
+
+<p>
+Technically,  <ffnct>OmegaParallel</ffnct> constructs its result on the product
+of the state spaces of <i>G1</i> and <i>G2</i> with an additional boolean flag.
+The flag is used to mark those states in <i>GRes</i> that correspond to
+a <i>G2</i>-marking with most recent marking in <i>G1</i>. Thus, a trajectory that
+passes a <i>GRes</i>-marking infinitely often, also passes infinitely many marked states in
+<i>G1</i> and <i>G2</i>.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_wparallel_g1"/> </td> 
+<td> <fimage fsrc="tmp_wparallel_g2"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table width="100%">
+<tr> <td> Composition G=G1 ||| G2 </td> </tr>
+<tr> <td> <fimage fsrc="tmp_wparallel_g1g2"/> </td> </tr>
+</table> </td> </tr> 
+</table>
+
+<fconditions/>
+
+<p>
+In this implementation, only accessible states are generated. 
+Arguments are required to be deterministic, and so will be the result.
+It is considered
+an error if the controllability flags in the arguments don't match.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="Product">
+
+<fdetails/>
+
+<p>
+Given two generators <i>G1</i> and <i>G2</i>, 
+this function computes the product composition <i>GRes</i> = <i>G1</i> x <i>G2</i>, with
+<br/>
+<br/>
+<fdmath>L(GRes) = L(G1) \, \cap\, (G2)</fdmath>
+<br/>
+<fdmath>L_m(GRes) = L_m(G1) \,\cap\, L_m(G2)</fdmath>
+<br/>
+<br/>
+The resulting generators alphabet is the intersection of the argument alphabets.
+</p>
+
+<p>
+Technically,  <ffnct>Product</ffnct> constructs its result on the product
+of the state spaces of <i>G1</i> and <i>G2</i>, i.e. <fimath>Q_{res} = Q_1 \times Q_2</fimath>. 
+Thus, to a resulting state <fimath>q=(q_1,q_2)</fimath> correspond the component states 
+<fimath>q_1</fimath> and <fimath>q_2</fimath>. 
+Transitions are enabled in <i>GRes</i> whenever they are enabled in both components. 
+<br/>
+<br/>
+<fdmath>((q_1,q_2),\, o,\, (q_1',q_2')) \in \delta_{res}  \quad\Leftrightarrow</fdmath>
+<br/>
+<fdmath>\quad\quad(q_1,\,\sigma,\,q_1') \in\delta_1</fdmath> and
+<br/>
+<fdmath>\quad\quad (q_2,\,\sigma,\,q_2') \in\delta_2</fdmath> 
+<br/>
+<br/>
+</p>
+
+<p>
+An optional output argument can be supplied to record a so called
+<i>composition map</i>, which relates 
+the states of the result and the states of the arguments.
+</p>
+
+<fconditions/>
+
+<p>
+In this implementation, only accessible states are generated. 
+On deterministic input this functions constructs a deterministic output.
+The resulting generators controllability attributes are copied
+from the arguments. It is considered
+an error if the controllability flags in the arguments don't match.
+</p>
+
+</ffnct_reference>
+
+</ReferencePage>
+
+  

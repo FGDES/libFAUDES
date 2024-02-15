@@ -1,0 +1,31 @@
+% The three state simple machine
+
+% This version uses subscript a for all events
+
+<Generator>
+"simple machine a"
+
+<Alphabet>
+"alpha_a" "beta_a" "mue_a" "lambda_a"
+</Alphabet>
+
+<States>
+"idle" "busy" "down"
+</States>
+
+<TransRel>
+"idle" "alpha_a"  "busy"
+"busy" "beta_a"   "idle"
+"busy" "mue_a"    "down"
+"down" "lambda_a" "idle"
+</TransRel>
+
+<InitStates>
+"idle"
+</InitStates>
+
+<MarkedStates>
+"idle"
+</MarkedStates>
+
+</Generator>

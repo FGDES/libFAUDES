@@ -1,0 +1,12 @@
+CVS
+*/#*
+*/.#*
+*/*~
+*/._*
+*/.DS*
+.depend
+kbusdemo.tgz
+wago/kbusDemo
+wago/libuio.a
+wago/libkbus.a
+wago/wago_ipc_*

@@ -1,0 +1,44 @@
+#
+# makefile for libfaudes example plugin tutorial, tmoor 200804
+#
+# included by Makefile.plugin
+#
+
+#
+# set up paths relative to faudes dir
+
+PEX_TUTORIAL_DIR = ./plugins/example/tutorial
+
+#
+# source files
+
+PEX_TUTORIAL_CPPFILES = \
+	pex_tutorial.cpp
+ 
+# executables
+
+PEX_TUTORIAL_EXECUTABLES = \
+	pex_tutorial
+ 	
+PEX_TUTORIAL_EXECUTABLES := $(PEX_TUTORIAL_EXECUTABLES:%=$(PEX_TUTORIAL_DIR)/%$(DOT_EXE))
+
+####################################
+# implicit rules for compiling test targets
+####################################
+
+$(PEX_TUTORIAL_DIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
+	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$*$(DOT_O))
+	$(call FNCT_LINK_APP,$(OBJDIR)/$*$(DOT_O),$@)
+	$(call FNCT_POST_APP,$@)
+
+
+###################################
+# advertise tutorial to main makefile
+###################################
+
+VPATH += $(PEX_TUTORIAL_DIR)
+TUTORIAL_EXECUTABLES += $(PEX_TUTORIAL_EXECUTABLES)
+CLEANFILES += $(PEX_TUTORIAL_EXECUTABLES)
+SOURCES += $(PEX_TUTORIAL_CPPFILES:%=$(PEX_TUTORIAL_DIR)/%)
+
+

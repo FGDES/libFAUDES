@@ -1,0 +1,36 @@
+<Generator>
+"R_sf(0)"     
+
+% 
+%  Statistics for R_sf(0)
+%  States:        12
+%  Init/Marked:   1/2
+%  Events:        9
+%  Transitions:   15
+%  StateSymbols:  12
+%  Attrib. E/S/T: 4/0/0
+% 
+
+<Alphabet>
+"e"	+o+	"alpha"	      
+</Alphabet>
+
+<States>
+1	2	3      
+</States>
+
+<TransRel>
+1	"e"	2
+2	"alpha"	3    
+</TransRel>
+
+<InitStates>
+1         
+</InitStates>
+
+<MarkedStates>
+1	2	3       
+</MarkedStates>
+
+
+</Generator>

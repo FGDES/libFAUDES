@@ -1,0 +1,21 @@
+digraph "cb4mh1d1rt1cb11cb7[2]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "2";
+  "3";
+
+  // transition relation
+  "1" -> "2" [label="cb12-4"];
+  "2" -> "3" [label="cb12-4"];
+  "2" -> "1" [label="wp7-15"];
+  "3" -> "2" [label="wp7-15"];
+};

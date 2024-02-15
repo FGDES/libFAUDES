@@ -1,0 +1,37 @@
+<Generator>
+"rts2[0]_spec" 
+
+% 
+%  Statistics for rts2[0]_spec
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        7
+%  Transitions:   11
+%  StateSymbols:  5
+%  Attrib. E/S/T: 7/0/0
+% 
+
+<Alphabet>
+ "rts2_5-6"    +C+           "rts2_5-4"    +C+           
+    +C+           "rts2_4-5"    +C+        "rts2_6-5"    +C+
+</Alphabet>
+
+<States>
+"1"           "2"               
+</States>
+
+<TransRel>          
+"1"           "rts2_5-6"    "2"                   
+"2"           "rts2_6-5"    "1"                                                                          
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"       
+</MarkedStates>
+
+
+</Generator>

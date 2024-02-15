@@ -1,0 +1,64 @@
+<Generator>
+"rts2[0]"     
+
+% 
+%  Statistics for rts2[0]
+%  States:        28
+%  Init/Marked:   1/1
+%  Events:        22
+%  Transitions:   30
+%  StateSymbols:  28
+%  Attrib. E/S/T: 18/0/0
+% 
+
+<Alphabet>
+"rts2+x"      +C+           "rts2-x"      +C+          "rts2_5-4"    
++C+           "rts2_4-5"    +C+                 
+ "rts2ar5"     "rts2ar4"   "rts2_5"	"rts2_4"    "rts2_6-5" +C+
+"rts2lv5"  "rts2lv5-x"  "rts2lv4"   "rts2stp"     +C+           "rts2_5-6"   +C+      "crash"     
+</Alphabet>
+
+<States>
+<Consecutive>
+1	13
+</Consecutive>         
+</States>
+
+<TransRel>
+1	"rts2_5-6"	11
+1	"rts2_5-4"	2
+2	"rts2-x"	3
+3	"rts2lv5-x"	4
+4	"rts2ar4"	5
+4	"crash"	4
+5	"rts2stp"	12
+5	"crash"	5
+6	"rts2_4-5"	7
+6	"crash"	6
+7	"rts2+x"	8
+7	"crash"	7
+8	"rts2lv4"	9
+8	"crash"	8
+9	"rts2ar5"	10
+10	"rts2stp"	13
+11	"rts2_5"	1
+11	"rts2stp"	11
+11	"rts2-x"	11
+11	"rts2+x"	11
+11 	"rts2ar5"	11
+11	"rts2lv5"	11
+11	"rts2_6-5"	11
+12	"rts2_4"	6
+13	"rts2_5"	1
+</TransRel>
+
+<InitStates>
+1          
+</InitStates>
+
+<MarkedStates>
+1           
+</MarkedStates>
+
+
+</Generator>

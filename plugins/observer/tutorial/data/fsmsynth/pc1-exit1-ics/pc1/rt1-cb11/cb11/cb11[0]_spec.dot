@@ -1,0 +1,104 @@
+digraph "cb11[0]_spec" {
+  rankdir=LR
+  node [shape=circle];
+
+  // istates
+  dummyinit1 [shape=point];
+  dummyinit1 -> "1";
+
+  // mstates
+  "1" [shape=doublecircle];
+
+  // rest of stateset
+  "10";
+  "15";
+  "16";
+  "17";
+  "18";
+  "2";
+  "3";
+  "4";
+  "5";
+
+  // transition relation
+  "1" -> "1" [label="cb11+y+x"];
+  "1" -> "1" [label="cb11-4"];
+  "1" -> "1" [label="cb11wplv4"];
+  "1" -> "2" [label="cb4-11"];
+  "1" -> "1" [label="cb7-11"];
+  "1" -> "1" [label="t_modul3\rt1-cb11\cb11"];
+  "1" -> "1" [label="wp11-4"];
+  "1" -> "1" [label="wp7-11"];
+  "10" -> "10" [label="cb11+y+x"];
+  "10" -> "10" [label="cb11-4"];
+  "10" -> "15" [label="cb11-7"];
+  "10" -> "10" [label="cb11wplv4"];
+  "10" -> "10" [label="cb7-11"];
+  "10" -> "10" [label="t_modul3\rt1-cb11\cb11"];
+  "10" -> "10" [label="wp11-4"];
+  "10" -> "10" [label="wp7-11"];
+  "15" -> "15" [label="cb11+y+x"];
+  "15" -> "15" [label="cb11-4"];
+  "15" -> "16" [label="cb11-y-x"];
+  "15" -> "15" [label="cb11wplv4"];
+  "15" -> "15" [label="cb7-11"];
+  "15" -> "15" [label="t_modul3\rt1-cb11\cb11"];
+  "15" -> "15" [label="wp11-4"];
+  "15" -> "15" [label="wp7-11"];
+  "16" -> "16" [label="cb11+y+x"];
+  "16" -> "16" [label="cb11-4"];
+  "16" -> "16" [label="cb11wplv4"];
+  "16" -> "17" [label="cb11wplv7"];
+  "16" -> "16" [label="cb7-11"];
+  "16" -> "16" [label="t_modul3\rt1-cb11\cb11"];
+  "16" -> "16" [label="wp11-4"];
+  "16" -> "16" [label="wp7-11"];
+  "17" -> "17" [label="cb11+y+x"];
+  "17" -> "17" [label="cb11-4"];
+  "17" -> "18" [label="cb11stp"];
+  "17" -> "17" [label="cb11wplv4"];
+  "17" -> "17" [label="cb7-11"];
+  "17" -> "17" [label="t_modul3\rt1-cb11\cb11"];
+  "17" -> "17" [label="wp11-4"];
+  "17" -> "17" [label="wp7-11"];
+  "18" -> "18" [label="cb11+y+x"];
+  "18" -> "18" [label="cb11-4"];
+  "18" -> "18" [label="cb11wplv4"];
+  "18" -> "18" [label="cb7-11"];
+  "18" -> "18" [label="t_modul3\rt1-cb11\cb11"];
+  "18" -> "18" [label="wp11-4"];
+  "18" -> "1" [label="wp11-7"];
+  "18" -> "18" [label="wp7-11"];
+  "2" -> "2" [label="cb11+y+x"];
+  "2" -> "2" [label="cb11-4"];
+  "2" -> "3" [label="cb11-y-x"];
+  "2" -> "2" [label="cb11wplv4"];
+  "2" -> "2" [label="cb7-11"];
+  "2" -> "2" [label="t_modul3\rt1-cb11\cb11"];
+  "2" -> "2" [label="wp11-4"];
+  "2" -> "2" [label="wp7-11"];
+  "3" -> "3" [label="cb11+y+x"];
+  "3" -> "3" [label="cb11-4"];
+  "3" -> "4" [label="cb11wpar"];
+  "3" -> "3" [label="cb11wplv4"];
+  "3" -> "3" [label="cb7-11"];
+  "3" -> "3" [label="t_modul3\rt1-cb11\cb11"];
+  "3" -> "3" [label="wp11-4"];
+  "3" -> "3" [label="wp7-11"];
+  "4" -> "4" [label="cb11+y+x"];
+  "4" -> "4" [label="cb11-4"];
+  "4" -> "5" [label="cb11stp"];
+  "4" -> "4" [label="cb11wplv4"];
+  "4" -> "4" [label="cb7-11"];
+  "4" -> "4" [label="t_modul3\rt1-cb11\cb11"];
+  "4" -> "4" [label="wp11-4"];
+  "4" -> "4" [label="wp7-11"];
+  "5" -> "5" [label="cb11+y+x"];
+  "5" -> "5" [label="cb11-4"];
+  "5" -> "5" [label="cb11wplv4"];
+  "5" -> "5" [label="cb7-11"];
+  "5" -> "5" [label="t_modul3\rt1-cb11\cb11"];
+  "5" -> "5" [label="wp11-4"];
+  "5" -> "10" [label="wp4-11"];
+  "5" -> "5" [label="wp7-11"];
+};

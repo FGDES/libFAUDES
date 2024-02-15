@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Synthesis" page="0_Index" title="Synthesis - Introduction">
+
+<h1>
+Synthesis  
+</h1>
+  
+<fsummary>
+Functions to synthesise and/or to verify properties relevant for controller design,
+including controllability, normality, relative closedness, completeness and 
+variants of omega-controllability.
+</fsummary>
+
+
+<p>
+This plug-in provides functions related to controllability and normality of formal languages.
+The latter properties play a key role in the control of
+discrete event systems; see <fcite name="S1"/> and <fcite name="S2"/>.  
+On this page, we give a pragmatic introduction by a simple example.
+Further details are organized as follows:
+</p>
+<ul  class="l2">
+<li><p>
+<a href="synthesis_controllability.html">Controllability</a>
+</p></li>
+<li><p>
+<a href="synthesis_normality.html">Normality</a>
+</p></li>
+<li><p>
+<a href="synthesis_omega.html">Omega-Controllability</a>
+</p></li>
+<li><p>
+<a href="synthesis_misc.html">Other Synthesis-Related Functions</a>
+</p></li>
+</ul>
+
+<p>
+<br/>
+<br/>
+Copyright (C) 2006, Bernd Opitz.
+<br/>
+Copyright (C) 2008, 2009 Thomas Moor, Klaus Schmidt, Sebastian Perk. 
+<br/>
+Copyright (C) 2010 - 2013 Thomas Moor.
+</p>
+
+<h2>
+<a id="example">Plant Model</a>
+</h2>
+
+<p>
+For our example, we consider two <i>very simple machines</i> M1 and M2.
+Each machine can process one workpiece at a time. Per machine, our model 
+distinguishes the two events <tt>alpha_*</tt> and <tt>beta_*</tt> to indicate
+the beginning and the end of processing a workpiece.
+Furthermore, we assume that the machines never fail, i.e. once the process
+is started, it is guaranteed to end within finite time.
+</p>
+<p>
+The machines are modelled by the below <ftype>Generator</ftype>s G1 and G2, respectively.
+The states <tt>I</tt> and <tt>B</tt> refer to the machine being
+<i>idle</i> or <i>busy</i>. The overall plant model is constructed as the shuffle product
+of both components, which is computed by the function <ffnct>Parallel</ffnct>.
+</p>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> Plant Component G1 </td> <td> Plant Component G2 </td> </tr>
+<tr> 
+<td> <fimage fsrc="tmp_syn_m1"/> </td>
+<td> <fimage fsrc="tmp_syn_m2"/> </td>
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> 
+<table width="100%"> 
+<tr> <td> Plant GPlant =G1 || G2 </td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_plant"/> </td> </tr>
+</table>
+</td> </tr>
+</table>
+
+<p>
+Note:
+in using <ffnct>Parallel</ffnct> for system composition, the overall
+plant model marks states that correspond to a <i>simultanous</i>
+marking of the components.
+Thus, we interpret the marking as a
+requirement to the legal operation of our two machines rather than
+a property of our plant configuration; see also
+<ffnct>OmegaParallel</ffnct> for an alternative approach.
+</p>
+
+
+
+<h2>
+Specification
+</h2>
+
+<p>
+While the plant model generates all strings that the plant can possibly exhibit, the specification
+model is meant to generate all strings that are acceptable.
+</p> 
+
+<p>
+In our sceneraio, the two machines shall be arranged with a buffer B to implement a
+two-stage production process. Each workpiece must first be processed by M1, then placed in the
+buffer B, and finaly processed by M2. The buffer capcity is restricet to one workpiece.
+While by our plant model both machines act independantly, the buffer imposes a condition
+regarding the interaction of both machines. We model the buffer as our specification, where
+the event <tt>beta_1</tt> fills the buffer and <tt>alpha_2</tt> empties the buffer.
+</p>
+
+<table class="plain"> 
+<tr> <td> Specification GSpec </td> </tr> 
+<tr>
+<td> <fimage fsrc="tmp_syn_buffer"/> </td>
+</tr>
+</table> 
+
+<p>
+The above specification is given for an alphabet which is a strict subset
+of the plant alphabet. Thus, events that are not specified may occur at any time.
+To restate the specifcation for the full alphabet, one may use an inverse projection
+or a self-loop operatiorn (see <ffnct>InvProject</ffnct> and <ffnct>SelfLoop</ffnct>).
+</p>
+
+<h2>
+Controllability and the Closed-Loop Configuration
+</h2>
+
+<p>
+For the closed loop, we consider all plant events to be synchronized with jet another
+generator, the <i>supervisor</i>. Our interpretation of this configuration is that
+at any instance of time the supervisor only allows those events to occur that
+are enabled in its current state. However, it is quite restrictive
+to assume that any event can be prevented. Therefore, the overall alphabet <i>Sigma</i> is 
+decomposed in two disjoint subsets of controllable events <i>Sigma_c</i> and 
+uncontrollable events <i>Sigma_uc</i>. At any instance of time, the supervisor 
+is required to allow all uncontrollable events that are enabled in the plant.
+</p>
+
+<p>
+For our scenario, we consider the <tt>alpha_*</tt> events to be controllable, i.e. a
+supervisor may decide not to start a process. In contrast, once the process has been started
+the subsequent <tt>beta_*</tt> event cannot be prevented. Hence, <tt>beta_*</tt> events 
+are considered uncontrollable.  
+</p>
+
+<p>
+The task is to find a supervisor that 
+<br/>
+(1)&nbsp; never prevents uncontrollable events, and
+<br/>
+(2)&nbsp; enforces the closed-loop to evolve within the specified behaviour.
+</p>
+
+<p>
+In terms of the generated languages, condition (1) corresponds to the controllabilty condition
+proposed by P.J. Ramadge and W.M. Wonham, while (2) amounts to a language inclusion. The
+key observation is that the set of all closed-loop behaviours with supervisors that fulfill both conditions
+exhibits a unique supremal element (a largest language). This supremal element itself can serve as 
+a supervisor: when run in parallel to the plant, it fulfills conditions (1) and (2) 
+while imposing as little restriction to the plant behaviour as possible.
+</p>
+
+<p>
+A realisation of the least restrictive supervisor can be computed by the function <ffnct>SupConNB</ffnct>
+(or <ffnct>SupCon</ffnct> when only the generated languages are to be considered and 
+the marking is to be ignored). In our example, we obtain the below supervisor
+K.
+</p>
+
+<table class="plain"> 
+<tr> <td> Supervisor GSupervisor </td> </tr> 
+<tr>
+<td> <fimage fsrc="tmp_syn_super"/> </td>
+</tr>
+</table> 
+
+<p>
+Note that, if the machine M2 is still busy and the buffer is full (state <tt>I|B|F</tt>) the
+supervisor will prevent that machine M1 takes up a workpiece. If the supervisor did not prevent
+M1 from takeng up a workpiece in state <tt>I|B|F</tt>, it could happen, 
+that M1 finishes processing before M2 and, hence, a buffer overflow would occur.
+</p>
+
+<h2>
+<a id="literature">
+Literature
+</a>
+</h2>
+
+<fliterature name="S1">
+<fauthors>P.J. Ramadge and W.M. Wonham</fauthors>
+<ftitle>The Control of discrete event systems</ftitle>
+<fjournal><a href="http://ieeexplore.ieee.org">Proceedings of the IEEE</a>,   vol 77,  issue 1, pp. 81-98</fjournal>
+<fyear>1989</fyear>
+</fliterature>
+
+<fliterature name="S2">
+<fauthors>R.D. Brandt, V. Garg, R. Kumar, F. Lin, S.I. Marcus, W.M. Wonham</fauthors>
+<ftitle>Formulas for Calculating Supremal Controllable and Normal Sublanguages</ftitle>
+<fjournal><a href="http://www.sciencedirect.com/">System &amp; Control Letters</a>,   vol 15, no 2, pp. 111-117</fjournal>
+<fyear>1990</fyear>
+</fliterature>
+
+<fliterature name="S3">
+<fauthors>P.J. Ramadge</fauthors>
+<ftitle>Some tractable supervisory control problems for discrete-event systems modeled by Buchi automata</ftitle>
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   
+vol 34, no 1, pp. 10-19</fjournal>
+<fyear>1989</fyear>
+</fliterature>
+
+<fliterature name="S4">
+<fauthors>R. Kumar, V. Garg, S.I. Marcus</fauthors>
+<ftitle>On supervisory control of sequential behaviors</ftitle>
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   vol 37, no 12, pp. 1978-1985</fjournal>
+<fyear>1992</fyear>
+</fliterature>
+
+
+<fliterature name="S5">
+<fauthors>J.G. Thistle, W.M. Wonham</fauthors>
+<ftitle>Supervision of Infinite Behavior of Discrete-Event Systems</ftitle>
+<fjournal>SIAM Journal on Control and Optimization,   vol 32, no, 4, pp. 1098 - 1113</fjournal>
+<fyear>1994</fyear>
+</fliterature>
+
+
+<fliterature name="S6">
+<fauthors>R.&nbsp;Su, W.M.&nbsp;Wonham</fauthors>
+<ftitle>Supervisor Reduction for Discrete-Event Systems</ftitle>
+<fjournal><a href="http://www.springer.com/mathematics/applications/journal/10626">Discrete Event Dynamic Systems</a>, vol. 14, no. 1</fjournal>
+<fyear>2004</fyear>
+</fliterature>
+
+<fliterature name="S7">
+<fauthors>T.&nbsp;Moor, Ch.&nbsp;Baier,T.-S.&nbsp;Yoo, F.&nbsp;Lin, S.&nbsp;Lafortune</fauthors>
+<ftitle>On the Computation of Supremal Sublanguages Relevant to Supervisory Control</ftitle>
+<fjournal>Workshop on Discrete Event Systems (WODES)</fjournal>
+<fyear>2012</fyear>
+</fliterature>
+
+<fliterature name="S8">
+<fauthors>T.-S.&nbsp;Yoo, S.&nbsp;Lafortune</fauthors>
+<ftitle>Solvability of Centralized Supervisory Control Under Partial Observation</ftitle>
+<fjournal><a href="http://www.springer.com/mathematics/applications/journal/10626">Discrete Event Dynamic Systems</a>, vol. 16</fjournal>
+<fyear>2006</fyear>
+</fliterature>
+
+<fliterature name="S9">
+<fauthors>R.M.&nbsp;Ziller, J.E.R.&nbsp;Cury</fauthors>
+<ftitle>On the Supremal Lm-closed and the Supremal Lm-closed and L-controllable Sublanguages of a Given Language</ftitle>
+<fjournal>Lecture Notes in Control and Information Sciences 199, Springer-Verlag, pp. 80-85</fjournal>
+<fyear>1994</fyear>
+</fliterature>
+
+<fliterature name="S10">
+<fauthors>T.&nbsp;Moor</fauthors>
+<ftitle>Natural projections for the synthesis of non-conflicting supervisory controllers</ftitle>
+<fjournal>Workshop on Discrete Event Systems (WODES)</fjournal>
+<fyear>2014</fyear>
+</fliterature>
+
+</ReferencePage>
+
+  

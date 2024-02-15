@@ -1,0 +1,39 @@
+<Generator>
+"Project(SupConNB((mh2[0]||d2[0]),(mh2d2[0]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((mh2[0]||d2[0]),(mh2d2[0]_spec)))
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"mh2end"      "mh2start"    +C+           "mh2stp"      +C+           
+</Alphabet>
+
+<States>
+1             2             3             4             
+</States>
+
+<TransRel>
+2             "mh2stp"      3             
+1             "mh2start"    4             
+3             "mh2end"      1             
+4             "mh2stp"      2             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Synthesis" page="2_Normality" title="Synthesis - Normality">
+
+<h1>
+Normal Sublanguages
+</h1>
+
+<fsummary>
+Supervision under artial observation, i.e., normality in conjunction with controllability."
+</fsummary>
+
+<p>
+Functions related to the notion of normality and supervision under
+partial observation
+</p>
+
+
+<h2>
+Definition of Normality
+</h2>
+
+<p>
+Given two languages <fimath>L</fimath> and <fimath>K</fimath> over a common 
+alphabet <fimath>\Sigma</fimath>,
+and a set of observable events  <fimath>\Sigma_o \subseteq \Sigma</fimath>,
+<fimath>K</fimath> is <i>normal w.r.t <fimath>(L,\Sigma_o)</fimath></i> iff
+<br/>
+<br/>
+<fdmath>K = L \,\cap\, \ProInv{0}(\Pro{0}(K))</fdmath>,
+<br/>
+<br/>
+where <fimath>\Pro{0}</fimath> and <fimath>\ProInv{0}</fimath>
+denote the natural <ffnct>Project</ffnct>ion from <fimath>\Sigma^*</fimath> to <fimath>\Sigma_o^*</fimath>
+and its set-valued inverse, respectively.
+</p>
+
+<p>
+Note that normality implies <fimath>K\subseteq L</fimath>. 
+The function <ffnct>IsNormal</ffnct> is provided to 
+test a specified language for normality.
+</p>
+
+<p>
+The notion of normality is conveniently used to discuss supervisory control 
+under partial observation, under the additional assumption that all controllable events are
+observable; i.e. <fimath>\Sigma_c \subseteq \Sigma_o</fimath>.
+The closed-loop configuration with a plant <fimath>L\subseteq \Sigma^*</fimath> 
+and a controller <fimath>H_o\subseteq \Sigma_o^*</fimath> can then be modelled by
+the synchronous composition
+<br/>
+<br/>
+<fdmath> K = L\, \parallel \, H_o = L\, \cap \, \ProInv{0}(H_o)</fdmath>,
+<br/>
+<br/>
+and it is readily observed that <fimath>K</fimath> is indeed normal w.r.t. 
+<fimath>(L,\Sigma_o)</fimath>. 
+Vice versa, given a plant <fimath>L</fimath> and a desired 
+closed-loop behaviour <fimath>K</fimath> that is normal, 
+<fimath>K</fimath> is achieved by the controller <fimath>H_o=\Pro{0}(K)</fimath>.
+</p>
+
+<p>
+Note that, the condition <fimath> \Sigma_c \subseteq \Sigma_o</fimath>
+is not a formal prerequisit of the proposed approach. However,
+the controllers under consideration can only exercise control
+by disabling events within <fimath>\Sigma_o</fimath>, and in this
+sense the approach is restrictive.
+A synthesis algorithm for controllers without this restriction 
+is presented in <fcite name="S8"/>.
+</p>
+
+<h2>
+Controller Synthesis for Supervision under Partial Observation
+</h2>
+
+<p>
+Consider 
+a plant <fimath>L\subseteq \Sigma^*</fimath>, 
+a specification <fimath>E\subseteq \Sigma^*</fimath>, 
+uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>, and,
+observable events <fimath>\Sigma_o \subseteq \Sigma</fimath>.
+The task then is to find a prefix closed controller <fimath>H_o\subseteq \Sigma_o^*</fimath>, 
+such that
+</p>
+
+<p>
+(1) &nbsp; &nbsp;
+<fimath>L</fimath> and <fimath>H_o</fimath> are non-blocking, i.e., 
+<fimath>\Closure{L \,\cap\, \ProInv{0}(H_o)} = \Closure{L}\; \cap \; \ProInv{0}(H_o)</fimath> ;
+<br/>
+(2) &nbsp; &nbsp;
+<fimath>\ProInv{0}(H_o)</fimath> is controllable w.r.t. <fimath>(L,\Sigma_{uc})</fimath> ; and
+<br/>
+(3) &nbsp; &nbsp;
+the closed-loop behaviour satisfies the specification, i.e., <fimath>L\, \parallel \, H_o\subseteq E</fimath>.
+</p>
+<p>
+For any prefix closed controller <fimath>H_o</fimath> that satisfies the above conditions, the closed loop 
+<fimath>K = L\, \parallel \, H_o</fimath>
+exhibits the following properties:
+</p>
+<p>
+(a) &nbsp; &nbsp;
+<fimath>K</fimath> is relatively closed w.r.t. <fimath>L</fimath>;
+<br/>
+(b) &nbsp; &nbsp;
+<fimath>K</fimath> is controllable w.r.t. <fimath>(L,\Sigma_{uc})</fimath>;
+<br/>
+(c) &nbsp; &nbsp;
+<fimath>\Closure{K}</fimath> is normal w.r.t. <fimath>(\Closure{L},\Sigma_o)</fimath>; and
+<br/>
+(d) &nbsp; &nbsp;
+<fimath>K\subseteq E</fimath>.
+</p>
+<p>
+Moreover, if a language <fimath>K</fimath> satisfies
+(a)-(d), then the controller <fimath>H_o = \Pro{0}(\Closure{K})</fimath> solves
+the synthesis problem. Since all of the conditions (a)-(d) are 
+preserved under arbitrary union, there uniquely exists a supremal closed-loop
+behaviour 
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup\{K\subseteq E\,|\,K \text{ satisfies (a)-(c)}\,\}</fdmath>
+<br/>
+<br/>
+which itself satisfies conditions (a)-(d). The associated minimally restrictive
+controller is denoted <fimath>H_o^\uparrow = \Pro{0}(\Closure{K^\uparrow})</fimath>.
+</p>
+<p>
+The synthesis plug-in provides the function <ffnct>SupConNormNB</ffnct> to compute
+the supremal closed-loop behaviour. When the plant <fimath>L</fimath> and
+the specification <fimath>E</fimath> are prefix closed, condition (a) simplifies to
+<fimath>K</fimath> being closed. Then, <ffnct>SupConNormClosed</ffnct>
+can be used to compute the supremal closed-loop bahaviour.
+</p>
+
+<h2>	
+Example
+</h2>
+<p>
+Consider the <a href="synthesis_index.html#example">very-simple machine example</a> and
+assume that all events except from  <tt>beta_1</tt> are reported to the supervisor, i.e.
+Sigma_o={<tt>alpha_1</tt>, <tt>alpha_2</tt>, <tt>beta_2</tt>}.
+</p>
+<p>
+Since all controllable events are observable, we define
+a candidat supervisor <fimath>H_o\subseteq\Sigma_o^*</fimath> 
+by projection, i.e.
+<fimath>H_o=\Pro{0}(\Closure{K})</fimath>.
+The supervisor <fimath>H_o</fimath>, however, will in addition to the events from 
+<fimath>\Sigma_o</fimath> at any time enable  
+all unobservable events, i.e. <tt>beta_1</tt>. 
+Thus, the actual closed-loop behaviour under restricted
+observation is given by <fimath>Lm(G) \,\cap\, \ProInv{0}(H_o)</fimath>. 
+If <fimath>\Closure{K}</fimath> happened to be normal w.r.t. <fimath>(L(G),\Sigma_o)</fimath>, 
+the intended
+closed-loop behaviour would be achieved. However, in our example
+<fimath>\Closure{K}</fimath> is not normal w.r.t <fimath>(L(G),\Sigma_o)</fimath>:
+</p>
+
+<table class="plain"> 
+<tr> <td> <fimath>\Closure{K}</fimath> </td> </tr> 
+<tr> <td> <fimage fsrc="tmp_syn_clsuper"/> </td></tr>
+</table> 
+<table class="plain"> 
+<tr> <td> <fimath>L(G) \,\cap\,  \ProInv{0}(H_o) </fimath> </td> </tr> 
+<tr> <td> <fimage fsrc="tmp_syn_clloop1"/> </td> </tr>
+</table> 
+
+<p>
+Note that the candidate closed loop at state <tt>2</tt> allows machine M2 to pick 
+up a workpiece from the buffer which at that state is empty. This clearly violates the specification.
+</p>
+
+<p>
+When considering the same scenario but with Sigma_o={<tt>alpha_1</tt>, <tt>beta_1</tt>, <tt>alpha_2</tt>},
+i.e. <tt>beta_2</tt> is the only unobservable event, in fact Closure(K) turns out to be normal
+and we have <fimath>L(G) \,\cap\, \ProInv{0}(H_o)  = \Closure{K}</fimath>.
+</p>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="IsNormal">
+
+<fdetails/>
+<p>
+Tests whether the language K (marked by argument K or GCand) 
+is normal w.r.t. the language L (marked by argument L or GPlant) 
+and the set of observable events. The latter may be given explicitely
+or is extracted from GPlant.
+</p>
+<p> 
+The implementation tests for 
+<fimath>K \supseteq L \,\cap\, \ProInv{0}(\Pro{0}(K))</fimath>,
+which is necessary for normality.
+Under the assumption <fimath>K \subseteq L</fimath>,
+the test is also sufficient.
+</p>
+
+
+<fconditions/>
+<p>
+Arguments are required to be deterministic.
+For a necessary and sufficient test,
+K must mark a subset of the language marked by L.
+</p>
+
+</ffnct_reference>
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupNorm">
+
+<fdetails/>
+<p>
+The function <ffnct>SupNorm</ffnct> computes a realisation of the supremal sublanguage
+<fimath>N^\uparrow</fimath> of <fimath>K</fimath> (generated by argument K or GCand) 
+that is normal w.r.t. <fimath>L</fimath> (generated by argument L or GPlant):
+<br/>
+<br/>
+<fdmath>N^\uparrow\ =\ \sup\{N \, \subseteq\, K\ | \ N \text{ is normal w.r.t. } (L,\Sigma_o)\ \}</fdmath>.
+</p>
+<p>
+The set of observable events <fimath>\Sigma_o</fimath> 
+may be given explicitely or is extracted from GPlant.
+The implemention evaluates the Lin-Brandt formula for prefix closed 
+languages <fimath>L</fimath> and <fimath>K</fimath>, as proposed in <fcite name="S2"/>:
+<br/>
+<br/>
+<fdmath>N^\uparrow \ =\  K \ -\  \ProInv{0}( \Pro{0}(L-K) ) </fdmath>
+<br/>
+<br/>
+Note that, even though <fimath>K</fimath> and <fimath>L</fimath> are <i>generated</i> languages
+and, thus, are prefix closed,
+the supremal normal sublanguage in general fails to be prefix closed. In particular, the 
+generator GRes <i>marks</i> the result. See also <ffnct>SupNormClosed</ffnct>.
+</p>
+
+<fconditions/>
+<p>
+Parameters have to be deterministic, the result will be deterministic.
+K must be a subset of L;
+While arguments are interpreted as generated languages, the result is given as marked
+language.
+</p>
+
+</ffnct_reference>	    
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="SupNormClosed">
+
+<fdetails/>  
+<p>
+The function <ffnct>SupNormClosed</ffnct> computes a realisation of the 
+supremal sublanguage <fimath>N^\uparrow</fimath> of <fimath>K</fimath> (generated by argument K or GCand) 
+that is normal w.r.t. L (generated by argument L or GPlant) and closed:
+<br/>
+<br/>
+<fdmath>N^\uparrow\ = \ \sup\{N \, \subseteq\, K\ | \ N \text{ is normal w.r.t. } (L,\Sigma_o)\ \text{and prefix closed }\}</fdmath> .
+<br/>
+<br/>
+Note that, since <fimath>K</fimath> and <fimath>L</fimath> are prefix closed, the above supremum
+is equivalently characterised by
+<br/>
+<br/>
+<fdmath>N^\uparrow\ =\ \sup\{N \, \subseteq\, K\ | \ \Closure{N} \text{ is normal w.r.t. } (L,\Sigma_o)\ \}</fdmath>.
+</p>
+<p>
+The set of observable events <fimath>\Sigma_o</fimath> 
+may be given explicitely or is extracted from GPlant.
+The implemention evaluates the Lin-Brandt formula for prefix closed 
+languages, as proposed in <fcite name="S2"/>:
+<br/>
+<br/>
+<fdmath>N^\uparrow \ = \ K \ -\  \ProInv{0}( \Pro{0}(L-K) )\Sigma* </fdmath>.
+<br/>
+<br/>
+In contrast to <ffnct>SupNorm</ffnct>, the above formula evaluates to a closed 
+language. The generator GRes is set up to both mark and generate the result. 
+</p>
+
+<fconditions/>
+<p>
+Parameters have to be deterministic, result is deterministic.
+K must be a subset of L.
+While arguments are interpreted as generated languages, the result is given as marked
+and generated language.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="SupConNormClosed">
+
+<fdetails/>  
+<p>
+The function <ffnct>SupConNormClosed</ffnct> computes a realisation of the supremal controllable, normal
+and closed sublanguage
+<fimath>K^\uparrow</fimath> of the specification <fimath>E</fimath> (generated by argument E or GSpec) w.r.t.\
+the plant L (generated by argument L or GPlant):
+<br/>
+<br/>
+<fdmath>
+K^\uparrow\ =\ \sup\{K \, \subseteq\, E\ | \ K \text{ is controllable w.r.t. } (L,\Sigma_uc)\ \text{and}\ 
+</fdmath><br/><fdmath>\quad\quad\quad
+\text{normal w.r.t. } (L,\Sigma_o)\ \text{and prefix closed}\,\}
+</fdmath>.
+<br/>
+<br/>
+Note that, since <fimath>L</fimath> and <fimath>E</fimath> are prefix closed, the above supremum
+is equivalently characterised by
+<br/>
+<br/>
+<fdmath>
+K^\uparrow\ =\ \sup\{K \, \subseteq\, E\ | \ K \text{ is controllable w.r.t. } (L,\Sigma_uc)\ \text{and}\ 
+</fdmath><br/><fdmath>\quad\quad\quad
+\Closure{K} \text{ is normal w.r.t. } (L,\Sigma_o)\ \}
+</fdmath>.
+</p>
+<p>
+The set of controllable events <fimath>\Sigma_c</fimath> 
+and the set of observable events <fimath>\Sigma_o</fimath> 
+may be given explicitely or are extracted from GPlant.
+The implemention evaluates the following expressions
+<br/>
+<br/>
+1.&nbsp;&nbsp; 
+<fdmath>N^\uparrow= \sup\{\ N\subseteq E\ | \ \Closure{N} \text{ is normal w.r.t. } (L,\Sigma_o)\ \}</fdmath>
+<br/> 
+2.&nbsp;&nbsp; 
+<fdmath>N_o^\uparrow= \Pro{0}(N^\uparrow)</fdmath> , <fdmath>L_o= \Pro{0}(L)</fdmath>
+<br/> 
+3.&nbsp;&nbsp; 
+<fdmath>K_o^\uparrow= \sup\{\ K_o \subseteq N_o^\uparrow\ | \ K_o \text{ is controllable w.r.t. } (L_o,\Sigma_uc)\ \}</fdmath>
+<br/> 
+4.&nbsp;&nbsp; 
+<fdmath>K\,= \,L\,\cap\,\ProInv{0}(K_o^\uparrow)</fdmath>
+<br/> 
+<br/> 
+and returns a generator GRes that marks and generates <fimath>K</fimath>.
+It is readily verified, that <fimath>K</fimath> satisfies the closed-loop conditions
+(a)-(d); see also <fcite name="C1"/>. 
+Supremality is established in <fcite name="S2"/>, i.e., we have indeed <fimath>K=K^\uparrow</fimath>
+</p>
+
+<fexample/>
+
+<p>
+Consider the <a href="synthesis_index.html#example">very-simple machine example</a> 
+and assume that all events except of <tt>beta_1</tt> are observabe, i.e.
+Sigma_o={<tt>alpha_1</tt>, <tt>alpha_2</tt>, <tt>beta_2</tt>}. 
+The specification requires  the supervisor to disable <tt>alpha_1</tt>
+unless the buffer it not known to be empty, and, to disable <tt>alpha_2</tt> 
+unless the buffer it not known to be full. Thus, a supervisor may
+initially enable <tt>alpha_1</tt> and disable <tt>alpha_2</tt>. The plant
+will then start M1, i.e., it executes <tt>alpha_1</tt>, to eventually complete the process, indicated by 
+the unobservable event <tt>beta_1</tt>. 
+However, the only way for the supervisor to figure that the process was completed and that
+<tt>alpha_2</tt> could be enabled would be a subsequent
+<tt>alpha_1</tt>. However,  the supervisor will not enable <tt>alpha_1</tt> unless the buffer is known to be 
+empty, and this will never happen, as long as <tt>alpha_2</tt> is disabled.
+Consequently, the process stops after the sequence <tt>alpha_1 beta_1</tt> and
+<ffnct>SupConNormClosed</ffnct> consistently returns the following
+</p>
+<table class="plain"> 
+<tr> <td> supremal controllable and normal sublanguage for prefix closed plant and specificaton. </td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_superpoc"/> </td> </tr>
+</table> 
+
+
+<fconditions/>
+<p>
+Parameters have to be deterministic, result is deterministic.  While
+arguments are interpreted as generated languages, the result is given
+as marked and generated language.
+</p>
+
+</ffnct_reference>
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="SupConNormNB">
+
+<fdetails/>  
+<p>
+The function <ffnct>SupConNormNB</ffnct> computes a realisation of the supremal controllable and normal
+sublanguage <fimath>K^\uparrow</fimath> of the specification <fimath>E</fimath> 
+(marked by argument E or GSpec) w.r.t. 
+the plant L (marked by argument L or GPlant):
+<br/>
+<br/>
+<fdmath>
+K^\uparrow\ =\ \sup\{\ K \subseteq E\ | \ K \text{ is contr. w.r.t. } (L,\Sigma_uc)\ \text{and}\ 
+</fdmath><br/><fdmath>\quad\quad\quad
+\Closure{K} \text{ is normal w.r.t. } (\Closure{L},\Sigma_o)\ \}
+</fdmath>.
+<br/>
+<br/>
+In contrast to <ffnct>SupConNormClosed</ffnct>, this function addresses marked languages
+and the resulting supremal sublanguage is not expected to be prefix closed.
+</p>
+<p>
+The set of controllable events <fimath>\Sigma_c</fimath> 
+and the set of observable events <fimath>\Sigma_o</fimath> 
+may be given explicitely or are extracted from the argument GPlant.
+The implemention performs the iteration proposed
+in <fcite name="S7"/>:
+<br/>
+<br/>
+1.&nbsp;&nbsp; 
+<fimath>K_{0} = L\ \cap\ E</fimath>, <fimath>0\rightarrow i</fimath>
+<br/> 
+2.&nbsp;&nbsp; 
+<fimath>K_{i+1} = \sup\{\ K\subseteq \Closure{K_{i}}\ | </fimath>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<fimath> K \text{ is controllable w.r.t. } (L,\Sigma_uc)\ \text{and}\ </fimath>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<fimath> \Closure{K} \text{ is normal w.r.t. } (\Closure{L},\Sigma_o)\ \} </fimath>
+<br/> 
+3.&nbsp;&nbsp; 
+<fimath>K_{i+2} = K_{0} \ \cap \  K_{i+1}</fimath>
+<br/> 
+4.&nbsp;&nbsp; 
+if <fimath>K_{i+2}=K_{i}</fimath>, terminate the iteration and return the fixpoint as result <fimath>K</fimath>;
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else continue at step 2. <fimath>i\rightarrow i+2</fimath>
+<br/>
+<br/>
+In step 2., controllability w.r.t. <fimath>L</fimath> can be equivalenty replaced
+by controllability w.r.t. <fimath>\Closure{L}</fimath>. Thus, computation of the supremal sublanguage
+can be performed by <ffnct>SupConNormClosed</ffnct>.
+Under the hypothesis, that <fimath>E</fimath> is relatively marked,
+the results presented in <fcite name="S7"/> imply that 
+(i) the above iteration terminates, 
+and that (ii) the fixpoint <fimath>K</fimath> indeed equals the supremum <fimath>K^\uparrow</fimath>,
+and that (iii) the latter is relatively closed w.r.t. the plant <fdmath>L</fdmath>.
+Thus, <fimath>K^\uparrow</fimath> satisfies the closed-loop 
+conditions (a)-(d) and 
+<fimath>H_0^\uparrow=\Pro{0}(\Closure{K^\uparrow})</fimath> solves the synthesis problem.
+</p>
+
+<p>
+If the specification <fimath>E</fimath> fails to be relatively marked w.r.t. the plant <fimath>L</fimath>, 
+one may replace <fimath>E</fimath> with the supremal sublanguage that is relatively closed
+(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupConNormNB</ffnct>,
+to obtain
+<br/>
+<br/>
+<fdmath> E^\Uparrow \ =\  \sup \{ \ K \subseteq E\ |\ K \text{ is relatively closed w.r.t } L\ \}</fdmath> 
+<br/>
+<fdmath>
+K^\Uparrow\ =\ \sup\{\ K \subseteq E^\Uparrow\ | \ K \text{ is controllable w.r.t. } (L,\Sigma_uc)\ \text{and}\ 
+</fdmath><br/><fdmath>\quad\quad\quad
+\Closure{K} \text{ is normal w.r.t. } (L,\Sigma_o)\ \}
+</fdmath>.
+<br/>
+<br/>
+This will result in the supremal language <fimath>K^\Uparrow</fimath>
+that satisfies all four closed-loop conditions (a)-(d).
+</p>
+
+<p>
+Remark. The implementation follows the above pseudo code and in addition
+introduces a Trim operation on the iterate <fimath>K_i</fimath>, as proposed in <fcite name="S7"/>.
+In particular, GPlant is technically required to be non-blocking in order 
+for <ffnct>SupConNormClosed</ffnct> to compute the above supremum. 
+If, on the other hand, <fimath>GPlant</fimath> is blocking, 
+normality and controllability are achieved w.r.t. the generated language,
+and one can use the result to obtain a non-blocking supervisor. 
+</p>
+
+
+<fexample/>
+
+<p>
+Consider the <a href="synthesis_index.html#example">very-simple machine example</a> 
+and assume that all events except of <tt>beta_1</tt> are observabe, i.e.
+Sigma_o={<tt>alpha_1</tt>, <tt>alpha_2</tt>, <tt>beta_2</tt>}. 
+As discussed above,
+the supremal controllable and normal sublanguage (evaluated for the
+closure of plant and specifications) consists of
+the string  <tt>alpha_1 beta_1</tt> and its prefixes.
+Due to monotonicity of the relevant operators, 
+the supremal controllable and normal sublanguage when 
+evaluated for the marked plant and specification languages
+must be a subset, and the only such subset within plant and specification
+consists of the empty string.
+</p>
+<p>
+To obtain a non-trivial result, one may relax the specification
+by taking its closure and thus don't insist in eventually 
+ending up with an empty buffer. 
+<ffnct>SupConNormNB</ffnct> then returns the
+below
+</p>
+<table class="plain"> 
+<tr> <td> supremal controllable and normal sublanguage for prefix closed specificaton.</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_superpo"/> </td> </tr>
+</table> 
+<p>
+One way to operate both machines with an unobservable
+event <tt>beta_1</tt>, is to extend the buffer
+to have a capacity of two work pieces
+and to not insist in the buffer to become eventually empty.
+</p>
+<table class="plain"> 
+<tr> <td>  Buffer with capacity two</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_buffer2"/> </td> </tr>
+</table> 
+<table class="plain"> 
+<tr> <td>  and the resulting supremal controllabel and normal sublanguage</td> </tr>
+<tr> <td> <fimage fsrc="tmp_syn_superpo2"/> </td> </tr>
+</table> 
+
+
+<fconditions/>
+<p>
+Parameters have to be deterministic; 
+result is deterministic.  
+</p>
+
+</ffnct_reference>
+
+
+
+</ReferencePage>
+
+  

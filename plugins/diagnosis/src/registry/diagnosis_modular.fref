@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Diagnosis" page="3_Modular_Diagnosis" title="Diagnosis - Modular"> 
+
+<h1>
+Modular Diagnosis.
+</h1>
+
+<p>
+In practice, it is common that technical systems are composed of a number of components that 
+are synchronised via shared events. For the purpose of diagnoses, the literature proposes 
+<i>decentralized</i> (<fcite name="D3"/>) and <i> modular</i> (<fcite name="D6"/>) diagnoser architectures 
+that aim for diagnosis on a per component basis.
+The diagnosis plug-in currently supports the latter case of modular diagnosis. 
+Here, only local observations in each individual component may be utilized to identify 
+failures w.r.t. a local specification. Information from the remaining components is only used 
+implicitely via the synchronisation of shared events and the component behaviour, 
+but not explicitly by directly observing events.
+</p>
+
+<ffnct_reference name="IsModularDiagnosable">
+
+<fdetails/>
+
+<p>
+This function realizes the modular diagnosability verification based on the plant in the form of <fimath>n</fimath> components <fimath>G_i,i = 1,\ldots,n</fimath> and one specification <fimath>K_i</fimath> for each plant.  
+</p>
+
+<p>
+Although the test essentially verifies the diagnosability of each component specification <fimath>K_i, i = 1,\ldots,n</fimath> with respect to the overall plant <fimath>G = G_1 \, ||\, \cdots\, ||\, G_n</fimath> and the observation of the respective component, our implementation does not require to evaluate the overall plant <fimath>G</fimath>. Instead, we compute appropriate system abstractions as described in  <a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/thesis_barthel.pdf"> Tobias Barthel's diploma thesis</a>.
+</p>
+
+<fconditions/>
+
+<p>
+All generators must be deterministic.
+Alphabets of component models and specifications must match. 
+</p>
+
+</ffnct_reference>
+
+
+<h2 id="example">
+Example
+</h2>
+
+<p>
+This example illustrates the usage of <ffnct>IsModularDiagnosable</ffnct>.
+</p>
+
+<p>
+Consider the system <fimath>G</fimath> consisting of the two components <fimath>G_1</fimath> and <fimath>G_2</fimath> with two corresponding local specifications <fimath>K_1</fimath> and <fimath>K_2</fimath>. 
+The only observable event in the example is the event <tt>alpha</tt>, and a failure happens in the component <fimath>G_2</fimath> if the event <tt>b</tt> occurs. 
+</p>
+
+<table class="plain"> 
+<tr> 
+<td> Component <fimath>G_1</fimath></td> 
+<td> Component <fimath>G_2</fimath></td> 
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_3_modular1"/> </td>
+<td align="center"> <fimage fsrc="tmp_diag_system_3_modular2"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td> Local specification <fimath>K_1</fimath> </td>
+<td> Local specification <fimath>K_2</fimath> </td>
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_specification_3_modular1"/> </td>
+<td align="center"> <fimage fsrc="tmp_diag_specification_3_modular2"/> </td>
+</tr> 
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td> Abstraction <fimath>\hat{G}_1</fimath></td>
+<td> Abstraction <fimath>\hat{G}_2</fimath></td>
+</tr> 
+<tr>
+<td align="center"> <fimage fsrc="tmp_diag_system_3_modular1_hat"/> </td>
+<td align="center"> <fimage fsrc="tmp_diag_system_3_modular2_hat"/> </td>
+</tr>
+</table>
+
+
+
+<p>
+Looking at <fimath>G_1</fimath> and <fimath>K_1</fimath> only, faulty strings that contain the event <tt>b</tt> cannot be distinguished 
+from non-faulty strings since the only observable event <tt>alpha</tt> can occur in both cases. However, in conjunction with 
+<fimath>G_2</fimath>, the observable event <tt>alpha</tt> can only happen after a faulty string. Hence, 
+<ffnct>IsModularDiagnosable</ffnct> determines that modular diagnosability is fulfilled (note that there is no faulty behavior 
+specified by <fimath>K_2</fimath> anyway). Furthermore, it is the case that the overall plant <fimath>G = G_1 || G_2</fimath> 
+need not be computed. It is sufficient to compute the abstracted plant <fimath>\hat{G} = \hat{G}_1 || \hat{G}_2</fimath> to verify 
+modualr diagnosability. 
+</p>
+
+<p> In order to demonstrate a case, where modular diagnosability fails, we consider the next example that generates a failure if the 
+event <tt>b</tt> occurs in <fimath>G_1</fimath>. In contrast to the previous example, it holds that the observation in 
+<fimath>G_1</fimath> would be sufficient to resolve the failure as soon as the observable event <tt>alpha</tt> occurs more than twice. 
+However, the composition with <fimath>G_2</fimath> enables only one occurrence of <tt>alpha</tt>. Hence, the result of 
+<ffnct>IsModularDiagnosable</ffnct> is <b>false</b>
+</p>
+
+<table class="plain"> 
+<tr> <td> Component <fimath>G_1</fimath> </td> <td> Local specification <fimath>K_1</fimath></td></tr>
+<tr> 
+<td> <fimage fsrc="tmp_diag_system_3_modular3"/> </td>     
+<td> <fimage fsrc="tmp_diag_specification_3_modular3"/> </td>
+</tr>
+<tr> 
+<td> Component <fimath>G_2</fimath> </td>
+<td> Local specification <fimath>K_2</fimath> </td>
+</tr>
+<tr> 
+<td> <fimage fsrc="tmp_diag_system_3_modular4"/> </td>
+<td> <fimage fsrc="tmp_diag_specification_3_modular4"/> </td>
+</tr>
+</table>
+
+
+<ffnct_reference name="ModularDiagnoser">
+
+<fdetails/>
+
+<p>
+If modular diagnosability is fulfilled for a system with multiple components and local specifications, a modular diagnoser can be computed for each component in order to detect failures while following the respective local observation of the system behavior. The computation of such modular diagnoser is implemented in the function <ffnct>ModularDiagnoser</ffnct>. 
+</p>
+
+<fconditions/>
+
+<p>
+All generators must be deterministic.
+Alphabets of component models and specifications must match. 
+</p>
+
+</ffnct_reference>
+
+
+<h2 id="example2">
+Example
+</h2>
+
+<p>
+The following figure shows the modular diagnosers for the first example discussed above. In the case of the 
+component <fimath>G_2</fimath>, a failure is detected as soon as the observable event <tt>alpha</tt> occurs. No failure occurs in the second component <fimath>G_2</fimath> which is also reflected by the corresponding diagnoser. 
+</p>
+
+<table class="plain"> 
+<tr> <td> Diagnoser for <fimath>G_1</fimath> </td></tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_3_modular1"/> </td></tr>
+<tr> <td> Diagnoser for <fimath>G_2</fimath> </td></tr>
+<tr> <td> <fimage fsrc="tmp_diag_diagnoser_3_modular2"/> </td></tr>
+</table>
+
+</ReferencePage>
+
+  

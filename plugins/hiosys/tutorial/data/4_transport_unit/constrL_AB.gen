@@ -1,0 +1,29 @@
+<Generator> "Environment Constraint AB" 
+
+<Alphabet>
+"req_fl_AB" +U+
+"req_tr_AB" +U+
+"nack_AB" +Y+
+"pack_AB" +Y+
+</Alphabet>
+
+<States>
+"1" "2"
+</States>
+
+<TransRel>
+"1" "req_fl_AB" "2"
+"1" "req_tr_AB" "2"
+"2" "pack_AB" "1"
+</TransRel>
+
+<InitStates>
+"1"
+</InitStates>
+
+<MarkedStates>
+"1" "2"
+</MarkedStates>
+
+</Generator>
+

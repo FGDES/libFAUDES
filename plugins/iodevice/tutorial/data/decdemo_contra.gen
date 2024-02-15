@@ -1,0 +1,43 @@
+% Example "decdemo", ContrA (process). 
+
+% Control process unit and introduce simple
+% machine semantics w.r.t alpha/beta/lambda events 
+<Generator>
+"Controller A (process unit)"
+<Alphabet>
+"alpha"
+"p_start" 
+"p_complete"         
+"beta"
+"lambda"
+"p_stop" 
+</Alphabet>
+
+<States>
+"Idle"  
+"Starting"    
+"Busy"        
+"Complete1"    
+"Complete2"    
+"Complete3"    
+</States>
+
+<TransRel>
+"Idle"        "alpha"       "Starting"    
+"Starting"    "p_start"     "Busy"
+"Busy"        "p_complete"  "Complete1"
+"Busy"        "lambda"      "Complete3"  % lambda will need communication
+"Complete1"   "p_stop"      "Complete2"
+"Complete2"   "beta"        "Idle"
+"Complete3"   "p_stop"      "Idle"
+</TransRel>
+
+<InitStates>
+"Idle"        
+</InitStates>
+<MarkedStates>
+"Idle"        
+</MarkedStates>
+
+</Generator>
+

@@ -1,0 +1,60 @@
+<Generator>
+"AbstractionA" 
+
+% 
+%  Statistics for AbstractionA
+% 
+%  States:        13
+%  Init/Marked:   1/0
+%  Events:        5
+%  Transitions:   20
+%  StateSymbols:  13
+%  Attrib. E/S/T: 5/0/0
+% 
+
+<Alphabet>
+"e"           +I+           "w"           +I+           
+"H"           +O+           "E"           +O+           "W"           +O+           
+</Alphabet>
+
+<States>
+"H0"          "W01"         "W10"         "W1"          "W12"         "W21"         
+"W2+"         "E01"         "E10"         "E1"          "E21"         "E12"         
+"E2+"         
+</States>
+
+<TransRel>
+"H0"          "e"           "E01"         
+"H0"          "w"           "W01"         
+"W01"         "W"           "W1"          
+"W10"         "H"           "H0"          
+"W1"          "e"           "W10"         
+"W1"          "w"           "W12"         
+"W12"         "W"           "W2+"         
+"W21"         "H"           "H0"          
+"W21"         "W"           "W2+"         
+"W2+"         "e"           "W21"         
+"W2+"         "w"           "W12"         
+"E01"         "E"           "E1"          
+"E10"         "H"           "H0"          
+"E1"          "e"           "E21"         
+"E1"          "w"           "E10"       
+"E21"         "E"           "E2+"         
+"E12"         "H"           "H0"          
+"E12"         "E"           "E2+"         
+"E2+"         "e"           "E21"         
+"E2+"         "w"           "E12"         
+</TransRel>
+
+<InitStates>
+"H0"          
+</InitStates>
+
+<MarkedStates>
+"H0"          "W01"         "W10"         "W1"          "W12"         "W21"         
+"W2+"         "E01"         "E10"         "E1"          "E21"         "E12"         
+"E2+"         
+</MarkedStates>
+
+
+</Generator>

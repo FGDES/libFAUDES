@@ -1,0 +1,27 @@
+<Generator>
+
+"buffer"
+
+<Alphabet>
+"alpha_2" "beta_1"
+</Alphabet>
+
+<States>
+"empty" "full"
+</States>
+
+<TransRel>
+"empty" "beta_1" "full"
+"full" "alpha_2" "empty"
+</TransRel>
+
+<InitStates>
+"empty"
+</InitStates>
+
+<MarkedStates>
+"empty" 
+</MarkedStates>
+
+
+</Generator>

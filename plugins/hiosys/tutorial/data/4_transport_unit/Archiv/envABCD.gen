@@ -1,0 +1,68 @@
+<Generator> "environmentABCD"
+
+<Alphabet>
+"req_fl_ABCD" "req_tr_ABCD" "nack_ABCD" "pack_ABCD"
+
+"req_fl_CD" "req_tr_CD"
+"nack_CD" "pack_CD"
+
+"req_fl_AB" "req_tr_AB"
+"nack_AB" "pack_AB"
+</Alphabet>
+
+<States>
+"Start" 
+"rqflAB_1" "rqflAB_2" "rqflAB_3" "rqflAB_4"
+"rqtrCD_1" "rqtrCD_2" "rqtrCD_3" "rqtrCD_4"
+"rqflCD"
+"rqtrAB_1" "rqtrAB_2" "rqtrAB_4"
+"err_UE"
+</States>
+
+<TransRel>
+"Start" "req_fl_AB" "rqflAB_1"
+"Start" "req_tr_CD" "rqtrCD_1"
+"Start" "req_fl_CD" "rqflCD"
+"Start" "req_tr_AB" "rqtrAB_1"
+
+"rqflAB_1" "req_fl_ABCD" "rqflAB_2"
+"rqflAB_2" "pack_ABCD" "rqflAB_3"
+"rqflAB_2" "nack_ABCD" "rqflAB_4"
+"rqflAB_3" "pack_AB" "Start"
+"rqflAB_4" "nack_AB" "Start"
+
+"rqtrCD_1" "req_tr_ABCD" "rqtrCD_2"
+"rqtrCD_2" "pack_ABCD" "rqtrCD_3"
+"rqtrCD_2" "nack_ABCD" "rqtrCD_4"
+"rqtrCD_3" "pack_CD" "Start"
+"rqtrCD_4" "nack_CD" "Start"
+
+"rqflCD" "nack_CD" "Start"
+
+"rqtrAB_1" "pack_AB" "rqtrAB_2"
+"rqtrAB_2" "req_fl_CD" "rqtrAB_4"
+"rqtrAB_2" "req_tr_AB" "err_UE"
+"rqtrAB_2" "req_fl_AB" "err_UE"
+"rqtrAB_2" "req_tr_CD" "err_UE"
+"rqtrAB_4" "pack_CD" "Start"
+
+"err_UE" "nack_CD" "rqtrAB_2"
+"err_UE" "nack_AB" "rqtrAB_2"
+
+</TransRel>
+
+<InitStates>
+"Start"         
+</InitStates>
+
+<MarkedStates>
+"Start" 
+"rqflAB_1" "rqflAB_2" "rqflAB_3" "rqflAB_4"
+"rqtrCD_1" "rqtrCD_2" "rqtrCD_3" "rqtrCD_4"
+"rqflCD"
+"rqtrAB_1" "rqtrAB_2" "err_UE" "rqtrAB_4"
+</MarkedStates>
+
+</Generator>
+
+

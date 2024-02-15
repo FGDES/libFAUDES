@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE SimplenetDevice SYSTEM "simplenetdevice.dtd">
+
+<!--
+Simplenet device for the two simple machines A and B.
+The configuration is meant to support the corresponding
+DESTool tutorial on supervisor design.
+-->
+
+<SimplenetDevice name="MachinesAB"> 
+
+<!-- Time scale in ms/ftiu -->
+<TimeScale value="1000"/> 
+
+<!-- Ip address of this node, incl. server tcp port -->
+<ServerAddress value="localhost:40000"/> 
+
+<!-- Network topology -->
+<Network name="SimpleLoopAB"> 
+<Node name="MachinesAB"/> 
+<Node name="SupervisorAB"/> 
+</Network> 
+
+<!-- Event configuration -->
+<EventConfiguration> 
+<Event name="alpha_a" iotype="input"/> 
+<Event name="beta_a" iotype="output"/> 
+<Event name="mue_a" iotype="output"/> 
+<Event name="lambda_a" iotype="input"/> 
+<Event name="alpha_b" iotype="input"/> 
+<Event name="beta_b" iotype="output"/> 
+<Event name="mue_b" iotype="output"/> 
+<Event name="lambda_b" iotype="input"/> 
+</EventConfiguration> 
+
+</SimplenetDevice> 

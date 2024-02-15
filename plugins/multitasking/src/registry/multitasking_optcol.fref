@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Multitasking" title="Multitasking - Optimal Color Set">
+
+<h1>
+Redundant Colors
+</h1>
+
+
+<ffnct_reference name="OptimalColorSet">
+</ffnct_reference>
+
+</ReferencePage>
+
+  

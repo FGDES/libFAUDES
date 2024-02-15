@@ -1,0 +1,80 @@
+% This file is used to test the libfauDES-plugin "iodevice"
+% for the lrtlab conveyor belt experimental setup. 
+
+% It contains event attributes to configure the simulator. The
+% actual dynamics are defined in "conveyor_super.gen".
+
+% In general we dont use any event-attributs except "Priority". To cause
+% real-life behaviour we want actuator-events to be excecuted immediatly (Priority = 1) 
+% on the one hand, and on the other hand we want sensor-events to be waited for until 
+% the occure in the physical experiment.
+
+
+
+<Executor>
+
+
+% specify generators
+<Generators>
+"conveyor_super.gen"
+</Generators>
+
+% specify event attributes
+<SimEventAttributes>
+
+"SensorA+"     
+<Priority>
+-1           
+</Priority>
+
+"SensorA-"      
+<Priority>
+-1
+</Priority>
+
+"SensorB+"       
+<Priority>
+-1
+</Priority>
+
+"SensorB-"       
+<Priority>
+-1            
+</Priority>
+
+"MotorA+x"       
+<Priority>
+1            
+</Priority>
+
+"MotorA-x"       
+<Priority>
+1            
+</Priority>
+
+"MotorAstp"       
+<Priority>
+1            
+</Priority>
+
+"MotorB+x"       
+<Priority>
+1            
+</Priority>
+
+"MotorB-x"       
+<Priority>
+1            
+</Priority>
+
+"MotorBstp"       
+<Priority>
+1            
+</Priority>
+
+
+</SimEventAttributes>
+
+% end
+</Executor>
+ 

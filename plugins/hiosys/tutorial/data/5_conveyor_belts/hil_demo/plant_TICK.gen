@@ -1,0 +1,70 @@
+<Generator>
+"plant_TICK"
+
+% Models the time consumed while waiting
+
+<Alphabet>
+"A_wait" "B_wait" "C_wait" "D_wait"
+</Alphabet>
+
+<States>
+1
+</States>
+
+<TransRel>
+1             "A_wait"      1
+<Timing>
+<Guard>
+"A_clock"           "GE"          20
+</Guard>
+<Resets>
+"A_clock"           
+</Resets>
+</Timing>
+
+1             "B_wait"      1
+<Timing>
+<Guard>
+"B_clock"           "GE"          20
+</Guard>
+<Resets>
+"B_clock"           
+</Resets>
+</Timing>
+
+1             "C_wait"      1
+<Timing>
+<Guard>
+"C_clock"           "GE"          20
+</Guard>
+<Resets>
+"C_clock"           
+</Resets>
+</Timing>
+
+1             "D_wait"      1
+<Timing>
+<Guard>
+"D_clock"           "GE"          20
+</Guard>
+<Resets>
+"D_clock"           
+</Resets>
+</Timing>
+</TransRel>
+
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1         
+</MarkedStates>
+
+<Clocks>
+"A_clock" "B_clock" "C_clock" "D_clock"  
+</Clocks>
+
+
+</Generator>

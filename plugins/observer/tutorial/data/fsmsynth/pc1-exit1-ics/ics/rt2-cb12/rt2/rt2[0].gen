@@ -1,0 +1,69 @@
+<Generator>
+"rt2[0]"      
+
+% 
+%  Statistics for rt2[0]
+%  States:        18
+%  Init/Marked:   1/1
+%  Events:        13
+%  Transitions:   34
+%  StateSymbols:  18
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"rt2xy"       +C+           "rt2yx"       +C+           
+"rt2arx"      "rt2ary"      "rt2f"        "rt2lvx"      "rt2lvy"      "rt2mvx"      
++C+           "rt2mvy"      +C+           "rt2stp"      +C+           "t_rt2-cb12\rt2" 
++C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "2"           "3"           "4"           "5"           
+"6"           "7"           "8"           "9"           "dummy_10"    
+"dummy_2"     "dummy_3"     "dummy_4"     "dummy_6"     "dummy_7"     
+</States>
+
+<TransRel>
+"1"           "rt2xy"       "1"           
+"1"           "rt2mvx"      "10"          
+"1"           "rt2mvy"      "2"                
+"10"          "rt2stp"      "1"           
+"10"          "t_rt2-cb12\rt2" "dummy_10"    
+"2"           "rt2stp"      "1"           
+"2"           "t_rt2-cb12\rt2" "dummy_2"     
+"3"           "rt2mvx"      "4"           
+"3"           "rt2stp"      "5"           
+"3"           "t_rt2-cb12\rt2" "dummy_3"     
+"4"           "rt2mvy"      "3"           
+"4"           "rt2stp"      "5"           
+"4"           "t_rt2-cb12\rt2" "dummy_4"     
+"5"           "rt2mvx"      "4"           
+"5"           "rt2mvy"      "3"           
+"6"           "rt2mvy"      "7"           
+"6"           "rt2stp"      "8"           
+"6"           "t_rt2-cb12\rt2" "dummy_6"     
+"7"           "rt2mvx"      "6"           
+"7"           "rt2stp"      "8"           
+"7"           "t_rt2-cb12\rt2" "dummy_7"     
+"8"           "rt2yx"       "8"           
+"8"           "rt2mvx"      "6"           
+"8"           "rt2mvy"      "7"                           
+"dummy_10"    "rt2f"        "9"           
+"dummy_2"     "rt2lvx"      "3"           
+"dummy_3"     "rt2ary"      "7"           
+"dummy_4"     "rt2arx"      "10"          
+"dummy_6"     "rt2lvy"      "4"           
+"dummy_7"     "rt2f"        "9"                      
+</TransRel>
+
+<InitStates>
+"8"           
+</InitStates>
+
+<MarkedStates>
+"8"           "1"
+</MarkedStates>
+
+
+</Generator>

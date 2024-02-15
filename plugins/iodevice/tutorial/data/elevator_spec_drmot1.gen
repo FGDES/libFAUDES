@@ -1,0 +1,75 @@
+% Elevator: example door specification (plain motion)
+
+<Generator>
+"E_drmot1"
+
+<Alphabet>
+"d_stp"
+"d_open"
+"d_close"
+"d_arop"	
+"d_lvop"	
+"d_arcl"
+"a_close"
+"a_open"
+"a_done"
+</Alphabet>
+
+<States>
+"Opened"
+"Closed"
+"OpenA"
+"OpenB"
+"OpenC"
+"CloseA"
+"CloseB"
+"CloseC"
+"CloseD"
+</States>
+
+<TransRel>
+% Idle 
+"Opened" "a_done" "Opened"
+"Opened" "d_close" "CloseA"
+
+% Close, start 
+"CloseA" "d_lvop" "CloseB"
+"CloseA" "d_stp"  "OpenC"
+
+% Close, inbetween 
+"CloseB" "d_arcl" "CloseC"
+"CloseB" "d_open" "OpenA"
+
+% Close, closed 
+"CloseC"  "d_stp" "CloseD"
+
+% Close, report 
+"CloseD"  "a_close" "Closed"
+
+% Idle 
+"Closed" "a_done" "Closed"
+"Closed" "d_open" "OpenA"
+
+% Open, open the door 
+"OpenA" "d_arop" "OpenB"
+
+% Open, done 
+"OpenB"  "d_stp" "OpenC"
+
+% Open, report
+"OpenC"  "a_open" "Opened"
+
+
+
+</TransRel>
+
+<InitStates>
+"Opened"
+</InitStates>
+
+<MarkedStates>
+"Opened"
+"Closed"
+</MarkedStates>
+
+</Generator>

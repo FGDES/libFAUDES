@@ -1,0 +1,77 @@
+#
+# Makefile for the libfaudes synthesis plug-in, tmoor 2009
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plug-in
+#
+# FAUDES_PLUGINS += synthesis
+#
+
+
+#
+# set up paths relative to faudes path
+
+SYN_NAME = synthesis
+SYN_BASE =   ./plugins/$(SYN_NAME)
+SYN_SRCDIR = $(SYN_BASE)/src
+
+#
+# listsource files
+
+SYN_CPPFILES = syn_supcon.cpp syn_supnorm.cpp syn_functions.cpp \
+	       syn_wsupcon.cpp syn_tsupcon.cpp syn_sscon.cpp syn_supreduce.cpp \
+               syn_synthequiv.cpp syn_compsyn.cpp
+SYN_INCLUDE = syn_include.h
+SYN_RTIDEFS = syn_definitions.rti
+SYN_RTIFREF = synthesis_index.fref synthesis_controllability.fref \
+     	      synthesis_normality.fref synthesis_omega.fref synthesis_misc.fref 
+
+
+#
+# fix directories
+
+SYN_HEADERS = $(SYN_CPPFILES:.cpp=.h) $(SYN_INCLUDE)
+SYN_SOURCES = $(SYN_CPPFILES:%=$(SYN_SRCDIR)/%)
+SYN_OBJECTS = $(SYN_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+SYN_RTIDEFS := $(SYN_RTIDEFS:%=$(SYN_SRCDIR)/registry/%)
+SYN_RTIFREF := $(SYN_RTIFREF:%=$(SYN_SRCDIR)/registry/%)
+
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(SYN_INCLUDE): $(SYN_SRCDIR)/$(SYN_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(SYN_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* synthesis configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_SYNTHESIS" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(SYN_SOURCES)
+OBJECTS += $(SYN_OBJECTS)
+HEADERS += $(SYN_HEADERS)
+VPATH   += $(SYN_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(SYN_NAME)
+RTIDEFS += $(SYN_RTIDEFS)
+RTIFREF += $(SYN_RTIFREF)
+
+#
+# advertise plugin: bindings
+SWGINTERFACES += $(SYN_SRCDIR)/registry/syn_interface.i 
+SWGMODULES += $(SYN_NAME)
+
+
+#
+# include tutorial
+
+include $(SYN_BASE)/Makefile.tutorial
+
+

@@ -1,0 +1,65 @@
+<Generator>
+"rt3cb13[1]_spec" 
+
+% 
+%  Statistics for rt3cb13[1]_spec
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        16
+%  Transitions:   17
+%  StateSymbols:  5
+%  Attrib. E/S/T: 9/0/0
+% 
+
+<Alphabet>
+"cb2-13"      +C+           "cb13-6"      +C+           "cb6-13"      
++C+           "cb9-13"      +C+           "cb13-5"      
++C+           "rt3xy"       +C+           "rt3yx"       
++C+           "rt3stp"      "cb13stp"      "cb13-y-x" +C+ "cb13+y+x" +C+           
+</Alphabet>
+
+"cb13-5"      +C+           "cb9-13"      +C+           "cb2-13"      +C+           
+"cb13-6"      +C+           "cb6-13"      +C+           "cb13+y+x"    +C+           
+"cb13-y-x"    +C+           "cb13stp"     +C+           "rt3xy"       +C+           
+"rt3yx"       +C+           "rt3stp"      +C+ 
+
+<States>
+1	2	3	4	5	6	7
+</States>
+
+<TransRel>
+1		"cb2-13"	1
+1		"cb9-13"	1
+1		"cb13+y+x"	1
+1		"cb13-y-x"	1
+1		"cb13stp"	2
+2		"rt3yx"	2
+2		"rt3stp"	3
+3		"cb13-6"	3
+3		"cb13+y+x"	3
+3		"cb13-y-x"	3
+3		"cb13stp"	4
+4		"rt3xy"	7
+4		"cb6-13"	6
+4		"cb13+y+x"	4
+4		"cb13-y-x"	4
+7		"rt3stp"	1
+6		"cb13stp"	5
+5		"cb13-5"	5
+5		"cb13+y+x"	5
+5		"cb13-y-x"	5
+5		"cb13stp"	4
+6		"cb13+y+x"	6
+6		"cb13-y-x"	6
+</TransRel>
+
+<InitStates>
+1           
+</InitStates>
+
+<MarkedStates>
+1 	4          
+</MarkedStates>
+
+
+</Generator>

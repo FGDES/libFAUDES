@@ -1,0 +1,70 @@
+<Generator>
+"rts1[0]_3-4"     
+
+% 
+%  Statistics for rts1[0]
+%  States:        28
+%  Init/Marked:   1/1
+%  Events:        22
+%  Transitions:   30
+%  StateSymbols:  28
+%  Attrib. E/S/T: 18/0/0
+% 
+
+<Alphabet>
+"rts1+x"      +C+           "rts1-x"      +C+           "rts1_3"      "rts1_3-4"    
++C+           "rts1_4"      "rts1_4-3"    +C+           "rts1_3-2"    +C+           
+ "rts1ar3"     "rts1ar4"   
+"rts1lv3+x" "rts1lv3"   "rts1lv4" "rts1lv4-x"   "rts1stp"     +C+           "crash"
+</Alphabet>
+
+<States>
+<Consecutive>
+1	13
+</Consecutive>         
+</States>
+
+<TransRel>
+1	"rts1stp"	1
+1	"rts1-x"	1
+1	"rts1+x"	1
+1 	"rts1ar3"	1
+1	"rts1lv3"	1
+1	"rts1_3"	1
+1	"rts1_3-2"	13
+1	"rts1_3-4"	2
+2	"rts1-x"	3
+3	"rts1lv3+x"	4
+4	"rts1ar4"	5
+4 	"crash"	4
+5	"rts1stp"	6
+5	"crash"	5
+6	"rts1_4"	7
+6	"crash"	6
+7	"rts1_4-3"	8
+7	"crash"	7
+8	"rts1+x"	9
+8	"crash"	8
+9	"rts1lv4-x"	10
+9	"crash"	9
+10	"rts1ar3"	11
+11	"rts1stp"	12
+12	"rts1_3"	1
+13	"rts1_3"	1
+13	"rts1stp"	13
+13	"rts1-x"	13
+13	"rts1+x"	13
+13 	"rts1ar3"	13
+13	"rts1lv3"	13
+</TransRel>
+
+<InitStates>
+13         
+</InitStates>
+
+<MarkedStates>
+13           
+</MarkedStates>
+
+
+</Generator>

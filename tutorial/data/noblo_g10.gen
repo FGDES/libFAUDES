@@ -1,0 +1,47 @@
+<Generator>
+"G10"
+<Alphabet>
+"cb13-5"      "cb5-13"      "wp13-5"      "wp5-13"      "cb13-9"      "cb9-13"      
+"wp13-9"      "wp9-13"      "cb13+x-y"    "cb13-2"      "cb13-6"      "cb13-x+y"    
+"cb13stp"     "cb13wpar"    "cb13wplv3"   "cb13wplv5"   "cb13wplv6"   "cb13wplv9"   
+"cb2-13"      "cb6-13"      "wp13-2"      "wp13-6"      "wp2-13"      "wp6-13"      
+</Alphabet>
+ <States>   <Consecutive>    1   
+23            
+ </Consecutive>    </States>  
+<TransRel>
+2             "cb13-5"      6             
+1             "cb9-13"      4             
+1             "cb2-13"      18            
+1             "cb6-13"      23            
+3             "wp9-13"      5             
+4             "cb13-x+y"    8             
+5             "cb13-6"      17            
+6             "cb13-x+y"    9             
+7             "cb13stp"     3             
+8             "cb13wpar"    7             
+9             "cb13wplv5"   21            
+10            "cb13wplv6"   20            
+11            "wp2-13"      5             
+12            "wp6-13"      2             
+13            "wp13-5"      1             
+14            "wp13-6"      1             
+15            "cb13stp"     11            
+16            "cb13wpar"    15            
+17            "cb13+x-y"    10            
+18            "cb13+x-y"    16            
+19            "cb13stp"     12            
+20            "cb13stp"     14            
+21            "cb13stp"     13            
+22            "cb13wpar"    19            
+23            "cb13-x+y"    22            
+</TransRel>
+<InitStates>
+1             
+</InitStates>
+<MarkedStates>
+1             
+</MarkedStates>
+
+</Generator>
+

@@ -1,0 +1,116 @@
+<Generator> "plant_A" 
+
+<Alphabet>
+"A_r" +UP+        "A_l" +UP+         "A_stp" +UP+
+"A_wait" +YP+      "A_full" +YP+      "A_arrtl" +YP+ "A_arrtr" +YP+
+"A_reqfl" +YE+     "A_reqfr" +YE+     "A_occfr" +YE+     "A_occfl" +YE+ "A_freetl" +YE+ "A_freetr" +YE+
+"A_nack" +UE+      "A_pack" +UE+
+</Alphabet>
+
+<States>
+<Consecutive>
+1             37
+</Consecutive>
+</States>
+
+<TransRel>
+1 "A_wait" 2
+2 "A_stp" 1
+2 "A_l" 3
+2 "A_r" 19
+3 "A_reqfr" 4
+4 "A_nack" 3
+4 "A_pack" 5
+5 "A_wait" 6
+5 "A_full" 7
+6 "A_l" 5
+6 "A_stp" 35
+6 "A_r" 35
+7 "A_stp" 8
+7 "A_l" 10
+7 "A_r" 35
+8 "A_occfr" 9
+9 "A_nack" 8
+9 "A_pack" 12
+10 "A_occfr" 11
+11 "A_nack" 10
+11 "A_pack" 14
+12 "A_wait" 13
+13 "A_stp" 12
+13 "A_l" 14
+13 "A_r" 30
+14 "A_wait" 15
+14 "A_arrtl" 16
+15 "A_l" 14
+15 "A_stp" 35
+15 "A_r" 35
+16 "A_stp" 17
+16 "A_l" 35
+16 "A_r" 35
+17 "A_freetl" 18
+18 "A_nack" 17
+18 "A_pack" 1
+19 "A_reqfl" 20
+20 "A_nack" 19
+20 "A_pack" 21
+21 "A_wait" 22
+21 "A_full" 23
+22 "A_r" 21
+22 "A_stp" 35
+22 "A_l" 35
+23 "A_stp" 24
+23 "A_r" 28
+23 "A_l" 35
+24 "A_occfl" 25
+25 "A_nack" 24
+25 "A_pack" 26
+26 "A_wait" 27
+27 "A_stp" 26
+27 "A_r" 30
+27 "A_l" 14
+28 "A_occfl" 29
+29 "A_nack" 28
+29 "A_pack" 30
+30 "A_wait" 31
+30 "A_arrtr" 32
+31 "A_r" 30
+31 "A_stp" 35
+31 "A_l" 35
+32 "A_stp" 33
+32 "A_l" 35
+32 "A_r" 35
+33 "A_freetr" 34
+34 "A_nack" 33
+34 "A_pack" 1
+35 "A_wait" 36
+35 "A_full" 36
+35 "A_arrtl" 36
+35 "A_arrtr" 36
+35 "A_reqfl" 37
+35 "A_reqfr" 37
+35 "A_occfr" 37
+35 "A_occfl" 37
+35 "A_freetr" 37
+35 "A_freetl" 37
+36 "A_stp" 35
+36 "A_r" 35
+36 "A_l" 35
+37 "A_nack" 35
+37 "A_pack" 35
+</TransRel>
+
+<InitStates>
+1            
+</InitStates>
+
+<MarkedStates>
+% all marked but 5,6,14,15,21,22,30,31
+1	2	3	4	    	7	8	9
+10	11	12	13	    	16	17	18
+19	20	    	23	24	25	26	27
+28	29	    	32	33	34	35	36
+37
+</MarkedStates>
+
+</Generator>
+

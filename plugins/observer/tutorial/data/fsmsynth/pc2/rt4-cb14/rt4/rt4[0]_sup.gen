@@ -1,0 +1,53 @@
+<Generator name="SupConNB((rt4[0]),(rt4[0]_spec))">
+
+% 
+%  Statistics for SupConNB((rt4[0]),(rt4[0]_spec))
+% 
+%  States:        14
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   14
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+rt4arx        rt4ary        rt4f          rt4lvx        rt4lvy        rt4mvx       
++C+           rt4mvy        +C+           rt4stp        +C+           rt4xy        
++C+           rt4yx         +C+           t_modul4\rt4-cb14\rt4  +C+          
+</Alphabet>
+
+<States>
+<Consecutive>
+1              8             
+</Consecutive>
+11             12             13             14             15             16            
+</States>
+
+<TransRel>
+1              rt4xy         2             
+2              rt4mvy        3             
+3              t_modul4\rt4-cb14\rt4  4             
+4              rt4lvx        5             
+5              t_modul4\rt4-cb14\rt4  6             
+6              rt4ary        7             
+7              rt4stp        8             
+8              rt4yx         11            
+11             rt4mvx        12            
+12             t_modul4\rt4-cb14\rt4  13            
+13             rt4lvy        14            
+14             t_modul4\rt4-cb14\rt4  15            
+15             rt4arx        16            
+16             rt4stp        1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

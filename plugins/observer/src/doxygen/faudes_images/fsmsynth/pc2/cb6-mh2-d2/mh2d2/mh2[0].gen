@@ -1,0 +1,69 @@
+<Generator>
+"mh2[0]"      
+
+% 
+%  Statistics for mh2[0]
+%  States:        17
+%  Init/Marked:   1/1
+%  Events:        11
+%  Transitions:   31
+%  StateSymbols:  17
+%  Attrib. E/S/T: 5/0/0
+% 
+
+<Alphabet>
+"t_modul4\cb6-mh2-d2\mh2d2" +C+           "mh2ar+z"     "mh2ar-z"     "mh2end"      "mh2f"        
+"mh2lv+z"     "mh2lv-z"     "mh2mv+z"     +C+           "mh2mv-z"     +C+           
+"mh2start"    +C+           "mh2stp"      +C+           
+</Alphabet>
+
+<States>
+"1"           "10"          "2"           "3"           "4"           "5"           
+"6"           "7"           "8"           "9"           "dummy_1"     "dummy_10"    
+"dummy_2"     "dummy_3"     "dummy_4"     "dummy_6"     "dummy_7"     
+</States>
+
+<TransRel>
+"1"           "t_modul4\cb6-mh2-d2\mh2d2" "dummy_1"     
+"1"           "mh2mv+z"     "10"          
+"1"           "mh2mv-z"     "2"           
+"1"           "mh2start"    "1"           
+"10"          "t_modul4\cb6-mh2-d2\mh2d2" "dummy_10"    
+"10"          "mh2stp"      "dummy_1"           
+"2"           "t_modul4\cb6-mh2-d2\mh2d2" "dummy_2"     
+"2"           "mh2stp"      "1"           
+"3"           "t_modul4\cb6-mh2-d2\mh2d2" "dummy_3"     
+"3"           "mh2mv+z"     "4"           
+"3"           "mh2stp"      "5"           
+"4"           "t_modul4\cb6-mh2-d2\mh2d2" "dummy_4"     
+"4"           "mh2mv-z"     "3"           
+"4"           "mh2stp"      "5"           
+"5"           "mh2mv+z"     "4"           
+"5"           "mh2mv-z"     "3"           
+"6"           "t_modul4\cb6-mh2-d2\mh2d2" "dummy_6"     
+"6"           "mh2mv-z"     "7"           
+"6"           "mh2stp"      "8"           
+"7"           "t_modul4\cb6-mh2-d2\mh2d2" "dummy_7"     
+"7"           "mh2mv+z"     "6"           
+"7"           "mh2stp"      "8"           
+"8"           "mh2mv+z"     "6"           
+"8"           "mh2mv-z"     "7"           
+"dummy_1"     "mh2end"      "1"           
+"dummy_10"    "mh2f"        "9"           
+"dummy_2"     "mh2lv+z"     "3"           
+"dummy_3"     "mh2ar-z"     "7"           
+"dummy_4"     "mh2ar+z"     "10"          
+"dummy_6"     "mh2lv-z"     "4"           
+"dummy_7"     "mh2f"        "9"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

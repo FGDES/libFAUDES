@@ -1,0 +1,18 @@
+% Example Executor Configuration 
+
+% This example configures the executor for
+% interactive inspection of the simple machine setup.
+
+<Executor>
+
+% Specify components to simulate
+% (either as demonstrated by filename or
+% inline as token sequence)
+<Generators>
+"machinea.gen"
+"machineb.gen"
+"bufferab.gen"
+"superab.gen"
+</Generators>
+
+</Executor>

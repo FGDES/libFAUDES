@@ -1,0 +1,121 @@
+<Generator>
+"cb13[0]"     
+
+% 
+%  Statistics for cb13[0]
+%  States:        54
+%  Init/Marked:   1/1
+%  Events:        25
+%  Transitions:   82
+%  StateSymbols:  54
+%  Attrib. E/S/T: 12/0/0
+% 
+
+<Alphabet>
+"cb2-13"      +C+           "cb13-6"      +C+           "cb6-13"      
++C+           "cb9-13"      +C+           "cb5-13"      +C+
+"cb13-5"      +C+              
+"cb13-9"      +C+           "cb13+y+x"    +C+           "cb13-2"      +C+           
+"cb13-y-x"    +C+           "cb13stp"     +C+           "cb13wpar"    "cb13wplv3"   
+"cb13wplv5"   "cb13wplv6"   "cb13wplv9"   "t_rt3-cb13\cb13" +C+            
+</Alphabet>
+
+<States>
+"1"           "10"          "11"          "12"          "13"          "14"          
+"15"          "16"          "17"          "18"          "19"          "2"           
+"20"          "21"          "22"          "23"          "24"          "25"          
+"26"          "27"          "28"          "29"          "3"           "30"          
+"31"          "32"          "33"          "34"          "4"           "5"           
+"6"           "7"           "8"           "9"           "dummy_12"
+"dummy_16"    "dummy_20"    "dummy_21"    "dummy_24"    
+"dummy_28"    "dummy_29"    "dummy_3"     "dummy_32"    
+"dummy_4"     "dummy_7"     "dummy_8"          
+</States>
+
+<TransRel>
+"1"           "cb2-13"      "2"           
+"1"           "cb6-13"      "27"          
+"1"           "cb9-13"      "19"          
+"1"           "cb5-13"      "6"           
+"10"          "cb13-6"      "31"          
+"10"          "cb13-5"      "15"          
+"10"          "cb13-9"      "23"          
+"10"          "cb13-2"      "11"          
+"11"          "cb13+y+x"    "12"          
+"12"          "cb13stp"     "11"          
+"12"          "t_rt3-cb13\cb13" "dummy_12"    
+"13"          "cb13stp"     "14"          
+"14"          "cb13+y+x"    "13"          
+"14"          "t_rt3-cb13\cb13" "1"    
+"15"          "cb13-y-x"    "16"          
+"16"          "cb13stp"     "15"          
+"16"          "t_rt3-cb13\cb13" "dummy_16"    
+"17"          "cb13stp"     "18"          
+"18"          "cb13-y-x"    "17"          
+"18"          "t_rt3-cb13\cb13" "1"    
+"19"          "cb13+y+x"    "20"          
+"2"           "cb13-y-x"    "3"           
+"20"          "cb13stp"     "19"          
+"20"          "t_rt3-cb13\cb13" "dummy_20"    
+"21"          "cb13stp"     "22"          
+"21"          "t_rt3-cb13\cb13" "dummy_21"    
+"22"          "cb13+y+x"    "21"          
+"22"          "t_rt3-cb13\cb13" "10"    
+"23"          "cb13-y-x"    "24"          
+"24"          "cb13stp"     "23"          
+"24"          "t_rt3-cb13\cb13" "dummy_24"    
+"25"          "cb13stp"     "26"          
+"26"          "cb13-y-x"    "25"          
+"26"          "t_rt3-cb13\cb13" "1"    
+"27"          "cb13-y-x"    "28"          
+"28"          "cb13stp"     "27"          
+"28"          "t_rt3-cb13\cb13" "dummy_28"    
+"29"          "cb13stp"     "30"          
+"29"          "t_rt3-cb13\cb13" "dummy_29"    
+"3"           "cb13stp"     "2"           
+"3"           "t_rt3-cb13\cb13" "dummy_3"     
+"30"          "cb13-y-x"    "29"          
+"30"          "t_rt3-cb13\cb13" "10"    
+"31"          "cb13+y+x"    "32"          
+"32"          "cb13stp"     "31"          
+"32"          "t_rt3-cb13\cb13" "dummy_32"    
+"33"          "cb13stp"     "34"          
+"34"          "cb13+y+x"    "33"          
+"34"          "t_rt3-cb13\cb13" "1"    
+"4"           "cb13stp"     "5"           
+"4"           "t_rt3-cb13\cb13" "dummy_4"     
+"5"           "cb13-y-x"    "4"           
+"5"           "t_rt3-cb13\cb13" "10"     
+"6"           "cb13+y+x"    "7"           
+"7"           "cb13stp"     "6"           
+"7"           "t_rt3-cb13\cb13" "dummy_7"     
+"8"           "cb13stp"     "9"           
+"8"           "t_rt3-cb13\cb13" "dummy_8"     
+"9"           "cb13+y+x"    "8"           
+"9"           "t_rt3-cb13\cb13" "10"     
+"dummy_12"    "cb13wplv3"   "13"                    
+"dummy_16"    "cb13wplv5"   "17"                     
+"dummy_20"    "cb13wpar"    "21"          
+"dummy_21"    "cb13wplv3"   "20"                  
+"dummy_24"    "cb13wplv9"   "25"                     
+"dummy_28"    "cb13wpar"    "29"          
+"dummy_29"    "cb13wplv5"   "28"          
+"dummy_29"    "cb13wplv9"   "28"          
+"dummy_3"     "cb13wpar"    "4"                     
+"dummy_32"    "cb13wplv6"   "33"                     
+"dummy_4"     "cb13wplv5"   "3"           
+"dummy_4"     "cb13wplv9"   "3"            
+"dummy_7"     "cb13wpar"    "8"           
+"dummy_8"     "cb13wplv3"   "7"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+"1"           
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Observer" page="none" title="Observer - Misc">
+
+<h1>
+Event Relabeling
+</h1>
+
+<p>
+Some observer computation algorithms in this plug-in require the relabeling of events.
+This is tracked by a set-valued relabling map of faudes-type <ftype>EventRelabelMap</ftype>.
+The map can be applied by the corresponding function <ffnct>InsertRelabeledEvents</ffnct>.
+</p>
+
+
+<ftype_reference name="EventRelabelMap">
+
+<p>
+An <ftype>EventRelabelMap</ftype> is a map from indicies to sets of indicies. The observer plug-in
+uses this may to pass on re-labeling from one generator to another via the faudes function
+<ffnct>InsertRelabeledEvents</ffnct>. There is no further user access to this data type.
+</p>
+
+</ftype_reference>
+
+
+
+<ffnct_reference name="InsertRelabeledEvents">
+
+<fdetails/>
+
+<p>
+This function inserts new events and respective transitions given by a relabeling map 
+into a given generator. The function is used to adjust plant components to the relabeling 
+from another plant component. Optionally, the newly inserted events are accumulated
+in the third parameter.
+</p>
+
+<fconditions/> 
+
+<p>
+There are no restrictions on the parameter values.
+</p>
+
+</ffnct_reference>
+
+</ReferencePage>
+
+  

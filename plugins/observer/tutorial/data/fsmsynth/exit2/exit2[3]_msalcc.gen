@@ -1,0 +1,35 @@
+<Generator name="Project(SupConNB((Project(SupConNB((Project...ate]||Project(rc2[0]) [minstate]))) [minstate]">
+
+% 
+%  Statistics for Project(SupConNB((Project(SupConNB((Project...ate]||Project(rc2[0]) [minstate]))) [minstate]
+% 
+%  States:        1
+%  Init/Marked:   1/1
+%  Events:        1
+%  Transitions:   1
+%  StateSymbols:  0
+%  Attrib. E/S/T: 1/0/0
+% 
+
+<Alphabet>
+cb10-16       +C+          
+</Alphabet>
+
+<States>
+1             
+</States>
+
+<TransRel>
+1              cb10-16       1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

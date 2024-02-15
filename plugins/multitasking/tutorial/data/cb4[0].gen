@@ -1,0 +1,60 @@
+<Generator>
+"Generator"   
+
+% 
+%  Statistics for Generator
+%  States:        12
+%  Init/Marked:   1/0
+%  Events:        11
+%  Transitions:   19
+%  StateSymbols:  12
+%  Attrib. E/S/T: 8/1/0
+% 
+
+<Alphabet>
+"cb4+x"       +C+           "cb4-x"       +C+           "cb4stp"      +C+           
+"t_cb4"       +C+           "cb4wpar"     "cb4wplv11"   "cb4wplv12"   "cb11-cb4"    
++C+           "cb12-cb4"    +C+           "cb4-cb11"    +C+           "cb4-cb12"    
++C+           
+</Alphabet>
+
+<States>
+"1"           
+<Colors>
+"cb4empty"    
+</Colors>
+"2"           "3"           "4"           "5"           "8"           "9"           
+"10"          "11"          "12"          "13"          "14"          
+</States>
+
+<TransRel>
+"1"           "cb11-cb4"    "5"           
+"1"           "cb12-cb4"    "2"           
+"2"           "cb4-x"       "3"           
+"3"           "cb4stp"      "1"           
+"3"           "t_cb4"       "4"           
+"4"           "cb4wpar"     "8"           
+"5"           "cb4+x"       "3"           
+"8"           "cb4stp"      "9"           
+"9"           "cb4+x"       "10"          
+"9"           "cb4-x"       "12"          
+"9"           "cb4-cb11"    "9"           
+"9"           "cb4-cb12"    "9"           
+"10"          "cb4stp"      "9"           
+"10"          "t_cb4"       "11"          
+"11"          "cb4wplv12"   "14"          
+"12"          "cb4stp"      "9"           
+"12"          "t_cb4"       "13"          
+"13"          "cb4wplv11"   "14"          
+"14"          "cb4stp"      "1"           
+</TransRel>
+
+<InitStates>
+"1"           
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+
+</Generator>

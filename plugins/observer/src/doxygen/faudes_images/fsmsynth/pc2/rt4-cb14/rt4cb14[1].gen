@@ -1,0 +1,70 @@
+<Generator>
+"Project(SupConNB((cb14[0]),(cb14[0]...t(SupConNB((rt4[0]),(rt4[0]_spec)))" 
+
+% 
+%  Statistics for Project(SupConNB((cb14[0]),(cb14[0]...t(SupConNB((rt4[0]),(rt4[0]_spec)))
+% 
+%  States:        16
+%  Init/Marked:   1/1
+%  Events:        6
+%  Transitions:   32
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/0/0
+% 
+
+<Alphabet>
+"cb14-10"     +C+           "cb6-14"      +C+           "cb14stp"     +C+           
+"rt4stp"      +C+           "rt4xy"       +C+           "rt4yx"       +C+           
+</Alphabet>
+
+<States>
+<Consecutive>
+1             16            
+</Consecutive>
+</States>
+
+<TransRel>
+1             "cb6-14"      2             
+1             "rt4xy"       3             
+2             "cb14stp"     11            
+2             "rt4xy"       4             
+3             "cb6-14"      4             
+3             "rt4stp"      5             
+4             "cb14stp"     13            
+4             "rt4stp"      6             
+5             "cb6-14"      6             
+5             "rt4yx"       7             
+6             "cb14stp"     15            
+6             "rt4yx"       8             
+7             "cb6-14"      8             
+7             "rt4stp"      1             
+8             "cb14stp"     9             
+8             "rt4stp"      2             
+9             "cb14-10"     10            
+9             "rt4stp"      11            
+10            "cb14stp"     7             
+10            "rt4stp"      12            
+11            "cb14-10"     12            
+11            "rt4xy"       13            
+12            "cb14stp"     1             
+12            "rt4xy"       14            
+13            "cb14-10"     14            
+13            "rt4stp"      15            
+14            "cb14stp"     3             
+14            "rt4stp"      16            
+15            "cb14-10"     16            
+15            "rt4yx"       9             
+16            "cb14stp"     5             
+16            "rt4yx"       10            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1             
+</MarkedStates>
+
+
+</Generator>

@@ -1,0 +1,10 @@
+%%% test mark: final constraint [at tp_2_constraints.cpp:137]
+<String>
+<![CDATA[
+<TimeConstraint> clockA        GE            10             clockA        LT            125            clockB        GT            150            clockB        LE            210            clockC        GT            10             clockC        LT            125            clockD        GT            150            clockD        LE            300            </TimeConstraint>
+]]>
+</String>
+% 
+% 
+% 
+

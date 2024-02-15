@@ -1,0 +1,26 @@
+<Generator>
+
+"plant component feed"
+
+% A) S2 can only occur after a S1-V sequence
+% B) S1 will not occur during S1-V-S2
+
+<Alphabet>
+V +C+ S1 S2 
+</Alphabet>
+
+<States>
+<Consecutive> 1 3</Consecutive>
+</States>
+
+<TransRel>
+1 V  1
+1 S1 2
+2 V  3
+3 V  3
+3 S2 1
+</TransRel>
+
+<InitStates> 1 </InitStates>
+<MarkedStates> 1 </MarkedStates>
+</Generator>

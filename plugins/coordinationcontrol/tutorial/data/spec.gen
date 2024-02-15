@@ -1,0 +1,56 @@
+<Generator> 
+platn_3
+
+<Alphabet> 
+r1	a1	e1
+r2	a2	e2
+r3	a3	e3
+</Alphabet> 
+
+<States> 
+1	2	3	4
+</States> 
+
+<TransRel>
+1	a1	2
+2	e1	1
+1	a2	3
+3	e2	1
+1	a3	4
+4	e3	1
+
+1	r1	1
+1	r2	1
+1	r3	1
+1	e1	1
+1	e2	1
+1	e3	1
+
+2	r1	2
+2	r2	2
+2	r3	2
+2	e2	2
+2	e3	2
+
+3	r1	3
+3	r2	3
+3	r3	3
+3	e1	3
+3	e3	3
+
+4	r1	4
+4	r2	4
+4	r3	4
+4	e1	4
+4	e2	4
+</TransRel> 
+
+<InitStates> 
+1
+</InitStates> 
+
+<MarkedStates>
+1	2	3	4
+</MarkedStates> 
+
+</Generator> 

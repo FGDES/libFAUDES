@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="HioSys" page="none" title="HioSys - Step 4">
+
+<h1>
+HioSys PlugIn
+</h1>
+<h2>
+The I/O-Based Approach - Step by Step
+</h2>
+
+<p>
+<ul class="l2">
+<li><a href="hiosys_stepbystep.html#step1">Step 1: Component-Wise Plant Modeling</a></li>
+<li><a href="hiosys_stepbystep_2.html">Step 2: Component-Wise Specification and Controller Design</a></li>
+<li><a href="hiosys_stepbystep_3.html">Step 3: Abstraction</a></li>
+<li><a href="hiosys_stepbystep_4.html">Step 4: Subsystem Composition</a></li>
+<li><a href="hiosys_stepbystep_5.html">Step 5: Environment Modeling</a></li>
+<li><a href="hiosys_stepbystep_6.html">Step 6: Superposed Specification and Controller Design</a></li>
+</ul>
+</p>
+
+
+<h3 id="step4">
+Step 4: Subsystem Composition
+</h3>
+
+<p>
+We suggest that groups of a comparatively small number of plant
+components shall be described by a compound model and equipped with control and measurement
+aggregation by one superposed I/O controller per group. At this point, the complexity
+of the compound model of each group (that is exponential in the number of components)
+is effectively reduced by the use of abstractions in the preceding step. We formally
+obtain a compound model of the group by a shuffle product composition and model the interaction
+of the plant components by an environment model, see Step 5.
+</p>
+
+<p>
+To technically capture the behaviour of two I/O plants <fimath>S_{PEi}</fimath> in one mathematical model,
+we use the <strong>I/O shuffle</strong> operation <fimath>S_{PE1}||_{io}S_{PE2}</fimath>, see
+function <ffnct>HioShuffle</ffnct>. It is
+based on the ordinary shuffle product (parallel composition under absence of shared events),
+but restricted by the additional condition <fimath>L_{io}</fimath> on the
+ordering of input-output event-pairs and extended by a well-defined error behaviour
+<fimath>L_{err}</fimath>. The
+latter accounts for situations where <fimath>L_{io}</fimath> is violated, i.e. a measurement event
+from the one plant component is replied to by a control event to the other plant component.
+The behaviour of the individual components is not restricted by this composition, as interaction
+is modeled separately in the environment model, see Step 5.
+As the I/O shuffle formally results in an I/O plant, we still obtain a set of I/O plants by this step.
+</p>
+
+<p>
+The individual <strong>constraints</strong> of the plant components are simply merged to compound
+constraints <fimath>S_P</fimath> and <fimath>S_E</fimath> by
+<ffnct>Parallel</ffnct> composition. Formally, to sustain I/O-constraint structure, the results can be
+restricted to the above condition <fimath>L_{io}</fimath> on the ordering of input-output event-pairs.
+In practice (like in the lua and C++ tutorial), this restriction can be omitted having in mind that
+it is already included in the I/O shuffle itself.
+
+</p>
+
+<p>
+<small><strong>Transport Unit.</strong>(<a href="../csource/hio__4__transport__unit_8cpp.html">C++</a>
+&nbsp; <a href="../luafaudes/hio_4_transport_unit.html">lua</a>)
+Using the function <ffnct>HioShuffle</ffnct>, we form groups of (the abstractions of) two TU&apos;s each, which
+results in compound plant models TU AB, TU CD, TU EF and TU GH. Note that up to now, the interaction
+between the individual components is <i>not</i> described by these models.
+</small></p>
+
+<p>
+<img fsrc="FAUDES_IMAGES/hio_tu_example_ioshuffle.png"/>
+</p>
+
+
+<p>
+<table class="plain" >
+  <colgroup>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+    <col width="33%" > </col>
+  </colgroup>
+<tr>
+  <td><a href="hiosys_stepbystep_3.html">&lt;&lt; Step3</a> </td>
+  <td><a href="hiosys_index.html">HioSys Home</a></td>
+  <td><a href="hiosys_stepbystep_5.html">Step5 &gt;&gt;</a></td>
+</tr>
+</table>
+</p>
+</ReferencePage>
+
+  
