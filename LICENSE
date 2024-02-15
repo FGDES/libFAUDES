@@ -1,4 +1,16 @@
-                  GNU LESSER GENERAL PUBLIC LICENSE
+######################################################################
+
+libFAUDES core is distributed under LGPL license (see below) and  does
+not depend on 3rd party libraries (except for the C++ runtime).
+
+Some of the libFAUDES plug-ins depend on and link with 3rd party libraries
+and this may affect the overall licensing terms. As long as you distribute
+your project under a compatible ope-source license, this should be fine. If
+you plant to disyribute closed source, you may need to disable some plug-ins.
+
+######################################################################
+
+GNU LESSER GENERAL PUBLIC LICENSE
                        Version 2.1, February 1999
 
  Copyright (C) 1991, 1999 Free Software Foundation, Inc.
