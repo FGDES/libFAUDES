@@ -122,51 +122,51 @@ class FAUDES_API Integer : public Type {
   /**
    * Sum operator.
    */
-  Integer& operator+ (const Int& clint){
+  Integer operator+ (const Int& clint){
     CValue(mCInteger + clint);
-    return *this;
+    return(*this);
   }
 
   /**
    * Sum operator.
    */
-  Integer& operator+ (const Integer& coint){
+  Integer operator+ (const Integer& coint){
     CValue(mCInteger + coint.CValue());
-    return *this;
+    return(*this);
   }
 
   /**
    * Assignment operator.
    */
-  Integer& operator= (const Int& clint){
+  Integer operator= (const Int& clint){
     CValue(clint);
-    return *this;
+    return(*this);
   }
 
   /**
    * Assignment operator.
    */
-  Integer& operator= (const Integer& coint){
+  Integer operator= (const Integer& coint){
     CValue(coint.CValue());
-    return *this;
+    return(*this);
   }
 
   /**
    * Assignment/Sum operator
    */
-  Integer& operator+= (const Int& clint){
+  Integer operator+= (const Int& clint){
     Int litmp = CValue();
     CValue(litmp + clint);
-    return *this;
+    return(*this);
   }
 
   /**
    * Assignment/Sum operator
    */
-  Integer& operator+= (const Integer& coint){
+  Integer operator+= (const Integer& coint){
     Int litmp = CValue() + coint.CValue();
     CValue(litmp);
-    return *this;
+    return(*this);
   }
 
   /**
@@ -465,7 +465,7 @@ class FAUDES_API Boolean : public Type{
   /**
    * Assignment operator.
    */
-  Boolean& operator= (const bool& bbool){
+  Boolean operator= (const bool& bbool){
     CValue(bbool);
     return(*this);
   }
@@ -473,7 +473,7 @@ class FAUDES_API Boolean : public Type{
   /**
    * Assignment operator.
    */
-  Boolean& operator= (const Boolean& cobool){
+  Boolean operator= (const Boolean& cobool){
     CValue(cobool.CValue());
     return(*this);
   }
