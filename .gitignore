@@ -18,10 +18,10 @@ demesh/build
 *.lib
 
 # ignore build dirs
-doc
-obj
-bin
-dist
+doc/*
+obj/*
+bin/*
+dist/*
 
 # ignore test cases
 tmp_*
