@@ -12,6 +12,18 @@ libFAUDES version.
 
 ##########
 
+Relative to 2.31*
+
+***
+
+Tuning the build system for the migration to GitHub. This should
+not affect libFAUDES aplications. For the time being, we recommend
+to get the 2.31* from the FGDES/LRT/FAU download page and wait for
+2.32* until stable.
+
+
+##########
+
 Relative to 2.30b
 
 ***

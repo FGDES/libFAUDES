@@ -18,10 +18,15 @@ demesh/build
 *.lib
 
 # ignore build dirs
-doc/*
 obj/*
 bin/*
 dist/*
+
+# ignore libFAUDES config
+include/*
+doc/*
+Makefile.configuration
+Makefile.depend
 
 # ignore test cases
 tmp_*
