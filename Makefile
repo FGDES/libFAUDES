@@ -1,5 +1,5 @@
 ###############################################################################
-# Makefile for libFAUDES, tmoor 20140910
+# Makefile for libFAUDES, tmoor 20240216
 #
 # Requires GNU make
 #
@@ -679,7 +679,7 @@ DISTCLEANFILES = $(DEPEND) $(FILE_CONFIG)
 
 PREPARETARGETS = $(FILE_CONFIG) includes
 
-CONFIGURETARGETS =  depend rtitools reftools doc 
+CONFIGURETARGETS =  depend rtitools reftools docs 
 
 
 ####################################
@@ -687,7 +687,7 @@ CONFIGURETARGETS =  depend rtitools reftools doc
 # other makefiles 
 ####################################
 
-DEFAULTTARGETS = report-platform libfaudes bin 
+DEFAULTTARGETS = report-platform libfaudes binaries 
 
 default: default_after_include
 	@echo " ============================== " 
@@ -798,7 +798,7 @@ configure: prepare $(CONFIGURETARGETS)
 
 libfaudes: $(LIBFAUDES) includes
 
-bin: $(EXECUTABLES) includes
+binaries: $(EXECUTABLES) includes
 
 tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) includes
 	@echo " ============================== " 
@@ -838,11 +838,14 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(CLEANFILES) 
 	rm -rf $(DISTCLEANFILES) 
 	rm -rf $(EXECUTABLES) 
+	rm -rf $(BINDIR) 
+	rm -rf $(OBJDIR) 
+	rm -rf $(DOCDIR) 
+	rm -rf $(INCLUDEDIR)/*
 	rm -f libfaudes.a libfaudes.so libfaudesd.a libfaudesd.so
 	rm -f libfaudes.dylib libfaudesd.dylib  libfaudes.jsa
 	rm -f faudes.lib faudes.dll faudesd.lib faudesd.dll
 	rm -f minfaudes.a minfaudesd.a minfaudes.jsa minfaudes.lib
-	rm -rf $(INCLUDEDIR)/*
 	rm -f tutorial/tmp_* 
 	rm -f plugins/*/tutorial/tmp_* 
 	rm -f plugins/*/tutorial/results/*.* 
@@ -958,12 +961,18 @@ rti-clean:
 	- rm -rf $(INCLUDEDIR)/rtiautoload*
 	- rm -rf $(INCLUDEDIR)/libfaudes.rti
 
+# have those dirs
+$(OBJDIR): 
+	- mkdir $(OBJDIR) 
+$(BINDIR): 
+	- mkdir $(BINDIR) 
+
 # minimal objects implicit rule
-$(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp 
+$(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp $(OBJDIR)
 	$(call FNCT_COMP_MIN,$<,$@)
 
 # have my rti executabels (static version for configure target)
-$(BINDIR)/rti2code$(DOT_EXE): $(SRCDIR)/rti2code.cpp $(MINFAUDES)   
+$(BINDIR)/rti2code$(DOT_EXE): $(SRCDIR)/rti2code.cpp $(MINFAUDES) $(BINDIR)   
 	$(call FNCT_BUILD_MIN,$<,$@)
 
 # merge rti files
@@ -992,16 +1001,6 @@ BASEALL = $(BASEFREF) $(SRCDIR)/doxygen/faudes_navigation.include_fref
 BASEHTML = $(foreach file,$(BASEFREF),$(DOCDIR)/$(basename $(notdir $(file))).html)
 BASEHTML += $(DOCDIR)/index.html
 
-# have fref source directory: time stamp
-$(REFSRCDIR): $(REFSRCDIR)/.tstamp $(DOCDIR)/.tstamp
-
-# have fref source directory: populate
-$(REFSRCDIR)/.tstamp: $(BASEFREF) 
-	- mkdir $(REFSRCDIR)
-	- cp $(BASEALL) $(REFSRCDIR)
-	- cp $(REF2HTML_CNAV) $(REFSRCDIR)/faudes_navigation.include_fref
-	touch $@
-
 # have a doc base directory: time stamp
 $(DOCDIR): $(DOCDIR)/.tstamp
 
@@ -1011,11 +1010,21 @@ $(DOCDIR)/.tstamp: $(BASEALL)
 	- cp $(SRCDIR)/doxygen/faudes.css $(DOCDIR)
 	touch $@
 
+# have fref source directory: time stamp
+$(REFSRCDIR): $(REFSRCDIR)/.tstamp $(DOCDIR)/.tstamp
+
+# have fref source directory: populate
+$(REFSRCDIR)/.tstamp: $(BASEFREF) $(DOCDIR)
+	- mkdir $(REFSRCDIR)
+	- cp $(BASEALL) $(REFSRCDIR)
+	- cp $(REF2HTML_CNAV) $(REFSRCDIR)/faudes_navigation.include_fref
+	touch $@
+
 # copy index
-$(DOCDIR)/index.html: $(DOCDIR)/faudes_about.html
+$(DOCDIR)/index.html: $(DOCDIR)/faudes_about.html $(DOCDIR)
 	cp -f  $< $@
 
-# build doc: run as script
+# build doc run as script
 doc-base: $(REFSRCDIR)
 
 
@@ -1243,7 +1252,7 @@ doc-clean:
 REF2HTMLCMD = ./bin/ref2html -rti $(REFSRCDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(REFSRCDIR)/faudes_navigation.include_fref -rel ../ -css doxygen.css 
 
 # build doc: run as script
-doc: reftools rtitools doc-images doc-base doc-luafaudes doc-reference includes 
+docs: reftools rtitools doc-images doc-base doc-luafaudes doc-reference includes 
 	- mkdir -p $(DOXDOCDIR)
 	$(REF2HTMLCMD) -doxheader $(DOXDOCDIR)/doxygen_header.html
 	$(REF2HTMLCMD) -doxfooter $(DOXDOCDIR)/doxygen_footer.html
