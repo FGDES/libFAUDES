@@ -412,6 +412,18 @@ class FAUDES_API Type {
    */
   virtual const std::string& Name(void) const;
 
+  /** 
+   * Get objects's type name. 
+   *
+   * Retrieve the faudes-type name from the type registry.
+   * This method silently returns the empty string if the type is 
+   * not (yet) registered.
+   *
+   * @return 
+   *   Faudes-type name or empty string.
+   */
+  virtual const std::string& TypeName(void) const;
+
   /**
    * Write configuration data to console.
    * Note: this write function uses the virtual function DoWrite(), to be 
@@ -824,18 +836,6 @@ class FAUDES_API Type {
    */
   virtual const TypeDefinition* TypeDefinitionp(void) const;
 
-
-  /** 
-   * Get objects's type name. 
-   *
-   * Retrieve the faudes-type name from the type registry.
-   * This method silently returns the empty string if the type is 
-   * not (yet) registered.
-   *
-   * @return 
-   *   Faudes-type name or empty string.
-   */
-  virtual const std::string& TypeName(void) const;
 
   /*
    * Convenience function to set up std begin token
