@@ -808,7 +808,7 @@ tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) includes
 
 package: 
 	$(RM) $(DIST) 
-	mkdir $(DIST) 
+	$(MKDIR) $(DIST) 
 	- rm -rf $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) 
 	- cp -pR . $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) 
 	- cp -pR $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) $(DIST) 
@@ -963,9 +963,9 @@ rti-clean:
 
 # have those dirs
 $(OBJDIR): 
-	- mkdir $(OBJDIR) 
+	@mkdir -p $(OBJDIR) 
 $(BINDIR): 
-	- mkdir $(BINDIR) 
+	@mkdir -p $(BINDIR) 
 
 # minimal objects implicit rule
 $(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp $(OBJDIR)

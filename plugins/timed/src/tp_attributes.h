@@ -3,8 +3,8 @@
 
 /* Timeplugin for FAU Discrete Event Systems Library (libfaudes)
 
-Copyright (C) 2006  Berno Schlein
-Copyright (C) 2007  Thomas Moor
+Copyright (C) 2006       Berno Schlein
+Copyright (C) 2007,2014  Thomas Moor
 Exclusive copyright is granted to Klaus Schmidt
 
 */
@@ -125,7 +125,15 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedState,AttributeFlags)
  public:
 
   /** Constructor */
-  AttributeTimedState(void) : AttributeFlags() { mInvariant.Name("Invariant"); };
+  AttributeTimedState(void) : AttributeFlags() {
+    mInvariant.Name("Invariant");
+  };
+
+  /** Copy Constructor */
+  AttributeTimedState(const AttributeTimedState& rSrcAttr) : AttributeFlags() {
+    mInvariant.Name("Invariant");
+    DoAssign(rSrcAttr);
+  };
 
   /** 
    * Test for default value (ie empty invariant and default flags)

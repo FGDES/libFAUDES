@@ -49,7 +49,7 @@ LBP_OBJECTS = $(LBP_SOURCES:$(LBP_SRCDIR)/%.cpp=$(LBP_OBJDIR)/%$(DOT_O))
 # are much easier to maintain.
 
 #
-# lua language: organize  original source
+# lua language: organize original source
 LBP_LUADIR = $(LBP_BASE)/lib/lua-5.1.3
 LBP_LUATGZ = lua-5.1.3.tar.gz
 LBP_LUAPATCH = lua-5.1-advanced-readline.patch
@@ -105,7 +105,7 @@ LBP_OBJECTS += $(LBP_OBJDIR)/lbp_load$(DOT_O)
 #
 # lua compile-time and runtime options
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
-  LBP_LUAOPTS:= -DLUA_USE_LINUX 
+  LBP_LUAOPTS:= -DLUA_USE_LINUX -Wno-pedantic
   LDFLAGS += -ldl -lreadline -lhistory -lncurses
 endif
 ifeq ($(FAUDES_PLATFORM),gcc_osx)

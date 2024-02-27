@@ -147,6 +147,11 @@ Copyright (C) 2011 - 2024 Thomas Moor, Klaus Schmidt<br/>
 <p>
 <table class="vtop" width="100%"  border="0">
   <tr>
+    <td>15.02.2023</td>
+    <td>libFAUDES 2.32a</td>
+    <td>source code via GitHub</td>
+  </tr>
+  <tr>
     <td>01.02.2023</td>
     <td>libFAUDES 2.31c</td>
     <td>Python bindings</td>

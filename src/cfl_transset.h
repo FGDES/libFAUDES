@@ -233,7 +233,7 @@ class FAUDES_API TransSort {
  * by the generator class (although TTransSet provides basic output functions for debugging)
  */
 
-// tweak: this appears to be a g** 4.2 (OsX) issue --- fails dynamic cast if this symbol is not explicitly exposed
+// tweak: this appears to be a g++ 4.2 (OsX) issue --- fails at dynamic cast if this symbol is not explicitly exposed
 #ifdef __GNUC__
 template <class Cmp=TransSort::X1EvX2>
 class FAUDES_API TTransSet : public TBaseSet<Transition,Cmp> {
@@ -256,7 +256,8 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
   /**
    * Copy-constructor
    */
-  TTransSet(const TBaseSet<Transition,Cmp>& rOtherSet);
+  //TTransSet(const TBaseSet<Transition,Cmp>& rOtherSet);
+  TTransSet(const TTransSet<Cmp>& rOtherSet);
 
   /**
    * Re-Sort Copy-constructor
@@ -519,9 +520,8 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
    */
   bool ExistsByX1OrX2(Idx x) const;
 
-
-
   /** @} doxygen group */
+
 
   /** @name Transition iterators 
    *
@@ -775,6 +775,44 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
    *   - sorting mismatch (id 68)
    */
   Iterator EndByX2Ev(Idx x2, Idx ev) const;
+
+  /** @} doxygen group */
+
+  /** @name Set Operators
+   *
+   * Reimplement boolean operators.
+   *
+   */
+ 
+  /** @{ doxygen group: operators */
+
+
+  /**
+   * Set union operator
+   *
+   * @return 
+   *   Union Set
+   *
+   */
+  TTransSet<Cmp> operator + (const TTransSet<Cmp>& rOtherSet) const;
+
+  /**
+   * Set difference operator
+   *
+   * @return 
+   *   Set Difference NameSet
+   *
+   */
+  TTransSet<Cmp> operator - (const TTransSet<Cmp>& rOtherSet) const;
+
+  /**
+   * Set intersection operator
+   *
+   * @return 
+   *   Set Intersection
+   *
+   */
+  TTransSet<Cmp> operator * (const TTransSet<Cmp>& rOtherSet) const;
 
   /** @} doxygen group */
 
@@ -1198,7 +1236,8 @@ TEMP THIS::TTransSet(void) : BASE()
 }
 
 // TTransSet(othertransrel)
- TEMP THIS::TTransSet(const TBaseSet<Transition,Cmp>& rOtherSet) : 
+//TEMP THIS::TTransSet(const TBaseSet<Transition,Cmp>& rOtherSet) : 
+ TEMP THIS::TTransSet(const TTransSet<Cmp>& rOtherSet) :
   BASE()
 {
   FD_DC("TTransSet(" << this << ")::TTransSet(rOtherSet "<< &rOtherSet <<")");
@@ -1384,6 +1423,27 @@ TEMP typename THIS::Iterator THIS::EndByX2Ev(Idx x2, Idx ev) const {
   return THIS::ThisIterator(BASE::pSet->lower_bound(tlx));
 }
 
+// operator+
+TEMP THIS THIS::operator+ (const TTransSet<Cmp>& rOtherSet) const {
+  TTransSet<Cmp> res(*this);
+  res.InsertSet(rOtherSet);
+  return res;
+}
+
+// operator-
+TEMP THIS THIS::operator- (const TTransSet<Cmp>& rOtherSet) const {
+  TTransSet<Cmp> res(*this);
+  res.EraseSet(rOtherSet);
+  return res;
+}
+
+     
+// operator*
+TEMP TTransSet<Cmp> THIS::operator* (const TTransSet<Cmp>& rOtherSet) const {
+  TTransSet<Cmp> res(*this);
+  res.RestrictSet(rOtherSet);
+  return res;
+}
 
 
 // DoWrite(rw,label)

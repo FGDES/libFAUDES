@@ -39,7 +39,13 @@ AttributeVoid::AttributeVoid(void) {
   FAUDES_OBJCOUNT_INC("Attribute");
 }
 
-// destructor
+// constructor
+AttributeVoid::AttributeVoid(const AttributeVoid& rOther) {
+  FAUDES_OBJCOUNT_INC("Attribute");
+  DoAssign(rOther);  
+}
+
+  // destructor
 AttributeVoid::~AttributeVoid(void) {
   FAUDES_OBJCOUNT_DEC("Attribute");
 }

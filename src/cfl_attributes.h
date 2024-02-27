@@ -58,6 +58,9 @@ public:
   /** Constructor */
   AttributeVoid(void);
 
+  /** Copy Constructor */
+  AttributeVoid(const AttributeVoid& rSrcAttr);
+
   /** Destructor */
   virtual ~AttributeVoid(void);
 
