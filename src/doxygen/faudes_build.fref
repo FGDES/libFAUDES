@@ -6,8 +6,7 @@
 
 <p>
 libFAUDES C++ sources are largely POSIX compliant and have been verified to
-compile on various platforms, incl. Linux, Mac OsX and MS Windows, both 32-bit and 64-bit
-variants. 
+compile on various platforms, incl. Linux, Mac OsX and MS Windows.
 Still, the build process is quite involved and requires certain
 additional tools.  
 The download page therefore provides precompiled libFAUDES archives including 
@@ -21,15 +20,23 @@ executables of luafaudes and other relevant utilities.
 The standard libFAUDES distribution ships as <tt>tar.gz</tt> archive and includes
 Linux binaries. Simply extract the archive file and test by e.g. 
 running a luafaudes tutorial script.
+If you experience errors regarding missing/incompatible libraries, you will need
+to re-compile. Sorry for the inconvenience.
 </p>
 <p>
-In order to improve cross-distribution compatibility, the precompiled binaries 
-link against so called <i>LSB 3.2 system library stubs</i> in their 64-bit variant.
-Thus, you may need to install the LSB loader to execute the
-precompiled binaries.
+<i>Note on Linux binary compatibility.</i>
+As of 2020, we compile on a somewhat outdated Linux distribution
+to obtain binaries that are compatible to some extend.
+In earlier days, we used to link the precomiled binaries
+against so called <i>LSB 3.2 system library stubs</i> which we considered
+a great approach for cross-distribution binary compatibility.
+Howeverm LSB was last updated in 2015 and common Linux distributions
+stepped out from then on.
+If you want/need to run early versions of libFAUDES or derived software,
+you may need to install the LSB loader
 </p>
 <p>
-Example: installing LSB packages on Ubuntu 10.04
+Example: installing LSB packages on Ubuntu 18.04LTS
 </p>
 <pre>
 > aptitude install lsb
@@ -41,15 +48,6 @@ Example: installing LSB packages on Fedora 14
 > yum install redhat-lsb
 </pre>
 <p>
-If you experience errors for missing libraries or unresolved symbols, please let us know.  
-</p>
-<p>
-Allthough recent Linux distributions are commonly configured for 64-bit,
-selected libFAUDES applications are still provided as 32-bit variants
-for compatibility reasons. These applications may require the explict
-installation of 32-bit LSB stubs for 64-bit platforms.
-</p>
-<p>
 Example: installing LSB packages on Fedora 14, 64-bit distribution, to
 use 32-bit libFAUDES components
 </p>
@@ -59,19 +57,19 @@ use 32-bit libFAUDES components
 </pre>
 <p>
 All binary compatibility issues are readily resolved if you re-compile
-your copy of libFAUDES, either 64-bit or 32-bit with or without 
-LSB linking; see the instructions below. 
+your copy of libFAUDES; see the instructions below. 
 </p>
 </li>  
 <li>
 <p>
-<strong>Mac OS X:</strong>
-There is no dedicated libFAUDES distribution for Mac OS X, compilation follows the same
+<strong>macOS:</strong>
+There is no dedicated libFAUDES distribution for macOS, compilation follows the same
 path as for Linux, see below. Alternatively, you may download one of the application packages
-(DESTool or FlexFact) and extract the relevant binaries from the
-bundle file. Our current test target is OS X 10.7 64-bit (dated approx
-2011). Earlier application packages have been compiled for OS X 10.4 32-bit (dated approx
-2006) and can be found in our archive. 
+(e.g. DESTool or FlexFact) and extract the relevant binaries from the
+bundle file. Our current test target is macOS 12 (dated 2021) and binaries should be compatible
+back to the introduction of Apple Silicon M1. Earlier application packages have been compiled
+on OS X 10.7 64-bit (x86 archiracture, dated approx
+2011) or even OS X 10.4 32-bit (dated approx 2006); see our archive.
 </p>
 </li>
 <li>
@@ -82,8 +80,8 @@ the archive of the libFAUDES download page. They contain the HTML documentation,
 precompiled libFAUDES incl luafaudes and some examples. As of libFAUDES 2.27, the library
 is compiled with MS Visual C++ 2015 compilers for 64-bit environments with
 Windows 7 as our test target. Allthough libFAUDES itself is not a Visual C++ project, 
-dependent applications can be developed with the community edition of 
-this particular version of Visual C. 
+dependend applications can be developed with the community edition of 
+this particular version of MS Visual C++. 
 Earlier distributions of libFAUDES were compiled for 32-bit using MinGW compilers
 and targeting Windows XP and can be found in our archive. 
 </p>
@@ -108,7 +106,7 @@ We provide some more technical detail on the supported toolchains.
 <p>
 The standard distribution ships with a configured source tree and provides a  
 <tt>GNU-Makefile</tt> for compilation within POSIX compliant environments.
-The following <i>application developer targets</i> arte supported. 
+The following <i>application developer targets</i> are supported. 
 </p>
 
 <ul class="l2">
@@ -142,7 +140,7 @@ to compile just the library (either shared or static),
 </ul>
 
 <p>
-After extracting the libFAUDES archive to e.g. <tt>./libfaudes</tt>,
+After extracting the libFAUDES archive to e.g. <tt>./libFAUDES</tt>,
 open a shell (aka <i>console</i>, <i>command line</i>, etc) and run
 </p>
 <pre>
@@ -151,8 +149,8 @@ open a shell (aka <i>console</i>, <i>command line</i>, etc) and run
 &gt; make test
 </pre>
 <p>
-from within <tt>./libfaudes</tt> to re-compile libFAUDES where
-the <tt>GNU-make</tt> tool extracts the rules of how exactly the targets
+from within <tt>./libFAUDES</tt> to re-compile libFAUDES.
+Technically, the <tt>GNU-make</tt> tool extracts the rules of how exactly the targets
 are to be built from the the <tt>Makefile</tt>. 
 There are a number of details to be addressed here.
 </p>
@@ -160,56 +158,68 @@ There are a number of details to be addressed here.
 <p>
 Each make-tool comes with a specific dialect and the provided <tt>Makefile</tt> 
 requires specifically  <tt>GNU-make</tt> to expand in the intended manner. 
-On Linux and Mac OS X <tt>GNU-make</tt> is part of the system toolchain and, thus, readily available by installing
-C++-development packages or XCode, respectively.  On MS Windows
-there is no concept af a designated system toolchain, even though 
+On Linux and macOS <tt>GNU-make</tt> is part of the system toolchain and, thus,
+is readily available by installing C++-development packages or XCode, respectively.
+On MS Windows there is no concept af a designated system toolchain, even though 
 MS Visual C became quite common with the free-of-cost community
 editions. Unfortunately, the included <tt>nmake</tt>-tool will not
-build libFAUDES. To this end, the MinGW project provides 
+build libFAUDES. To this end, the <a href="https://www.mingw-w64.org">MinGW-w64</a>
+project provides 
 a variant of the GNU-toolchain toolchain for native MS Windows development and it includes
-the compatible make tool <tt>mingw32-make</tt>. Dont be confused
-by the <tt>32</tt> in the name: the organisation of the build process 
-has no implication on the bitiness of the result.
-So for MS Windows, the above build sequence looks like this 
+a compatible make tool. The easiest way to get this going is to first install
+<a href="https://www.msys2.org">MSYS2</a>
+and then to obtain the GNU-toolchain within this environment; E.g., run the package manager
+from an MSYS2 terminal window:
 </p>
 <pre>
-set PATH=%PATH%;C:\MinGW\bin
-C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=gcc_win
-C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=gcc_win tutorial 
-C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=gcc_win test 
+pacman -S base-devel gcc make
 </pre>
 <p>
-Note the set-path directive to specify the location of <tt>make</tt>, <tt>g++</tt> 
-and <tt>gcc</tt>. Also of interest is the <tt>FAUDES_PLATFORM</tt> definition
-that directs the <tt>make</tt> tool to invoke the compiler/linker with
-tailored switches to match the respective environment. The provided <tt>Makefile</tt>
-supports four or theese flavors to shape the build process.
+Then, explicitly set the target platform and compile libFAUDES from a
+MSYS2 terminal:
+</p>
+<pre>
+&gt; make FAUDES_PLATFORM=gcc_win
+&gt; make FAUDES_PLATFORM=gcc_win tutorial 
+&gt; make FAUDES_PLATFORM=gcc_win test 
+</pre>
+As an alternative to MSYS2, you can resort to plain MinGW binaries,
+set the PATH variable and use a MS Windows commandline to run
+<pre>
+set PATH=%PATH%;C:\Wherever_MinGW_is\bin
+C:\libFAUDES> mingw64-make FAUDES_PLATFORM=gcc_win
+C:\libFAUDES> mingw64-make FAUDES_PLATFORM=gcc_win tutorial 
+C:\libFAUDES> mingw64-make FAUDES_PLATFORM=gcc_win test 
+</pre>
+
+<p>
+The provided <tt>Makefile</tt>
+supports four flavors to shape the build process.
 </p>
 <p>
 The three platforms <strong>gcc_linux</strong>, <strong>gcc_osx</strong> and <strong>gcc_win</strong> 
 all refer to the GNU-toolchain (or close relatives). The corresponding tool can be obtained
-by the system packamanager (Linux), as part of the XCode developer tool (Mac OsX) or with the 
-MinGW project (MS Windows). In order to adjust the various compiler/linker options to the application 
+by the system packamanager (Linux), as part of the XCode developer tool (Mac OsX) or via MSYS2 as indicated above (MS Windows). In order to adjust the various compiler/linker options to the application 
 at hand, it is recommende to cut&amp;past the respective section from the
-<tt>Makefile</tt> as a starting oint for further tuning. Since linFAUDES is largely developped
-with the  gcc_linux and gcc_osx setup, it adapts well the GNU-toolchain. 
+<tt>Makefile</tt> as a starting point for further tuning. Since libFAUDES is largely developped
+within a  gcc_linux and gcc_osx setup, it adapts well the GNU-toolchain. 
 </p>
 <p>
 The fourth platform <strong>cl_win</strong> addresses the compiler
 <tt>cl.exe</tt> provided by MS Visual Studio on MS Windows. To use MS Visual C 
 for the development of a libFAUDES based application, it is a prerequisite to compile libFAUDES 
 with the same version of <tt>cl.exe</tt> as it will be used for application developement,
-an with matching compiler/linker options. Among the vast number of preceivable usecases, libFAUDES 
+an with matching compiler/linker options. Among the vast number of precivable usecases, libFAUDES 
 is currently distributed in two orthogonal shapes that can be selected with the  
-FAUDES_LINKING switch as demonstrated below and that have both been compiled with the community 
+FAUDES_LINKING switch as demonstrated below and that have both been tested to compile with the community 
 edition of MS Vusial C 2015.
 </p>
 <pre>
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"  x86_amd64
-C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
+&gt; make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
 </pre>
 <p>
-First, the batch file provided by MS Visual C sets up the environment to the 64bit
+The batch file provided by MS Visual C sets up the environment to the 64bit
 compilers. Then "FAUDES_LINKING="static debug" builds the archieve <tt>faudesd.lib</tt>> 
 that links dynamically against the C libraries in their debug variant
 but isitself is meant for static linking with an host application. Relevant compiler
@@ -219,7 +229,7 @@ only be distributed under terms of the GPL license. For dynamic linking in relea
 we have set up
 </p>
 <pre>
-C:\libfaudes&gt; mingw32-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
+&gt; make FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
 </pre>
 <p>
 to build the shared object <tt>faudes.dll</tt> along with the linker
@@ -279,10 +289,16 @@ for the luabindings plug-in), and
 </ul>
 
 <p>
-Most Linux distributions come with both Perl and SWIG, the latter may
-require installation. Regarding SWIG, the particular version can be crucial
+Most Linux distributions come with Perl, doxygen and SWIG. The latter may
+require installation, e.g., for Debian
+</p>
+<pre>
+sudo apt install swig
+</pre>
+<p>
+Here, the particular version can be crucial
 --- we have positive confirmation ranging from v1.3.36 up to v4.1.1;
-cross-configuration for Windows/64-bit/VS-compiler requires at least 3.02,
+cross-configuration for Windows/VS-compiler requires at least 3.02,
 however, the early 3.xx series seems to produce some spurious warnings
 with Linux/gcc. In the case you rely on older versions of SWIG, you may want to
 test the a tweaked versions of <tt>typemaps.i</tt> archieved  <tt>./plugins/luabindings/src/</tt> and
@@ -290,14 +306,27 @@ taken from SWIG v2.0.10.
 </p>
 
 <p>
-For libFAUDES development on a Windows system,
-we recommend to use the <a href="http://www.cygwin.com">Cygwin</a> environment.
-This has been tested with Cygwin version 1.7.9-1, choosing the <tt>devel</tt>
-package from the Cygwin installer. At the time of writing,
-<a href="http://www.graphviz.org">Graphviz/<tt>dot</tt></a>
-was not available via Cygwin, however, a native Windows binary can be obtained
-directly from <a href="http://www.graphviz.org">Graphviz</a>
+For libFAUDES development on a  macOS system,
+there are various ways to obtain the required tools. As of libFAUDES 2.04, we
+use <a href="https://www.macports.org">MacPorts</a> to install SWIG and doxygen, e.g.,
 </p>
+<pre>
+port install swig doxygen    
+</pre>
+
+
+<p>
+For libFAUDES development on a Windows system,
+we recommend to use either <a href="http://www.cygwin.com">Cygwin</a>
+or<a href="https://www.msys2.org">MSYS2</a> as a close-to-POSIX
+environment. As of libFAUDES 2.32, we are testing with
+MSYS2 version 20240113 on Windows 10. Required packages can be installed from a
+MSYS2 terminal window, e.g.:
+</p>
+<pre>
+pacman -S swig doxygen history-devel libreadline-devel 
+</pre>
+
 
 <p>
 To re-configure and compile libFAUDES sources from scratch, you may run

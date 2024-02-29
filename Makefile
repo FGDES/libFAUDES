@@ -59,7 +59,7 @@
 
 ifeq ($(FAUDES_PLUGINS),)
 FAUDES_PLUGINS = 
-#FAUDES_PLUGINS += example
+#FAUDES_PLUGINS += example      # docu only
 FAUDES_PLUGINS += synthesis
 FAUDES_PLUGINS += observer
 FAUDES_PLUGINS += multitasking
@@ -70,10 +70,10 @@ FAUDES_PLUGINS += coordinationcontrol
 FAUDES_PLUGINS += timed
 FAUDES_PLUGINS += simulator
 FAUDES_PLUGINS += iodevice
-#FAUDES_PLUGINS += pushdown
-#FAUDES_PLUGINS += hybrid
+#FAUDES_PLUGINS += pushdown      # out of maintenance
+#FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
 FAUDES_PLUGINS += luabindings
-#FAUDES_PLUGINS += pybindings
+#FAUDES_PLUGINS += pybindings    # conflicts with luabindings
 endif
 
 
@@ -176,7 +176,7 @@ endif
 ###############################################################################
 
 
-# Include confiure cache to recover FAUDES_PLUGINS, FAUDES_DEBUG, and FAUDES_OPTIONS
+# Include configure cache to recover FAUDES_PLUGINS, FAUDES_DEBUG, and FAUDES_OPTIONS
 
 FILE_CONFIG = Makefile.configuration
 
@@ -233,10 +233,10 @@ endif
 
 
 ### try to autoselect platform
-# Ms Windows with MS Visual C compilers
+# Ms Windows with MSYS2
 ifeq ($(FAUDES_PLATFORM),)
 ifneq ($(findstring Windows,$(OS)),)
-FAUDES_PLATFORM := cl_win
+FAUDES_PLATFORM := gcc_msys
 endif
 endif
 # Mac OS X with g++ from the XCode toochain
@@ -473,10 +473,6 @@ LDFLAGS +=
 endif 
 DSOOPTS = /LD 
 LNKLIBS = winmm.lib wsock32.lib 
-ifeq ($(SHARED),yes)
-LIBOPTS = /DFAUDES_BUILD_DSO
-APPOPTS = /DFAUDES_BUILD_APP
-endif
 #
 LIBFAUDES = faudes
 IMPFAUDES = faudes
@@ -524,6 +520,47 @@ MAINOPTS += -g
 LDFLAGS +=
 endif 
 endif
+
+### platform "gcc_msys": MSYS2/MinGW64 on MS Windows 10
+#
+# We are using this toochain for binary distributions from libFAUDE 2.32 onwards
+#
+ifeq ($(FAUDES_PLATFORM),gcc_msys)
+MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
+WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
+DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
+DOT_EXE = .exe
+LNKLIBS = -lwinmm -lws2_32    # winmm for win systime only 
+ifeq (core_threads,$(findstring core_threads,$(FAUDES_OPTIONS)))
+LNKLIBS += -lpthread 
+endif
+ifeq ($(DEBUG),yes)
+MAINOPTS += -g
+LDFLAGS += -Wl,--as-needed 
+endif 
+ifeq ($(SHARED),yes)
+LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden 
+endif
+#
+LIBFAUDES = faudes
+IMPFAUDES = faudes
+MINFAUDES = minfaudes
+ifeq ($(DEBUG),yes)
+LIBFAUDES := $(LIBFAUDES)d
+IMPFAUDES := $(IMPFAUDES)d
+MINFAUDES := $(MINFAUDES)d
+endif
+ifeq ($(SHARED),yes)
+LIBFAUDES := $(LIBFAUDES).dll
+IMPFAUDES := $(IMPFAUDES).lib
+MINFAUDES := $(MINFAUDES).lib
+else
+LIBFAUDES := $(LIBFAUDES).lib
+IMPFAUDES := $(IMPFAUDES).lib
+MINFAUDES := $(MINFAUDES).lib
+endif
+endif
+
 
 ### adapt for emscripten
 # (for user targets only, see also luabindings/Makefile.plugin)

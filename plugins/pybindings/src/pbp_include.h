@@ -1,4 +1,3 @@
-
 /** @file pbp_include.h Includes all luabindings plug-in headers */
 
 /*
@@ -6,7 +5,7 @@
  Convenience header file that includes all headers
  relevant to the pybindings plug-in. 
 
- (c) Thomas Moor 2023
+ (c) Thomas Moor 2023, 2024
  ****************************************************
  */
 
@@ -26,8 +25,8 @@
 <p>
 This plug-in generates libFAUDES bindings for the scripting language Python; 
 see http://www.python.org. 
-With this plug-in, the most essential libFAUDES data types and functions will
-can be accesed from the python interpreter. 
+With this plug-in, the most essential libFAUDES data types and functions
+can be accesed from the Python interpreter. 
 </p>
 
 <p>
@@ -40,7 +39,7 @@ please do not hesitate to report back to us.
 <p>
 Restrictions:
 
-- The build systems allows for either Lua bindings or Python bindings; building both
+- The build system allows for either Lua bindings or Python bindings; building both
   simultaneously is not supported.
 
 
@@ -151,20 +150,19 @@ Notes:
   If you require Python bindings other plug-ins, please let us know.
 
 
-- The build system is best supported on Linux and OS X. For Windows we at this
-  point recommend to resort to CygWin or equivalents.
+- The build system is best supported on Linux and OS X. For Windows we recommend to  MSYS2 or equivalents.
 
 
-- The build process will rely on the developer package of your Python distribution
-  and needs explicitly to be pointed to the paths of <tt>Python.h</tt> and the
-  Python shared object <tt>libpython.so</tt>. This is done automatically, however,
-  your milage may vary; see  <tt>pybindings/Makefile.plugin</tt> for manual
-  configuration.
+- The build process relies on the developer package of your Python distribution. It
+  needs to be pointed to the paths of <tt>Python.h</tt> and the
+  Python shared object <tt>libpython.so</tt>. There is an attempt to figure those
+  paths  automatically, however, your milage may vary; 
+  see  <tt>pybindings/Makefile.plugin</tt> for manual configuration.
 
 
 - After building libFAUDES as a shared object, copy the files <tt>pybindings/tutorial/faudes.py</tt>
   and <tt>pybindings/tutorial/_faudes.so</tt> to reside in the same
-  directory as your Python project. Test your setting by starting a Python command promt  within your
+  directory as your Python project. Test your settings by starting a Python command promt  within your
   project directory and try, e.g. <tt>import faudes</tt> and <tt>faudes.Version()</tt>.
 
 
@@ -179,7 +177,7 @@ The Python bindings plug-in is distributed with libFAUDES.
 All code is  provided under terms of the LGPL. 
 
 
-Copyright (c) 2023 Thomas Moor.
+Copyright (c) 2023, 2024 Thomas Moor.
 
 
 
