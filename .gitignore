@@ -24,6 +24,7 @@ Makefile.depend
 
 # ignore test cases
 tmp_*
+!**/faudes_images/tmo_*
 
 # osx irritations
 **/.DS_Store
