@@ -65,9 +65,9 @@ const std::string& faudes_pathseps(void) {
   if(faudes_pathseps_str=="") {
     int res=system("uname -a");
     if(res==0)
-      faudes_pathseps_str = "\\:/"; 
-    else
       faudes_pathseps_str = "/";       
+    else
+      faudes_pathseps_str = "\\:/"; 
   }
   return faudes_pathseps_str;
 }
