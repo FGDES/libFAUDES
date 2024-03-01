@@ -385,7 +385,7 @@ int main(int argc, char *argv[]) {
         lrtype="std::string";
         } else
         // Std case ctype as refernce
-	lrtype + cparams.at(i).at(j);
+	lrtype = cparams.at(i).at(j);
         // No more than one return value
         break;
       }

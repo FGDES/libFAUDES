@@ -328,7 +328,7 @@ MSYS2 version 20240113 on Windows 10. Required packages can be installed
 from a MSYS2 terminal window, e.g.:
 </p>
 <pre>
-pacman -S swig doxygen ncurses-devel libreadline-devel 
+pacman -S swig perl doxygen ncurses-devel libreadline-devel 
 </pre>
 
 

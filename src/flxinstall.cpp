@@ -758,8 +758,12 @@ void TestFaudesTarget(void) {
       mFaudesBinLua2ref = "";
     }
   }
+  // report
   if(mFaudesBinLua2ref=="") {
     std::cerr << "flxinstall: cannot process lua tutorial sources: ERROR." << std::endl;
+  }
+  if(mFaudesBinLua2ref!="") {
+    std::cerr << "flxinstall: using \"" << mFaudesBinLua2ref <<"\" to convert lua tutorials," << std::endl;
   }
   // images
   mFaudesDocImages="";
