@@ -152,7 +152,7 @@ void Lua2ref(const std::string& rLuaFile, const std::string& rRefFile="") {
   std::string cmd= mFaudesBinLua2ref + " " + rLuaFile + " > " + dst;
   // run 
   std::cerr << "flxinstall: converting lua script \"" << rLuaFile << "\"" << std::endl;
-  std::cerr << "flxinstall: usind commane \"" << cmd << "\"" << std::endl;
+  std::cerr << "flxinstall: using command \"" << cmd << "\"" << std::endl;
   int sysret=std::system(cmd.c_str());
   if(sysret!=0) {
     std::cerr << "flxinstall: error while converting lua script \"" << rLuaFile << "\"" << std::endl;

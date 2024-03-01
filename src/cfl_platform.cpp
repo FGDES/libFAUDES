@@ -2,7 +2,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2013  Thomas Moor
+   Copyright (C) 2013, 2024  Thomas Moor
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -38,20 +38,55 @@ void faudes_invalid(const std::string& msg) {
 #endif
 
 
-
 // Path separator (statics, see faudes_pathsep)
+//std::string faudes_pathseps_str; 
+//std::string faudes_pathsep_str; 
 #ifdef FAUDES_POSIX
-const std::string  faudes_pathseps_str = "/"; 
-const std::string  faudes_pathsep_str = "/"; 
-#endif
-#ifdef FAUDES_WINDOWS
-const std::string  faudes_pathseps_str = "\\:/"; 
-const std::string  faudes_pathsep_str = "\\"; 
+const std::string& faudes_pathseps(void) {
+  static std::string  faudes_pathsep_str = "/"; 
+  return faudes_pathsep_str;
+}
+const std::string& faudes_pathsep(void) {
+  return faudes_pathseps(); 
+}
 #endif
 #ifdef FAUDES_GENERIC
-const std::string  faudes_pathseps_str = "/"; 
-const std::string  faudes_pathsep_str = "/"; 
+const std::string& faudes_pathseps(void) {
+  static std::string  faudes_pathsep_str = "/"; 
+  return faudes_pathsep_str;
+}
+const std::string& faudes_pathsep(void) {
+  return faudes_pathseps(); 
+}
 #endif
+#ifdef FAUDES_WINDOWS
+const std::string& faudes_pathseps(void) {
+  static std::string  faudes_pathseps_str = "";
+  if(faudes_pathseps_str=="") {
+    int res=system("uname -a");
+    if(res==0)
+      faudes_pathseps_str = "\\:/"; 
+    else
+      faudes_pathseps_str = "/";       
+  }
+  return faudes_pathseps_str;
+}
+const std::string& faudes_pathsep(void) {
+  static std::string  faudes_pathsep_str = "";
+  if(faudes_pathsep_str=="") {
+    faudes_pathsep_str=faudes_pathseps().substr(0,1);
+  }
+  return faudes_pathsep_str;
+}
+#endif
+
+
+
+#ifdef FAUDES_WINDOWS
+std::string
+std::string  faudes_pathsep_str = "\\"; 
+#endif
+
 
 
 // Uniform signalhandler on termination

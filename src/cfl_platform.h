@@ -2,7 +2,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2013  Thomas Moor
+   Copyright (C) 2013, 2024  Thomas Moor
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -175,16 +175,9 @@
 //  * using gcc/make also on Windows, we occasionaly get Unix style files names
 //    in the build process ... thus we allways define the Unix "/" as a separator 
 //  * summary: we use "/" for POSIX and "\\:/" for Windows.
-extern FAUDES_API const std::string faudes_pathseps_str; 
-inline FAUDES_API const std::string& faudes_pathseps(void) { 
-  return faudes_pathseps_str; 
-}
-
+extern FAUDES_API const std::string& faudes_pathseps(void); 
 // Path-seperator (first char of above, see cfl_helper.cpp)
-extern FAUDES_API const std::string faudes_pathsep_str; 
-inline FAUDES_API const std::string& faudes_pathsep(void) {
-  return faudes_pathsep_str; 
-}
+extern FAUDES_API const std::string& faudes_pathsep(void);
 
 
 // Uniform exit-signalhandler for POSIX/Windows (see e.g. simfaudes.cpp)
