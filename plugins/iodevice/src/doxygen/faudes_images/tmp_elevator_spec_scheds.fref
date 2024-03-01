@@ -1,0 +1,90 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_scheds.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_scheds.svg">
+<a class="faudes_image" href="tmp_elevator_spec_scheds.svg">
+<img src="tmp_elevator_spec_scheds.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example: specification (schedule) 
+
+&lt;Generator&gt;
+"E_shed"
+
+&lt;Alphabet&gt;
+"a_start"
+"a_close"
+"a_open"
+"a_done"
+"a_fail"
+"d_open"
+"d_close"
+"c_up"
+"c_down"
+
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Idle"
+"CloseA"
+"CloseB"
+"Fail"
+"MoveA"
+"OpenA"
+"OpenB"
+
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+% Idle 
+"Idle" "a_start" "CloseA"
+
+"CloseA" "d_close" "CloseB"
+
+"CloseB" "a_close" "MoveA"
+"CloseB" "a_open" "Fail"
+"CloseB" "d_open" "CloseB"
+"CloseB" "d_close" "CloseB"
+
+"Fail"   "a_fail" "Idle"
+
+"MoveA" "c_up"  "MoveA"
+"MoveA" "c_down"  "MoveA"
+"MoveA" "d_open"  "OpenA"
+
+"OpenA" "a_open" "OpenB"
+
+"OpenB" "a_done" "Idle"
+
+
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"Idle"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"Idle"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

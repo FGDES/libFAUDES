@@ -1,0 +1,90 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_closedloop_intro.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_closedloop_intro.svg">
+<a class="faudes_image" href="tmp_hio_closedloop_intro.svg">
+<img src="tmp_hio_closedloop_intro.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Project(PrefixClosure(HioShuffle(Simple Mac...Machine_2)) [minstate],Generator)))" 
+
+% 
+%  Statistics for Project(PrefixClosure(HioShuffle(Simple Mac...Machine_2)) [minstate],Generator)))
+% 
+%  States:        13
+%  Init/Marked:   1/13
+%  Events:        8
+%  Transitions:   22
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha_1       beta_1        no_op_1       idle_1        alpha_2       beta_2       
+no_op_2       idle_2       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              13            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+2              alpha_1       3             
+2              no_op_1       5             
+3              beta_1        4             
+3              beta_2        7             
+4              no_op_1       9             
+5              idle_1        2             
+5              beta_2        12            
+6              alpha_2       5             
+6              no_op_2       10            
+7              no_op_2       8             
+8              beta_1        13            
+8              idle_2        7             
+1              idle_1        11            
+1              idle_2        12            
+9              idle_1        4             
+9              beta_2        6             
+10             idle_1        13            
+10             idle_2        6             
+11             alpha_1       8             
+11             no_op_1       1             
+12             no_op_2       1             
+13             no_op_1       10            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+&lt;Consecutive&gt;
+1              13            
+&lt;/Consecutive&gt;
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

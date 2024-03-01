@@ -1,0 +1,71 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_plant_lbarrier.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_plant_lbarrier.svg">
+<a class="faudes_image" href="tmp_elevator_plant_lbarrier.svg">
+<img src="tmp_elevator_plant_lbarrier.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example: plant (light bracket)
+
+&lt;Generator&gt;
+"E_lbracket"
+
+&lt;Alphabet&gt;
+"d_lbbl"
+"d_lbrl"
+"d_arcl"
+"d_lvcl"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Free"
+"Block"
+"Closed"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+
+% Track light bracket, free
+"Free"  "d_lbbl"  "Block"
+"Free"  "d_arcl"  "Closed"
+
+% Track light bracket, blocked
+"Block" "d_lbrl"  "Free"
+
+% Door is closed
+"Closed" "d_lvcl" "Free"
+
+&lt;/TransRel&gt;
+
+
+&lt;InitStates&gt;
+"Free"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"Free" 
+"Closed"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

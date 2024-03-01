@@ -1,0 +1,98 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_drsaf2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_drsaf2.svg">
+<a class="faudes_image" href="tmp_elevator_spec_drsaf2.svg">
+<img src="tmp_elevator_spec_drsaf2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example: door specification (light bracket)
+
+&lt;Generator&gt;
+"E_drsaf2"
+
+&lt;Alphabet&gt;
+"d_close"
+"d_open"
+"d_stp"
+"d_arcl"
+"d_lbbl"
+"d_lbrl"
+%"a_block"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"IdleFree"
+"ClosingFree"
+"ClosingBlock"
+"ClosedFree"
+"Block"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+
+% Allow door opening
+"IdleFree" "d_close" "ClosingFree"
+"IdleFree" "d_open" "IdleFree"
+"IdleFree" "d_stp" "IdleFree"
+"IdleFree" "d_arcl" "IdleFree"
+"IdleFree" "d_lbbl" "Block"
+
+
+% Monitor door close operation A
+"ClosingFree" "d_arcl" "ClosedFree"
+"ClosingFree" "d_lbbl" "ClosingBlock"
+
+% Monitor door close operation B
+"ClosedFree" "d_stp" "IdleFree"
+"ClosedFree" "d_lbbl" "Block"
+
+% Monitor door close operation Err
+"ClosingBlock" "d_lbrl" "ClosingFree"
+"ClosingBlock" "d_arcl" "ClosingBlock"
+"ClosingBlock" "d_stp" "Block"
+"ClosingBlock" "d_open" "Block"
+
+% Allow anything but not d_arcl
+%"Block" "a_block" "Block"
+"Block" "d_close" "Block"
+"Block" "d_open"  "Block"
+"Block" "d_stp"   "Block"
+"Block" "d_lbrl"   "IdleFree"
+
+
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"IdleFree"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"IdleFree"
+"ClosingFree"
+"ClosingBlock"
+"ClosedFree"
+"Block"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,172 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_simpleHioShuffle_AB.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_simpleHioShuffle_AB.svg">
+<a class="faudes_image" href="tmp_hio_simpleHioShuffle_AB.svg">
+<img src="tmp_hio_simpleHioShuffle_AB.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"HioShuffle(hio - simple machine Ahio - simple machine B)" 
+
+% 
+%  Statistics for HioShuffle(hio - simple machine Ahio - simple machine B)
+% 
+%  States:        33
+%  Init/Marked:   1/17
+%  Events:        12
+%  Transitions:   94
+%  StateSymbols:  33
+%  Attrib. E/S/T: 12/33/0
+% 
+
+&lt;Alphabet&gt;
+A_wait        +YP+          A_do          +UP+          A_stp         +UP+         
+A_req         +YE+          A_nack        +UE+          A_pack        +UE+         
+B_wait        +YP+          B_do          +UP+          B_stp         +UP+         
+B_prov        +YE+          B_nack        +UE+          B_pack        +UE+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1|1|1"       +QYpYe+       "2|2|2"       +QUp+         "3|3|3"       +QUp+        
+"3|errYp_Ye"  +QYpYe+       "3|5|1"       +QYpYe+       "3|1|1"       +QYpYe+      
+"5|3|3"       +QUp+         "5|errYp_Ye"  +QYpYe+       "5|5|1"       +QYpYe+      
+"5|1|1"       +QYpYe+       "5|7|3"       +QUe+         "5|errYp_Ye_1"  +QYpYe+      
+"5|errUe"     +QUe+         "2|errUp"     +QUp+         "5|errUp"     +QUp+        
+"2|errYp_Ye"  +QYpYe+       "4|errUp"     +QUp+         "3|errUp"     +QUp+        
+"4|errYp_Ye"  +QYpYe+       "3|7|3"       +QUe+         "3|errYp_Ye_1"  +QYpYe+      
+"3|errUe"     +QUe+         "2|12|1"      +QYpYe+       "2|1|1"       +QYpYe+      
+"4|2|2"       +QUp+         "4|12|1"      +QYpYe+       "4|1|1"       +QYpYe+      
+"4|13|2"      +QUe+         "4|errYp_Ye_1"  +QYpYe+       "4|errUe"     +QUe+        
+"2|13|2"      +QUe+         "2|errYp_Ye_1"  +QYpYe+       "2|errUe"     +QUe+        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1|1|1"       A_wait        "2|2|2"      
+"1|1|1"       B_wait        "3|3|3"      
+"2|2|2"       A_do          "2|12|1"     
+"2|2|2"       A_stp         "2|1|1"      
+"2|2|2"       B_do          "2|errYp_Ye" 
+"2|2|2"       B_stp         "2|errYp_Ye" 
+"3|3|3"       A_do          "3|errYp_Ye" 
+"3|3|3"       A_stp         "3|errYp_Ye" 
+"3|3|3"       B_do          "3|5|1"      
+"3|3|3"       B_stp         "3|1|1"      
+"3|errYp_Ye"  A_wait        "2|errUp"    
+"3|errYp_Ye"  B_wait        "5|errUp"    
+"3|5|1"       B_prov        "3|7|3"      
+"3|1|1"       A_wait        "2|2|2"      
+"3|1|1"       B_wait        "5|3|3"      
+"5|3|3"       A_do          "5|errYp_Ye" 
+"5|3|3"       A_stp         "5|errYp_Ye" 
+"5|3|3"       B_do          "5|5|1"      
+"5|3|3"       B_stp         "5|1|1"      
+"5|errYp_Ye"  A_wait        "2|errUp"    
+"5|errYp_Ye"  B_wait        "5|errUp"    
+"5|5|1"       B_prov        "5|7|3"      
+"5|1|1"       A_wait        "2|2|2"      
+"5|1|1"       B_wait        "5|3|3"      
+"5|7|3"       A_nack        "5|errYp_Ye_1" 
+"5|7|3"       A_pack        "5|errYp_Ye_1" 
+"5|7|3"       B_nack        "5|5|1"      
+"5|7|3"       B_pack        "5|1|1"      
+"5|errYp_Ye_1"  A_req         "5|errUe"    
+"5|errYp_Ye_1"  B_prov        "5|errUe"    
+"5|errUe"     A_nack        "5|errYp_Ye_1" 
+"5|errUe"     A_pack        "5|errYp_Ye_1" 
+"5|errUe"     B_nack        "5|errYp_Ye_1" 
+"5|errUe"     B_pack        "5|errYp_Ye_1" 
+"2|errUp"     A_do          "2|errYp_Ye" 
+"2|errUp"     A_stp         "2|errYp_Ye" 
+"2|errUp"     B_do          "2|errYp_Ye" 
+"2|errUp"     B_stp         "2|errYp_Ye" 
+"5|errUp"     A_do          "5|errYp_Ye" 
+"5|errUp"     A_stp         "5|errYp_Ye" 
+"5|errUp"     B_do          "5|errYp_Ye" 
+"5|errUp"     B_stp         "5|errYp_Ye" 
+"2|errYp_Ye"  A_wait        "4|errUp"    
+"2|errYp_Ye"  B_wait        "3|errUp"    
+"4|errUp"     A_do          "4|errYp_Ye" 
+"4|errUp"     A_stp         "4|errYp_Ye" 
+"4|errUp"     B_do          "4|errYp_Ye" 
+"4|errUp"     B_stp         "4|errYp_Ye" 
+"3|errUp"     A_do          "3|errYp_Ye" 
+"3|errUp"     A_stp         "3|errYp_Ye" 
+"3|errUp"     B_do          "3|errYp_Ye" 
+"3|errUp"     B_stp         "3|errYp_Ye" 
+"4|errYp_Ye"  A_wait        "4|errUp"    
+"4|errYp_Ye"  B_wait        "3|errUp"    
+"3|7|3"       A_nack        "3|errYp_Ye_1" 
+"3|7|3"       A_pack        "3|errYp_Ye_1" 
+"3|7|3"       B_nack        "3|5|1"      
+"3|7|3"       B_pack        "3|1|1"      
+"3|errYp_Ye_1"  A_req         "3|errUe"    
+"3|errYp_Ye_1"  B_prov        "3|errUe"    
+"3|errUe"     A_nack        "3|errYp_Ye_1" 
+"3|errUe"     A_pack        "3|errYp_Ye_1" 
+"3|errUe"     B_nack        "3|errYp_Ye_1" 
+"3|errUe"     B_pack        "3|errYp_Ye_1" 
+"2|12|1"      A_req         "2|13|2"     
+"2|1|1"       A_wait        "4|2|2"      
+"2|1|1"       B_wait        "3|3|3"      
+"4|2|2"       A_do          "4|12|1"     
+"4|2|2"       A_stp         "4|1|1"      
+"4|2|2"       B_do          "4|errYp_Ye" 
+"4|2|2"       B_stp         "4|errYp_Ye" 
+"4|12|1"      A_req         "4|13|2"     
+"4|1|1"       A_wait        "4|2|2"      
+"4|1|1"       B_wait        "3|3|3"      
+"4|13|2"      A_nack        "4|12|1"     
+"4|13|2"      A_pack        "4|1|1"      
+"4|13|2"      B_nack        "4|errYp_Ye_1" 
+"4|13|2"      B_pack        "4|errYp_Ye_1" 
+"4|errYp_Ye_1"  A_req         "4|errUe"    
+"4|errYp_Ye_1"  B_prov        "4|errUe"    
+"4|errUe"     A_nack        "4|errYp_Ye_1" 
+"4|errUe"     A_pack        "4|errYp_Ye_1" 
+"4|errUe"     B_nack        "4|errYp_Ye_1" 
+"4|errUe"     B_pack        "4|errYp_Ye_1" 
+"2|13|2"      A_nack        "2|12|1"     
+"2|13|2"      A_pack        "2|1|1"      
+"2|13|2"      B_nack        "2|errYp_Ye_1" 
+"2|13|2"      B_pack        "2|errYp_Ye_1" 
+"2|errYp_Ye_1"  A_req         "2|errUe"    
+"2|errYp_Ye_1"  B_prov        "2|errUe"    
+"2|errUe"     A_nack        "2|errYp_Ye_1" 
+"2|errUe"     A_pack        "2|errYp_Ye_1" 
+"2|errUe"     B_nack        "2|errYp_Ye_1" 
+"2|errUe"     B_pack        "2|errYp_Ye_1" 
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1|1|1"      
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"1|1|1"       "2|2|2"       "3|3|3"       "3|errYp_Ye"  "3|5|1"       "3|1|1"      
+"2|errUp"     "2|errYp_Ye"  "3|errUp"     "3|7|3"       "3|errYp_Ye_1"  "3|errUe"    
+"2|12|1"      "2|1|1"       "2|13|2"      "2|errYp_Ye_1"  "2|errUe"    
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

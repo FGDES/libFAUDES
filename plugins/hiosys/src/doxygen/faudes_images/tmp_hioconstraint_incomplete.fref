@@ -1,0 +1,65 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hioconstraint_incomplete.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hioconstraint_incomplete.svg">
+<a class="faudes_image" href="tmp_hioconstraint_incomplete.svg">
+<img src="tmp_hioconstraint_incomplete.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+HioConstraint 
+
+% 
+%  Statistics for HioConstraint
+% 
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/2/0
+% 
+
+&lt;Alphabet&gt;
+y1            +Y+           y2            +Y+           u             +U+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              +QY+          2              +QU+         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              y1            2             
+2              u             1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              2             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

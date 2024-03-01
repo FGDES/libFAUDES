@@ -1,0 +1,120 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_cb4mh1d1_1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_cb4mh1d1_1.svg">
+<a class="faudes_image" href="tmp_mtc_cb4mh1d1_1.svg">
+<img src="tmp_mtc_cb4mh1d1_1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject" 
+
+% 
+%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+% 
+%  States:        12
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   26
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/12/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 2 
+% 
+
+&lt;Alphabet&gt;
+cb4stp        +C+           cb11-cb4      +C+           cb12-cb4      +C+          
+cb4-cb11      +C+           cb4-cb12      +C+           mh1start      +C+          
+mh1end       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1             
+&lt;Colors&gt;
+cb4empty     
+&lt;/Colors&gt;
+2              3              4             
+&lt;Colors&gt;
+cb4empty      wpdrilled    
+&lt;/Colors&gt;
+5             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+6             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+7             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+8             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+9              10             11            
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+12            
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              cb11-cb4      2             
+1              cb12-cb4      3             
+1              mh1start      4             
+2              cb4stp        12            
+2              mh1start      5             
+3              cb4stp        9             
+3              mh1start      6             
+4              cb11-cb4      5             
+4              cb12-cb4      6             
+4              mh1end        1             
+5              cb4stp        11            
+5              mh1end        2             
+6              cb4stp        7             
+6              mh1end        3             
+7              cb4-cb11      8             
+7              mh1end        9             
+8              cb4stp        4             
+8              mh1end        10            
+9              cb4-cb11      10            
+9              mh1start      7             
+10             cb4stp        1             
+10             mh1start      8             
+11             cb4-cb12      8             
+11             mh1end        12            
+12             cb4-cb12      10            
+12             mh1start      11            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

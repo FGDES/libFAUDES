@@ -1,0 +1,83 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_core.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_core.svg">
+<a class="faudes_image" href="tmp_elevator_spec_core.svg">
+<img src="tmp_elevator_spec_core.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+FullLanguage(NameSet)||E_opcmd||E_cabmot 
+
+% 
+%  Statistics for FullLanguage(NameSet)||E_opcmd||E_cabmot
+% 
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        7
+%  Transitions:   19
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+c_up          c_down        c_stp         c_arlw        c_arup        o_upb        
+o_lwb        
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2              3              4              5             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              c_arlw        1             
+1              c_arup        1             
+1              o_upb         2             
+1              o_lwb         2             
+2              c_up          3             
+2              c_down        4             
+2              c_arlw        2             
+2              c_arup        2             
+2              o_upb         2             
+2              o_lwb         2             
+3              c_arup        5             
+3              o_upb         3             
+3              o_lwb         3             
+4              c_arlw        5             
+4              o_upb         4             
+4              o_lwb         4             
+5              c_stp         1             
+5              o_upb         5             
+5              o_lwb         5             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

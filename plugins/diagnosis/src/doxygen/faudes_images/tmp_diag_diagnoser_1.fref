@@ -1,0 +1,102 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_diagnoser_1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_diagnoser_1.svg">
+<a class="faudes_image" href="tmp_diag_diagnoser_1.svg">
+<img src="tmp_diag_diagnoser_1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Diagnoser    
+
+% 
+%  Statistics for Diagnoser
+% 
+%  States:        3
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   3
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/3/0
+% 
+
+&lt;Alphabet&gt;
+a             b            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+s1           
+&lt;StateEstimates&gt;
+1             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+s2           
+&lt;StateEstimates&gt;
+3             
+&lt;DiagLabels&gt;
+F1           
+&lt;/DiagLabels&gt;
+5             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+s3           
+&lt;StateEstimates&gt;
+7             
+&lt;DiagLabels&gt;
+F1            F2           
+&lt;/DiagLabels&gt;
+9             
+&lt;DiagLabels&gt;
+A            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+s1            a             s2           
+s2            b             s3           
+s3            a             s3           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+s1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+&lt;FailureTypes&gt;
+F1           
+&lt;FailureEvents&gt;
+WPblocked     WPfelldown   
+&lt;/FailureEvents&gt;
+F2           
+&lt;FailureEvents&gt;
+sfRunsContinuously  cb1RunsContinuously 
+&lt;/FailureEvents&gt;
+&lt;/FailureTypes&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

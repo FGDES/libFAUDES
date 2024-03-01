@@ -1,0 +1,70 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_ios_system1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_ios_system1.svg">
+<a class="faudes_image" href="tmp_ios_system1.svg">
+<img src="tmp_ios_system1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+IOSystem1    
+
+% 
+%  Statistics for IOSystem1
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   6
+%  StateSymbols:  4
+%  Attrib. E/S/T: 4/0/0
+% 
+
+&lt;Alphabet&gt;
+u1            +I+           u2            +I+           y1            +O+          
+y2            +O+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+s1            s2            s3            s4           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+s1            u1            s2           
+s2            y1            s3           
+s3            u1            s4           
+s3            u2            s2           
+s4            y1            s1           
+s4            y2            s3           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+s1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+s1           
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

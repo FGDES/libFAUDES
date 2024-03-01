@@ -1,0 +1,82 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_cb4mh1d1_2_orig.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_cb4mh1d1_2_orig.svg">
+<a class="faudes_image" href="tmp_mtc_cb4mh1d1_2_orig.svg">
+<img src="tmp_mtc_cb4mh1d1_2_orig.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Det(MtcPro(mtcSupConNB((Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject),(Generator)))) [mtc minstate]: mtcProject" 
+
+% 
+%  Statistics for Det(MtcPro(mtcSupConNB((Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject),(Generator)))) [mtc minstate]: mtcProject
+% 
+%  States:        5
+%  Init/Marked:   1/0
+%  Events:        5
+%  Transitions:   6
+%  StateSymbols:  0
+%  Attrib. E/S/T: 4/3/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+
+&lt;Alphabet&gt;
+cb11-cb4      +C+           cb12-cb4      +C+           cb4-cb11      +C+          
+cb4-cb12      +C+           mh1end       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2             
+&lt;Colors&gt;
+cb4empty     
+&lt;/Colors&gt;
+3             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+4              5             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              cb4-cb11      2             
+2              cb11-cb4      3             
+2              cb12-cb4      5             
+3              mh1end        4             
+4              cb4-cb12      2             
+5              mh1end        1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+2             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

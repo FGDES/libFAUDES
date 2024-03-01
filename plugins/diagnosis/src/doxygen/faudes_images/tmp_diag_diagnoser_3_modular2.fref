@@ -1,0 +1,68 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_diagnoser_3_modular2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_diagnoser_3_modular2.svg">
+<a class="faudes_image" href="tmp_diag_diagnoser_3_modular2.svg">
+<img src="tmp_diag_diagnoser_3_modular2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+SelfLoop(Generator,NameSet) 
+
+% 
+%  Statistics for SelfLoop(Generator,NameSet)
+% 
+%  States:        1
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   1
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/1/0
+% 
+
+&lt;Alphabet&gt;
+alpha        
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1             
+&lt;StateEstimates&gt;
+1             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              alpha         1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

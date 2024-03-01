@@ -1,0 +1,89 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_system_4_decentralized_sf.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_system_4_decentralized_sf.svg">
+<a class="faudes_image" href="tmp_diag_system_4_decentralized_sf.svg">
+<img src="tmp_diag_system_4_decentralized_sf.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+R_sf(0)      
+
+% 
+%  Statistics for R_sf(0)
+% 
+%  States:        15
+%  Init/Marked:   1/15
+%  Events:        8
+%  Transitions:   20
+%  StateSymbols:  15
+%  Attrib. E/S/T: 6/0/0
+% 
+
+&lt;Alphabet&gt;
+sf-c1         +C+           sfa           sfmv          +C+           pass         
++o+           sfl           sfs           +C+           block         +o+          
+diag          +o+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+sf1           sf2           sf3           sf4           sf5           sf6          
+sf7           sf8           sf9           sf10          sf11          sf12         
+sf13          sf14          sf15         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+sf1           sfa           sf2          
+sf2           sf-c1         sf3          
+sf2           block         sf9          
+sf2           diag          sf12         
+sf3           sfmv          sf4          
+sf3           block         sf10         
+sf4           sfl           sf5          
+sf4           block         sf11         
+sf5           sfa           sf6          
+sf5           pass          sf8          
+sf6           pass          sf7          
+sf7           sfs           sf2          
+sf8           sfa           sf7          
+sf8           sfs           sf1          
+sf9           sf-c1         sf10         
+sf10          sfmv          sf11         
+sf12          sf-c1         sf13         
+sf13          sfmv          sf14         
+sf14          sfl           sf15         
+sf15          sfa           sf14         
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+sf1          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+sf1           sf2           sf3           sf4           sf5           sf6          
+sf7           sf8           sf9           sf10          sf11          sf12         
+sf13          sf14          sf15         
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

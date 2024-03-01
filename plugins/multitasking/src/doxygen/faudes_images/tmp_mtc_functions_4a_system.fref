@@ -1,0 +1,69 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_functions_4a_system.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_functions_4a_system.svg">
+<a class="faudes_image" href="tmp_mtc_functions_4a_system.svg">
+<img src="tmp_mtc_functions_4a_system.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        2
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/1/0
+% 
+%  Colors (all):  1
+%  Colors (dist): 0 1 
+% 
+
+&lt;Alphabet&gt;
+a             b            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"           "2"          
+&lt;Colors&gt;
+Color_1      
+&lt;/Colors&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           a             "2"          
+"2"           b             "1"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

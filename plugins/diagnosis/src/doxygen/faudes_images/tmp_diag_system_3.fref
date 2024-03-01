@@ -1,0 +1,65 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_system_3.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_system_3.svg">
+<a class="faudes_image" href="tmp_diag_system_3.svg">
+<img src="tmp_diag_system_3.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 1/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha         beta          f             +o+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2              3             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              alpha         2             
+2              beta          1             
+2              f             3             
+3              beta          2             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

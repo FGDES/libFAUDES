@@ -1,0 +1,111 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_controller_intro.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_controller_intro.svg">
+<a class="faudes_image" href="tmp_hio_controller_intro.svg">
+<img src="tmp_hio_controller_intro.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Project(HioSynth(PrefixClosure(HioShuffle(S... Machine_2)) [minstate],Generator))" 
+
+% 
+%  Statistics for Project(HioSynth(PrefixClosure(HioShuffle(S... Machine_2)) [minstate],Generator))
+% 
+%  States:        15
+%  Init/Marked:   1/15
+%  Events:        8
+%  Transitions:   42
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha_1       +UP+          beta_1        +YP+          no_op_1       +UP+         
+idle_1        +YP+          alpha_2       +UP+          beta_2        +YP+         
+no_op_2       +UP+          idle_2        +YP+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              15            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+2              alpha_1       3             
+2              no_op_1       3             
+2              alpha_2       3             
+2              no_op_2       3             
+3              beta_1        2             
+3              idle_1        2             
+3              beta_2        2             
+3              idle_2        2             
+4              no_op_1       9             
+5              alpha_2       12            
+5              no_op_2       9             
+6              alpha_1       8             
+6              no_op_1       1             
+7              no_op_2       8             
+8              beta_1        4             
+8              idle_1        2             
+8              beta_2        2             
+8              idle_2        7             
+9              beta_1        2             
+9              idle_1        4             
+9              beta_2        2             
+9              idle_2        5             
+10             beta_1        15            
+10             idle_1        2             
+10             beta_2        7             
+10             idle_2        2             
+11             beta_1        2             
+11             idle_1        15            
+11             beta_2        5             
+11             idle_2        2             
+1              beta_1        2             
+1              idle_1        6             
+1              beta_2        2             
+1              idle_2        14            
+12             beta_1        2             
+12             idle_1        13            
+12             beta_2        14            
+12             idle_2        2             
+13             alpha_1       10            
+13             no_op_1       12            
+14             no_op_2       1             
+15             no_op_1       11            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+&lt;Consecutive&gt;
+1              15            
+&lt;/Consecutive&gt;
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

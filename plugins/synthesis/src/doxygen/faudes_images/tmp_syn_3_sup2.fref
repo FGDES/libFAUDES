@@ -1,0 +1,69 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_syn_3_sup2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_syn_3_sup2.svg">
+<a class="faudes_image" href="tmp_syn_3_sup2.svg">
+<img src="tmp_syn_3_sup2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+sup          
+
+% 
+%  Statistics for sup
+% 
+%  States:        6
+%  Init/Marked:   1/5
+%  Events:        5
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 5/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha0        +C+           alpha1        +C+           alpha2        +C+          
+beta03        +C+           beta02        +C+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2              3              4              5              6             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              alpha0        2             
+2              alpha1        3             
+3              alpha2        4             
+3              beta02        5             
+4              beta03        6             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+2              3              4              5              6             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,97 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_cb4[0]_spec.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_cb4[0]_spec.svg">
+<a class="faudes_image" href="tmp_mtc_cb4[0]_spec.svg">
+<img src="tmp_mtc_cb4[0]_spec.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator||Generator 
+
+% 
+%  Statistics for Generator||Generator
+% 
+%  States:        14
+%  Init/Marked:   1/0
+%  Events:        11
+%  Transitions:   29
+%  StateSymbols:  0
+%  Attrib. E/S/T: 7/14/0
+% 
+%  Colors (all):  0
+%  Colors (dist): 0 
+% 
+
+&lt;Alphabet&gt;
+cb4+x         +C+           cb4-x         +C+           cb4stp        +C+          
+t_cb4         cb4wpar       cb4wplv11     cb4wplv12     cb11-cb4      +C+          
+cb12-cb4      +C+           cb4-cb11      +C+           cb4-cb12      +C+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              14            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              t_cb4         1             
+1              cb11-cb4      2             
+1              cb12-cb4      3             
+2              cb4+x         10            
+2              t_cb4         2             
+3              cb4-x         4             
+3              t_cb4         3             
+4              t_cb4         4             
+4              cb4wpar       5             
+5              cb4stp        6             
+5              t_cb4         5             
+6              t_cb4         6             
+6              cb4-cb11      7             
+7              cb4-x         8             
+7              t_cb4         7             
+8              t_cb4         8             
+8              cb4wplv11     9             
+9              cb4stp        1             
+9              t_cb4         9             
+10             t_cb4         10            
+10             cb4wpar       11            
+11             cb4stp        12            
+11             t_cb4         11            
+12             t_cb4         12            
+12             cb4-cb12      13            
+13             cb4+x         14            
+13             t_cb4         13            
+14             t_cb4         14            
+14             cb4wplv12     9             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

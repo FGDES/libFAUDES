@@ -1,0 +1,83 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_functions_2b_det.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_functions_2b_det.svg">
+<a class="faudes_image" href="tmp_mtc_functions_2b_det.svg">
+<img src="tmp_mtc_functions_2b_det.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Det(Generator) 
+
+% 
+%  Statistics for Det(Generator)
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/4/0
+% 
+%  Colors (all):  5
+%  Colors (dist): 1 2 
+% 
+
+&lt;Alphabet&gt;
+a             b             c            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"{1,5}"      
+&lt;Colors&gt;
+c5           
+&lt;/Colors&gt;
+"{2,4}"      
+&lt;Colors&gt;
+c4           
+&lt;/Colors&gt;
+"{3,4}"      
+&lt;Colors&gt;
+c3            c4           
+&lt;/Colors&gt;
+"{6}"        
+&lt;Colors&gt;
+c6a           c6b          
+&lt;/Colors&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"{1,5}"       a             "{2,4}"      
+"{2,4}"       b             "{3,4}"      
+"{2,4}"       c             "{6}"        
+"{3,4}"       c             "{6}"        
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"{1,5}"      
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

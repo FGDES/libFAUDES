@@ -1,0 +1,72 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_system_4_decentralized2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_system_4_decentralized2.svg">
+<a class="faudes_image" href="tmp_diag_system_4_decentralized2.svg">
+<img src="tmp_diag_system_4_decentralized2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+diag_system_3_modular1 
+
+% 
+%  Statistics for diag_system_3_modular1
+% 
+%  States:        7
+%  Init/Marked:   1/7
+%  Events:        6
+%  Transitions:   6
+%  StateSymbols:  7
+%  Attrib. E/S/T: 3/0/0
+% 
+
+&lt;Alphabet&gt;
+a             +o+           b             +o+           c             +o+          
+d             h             i            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"           "2"           "3"           "4"           "5"           "6"          
+"7"          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           a             "3"          
+"1"           b             "2"          
+"1"           c             "4"          
+"2"           i             "5"          
+"3"           d             "6"          
+"4"           h             "7"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"1"           "2"           "3"           "4"           "5"           "6"          
+"7"          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

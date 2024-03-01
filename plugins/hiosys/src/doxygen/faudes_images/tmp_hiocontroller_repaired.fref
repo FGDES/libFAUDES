@@ -1,0 +1,74 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hiocontroller_repaired.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hiocontroller_repaired.svg">
+<a class="faudes_image" href="tmp_hiocontroller_repaired.svg">
+<img src="tmp_hiocontroller_repaired.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+HioFreeInput(HioController) 
+
+% 
+%  Statistics for HioFreeInput(HioController)
+% 
+%  States:        6
+%  Init/Marked:   1/6
+%  Events:        6
+%  Transitions:   9
+%  StateSymbols:  2
+%  Attrib. E/S/T: 6/6/0
+% 
+
+&lt;Alphabet&gt;
+yp1           +YP+          yp2           +YP+          yc            +YC+         
+uc1           +UC+          uc2           +UC+          up            +UP+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+UcYpError     +ErrQUp+      ErrorQYp      +ErrQYp+      3              +QYp+        
+4              +QYcUp+       5              +QUc+         6              +QUp+        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+3              yp1           4             
+3              yp2           UcYpError    
+4              yc            5             
+5              uc1           6             
+5              uc2           UcYpError    
+6              up            3             
+UcYpError     up            ErrorQYp     
+ErrorQYp      yp1           UcYpError    
+ErrorQYp      yp2           UcYpError    
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+3             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+UcYpError     ErrorQYp      3              4              5              6             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

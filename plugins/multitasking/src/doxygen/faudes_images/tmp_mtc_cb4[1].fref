@@ -1,0 +1,76 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_cb4[1].gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_cb4[1].svg">
+<a class="faudes_image" href="tmp_mtc_cb4[1].svg">
+<img src="tmp_mtc_cb4[1].png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject" 
+
+% 
+%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject
+% 
+%  States:        6
+%  Init/Marked:   1/0
+%  Events:        5
+%  Transitions:   7
+%  StateSymbols:  0
+%  Attrib. E/S/T: 5/1/0
+% 
+%  Colors (all):  1
+%  Colors (dist): 0 1 
+% 
+
+&lt;Alphabet&gt;
+cb4stp        +C+           cb11-cb4      +C+           cb12-cb4      +C+          
+cb4-cb11      +C+           cb4-cb12      +C+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2             
+&lt;Colors&gt;
+cb4empty     
+&lt;/Colors&gt;
+3              4              5              6             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              cb4stp        3             
+2              cb11-cb4      6             
+2              cb12-cb4      1             
+3              cb4-cb11      5             
+4              cb4-cb12      5             
+5              cb4stp        2             
+6              cb4stp        4             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+2             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

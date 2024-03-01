@@ -1,0 +1,80 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_system_4_decentralized_c1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_system_4_decentralized_c1.svg">
+<a class="faudes_image" href="tmp_diag_system_4_decentralized_c1.svg">
+<img src="tmp_diag_system_4_decentralized_c1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        11
+%  Init/Marked:   1/11
+%  Events:        8
+%  Transitions:   14
+%  StateSymbols:  11
+%  Attrib. E/S/T: 4/0/0
+% 
+
+&lt;Alphabet&gt;
+sf-c1         pass          +o+           block         +o+           c1a          
+c1mv          +C+           c1s           +C+           c1l           timer        
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+c1            c2            c3            c4            c5            c6           
+c7            c8            c9            c10           c11          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+c1            sf-c1         c2           
+c1            block         c8           
+c2            pass          c4           
+c2            block         c9           
+c2            c1mv          c3           
+c3            pass          c5           
+c3            block         c10          
+c4            c1mv          c5           
+c5            c1a           c6           
+c6            c1s           c7           
+c7            c1l           c1           
+c8            sf-c1         c9           
+c9            c1mv          c10          
+c10           timer         c11          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+c1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+c1            c2            c3            c4            c5            c6           
+c7            c8            c9            c10           c11          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

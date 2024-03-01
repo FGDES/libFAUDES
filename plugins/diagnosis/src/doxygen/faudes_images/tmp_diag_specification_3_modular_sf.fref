@@ -1,0 +1,77 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_specification_3_modular_sf.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_specification_3_modular_sf.svg">
+<a class="faudes_image" href="tmp_diag_specification_3_modular_sf.svg">
+<img src="tmp_diag_specification_3_modular_sf.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+R_sf(0)      
+
+% 
+%  Statistics for R_sf(0)
+% 
+%  States:        8
+%  Init/Marked:   1/8
+%  Events:        8
+%  Transitions:   10
+%  StateSymbols:  8
+%  Attrib. E/S/T: 5/0/0
+% 
+
+&lt;Alphabet&gt;
+sf-c1         +C+           sfa           sfmv          +C+           pass         
++o+           sfl           sfs           +C+           f_pjm         +o+          
+t_sf         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+sf1           sf2           sf3           sf4           sf5           sf6          
+sf7           sf8          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+sf1           sfa           sf2          
+sf2           sf-c1         sf3          
+sf3           sfmv          sf4          
+sf4           sfl           sf5          
+sf5           sfa           sf6          
+sf5           pass          sf8          
+sf6           pass          sf7          
+sf7           sfs           sf2          
+sf8           sfa           sf7          
+sf8           sfs           sf1          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+sf1          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+sf1           sf2           sf3           sf4           sf5           sf6          
+sf7           sf8          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

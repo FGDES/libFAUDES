@@ -1,0 +1,71 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hiosimplemachine_A_repaired.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hiosimplemachine_A_repaired.svg">
+<a class="faudes_image" href="tmp_hiosimplemachine_A_repaired.svg">
+<img src="tmp_hiosimplemachine_A_repaired.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"HioFreeInput(HioFreeInput(hio - simple machine A))" 
+
+% 
+%  Statistics for HioFreeInput(HioFreeInput(hio - simple machine A))
+% 
+%  States:        6
+%  Init/Marked:   1/6
+%  Events:        6
+%  Transitions:   6
+%  StateSymbols:  2
+%  Attrib. E/S/T: 6/6/0
+% 
+
+&lt;Alphabet&gt;
+A_wait        +YP+          A_do          +UP+          A_stp         +UP+         
+A_req         +YE+          A_nack        +UE+          A_pack        +UE+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+UpError       +ErrQYpYe+    UeError       +ErrQYpYe+    3              +QYpYe+      
+4              +QUp+         5              +QYpYe+       6              +QUe+        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+3              A_wait        4             
+4              A_do          5             
+4              A_stp         UpError      
+5              A_req         6             
+6              A_nack        UeError      
+6              A_pack        3             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+3             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+UpError       UeError       3              4              5              6             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

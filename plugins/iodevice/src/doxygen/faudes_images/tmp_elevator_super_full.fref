@@ -1,0 +1,458 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_super_full.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_super_full.svg">
+<a class="faudes_image" href="tmp_elevator_super_full.svg">
+<img src="tmp_elevator_super_full.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"elevator supervisor (full) [minstate]" 
+
+% 
+%  Statistics for elevator supervisor (full) [minstate]
+%  States:        100
+%  Init/Marked:   1/2
+%  Events:        27
+%  Transitions:   388
+%  StateSymbols:  0
+%  Attrib. E/S/T: 15/0/0
+% 
+
+&lt;Alphabet&gt;
+"c_up"        +C+           "c_down"      +C+           "c_stp"       +C+           
+"c_arlw"      "c_arup"      "c_lvlw"      "c_lvup"      "d_open"      +C+           
+"d_close"     +C+           "d_stp"       +C+           "d_arop"      "d_arcl"      
+"d_lvop"      "d_lvcl"      "d_lbbl"      "d_lbrl"      "o_upb"       "o_lwb"       
+"o_uplon"     +C+           "o_uploff"    +C+           "o_lwlon"     +C+           
+"o_lwloff"    +C+           "a_start"     +C+           "a_done"      +C+           
+"a_fail"      +C+           "a_close"     +C+           "a_open"      +C+           
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1             100           
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+2             "c_up"        8             
+2             "o_upb"       2             
+2             "o_lwb"       2             
+3             "d_lbbl"      74            
+3             "o_upb"       71            
+3             "o_lwb"       71            
+4             "c_down"      9             
+4             "o_upb"       4             
+4             "o_lwb"       4             
+5             "c_stp"       99            
+5             "o_upb"       5             
+5             "o_lwb"       5             
+6             "c_arlw"      5             
+6             "o_upb"       6             
+6             "o_lwb"       6             
+7             "c_arup"      100           
+7             "o_upb"       7             
+7             "o_lwb"       7             
+8             "c_lvlw"      7             
+8             "o_upb"       8             
+8             "o_lwb"       8             
+9             "c_lvup"      6             
+9             "o_upb"       9             
+9             "o_lwb"       9             
+10            "d_open"      13            
+10            "d_arcl"      47            
+10            "d_lbbl"      59            
+10            "o_upb"       10            
+10            "o_lwb"       10            
+11            "d_close"     60            
+11            "d_lbbl"      66            
+11            "o_upb"       11            
+11            "o_lwb"       11            
+12            "d_stp"       87            
+12            "d_lvop"      54            
+12            "d_lbbl"      63            
+12            "o_upb"       12            
+12            "o_lwb"       12            
+13            "d_arop"      91            
+13            "d_lbbl"      97            
+13            "o_upb"       13            
+13            "o_lwb"       13            
+14            "d_arcl"      47            
+14            "d_lbbl"      61            
+14            "o_upb"       14            
+14            "o_lwb"       14            
+15            "d_open"      62            
+15            "d_lbrl"      54            
+15            "o_upb"       15            
+15            "o_lwb"       15            
+16            "d_lvop"      55            
+16            "d_lbbl"      65            
+16            "o_upb"       16            
+16            "o_lwb"       16            
+17            "d_stp"       86            
+17            "d_lbbl"      92            
+17            "o_upb"       17            
+17            "o_lwb"       17            
+18            "d_lvcl"      94            
+18            "o_upb"       18            
+18            "o_lwb"       18            
+19            "d_lbbl"      70            
+19            "o_upb"       19            
+19            "o_lwb"       19            
+19            "o_uplon"     67            
+20            "d_close"     63            
+20            "d_lbrl"      64            
+20            "o_upb"       20            
+20            "o_lwb"       20            
+21            "d_stp"       89            
+21            "d_lvop"      59            
+21            "d_lbrl"      58            
+21            "o_upb"       21            
+21            "o_lwb"       21            
+22            "d_arop"      92            
+22            "d_lbrl"      94            
+22            "o_upb"       22            
+22            "o_lwb"       22            
+23            "d_stp"       89            
+23            "d_lbrl"      91            
+23            "o_upb"       23            
+23            "o_lwb"       23            
+24            "d_lbrl"      69            
+24            "o_upb"       24            
+24            "o_lwb"       24            
+24            "o_uplon"     68            
+25            "d_open"      98            
+25            "o_upb"       25            
+25            "o_lwb"       25            
+26            "d_stp"       27            
+26            "o_upb"       26            
+26            "o_lwb"       26            
+27            "o_upb"       27            
+27            "o_lwb"       27            
+27            "a_close"     2             
+28            "d_lbbl"      79            
+28            "o_upb"       28            
+28            "o_lwb"       28            
+28            "o_uploff"    73            
+29            "d_lbrl"      77            
+29            "o_upb"       29            
+29            "o_lwb"       29            
+29            "o_uploff"    75            
+30            "d_lbbl"      68            
+30            "o_upb"       30            
+30            "o_lwb"       30            
+30            "o_lwlon"     64            
+31            "d_lbrl"      67            
+31            "o_upb"       31            
+31            "o_lwb"       31            
+31            "o_lwlon"     66            
+32            "d_lbbl"      75            
+32            "o_upb"       32            
+32            "o_lwb"       32            
+32            "o_lwloff"    71            
+33            "d_lbrl"      73            
+33            "o_upb"       33            
+33            "o_lwb"       33            
+33            "o_lwloff"    72            
+34            "d_lbbl"      72            
+34            "o_upb"       34            
+34            "o_lwb"       34            
+34            "a_start"     69            
+35            "d_lbrl"      71            
+35            "o_upb"       35            
+35            "o_lwb"       35            
+35            "a_start"     70            
+36            "d_lbbl"      84            
+36            "o_upb"       36            
+36            "o_lwb"       36            
+36            "a_done"      80            
+37            "d_lbrl"      82            
+37            "o_upb"       37            
+37            "o_lwb"       37            
+37            "a_done"      81            
+38            "d_lbbl"      85            
+38            "o_upb"       38            
+38            "o_lwb"       38            
+38            "a_fail"      80            
+39            "d_lbrl"      83            
+39            "o_upb"       39            
+39            "o_lwb"       39            
+39            "a_fail"      81            
+40            "d_lbbl"      88            
+40            "o_upb"       40            
+40            "o_lwb"       40            
+40            "a_open"      82            
+41            "d_lbrl"      86            
+41            "o_upb"       41            
+41            "o_lwb"       41            
+41            "a_open"      84            
+42            "d_lbrl"      1             
+42            "o_upb"       72            
+42            "o_lwb"       72            
+43            "d_lbbl"      78            
+43            "o_upb"       73            
+43            "o_lwb"       73            
+43            "o_lwloff"    1             
+44            "o_upb"       44            
+44            "o_lwb"       44            
+44            "a_close"     4             
+45            "d_open"      62            
+45            "d_lbrl"      55            
+45            "o_upb"       45            
+45            "o_lwb"       45            
+46            "d_stp"       89            
+46            "d_lvop"      61            
+46            "d_lbrl"      60            
+46            "o_upb"       46            
+46            "o_lwb"       46            
+47            "d_stp"       44            
+47            "o_upb"       47            
+47            "o_lwb"       47            
+48            "d_lbrl"      76            
+48            "o_upb"       75            
+48            "o_lwb"       75            
+48            "o_lwloff"    74            
+49            "d_lbbl"      81            
+49            "o_upb"       77            
+49            "o_lwb"       77            
+49            "o_uploff"    76            
+50            "d_lbrl"      80            
+50            "o_upb"       79            
+50            "o_lwb"       79            
+50            "o_uploff"    78            
+51            "d_lbbl"      89            
+51            "o_upb"       51            
+51            "o_lwb"       51            
+51            "a_open"      83            
+52            "d_lbrl"      87            
+52            "o_upb"       52            
+52            "o_lwb"       52            
+52            "a_open"      85            
+53            "d_stp"       87            
+53            "d_lbbl"      93            
+53            "o_upb"       53            
+53            "o_lwb"       53            
+54            "d_open"      95            
+54            "d_arcl"      26            
+54            "d_lbbl"      15            
+54            "o_upb"       54            
+54            "o_lwb"       54            
+55            "d_arcl"      26            
+55            "d_lbbl"      45            
+55            "o_upb"       55            
+55            "o_lwb"       55            
+56            "d_stp"       88            
+56            "d_lbrl"      90            
+56            "o_upb"       56            
+56            "o_lwb"       56            
+57            "d_arop"      90            
+57            "d_lbbl"      96            
+57            "o_upb"       57            
+57            "o_lwb"       57            
+58            "d_stp"       51            
+58            "d_lvop"      10            
+58            "d_lbbl"      21            
+58            "o_upb"       58            
+58            "o_lwb"       58            
+59            "d_open"      97            
+59            "d_lbrl"      10            
+59            "o_upb"       59            
+59            "o_lwb"       59            
+60            "d_lvop"      14            
+60            "d_lbbl"      46            
+60            "o_upb"       60            
+60            "o_lwb"       60            
+61            "d_open"      97            
+61            "d_lbrl"      14            
+61            "o_upb"       61            
+61            "o_lwb"       61            
+62            "d_arop"      93            
+62            "d_lbrl"      95            
+62            "o_upb"       62            
+62            "o_lwb"       62            
+63            "d_stp"       52            
+63            "d_lvop"      15            
+63            "d_lbrl"      12            
+63            "o_upb"       63            
+63            "o_lwb"       63            
+64            "d_close"     16            
+64            "d_lbbl"      20            
+64            "o_upb"       64            
+64            "o_lwb"       64            
+65            "d_stp"       52            
+65            "d_lvop"      45            
+65            "d_lbrl"      16            
+65            "o_upb"       65            
+65            "o_lwb"       65            
+66            "d_close"     21            
+66            "d_lbrl"      11            
+66            "o_upb"       66            
+66            "o_lwb"       66            
+67            "d_lbbl"      31            
+67            "o_upb"       67            
+67            "o_lwb"       67            
+67            "o_lwlon"     11            
+68            "d_lbrl"      30            
+68            "o_upb"       68            
+68            "o_lwb"       68            
+68            "o_lwlon"     20            
+69            "d_lbbl"      24            
+69            "o_upb"       69            
+69            "o_lwb"       69            
+69            "o_uplon"     30            
+70            "d_lbrl"      19            
+70            "o_upb"       70            
+70            "o_lwb"       70            
+70            "o_uplon"     31            
+71            "d_lbbl"      35            
+71            "o_upb"       71            
+71            "o_lwb"       71            
+71            "a_start"     19            
+72            "d_lbrl"      34            
+72            "o_upb"       72            
+72            "o_lwb"       72            
+72            "a_start"     24            
+1             "d_lbbl"      42            
+1             "o_upb"       34            
+1             "o_lwb"       34            
+73            "d_lbbl"      33            
+73            "o_upb"       73            
+73            "o_lwb"       73            
+73            "o_lwloff"    34            
+74            "d_lbrl"      3             
+74            "o_upb"       35            
+74            "o_lwb"       35            
+75            "d_lbrl"      32            
+75            "o_upb"       75            
+75            "o_lwb"       75            
+75            "o_lwloff"    35            
+76            "d_lbbl"      48            
+76            "o_upb"       32            
+76            "o_lwb"       32            
+76            "o_lwloff"    3             
+77            "d_lbbl"      29            
+77            "o_upb"       77            
+77            "o_lwb"       77            
+77            "o_uploff"    32            
+78            "d_lbrl"      43            
+78            "o_upb"       33            
+78            "o_lwb"       33            
+78            "o_lwloff"    42            
+79            "d_lbrl"      28            
+79            "o_upb"       79            
+79            "o_lwb"       79            
+79            "o_uploff"    33            
+80            "d_lbbl"      50            
+80            "o_upb"       28            
+80            "o_lwb"       28            
+80            "o_uploff"    43            
+81            "d_lbrl"      49            
+81            "o_upb"       29            
+81            "o_lwb"       29            
+81            "o_uploff"    48            
+82            "d_lbbl"      37            
+82            "o_upb"       82            
+82            "o_lwb"       82            
+82            "a_done"      49            
+83            "d_lbbl"      39            
+83            "o_upb"       83            
+83            "o_lwb"       83            
+83            "a_fail"      49            
+84            "d_lbrl"      36            
+84            "o_upb"       84            
+84            "o_lwb"       84            
+84            "a_done"      50            
+85            "d_lbrl"      38            
+85            "o_upb"       85            
+85            "o_lwb"       85            
+85            "a_fail"      50            
+86            "d_lbbl"      41            
+86            "o_upb"       86            
+86            "o_lwb"       86            
+86            "a_open"      36            
+87            "d_lbbl"      52            
+87            "o_upb"       87            
+87            "o_lwb"       87            
+87            "a_open"      38            
+88            "d_lbrl"      40            
+88            "o_upb"       88            
+88            "o_lwb"       88            
+88            "a_open"      37            
+89            "d_lbrl"      51            
+89            "o_upb"       89            
+89            "o_lwb"       89            
+89            "a_open"      39            
+90            "d_stp"       40            
+90            "d_lbbl"      56            
+90            "o_upb"       90            
+90            "o_lwb"       90            
+91            "d_stp"       51            
+91            "d_lbbl"      23            
+91            "o_upb"       91            
+91            "o_lwb"       91            
+92            "d_stp"       41            
+92            "d_lbrl"      17            
+92            "o_upb"       92            
+92            "o_lwb"       92            
+93            "d_stp"       52            
+93            "d_lbrl"      53            
+93            "o_upb"       93            
+93            "o_lwb"       93            
+94            "d_arop"      17            
+94            "d_lbbl"      22            
+94            "o_upb"       94            
+94            "o_lwb"       94            
+95            "d_arop"      53            
+95            "d_lbbl"      62            
+95            "o_upb"       95            
+95            "o_lwb"       95            
+96            "d_arop"      56            
+96            "d_lbrl"      57            
+96            "o_upb"       96            
+96            "o_lwb"       96            
+97            "d_arop"      23            
+97            "d_lbrl"      13            
+97            "o_upb"       97            
+97            "o_lwb"       97            
+98            "d_lvcl"      57            
+98            "o_upb"       98            
+98            "o_lwb"       98            
+99            "d_open"      18            
+99            "o_upb"       99            
+99            "o_lwb"       99            
+100           "c_stp"       25            
+100           "o_upb"       100           
+100           "o_lwb"       100           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1             3             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

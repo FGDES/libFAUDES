@@ -1,0 +1,73 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_syn_5_planta.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_syn_5_planta.svg">
+<a class="faudes_image" href="tmp_syn_5_planta.svg">
+<img src="tmp_syn_5_planta.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"process and transport" 
+
+% 
+%  Statistics for process and transport
+% 
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  5
+%  Attrib. E/S/T: 3/0/0
+% 
+
+&lt;Alphabet&gt;
+f             +o+           r             a             +C+           p            
++C+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+F1            F2            F3            P2            P1           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+F1            f             F2           
+F2            f             F3           
+F2            r             P1           
+F3            r             P2           
+P2            a             F2           
+P2            p             P2           
+P1            f             P2           
+P1            a             F1           
+P1            p             P1           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+F1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+F1           
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,126 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_plant_door.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_plant_door.svg">
+<a class="faudes_image" href="tmp_elevator_plant_door.svg">
+<img src="tmp_elevator_plant_door.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example: simple finite-automaton modell of door
+
+&lt;Generator&gt;
+"door" % name
+
+&lt;Alphabet&gt;
+"d_open"	+C+	
+"d_close"	+C+		
+"d_stp"  	+C+	
+"d_arop"		
+"d_arcl"		
+"d_lvop"		
+"d_lvcl"		
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"IdleOp"
+"IdleMd"
+"IdleCl"
+"CloseOp"
+"CloseMd"
+"CloseCl"
+"OpenOp"
+"OpenMd"
+"OpenCl"
+%"Err"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+% In open position
+"IdleOp" "d_close" "CloseOp"
+"IdleOp" "d_open" "OpenOp"
+"IdleOp" "d_stp"  "IdleOp"
+
+% Closing, starting
+"CloseOp" "d_lvop" "CloseMd"
+"CloseOp" "d_stp"  "IdleOp"
+"CloseOp" "d_open" "OpenOp"
+"CloseOp" "d_close" "CloseOp"
+
+% Closing, keep going
+"CloseMd" "d_arcl" "CloseCl"
+"CloseMd" "d_stp"  "IdleMd"
+"CloseMd" "d_open" "OpenMd"
+"CloseMd" "d_close" "CloseMd"
+
+% Closing, arriving
+"CloseCl" "d_stp"  "IdleCl"
+"CloseCl" "d_close" "CloseCl"
+"CloseCl" "d_open" "OpenCl"
+%"CloseCl" "d_lvcl" "Err" % need forcible events to model
+
+% In closed position
+"IdleCl" "d_close" "CloseCl"
+"IdleCl" "d_open" "OpenCl"
+"IdleCl" "d_stp"  "IdleCl"
+
+% Opening, starting
+"OpenCl" "d_lvcl" "OpenMd"
+"OpenCl" "d_stp"  "IdleCl"
+"OpenCl" "d_open" "OpenCl"
+"OpenCl" "d_close" "CloseCl"
+
+% Opening, keep going
+"OpenMd" "d_arop" "OpenOp"
+"OpenMd" "d_stp"  "IdleMd"
+"OpenMd" "d_open" "OpenMd"
+"OpenMd" "d_close" "CloseMd"
+
+% Opening, arriving
+"OpenOp" "d_stp"  "IdleOp"
+"OpenOp" "d_open" "OpenOp"
+"OpenOp" "d_close" "CloseOp"
+%"OpenOp" "d_lvlw" "Err" % need forcible events to model
+
+% Idle inbetween
+"IdleMd" "d_stp"  "IdleMd"
+"IdleMd" "d_close" "CloseMd"
+"IdleMd" "d_open" "OpenMd"
+
+% Error behaviour
+%"Err" "d_stp" "Err"
+%"Err" "d_close" "Err"
+%"Err" "d_open" "Err"
+
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"IdleOp"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;	
+"IdleOp"
+"IdleMd"
+"IdleCl"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

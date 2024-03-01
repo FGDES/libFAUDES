@@ -1,0 +1,71 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_syn_clloop2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_syn_clloop2.svg">
+<a class="faudes_image" href="tmp_syn_clloop2.svg">
+<img src="tmp_syn_clloop2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"PrefixClosure(very simple machine_1...|Project(PrefixClosure(supervisor))" 
+
+% 
+%  Statistics for PrefixClosure(very simple machine_1...|Project(PrefixClosure(supervisor))
+% 
+%  States:        6
+%  Init/Marked:   1/6
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha_1       beta_1        alpha_2       beta_2       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2              3              4              5              6             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              alpha_1       2             
+2              beta_1        3             
+3              alpha_2       4             
+4              alpha_1       5             
+4              beta_2        1             
+5              beta_1        6             
+5              beta_2        2             
+6              beta_2        3             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              2              3              4              5              6             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

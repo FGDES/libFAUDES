@@ -1,0 +1,66 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_syn_3_reduced2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_syn_3_reduced2.svg">
+<a class="faudes_image" href="tmp_syn_3_reduced2.svg">
+<img src="tmp_syn_3_reduced2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   3
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha1        +C+           beta03        +C+           beta02        +C+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              alpha1        2             
+2              beta03        1             
+2              beta02        1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              2             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

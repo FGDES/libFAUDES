@@ -1,0 +1,89 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_cb4mh1d1_1_sup.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_cb4mh1d1_1_sup.svg">
+<a class="faudes_image" href="tmp_mtc_cb4mh1d1_1_sup.svg">
+<img src="tmp_mtc_cb4mh1d1_1_sup.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"mtcSupConNB((Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject),(Generator))" 
+
+% 
+%  Statistics for mtcSupConNB((Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject),(Generator))
+% 
+%  States:        10
+%  Init/Marked:   1/0
+%  Events:        7
+%  Transitions:   11
+%  StateSymbols:  0
+%  Attrib. E/S/T: 6/3/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+
+&lt;Alphabet&gt;
+cb4stp        +C+           cb11-cb4      +C+           cb12-cb4      +C+          
+cb4-cb11      +C+           cb4-cb12      +C+           mh1start      +C+          
+mh1end       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1             
+&lt;Colors&gt;
+cb4empty     
+&lt;/Colors&gt;
+2              3              4              5             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+6              7              8              9             
+&lt;Colors&gt;
+wpdrilled    
+&lt;/Colors&gt;
+10            
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              cb11-cb4      2             
+1              cb12-cb4      3             
+2              cb4stp        8             
+3              cb4stp        4             
+4              mh1start      5             
+5              mh1end        6             
+6              cb4-cb11      7             
+7              cb4stp        1             
+8              mh1start      9             
+9              mh1end        10            
+10             cb4-cb12      7             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

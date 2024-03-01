@@ -1,0 +1,74 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hioenvironment_repaired.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hioenvironment_repaired.svg">
+<a class="faudes_image" href="tmp_hioenvironment_repaired.svg">
+<img src="tmp_hioenvironment_repaired.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+HioFreeInput(HioEnvironment) 
+
+% 
+%  Statistics for HioFreeInput(HioEnvironment)
+% 
+%  States:        6
+%  Init/Marked:   1/6
+%  Events:        6
+%  Transitions:   9
+%  StateSymbols:  2
+%  Attrib. E/S/T: 6/6/0
+% 
+
+&lt;Alphabet&gt;
+ye1           +YE+          ye2           +YE+          yl            +YL+         
+ul1           +UL+          ul2           +UL+          ue            +UE+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+UlYeError     +ErrQUe+      ErrorQYe      +ErrQYe+      3              +QYe+        
+4              +QYlUe+       5              +QUl+         6              +QUe+        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+3              ye1           4             
+3              ye2           UlYeError    
+4              yl            5             
+5              ul1           6             
+5              ul2           UlYeError    
+6              ue            3             
+UlYeError     ue            ErrorQYe     
+ErrorQYe      ye1           UlYeError    
+ErrorQYe      ye2           UlYeError    
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+3             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+UlYeError     ErrorQYe      3              4              5              6             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

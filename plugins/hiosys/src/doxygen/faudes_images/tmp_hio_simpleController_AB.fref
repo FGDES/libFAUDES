@@ -1,0 +1,165 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_simpleController_AB.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_simpleController_AB.svg">
+<a class="faudes_image" href="tmp_hio_simpleController_AB.svg">
+<img src="tmp_hio_simpleController_AB.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"HioSynth(HioShuffle(hio - simple machine Ahi...ine B)||hio - simple environment AB,hio - simple specification AB)" 
+
+% 
+%  Statistics for HioSynth(HioShuffle(hio - simple machine Ahi...ine B)||hio - simple environment AB,hio - simple specification AB)
+% 
+%  States:        43
+%  Init/Marked:   1/43
+%  Events:        9
+%  Transitions:   79
+%  StateSymbols:  0
+%  Attrib. E/S/T: 9/43/0
+% 
+
+&lt;Alphabet&gt;
+A_wait        +YP+          A_do          +UP+          A_stp         +UP+         
+B_wait        +YP+          B_do          +UP+          B_stp         +UP+         
+AB_WAIT       +YC+          AB_STANDBY    +UC+          AB_OPERATE    +UC+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              +QYp+         2              +QYp+         3              +QUp+        
+4              +QYcUp+       5              +QUp+         6              +QYcUp+      
+7              +QYcUp+       8              +QYcUp+       9              +QYcUp+      
+10             +QUp+         11             +QUp+         12             +QUp+        
+13             +QUp+         14             +QUc+         15             +QYp+        
+16             +QUc+         17             +QYp+         18             +QYp+        
+19             +QUc+         20             +QYp+         21             +QYp+        
+22             +QYp+         23             +QYp+         24             +QYp+        
+25             +QUc+         26             +QYp+         27             +QUc+        
+28             +QUc+         29             +QYcUp+       30             +QYp+        
+31             +QUp+         32             +QYcUp+       33             +QYcUp+      
+34             +QUp+         35             +QYp+         36             +QYcUp+      
+37             +QYcUp+       38             +QUp+         39             +QYcUp+      
+40             +QYcUp+       41             +QYcUp+       42             +QUp+        
+43             +QYcUp+      
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+2              A_wait        3             
+2              B_wait        12            
+3              A_do          35            
+3              A_stp         2             
+4              A_stp         24            
+4              AB_WAIT       14            
+5              A_do          35            
+6              B_do          30            
+6              B_stp         15            
+6              AB_WAIT       25            
+7              B_stp         21            
+7              AB_WAIT       27            
+8              B_do          30            
+8              AB_WAIT       28            
+9              AB_WAIT       16            
+10             A_stp         35            
+11             B_do          30            
+11             B_stp         15            
+12             B_stp         17            
+13             B_do          17            
+14             AB_STANDBY    42            
+14             AB_OPERATE    3             
+15             A_wait        37            
+15             B_wait        6             
+16             AB_STANDBY    42            
+16             AB_OPERATE    5             
+17             A_wait        5             
+17             B_wait        12            
+18             A_wait        36            
+18             B_wait        43            
+19             AB_STANDBY    10            
+19             AB_OPERATE    31            
+20             A_wait        41            
+20             B_wait        7             
+21             A_wait        9             
+21             B_wait        7             
+22             A_wait        37            
+22             B_wait        8             
+23             A_wait        31            
+23             B_wait        34            
+24             A_wait        4             
+24             B_wait        39            
+25             AB_STANDBY    11            
+25             AB_OPERATE    34            
+26             A_wait        31            
+26             B_wait        13            
+27             AB_STANDBY    38            
+27             AB_OPERATE    12            
+28             AB_STANDBY    11            
+28             AB_OPERATE    13            
+29             A_stp         35            
+29             AB_WAIT       19            
+30             A_wait        32            
+30             B_wait        40            
+31             A_stp         26            
+32             A_stp         24            
+32             AB_WAIT       16            
+33             B_do          30            
+33             B_stp         18            
+33             AB_WAIT       28            
+34             B_do          17            
+34             B_stp         23            
+35             A_wait        29            
+35             B_wait        33            
+36             AB_WAIT       19            
+37             A_stp         22            
+37             AB_WAIT       19            
+38             B_stp         30            
+39             AB_WAIT       27            
+40             B_stp         30            
+40             AB_WAIT       27            
+41             A_stp         20            
+41             AB_WAIT       14            
+42             A_stp         20            
+43             B_do          30            
+43             B_stp         18            
+43             AB_WAIT       25            
+1              A_wait        37            
+1              B_wait        33            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              2              3              4              5              6             
+7              8              9              10             11             12            
+13             14             15             16             17             18            
+19             20             21             22             23             24            
+25             26             27             28             29             30            
+31             32             33             34             35             36            
+37             38             39             40             41             42            
+43            
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

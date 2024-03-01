@@ -1,0 +1,73 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_decdemo_planta.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_decdemo_planta.svg">
+<a class="faudes_image" href="tmp_decdemo_planta.svg">
+<img src="tmp_decdemo_planta.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"PlantA (process)" 
+
+% 
+%  Statistics for PlantA (process)
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        5
+%  Transitions:   9
+%  StateSymbols:  4
+%  Attrib. E/S/T: 2/0/0
+% 
+
+&lt;Alphabet&gt;
+p_start       +C+           p_stop        +C+           p_inprog      p_complete   
+m_request    
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+POff          POn1          POn2          POn3         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+POff          p_start       POn1         
+POff          p_stop        POff         
+POn1          p_inprog      POn2         
+POn2          p_start       POn2         
+POn2          p_stop        POff         
+POn2          p_complete    POn3         
+POn2          m_request     POn3         
+POn3          p_start       POn3         
+POn3          p_stop        POff         
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+POff         
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+POff          POn3         
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

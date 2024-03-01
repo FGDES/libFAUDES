@@ -1,0 +1,79 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_opcmds.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_opcmds.svg">
+<a class="faudes_image" href="tmp_elevator_spec_opcmds.svg">
+<img src="tmp_elevator_spec_opcmds.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example: specification, operator commands by sync. events
+
+&lt;Generator&gt;
+"E_opcmds"
+
+&lt;Alphabet&gt;
+"o_upb"
+"o_lwb"
+"a_start"  
+"a_done"
+"a_fail"
+"c_up"
+"c_down"
+"c_stp"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Idle"
+"Start"
+"Busy"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+% Idle, wait for command
+"Idle" "o_upb" "Start"
+"Idle" "o_lwb" "Start"
+
+% Start, synchronize via internal event
+"Start" "a_start" "Busy"
+"Start" "o_upb" "Start"
+"Start" "o_lwb" "Start"
+
+% Busy, terminate by internal event
+"Busy" "a_done" "Idle"
+"Busy" "a_fail" "Idle"
+"Busy" "o_upb" "Busy"
+"Busy" "o_lwb" "Busy"
+"Busy" "c_up" "Busy"
+"Busy" "c_down" "Busy"
+"Busy" "c_stp" "Busy"
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"Idle"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"Idle"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

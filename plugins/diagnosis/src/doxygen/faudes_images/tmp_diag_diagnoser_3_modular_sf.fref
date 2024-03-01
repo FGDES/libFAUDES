@@ -1,0 +1,161 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_diag_diagnoser_3_modular_sf.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_diag_diagnoser_3_modular_sf.svg">
+<a class="faudes_image" href="tmp_diag_diagnoser_3_modular_sf.svg">
+<img src="tmp_diag_diagnoser_3_modular_sf.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        9
+%  Init/Marked:   1/0
+%  Events:        6
+%  Transitions:   10
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/9/0
+% 
+
+&lt;Alphabet&gt;
+sf-c1         sfa           sfmv          sfl           sfs           t_sf         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1             
+&lt;StateEstimates&gt;
+1             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+2             
+&lt;StateEstimates&gt;
+2             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+3             
+&lt;StateEstimates&gt;
+3             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+4             
+&lt;StateEstimates&gt;
+4             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+5             
+&lt;StateEstimates&gt;
+5             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+6             
+&lt;StateEstimates&gt;
+7             
+&lt;DiagLabels&gt;
+F            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+7             
+&lt;StateEstimates&gt;
+8             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+10            
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+14            
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+17            
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+8             
+&lt;StateEstimates&gt;
+1             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+11            
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+15            
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+9             
+&lt;StateEstimates&gt;
+2             
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+16            
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+18            
+&lt;DiagLabels&gt;
+N            
+&lt;/DiagLabels&gt;
+&lt;/StateEstimates&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              sfa           2             
+2              sf-c1         3             
+3              sfmv          4             
+4              sfl           5             
+4              t_sf          6             
+5              sfa           7             
+5              sfs           8             
+7              sfs           9             
+8              sfa           9             
+9              sf-c1         3             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

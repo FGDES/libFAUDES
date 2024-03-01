@@ -1,0 +1,103 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_drmot1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_drmot1.svg">
+<a class="faudes_image" href="tmp_elevator_spec_drmot1.svg">
+<img src="tmp_elevator_spec_drmot1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator: example door specification (plain motion)
+
+&lt;Generator&gt;
+"E_drmot1"
+
+&lt;Alphabet&gt;
+"d_stp"
+"d_open"
+"d_close"
+"d_arop"	
+"d_lvop"	
+"d_arcl"
+"a_close"
+"a_open"
+"a_done"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Opened"
+"Closed"
+"OpenA"
+"OpenB"
+"OpenC"
+"CloseA"
+"CloseB"
+"CloseC"
+"CloseD"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+% Idle 
+"Opened" "a_done" "Opened"
+"Opened" "d_close" "CloseA"
+
+% Close, start 
+"CloseA" "d_lvop" "CloseB"
+"CloseA" "d_stp"  "OpenC"
+
+% Close, inbetween 
+"CloseB" "d_arcl" "CloseC"
+"CloseB" "d_open" "OpenA"
+
+% Close, closed 
+"CloseC"  "d_stp" "CloseD"
+
+% Close, report 
+"CloseD"  "a_close" "Closed"
+
+% Idle 
+"Closed" "a_done" "Closed"
+"Closed" "d_open" "OpenA"
+
+% Open, open the door 
+"OpenA" "d_arop" "OpenB"
+
+% Open, done 
+"OpenB"  "d_stp" "OpenC"
+
+% Open, report
+"OpenC"  "a_open" "Opened"
+
+
+
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"Opened"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"Opened"
+"Closed"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

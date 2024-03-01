@@ -1,0 +1,82 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_tu_full_loop_A.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_tu_full_loop_A.svg">
+<a class="faudes_image" href="tmp_hio_tu_full_loop_A.svg">
+<img src="tmp_hio_tu_full_loop_A.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"HioSynth(Transport Unit A,Specification A)||Transport Unit A" 
+
+% 
+%  Statistics for HioSynth(Transport Unit A,Specification A)||Transport Unit A
+% 
+%  States:        11
+%  Init/Marked:   1/11
+%  Events:        12
+%  Transitions:   14
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+no_op_A       del_tr_A      take_fl_A     empty_A       full_A        nack_A       
+pack_A        req_fl_A      req_tr_A      idle_A        l2r_A         stby_A       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              11            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              empty_A       2             
+2              idle_A        3             
+3              l2r_A         4             
+3              stby_A        5             
+4              take_fl_A     6             
+5              no_op_A       1             
+6              req_fl_A      7             
+7              nack_A        6             
+7              pack_A        8             
+8              full_A        9             
+9              del_tr_A      10            
+10             req_tr_A      11            
+11             nack_A        10            
+11             pack_A        1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+&lt;Consecutive&gt;
+1              11            
+&lt;/Consecutive&gt;
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

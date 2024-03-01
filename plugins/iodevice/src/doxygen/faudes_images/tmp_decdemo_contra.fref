@@ -1,0 +1,70 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_decdemo_contra.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_decdemo_contra.svg">
+<a class="faudes_image" href="tmp_decdemo_contra.svg">
+<img src="tmp_decdemo_contra.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Controller A (process unit)" 
+
+% 
+%  Statistics for Controller A (process unit)
+% 
+%  States:        6
+%  Init/Marked:   1/1
+%  Events:        6
+%  Transitions:   7
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+p_start       p_stop        p_complete    alpha         beta          lambda       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2              3              4              5              6             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              alpha         2             
+2              p_start       3             
+3              p_complete    4             
+3              lambda        6             
+4              p_stop        5             
+5              beta          1             
+6              p_stop        1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

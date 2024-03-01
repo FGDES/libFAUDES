@@ -1,0 +1,111 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_tu_IOcontrollerAB.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_tu_IOcontrollerAB.svg">
+<a class="faudes_image" href="tmp_hio_tu_IOcontrollerAB.svg">
+<img src="tmp_hio_tu_IOcontrollerAB.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Controller AB" 
+
+% 
+%  Statistics for Controller AB
+% 
+%  States:        25
+%  Init/Marked:   1/25
+%  Events:        9
+%  Transitions:   42
+%  StateSymbols:  0
+%  Attrib. E/S/T: 9/0/0
+% 
+
+&lt;Alphabet&gt;
+idle_A        +YP+          l2r_A         +UP+          stby_A        +UP+         
+idle_B        +YP+          l2r_B         +UP+          stby_B        +UP+         
+idle_AB       +YC+          l2r_AB        +UC+          stby_AB       +UC+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              25            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+2              idle_A        3             
+2              idle_B        10            
+3              l2r_A         15            
+3              stby_A        2             
+4              stby_A        18            
+4              idle_AB       11            
+5              l2r_A         15            
+6              l2r_B         12            
+7              stby_B        17            
+7              idle_AB       16            
+8              idle_AB       16            
+9              stby_A        15            
+10             stby_B        14            
+11             l2r_AB        3             
+11             stby_AB       21            
+12             idle_A        19            
+12             idle_B        23            
+13             l2r_AB        5             
+13             stby_AB       21            
+14             idle_A        5             
+14             idle_B        10            
+15             idle_A        9             
+15             idle_B        6             
+16             l2r_AB        10            
+16             stby_AB       20            
+17             idle_A        22            
+17             idle_B        7             
+18             idle_A        4             
+18             idle_B        8             
+19             stby_A        18            
+19             idle_AB       13            
+20             stby_B        12            
+21             stby_A        25            
+22             idle_AB       13            
+23             stby_B        12            
+23             idle_AB       16            
+24             stby_A        25            
+24             idle_AB       11            
+25             idle_A        24            
+25             idle_B        7             
+1              idle_A        19            
+1              idle_B        7             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+&lt;Consecutive&gt;
+1              25            
+&lt;/Consecutive&gt;
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

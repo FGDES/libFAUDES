@@ -1,0 +1,76 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_syn_product.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_syn_product.svg">
+<a class="faudes_image" href="tmp_syn_product.svg">
+<img src="tmp_syn_product.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        8
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  8
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha_1       beta_1        alpha_2       beta_2       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+I|I|E         B|I|E         I|I|F         B|I|F         I|B|E         B|B|E        
+I|B|F         B|B|F        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+I|I|E         alpha_1       B|I|E        
+B|I|E         beta_1        I|I|F        
+I|I|F         alpha_1       B|I|F        
+I|I|F         alpha_2       I|B|E        
+B|I|F         alpha_2       B|B|E        
+I|B|E         alpha_1       B|B|E        
+I|B|E         beta_2        I|I|E        
+B|B|E         beta_1        I|B|F        
+B|B|E         beta_2        B|I|E        
+I|B|F         alpha_1       B|B|F        
+I|B|F         beta_2        I|I|F        
+B|B|F         beta_2        B|I|F        
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+I|I|E        
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+I|I|E        
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

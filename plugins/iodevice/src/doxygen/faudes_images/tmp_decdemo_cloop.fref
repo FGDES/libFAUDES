@@ -1,0 +1,79 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_decdemo_cloop.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_decdemo_cloop.svg">
+<a class="faudes_image" href="tmp_decdemo_cloop.svg">
+<img src="tmp_decdemo_cloop.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Closed loop (monolithic)" 
+
+% 
+%  Statistics for Closed loop (monolithic)
+% 
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        12
+%  Transitions:   13
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+p_start       p_stop        p_inprog      p_complete    m_request     m_start      
+m_stop        m_complete    alpha         beta          lambda        mue          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              12            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              alpha         2             
+2              p_start       3             
+3              p_inprog      4             
+4              p_complete    5             
+4              m_request     6             
+5              p_stop        12            
+6              mue           7             
+7              m_start       8             
+8              m_complete    9             
+9              m_stop        10            
+10             lambda        11            
+11             p_stop        1             
+12             beta          1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

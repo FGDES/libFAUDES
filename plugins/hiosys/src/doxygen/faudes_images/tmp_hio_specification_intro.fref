@@ -1,0 +1,65 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_specification_intro.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_specification_intro.svg">
+<a class="faudes_image" href="tmp_hio_specification_intro.svg">
+<img src="tmp_hio_specification_intro.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+specification 
+
+% 
+%  Statistics for specification
+% 
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 2/0/0
+% 
+
+&lt;Alphabet&gt;
+beta_1        +U+           alpha_2       +Y+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+E|Yp          F|Up         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+E|Yp          beta_1        F|Up         
+F|Up          alpha_2       E|Yp         
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+E|Yp         
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+E|Yp          F|Up         
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

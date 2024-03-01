@@ -1,0 +1,76 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_functions_5_super.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_functions_5_super.svg">
+<a class="faudes_image" href="tmp_mtc_functions_5_super.svg">
+<img src="tmp_mtc_functions_5_super.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+mtcSupCon((Generator),(Generator)) 
+
+% 
+%  Statistics for mtcSupCon((Generator),(Generator))
+% 
+%  States:        5
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   5
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/2/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+
+&lt;Alphabet&gt;
+a             +C+           b             +C+           c             +C+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1             
+&lt;Colors&gt;
+Color_1      
+&lt;/Colors&gt;
+2              3              4              5             
+&lt;Colors&gt;
+Color_2      
+&lt;/Colors&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              b             2             
+2              a             3             
+2              c             4             
+4              a             5             
+5              a             1             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

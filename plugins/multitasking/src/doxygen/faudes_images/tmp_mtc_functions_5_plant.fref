@@ -1,0 +1,78 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_mtc_functions_5_plant.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_mtc_functions_5_plant.svg">
+<a class="faudes_image" href="tmp_mtc_functions_5_plant.svg">
+<img src="tmp_mtc_functions_5_plant.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Generator    
+
+% 
+%  Statistics for Generator
+% 
+%  States:        6
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   7
+%  StateSymbols:  6
+%  Attrib. E/S/T: 3/2/0
+% 
+%  Colors (all):  2
+%  Colors (dist): 0 1 
+% 
+
+&lt;Alphabet&gt;
+a             +C+           b             +C+           c             +C+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"          
+&lt;Colors&gt;
+Color_1      
+&lt;/Colors&gt;
+"2"           "3"           "4"           "5"           "6"          
+&lt;Colors&gt;
+Color_2      
+&lt;/Colors&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           b             "2"          
+"1"           c             "5"          
+"2"           a             "3"          
+"2"           c             "4"          
+"4"           a             "6"          
+"5"           b             "6"          
+"6"           a             "1"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

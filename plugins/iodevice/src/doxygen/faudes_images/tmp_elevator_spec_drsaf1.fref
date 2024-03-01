@@ -1,0 +1,88 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_drsaf1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_drsaf1.svg">
+<a class="faudes_image" href="tmp_elevator_spec_drsaf1.svg">
+<img src="tmp_elevator_spec_drsaf1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example: door specification (safety)
+
+&lt;Generator&gt;
+"E_drsaf1"
+
+&lt;Alphabet&gt;
+"c_stp"
+"c_up"
+"c_down"
+"d_stp"
+"d_open"
+"d_close"
+"a_open"
+"a_close"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Open"
+"Closed"
+"Opening"
+"Moving"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+% Init, door is open
+"Open" "a_close" "Closed"
+"Open" "a_open"  "Open"
+"Open" "d_stp"   "Open"
+"Open" "d_open"  "Open"
+"Open" "d_close" "Open"
+
+% Opening, door is opening"
+"Opening" "d_stp"   "Opening"
+"Opening" "d_open"   "Opening"
+"Opening" "d_close"   "Opening"
+"Opening" "a_open"   "Open"
+
+% Door is closed, may operate cabin
+"Closed" "d_open" "Opening"
+"Closed" "c_up"   "Moving"
+"Closed" "c_down" "Moving"
+
+% Door is closed, cabin is moving
+"Moving" "c_stp" "Closed"
+"Moving" "c_up"  "Moving"
+"Moving" "c_down"  "Moving"
+
+
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"Open"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"Open"
+"Closed"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,74 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_tu_spec_A.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_tu_spec_A.svg">
+<a class="faudes_image" href="tmp_hio_tu_spec_A.svg">
+<img src="tmp_hio_tu_spec_A.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Specification A" 
+
+% 
+%  Statistics for Specification A
+% 
+%  States:        6
+%  Init/Marked:   1/6
+%  Events:        7
+%  Transitions:   9
+%  StateSymbols:  6
+%  Attrib. E/S/T: 7/0/0
+% 
+
+&lt;Alphabet&gt;
+nack_A        +UE+          pack_A        +UE+          req_fl_A      +YE+         
+req_tr_A      +YE+          idle_A        +YP+          l2r_A         +UP+         
+stby_A        +UP+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"           "2"           "3"           "4"           "5"           "6"          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           idle_A        "2"          
+"2"           l2r_A         "3"          
+"2"           stby_A        "1"          
+"3"           req_fl_A      "4"          
+"4"           nack_A        "3"          
+"4"           pack_A        "5"          
+"5"           req_tr_A      "6"          
+"6"           nack_A        "5"          
+"6"           pack_A        "1"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"1"           "2"           "3"           "4"           "5"           "6"          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

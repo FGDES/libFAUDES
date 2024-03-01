@@ -1,0 +1,83 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_tu_IOcontroller_G.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_tu_IOcontroller_G.svg">
+<a class="faudes_image" href="tmp_hio_tu_IOcontroller_G.svg">
+<img src="tmp_hio_tu_IOcontroller_G.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"HioSynth(Transport Unit A,Specification A)__G" 
+
+% 
+%  Statistics for HioSynth(Transport Unit A,Specification A)__G
+% 
+%  States:        9
+%  Init/Marked:   1/9
+%  Events:        8
+%  Transitions:   15
+%  StateSymbols:  0
+%  Attrib. E/S/T: 8/9/0
+% 
+
+&lt;Alphabet&gt;
+del_tr_A      +UP+          take_fl_A     +UP+          empty_A       +YP+         
+full_A        +YP+          idle_A        +YC+          l2r_A         +UC+         
+stby_A        +UC+          no_op_G       +UP+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              +QYp+         2              +QUp+         3              +QUp+        
+4              +QUp+         5              +QUp+         6              +QYp+        
+7              +QYcUp+       8              +QUc+         9              +QYp+        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+2              del_tr_A      6             
+2              take_fl_A     6             
+2              no_op_G       6             
+3              del_tr_A      1             
+4              no_op_G       1             
+5              take_fl_A     9             
+6              empty_A       2             
+6              full_A        2             
+7              idle_A        8             
+8              l2r_A         5             
+8              stby_A        4             
+1              empty_A       7             
+1              full_A        2             
+9              empty_A       2             
+9              full_A        3             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              2              3              4              5              6             
+7              8              9             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

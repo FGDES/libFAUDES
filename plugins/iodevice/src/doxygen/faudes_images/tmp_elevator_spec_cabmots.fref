@@ -1,0 +1,82 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_cabmots.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_cabmots.svg">
+<a class="faudes_image" href="tmp_elevator_spec_cabmots.svg">
+<img src="tmp_elevator_spec_cabmots.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator exanple: specification (cabin motion)
+
+&lt;Generator&gt;
+"E_cabmot"
+
+&lt;Alphabet&gt;
+"c_arlw"	
+"c_arup"
+"c_up"
+"c_down"
+"c_stp"
+"a_done"
+"a_fail"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Idle"
+"Down"
+"Up"
+"Stop"
+"Done"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+% Idle 
+"Idle" "c_down" "Down"
+"Idle" "c_up" "Up"
+"Idle" "c_arlw" "Idle"
+"Idle" "c_arup" "Idle"
+"Idle" "a_fail" "Idle"
+
+% Moving down
+"Down" "c_arlw" "Stop"
+
+% Moving up
+"Up"   "c_arup" "Stop"
+
+% Moving up
+"Stop"   "c_stp" "Done"
+
+% Moving up
+"Done"   "a_done" "Idle"
+
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"Idle"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"Idle"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

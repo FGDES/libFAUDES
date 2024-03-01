@@ -1,0 +1,179 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_tu_shuffAB.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_tu_shuffAB.svg">
+<a class="faudes_image" href="tmp_hio_tu_shuffAB.svg">
+<img src="tmp_hio_tu_shuffAB.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"IO shuffle AB" 
+
+% 
+%  Statistics for IO shuffle AB
+% 
+%  States:        37
+%  Init/Marked:   1/19
+%  Events:        14
+%  Transitions:   106
+%  StateSymbols:  0
+%  Attrib. E/S/T: 14/0/0
+% 
+
+&lt;Alphabet&gt;
+nack_A        +UE+          pack_A        +UE+          req_fl_A      +YE+         
+req_tr_A      +YE+          idle_A        +YP+          l2r_A         +UP+         
+stby_A        +UP+          idle_B        +YP+          l2r_B         +UP+         
+stby_B        +UP+          req_fl_B      +YE+          req_tr_B      +YE+         
+nack_B        +UE+          pack_B        +UE+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              37            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+2              nack_A        4             
+2              pack_A        4             
+2              nack_B        4             
+2              pack_B        4             
+3              idle_A        9             
+3              idle_B        23            
+4              req_fl_A      2             
+4              req_tr_A      2             
+4              req_fl_B      2             
+4              req_tr_B      2             
+5              req_tr_A      17            
+6              req_fl_A      19            
+7              idle_A        9             
+7              idle_B        23            
+8              idle_A        14            
+8              idle_B        21            
+9              l2r_A         6             
+9              stby_A        7             
+9              l2r_B         26            
+9              stby_B        26            
+10             idle_A        14            
+10             idle_B        21            
+11             nack_A        24            
+11             pack_A        3             
+11             nack_B        37            
+11             pack_B        37            
+12             req_fl_B      28            
+13             req_tr_B      18            
+14             l2r_A         25            
+14             stby_A        25            
+14             l2r_B         25            
+14             stby_B        25            
+15             l2r_A         34            
+15             stby_A        3             
+15             l2r_B         25            
+15             stby_B        25            
+16             l2r_A         8             
+16             stby_A        8             
+16             l2r_B         8             
+16             stby_B        8             
+17             nack_A        5             
+17             pack_A        7             
+17             nack_B        4             
+17             pack_B        4             
+18             nack_A        4             
+18             pack_A        4             
+18             nack_B        13            
+18             pack_B        30            
+19             nack_A        6             
+19             pack_A        5             
+19             nack_B        4             
+19             pack_B        4             
+20             l2r_A         26            
+20             stby_A        26            
+20             l2r_B         26            
+20             stby_B        26            
+21             l2r_A         10            
+21             stby_A        10            
+21             l2r_B         10            
+21             stby_B        10            
+22             nack_A        37            
+22             pack_A        37            
+22             nack_B        31            
+22             pack_B        29            
+23             l2r_A         8             
+23             stby_A        8             
+23             l2r_B         35            
+23             stby_B        29            
+24             req_tr_A      11            
+25             idle_A        20            
+25             idle_B        16            
+26             idle_A        20            
+26             idle_B        16            
+27             l2r_A         10            
+27             stby_A        10            
+27             l2r_B         12            
+27             stby_B        30            
+28             nack_A        4             
+28             pack_A        4             
+28             nack_B        12            
+28             pack_B        13            
+1              idle_A        15            
+1              idle_B        23            
+29             idle_A        15            
+29             idle_B        27            
+30             idle_A        15            
+30             idle_B        27            
+31             req_tr_B      22            
+32             nack_A        34            
+32             pack_A        24            
+32             nack_B        37            
+32             pack_B        37            
+33             nack_A        37            
+33             pack_A        37            
+33             nack_B        35            
+33             pack_B        31            
+34             req_fl_A      32            
+35             req_fl_B      33            
+36             nack_A        37            
+36             pack_A        37            
+36             nack_B        37            
+36             pack_B        37            
+37             req_fl_A      36            
+37             req_tr_A      36            
+37             req_fl_B      36            
+37             req_tr_B      36            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              3              8              11             14             15            
+16             22             23             24             25             29            
+&lt;Consecutive&gt;
+31             37            
+&lt;/Consecutive&gt;
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -25,6 +25,9 @@ Makefile.depend
 # ignore test cases
 **/tmp_*.gen
 
+# ignore my private stuff
+plugins/iodevice/libwpc/bin/*
+
 # osx irritations
 **/.DS_Store
 **/pd_Logfile.txt

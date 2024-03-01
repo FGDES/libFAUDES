@@ -1,0 +1,67 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_tu_constrL_AB.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_tu_constrL_AB.svg">
+<a class="faudes_image" href="tmp_hio_tu_constrL_AB.svg">
+<img src="tmp_hio_tu_constrL_AB.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Environment Constraint AB" 
+
+% 
+%  Statistics for Environment Constraint AB
+% 
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   3
+%  StateSymbols:  2
+%  Attrib. E/S/T: 4/0/0
+% 
+
+&lt;Alphabet&gt;
+req_fl_AB     +U+           req_tr_AB     +U+           nack_AB       +Y+          
+pack_AB       +Y+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"           "2"          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           req_fl_AB     "2"          
+"1"           req_tr_AB     "2"          
+"2"           pack_AB       "1"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"1"           "2"          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

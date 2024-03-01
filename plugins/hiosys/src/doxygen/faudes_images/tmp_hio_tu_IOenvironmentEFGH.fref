@@ -1,0 +1,93 @@
+<ReferencePage chapter="none" section="none" title="Example Data">
+<h1>
+Example Data: tmp_hio_tu_IOenvironmentEFGH.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_hio_tu_IOenvironmentEFGH.svg">
+<a class="faudes_image" href="tmp_hio_tu_IOenvironmentEFGH.svg">
+<img src="tmp_hio_tu_IOenvironmentEFGH.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"Environment AB__EFGH__EF__GH" 
+
+% 
+%  Statistics for Environment AB__EFGH__EF__GH
+% 
+%  States:        14
+%  Init/Marked:   1/14
+%  Events:        12
+%  Transitions:   23
+%  StateSymbols:  14
+%  Attrib. E/S/T: 12/0/0
+% 
+
+&lt;Alphabet&gt;
+pack_A        +UE+          req_fl_A      +YE+          req_tr_A      +YE+         
+req_fl_B      +YE+          req_tr_B      +YE+          nack_B        +UE+         
+pack_B        +UE+          req_fl_AB     +YL+          req_tr_AB     +YL+         
+nack_AB       +UL+          pack_AB       +UL+          nack_EF       +UE+         
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+Start         rqflA_1       rqflA_2       rqflA_3       rqflA_4       rqtrB_1      
+rqtrB_2       rqtrB_3       rqtrB_4       rqflB         rqtrA_1       rqtrA_2      
+rqtrA_4       err_UE       
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+Start         req_fl_A      rqflA_1      
+Start         req_tr_A      rqtrA_1      
+Start         req_fl_B      rqflB        
+Start         req_tr_B      rqtrB_1      
+rqflA_1       req_fl_AB     rqflA_2      
+rqflA_2       nack_AB       rqflA_4      
+rqflA_2       pack_AB       rqflA_3      
+rqflA_3       pack_A        Start        
+rqflA_4       nack_EF       Start        
+rqtrB_1       req_tr_AB     rqtrB_2      
+rqtrB_2       nack_AB       rqtrB_4      
+rqtrB_2       pack_AB       rqtrB_3      
+rqtrB_3       pack_B        Start        
+rqtrB_4       nack_B        Start        
+rqflB         nack_B        Start        
+rqtrA_1       pack_A        rqtrA_2      
+rqtrA_2       req_fl_A      err_UE       
+rqtrA_2       req_tr_A      err_UE       
+rqtrA_2       req_fl_B      rqtrA_4      
+rqtrA_2       req_tr_B      err_UE       
+rqtrA_4       pack_B        Start        
+err_UE        nack_B        rqtrA_2      
+err_UE        nack_EF       rqtrA_2      
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+Start        
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+Start         rqflA_1       rqflA_2       rqflA_3       rqflA_4       rqtrB_1      
+rqtrB_2       rqtrB_3       rqtrB_4       rqflB         rqtrA_1       rqtrA_2      
+rqtrA_4       err_UE       
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+
