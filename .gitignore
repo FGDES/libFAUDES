@@ -1,9 +1,3 @@
-# ignore from espA32
-demesh/sdkconfig
-demesh/sdkconfig.old
-demesh/build
-
-
 # ignore emacs backups
 *~
 *.bak
