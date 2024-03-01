@@ -30,10 +30,10 @@ to obtain binaries that are compatible to some extend.
 In earlier days, we used to link the precomiled binaries
 against so called <i>LSB 3.2 system library stubs</i> which we considered
 a great approach for cross-distribution binary compatibility.
-Howeverm LSB was last updated in 2015 and common Linux distributions
+However, LSB was last updated in 2015 and common Linux distributions
 stepped out from then on.
 If you want/need to run early versions of libFAUDES or derived software,
-you may need to install the LSB loader
+you may need to install the LSB loader.
 </p>
 <p>
 Example: installing LSB packages on Ubuntu 18.04LTS
@@ -185,7 +185,7 @@ MSYS2 terminal:
 ./libFAUDES&gt; make FAUDES_PLATFORM=gcc_msys test 
 </pre>
 As an alternative to MSYS2, you can resort to a plain MinGW toolchain,
-set the PATH variable and usen a MS Windows commandline to run
+set the PATH variable and use an MS Windows commandline to run
 <pre>
 set PATH=%PATH%;C:\Wherever_MinGW_is\bin
 C:\libFAUDES&gt; mingw64-make -j20 FAUDES_PLATFORM=gcc_win

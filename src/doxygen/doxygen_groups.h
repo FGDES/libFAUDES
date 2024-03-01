@@ -164,7 +164,7 @@ Note that different and perhaps more restrictive license terms may apply to the 
 <p>
 Copyright (C) 2006 Bernd Opitz <br>
 Copyright (C) 2008 - 2010 Thomas Moor, Klaus Schmidt, Sebastian Perk <br>
-Copyright (C) 2010 - 2023 Thomas Moor, Klaus Schmidt<br>
+Copyright (C) 2010 - 2024 Thomas Moor, Klaus Schmidt<br>
 </p>
 */
 
