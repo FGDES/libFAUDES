@@ -284,7 +284,7 @@ void InsertPlainLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
 // extract and copy tutorial (from plain to xml)
 void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
   // read script file to buffer
-  char buffer[]=0;
+  char* buffer=0;
   long int size=0;
   try{
     rTr.Rewind();
@@ -312,7 +312,7 @@ void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
   btag.InsAttributeString("name",name);
   rTw.WriteVerbatim(btag,bufferstr);
   // discard buffer
-  if(buffer!=0) delete buffer;
+  if(buffer!=0) delete [] buffer;
 }
 
 
@@ -320,7 +320,7 @@ void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
 // copy source as binary image file
 void InsertImageFile(TokenReader& rTr,TokenWriter& rTw) {
   // read image file to buffer
-  char buffer[]=0;
+  char* buffer=0;
   long int size=0;
   try{
     rTr.Rewind();
@@ -348,7 +348,7 @@ void InsertImageFile(TokenReader& rTr,TokenWriter& rTw) {
   rTw << "\n";
   rTw.WriteEnd("ImageFile");
   // discard buffer
-  if(buffer!=0) delete buffer;
+  if(buffer!=0) delete [] buffer;
 }
 
 
