@@ -1,11 +1,11 @@
 ###############################################################################
-# Makefile for libFAUDES, tmoor 20240216
+# Makefile for libFAUDES, tmoor 20240301
 #
 # Requires GNU make
 #
 # PLATFORM:
 #
-# Unix/posix environment (Linux, Mac OSX) or Win32; see compiler options below. 
+# Unix/posix environment (Linux, macOS) or Windows; see compiler options below. 
 #
 # USER TARGETS: 
 # 
@@ -96,7 +96,7 @@ FAUDES_OPTIONS += core_systime
 # elementary networking (including headers, requires systime)
 FAUDES_OPTIONS += core_network
 
-# elementary thread support (mimic POXIS threads, requires systime)
+# elementary thread support (POSIX style threads, requires systime)
 FAUDES_OPTIONS += core_threads
 
 endif
@@ -130,7 +130,8 @@ FAUDES_DEBUG += core_checked
 
 #   core_exceptions  
 #      Write exceptions to stderr. For applications that catch exceptions and 
-#      translate them a user friendly report, you may want to disable this option.
+#      translate them to produce a user friendly report, you may want to disable
+#      this option.
 FAUDES_DEBUG += core_exceptions
 
 #   core_compatibility
@@ -180,7 +181,7 @@ endif
 
 FILE_CONFIG = Makefile.configuration
 
-# if "configuration" are "dist-clean" are not the target, read make varaibles from file
+# if "configuration" are "dist-clean" are not the target, read make variables from file
 ifneq (configure,$(findstring configure,$(MAKECMDGOALS)))
 ifneq (dist-clean,$(findstring dist-clean,$(MAKECMDGOALS)))
 include $(FILE_CONFIG)
@@ -199,13 +200,12 @@ endif
 # Note: although shared is the default, a number of elementary configuration
 # tools will link statically regardless the below option.
 #
-# Note: changing this option requires a "make clean" 
+# Note: changing this option requires a "make clean" but not a "make configure"
 #
 ###############################################################################
 
 ifeq ($(FAUDES_LINKING),)
 FAUDES_LINKING = shared 
-#FAUDES_LINKING = static debug
 endif
 
 ifneq ($(filter shared,$(FAUDES_LINKING)),)
@@ -233,7 +233,7 @@ endif
 
 
 ### try to autoselect platform
-# Ms Windows with MSYS2
+# MS Windows defaults to MSYS2
 ifeq ($(FAUDES_PLATFORM),)
 ifneq ($(findstring Windows,$(OS)),)
 FAUDES_PLATFORM := gcc_msys
@@ -295,7 +295,6 @@ FNCT_POST_APP = strip $(1)
 
 ### sensible/posix defaults: library target names  #################
 #
-
 LIBFAUDES = libfaudes
 IMPFAUDES = libfaudes
 MINFAUDES = minfaudes
@@ -316,9 +315,12 @@ endif
 
 
 
-### platform "gcc_linux": Linux with g++ 4.x and 5.x series #################
-# * we moved to CXX11 ABI and C++11 default with Uduntu 16.04 LTS
-# * we stopped specifying ABI/C++-dialect explicitly to let the system choose
+### platform "gcc_linux" ############
+#
+# Targeting Linux systems
+# - g++, tested with 4.x, 5.x, 7.x and 11.x series 
+# - we moved to CXX11 ABI and C++11 default with Uduntu 16.04 LTS
+# - we stopped specifying ABI/C++-dialect explicitly to let the system choose
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
@@ -339,7 +341,12 @@ LNKLIBS += -lpthread
 endif
 endif
 
-### platform "gcc_linux32": 32bit Linux with g++ 4.x series #################
+### platform "gcc_linux32" #######################
+#
+# Targeting 32bit Linux
+# - g++ 4.x series
+# - c98 standard
+# - out of maintenance
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux32)
 MAINOPTS = -m32 -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
@@ -358,15 +365,18 @@ endif
 endif
 
 
-### platform "lsb_linux": Linux with LSB SDK ########################
+### platform "lsb_linux" ########################
 #
-# variant for  SDK 4.1.8, using
-# -- Ubuntu 10.04 LTS with gcc 4.4.3 target lsb 3.2
-# -- Debian 7.4 with gcc 4.7.2 target lsb 3.2
-# -- Ubuntu 16.04 LTS withh gcc 7.3.0 target lsb 4.1
+# Targetting Linux systems with LSB SDK for ABI compatibility
+# - using LSB SDK 4.1.8, 
+# - Ubuntu 10.04 LTS with gcc 4.4.3 target lsb 3.2
+# - Debian 7.4 with gcc 4.7.2 target lsb 3.2
+# - Ubuntu 16.04 LTS withh gcc 7.3.0 target lsb 4.1
 # note: dropping -fpic was needed for gcc 4.7.2 with Lua 
 # note: not hiding DSO-symbols here for simplicity
 # note: we dont support debug build for LSB
+# - as of libFAUDES 2.31 out of maintenance
+#
 ifeq ($(FAUDES_PLATFORM),lsb_linux)
 CXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
 CC = /opt/lsb/bin/lsbcc   --lsb-target-version=4.1 --lsb-besteffort
@@ -386,15 +396,19 @@ endif
 endif
 
 
-### platform "gcc_osx": Mac OS X 10.5 and later #####################
+### platform "gcc_osx" #####################
 #
-# - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7
-#   and Mac OS X 10.11 during development of libFAUDES.
-# - as of libFAUDES 2.27i, only the Mac OS X 10.10 environment is
+#  Mac OS X 10.5 and later
+#
+# - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7,
+#   Mac OS X 10.11, and macOS2 during development of libFAUDES.
+# - as of libFAUDES 2.27i, only the Mac OS X 10.11 environment is
 #   available for testing
-# - note that the compiler here is actualy LLVM/clang++ version 7.0.3
+# - as of libFAUDES 2.31a, only the macOS 12 environment is
+#   available for testing
+# - note that the compiler here is actually LLVM/clang++ version 14.0.0
 # - test deployment target by "otool -l FILE | grep version"
-# - moving to libc++ and c11, we now should target for OS X 10.9 (although 10.7 still works)
+# - moving to libc++ and c11, we now should target for MAC OS X 10.9 (although 10.7 still works)
 #
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
 #
@@ -438,10 +452,13 @@ endif
 endif
 
 
-### platform "cl_win": MS Visual C compiler cl ######################
+### platform "cl_win" ######################
 #
-# Validated to compile as of libFAUDES 2.27 with VC2012 as well 
-# as VC2015 compilers in their 64bit variant.
+# Targetting MS Windows
+# - validated with XP 32bit, Vista 32bit and MS Windows 7 64bit 
+# - using cl.exe from MS Visual C 
+# - validated to compile as of libFAUDES 2.27 with VC2012 as well 
+#   as VC2015 compilers in their 64bit variant.
 #
 # [for user targets only, no configuration tools available]
 #
@@ -494,10 +511,14 @@ endif
 endif
 
 
-### platform "gcc_win": MinGW on MS Windows XP 32bit or MS Windows 7 64bit 
+### platform "gcc_win" #############################
 #
-# We used this toochain for binary distributions up to libFAUDE 2.26;
-# -- we dont hide DSO symbols for simplicty
+# Targetting MS Windows
+# - validated with XP 32bit, Vista 32bit and MS Windows 7 64bit 
+# - using MinGW32 compiler  
+# - we used this toochain for binary distributions up to libFAUDE 2.26;
+# - dont hide DSO symbols for simplicty
+#
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),gcc_win)
@@ -521,9 +542,12 @@ LDFLAGS +=
 endif 
 endif
 
-### platform "gcc_msys": MSYS2/MinGW64 on MS Windows 10
+### platform "gcc_msys" ######################
 #
-# We are using this toochain for binary distributions from libFAUDE 2.32 onwards
+# Targeting MS Windows
+# - using MSYS2/MinGW64 on MS Windows 10
+# - current status testing/develpong 
+# - we consider to use this toochain for binary distributions from libFAUDE 2.32c onwards
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
@@ -562,9 +586,13 @@ endif
 endif
 
 
-### adapt for emscripten
-# (for user targets only, see also luabindings/Makefile.plugin)
-# (no debug build here, static linking only)
+### platform "emcc_js" ######################
+#
+# Targetting jave script i.e. browser
+# - use emscripten toolchain
+#
+# [for user targets only, see also luabindings/Makefile.plugin]
+# [no debug build here, static linking only]
 #
 ifeq ($(FAUDES_PLATFORM),emcc_js)
 ECHOE = echo -e

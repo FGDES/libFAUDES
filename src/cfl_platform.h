@@ -127,7 +127,7 @@
 #endif
 
 
-// Extra Windows/MinGW headers
+// Extra Windows headers
 #ifdef FAUDES_WINDOWS
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -141,7 +141,7 @@
 #endif
 
 #ifdef FAUDES_SYSTIME
-#include <time.h>
+#include <time.h>  // ok for cl
 //#include <sys/time.h> //mingw only
 #include <mmsystem.h>
 #endif
@@ -187,13 +187,13 @@ inline FAUDES_API const std::string& faudes_pathsep(void) {
 }
 
 
-// Uniform exit-signalhandler for POSIX / Windows/MinGW (see e.g. simfaudes.cpp)
+// Uniform exit-signalhandler for POSIX/Windows (see e.g. simfaudes.cpp)
 extern FAUDES_API void faudes_termsignal(void (*sighandler)(int));
 
-// Uniform signal names for POSIX / Windows/MinGW (see e.g. simfaudes.cpp)
+// Uniform signal names for POSIX/Windows (see e.g. simfaudes.cpp)
 extern FAUDES_API const char* faudes_strsignal(int sig);
 
-// Uniform sleep for POSIX and Windows/MinGW (see e.g. iodevice plug-in)
+// Uniform sleep for POSIX/Windows (see e.g. iodevice plug-in)
 #ifdef FAUDES_POSIX
 inline FAUDES_API void faudes_sleep(long int sec) {sleep(sec);}
 inline FAUDES_API void faudes_usleep(long int usec) {usleep(usec);}

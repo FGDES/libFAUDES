@@ -16,7 +16,7 @@ executables of luafaudes and other relevant utilities.
 <ul class="l1">
 <li>
 <p>
-<strong>Linux:</strong>
+<strong>Linux.</strong>
 The standard libFAUDES distribution ships as <tt>tar.gz</tt> archive and includes
 Linux binaries. Simply extract the archive file and test by e.g. 
 running a luafaudes tutorial script.
@@ -25,7 +25,7 @@ to re-compile. Sorry for the inconvenience.
 </p>
 <p>
 <i>Note on Linux binary compatibility.</i>
-As of 2020, we compile on a somewhat outdated Linux distribution
+As of 2022, we compile on a somewhat outdated Linux distribution
 to obtain binaries that are compatible to some extend.
 In earlier days, we used to link the precomiled binaries
 against so called <i>LSB 3.2 system library stubs</i> which we considered
@@ -144,14 +144,15 @@ After extracting the libFAUDES archive to e.g. <tt>./libFAUDES</tt>,
 open a shell (aka <i>console</i>, <i>command line</i>, etc) and run
 </p>
 <pre>
-&gt; make
-&gt; make tutorial
-&gt; make test
+./libFAUDES&gt; make -j20
+./libFAUDES&gt; make -j20 tutorial
+./libFAUDES&gt; make test
 </pre>
 <p>
-from within <tt>./libFAUDES</tt> to re-compile libFAUDES.
+to re-compile libFAUDES. 
 Technically, the <tt>GNU-make</tt> tool extracts the rules of how exactly the targets
-are to be built from the the <tt>Makefile</tt>. 
+are to be built from the the <tt>Makefile</tt>. The option <tt>-j20</tt> tells make to
+run up to 20 jobs in parallel which significantly speeds up the build process.
 There are a number of details to be addressed here.
 </p>
 
@@ -168,68 +169,71 @@ project provides
 a variant of the GNU-toolchain toolchain for native MS Windows development and it includes
 a compatible make tool. The easiest way to get this going is to first install
 <a href="https://www.msys2.org">MSYS2</a>
-and then to obtain the GNU-toolchain within this environment; E.g., run the package manager
+and then to obtain the GNU-toolchain within this environment; e.g., run the package manager
 from an MSYS2 terminal window:
 </p>
 <pre>
-pacman -S base-devel gcc make
+pacman -S base-devel gcc 
 </pre>
 <p>
 Then, explicitly set the target platform and compile libFAUDES from a
 MSYS2 terminal:
 </p>
 <pre>
-&gt; make FAUDES_PLATFORM=gcc_win
-&gt; make FAUDES_PLATFORM=gcc_win tutorial 
-&gt; make FAUDES_PLATFORM=gcc_win test 
+./libFAUDES&gt; make -j20 FAUDES_PLATFORM=gcc_msys
+./libFAUDES&gt; make -j20 FAUDES_PLATFORM=gcc_msys tutorial 
+./libFAUDES&gt; make FAUDES_PLATFORM=gcc_msys test 
 </pre>
-As an alternative to MSYS2, you can resort to plain MinGW binaries,
-set the PATH variable and use a MS Windows commandline to run
+As an alternative to MSYS2, you can resort to a plain MinGW toolchain,
+set the PATH variable and usen a MS Windows commandline to run
 <pre>
 set PATH=%PATH%;C:\Wherever_MinGW_is\bin
-C:\libFAUDES> mingw64-make FAUDES_PLATFORM=gcc_win
-C:\libFAUDES> mingw64-make FAUDES_PLATFORM=gcc_win tutorial 
-C:\libFAUDES> mingw64-make FAUDES_PLATFORM=gcc_win test 
+C:\libFAUDES&gt; mingw64-make -j20 FAUDES_PLATFORM=gcc_win
+C:\libFAUDES&gt; mingw64-make -j20 FAUDES_PLATFORM=gcc_win tutorial 
+C:\libFAUDES&gt; mingw64-make FAUDES_PLATFORM=gcc_win test 
 </pre>
 
 <p>
 The provided <tt>Makefile</tt>
-supports four flavors to shape the build process.
+supports five flavors to shape the build process.
 </p>
 <p>
-The three platforms <strong>gcc_linux</strong>, <strong>gcc_osx</strong> and <strong>gcc_win</strong> 
-all refer to the GNU-toolchain (or close relatives). The corresponding tool can be obtained
-by the system packamanager (Linux), as part of the XCode developer tool (Mac OsX) or via MSYS2 as indicated above (MS Windows). In order to adjust the various compiler/linker options to the application 
+The four platforms <strong>gcc_linux</strong>, <strong>gcc_osx</strong>,
+<strong>gcc_win</strong> and <strong>gcc_msys</strong> 
+all refer to the GNU-toolchain (or close relatives LLVM/Clang).
+The corresponding tools can be obtained
+by the system packamanager (Linux), as part of the XCode developer tool (macOS) or via MSYS2 as indicated above (MS Windows). In order to adjust the various compiler/linker options to the application 
 at hand, it is recommende to cut&amp;past the respective section from the
 <tt>Makefile</tt> as a starting point for further tuning. Since libFAUDES is largely developped
-within a  gcc_linux and gcc_osx setup, it adapts well the GNU-toolchain. 
+within gcc_linux and/or gcc_osx environments, it adapts well to the GNU-toolchain. 
 </p>
 <p>
-The fourth platform <strong>cl_win</strong> addresses the compiler
-<tt>cl.exe</tt> provided by MS Visual Studio on MS Windows. To use MS Visual C 
-for the development of a libFAUDES based application, it is a prerequisite to compile libFAUDES 
-with the same version of <tt>cl.exe</tt> as it will be used for application developement,
-an with matching compiler/linker options. Among the vast number of precivable usecases, libFAUDES 
+The fourth platform <strong>cl_win</strong> addresses the MS compiler
+<tt>cl.exe</tt> provided by MS Visual Studio. To use MS Visual C 
+for the development of a libFAUDES based application, it is strongly recommended
+to compile libFAUDES with the same version of <tt>cl.exe</tt> as it will be used for application developement,
+an specically to do so with matching compiler/linker options. Among the vast number of precivable usecases, libFAUDES 
 is currently distributed in two orthogonal shapes that can be selected with the  
 FAUDES_LINKING switch as demonstrated below and that have both been tested to compile with the community 
-edition of MS Vusial C 2015.
+edition of MS Vusial C 2015. From the MS Winddows commandline, run
 </p>
 <pre>
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"  x86_amd64
-&gt; make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
+&gt; mingw64-make -j20 FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
 </pre>
 <p>
 The batch file provided by MS Visual C sets up the environment to the 64bit
-compilers. Then "FAUDES_LINKING="static debug" builds the archieve <tt>faudesd.lib</tt>> 
-that links dynamically against the C libraries in their debug variant
-but isitself is meant for static linking with an host application. Relevant compiler
+compilers. Then "FAUDES_LINKING="static debug" directs make to build
+the archieve <tt>faudesd.lib</tt>. While it links dynamically against
+the C libraries in their debug variant, <tt>faudesd.lib</tt> isitself is meant
+for static linking with an host application. Relevant compiler
 options are <tt>/MDd</tt> and <tt>/EHsc</tt>, in some cases
-may  <tt>/Zi</tt> also be of interest. Note that binaries with static linking to libFAUDES may 
-only be distributed under terms of the GPL license. For dynamic linking in release mode,
-we have set up
+<tt>/Zi</tt> may also be of interest. Note that applications with static
+linking to libFAUDES may only be distributed under terms of the GPL license.
+For dynamic linking in release mode, we have set up
 </p>
 <pre>
-&gt; make FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
+&gt; mingw64-make -j20 FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
 </pre>
 <p>
 to build the shared object <tt>faudes.dll</tt> along with the linker
@@ -301,12 +305,12 @@ Here, the particular version can be crucial
 cross-configuration for Windows/VS-compiler requires at least 3.02,
 however, the early 3.xx series seems to produce some spurious warnings
 with Linux/gcc. In the case you rely on older versions of SWIG, you may want to
-test the a tweaked versions of <tt>typemaps.i</tt> archieved  <tt>./plugins/luabindings/src/</tt> and
-taken from SWIG v2.0.10. 
+test the a tweaked versions of <tt>typemaps.i</tt> archieved  as
+<tt>./plugins/luabindings/src/</tt> and taken from SWIG v2.0.10. 
 </p>
 
 <p>
-For libFAUDES development on a  macOS system,
+For development on a  macOS system,
 there are various ways to obtain the required tools. As of libFAUDES 2.04, we
 use <a href="https://www.macports.org">MacPorts</a> to install SWIG and doxygen, e.g.,
 </p>
@@ -316,15 +320,15 @@ port install swig doxygen
 
 
 <p>
-For libFAUDES development on a Windows system,
+For development on a Windows system,
 we recommend to use either <a href="http://www.cygwin.com">Cygwin</a>
-or<a href="https://www.msys2.org">MSYS2</a> as a close-to-POSIX
-environment. As of libFAUDES 2.32, we are testing with
-MSYS2 version 20240113 on Windows 10. Required packages can be installed from a
-MSYS2 terminal window, e.g.:
+or <a href="https://www.msys2.org">MSYS2</a> as close-to-POSIX
+environments. As of libFAUDES 2.32b, we are testing with
+MSYS2 version 20240113 on Windows 10. Required packages can be installed
+from a MSYS2 terminal window, e.g.:
 </p>
 <pre>
-pacman -S swig doxygen history-devel libreadline-devel 
+pacman -S swig doxygen ncurses-devel libreadline-devel 
 </pre>
 
 
@@ -340,12 +344,12 @@ To re-configure and compile libFAUDES sources from scratch, you may run
 </pre>
 
 <p>
-When developing a plug-in, it is advisable to first
-edit the main <tt>Makefile</tt> to only enable those plug-ins,
-that are required in the development process. This will keep compilation
-times reasonably short. In particular, the luabindings depend on every
+When developing a plug-in, it is advisable to
+edit the main <tt>Makefile</tt> to only eanable a minimal set of plug-ins.
+This will keep compilation
+times reasonably short. In particular, the luabindings plug-in depends on every
 single header file and the build process will recreate all luabindings
-from scratch when you edit any single header.
+from scratch when you edit any one header file.
 </p>
 
 <!-- ------------------------------------------------------------------------- -->
@@ -358,15 +362,16 @@ from scratch when you edit any single header.
 </a>
 
 <p>
-While libFAUDES uses doxygen as a professional tool to generate the C++ API documentation,
+libFAUDES uses doxygen as a professional tool to generate the C++ API documentation.
+However,  
 we did not yet find a similar tool for the user-reference. In order to still have some
 systematic approach to a user-level documentation, the libFAUDES build-system
 uses the <a href="csource/group__RunTimeInterface.html">run-time-interface</a>
 as a basis. The compilation process invokes a number of home-grown tools which may 
 need a re-design in due course. However, some care has been taken to have a consistent 
 input format that encodes relevant structural data. In the meanwhile,
-we would like to encourage plug-in developers to
-(a) contribute to the user-reference to advertise the plug-in and
+we would like to encourage developers to
+(a) contribute to the user-reference to advertise their plug-ins and
 (b) stick to the below conventions where ever possible to ease
 revisions of the build process.
 </p>
