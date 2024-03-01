@@ -82,13 +82,6 @@ const std::string& faudes_pathsep(void) {
 
 
 
-#ifdef FAUDES_WINDOWS
-std::string
-std::string  faudes_pathsep_str = "\\"; 
-#endif
-
-
-
 // Uniform signalhandler on termination
 void faudes_termsignal(void (*sighandler)(int)) {
 #ifdef SIGTERM
