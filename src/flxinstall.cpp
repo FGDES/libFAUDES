@@ -112,8 +112,10 @@ void MakeDirectory(const std::string& rPath, const std::string& rDir="") {
   if(rDir!="") dir += faudes_pathsep() + rDir;
   if(DirectoryExists(dir)) return;
   std::cerr << "flxinstall: creating dir \"" << dir << "\"" << std::endl;
-  int sysret=std::system(std::string("mkdir " + dir).c_str());
+  std::string cmd = "mkdir " + dir;
+  int sysret=std::system(cmd.c_str());
   if(sysret!=0) {
+    std::cerr << "flxinstall: shell command \"" << cmd << "\"" << std::endl;
     std::cerr << "flxinstall: error while creating directory \"" << dir << "\"" << std::endl;
     usage_exit();
   }
@@ -152,9 +154,9 @@ void Lua2ref(const std::string& rLuaFile, const std::string& rRefFile="") {
   std::string cmd= mFaudesBinLua2ref + " " + rLuaFile + " > " + dst;
   // run 
   std::cerr << "flxinstall: converting lua script \"" << rLuaFile << "\"" << std::endl;
-  std::cerr << "flxinstall: using command \"" << cmd << "\"" << std::endl;
   int sysret=std::system(cmd.c_str());
   if(sysret!=0) {
+    std::cerr << "flxinstall: using command \"" << cmd << "\"" << std::endl;
     std::cerr << "flxinstall: error while converting lua script \"" << rLuaFile << "\"" << std::endl;
     usage_exit();
   }
@@ -1372,6 +1374,7 @@ void InstallExtensionFiles(void) {
   std::cerr << "flxinstall: creating toc" << std::endl;
   if(std::system(toccmd.c_str())!=0) {
     std::cerr << "flxinstall: processing" << std::endl << toccmd << std::endl;
+    std::cerr << "flxinstall: using command \"" << toccmd << "\"" << std::endl;
     std::cerr << "flxinstall: error setting up toc: ERROR." << std::endl;
     exit(1);
   }
@@ -1390,6 +1393,7 @@ void InstallExtensionFiles(void) {
   std::cerr << "flxinstall: processing doc base" << std::endl;
   if(std::system(doccmd.c_str())!=0) {
     std::cerr << "flxinstall: processing" << std::endl << doccmd << std::endl;
+    std::cerr << "flxinstall: using command \"" << doccmd << "\"" << std::endl;
     std::cerr << "flxinstall: error while processing doc base: ERROR." << std::endl;
     exit(1);
   }
@@ -1407,6 +1411,7 @@ void InstallExtensionFiles(void) {
   std::cerr << "flxinstall: processing user reference" << std::endl;
   if(std::system(refcmd.c_str())!=0) {
     std::cerr << "flxinstall: processing" << std::endl << refcmd << std::endl;
+    std::cerr << "flxinstall: using command \"" << refcmd << "\"" << std::endl;
     std::cerr << "flxinstall: error while processing user reference: ERROR." << std::endl;
     exit(1);
   }
@@ -1425,6 +1430,7 @@ void InstallExtensionFiles(void) {
     std::cerr << "flxinstall: processing lua tutorial" << std::endl;
     if(std::system(luacmd.c_str())!=0) {
       std::cerr << "flxinstall: processing" << std::endl << luacmd << std::endl;
+      std::cerr << "flxinstall: using command \"" << luacmd << "\"" << std::endl;
       std::cerr << "flxinstall: error while processing lua tutorial: ERROR." << std::endl;
       exit(1);
     }
@@ -1448,6 +1454,7 @@ void InstallExtensionFiles(void) {
            + imgcmd +  " " + mFaudesDocImages;
       if(std::system(imgcmd.c_str())!=0) {
         std::cerr << "flxinstall: processing" << std::endl << imgcmd << std::endl;
+        std::cerr << "flxinstall: using command \"" << imgcmd << "\"" << std::endl;
         std::cerr << "flxinstall: error while processing image files: ERROR." << std::endl;
         exit(1);
       }
@@ -1465,6 +1472,7 @@ void InstallExtensionFiles(void) {
         + PrependDirectory(mFaudesDocRefsrc,"faudes_about.fref") +  " " + dst;
     std::cerr << "flxinstall: fix html index " << std::endl;
     if(std::system(proccmd.c_str())!=0) {
+      std::cerr << "flxinstall: using command \"" << proccmd << "\"" << std::endl;
       std::cerr << "flxinstall: error when processing index.html: ERROR." <<std::endl;
       exit(1);
     }
@@ -1479,6 +1487,7 @@ void InstallExtensionFiles(void) {
         + PrependDirectory(mFaudesDocRefsrc,"luafaudes/faudes_luafaudes.fref") +  " " + dst;
     std::cerr << "flxinstall: fix html index " << std::endl;
     if(std::system(proccmd.c_str())!=0) {
+      std::cerr << "flxinstall: using command \"" << proccmd << "\"" << std::endl;
       std::cerr << "flxinstall: error when processing index.html: ERROR." <<std::endl;
       exit(1);
     }
@@ -1493,6 +1502,7 @@ void InstallExtensionFiles(void) {
         + PrependDirectory(mFaudesDocRefsrc,"reference/reference_index.fref") +  " " + dst;
     std::cerr << "flxinstall: fix html index " << std::endl;
     if(std::system(proccmd.c_str())!=0) {
+      std::cerr << "flxinstall: using command \"" << proccmd << "\"" << std::endl;
       std::cerr << "flxinstall: error when processing index.html: ERROR." <<std::endl;
       exit(1);
     }
@@ -1712,6 +1722,7 @@ void RunTestCases() {
     std::cerr << "flxinstall: execute: " << cmd << std::endl;
     int sysret=std::system(cmd.c_str());
     if(sysret!=0) {
+      std::cerr << "flxinstall: using command \"" << cmd << "\"" << std::endl;
       std::cerr << "flxinstall: error while running lua script \"" << *fit << "\"" << std::endl;
       exit(1);
     }
