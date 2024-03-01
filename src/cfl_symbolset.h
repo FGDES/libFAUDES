@@ -156,8 +156,6 @@ public:
    *
    * @param rSource 
    *    Source to copy from
-   * @return
-   *    Ref to this set
    */
   void DoAssign(const SymbolSet& rSource);
 

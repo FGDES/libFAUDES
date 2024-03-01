@@ -432,8 +432,6 @@ public:
    *
    * @param rSourceSet
    *   Source to copy from
-   * @return
-   *   ref to this set
    */
   void DoAssign(const NameSet& rSourceSet);
 

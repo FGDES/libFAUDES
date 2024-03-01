@@ -2,7 +2,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-Copyright (C) 2011 Thomas Moor
+Copyright (C) 2011, 2024 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -312,7 +312,7 @@ void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
   btag.InsAttributeString("name",name);
   rTw.WriteVerbatim(btag,bufferstr);
   // discard buffer
-  if(buffer!=0) delete [] buffer;
+  if(buffer!=0) delete[] buffer;
 }
 
 
@@ -348,7 +348,7 @@ void InsertImageFile(TokenReader& rTr,TokenWriter& rTw) {
   rTw << "\n";
   rTw.WriteEnd("ImageFile");
   // discard buffer
-  if(buffer!=0) delete [] buffer;
+  if(buffer!=0) delete[] buffer;
 }
 
 
@@ -384,7 +384,7 @@ void InsertDataFile(TokenReader& rTr,TokenWriter& rTw) {
   rTw << "\n";
   rTw.WriteEnd("DataFile");
   // discard buffer
-  delete buffer;
+  if(buffer !=0) delete[] buffer;
 }
 
 
@@ -746,17 +746,17 @@ void TestFaudesTarget(void) {
     std::string script =  mFaudesBase + faudes_pathsep() + "tools" + faudes_pathsep() 
        + "lua2ref" + faudes_pathsep() + "lua2ref.lua";
     mFaudesBinLua2ref=mFaudesBinLuafaudes + " " + script;
-    if(!FileExists(script)) mFaudesBinLua2ref = "";
-    if(!FileExists(mFaudesBinLuafaudes)) {
+    if(!FileExists(script)) {
       std::cerr << "flxinstall: cannot find converter \"lua2ref.lua\"" << std::endl;
       mFaudesBinLua2ref = "";
     }
   }
   // lua2ref (try perl on lua2ref.pl)
   if(mFaudesBinLua2ref=="") {
-    mFaudesBinLua2ref = "perl " + mFaudesBase + faudes_pathsep() + "tools" + faudes_pathsep() 
-       + "lua2ref" + faudes_pathsep() + "lua2ref.pl";
-    if(!FileExists(mFaudesBinLua2ref)) {
+    std::string script =  mFaudesBase + faudes_pathsep() + "tools" + faudes_pathsep() 
+       + "lua2ref" + faudes_pathsep() + "lua2ref.pl";   
+    mFaudesBinLua2ref = "perl " + script;
+    if(!FileExists(script)) {
       std::cerr << "flxinstall: cannot find converter \"lua2ref.pl\"" << std::endl;
       mFaudesBinLua2ref = "";
     }

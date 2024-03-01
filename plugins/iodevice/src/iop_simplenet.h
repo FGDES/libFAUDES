@@ -114,8 +114,6 @@ protected:
    *
    * @param rSrcAttr
    *   Source to copy from
-   * @return
-   *   Ref to this attribute
    */
   void DoAssign(const AttributeSimplenetOutput& rSrcAttr) 
   {(void) rSrcAttr;};
@@ -191,8 +189,6 @@ protected:
    *
    * @param rSrcAttr
    *   Source to copy from
-   * @return
-   *   Ref to this attribute
    */
   void DoAssign(const AttributeSimplenetInput& rSrcAttr) 
   {(void) rSrcAttr;};

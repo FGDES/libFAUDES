@@ -546,7 +546,7 @@ endif
 #
 # Targeting MS Windows
 # - using MSYS2/MinGW64 on MS Windows 10
-# - current status testing/develpong 
+# - current status testing/develping
 # - we consider to use this toochain for binary distributions from libFAUDE 2.32c onwards
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
@@ -576,7 +576,7 @@ MINFAUDES := $(MINFAUDES)d
 endif
 ifeq ($(SHARED),yes)
 LIBFAUDES := $(LIBFAUDES).dll
-IMPFAUDES := $(IMPFAUDES).lib
+IMPFAUDES := $(IMPFAUDES).dll
 MINFAUDES := $(MINFAUDES).lib
 else
 LIBFAUDES := $(LIBFAUDES).lib
