@@ -61,7 +61,8 @@ const std::string& faudes_pathsep(void) {
 #endif
 #ifdef FAUDES_WINDOWS
 const std::string& faudes_pathseps(void) {
-  static std::string  faudes_pathseps_str = "";
+  static std::string  faudes_pathseps_str = "\\:/";
+  /*  
   if(faudes_pathseps_str=="") {
     int res=system("uname -a");
     if(res==0)
@@ -69,6 +70,7 @@ const std::string& faudes_pathseps(void) {
     else
       faudes_pathseps_str = "\\:/"; 
   }
+  */
   return faudes_pathseps_str;
 }
 const std::string& faudes_pathsep(void) {

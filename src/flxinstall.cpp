@@ -284,7 +284,7 @@ void InsertPlainLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
 // extract and copy tutorial (from plain to xml)
 void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
   // read script file to buffer
-  char* buffer=0;
+  char buffer[]=0;
   long int size=0;
   try{
     rTr.Rewind();
@@ -312,7 +312,7 @@ void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
   btag.InsAttributeString("name",name);
   rTw.WriteVerbatim(btag,bufferstr);
   // discard buffer
-  delete buffer;
+  if(buffer!=0) delete buffer;
 }
 
 
@@ -320,7 +320,7 @@ void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
 // copy source as binary image file
 void InsertImageFile(TokenReader& rTr,TokenWriter& rTw) {
   // read image file to buffer
-  char* buffer=0;
+  char buffer[]=0;
   long int size=0;
   try{
     rTr.Rewind();
@@ -348,7 +348,7 @@ void InsertImageFile(TokenReader& rTr,TokenWriter& rTw) {
   rTw << "\n";
   rTw.WriteEnd("ImageFile");
   // discard buffer
-  delete buffer;
+  if(buffer!=0) delete buffer;
 }
 
 
@@ -754,7 +754,7 @@ void TestFaudesTarget(void) {
   }
   // lua2ref (try perl on lua2ref.pl)
   if(mFaudesBinLua2ref=="") {
-    mFaudesBinLua2ref = mFaudesBase + faudes_pathsep() + "tools" + faudes_pathsep() 
+    mFaudesBinLua2ref = "perl " + mFaudesBase + faudes_pathsep() + "tools" + faudes_pathsep() 
        + "lua2ref" + faudes_pathsep() + "lua2ref.pl";
     if(!FileExists(mFaudesBinLua2ref)) {
       std::cerr << "flxinstall: cannot find converter \"lua2ref.pl\"" << std::endl;
