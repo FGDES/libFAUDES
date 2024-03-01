@@ -1,0 +1,83 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_complement2_g1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_complement2_g1.svg">
+<a class="faudes_image" href="tmp_complement2_g1.svg">
+<img src="tmp_complement2_g1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Complement(Complement(g1)) 
+
+% 
+%  Statistics for Complement(Complement(g1))
+% 
+%  States:        4
+%  Init/Marked:   1/2
+%  Events:        5
+%  Transitions:   20
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+f             a             b             d             c            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2              3              4             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              f             4             
+1              a             2             
+1              b             4             
+1              d             4             
+1              c             4             
+2              f             4             
+2              a             3             
+2              b             4             
+2              d             4             
+2              c             4             
+3              f             4             
+3              a             4             
+3              b             2             
+3              d             4             
+3              c             4             
+4              f             4             
+4              a             4             
+4              b             4             
+4              d             4             
+4              c             4             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              2             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,67 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_minimal_min.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_minimal_min.svg">
+<a class="faudes_image" href="tmp_minimal_min.svg">
+<img src="tmp_minimal_min.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"g_nonmin [minstate]" 
+
+% 
+%  Statistics for g_nonmin [minstate]
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"{3}"         "{1}"         "{2,5}"       "{4,6}"      
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"{3}"         a             "{2,5}"      
+"{1}"         a             "{2,5}"      
+"{1}"         c             "{3}"        
+"{2,5}"       b             "{4,6}"      
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"{1}"        
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"{1}"        
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,77 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_union_g1g2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_union_g1g2.svg">
+<a class="faudes_image" href="tmp_union_g1g2.svg">
+<img src="tmp_union_g1g2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Union(g1,g2) 
+
+% 
+%  Statistics for Union(g1,g2)
+% 
+%  States:        9
+%  Init/Marked:   1/4
+%  Events:        6
+%  Transitions:   12
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+f             a             b             d             e             c            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              9             
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              a             2             
+1              c             3             
+2              a             4             
+2              b             5             
+3              d             6             
+3              e             7             
+4              b             8             
+5              a             9             
+6              d             6             
+7              e             7             
+8              a             4             
+9              b             5             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              2              8              9             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,73 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_deterministic_det.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_deterministic_det.svg">
+<a class="faudes_image" href="tmp_deterministic_det.svg">
+<img src="tmp_deterministic_det.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Det(g_nondet) 
+
+% 
+%  Statistics for Det(g_nondet)
+% 
+%  States:        6
+%  Init/Marked:   1/2
+%  Events:        11
+%  Transitions:   9
+%  StateSymbols:  6
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+f             g             h             i             a             b            
+d             e             j             k             m            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"{1}"         "{2}"         "{5}"         "{3,4}"       "{6}"         "{4}"        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"{1}"         a             "{2}"        
+"{1}"         e             "{5}"        
+"{2}"         f             "{5}"        
+"{2}"         b             "{3,4}"      
+"{5}"         g             "{6}"        
+"{3,4}"       d             "{4}"        
+"{3,4}"       e             "{1}"        
+"{6}"         h             "{5}"        
+"{4}"         e             "{1}"        
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"{1}"        
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"{3,4}"       "{4}"        
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

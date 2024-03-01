@@ -23,8 +23,7 @@ Makefile.configuration
 Makefile.depend
 
 # ignore test cases
-tmp_*
-!**/faudes_images/tmo_*
+**/tmp_*.gen
 
 # osx irritations
 **/.DS_Store

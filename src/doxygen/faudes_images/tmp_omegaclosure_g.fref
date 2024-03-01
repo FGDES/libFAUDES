@@ -1,0 +1,73 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omegaclosure_g.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omegaclosure_g.svg">
+<a class="faudes_image" href="tmp_omegaclosure_g.svg">
+<img src="tmp_omegaclosure_g.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+g            
+
+% 
+%  Statistics for g
+% 
+%  States:        7
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   9
+%  StateSymbols:  7
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             d             c            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"           "2"           "3"           "4"           "5"           "6"          
+"7"          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           a             "2"          
+"2"           b             "3"          
+"2"           d             "6"          
+"2"           c             "4"          
+"4"           a             "5"          
+"4"           b             "2"          
+"6"           a             "7"          
+"7"           b             "6"          
+"7"           c             "1"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"1"           "5"          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

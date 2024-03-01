@@ -1,0 +1,79 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_project_g.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_project_g.svg">
+<a class="faudes_image" href="tmp_project_g.svg">
+<img src="tmp_project_g.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+g            
+
+% 
+%  Statistics for g
+% 
+%  States:        9
+%  Init/Marked:   1/1
+%  Events:        12
+%  Transitions:   14
+%  StateSymbols:  9
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+f             g             h             i             a             b            
+d             e             j             k             m             c            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"           "2"           "3"           "4"           "5"           "6"          
+"7"           "8"           "9"          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           a             "2"          
+"1"           e             "5"          
+"2"           f             "5"          
+"2"           b             "3"          
+"2"           c             "4"          
+"3"           d             "4"          
+"4"           e             "1"          
+"5"           g             "6"          
+"6"           h             "5"          
+"7"           i             "8"          
+"7"           a             "4"          
+"7"           j             "9"          
+"9"           k             "7"          
+"9"           m             "3"          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"4"          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

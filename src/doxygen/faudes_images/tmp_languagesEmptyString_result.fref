@@ -1,0 +1,62 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_languagesEmptyString_result.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_languagesEmptyString_result.svg">
+<a class="faudes_image" href="tmp_languagesEmptyString_result.svg">
+<img src="tmp_languagesEmptyString_result.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+EmptyStringLanguage(NameSet) 
+
+% 
+%  Statistics for EmptyStringLanguage(NameSet)
+% 
+%  States:        1
+%  Init/Marked:   1/1
+%  Events:        2
+%  Transitions:   0
+%  StateSymbols:  1
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"          
+&lt;/States&gt;
+
+&lt;TransRel/&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"1"          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

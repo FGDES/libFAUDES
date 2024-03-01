@@ -1,0 +1,80 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_greach.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_greach.svg">
+<a class="faudes_image" href="tmp_greach.svg">
+<img src="tmp_greach.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+G            
+
+% 
+%  Statistics for G
+% 
+%  States:        13
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   15
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+s1            s2            s3            s4            s5            s6           
+s7            s8            s9            s10           s11           s20          
+s21          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+s1            a             s2           
+s2            a             s3           
+s2            b             s1           
+s3            c             s4           
+s4            b             s5           
+s4            d             s3           
+s5            a             s6           
+s5            b             s9           
+s6            b             s7           
+s7            a             s6           
+s7            a             s8           
+s9            a             s10          
+s9            b             s11          
+s20           a             s21          
+s21           b             s20          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+s1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+s2            s9            s20          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

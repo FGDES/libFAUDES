@@ -1,0 +1,84 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_wparallel_g1g2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_wparallel_g1g2.svg">
+<a class="faudes_image" href="tmp_wparallel_g1g2.svg">
+<img src="tmp_wparallel_g1g2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"very simple machine 1|||very simple machine 2" 
+
+% 
+%  Statistics for very simple machine 1|||very simple machine 2
+% 
+%  States:        10
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   20
+%  StateSymbols:  10
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+alpha_1       beta_1        alpha_2       beta_2       
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+I|I|r1m*      B|I|r1m       I|B|r1m       B|B|r1m       I|I|r1m       I|B|r2m      
+B|B|r2m       B|I|r1m*      I|I|r2m       B|I|r2m      
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+I|I|r1m*      alpha_1       B|I|r1m      
+I|I|r1m*      alpha_2       I|B|r1m      
+B|I|r1m       beta_1        I|I|r2m      
+B|I|r1m       alpha_2       B|B|r1m      
+I|B|r1m       alpha_1       B|B|r1m      
+I|B|r1m       beta_2        I|I|r1m      
+B|B|r1m       beta_1        I|B|r2m      
+B|B|r1m       beta_2        B|I|r1m      
+I|I|r1m       alpha_1       B|I|r1m      
+I|I|r1m       alpha_2       I|B|r1m      
+I|B|r2m       alpha_1       B|B|r2m      
+I|B|r2m       beta_2        I|I|r1m*     
+B|B|r2m       beta_1        I|B|r2m      
+B|B|r2m       beta_2        B|I|r1m*     
+B|I|r1m*      beta_1        I|I|r2m      
+B|I|r1m*      alpha_2       B|B|r1m      
+I|I|r2m       alpha_1       B|I|r2m      
+I|I|r2m       alpha_2       I|B|r2m      
+B|I|r2m       beta_1        I|I|r2m      
+B|I|r2m       alpha_2       B|B|r2m      
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+I|I|r1m*     
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+I|I|r1m*      B|I|r1m*     
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,75 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_automaton_gRes.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_automaton_gRes.svg">
+<a class="faudes_image" href="tmp_automaton_gRes.svg">
+<img src="tmp_automaton_gRes.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Automaton(g1) 
+
+% 
+%  Statistics for Automaton(g1)
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   12
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             d             u            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1"           "2"           "3"           dump         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1"           a             dump         
+"1"           d             "2"          
+"1"           u             dump         
+"2"           a             dump         
+"2"           d             dump         
+"2"           u             "3"          
+"3"           a             dump         
+"3"           d             dump         
+"3"           u             dump         
+dump          a             dump         
+dump          d             dump         
+dump          u             dump         
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1"          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"3"          
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

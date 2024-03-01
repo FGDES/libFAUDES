@@ -1,0 +1,55 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_simplemachine.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_simplemachine.svg">
+<a class="faudes_image" href="tmp_simplemachine.svg">
+<img src="tmp_simplemachine.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+"simple machine"
+
+&lt;Alphabet&gt;
+"alpha" "beta" "mue" "lambda"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"idle" "busy" "down"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"idle" "alpha" "busy"
+"busy" "beta" "idle"
+"busy" "mue" "down"
+"down" "lambda" "idle"
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"idle"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"idle"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

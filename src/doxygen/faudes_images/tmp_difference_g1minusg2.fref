@@ -1,0 +1,67 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_difference_g1minusg2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_difference_g1minusg2.svg">
+<a class="faudes_image" href="tmp_difference_g1minusg2.svg">
+<img src="tmp_difference_g1minusg2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+Intersection(languagedifference_g1,...nt(languagedifference_g2,Alphabet)) 
+
+% 
+%  Statistics for Intersection(languagedifference_g1,...nt(languagedifference_g2,Alphabet))
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+f             a             b             c            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"1|1"         "2|2"         "3|3"         "4|5"        
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"1|1"         a             "2|2"        
+"2|2"         b             "3|3"        
+"3|3"         f             "4|5"        
+"3|3"         c             "1|1"        
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"1|1"        
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"4|5"        
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+
