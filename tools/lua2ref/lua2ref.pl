@@ -2,6 +2,12 @@
 
 #-- adapted lua2html Perl-script for libFAUDES documentation
 
+#-- faudes add on: extract argument aka filename
+($arg1) = @ARGV;
+$arg1 =~ s!\\!/!go;  ##  normalise to unix dirsep
+use File::Basename;
+$fhead= basename($arg1);
+
 #-- Minimal infrastructure, copied from NoNameWiki.
 %SaveUrl = ();
 $SaveUrlIndex = 0;
@@ -46,11 +52,6 @@ $txt = &StoreLuaSyntax($txt);
 
 $txt =~ s/$FS(\d+)$FS/$SaveUrl{$1}/geo;
 $txt =~ s/$FS(\d+)$FS/$SaveUrl{$1}/geo;
-
-# faudes add on
-use File::Basename;
-$fhead= basename($ARGV);
-
 
 #  #define LUATUTORIAL(luatut) <div class="registry_index"><a href="luatut.html">luatut</a></div> 
 
