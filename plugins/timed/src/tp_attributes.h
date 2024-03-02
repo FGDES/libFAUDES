@@ -14,7 +14,6 @@ Exclusive copyright is granted to Klaus Schmidt
 #define FAUDES_TP_ATTRIBUTES_H
 
 #include "corefaudes.h"
-#include "tp_include.h"
 #include "tp_timeconstraint.h"
 
 namespace faudes {
