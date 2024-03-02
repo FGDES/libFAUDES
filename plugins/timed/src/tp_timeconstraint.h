@@ -81,8 +81,6 @@ FAUDES_TYPE_DECLARATION(ClockSet,ClockSet,NameSet)
    *
    * @param rSourceSet
    *   Destination to copy from
-   * @return
-   *   ref to this set
    */
   virtual void DoAssign(const ClockSet& rSourceSet);
 

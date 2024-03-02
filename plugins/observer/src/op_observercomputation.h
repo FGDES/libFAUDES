@@ -194,8 +194,6 @@ void calculateDynamicSystemLCC(const Generator& rGen, const EventSet& rControlla
  *    Index of the start state of the backward reachability computation
  * @param rDoneStates
  *	   Set of already investigated states
- * @return 
- *	   True if the condition is fulfilled, false otherwise 
  */ 
 extern FAUDES_API void recursiveCheckLCC(const TransSetX2EvX1& rRevTransSet, const EventSet& rControllableEvents, const EventSet& rHighAlph, Idx currentState, StateSet& rDoneStates);
 
