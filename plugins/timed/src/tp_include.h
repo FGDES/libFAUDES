@@ -14,16 +14,6 @@
 #ifndef FAUDES_TP_INCLUDE_H
 #define FAUDES_TP_INCLUDE_H
 
-#include "tp_timeinterval.h"
-#include "tp_timeconstraint.h"
-#include "tp_attributes.h"
-#include "tp_tgenerator.h"
-#include "tp_tparallel.h"
-
-
-
-#endif
-
 
 
 /**
@@ -78,4 +68,13 @@ Copyright (c) 2007, Thomas Moor.
 
 */
 
+#include "tp_timeinterval.h"
+#include "tp_timeconstraint.h"
+#include "tp_attributes.h"
+#include "tp_tgenerator.h"
+#include "tp_tparallel.h"
+
+
+
+#endif
 

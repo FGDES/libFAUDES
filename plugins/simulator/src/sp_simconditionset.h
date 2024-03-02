@@ -435,8 +435,6 @@ protected:
   *
   * @param rSourceSet
   *   Destination to copy from
-  * @return
-  *   ref to this set
   */
  void DoAssign(const SimConditionSet& rSourceSet) {
    TaNameSet<AttributeSimCondition>::DoAssign(rSourceSet); };

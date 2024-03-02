@@ -19,6 +19,7 @@
 #endif
 
 #include "corefaudes.h"
+#include "ios_include.h"
 
 namespace faudes {
 

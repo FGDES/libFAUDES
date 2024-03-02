@@ -302,7 +302,6 @@ public:
    *
    * @param rSrc 
    *    Source to copy from
-   * @return Reference to this object.
    */
   void DoAssign(const Signature& rSrc);
 
@@ -578,7 +577,6 @@ protected:
    *
    * @param rSrc 
    *    Source to copy from
-   * @return Reference to this object.
    */
   void DoAssign(const FunctionDefinition& rSrc);
 
