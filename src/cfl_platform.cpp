@@ -207,28 +207,24 @@ void faudes_usdelay(faudes_mstime_t usecs,faudes_systime_t* end) {
 
 #ifdef FAUDES_NETWORK
 
-
-// Uniform socketoption: test for error
+#ifdef FAUDES_POSIX
+int faudes_closesocket(int fd) {
+  return close(fd);
+}
+int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
+  return setsockopt(fd,level,optname,optval,optlen);
+}
+int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
+  return getsockopt(fd,level,optname,optval,optlen);
+}
 int faudes_getsocket_error(int fd) {
-#ifdef FAUDES_POSIX 
   int opt=0;
   socklen_t len = sizeof(opt);
   int res = getsockopt(fd, SOL_SOCKET, SO_ERROR, &opt, &len) < 0 ? -1 : 0;
   if(opt!=0) res=-1;
   return res;
-#endif
-#ifdef FAUDES_WINDOWS 
-  int opt=0;
-  socklen_t len = sizeof(opt);
-  int res = getsockopt(fd, SOL_SOCKET, SO_ERROR, (char*) &opt, &len) < 0 ? -1 : 0;
-  if(opt!=0) res=-1;
-  return res;
-#endif
 }
-
-// Uniform socketoption: set nonblocking
 int faudes_setsocket_nonblocking(int fd, bool noblo) {
-#ifdef FAUDES_POSIX 
   int sopt=fcntl(fd, F_GETFL, NULL);
   if(sopt<0) return -1; // error 
   if(noblo) {
@@ -238,38 +234,89 @@ int faudes_setsocket_nonblocking(int fd, bool noblo) {
     int rc=fcntl(fd, F_SETFL, sopt& (~O_NONBLOCK));
     return rc < 0 ? -1 : 0;
   }
+}
 #endif
-#ifdef FAUDES_WINDOWS 
+#ifdef FAUDES_WINDOWS
+typedef int socklen_t;
+int faudes_closesocket(int fd) {
+  return closesocket(fd);
+}
+int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
+  return setsockopt(fd,level,optname,(char*) optval,optlen);
+}
+int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
+  return getsockopt(fd,level,optname,(char*) optval,optlen);
+}
+int faudes_getsocket_error(int fd) {
+  int opt=0;
+  socklen_t len = sizeof(opt);
+  int res = getsockopt(fd, SOL_SOCKET, SO_ERROR, (char*) &opt, &len) < 0 ? -1 : 0;
+  if(opt!=0) res=-1;
+  return res;
+}
+int faudes_setsocket_nonblocking(int fd, bool noblo) {
   unsigned long onoff=0;
   if(noblo) onoff=1;
   return ioctlsocket(fd, FIONBIO, &onoff) == SOCKET_ERROR ? -1 : 0;
-#endif
 }
-
-
-
-
-
+#endif
+#ifdef FAUDES_GENERIC
+#error option network not available on generic platform
+#endif
 
 #endif // network
 
 
-#ifdef FAUDES_THREADS
 
+// straight PPOSIX threads (aka plain wrappers)
+#ifdef FAUDES_THREADS
+#ifdef FAUDES_POSIX
+// Thread data type (use plain POSIX thread)
+typedef pthread_t faudes_thread_t;
+// Thread functions (plain pthread wrapper)
+int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg){
+  // prepare attribute for plain joinable thread
+  pthread_attr_t attr;	
+  pthread_attr_init(&attr);
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+  // start execute
+  int ret  = pthread_create(thr, &attr, fnct, arg);
+  // done
+  pthread_attr_destroy(&attr);
+  return ret == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+faudes_thread_t faudes_thread_current(void) {
+  return pthread_self();
+}
+int faudes_thread_detach(faudes_thread_t thr) {
+  return pthread_detach(thr)==0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+int faudes_thread_equal(faudes_thread_t thr0, faudes_thread_t thr1) {
+  return pthread_equal(thr0, thr1);
+}
+void faudes_thread_exit(void* res) {
+  pthread_exit(res);
+}
+int faudes_thread_join(faudes_thread_t thr, void **res) {
+  return pthread_join(thr, res) == 0 ? FAUDES_THREAD_ERROR : FAUDES_THREAD_SUCCESS;
+}
+#endif
+#endif // POSIX threads
+
+// Windows to mimique PPOSIX threads 
+#ifdef FAUDES_THREADS
+#ifdef FAUDES_WINDOWS
 
 // Use Windows thread local storage to implement pointer-typed return values
-#ifdef FAUDES_WINDOWS
 DWORD faudes_thread_tlsidx=TLS_OUT_OF_INDEXES;
-#endif
 
 // Windows thread function wrapper with faudes_thread_t argument;
-#ifdef FAUDES_WINDOWS
 static unsigned WINAPI faudes_thread_wrapper(void *argfth) {
   // access my thread struct
   faudes_thread_t fthread = (faudes_thread_t) argfth;
   // record my thread struct as tls
   TlsSetValue(faudes_thread_tlsidx,fthread);
-  // extract actual function an arguments
+  // extract actual function and arguments
   void *(*fnct)(void*) =  fthread->mFnct;
   void *arg = fthread->mArg;
   // call function
@@ -279,10 +326,8 @@ static unsigned WINAPI faudes_thread_wrapper(void *argfth) {
   // return dummy
   return 0;
 }
-#endif
 
 // Thread functions (Windows to mimic pthreads)
-#ifdef FAUDES_WINDOWS
 int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg){
   // initialize thread local storage block
   if(faudes_thread_tlsidx==TLS_OUT_OF_INDEXES) 
@@ -301,9 +346,7 @@ int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg)
   // done
   return  (*thr)->mHandle ?  FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Thread functions (Windows to mimic pthreads)
 faudes_thread_t faudes_thread_current(void) {
   // retrieve my thread struct from tls
@@ -311,9 +354,7 @@ faudes_thread_t faudes_thread_current(void) {
   // note: returns NULL for parent thread
   return fthread;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Thread functions (Windows to mimic pthreads)
 int faudes_thread_detach(faudes_thread_t thr) {
   CloseHandle(thr->mHandle);
@@ -321,9 +362,7 @@ int faudes_thread_detach(faudes_thread_t thr) {
   free(thr);
   return FAUDES_THREAD_SUCCESS;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Thread functions (Windows to mimic pthreads)
 int faudes_thread_equal(faudes_thread_t thr0, faudes_thread_t thr1) {
   // the parent thread has no tls record and thus reports NULL
@@ -332,9 +371,7 @@ int faudes_thread_equal(faudes_thread_t thr0, faudes_thread_t thr1) {
   // std case, compare by handle
   return thr0->mHandle == thr1->mHandle;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Thread functions (Windows to mimic pthreads)
 void faudes_thread_exit(void *res) {
   // retrieve thread structure from tls to pass on result
@@ -343,9 +380,7 @@ void faudes_thread_exit(void *res) {
   // call winapi
   ExitThread(0);
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Thread functions (Windows to mimic pthreads)
 int faudes_thread_join(faudes_thread_t thr, void **res) {
   // default result
@@ -360,21 +395,104 @@ int faudes_thread_join(faudes_thread_t thr, void **res) {
   if(rc == WAIT_FAILED) return FAUDES_THREAD_ERROR;
   return FAUDES_THREAD_SUCCESS;
 }
-#endif
 
+#endif
+#endif // Windows threads
+
+
+
+// straight PPOSIX mutexes (aka plain wrappers)
+#ifdef FAUDES_THREADS
+#ifdef FAUDES_POSIX
+int faudes_mutex_init(faudes_mutex_t* mtx){
+  return pthread_mutex_init(mtx, NULL)==0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+void faudes_mutex_destroy(faudes_mutex_t* mtx){
+  pthread_mutex_destroy(mtx);
+}
+int faudes_mutex_lock(faudes_mutex_t *mtx) {
+  return pthread_mutex_lock(mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+int faudes_mutex_trylock(faudes_mutex_t *mtx){
+  return (pthread_mutex_trylock(mtx) == 0) ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+int faudes_mutex_unlock(faudes_mutex_t *mtx){
+  return pthread_mutex_unlock(mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+#endif
+#endif // POSIX mutexes
+
+// Windows to mimique PPOSIX mutexes
+#ifdef FAUDES_THREADS
+#ifdef FAUDES_WINDOWS
+int faudes_mutex_init(faudes_mutex_t *mtx){
+  InitializeCriticalSection(mtx);
+  return FAUDES_THREAD_SUCCESS;
+}
+void faudes_mutex_destroy(faudes_mutex_t *mtx){
+  DeleteCriticalSection(mtx);
+}
+int faudes_mutex_lock(faudes_mutex_t *mtx) {
+  EnterCriticalSection(mtx);
+  return FAUDES_THREAD_SUCCESS;
+}
+int faudes_mutex_trylock(faudes_mutex_t *mtx){
+  return TryEnterCriticalSection(mtx) ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+int faudes_mutex_unlock(faudes_mutex_t *mtx){
+  LeaveCriticalSection(mtx);
+  return FAUDES_THREAD_SUCCESS;
+}
+#endif
+#endif // Windows mutexes
+
+
+// straight PPOSIX conditions (aka plain wrappers)
+#ifdef FAUDES_THREADS
+#ifdef FAUDES_POSIX
+int faudes_cond_init(faudes_cond_t* cond) {
+  return pthread_cond_init(cond, NULL) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+void faudes_cond_destroy(faudes_cond_t* cond) {
+  pthread_cond_destroy(cond);
+}
+int faudes_cond_signal(faudes_cond_t *cond){
+  return pthread_cond_signal(cond) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+int faudes_cond_broadcast(faudes_cond_t *cond) {
+  return pthread_cond_signal(cond) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+int faudes_cond_wait(faudes_cond_t *cond, faudes_mutex_t *mtx) {
+  return pthread_cond_wait(cond, mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes_systime_t *abstime) {
+  int ret = pthread_cond_timedwait(cond, mtx, abstime);
+  if(ret == ETIMEDOUT) return FAUDES_THREAD_TIMEOUT;
+  return ret == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
+}
+// Extension: timed wait with duration as opposed to absolute time
+int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_mstime_t duration) {
+  faudes_systime_t abstime;
+  faudes_msdelay(duration,&abstime);
+  return faudes_cond_timedwait(cond,mtx,&abstime);
+}
+#endif
+#endif // POSIX condition
+
+
+// Windows to mimique POSIX conditions
 // The approach to condition variables on Windows is taken from 
 // "Strategies for Implementing POSIX Condition Variables on Win32" 
 // by Douglas C. Schmidt and Irfan Pyarali, Department of Computer 
 // Science, Washington University. 
+#ifdef FAUDES_THREADS
+#ifdef FAUDES_WINDOWS
 
 // Convenience access my two condition events
-#ifdef FAUDES_WINDOWS
 #define EVENT_SIGNAL 0
 #define EVENT_BROADCAST 1
-#endif
 
 // Condition functions (Windows to mimic plain pthread)
-#ifdef FAUDES_WINDOWS
 int faudes_cond_init(faudes_cond_t* cond) {
   // #waiters=0, with mutexed access
   cond->mWaitersCount = 0;
@@ -396,9 +514,7 @@ int faudes_cond_init(faudes_cond_t* cond) {
   cond->mEvents[EVENT_SIGNAL]=NULL;  
   return FAUDES_THREAD_ERROR;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Condition functions (Windows to mimic plain pthread)
 void faudes_cond_destroy(faudes_cond_t* cond) {
   if(cond->mEvents[EVENT_SIGNAL] != NULL) 
@@ -407,9 +523,7 @@ void faudes_cond_destroy(faudes_cond_t* cond) {
     CloseHandle(cond->mEvents[EVENT_BROADCAST]);
   DeleteCriticalSection(&cond->mWaitersCountMutex);
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Condition functions (Windows to mimic plain pthread)
 int faudes_cond_signal(faudes_cond_t *cond){
   int waiters;
@@ -424,9 +538,7 @@ int faudes_cond_signal(faudes_cond_t *cond){
   }
   return FAUDES_THREAD_SUCCESS;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Condition functions (Windows to mimic plain pthread)
 int faudes_cond_broadcast(faudes_cond_t *cond) {
   int waiters;
@@ -441,9 +553,7 @@ int faudes_cond_broadcast(faudes_cond_t *cond) {
   }
   return FAUDES_THREAD_SUCCESS;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Condition functions (Windows to mimic plain pthread)
 int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_mstime_t duration) {
   // increment #waiters
@@ -474,16 +584,12 @@ int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_ms
     return FAUDES_THREAD_ERROR;
   return FAUDES_THREAD_SUCCESS;
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Condition functions (Windows to mimic plain pthread)
 int faudes_cond_wait(faudes_cond_t *cond, faudes_mutex_t *mtx) {
   return faudes_cond_reltimedwait(cond, mtx, INFINITE);
 }
-#endif
 
-#ifdef FAUDES_WINDOWS
 // Condition functions (Windows to mimic plain pthread)
 int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes_systime_t *abstime) {
   // get absolute time
@@ -498,10 +604,12 @@ int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes
   // pass on to reltimedwait
   return faudes_cond_reltimedwait(cond, mtx, relms);
 }
-#endif 
+
+#endif
+#endif // Windows conditions
 
 
-#endif // threads
+
 
 
 
