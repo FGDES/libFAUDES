@@ -113,6 +113,21 @@ const char* faudes_strsignal(int sig) {
 #endif
 }
 
+// Uniform sleep for POSIX/Windows (see e.g. iodevice plug-in)
+#ifdef FAUDES_POSIX
+void faudes_sleep(long int sec) {sleep(sec);}
+void faudes_usleep(long int usec) {usleep(usec);}
+#endif
+#ifdef FAUDES_WINDOWS
+faudes_sleep(long int sec) {Sleep((sec) * 1000);}
+faudes_usleep(long int usec) {Sleep((usec) / 1000);}
+#endif
+#ifdef FAUDES_GENERIC
+void faudes_sleep(long int sec) { faudes_invalid("faudes_sleep()"); }
+void faudes_usleep(long int usec) { faudes_invalid("faudes_usleep()"); }
+#endif
+
+
 
 #ifdef FAUDES_SYSTIME
 

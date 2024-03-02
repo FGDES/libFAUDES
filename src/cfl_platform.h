@@ -187,20 +187,13 @@ extern FAUDES_API void faudes_termsignal(void (*sighandler)(int));
 extern FAUDES_API const char* faudes_strsignal(int sig);
 
 // Uniform sleep for POSIX/Windows (see e.g. iodevice plug-in)
-#ifdef FAUDES_POSIX
-FAUDES_API void faudes_sleep(long int sec) {sleep(sec);}
-FAUDES_API void faudes_usleep(long int usec) {usleep(usec);}
-#endif
-#ifdef FAUDES_WINDOWS
-FAUDES_API void faudes_sleep(long int sec) {Sleep((sec) * 1000);}
-FAUDES_API void faudes_usleep(long int usec) {Sleep((usec) / 1000);}
-#endif
-#ifdef FAUDES_GENERIC
-FAUDES_API void faudes_invalid(const std::string& msg);
-FAUDES_API void faudes_sleep(long int sec) { faudes_invalid("faudes_sleep()"); }
-FAUDES_API void faudes_usleep(long int usec) { faudes_invalid("faudes_usleep()"); }
-#endif
+extern FAUDES_API void faudes_sleep(long int sec)
+extern FAUDES_API void faudes_usleep(long int usec) 
 
+  
+#ifdef FAUDES_GENERIC
+extern FAUDES_API void faudes_invalid(const std::string& msg);
+#endif
 
 #ifdef FAUDES_SYSTIME
 
