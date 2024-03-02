@@ -188,17 +188,17 @@ extern FAUDES_API const char* faudes_strsignal(int sig);
 
 // Uniform sleep for POSIX/Windows (see e.g. iodevice plug-in)
 #ifdef FAUDES_POSIX
-inline FAUDES_API void faudes_sleep(long int sec) {sleep(sec);}
-inline FAUDES_API void faudes_usleep(long int usec) {usleep(usec);}
+FAUDES_API void faudes_sleep(long int sec) {sleep(sec);}
+FAUDES_API void faudes_usleep(long int usec) {usleep(usec);}
 #endif
 #ifdef FAUDES_WINDOWS
-inline FAUDES_API void faudes_sleep(long int sec) {Sleep((sec) * 1000);}
-inline FAUDES_API void faudes_usleep(long int usec) {Sleep((usec) / 1000);}
+FAUDES_API void faudes_sleep(long int sec) {Sleep((sec) * 1000);}
+FAUDES_API void faudes_usleep(long int usec) {Sleep((usec) / 1000);}
 #endif
 #ifdef FAUDES_GENERIC
-extern FAUDES_API void faudes_invalid(const std::string& msg);
-inline FAUDES_API void faudes_sleep(long int sec) { faudes_invalid("faudes_sleep()"); }
-inline FAUDES_API void faudes_usleep(long int usec) { faudes_invalid("faudes_usleep()"); }
+FAUDES_API void faudes_invalid(const std::string& msg);
+FAUDES_API void faudes_sleep(long int sec) { faudes_invalid("faudes_sleep()"); }
+FAUDES_API void faudes_usleep(long int usec) { faudes_invalid("faudes_usleep()"); }
 #endif
 
 
@@ -240,20 +240,20 @@ extern FAUDES_API faudes_systime_t gPerfTimer1;
 
 // Uniform POSIX sockets (see iop_modbus.cpp and iop_simplenet.cpp)
 #ifdef FAUDES_POSIX
-inline FAUDES_API int faudes_closesocket(int fd) {return close(fd);}
-inline FAUDES_API int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
+FAUDES_API int faudes_closesocket(int fd) {return close(fd);}
+FAUDES_API int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
   return setsockopt(fd,level,optname,optval,optlen);}
-inline FAUDES_API int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
+FAUDES_API int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
   return getsockopt(fd,level,optname,optval,optlen);}
 extern FAUDES_API int faudes_setsocket_nonblocking(int fd, bool noblo);
 extern FAUDES_API int faudes_getsocket_error(int fd);
 #endif
 #ifdef FAUDES_WINDOWS
 typedef int socklen_t;
-inline FAUDES_API int faudes_closesocket(int fd) {return closesocket(fd);}
-inline FAUDES_API int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
+FAUDES_API int faudes_closesocket(int fd) {return closesocket(fd);}
+FAUDES_API int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
   return setsockopt(fd,level,optname,(char*) optval,optlen);}
-inline FAUDES_API int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
+FAUDES_API int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
   return getsockopt(fd,level,optname,(char*) optval,optlen);}
 extern FAUDES_API int faudes_setsocket_nonblocking(int fd, bool noblo);
 extern FAUDES_API int faudes_getsocket_error(int fd);
@@ -292,7 +292,7 @@ symoltables. This may change in a future revision.
 // Thread data type (use plain POSIX thread)
 typedef pthread_t faudes_thread_t;
 // Thread functions (all inline, plain pthread wrapper)
-inline FAUDES_API int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg){
+FAUDES_API int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg){
   // prepare attribute for plain joinable thread
   pthread_attr_t attr;	
   pthread_attr_init(&attr);
@@ -303,19 +303,19 @@ inline FAUDES_API int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(v
   pthread_attr_destroy(&attr);
   return ret == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API faudes_thread_t faudes_thread_current(void) {
+FAUDES_API faudes_thread_t faudes_thread_current(void) {
   return pthread_self();
 }
-inline FAUDES_API int faudes_thread_detach(faudes_thread_t thr) {
+FAUDES_API int faudes_thread_detach(faudes_thread_t thr) {
   return pthread_detach(thr)==0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API int faudes_thread_equal(faudes_thread_t thr0, faudes_thread_t thr1) {
+FAUDES_API int faudes_thread_equal(faudes_thread_t thr0, faudes_thread_t thr1) {
   return pthread_equal(thr0, thr1);
 }
-inline FAUDES_API void faudes_thread_exit(void* res) {
+FAUDES_API void faudes_thread_exit(void* res) {
   pthread_exit(res);
 }
-inline int faudes_thread_join(faudes_thread_t thr, void **res) {
+int faudes_thread_join(faudes_thread_t thr, void **res) {
   return pthread_join(thr, res) == 0 ? FAUDES_THREAD_ERROR : FAUDES_THREAD_SUCCESS;
 }
 #endif
@@ -346,19 +346,19 @@ extern FAUDES_API int faudes_thread_join(faudes_thread_t thr, void **res);
 // Mutex data type (use plain POSIX mutex)
 typedef pthread_mutex_t faudes_mutex_t;
 // Mutex functions (all inline, plain pthread wrapper)
-inline FAUDES_API int faudes_mutex_init(faudes_mutex_t* mtx){
+FAUDES_API int faudes_mutex_init(faudes_mutex_t* mtx){
   return pthread_mutex_init(mtx, NULL)==0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API void faudes_mutex_destroy(faudes_mutex_t* mtx){
+FAUDES_API void faudes_mutex_destroy(faudes_mutex_t* mtx){
   pthread_mutex_destroy(mtx);
 }
-inline FAUDES_API int faudes_mutex_lock(faudes_mutex_t *mtx) {
+FAUDES_API int faudes_mutex_lock(faudes_mutex_t *mtx) {
   return pthread_mutex_lock(mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API int faudes_mutex_trylock(faudes_mutex_t *mtx){
+FAUDES_API int faudes_mutex_trylock(faudes_mutex_t *mtx){
   return (pthread_mutex_trylock(mtx) == 0) ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
+FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
   return pthread_mutex_unlock(mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
 #endif
@@ -368,21 +368,21 @@ inline FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
 // Mutex data type (use Windows "critical section")
 typedef CRITICAL_SECTION faudes_mutex_t;
 // Mutex functions (all inline, wraps to Windows "critical section")
-inline FAUDES_API int faudes_mutex_init(faudes_mutex_t *mtx){
+FAUDES_API int faudes_mutex_init(faudes_mutex_t *mtx){
   InitializeCriticalSection(mtx);
   return FAUDES_THREAD_SUCCESS;
 }
-inline FAUDES_API void faudes_mutex_destroy(faudes_mutex_t *mtx){
+FAUDES_API void faudes_mutex_destroy(faudes_mutex_t *mtx){
   DeleteCriticalSection(mtx);
 }
-inline FAUDES_API int faudes_mutex_lock(faudes_mutex_t *mtx) {
+FAUDES_API int faudes_mutex_lock(faudes_mutex_t *mtx) {
   EnterCriticalSection(mtx);
   return FAUDES_THREAD_SUCCESS;
 }
-inline FAUDES_API int faudes_mutex_trylock(faudes_mutex_t *mtx){
+FAUDES_API int faudes_mutex_trylock(faudes_mutex_t *mtx){
   return TryEnterCriticalSection(mtx) ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
+FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
   LeaveCriticalSection(mtx);
   return FAUDES_THREAD_SUCCESS;
 }
@@ -393,28 +393,28 @@ inline FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
 // Condition variable data type (use plain POSIX condition variables)
 typedef pthread_cond_t faudes_cond_t;
 // Condition functions (all inline, plain pthread wrapper)
-inline FAUDES_API int faudes_cond_init(faudes_cond_t* cond) {
+FAUDES_API int faudes_cond_init(faudes_cond_t* cond) {
   return pthread_cond_init(cond, NULL) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API void faudes_cond_destroy(faudes_cond_t* cond) {
+FAUDES_API void faudes_cond_destroy(faudes_cond_t* cond) {
   pthread_cond_destroy(cond);
 }
-inline FAUDES_API int faudes_cond_signal(faudes_cond_t *cond){
+FAUDES_API int faudes_cond_signal(faudes_cond_t *cond){
   return pthread_cond_signal(cond) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API int faudes_cond_broadcast(faudes_cond_t *cond) {
+FAUDES_API int faudes_cond_broadcast(faudes_cond_t *cond) {
   return pthread_cond_signal(cond) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API int faudes_cond_wait(faudes_cond_t *cond, faudes_mutex_t *mtx) {
+FAUDES_API int faudes_cond_wait(faudes_cond_t *cond, faudes_mutex_t *mtx) {
   return pthread_cond_wait(cond, mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
-inline FAUDES_API int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes_systime_t *abstime) {
+FAUDES_API int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes_systime_t *abstime) {
   int ret = pthread_cond_timedwait(cond, mtx, abstime);
   if(ret == ETIMEDOUT) return FAUDES_THREAD_TIMEOUT;
   return ret == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
 }
 // Extension: timed wait with duration as opposed to absolute time
-inline FAUDES_API int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_mstime_t duration) {
+FAUDES_API int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_mstime_t duration) {
   faudes_systime_t abstime;
   faudes_msdelay(duration,&abstime);
   return faudes_cond_timedwait(cond,mtx,&abstime);
