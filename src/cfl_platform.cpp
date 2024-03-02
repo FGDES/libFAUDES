@@ -32,15 +32,13 @@
 
 #ifdef FAUDES_GENERIC
 void faudes_invalid(const std::string& msg) {
-  std::cerr << msg << std:endl;
+  std::cerr << "faudes_invalid(): " << msg << std:endl;
   throw 0;
 }
 #endif
 
 
 // Path separator (statics, see faudes_pathsep)
-//std::string faudes_pathseps_str; 
-//std::string faudes_pathsep_str; 
 #ifdef FAUDES_POSIX
 const std::string& faudes_pathseps(void) {
   static std::string  faudes_pathsep_str = "/"; 

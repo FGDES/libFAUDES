@@ -124,7 +124,7 @@
 #include <pthread.h>
 #endif
 
-#endif
+#endif // include POSIX headers
 
 
 // Extra Windows headers
@@ -148,6 +148,7 @@
 
 #ifdef FAUDES_NETWORK
 #include <winsock2.h>
+#include <ws2tcpip.h>  // MS VC 2017
 #include <fcntl.h>
 #endif
 
@@ -190,11 +191,8 @@ extern FAUDES_API const char* faudes_strsignal(int sig);
 extern FAUDES_API void faudes_sleep(long int sec);
 extern FAUDES_API void faudes_usleep(long int usec); 
 
-// grep this  
-#ifdef FAUDES_GENERIC
-extern FAUDES_API void faudes_invalid(const std::string& msg);
-#endif
 
+// have time
 #ifdef FAUDES_SYSTIME
 
 // Uniform system time using POSIX pthreads semantics
@@ -213,7 +211,6 @@ typedef long int faudes_mstime_t;
 #error option systime not available on generic platform
 #endif
 
-
 // Uniform system time definitions
 extern FAUDES_API void faudes_gettimeofday(faudes_systime_t* now);
 extern FAUDES_API void faudes_diffsystime(const faudes_systime_t& end, const faudes_systime_t& begin, faudes_systime_t* res);
@@ -225,10 +222,10 @@ extern FAUDES_API void faudes_usdelay(faudes_mstime_t usecs,faudes_systime_t* en
 // global performance times
 extern FAUDES_API faudes_systime_t gPerfTimer1;
 
-#endif
+#endif // systime
 
 
-
+// have IP network
 #ifdef FAUDES_NETWORK
 
 // Uniform POSIX sockets (see iop_modbus.cpp and iop_simplenet.cpp)
@@ -279,6 +276,12 @@ typedef struct {
 } faudes_thread_record_t;
 typedef faudes_thread_record_t* faudes_thread_t;
 #endif
+
+// not supported on generic platform
+#ifdef FAUDES_GENERIC
+#error option threads not available on generic platform
+#endif
+
 
 // Thread functions
 extern FAUDES_API int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg);
@@ -331,10 +334,6 @@ extern FAUDES_API int faudes_cond_wait(faudes_cond_t *cond, faudes_mutex_t *mtx)
 extern FAUDES_API int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes_systime_t *abstime);
 extern FAUDES_API int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_mstime_t duration);
 
-
-#ifdef FAUDES_GENERIC
-#error option threads not available on generic platform
-#endif
 
 
 #endif // threads
