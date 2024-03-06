@@ -384,11 +384,7 @@ void InsertDataFile(TokenReader& rTr,TokenWriter& rTw) {
   rTw << "\n";
   rTw.WriteEnd("DataFile");
   // discard buffer
-<<<<<<< HEAD
   if(buffer!=0) delete[] buffer;
-=======
-  if(buffer !=0) delete[] buffer;
->>>>>>> refs/remotes/origin/main
 }
 
 
