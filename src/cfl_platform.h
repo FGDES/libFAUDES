@@ -124,7 +124,7 @@
 #include <pthread.h>
 #endif
 
-#endif
+#endif // include POSIX headers
 
 
 // Extra Windows headers
@@ -148,6 +148,7 @@
 
 #ifdef FAUDES_NETWORK
 #include <winsock2.h>
+#include <ws2tcpip.h>  // MS VC 2017
 #include <fcntl.h>
 #endif
 
@@ -187,21 +188,11 @@ extern FAUDES_API void faudes_termsignal(void (*sighandler)(int));
 extern FAUDES_API const char* faudes_strsignal(int sig);
 
 // Uniform sleep for POSIX/Windows (see e.g. iodevice plug-in)
-#ifdef FAUDES_POSIX
-inline FAUDES_API void faudes_sleep(long int sec) {sleep(sec);}
-inline FAUDES_API void faudes_usleep(long int usec) {usleep(usec);}
-#endif
-#ifdef FAUDES_WINDOWS
-inline FAUDES_API void faudes_sleep(long int sec) {Sleep((sec) * 1000);}
-inline FAUDES_API void faudes_usleep(long int usec) {Sleep((usec) / 1000);}
-#endif
-#ifdef FAUDES_GENERIC
-extern FAUDES_API void faudes_invalid(const std::string& msg);
-inline FAUDES_API void faudes_sleep(long int sec) { faudes_invalid("faudes_sleep()"); }
-inline FAUDES_API void faudes_usleep(long int usec) { faudes_invalid("faudes_usleep()"); }
-#endif
+extern FAUDES_API void faudes_sleep(long int sec);
+extern FAUDES_API void faudes_usleep(long int usec); 
 
 
+// have time
 #ifdef FAUDES_SYSTIME
 
 // Uniform system time using POSIX pthreads semantics
@@ -220,7 +211,6 @@ typedef long int faudes_mstime_t;
 #error option systime not available on generic platform
 #endif
 
-
 // Uniform system time definitions
 extern FAUDES_API void faudes_gettimeofday(faudes_systime_t* now);
 extern FAUDES_API void faudes_diffsystime(const faudes_systime_t& end, const faudes_systime_t& begin, faudes_systime_t* res);
@@ -232,35 +222,18 @@ extern FAUDES_API void faudes_usdelay(faudes_mstime_t usecs,faudes_systime_t* en
 // global performance times
 extern FAUDES_API faudes_systime_t gPerfTimer1;
 
-#endif
+#endif // systime
 
 
-
+// have IP network
 #ifdef FAUDES_NETWORK
 
 // Uniform POSIX sockets (see iop_modbus.cpp and iop_simplenet.cpp)
-#ifdef FAUDES_POSIX
-inline FAUDES_API int faudes_closesocket(int fd) {return close(fd);}
-inline FAUDES_API int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
-  return setsockopt(fd,level,optname,optval,optlen);}
-inline FAUDES_API int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
-  return getsockopt(fd,level,optname,optval,optlen);}
+extern FAUDES_API int faudes_closesocket(int fd);
+extern FAUDES_API int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen);
+extern FAUDES_API int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen);
 extern FAUDES_API int faudes_setsocket_nonblocking(int fd, bool noblo);
 extern FAUDES_API int faudes_getsocket_error(int fd);
-#endif
-#ifdef FAUDES_WINDOWS
-typedef int socklen_t;
-inline FAUDES_API int faudes_closesocket(int fd) {return closesocket(fd);}
-inline FAUDES_API int faudes_setsockopt(int fd, int level, int optname, const void *optval, socklen_t optlen) {
-  return setsockopt(fd,level,optname,(char*) optval,optlen);}
-inline FAUDES_API int faudes_getsockopt(int fd, int level, int optname, void *optval, socklen_t *optlen) {
-  return getsockopt(fd,level,optname,(char*) optval,optlen);}
-extern FAUDES_API int faudes_setsocket_nonblocking(int fd, bool noblo);
-extern FAUDES_API int faudes_getsocket_error(int fd);
-#endif
-#ifdef FAUDES_GENERIC
-#error option network not available on generic platform
-#endif
 
 // POSIX sockets to have BSD style REUSEPORT option (see iop_modbus.cpp and iop_simplenet.cpp)
 #ifndef SO_REUSEPORT
@@ -286,45 +259,15 @@ symoltables. This may change in a future revision.
 #define FAUDES_THREAD_ERROR    1 
 #define FAUDES_THREAD_TIMEOUT  2 
 
-
-
-#ifdef FAUDES_POSIX
 // Thread data type (use plain POSIX thread)
+#ifdef FAUDES_POSIX
 typedef pthread_t faudes_thread_t;
-// Thread functions (all inline, plain pthread wrapper)
-inline FAUDES_API int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg){
-  // prepare attribute for plain joinable thread
-  pthread_attr_t attr;	
-  pthread_attr_init(&attr);
-  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-  // start execute
-  int ret  = pthread_create(thr, &attr, fnct, arg);
-  // done
-  pthread_attr_destroy(&attr);
-  return ret == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API faudes_thread_t faudes_thread_current(void) {
-  return pthread_self();
-}
-inline FAUDES_API int faudes_thread_detach(faudes_thread_t thr) {
-  return pthread_detach(thr)==0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API int faudes_thread_equal(faudes_thread_t thr0, faudes_thread_t thr1) {
-  return pthread_equal(thr0, thr1);
-}
-inline FAUDES_API void faudes_thread_exit(void* res) {
-  pthread_exit(res);
-}
-inline int faudes_thread_join(faudes_thread_t thr, void **res) {
-  return pthread_join(thr, res) == 0 ? FAUDES_THREAD_ERROR : FAUDES_THREAD_SUCCESS;
-}
 #endif
 
-
-#ifdef FAUDES_WINDOWS
 // Thread data type 
 // We wrap the client function to provide pointer-typed  
 // return values (as opposed to Windows int-typed return values)
+#ifdef FAUDES_WINDOWS
 typedef struct {
   HANDLE mHandle;          // Windows thread handle             
   void *(*mFnct)(void *);  // client function
@@ -332,107 +275,57 @@ typedef struct {
   void *mRes;              // result
 } faudes_thread_record_t;
 typedef faudes_thread_record_t* faudes_thread_t;
-// Thread functions (Windows to mimic plain pthreads)
+#endif
+
+// not supported on generic platform
+#ifdef FAUDES_GENERIC
+#error option threads not available on generic platform
+#endif
+
+
+// Thread functions
 extern FAUDES_API int faudes_thread_create(faudes_thread_t *thr, void *(*fnct)(void *), void *arg);
 extern FAUDES_API faudes_thread_t faudes_thread_current(void);
 extern FAUDES_API int faudes_thread_detach(faudes_thread_t thr);
 extern FAUDES_API int faudes_thread_equal(faudes_thread_t thr0, faudes_thread_t thr1);
 extern FAUDES_API void faudes_thread_exit(void* res);
-extern FAUDES_API int faudes_thread_join(faudes_thread_t thr, void **res);
-#endif
+extern int faudes_thread_join(faudes_thread_t thr, void **res);
 
-
-#ifdef FAUDES_POSIX
 // Mutex data type (use plain POSIX mutex)
-typedef pthread_mutex_t faudes_mutex_t;
-// Mutex functions (all inline, plain pthread wrapper)
-inline FAUDES_API int faudes_mutex_init(faudes_mutex_t* mtx){
-  return pthread_mutex_init(mtx, NULL)==0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API void faudes_mutex_destroy(faudes_mutex_t* mtx){
-  pthread_mutex_destroy(mtx);
-}
-inline FAUDES_API int faudes_mutex_lock(faudes_mutex_t *mtx) {
-  return pthread_mutex_lock(mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API int faudes_mutex_trylock(faudes_mutex_t *mtx){
-  return (pthread_mutex_trylock(mtx) == 0) ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
-  return pthread_mutex_unlock(mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-#endif
-
-
-#ifdef FAUDES_WINDOWS
-// Mutex data type (use Windows "critical section")
-typedef CRITICAL_SECTION faudes_mutex_t;
-// Mutex functions (all inline, wraps to Windows "critical section")
-inline FAUDES_API int faudes_mutex_init(faudes_mutex_t *mtx){
-  InitializeCriticalSection(mtx);
-  return FAUDES_THREAD_SUCCESS;
-}
-inline FAUDES_API void faudes_mutex_destroy(faudes_mutex_t *mtx){
-  DeleteCriticalSection(mtx);
-}
-inline FAUDES_API int faudes_mutex_lock(faudes_mutex_t *mtx) {
-  EnterCriticalSection(mtx);
-  return FAUDES_THREAD_SUCCESS;
-}
-inline FAUDES_API int faudes_mutex_trylock(faudes_mutex_t *mtx){
-  return TryEnterCriticalSection(mtx) ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx){
-  LeaveCriticalSection(mtx);
-  return FAUDES_THREAD_SUCCESS;
-}
-#endif
-
-
 #ifdef FAUDES_POSIX
-// Condition variable data type (use plain POSIX condition variables)
-typedef pthread_cond_t faudes_cond_t;
-// Condition functions (all inline, plain pthread wrapper)
-inline FAUDES_API int faudes_cond_init(faudes_cond_t* cond) {
-  return pthread_cond_init(cond, NULL) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API void faudes_cond_destroy(faudes_cond_t* cond) {
-  pthread_cond_destroy(cond);
-}
-inline FAUDES_API int faudes_cond_signal(faudes_cond_t *cond){
-  return pthread_cond_signal(cond) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API int faudes_cond_broadcast(faudes_cond_t *cond) {
-  return pthread_cond_signal(cond) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API int faudes_cond_wait(faudes_cond_t *cond, faudes_mutex_t *mtx) {
-  return pthread_cond_wait(cond, mtx) == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-inline FAUDES_API int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes_systime_t *abstime) {
-  int ret = pthread_cond_timedwait(cond, mtx, abstime);
-  if(ret == ETIMEDOUT) return FAUDES_THREAD_TIMEOUT;
-  return ret == 0 ? FAUDES_THREAD_SUCCESS : FAUDES_THREAD_ERROR;
-}
-// Extension: timed wait with duration as opposed to absolute time
-inline FAUDES_API int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_mstime_t duration) {
-  faudes_systime_t abstime;
-  faudes_msdelay(duration,&abstime);
-  return faudes_cond_timedwait(cond,mtx,&abstime);
-}
+typedef pthread_mutex_t faudes_mutex_t;
 #endif
 
-
+// Mutex data type (use Windows "critical section")
 #ifdef FAUDES_WINDOWS
-// Condition variable data type 
+typedef CRITICAL_SECTION faudes_mutex_t;
+#endif
+
+// Mutex functions 
+extern FAUDES_API int faudes_mutex_init(faudes_mutex_t* mtx);
+extern FAUDES_API void faudes_mutex_destroy(faudes_mutex_t* mtx);
+extern FAUDES_API int faudes_mutex_lock(faudes_mutex_t *mtx);
+extern FAUDES_API int faudes_mutex_trylock(faudes_mutex_t *mtx);
+extern FAUDES_API int faudes_mutex_unlock(faudes_mutex_t *mtx);
+
+// Condition variables (use plain POSIX cond vars)
+#ifdef FAUDES_POSIX
+typedef pthread_cond_t faudes_cond_t;
+#endif
+
+// Condition variables for Windows 
 // The approach is taken from "Strategies for Implementing POSIX Condition Variables 
 // on Win32" by Douglas C. Schmidt and Irfan Pyarali, Department of Computer 
 // Science, Washington University. 
+#ifdef FAUDES_WINDOWS
 typedef struct {
   HANDLE mEvents[2];                   // signal and broadcast event handles
   unsigned int mWaitersCount;          // count the number of waiters
   CRITICAL_SECTION mWaitersCountMutex; // mutex access to waiterscount
 } faudes_cond_t;
-// Condition functions (Windows to mimic plain pthread conditions)
+#endif
+
+// Condition functions
 extern FAUDES_API int faudes_cond_init(faudes_cond_t* cond);
 extern FAUDES_API void faudes_cond_destroy(faudes_cond_t* cond);
 extern FAUDES_API int faudes_cond_signal(faudes_cond_t *cond);
@@ -440,13 +333,7 @@ extern FAUDES_API int faudes_cond_broadcast(faudes_cond_t *cond);
 extern FAUDES_API int faudes_cond_wait(faudes_cond_t *cond, faudes_mutex_t *mtx);
 extern FAUDES_API int faudes_cond_timedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, const faudes_systime_t *abstime);
 extern FAUDES_API int faudes_cond_reltimedwait(faudes_cond_t *cond, faudes_mutex_t *mtx, faudes_mstime_t duration);
-#endif
 
-
-
-#ifdef FAUDES_GENERIC
-#error option threads not available on generic platform
-#endif
 
 
 #endif // threads

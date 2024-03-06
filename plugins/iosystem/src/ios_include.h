@@ -15,9 +15,9 @@
 #define FAUDES_IOS_INCLUDE_H
 
 // activate debug messages
-#ifndef FAUDES_DEBUG_IOSYS
-#define FAUDES_DEBUG_IOSYS
-#endif
+//#ifndef FAUDES_DEBUG_IOSYS
+//#define FAUDES_DEBUG_IOSYS
+//#endif
 
 #include "ios_attributes.h"
 #include "ios_system.h"

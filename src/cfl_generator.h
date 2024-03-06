@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2006  Bernd Opitz
-Copyright (C) 2007  Thomas Moor
+Copyright (C) 2007-2024  Thomas Moor
 Exclusive copyright is granted to Klaus Schmidt
 
 This library is free software; you can redistribute it and/or
@@ -699,8 +699,6 @@ class FAUDES_API vGenerator : public Type  {
    * respective generator. It is most unlikely that you want to use
    * this function.
    *
-   * @return
-   *   Pointer to mpStateSymbolTable
    */
   void StateSymbolTable(const SymbolTable& rSymTab);
 

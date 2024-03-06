@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2006  Bernd Opitz
-Copyright (C) 2007  Thomas Moor
+Copyright (C) 2007,2024  Thomas Moor
 
 Exclusive copyright is granted to Klaus Schmidt
 
@@ -926,8 +926,6 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
    *
    * @param rSource 
    *    Source to copy from
-   * @return
-   *    Ref to this set
    */
   void DoAssign(const TTransSet& rSource);
 
@@ -1202,8 +1200,6 @@ public:
    *
    * @param rSource 
    *    Source to copy from
-   * @return
-   *    Ref to this set
    */
   void DoAssign(const TaTransSet& rSource);
 

@@ -192,8 +192,6 @@ public:
    *
    * @param rSource 
    *    Source to copy from
-   * @return
-   *    Ref to this set
    */
   void DoAssign(const IndexSet& rSource);
 
@@ -538,8 +536,6 @@ public:
    *
    * @param rSource 
    *    Source to copy from
-   * @return
-   *    Ref to this set
    */
   void DoAssign(const TaIndexSet& rSource);
 

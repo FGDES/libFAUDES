@@ -26,14 +26,14 @@ namespace faudes {
  *    - the flags C, P, E and L that designate membership in one
  *      or the union of more alphabets.
  *
- * @ingroup hiosysplugin  
+ * @ingroup hiosysplugin
  */
 
 class FAUDES_API HioEventFlags : public AttributeFlags {
 
 FAUDES_TYPE_DECLARATION(Void,HioEventFlags,AttributeFlags)
 
- public:
+public:
      
   /** Default constructor */
   HioEventFlags(void) : AttributeFlags() {mFlags=mDefHioEventFlags;}

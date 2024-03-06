@@ -546,7 +546,7 @@ endif
 #
 # Targeting MS Windows
 # - using MSYS2/MinGW64 on MS Windows 10
-# - current status testing/develpong 
+# - current status testing/develping
 # - we consider to use this toochain for binary distributions from libFAUDE 2.32c onwards
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
@@ -555,9 +555,9 @@ WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
 DOT_EXE = .exe
 LNKLIBS = -lwinmm -lws2_32    # winmm for win systime only 
-ifeq (core_threads,$(findstring core_threads,$(FAUDES_OPTIONS)))
-LNKLIBS += -lpthread 
-endif
+#ifeq (core_threads,$(findstring core_threads,$(FAUDES_OPTIONS)))
+#LNKLIBS += -lpthread 
+#endif
 ifeq ($(DEBUG),yes)
 MAINOPTS += -g
 LDFLAGS += -Wl,--as-needed 
@@ -576,7 +576,7 @@ MINFAUDES := $(MINFAUDES)d
 endif
 ifeq ($(SHARED),yes)
 LIBFAUDES := $(LIBFAUDES).dll
-IMPFAUDES := $(IMPFAUDES).lib
+IMPFAUDES := $(IMPFAUDES).dll
 MINFAUDES := $(MINFAUDES).lib
 else
 LIBFAUDES := $(LIBFAUDES).lib

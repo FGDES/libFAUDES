@@ -70,8 +70,6 @@ public:
    *
    * @param rSrcAttr
    *   Source to copy from
-   * @return
-   *   Ref to this attribute
    */
   void DoAssign(const AttributeSignalOutput& rSrcAttr);
 
@@ -167,8 +165,6 @@ public:
    *
    * @param rSrcAttr
    *   Source to copy from
-   * @return
-   *   Ref to this attribute
    */
   void DoAssign(const AttributeSignalInput& rSrcAttr);
 

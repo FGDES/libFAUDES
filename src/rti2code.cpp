@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2009 Ruediger Berndt
-Copyright (C) 2023 Thomas Moor
+Copyright (C) 2010, 2023, 2024 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
     // Bail out no auto-registration specified
     if(!tit->second->AutoRegistered()) continue;
     // report
-    std::cout << "Generating auto-registration code for \"" << ftype << "\"" << std::endl;
+    std::cout << "rti2code: generating auto-registration code for \"" << ftype << "\"" << std::endl;
     // Produce c code
     std::string rtiname = std::string("gRti") + ToStringInteger(tcnt) + "Register" + ftype;
     rticode << "AutoRegisterType<" << ctype << "> " << rtiname << "(\"" << ftype <<"\");";
@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
     if(pos!=std::string::npos) 
       ctype=ctype.substr(std::string("faudes::").length());
     // Report
-    std::cout << "Generating registration code for \"" << tit->second->Name() << "\"" << std::endl;
+    std::cout << "rti2code: generating registration code for \"" << tit->second->Name() << "\"" << std::endl;
     // Produce c code
     rticode << "  TypeRegistry::G()->Insert<" << ctype << ">(\"" << tit->second->Name() <<"\");";
     rticode << std::endl;
@@ -204,7 +204,7 @@ int main(int argc, char *argv[]) {
       ctype=ctype.substr(std::string("faudes::").length());
     // Bail out if no signature
     if(fdef->VariantsSize()==0) {
-      std::cout << "Function registration: " << fname << ": no signatures" << std::endl;
+      std::cout << "rti2cocde: function registration: " << fname << ": no signatures" << std::endl;
       continue;
     }
     // Interpret signatures: set up type array
@@ -248,14 +248,14 @@ int main(int argc, char *argv[]) {
       } 
       // Test for signature error
       if((int) cparams.at(i).size()!=sigi.Size()) {
-        std::cout << "Function registration: " << fname << ": cannot interpret signature " 
+        std::cout << "rti2code: function registration: " << fname << ": cannot interpret signature " 
 		  << sigi.Name() << std::endl;
         cparams.resize(i);
         break;
       }
     }
     // Report
-    std::cout << "Generating rti wrapper for \"" << fdef->Name() << "\"" << 
+    std::cout << "rti2code: generating rti wrapper for \"" << fdef->Name() << "\"" << 
       " #" << cparams.size() << " variants" << std::endl;
     // Produce c code: register all functions function
     std::string rtiname = std::string("Rti") + ToStringInteger(fcnt) + ctype;
@@ -483,7 +483,7 @@ int main(int argc, char *argv[]) {
       if(lhelp.at(i)=="") continue; 
       luaheader << lhelp.at(i) << ";" << std::endl;
     }
-    std::cout << "Generating swig interface for function \"" << fdef->Name() << "\"" << 
+    std::cout << "rti2code: generating swig interface for function \"" << fdef->Name() << "\"" << 
       " #" << lcount << " variants" << std::endl;
 
     // End all signatures, incl conditional
