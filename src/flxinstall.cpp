@@ -312,7 +312,7 @@ void InsertLuaTutorial(TokenReader& rTr, TokenWriter& rTw) {
   btag.InsAttributeString("name",name);
   rTw.WriteVerbatim(btag,bufferstr);
   // discard buffer
-  if(buffer!=0) delete [] buffer;
+  if(buffer!=0) delete[] buffer;
 }
 
 
@@ -348,7 +348,7 @@ void InsertImageFile(TokenReader& rTr,TokenWriter& rTw) {
   rTw << "\n";
   rTw.WriteEnd("ImageFile");
   // discard buffer
-  if(buffer!=0) delete [] buffer;
+  if(buffer!=0) delete[] buffer;
 }
 
 
@@ -384,7 +384,7 @@ void InsertDataFile(TokenReader& rTr,TokenWriter& rTw) {
   rTw << "\n";
   rTw.WriteEnd("DataFile");
   // discard buffer
-  delete buffer;
+  if(buffer!=0) delete[] buffer;
 }
 
 
