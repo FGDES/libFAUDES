@@ -548,12 +548,12 @@ endif
 ### platform "gcc_msys" ######################
 #
 # Targeting MS Windows
-# - using MSYS2/MinGW64 on MS Windows 10
-# - current status testing/develping
+# - using MSYS2/MinGW64 on MS Windows 10 as Posxi-style build environment
+# - compiling executables for native MS Windows
 # - we consider to use this toolchain for binary distributions from libFAUDE 2.32c onwards
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
-FAUDES_OSTYPE = windows
+FAUDES_OSTYPE = posix
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
@@ -1445,7 +1445,7 @@ FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
 else
 ifeq (windows,$(FAUDES_OSTYPE))
-FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(1)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
+FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
 FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
