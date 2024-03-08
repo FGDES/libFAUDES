@@ -4,7 +4,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Bernd Opitz
-   Copyright (C) 2007  Thomas Moor
+   Copyright (C) 2007, 2024  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -313,9 +313,10 @@ typedef  TBaseVector<IndexSet> IndexSetVector;
 template<class Attr>
 class FAUDES_API TaIndexSet : public IndexSet, public TAttrMap<Idx,Attr> {
 
-FAUDES_TYPE_TDECLARATION(Void,TaIndexSet,IndexSet)
-
 public:
+
+  FAUDES_TYPE_TDECLARATION(Void,TaIndexSet,IndexSet)
+
 
   /** 
    * We implement "protected privacy for template classes" by friendship.

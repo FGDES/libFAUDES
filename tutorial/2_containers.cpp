@@ -216,6 +216,7 @@ int main() {
 
   std::cout << "################################\n\n";
 
+  /*
 
   ////////////////////////////////////////////////////
   // advanced topic: attributed sets
@@ -344,7 +345,8 @@ int main() {
   // Done
   std::cout << "################################\n";
 
-
+  */
+  
   ////////////////////////////////////////////////////
   // Developper internal: deferred copy stress test
   ////////////////////////////////////////////////////
@@ -421,6 +423,7 @@ int main() {
   FAUDES_TEST_DUMP("deferred copy A - 3",setA);
   FAUDES_TEST_DUMP("deferred copy B - 3",setB);
   FAUDES_TEST_DUMP("deferred copy C - 3",setC);
+
 
   ////////////////////////////////////////////////////
   // Developper internal: memory leak in BaseSet
