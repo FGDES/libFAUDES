@@ -50,7 +50,7 @@ namespace faudes {
  */
 
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
-class FAUDES_API TmtcGenerator : public TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {
+class FAUDES_TAPI TmtcGenerator : public TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {
 
  public:
 

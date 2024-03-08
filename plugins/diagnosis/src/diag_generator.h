@@ -23,7 +23,7 @@ namespace faudes {
    @ingroup DiagnosisPlugIn
 */
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
-class FAUDES_API TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, EventAttr, TransAttr> {
+class FAUDES_TAPI TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, EventAttr, TransAttr> {
 
  private:
     /** Pointer to static LabelSymbolTable of DiagLabelSet. */

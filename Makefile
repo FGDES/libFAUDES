@@ -205,7 +205,7 @@ endif
 ###############################################################################
 
 ifeq ($(FAUDES_LINKING),)
-FAUDES_LINKING = shared 
+FAUDES_LINKING = shared
 endif
 
 ifneq ($(filter shared,$(FAUDES_LINKING)),)
@@ -258,6 +258,7 @@ endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
 #
+FAUDES_OSTYPE = posix
 CXX = g++ 
 CC = gcc 
 LXX = g++
@@ -463,6 +464,7 @@ endif
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
+FAUDES_OSTYPE = windows
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
@@ -522,6 +524,7 @@ endif
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),gcc_win)
+FAUDES_OSTYPE = windows
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
@@ -547,9 +550,10 @@ endif
 # Targeting MS Windows
 # - using MSYS2/MinGW64 on MS Windows 10
 # - current status testing/develping
-# - we consider to use this toochain for binary distributions from libFAUDE 2.32c onwards
+# - we consider to use this toolchain for binary distributions from libFAUDE 2.32c onwards
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
+FAUDES_OSTYPE = windows
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
@@ -560,8 +564,7 @@ MAINOPTS += -g
 LDFLAGS += -Wl,--as-needed 
 endif 
 ifeq ($(SHARED),yes)
-#LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden 
-LDFLAGS += -Wl,-rpath='$$ORIGIN:$$ORIGIN/../lib:$$ORIGIN/../:$$ORIGIN/../../../'
+LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden 
 endif
 #
 LIBFAUDES = faudes
@@ -580,6 +583,10 @@ else
 LIBFAUDES := $(LIBFAUDES).lib
 IMPFAUDES := $(IMPFAUDES).lib
 MINFAUDES := $(MINFAUDES).lib
+endif
+#
+ifeq ($(SHARED),yes)
+FNCT_POST_APP = strip $(1); $(ECHOE) $(CP) $(LIBFAUDES) $(dir $(1))
 endif
 endif
 
@@ -910,7 +917,11 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -f faudes.lib faudes.dll faudesd.lib faudesd.dll
 	rm -f minfaudes.a minfaudesd.a minfaudes.jsa minfaudes.lib
 	rm -f tutorial/tmp_* 
+	rm -f tutorial/faudes.dll 
+	rm -f tutorial/faudesd.dll 
 	rm -f plugins/*/tutorial/tmp_* 
+	rm -f plugins/*/tutorial/faudes.dll
+	rm -f plugins/*/tutorial/faudesd.dll
 	rm -f plugins/*/tutorial/results/*.* 
 	rm -f plugins/*/tutorial/results/*/*.* 
 	rm -f obj/* 
@@ -1412,14 +1423,14 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_lua.prot))
 PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot)) 
 
 # Formal targets
-TESTTARGETS = $(patsubst %,TESTCASE%,$(PROTOCOLS))
+TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
 # tools
 ABSLUAFAUDES = $(CURDIR)/bin/luafaudes
 ABSFLXINSTALL = $(CURDIR)/bin/flxinstall
 
 # Conversion functions
-FNCT_PROTOCOL = $(patsubst TESTCASE%,%,$(1))
+FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
 FNCT_LUASCRIPT = $(patsubst %_lua.prot,%.lua,$(notdir $(call FNCT_PROTOCOL,$(1))))
 FNCT_PYSCRIPT = $(patsubst %_py.prot,%.py,$(notdir $(call FNCT_PROTOCOL,$(1))))
 FNCT_CPPBIN = $(patsubst %_cpp.prot,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
@@ -1427,21 +1438,28 @@ FNCT_WORKDIR = $(patsubst %/data/,%,$(dir $(call FNCT_PROTOCOL,$(1))))
 FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 
 # platform dependant script (... first experiments ...)
-ifeq ($(findstring _win,$(FAUDES_PLATFORM)),)
+ifeq (posix,$(FAUDES_OSTYPE))
 FNCT_RUNCPPBIN = cd $(call FNCT_WORKDIR,$@) ; ./$(call FNCT_CPPBIN,$@) &> /dev/null
 FNCT_RUNLUASCRIPT = cd $(call FNCT_WORKDIR,$@) ; $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) &> /dev/null
 FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,$@) &> /dev/null
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
 else
+ifeq (windows,$(FAUDES_OSTYPE))
 FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(1)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
-FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python tests on Windows]"
+FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
+else
+FNCT_RUNCPPBIN = @$(ECHO) "test cases not configured [" $@ "]"
+FNCT_RUNLUASCRIPT = @$(ECHO) "test cases not configured [" $@ "]"
+FNCT_RUNPYSCRIPT = @$(ECHO) "test cases not configured [" $@ "]"
+FNCT_DIFFPROT = @$(ECHO) "test cases not configured [" $@ "]"
+endif
 endif
 
 
 # validate lua extensions (currently unix only)
-TESTTARGETSX = $(patsubst %,TESTCASE%,$(notdir $(wildcard stdflx/*.flx))) 
+TESTTARGETSX = $(patsubst %,TESTFLX_%,$(notdir $(wildcard stdflx/*.flx))) 
 TESTTARGETS += $(TESTTARGETSX)
 
 
@@ -1476,15 +1494,17 @@ tmp_valext:
 	@- mkdir tmp_valext
 
 # validate lua-extension 
-TESTCASE%.flx: tmp_valext
-ifneq (_win,$(findstring _win,$(FAUDES_PLATFORM)))
+TESTFLX_%.flx: tmp_valext
+ifeq (posix,$(FAUDES_OSTYPE))
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
-	@echo running test case $(patsubst TESTCASE%,%,$@)
+	@echo running test case $(patsubst TESTFLX_%,%,$@)
 	@- rm -rf tmp_valext/data  ; rm -f tmp_valext/*
-	@cd tmp_valext; $(ABSFLXINSTALL) -tbin ../bin -t ../stdflx/$(patsubst TESTCASE%,%,$@) . &> /dev/null
+	@cd tmp_valext; $(ABSFLXINSTALL) -tbin ../bin -t ../stdflx/$(patsubst TESTFLX_%,%,$@) . &> /dev/null
 else
-	@echo skipping test case $(patsubst TESTCASE%,%,$@) [no Lua bindings configured]
+	@echo skipping test case $(patsubst TESTFLX_%,%,$@) [no Lua bindings configured]
 endif
+else
+	@echo skipping test case $(patsubst TESTFLX%,%,$@) [no posix sytem]
 endif
 
 # all tests
@@ -1506,7 +1526,9 @@ test: tutorial $(TESTTARGETS)
 
 report-platform:
 	@echo " ============================== " 
-	@echo "libFAUDES-make: platform	" [$(FAUDES_PLATFORM)] [$(FAUDES_LINKING)]
+	@echo "libFAUDES-make: platform:" [$(FAUDES_PLATFORM)]
+	@echo "libFAUDES-make: ostype:"   [$(FAUDES_OSTYPE)]
+	@echo "libFAUDES-make: linking:"  [$(FAUDES_LINKING)]
 	@echo " ============================== " 
 
 report-targets:
@@ -1515,7 +1537,7 @@ report-targets:
 	@echo " ============================== "
 
 report-test:
-	@echo $(ECHOE)
+	@echo $(ECHOE) $(TESTTARGETS)
 
 
 ### all phony targets

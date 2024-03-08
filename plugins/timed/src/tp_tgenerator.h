@@ -97,7 +97,7 @@ namespace faudes {
  */
 
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
-class FAUDES_API TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
+class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
     public:
    /**
     * Constructor

@@ -31,7 +31,7 @@ namespace faudes {
  */
 
 template <class GlobalAttr,class StateAttr,class EventAttr,class TransAttr>
-class FAUDES_API TioGenerator : public TaGenerator<GlobalAttr,StateAttr,EventAttr,TransAttr>  {    
+class FAUDES_TAPI TioGenerator : public TaGenerator<GlobalAttr,StateAttr,EventAttr,TransAttr>  {    
 
  public:
 

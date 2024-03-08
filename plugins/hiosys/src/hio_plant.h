@@ -44,7 +44,7 @@ namespace faudes {
  */
 
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
-class THioPlant : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
+class FAUDES_TAPI THioPlant : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
   public:
     /**
      * Creates an empty HioPlant object 
