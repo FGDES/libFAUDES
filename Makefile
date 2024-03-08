@@ -762,7 +762,7 @@ DEFAULTTARGETS = report-platform libfaudes binaries
 default: default_after_include
 	@echo " ============================== " 
 	@echo "libFAUDES-make: default targets: done" 
-	@echo "libFAUDES-make: you may now compile the tutorials by \"make tutorial\"" 
+	@echo "libFAUDES-make: you may now compile the tutorials by \"make -j20 tutorial\"" 
 	@echo " ============================== " 
 
 ####################################
