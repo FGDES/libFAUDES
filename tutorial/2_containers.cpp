@@ -228,16 +228,11 @@ int main() {
   // Convenience type definition for states with flag attribute (see attributes.h)
   typedef TaStateSet<AttributeFlags> FStateSet;
 
-  FStateSet fstateset1();
-
-  /*
   // Construct from a file (read attributes if specified)
   FStateSet fstateset1("tmp_stateset.txt");
 
-
   // Construct from stateset with no attributes
   FStateSet fstateset3(stateset3);
-
 
   // Report
   std::cout << "fstateset3: " << fstateset3.ToString() << std::endl;
@@ -349,8 +344,7 @@ int main() {
   // Done
   std::cout << "################################\n";
 
-  */
-  
+
   ////////////////////////////////////////////////////
   // Developper internal: deferred copy stress test
   ////////////////////////////////////////////////////
@@ -427,7 +421,6 @@ int main() {
   FAUDES_TEST_DUMP("deferred copy A - 3",setA);
   FAUDES_TEST_DUMP("deferred copy B - 3",setB);
   FAUDES_TEST_DUMP("deferred copy C - 3",setC);
-
 
   ////////////////////////////////////////////////////
   // Developper internal: memory leak in BaseSet

@@ -311,7 +311,7 @@ typedef  TBaseVector<IndexSet> IndexSetVector;
 
 
 template<class Attr>
-class FAUDES_API TaIndexSet : public IndexSet, public TAttrMap<Idx,Attr> {
+class FAUDES_TAPI TaIndexSet : public IndexSet, public TAttrMap<Idx,Attr> {
 
 public:
 
@@ -543,12 +543,11 @@ public:
 
 };
 
-/** Convenience Macro */
-//template<class Attr> typedef TaStateSet<class Attr> TaIndexSet<class Attr>
-#define TaStateSet TaIndexSet
-
-
-
+/** Convenience Macro (pre C++11) */
+//#define TaStateSet TaIndexSet  //
+/** Convenience Typedef (C++11) */
+ template <class Attr> using TaStateSet = TaIndexSet<Attr>;
+ 
 
 /** @} doxygen group */
 

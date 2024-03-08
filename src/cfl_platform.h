@@ -49,6 +49,7 @@
 /** Interface export/import symbols: windows */
 #ifdef FAUDES_WINDOWS
 #ifdef FAUDES_BUILD_DSO
+  #define FAUDES_TAPI
   #ifdef __GNUC__
     #define FAUDES_API __attribute__ ((dllexport))
   #else
@@ -66,6 +67,7 @@
 
 /** Interface export/import symbols: posix/gcc */
 #ifdef FAUDES_POSIX
+#define FAUDES_TAPI
 #ifdef FAUDES_BUILD_DSO
   #if __GNUC__ >= 4
     #define FAUDES_API __attribute__ ((visibility ("default")))
@@ -79,6 +81,9 @@
 /** Interface export/import symbols: default */
 #ifndef FAUDES_API
    #define FAUDES_API
+#endif
+#ifndef FAUDES_TAPI
+   #define FAUDES_TAPI
 #endif
  
 
