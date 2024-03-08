@@ -563,7 +563,7 @@ MAINOPTS += -g
 LDFLAGS += -Wl,--as-needed 
 endif 
 ifeq ($(SHARED),yes)
-LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden 
+#LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden 
 LDFLAGS += -Wl,-rpath='$$ORIGIN:$$ORIGIN/../lib:$$ORIGIN/../:$$ORIGIN/../../../'
 endif
 #
