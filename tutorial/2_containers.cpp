@@ -228,13 +228,16 @@ int main() {
   // Convenience type definition for states with flag attribute (see attributes.h)
   typedef TaStateSet<AttributeFlags> FStateSet;
 
+  FStateSet fstateset1();
+
+  /*
   // Construct from a file (read attributes if specified)
   FStateSet fstateset1("tmp_stateset.txt");
+
 
   // Construct from stateset with no attributes
   FStateSet fstateset3(stateset3);
 
-  /*
 
   // Report
   std::cout << "fstateset3: " << fstateset3.ToString() << std::endl;

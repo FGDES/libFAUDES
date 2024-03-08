@@ -552,7 +552,7 @@ endif
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
-DSOOPTS = -shared # -Wl,-enable-auto-import -Wl,-export-all-symbols 
+DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
 DOT_EXE = .exe
 LNKLIBS = -lwinmm -lws2_32    # winmm for win systime only 
 ifeq ($(DEBUG),yes)
