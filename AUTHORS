@@ -1,7 +1,7 @@
 =======================================================================
 =======================================================================
 
-Major code contributions to libFAUDES, in chronological order:
+Major code contributions to libFAUDES in chronological order:
 
 =======================================================================
 =======================================================================
@@ -181,8 +181,8 @@ Bernd Opitz, 2005
   algorithms and ideas are derived from a predecessor library developed by 
   Thomas Moor for internal use only. 
 
-  The first libfaudes users, a "Studienprojekt" at the Lehrstuhl fuer 
+  The first libFAUDES users, a "Studienprojekt" at the Lehrstuhl fuer 
   Regelungstechnik, contributed by testing the library code and suggesting 
-  new features.
+  relevant features.
 
 
