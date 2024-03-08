@@ -586,7 +586,7 @@ MINFAUDES := $(MINFAUDES).lib
 endif
 #
 ifeq ($(SHARED),yes)
-FNCT_POST_APP = strip $(1); $(ECHOE) $(CP) $(LIBFAUDES) $(dir $(1))
+FNCT_POST_APP = strip $(1); $(CP) $(LIBFAUDES) $(dir $(1))
 endif
 endif
 
