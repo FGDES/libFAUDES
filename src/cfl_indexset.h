@@ -77,9 +77,9 @@ template<class Attr> class TaIndexSet;
 
 class FAUDES_API IndexSet : public TBaseSet<Idx> {
 
-FAUDES_TYPE_DECLARATION(IndexSet,IndexSet,TBaseSet<Idx>)
-
 public:
+
+  FAUDES_TYPE_DECLARATION(IndexSet,IndexSet,TBaseSet<Idx>)
 
   /** 
    * We implement "protected privacy for template classes" by friendship.

@@ -148,12 +148,12 @@ To have your C++ class participate in the libFAUDES run-time interface:
 
 -# derive your class from faudes::Type;
 -# make sure your class has a public default constructor and a public copy constructor;
--# use the provided macros to reimplement the virtual functions FType(), New(), Copy(), Cast(), 
+-# use the provided macros to reimplement the virtual functions New(), Copy(), Cast(), 
    Assign(), Equal(), and the acording operators =, == and !=;
 -# reimplement the virtual functions DoAssign(), DoEqual(), DoRead(), DoWrite() and Clear();
 -# optionally, reimplement the alternative output formats DoDWrite(), DoSWrite(), DoXWrite()
 -# provide an .rti file for the formal TypeDefinition; 
--# supplement your .rti file by an html formated documentation text;  
+-# supplement your .rti file by an HTML formated documentation text;  
  
 You will need to inspect and edit the main Makefile or your plugin's Makefile
 to advertise your additional sources. A <tt>make configure</tt> will then

@@ -216,7 +216,6 @@ int main() {
 
   std::cout << "################################\n\n";
 
-  /*
 
   ////////////////////////////////////////////////////
   // advanced topic: attributed sets
@@ -234,6 +233,8 @@ int main() {
 
   // Construct from stateset with no attributes
   FStateSet fstateset3(stateset3);
+
+  /*
 
   // Report
   std::cout << "fstateset3: " << fstateset3.ToString() << std::endl;
