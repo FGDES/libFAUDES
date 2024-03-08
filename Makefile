@@ -233,7 +233,7 @@ endif
 
 
 ### try to autoselect platform
-# MS Windows defaults to MSYS2
+# as of libFAUDES 2.32a MS Windows defaults to MSYS2
 ifeq ($(FAUDES_PLATFORM),)
 ifneq ($(findstring Windows,$(OS)),)
 FAUDES_PLATFORM := gcc_msys
@@ -564,6 +564,7 @@ LDFLAGS += -Wl,--as-needed
 endif 
 ifeq ($(SHARED),yes)
 LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden 
+LDFLAGS += -Wl,-rpath='$$ORIGIN:$$ORIGIN/../lib:$$ORIGIN/../:$$ORIGIN/../../../'
 endif
 #
 LIBFAUDES = faudes
