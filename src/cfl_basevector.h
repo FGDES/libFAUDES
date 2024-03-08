@@ -67,7 +67,7 @@ namespace faudes {
  *
  */
 
-class FAUDES_API vBaseVector : public Type {
+class FAUDES_TAPI vBaseVector : public Type {
 
 FAUDES_TYPE_DECLARATION(Void,vBaseVector,Type)
 
@@ -551,7 +551,7 @@ private:
  */
 
 template<class T>
-class TBaseVector : public vBaseVector {
+class FAUDES_TAPI TBaseVector : public vBaseVector {
 
 FAUDES_TYPE_TDECLARATION(Void,TBaseVector,vBaseVector)
 

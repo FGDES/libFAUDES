@@ -546,7 +546,7 @@ public:
 /** Convenience Macro (pre C++11) */
 //#define TaStateSet TaIndexSet  //
 /** Convenience Typedef (C++11) */
- template <class Attr> using TaStateSet = TaIndexSet<Attr>;
+template <class Attr> using TaStateSet = TaIndexSet<Attr>;
  
 
 /** @} doxygen group */

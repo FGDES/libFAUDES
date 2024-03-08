@@ -559,7 +559,7 @@ extern FAUDES_API void SetUnion(const EventSetVector& rSetVector, EventSet& rRes
 
 
 template<class Attr>
-class FAUDES_API TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
+class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
 
 FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
 

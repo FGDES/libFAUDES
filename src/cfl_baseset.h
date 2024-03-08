@@ -90,7 +90,7 @@ template<class T, class Attr, class Cmp> class TAttrMap;
  */
 
 template<class T, class Cmp=std::less<T> >
-class FAUDES_API TBaseSet : public Type {       
+class FAUDES_TAPI TBaseSet : public Type {       
 
   FAUDES_TYPE_TDECLARATION(Void,TBaseSet,Type)
 
