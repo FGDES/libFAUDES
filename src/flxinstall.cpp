@@ -114,7 +114,7 @@ int SysCall(const std::string& cmd, const std::string& args, bool errmsg = true)
   // on MS Windows, the command is passed as a string to cmd.exe
   // hence, we need \ ratrher than /
   // note: this should be made uniode safe
-  std::replace(cmdline.begin(), cmdline.end(), '/', '\\')
+  std::replace(cmdline.begin(), cmdline.end(), '/', '\\');
 #endif  
   if(args!="") {
     cmdline+= " ";
