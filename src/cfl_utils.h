@@ -1,9 +1,9 @@
-/** @file cfl_helper.h   Helper functions */
+/** @file cfl_utils.h   C-level utilities functions */
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Bernd Opitz
-   Copyright (C) 2008-2010 Thomas Moor
+   Copyright (C) 2008-2024 Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -21,8 +21,8 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 
-#ifndef FAUDES_HELPER_H
-#define FAUDES_HELPER_H
+#ifndef FAUDES_UTILS_H
+#define FAUDES_UTILS_H
 
 #include "cfl_definitions.h"
 #include "cfl_platform.h"
@@ -111,7 +111,7 @@ extern FAUDES_API std::string CollapsString(const std::string& rString, unsigned
 extern FAUDES_API Idx ToIdx(const std::string& rString);
 
 /**
- * Substitute in string
+ * Substitute globally in string
  *
  * @param rString
  *   Source string to substitute
@@ -185,14 +185,6 @@ extern FAUDES_API std::string CreateTempFile(void);
 
 
 /**
- * Delete a file
- *
- * @param rFileName
- *   Name of file to delete
- */
-extern FAUDES_API bool RemoveFile(const std::string& rFileName);
-
-/**
  * Std dir-separator.
  * @return
  *   Separator as one-char string
@@ -200,12 +192,15 @@ extern FAUDES_API bool RemoveFile(const std::string& rFileName);
 extern FAUDES_API const std::string& PathSeparator(void);
 
 /**
- * Extract directory from full path.
+ * Extract directory from (full) path; i.e., remove the last
+ * separator and anything thereafer.
  *
  * @param rFullPath
- *   Full name of file eg "/home/friend/data/generator.gen"
+ *   Full name of file eg (1) "/home/friend/data/generator.gen"
+ *   Full name of file eg (2) "C:\data\project\generator.gen"
  * @return
- *   Directory eg "/home/friend/data"
+ *   Directory eg (1) "/home/friend/data"
+ *   Directory eg (2) "C:\data\project"
  */
 extern FAUDES_API std::string ExtractDirectory(const std::string& rFullPath);
 
@@ -220,7 +215,7 @@ extern FAUDES_API std::string ExtractDirectory(const std::string& rFullPath);
 extern FAUDES_API std::string ExtractFilename(const std::string& rFullName);
 
 /**
- * Extract file name from full path. This version also
+ * Extract file basename from full path. This version also
  * removes the last suffix.
  *
  * @param rFullName
@@ -231,27 +226,27 @@ extern FAUDES_API std::string ExtractFilename(const std::string& rFullName);
 extern FAUDES_API std::string ExtractBasename(const std::string& rFullName);
 
 /**
- * Extract file name from full path. This version also
- * remove the last suffix.
+ * Extract extension from full path, i.e. ontain the last suffix.
  *
  * @param rFullName
  *   Full path of file eg "/home/friend/data/generator.gen"
  * @return
  *   Extension "gen"
  */
-extern FAUDES_API std::string ExtractExtension(const std::string& rFullName);
+extern FAUDES_API std::string ExtractSuffix(const std::string& rFullName);
 
 /**
- * Construct full path from directory and filename.
+ * Prepend one path before another. Specifically, insert a
+ * path seperator if necessary.
  *
- * @param rDirectory
+ * @param rLeft
  *   Directory eg "/home/friend/data"
- * @param rFileName
+ * @param rRight
  *   File eg "generator.gen"
  * @return
  *   Path eg "/home/friend/data/generator.gen"
  */
-extern FAUDES_API std::string PrependDirectory(const std::string& rDirectory, const std::string& rFileName);
+extern FAUDES_API std::string PrependPath(const std::string& rLeft, const std::string& rRight);
 
 /**
  * Test existence of file

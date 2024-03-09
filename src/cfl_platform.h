@@ -172,7 +172,7 @@
 
 
 
-// Path-seperators (see cfl_helper.cpp)
+// Path-seperators (see cfl_utils.cpp)
 //  * the first separator is the one used to prepend directories etc
 //  * all other separators are used to extract basenames
 //  * using gcc/make also on Windows, we occasionaly get Unix style files names
@@ -180,7 +180,7 @@
 //  * up to libFAUDES 2.31 we used "/" for POSIX and "\\:/" for Windows.
 //  * as of libFAUDES 2.32 we used "/" for POSIX and "/\\:" for Windows.
 extern FAUDES_API const std::string& faudes_pathseps(void); 
-// Path-seperator (first char of above, see cfl_helper.cpp)
+// Path-seperator (first char of above, see cfl_utils.cpp)
 extern FAUDES_API const std::string& faudes_pathsep(void);
 
 

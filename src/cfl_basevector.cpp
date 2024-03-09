@@ -459,7 +459,7 @@ void vBaseVector::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Typ
     // write individual files
     std::string filename= ExtractFilename(mVector[pos].mFileName);
     rTw.WriteString(filename);
-    mVector[pos].pElement->Write(PrependDirectory(dirname,filename),"",pContext);    
+    mVector[pos].pElement->Write(PrependPath(dirname,filename),"",pContext);    
   }
   rTw.WriteEnd(btag.StringValue());
 }

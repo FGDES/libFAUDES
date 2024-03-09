@@ -3,6 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2006  Bernd Opitz
+Copyright (C) 2006, 2010, 2024  Thomas Moor
 Exclusive copyright is granted to Klaus Schmidt
 
 This library is free software; you can redistribute it and/or
@@ -61,7 +62,7 @@ class FAUDES_API TokenWriter {
    * Console or String TokenWriter constructor
    *
    * Technical detail: Stdout mode uses the global console object
-   * ConsoleOut::G()  declared in cfl_helper.h.
+   * ConsoleOut::G()  declared in cfl_utils.h.
    *
    * @exception Exception
    *   - faudes::Exception ios error opening file (id 2)

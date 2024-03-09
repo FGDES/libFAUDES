@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Bernd Opitz
-   Copyright (C) 2007  Thomas Moor
+   Copyright (C) 2007, 2010, 2024  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -3858,7 +3858,7 @@ void vGenerator::GraphWrite(const std::string& rFileName, const std::string& rOu
     DotWrite(dotin);
   } 
   catch (faudes::Exception& exception) {  
-    RemoveFile(dotin);
+    FileDelete(dotin);
     std::stringstream errstr;
     errstr << "Exception writing dot input file";
     throw Exception("vGenerator::GraphWrite", errstr.str(), 2);
@@ -3867,12 +3867,12 @@ void vGenerator::GraphWrite(const std::string& rFileName, const std::string& rOu
     faudes::ProcessDot(dotin,rFileName,rOutFormat,rDotExec);
   } 
   catch (faudes::Exception& exception) {  
-    RemoveFile(dotin);
+    FileDelete(dotin);
     std::stringstream errstr;
     errstr << "Exception processing dot file";
     throw Exception("vGenerator::GraphWrite", errstr.str(), 3);
   }
-  RemoveFile(dotin);
+  FileDelete(dotin);
 }
 
 // rti wrapper

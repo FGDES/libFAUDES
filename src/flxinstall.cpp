@@ -84,6 +84,7 @@ std::set < std::string > mLuaFunctions;
 // destination layout (effective, defaults to libfaudes std)
 std::string mFaudesBase;
 std::string mFaudesBin;
+std::string mFaudesTools;
 std::string mFaudesBinLuafaudes;
 std::string mFaudesBinLuaflx;
 std::string mFaudesBinRef2html;
@@ -108,8 +109,7 @@ std::string mFaudesDocTemp;
 
 // mkdir 
 void MakeDirectory(const std::string& rPath, const std::string& rDir="") {
-  std::string dir = rPath;
-  if(rDir!="") dir += faudes_pathsep() + rDir;
+  std::string dir = PrependPath(rPath,rDir);
   if(DirectoryExists(dir)) return;
   std::cerr << "flxinstall: creating dir \"" << dir << "\"" << std::endl;
   std::string cmd = "mkdir " + dir;
@@ -148,7 +148,7 @@ void Lua2ref(const std::string& rLuaFile, const std::string& rRefFile="") {
   // set up target
   std::string dst=rRefFile;
   if(dst=="") {
-    dst=PrependDirectory(ExtractDirectory(rLuaFile),ExtractBasename(rLuaFile)+ ".fref");
+    dst=PrependPath(ExtractDirectory(rLuaFile),ExtractBasename(rLuaFile)+ ".fref");
   }
   // set up command
   std::string cmd= mFaudesBinLua2ref + " " + rLuaFile + " > " + dst;
@@ -173,7 +173,7 @@ void Gen2ref(const std::string& rGenFile, const std::string& rRefFile="") {
   // set up source and target
   std::string dst=rRefFile;
   if(dst=="") {
-    dst=PrependDirectory(ExtractDirectory(rGenFile),bas+".fref");
+    dst=PrependPath(ExtractDirectory(rGenFile),bas+".fref");
   }
   TokenWriter tw(dst);
   TokenReader tr(rGenFile);
@@ -403,7 +403,7 @@ void CreateExtensionFile(void) {
   // traverse images
   for(std::set < std::string >::iterator fit=mSourceFiles.begin(); fit!=mSourceFiles.end(); fit++) {
     // test extension
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
     std::string pbas=ExtractDirectory(*fit)+bas; 
     // case: full generator image
@@ -425,7 +425,7 @@ void CreateExtensionFile(void) {
   // traverse luafunctions
   for(std::set < std::string >::iterator fit=mSourceFiles.begin(); fit!=mSourceFiles.end(); fit++) {
     // test extension
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
     // cases: luafunction
     if(ext=="rti" && mImageFiles.find(bas)==mImageFiles.end()) {
@@ -459,7 +459,7 @@ void CreateExtensionFile(void) {
   // traverse ref pages
   for(std::set < std::string >::iterator fit=mSourceFiles.begin(); fit!=mSourceFiles.end(); fit++) {
     // test extension
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
     // cases: reference page
     if(ext=="fref") {
@@ -539,7 +539,7 @@ void CreateExtensionFile(void) {
   // traverse files
   for(std::set < std::string >::iterator fit=mSourceFiles.begin(); fit!=mSourceFiles.end(); fit++) {
     // test extension
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
     std::string pbas=ExtractDirectory(*fit)+bas; 
     // cases: reference page
@@ -622,7 +622,7 @@ void CreateExtensionFile(void) {
       *ptw->Streamp() << "<!-- data from source \"" << *fit << "\" -->" << std::endl;
       std::set< std::string >::iterator dit;
       for(dit=datafiles.begin();dit!=datafiles.end();dit++) {
-	std::string srcfile=PrependDirectory(*fit,*dit);
+	std::string srcfile=PrependPath(*fit,*dit);
         TokenReader tr(srcfile);
         InsertDataFile(tr,*ptw);
       }
@@ -636,10 +636,10 @@ void CreateExtensionFile(void) {
 
 
 // ******************************************************************
-// test libfaudes installation
+// test libFAUDES installation
 // ******************************************************************
 
-// inspect libfaudes distribution to locate luafaudes (use mFaudesBin)
+// inspect libFAUDES distribution to locate luafaudes (use mFaudesBin)
 void TestLuafaudes(void) {
   // read bin dir
   if(!DirectoryExists(mFaudesBin)){
@@ -650,10 +650,10 @@ void TestLuafaudes(void) {
   // find luafaudes
   mFaudesBinLuafaudes="";
   if(binfiles.find("luafaudes.exe")!= binfiles.end()) {
-    mFaudesBinLuafaudes=PrependDirectory(mFaudesBin,"luafaudes.exe");
+    mFaudesBinLuafaudes=PrependPath(mFaudesBin,"luafaudes.exe");
   }
   if(binfiles.find("luafaudes")!= binfiles.end()) {
-    mFaudesBinLuafaudes=PrependDirectory(mFaudesBin,"luafaudes");
+    mFaudesBinLuafaudes=PrependPath(mFaudesBin,"luafaudes");
   }
   if(!FileExists(mFaudesBinLuafaudes)) {
     std::cerr << "flxinstall: warning: cannot open luafaudes in \"" << mFaudesBin << "\"" << std::endl;
@@ -674,20 +674,32 @@ void TestFaudesTarget(void) {
   if(mFaudesBin=="") {
     mFaudesBin=mFaudesBase;
     if(faudesfiles.find("bin")!= faudesfiles.end())
-      mFaudesBin=PrependDirectory(mFaudesBase,"bin");
+      mFaudesBin=PrependPath(mFaudesBase,"bin");
   }
+  // complain
   if(!DirectoryExists(mFaudesBin)){
-    std::cerr << "flxinstall: cannot open libfaudes binary path in \"" << mFaudesBin << "\": ERROR." << std::endl;
+    std::cerr << "flxinstall: cannot open libfaudes binary path \"" << mFaudesBin << "\": ERROR." << std::endl;
     exit(1);
+  }
+  // tools (allow overwrite)
+  if(mFaudesTools=="") {
+    mFaudesTools=mFaudesBase;
+    if(faudesfiles.find("tools")!= faudesfiles.end())
+      mFaudesTools=PrependPath(mFaudesBase,"tools");
+  }
+  // complain
+  if(!DirectoryExists(mFaudesTools)){
+    std::cerr << "flxinstall: cannot open libfaudes tools path in \"" << mFaudesTools << "\": ERROR." << std::endl;
+    //exit(1);
   }
   std::set< std::string > binfiles = ReadDirectory(mFaudesBin);
   // insist in ref2html
   mFaudesBinRef2html="";
   if(binfiles.find("ref2html.exe")!= binfiles.end()) {
-    mFaudesBinRef2html=PrependDirectory(mFaudesBin,"ref2html.exe");
+    mFaudesBinRef2html=PrependPath(mFaudesBin,"ref2html.exe");
   }
   if(binfiles.find("ref2html")!= binfiles.end()) {
-    mFaudesBinRef2html=PrependDirectory(mFaudesBin,"ref2html");
+    mFaudesBinRef2html=PrependPath(mFaudesBin,"ref2html");
   }
   if(mFaudesBinRef2html=="") {
     std::cerr << "flxinstall: cannot open ref2html tool in \"" << mFaudesBin << "\": ERROR." << std::endl;
@@ -698,53 +710,53 @@ void TestFaudesTarget(void) {
   // find luafaudes
   TestLuafaudes();
   // default flx
-  mFaudesBinLuaflx=PrependDirectory(mFaudesBin,"luafaudes.flx");
+  mFaudesBinLuaflx=PrependPath(mFaudesBin,"luafaudes.flx");
   // doc (allow overwrite)
   if(mFaudesDoc=="") {
     mFaudesDoc=mFaudesBase;
     if(faudesfiles.find("doc")!= faudesfiles.end()) {
-      mFaudesDoc=PrependDirectory(mFaudesDoc,"doc");
+      mFaudesDoc=PrependPath(mFaudesDoc,"doc");
     } else if(faudesfiles.find("Doc")!= faudesfiles.end()) {
-      mFaudesDoc=PrependDirectory(mFaudesDoc,"Doc");
+      mFaudesDoc=PrependPath(mFaudesDoc,"Doc");
     } else if(faudesfiles.find("Documentation")!= faudesfiles.end()) {
-      mFaudesDoc=PrependDirectory(mFaudesDoc,"Documentation");
+      mFaudesDoc=PrependPath(mFaudesDoc,"Documentation");
     } 
-    if(!DirectoryExists(mFaudesDoc)){
-      std::cerr << "flxinstall: cannot open libfaudes documentation path in \"" << mFaudesBase << "\": ERROR." << std::endl;
-      exit(1);
-    }
   }
+  // complain
   if(!DirectoryExists(mFaudesDoc)){
     std::cerr << "flxinstall: cannot open libfaudes documentation path at \"" << mFaudesDoc << "\": ERROR." << std::endl;
     exit(1);
   }
+  // inspect doc source
   std::set< std::string > docfiles = ReadDirectory(mFaudesDoc);
   // css (allow overwrite)
   if(mFaudesDocCss=="") mFaudesDocCss="faudes.css";
   mFaudesDocCss=ExtractFilename(mFaudesDocCss); // ignore directory
   // reference
-  mFaudesDocReference=mFaudesDoc;
+  mFaudesDocReference="";
   if(docfiles.find("reference")!= docfiles.end()) {
-    mFaudesDocReference=PrependDirectory(mFaudesDoc,"reference");
-  } else if(docfiles.find("Reference")!= faudesfiles.end()) {
-    mFaudesDocReference=PrependDirectory(mFaudesDoc,"Reference");
+    mFaudesDocReference=PrependPath(mFaudesDoc,"reference");
+  } else if(docfiles.find("Reference")!= docfiles.end()) {
+    mFaudesDocReference=PrependPath(mFaudesDoc,"Reference");
   }
   if(!DirectoryExists(mFaudesDocReference)){
-    std::cerr << "flxinstall: cannot open libfaudes reference path in \"" << mFaudesDoc << "\": ERROR." << std::endl;
-    exit(1);
+    std::cerr << "flxinstall: cannot open libfaudes reference path in " <<
+      "\"" << mFaudesDoc << "\" ("<< mFaudesDocReference << ") : ERROR." << std::endl;
+     exit(1);
   }
   std::set< std::string > regfiles = ReadDirectory(mFaudesDocReference);
   // luafaudes doc (default: non-existent)
   mFaudesDocLuafaudes="";
   if(docfiles.find("luafaudes")!= docfiles.end()) {
-    mFaudesDocLuafaudes=PrependDirectory(mFaudesDoc,"luafaudes");
+    mFaudesDocLuafaudes=PrependPath(mFaudesDoc,"luafaudes");
   } else if(docfiles.find("Luafaudes")!= docfiles.end()) {
-    mFaudesDocLuafaudes=PrependDirectory(mFaudesDoc,"Luafaudes");
+    mFaudesDocLuafaudes=PrependPath(mFaudesDoc,"Luafaudes");
   } 
   // lua2ref (try luafaudes on lua2ref.lua)
   if(mFaudesBinLuafaudes!="") {
-    std::string script =  mFaudesBase + faudes_pathsep() + "tools" + faudes_pathsep() 
-       + "lua2ref" + faudes_pathsep() + "lua2ref.lua";
+    std::string script;
+    script=PrependPath(mFaudesTools,"lua2ref");
+    script=PrependPath(script,"lua2ref.lua");
     mFaudesBinLua2ref=mFaudesBinLuafaudes + " " + script;
     if(!FileExists(script)) {
       std::cerr << "flxinstall: cannot find converter \"lua2ref.lua\"" << std::endl;
@@ -753,8 +765,9 @@ void TestFaudesTarget(void) {
   }
   // lua2ref (try perl on lua2ref.pl)
   if(mFaudesBinLua2ref=="") {
-    std::string script =  mFaudesBase + faudes_pathsep() + "tools" + faudes_pathsep() 
-       + "lua2ref" + faudes_pathsep() + "lua2ref.pl";   
+    std::string script;
+    script=PrependPath(mFaudesTools,"lua2ref");
+    script=PrependPath(script,"lua2ref.pl");
     mFaudesBinLua2ref = "perl " + script;
     if(!FileExists(script)) {
       std::cerr << "flxinstall: cannot find converter \"lua2ref.pl\"" << std::endl;
@@ -771,7 +784,7 @@ void TestFaudesTarget(void) {
   // images
   mFaudesDocImages="";
   if(docfiles.find("images")!= docfiles.end()) {
-    mFaudesDocImages=PrependDirectory(mFaudesDoc,"images");
+    mFaudesDocImages=PrependPath(mFaudesDoc,"images");
   } else {
     std::cerr << "flxinstall: cannot open images in \"" << mFaudesDoc << "\": ERROR." << std::endl;
     exit(1);
@@ -779,14 +792,14 @@ void TestFaudesTarget(void) {
   // refsrc
   mFaudesDocRefsrc="";
   if(docfiles.find("refsrc")!= docfiles.end()) {
-    mFaudesDocRefsrc=PrependDirectory(mFaudesDoc,"refsrc");
+    mFaudesDocRefsrc=PrependPath(mFaudesDoc,"refsrc");
   } else {
     std::cerr << "flxinstall: cannot open refsrc in \"" << mFaudesDoc << "\": ERROR." << std::endl;
     exit(1);
   }
   std::set< std::string > refsrcfiles = ReadDirectory(mFaudesDocRefsrc);
   // rti (allow overwrite)
-  if(mFaudesDocRti=="") mFaudesDocRti = PrependDirectory(mFaudesDocRefsrc,"libfaudes.rti");
+  if(mFaudesDocRti=="") mFaudesDocRti = PrependPath(mFaudesDocRefsrc,"libfaudes.rti");
   if(!FileExists(mFaudesDocRti)){
     std::cerr << "flxinstall: cannot open libfaudes.rti at \"" << mFaudesDocRti << "\": ERROR." << std::endl;
     exit(1);
@@ -794,18 +807,18 @@ void TestFaudesTarget(void) {
   // cnav (allow overwrite)
   if(mFaudesDocNav=="") mFaudesDocNav="faudes_navigation.include_fref";
   mFaudesDocNav=ExtractFilename(mFaudesDocNav); // ignore directory
-  mFaudesDocNav=PrependDirectory(mFaudesDocRefsrc,mFaudesDocNav); // enforce directory
+  mFaudesDocNav=PrependPath(mFaudesDocRefsrc,mFaudesDocNav); // enforce directory
   if(!FileExists(mFaudesDocNav)){
     std::cerr << "flxinstall: cannot open navigation file \"" << mFaudesDocNav << "\": ERROR." << std::endl;
     exit(1);
   }
   // temp
-  mFaudesDocTemp=PrependDirectory(mFaudesDocRefsrc,"tmp_flx");
+  mFaudesDocTemp=PrependPath(mFaudesDocRefsrc,"tmp_flx");
   if(docfiles.find("tmp_flx")== docfiles.end()) {
     std::cerr << "flxinstall: creating temp dir \"" << mFaudesDocTemp << "\"" << std::endl;
     MakeDirectory(mFaudesDocTemp);
   } 
-  mFaudesDocToc=PrependDirectory(mFaudesDocTemp,"toc.ftoc");
+  mFaudesDocToc=PrependPath(mFaudesDocTemp,"toc.ftoc");
 }
 
  
@@ -875,7 +888,7 @@ void  XtractReferencePages(TokenReader& rTr, const std::string& rDstDir) {
     std::string basename= section + "_" + ppage;
     mReferencePages.insert(basename);
     // dst file
-    std::string dstfile=rDstDir + faudes_pathsep() + basename + ".fref";
+    std::string dstfile=PrependPath(rDstDir,basename + ".fref");
     std::cerr << "flxinstall: extracting reference page to \"" << dstfile << "\"" << std::endl;
     TokenWriter dst(dstfile);
     InsertReferencePage(rTr,dst);
@@ -920,7 +933,7 @@ void  XtractImageFiles(TokenReader& rTr,const std::string& rDstDir) {
       continue;
     } 
     // skip non-image formats
-    std::string ext = ExtractExtension(name);
+    std::string ext = ExtractSuffix(name);
     if(ext!="png" && ext!="svg" && ext!="jpg" && ext!="jpeg") {
       rTr.ReadEnd("ImageFile");
       continue;
@@ -935,7 +948,7 @@ void  XtractImageFiles(TokenReader& rTr,const std::string& rDstDir) {
     } 
     // dst file
     std::transform(name.begin(), name.end(), name.begin(), tolower);
-    std::string dstfile=rDstDir + faudes_pathsep() + name;
+    std::string dstfile=PrependPath(rDstDir,name);
     std::cerr << "flxinstall: extracting image to \"" << dstfile << "\"" << std::endl;
     // record
     mImageFiles.insert(dstfile);
@@ -988,7 +1001,7 @@ void  XtractImageGenFiles(TokenReader& rTr,const std::string& rDstDir) {
       continue;
     } 
     // skip non-gen formats
-    std::string ext = ExtractExtension(name);
+    std::string ext = ExtractSuffix(name);
     if(ext!="gen"){
       rTr.ReadEnd("ImageFile");
       continue;
@@ -1003,7 +1016,7 @@ void  XtractImageGenFiles(TokenReader& rTr,const std::string& rDstDir) {
     } 
     // dst file
     std::transform(name.begin(), name.end(), name.begin(), tolower);
-    std::string dstfile=rDstDir + faudes_pathsep() + name;
+    std::string dstfile=PrependPath(rDstDir,name);
     std::cerr << "flxinstall: extracting image to \"" << dstfile << "\"" << std::endl;
     // record
     mImageFiles.insert(dstfile);
@@ -1129,7 +1142,7 @@ void  XtractLuaTutorials(TokenReader& rTr, const std::string& rDstDir) {
     } 
     // set up destination and copy
     std::transform(name.begin(), name.end(), name.begin(), tolower);
-    std::string dstfile=rDstDir + faudes_pathsep() + name;
+    std::string dstfile=PrependPath(rDstDir,name);
     std::cerr << "flxinstall: extracting lua tutorial to \"" << dstfile << "\"" << std::endl;
     TokenWriter tw(dstfile);
     InsertPlainLuaTutorial(rTr,tw);
@@ -1156,7 +1169,7 @@ void DefaultIndexPage(const std::string& rDstDir) {
   } 
   // generates defaultindex page
   std::cerr << "flxinstall: generate index page" << std::endl;
-  TokenWriter tw(rDstDir + faudes_pathsep() + index + ".fref","ReferencePage");
+  TokenWriter tw(PrependPath(rDstDir,index + ".fref"),"ReferencePage");
   *tw.Streamp() << "<!-- flxinstall " << VersionString() << ": auto generated index -->" << std::endl;
   *tw.Streamp() << "<ReferencePage chapter=\"Reference\" section=\"" << mExtensionName << 
     "\" page=\"0_Index\" title=\""<< mExtensionName << " Index\" >" << std::endl;
@@ -1187,27 +1200,27 @@ void InstallExtensionFiles(void) {
   // clean tmp (this is for dstinstall to see only relevant files in the temp directory)
   std::set< std::string > tmpfiles = ReadDirectory(mFaudesDocTemp);
   for(std::set < std::string >::iterator fit=tmpfiles.begin(); fit!=tmpfiles.end(); fit++) {
-    std::string dfile=PrependDirectory(mFaudesDocTemp,*fit);
-    if(!RemoveFile(dfile)) {
+    std::string dfile=PrependPath(mFaudesDocTemp,*fit);
+    if(!FileDelete(dfile)) {
       std::cerr << "flxinstall: failed to remove \"" << *fit << "\"" << std::endl;
     };
   }
 
   // prepare luafaudes.flx
-  TokenWriter* twflx = new TokenWriter(PrependDirectory(mFaudesDocTemp,"luafaudes.flx"));
+  TokenWriter* twflx = new TokenWriter(PrependPath(mFaudesDocTemp,"luafaudes.flx"));
 
   // convenience: reinterpret directories 
   std::set< std::string > srcfiles;
   for(std::set < std::string >::iterator fit=mSourceFiles.begin(); fit!=mSourceFiles.end(); fit++) {
     std::string sfile = *fit;
-    if(ExtractExtension(sfile)=="flx") {
+    if(ExtractSuffix(sfile)=="flx") {
       srcfiles.insert(sfile);
       continue;
     }
     std::set< std::string > sdir = ReadDirectory(sfile);
     sdir=EraseHiddenFiles(sdir);
     for(std::set < std::string >::iterator dit=sdir.begin();dit!=sdir.end();dit++) {
-      sfile=PrependDirectory(*fit,*dit);
+      sfile=PrependPath(*fit,*dit);
       srcfiles.insert(sfile);
     }
   }
@@ -1215,7 +1228,7 @@ void InstallExtensionFiles(void) {
   // traverse flx-files and extract
   for(std::set < std::string >::iterator fit=srcfiles.begin(); fit!=srcfiles.end(); fit++) {
     // test extension
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
     // cases: flx
     if(ext=="flx") {
@@ -1239,7 +1252,7 @@ void InstallExtensionFiles(void) {
 
   // copy composed flx file to accompanie luafaudes binary
   delete twflx;
-  FileCopy(PrependDirectory(mFaudesDocTemp,"luafaudes.flx"),mFaudesBinLuaflx);
+  FileCopy(PrependPath(mFaudesDocTemp,"luafaudes.flx"),mFaudesBinLuaflx);
 
   // report
   std::cerr << "flxinstall: generating list of source files" << std::endl;
@@ -1254,9 +1267,9 @@ void InstallExtensionFiles(void) {
   std::set< std::string > docsource;
   std::set< std::string > docrefsrc = ReadDirectory(mFaudesDocRefsrc);
   for(std::set < std::string >::iterator fit=docrefsrc.begin(); fit!=docrefsrc.end(); fit++) {
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
-    std::string ffile=PrependDirectory(mFaudesDocRefsrc,*fit);
+    std::string ffile=PrependPath(mFaudesDocRefsrc,*fit);
     if(ext!="fref") continue;
     if(frefbase.find(bas)!=frefbase.end()){
       std::cerr << "flxinstall: reference file doublet \"" << *fit << "\" from std dist: ERROR." << std::endl;
@@ -1269,11 +1282,11 @@ void InstallExtensionFiles(void) {
 
   // collect all fref files for processing to doc/reference
   std::set< std::string > docrefsource;
-  std::set< std::string > docrefsrcref = ReadDirectory(PrependDirectory(mFaudesDocRefsrc,"reference"));
+  std::set< std::string > docrefsrcref = ReadDirectory(PrependPath(mFaudesDocRefsrc,"reference"));
   for(std::set < std::string >::iterator fit=docrefsrcref.begin(); fit!=docrefsrcref.end(); fit++) {
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
-    std::string ffile=PrependDirectory(PrependDirectory(mFaudesDocRefsrc,"reference"),*fit);
+    std::string ffile=PrependPath(PrependPath(mFaudesDocRefsrc,"reference"),*fit);
     if(ext!="fref") continue;
     if(frefbase.find(bas)!=frefbase.end()){
       std::cerr << "flxinstall: reference file doublet \"" << *fit << "\" from std dist: ERROR." << std::endl;
@@ -1285,9 +1298,9 @@ void InstallExtensionFiles(void) {
   }
   std::set< std::string > doctmpdir = ReadDirectory(mFaudesDocTemp);
   for(std::set < std::string >::iterator fit=doctmpdir.begin(); fit!=doctmpdir.end(); fit++) {
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
-    std::string ffile=PrependDirectory(mFaudesDocTemp,*fit);
+    std::string ffile=PrependPath(mFaudesDocTemp,*fit);
     if(ext!="fref") continue;
     if(frefbase.find(bas)!=frefbase.end()){
       std::cerr << "flxinstall: reference file doublet \"" << *fit << "\" from ext: ERROR." << std::endl;
@@ -1301,11 +1314,11 @@ void InstallExtensionFiles(void) {
 
   // collect/generate all luatutorial files for processing to doc/luafaudes
   std::set< std::string > docluasource;
-  std::set< std::string > docrefsrclua = ReadDirectory(PrependDirectory(mFaudesDocRefsrc,"luafaudes"));
+  std::set< std::string > docrefsrclua = ReadDirectory(PrependPath(mFaudesDocRefsrc,"luafaudes"));
   for(std::set < std::string >::iterator fit=docrefsrclua.begin(); fit!=docrefsrclua.end(); fit++) {
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
-    std::string ffile=PrependDirectory(PrependDirectory(mFaudesDocRefsrc,"luafaudes"),*fit);
+    std::string ffile=PrependPath(PrependPath(mFaudesDocRefsrc,"luafaudes"),*fit);
     if(ext!="fref") continue;
     if(frefbase.find(bas)!=frefbase.end()){
       std::cerr << "flxinstall: reference file doublet \"" << *fit << "\" from lua doc: ERROR." << std::endl;
@@ -1317,10 +1330,10 @@ void InstallExtensionFiles(void) {
   }
   /*std::set< std::string > */tmpfiles = ReadDirectory(mFaudesDocTemp);
   for(std::set < std::string >::iterator fit=tmpfiles.begin(); fit!=tmpfiles.end(); fit++) {
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
-    std::string lfile=PrependDirectory(mFaudesDocTemp,*fit);
-    std::string ffile=PrependDirectory(mFaudesDocTemp,bas+".fref");
+    std::string lfile=PrependPath(mFaudesDocTemp,*fit);
+    std::string ffile=PrependPath(mFaudesDocTemp,bas+".fref");
     // skip non-lua
     if(ext!="lua") continue;
     // test for corresponding fref file
@@ -1338,20 +1351,20 @@ void InstallExtensionFiles(void) {
 
   // convert/generate full generator images to fref (dest: doc/images)
   std::set< std::string > docimgsource;
-  std::set< std::string > docrefsrcimg = ReadDirectory(PrependDirectory(mFaudesDocRefsrc,"images"));
+  std::set< std::string > docrefsrcimg = ReadDirectory(PrependPath(mFaudesDocRefsrc,"images"));
   for(std::set < std::string >::iterator fit=docrefsrcimg.begin(); fit!=docrefsrcimg.end(); fit++) {
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
-    std::string ffile=PrependDirectory(PrependDirectory(mFaudesDocRefsrc,"images"),*fit);
+    std::string ffile=PrependPath(PrependPath(mFaudesDocRefsrc,"images"),*fit);
     if(ext!="fref") continue;
     docimgsource.insert(ffile);
   }
   std::set< std::string > imgfiles = ReadDirectory(mFaudesDocTemp);
   for(std::set < std::string >::iterator fit=imgfiles.begin(); fit!=imgfiles.end(); fit++) {
-    std::string ext=ExtractExtension(*fit);
+    std::string ext=ExtractSuffix(*fit);
     std::string bas=ExtractBasename(*fit);
-    std::string gfile=PrependDirectory(mFaudesDocTemp,*fit);
-    std::string ffile=PrependDirectory(mFaudesDocTemp,bas+".fref");
+    std::string gfile=PrependPath(mFaudesDocTemp,*fit);
+    std::string ffile=PrependPath(mFaudesDocTemp,bas+".fref");
     // skip non-gen
     if(ext!="gen") continue;
     // test whther we wrote that file
@@ -1464,12 +1477,12 @@ void InstallExtensionFiles(void) {
 
 
   // copy index file: main index
-  if(FileExists(PrependDirectory(mFaudesDocRefsrc,"faudes_about.fref"))) {
-    std::string dst=PrependDirectory(mFaudesDoc,"index.html");
+  if(FileExists(PrependPath(mFaudesDocRefsrc,"faudes_about.fref"))) {
+    std::string dst=PrependPath(mFaudesDoc,"index.html");
     std::string proccmd= mFaudesBinRef2html 
         + " -rti " + mFaudesDocRti + " -flx " + mFaudesBinLuaflx + " -cnav " + mFaudesDocNav
         + " -css " + mFaudesDocCss + " -inc " + mFaudesDocToc + " -rel ./  " 
-        + PrependDirectory(mFaudesDocRefsrc,"faudes_about.fref") +  " " + dst;
+        + PrependPath(mFaudesDocRefsrc,"faudes_about.fref") +  " " + dst;
     std::cerr << "flxinstall: fix html index " << std::endl;
     if(std::system(proccmd.c_str())!=0) {
       std::cerr << "flxinstall: using command \"" << proccmd << "\"" << std::endl;
@@ -1479,12 +1492,12 @@ void InstallExtensionFiles(void) {
   }
 
   // copy index file: luafaudes
-  if(mFaudesDocLuafaudes!="" && DirectoryExists(PrependDirectory(mFaudesDocRefsrc,"luafaudes"))){
-    std::string dst=PrependDirectory(mFaudesDocLuafaudes,"index.html");
+  if(mFaudesDocLuafaudes!="" && DirectoryExists(PrependPath(mFaudesDocRefsrc,"luafaudes"))){
+    std::string dst=PrependPath(mFaudesDocLuafaudes,"index.html");
     std::string proccmd= mFaudesBinRef2html 
         + " -rti " + mFaudesDocRti + " -flx " + mFaudesBinLuaflx + " -cnav " + mFaudesDocNav
         + " -css " + mFaudesDocCss + " -inc " + mFaudesDocToc + " -rel ../  " 
-        + PrependDirectory(mFaudesDocRefsrc,"luafaudes/faudes_luafaudes.fref") +  " " + dst;
+        + PrependPath(mFaudesDocRefsrc,"luafaudes/faudes_luafaudes.fref") +  " " + dst;
     std::cerr << "flxinstall: fix html index " << std::endl;
     if(std::system(proccmd.c_str())!=0) {
       std::cerr << "flxinstall: using command \"" << proccmd << "\"" << std::endl;
@@ -1494,12 +1507,12 @@ void InstallExtensionFiles(void) {
   }
 
   // copy index file: reference
-  if(mFaudesDocReference!="" && DirectoryExists(PrependDirectory(mFaudesDocRefsrc,"reference"))){
-    std::string dst=PrependDirectory(mFaudesDocReference,"index.html");
+  if(mFaudesDocReference!="" && DirectoryExists(PrependPath(mFaudesDocRefsrc,"reference"))){
+    std::string dst=PrependPath(mFaudesDocReference,"index.html");
     std::string proccmd= mFaudesBinRef2html 
         + " -rti " + mFaudesDocRti + " -flx " + mFaudesBinLuaflx + " -cnav " + mFaudesDocNav
         + " -css " + mFaudesDocCss + " -inc " + mFaudesDocToc + " -rel ../  " 
-        + PrependDirectory(mFaudesDocRefsrc,"reference/reference_index.fref") +  " " + dst;
+        + PrependPath(mFaudesDocRefsrc,"reference/reference_index.fref") +  " " + dst;
     std::cerr << "flxinstall: fix html index " << std::endl;
     if(std::system(proccmd.c_str())!=0) {
       std::cerr << "flxinstall: using command \"" << proccmd << "\"" << std::endl;
@@ -1512,7 +1525,7 @@ void InstallExtensionFiles(void) {
   // (dont do so: keep frefs for dstinstall to extract index for qhc)
   /*
   for(std::set < std::string >::iterator fit=tmpfiles.begin(); fit!=tmpfiles.end(); fit++) {
-    std::string dfile=PrependDirectory(mFaudesDocTemp,*fit);
+    std::string dfile=PrependPath(mFaudesDocTemp,*fit);
     RemoveFile(*fit);
   }
   */
@@ -1529,7 +1542,7 @@ void InstallExtensionFiles(void) {
 void ExtractExtensionFile(void) {
 
   // test extension
-  std::string ext=ExtractExtension(mSourceFile);
+  std::string ext=ExtractSuffix(mSourceFile);
   std::string bas=ExtractBasename(mSourceFile);
   if(ext!="flx") 
     usage_exit("extract must specify a *.flx source");
@@ -1561,7 +1574,7 @@ void ExtractExtensionFile(void) {
       }
       std::string page=mExtensionName + "_" + btag.AttributeStringValue("page") +".fref";
       std::transform(page.begin(), page.end(), page.begin(), tolower);
-      std::string dstname= mTarget + faudes_pathsep() + page;
+      std::string dstname= PrependPath(mTarget,page);
       std::cerr << "flxinstall: extracting reference page to \"" << dstname << "\"" << std::endl;
       // do copy incl outer tags
       TokenWriter tw(dstname,"ReferencePage");
@@ -1582,7 +1595,7 @@ void ExtractExtensionFile(void) {
       if(pos!=std::string::npos) name=name.substr(pos+2);
       name = name +".rti";
       std::transform(name.begin(), name.end(), name.begin(), tolower);
-      std::string dstname= mTarget + faudes_pathsep() + name;
+      std::string dstname= PrependPath(mTarget,name);
       std::cerr << "flxinstall: extracting lua function to \"" << dstname << "\"" << std::endl;
       // do copy incl outer tags
       TokenWriter tw(dstname,"LuaFunctionDefinition");
@@ -1600,7 +1613,7 @@ void ExtractExtensionFile(void) {
       }
       std::string name= btag.AttributeStringValue("name");
       std::transform(name.begin(), name.end(), name.begin(), tolower);
-      std::string dstname= mTarget + faudes_pathsep() + name;
+      std::string dstname= PrependPath(mTarget,name);
       std::cerr << "flxinstall: extracting image file to \"" << dstname << "\"" << std::endl;
       TokenWriter tw(dstname);
       // read data
@@ -1633,9 +1646,11 @@ void ExtractExtensionFile(void) {
         tr.ReadEnd(btag.StringValue());
         continue;
       }
-      std::string name= "data" + faudes_pathsep() + btag.AttributeStringValue("name");
+      std::string name= btag.AttributeStringValue("name");
       std::transform(name.begin(), name.end(), name.begin(), tolower);
-      std::string dstname= mTarget + faudes_pathsep() + name;
+      std::string dstname;
+      dstname=PrependPath(mTarget,"data");
+      dstname=PrependPath(dstname,name);
       std::cerr << "flxinstall: extracting data file to \"" << dstname << "\"" << std::endl;
       // insist in data directiory
       MakeDirectory(mTarget,"data");
@@ -1682,7 +1697,7 @@ void ExtractExtensionFile(void) {
       }
       std::string name=btag.AttributeStringValue("name");
       std::transform(name.begin(), name.end(), name.begin(), tolower);
-      std::string dstname= mTarget + faudes_pathsep() + name;
+      std::string dstname=PrependPath(mTarget,name);
       std::cerr << "flxinstall: extracting tutorial to \"" << dstname << "\"" << std::endl;
       // do copy
       TokenWriter tw(dstname);
@@ -1713,7 +1728,7 @@ void RunTestCases() {
   std::set< std::string > allfiles = ReadDirectory(mTarget);
   std::set< std::string > luascripts;
   for(std::set < std::string >::iterator fit=allfiles.begin(); fit!=allfiles.end(); fit++) 
-    if(ExtractExtension(*fit)=="lua") luascripts.insert(*fit);
+    if(ExtractSuffix(*fit)=="lua") luascripts.insert(*fit);
   // loop scripts
   for(std::set < std::string >::iterator fit=luascripts.begin(); fit!=luascripts.end(); fit++) {
     // build command
@@ -1840,7 +1855,7 @@ int main(int argc, char *argv[]) {
       if(srcfiles.size()>0) {
         mSourceFiles.clear();
         for(std::set < std::string >::iterator fit=srcfiles.begin(); fit!=srcfiles.end(); fit++) 
-          mSourceFiles.insert(PrependDirectory(std::string(argv[i-1]),*fit));
+          mSourceFiles.insert(PrependPath(std::string(argv[i-1]),*fit));
       }
     }
     // have a target file
@@ -1850,7 +1865,7 @@ int main(int argc, char *argv[]) {
     mTarget=std::string(argv[i]);
     // consistency: insist in .flx target
     if(mTarget!="-")
-    if(ExtractExtension(mTarget)!="flx") 
+    if(ExtractSuffix(mTarget)!="flx") 
       usage_exit("target *.flx-file not specified");
     // doit
     CreateExtensionFile();
@@ -1873,13 +1888,13 @@ int main(int argc, char *argv[]) {
       if(srcfiles.size()>0) {
         mSourceFiles.clear();
         for(std::set < std::string >::iterator fit=srcfiles.begin(); fit!=srcfiles.end(); fit++) 
-          if(ExtractExtension(*fit)=="flx")   
-            mSourceFiles.insert(PrependDirectory(std::string(argv[i-1]),*fit));
+          if(ExtractSuffix(*fit)=="flx")   
+            mSourceFiles.insert(PrependPath(std::string(argv[i-1]),*fit));
       }
     }
     // insist in flx source
     for(std::set < std::string >::iterator fit=mSourceFiles.begin(); fit!=mSourceFiles.end(); fit++) 
-      if(ExtractExtension(*fit)!="flx") 
+      if(ExtractSuffix(*fit)!="flx") 
         usage_exit("sources must be *.flx-files: "+ *fit);
     // figure target directory
     mTarget=std::string(argv[i]);
@@ -1910,7 +1925,7 @@ int main(int argc, char *argv[]) {
       usage_exit("source and destination must be specified");
     // figure source
     mSourceFile=std::string(argv[i++]);
-    if(ExtractExtension(mSourceFile)!="flx") 
+    if(ExtractSuffix(mSourceFile)!="flx") 
       usage_exit("source must be an *.flx-file");
     // destination
     mTarget=std::string(argv[i++]);
@@ -1930,7 +1945,7 @@ int main(int argc, char *argv[]) {
       usage_exit("source and temp dir must be specified");
     // figure source
     mSourceFile=std::string(argv[i++]);
-    if(ExtractExtension(mSourceFile)!="flx") 
+    if(ExtractSuffix(mSourceFile)!="flx") 
       usage_exit("source must be an *.flx-file");
     // destination
     mTarget=std::string(argv[i++]);

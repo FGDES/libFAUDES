@@ -258,7 +258,7 @@ endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
 #
-FAUDES_OSTYPE = posix
+FAUDES_MSHELL = posix
 CXX = g++ 
 CC = gcc 
 LXX = g++
@@ -464,7 +464,7 @@ endif
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-FAUDES_OSTYPE = windows
+FAUDES_MSHELL = windows
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
@@ -524,7 +524,7 @@ endif
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),gcc_win)
-FAUDES_OSTYPE = windows
+FAUDES_MSHELL = windows
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
@@ -553,7 +553,7 @@ endif
 # - we consider to use this toolchain for binary distributions from libFAUDE 2.32c onwards
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
-FAUDES_OSTYPE = posix
+FAUDES_MSHELL = posix
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
@@ -699,7 +699,7 @@ VPATH = $(SRCDIR)  $(SRCDIR)/registry
 
 
 CPPFILESMIN= \
-  cfl_platform.cpp cfl_helper.cpp cfl_exception.cpp cfl_token.cpp cfl_tokenreader.cpp cfl_tokenwriter.cpp \
+  cfl_platform.cpp cfl_utils.cpp cfl_exception.cpp cfl_token.cpp cfl_tokenreader.cpp cfl_tokenwriter.cpp \
   cfl_types.cpp cfl_functions.cpp cfl_registry.cpp cfl_elementary.cpp cfl_basevector.cpp  
 
 CPPFILES = $(CPPFILESMIN) \
@@ -1437,23 +1437,23 @@ FNCT_CPPBIN = $(patsubst %_cpp.prot,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 FNCT_WORKDIR = $(patsubst %/data/,%,$(dir $(call FNCT_PROTOCOL,$(1))))
 FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 
-# platform dependant script (... first experiments ...)
-ifeq (posix,$(FAUDES_OSTYPE))
+# platform dependant script 
+ifeq (posix,$(FAUDES_MSHELL))
 FNCT_RUNCPPBIN = cd $(call FNCT_WORKDIR,$@) ; ./$(call FNCT_CPPBIN,$@) &> /dev/null
 FNCT_RUNLUASCRIPT = cd $(call FNCT_WORKDIR,$@) ; $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) &> /dev/null
 FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,$@) &> /dev/null
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
 else
-ifeq (windows,$(FAUDES_OSTYPE))
+ifeq (windows,$(FAUDES_MSHELL))
 FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
 FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
-FNCT_RUNCPPBIN = @$(ECHO) "test cases not configured [" $@ "]"
-FNCT_RUNLUASCRIPT = @$(ECHO) "test cases not configured [" $@ "]"
-FNCT_RUNPYSCRIPT = @$(ECHO) "test cases not configured [" $@ "]"
-FNCT_DIFFPROT = @$(ECHO) "test cases not configured [" $@ "]"
+FNCT_RUNCPPBIN = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
+FNCT_RUNLUASCRIPT = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
+FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
+FNCT_DIFFPROT = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
 endif
 endif
 
@@ -1495,16 +1495,16 @@ tmp_valext:
 
 # validate lua-extension 
 TESTFLX_%.flx: tmp_valext
-ifeq (posix,$(FAUDES_OSTYPE))
+ifeq (posix,$(FAUDES_MSHELL))
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 	@echo running test case $(patsubst TESTFLX_%,%,$@)
 	@- rm -rf tmp_valext/data  ; rm -f tmp_valext/*
 	@cd tmp_valext; $(ABSFLXINSTALL) -tbin ../bin -t ../stdflx/$(patsubst TESTFLX_%,%,$@) . &> /dev/null
 else
-	@echo skipping test case $(patsubst TESTFLX_%,%,$@) [no Lua bindings configured]
+	@echo skipping test case [ $(patsubst TESTFLX_%,%,$@) ] [no Lua bindings configured]
 endif
 else
-	@echo skipping test case $(patsubst TESTFLX%,%,$@) [no posix sytem]
+	@echo skipping test case [ $(patsubst TESTFLX%,%,$@) ] [no posix shell]
 endif
 
 # all tests
@@ -1527,17 +1527,18 @@ test: tutorial $(TESTTARGETS)
 report-platform:
 	@echo " ============================== " 
 	@echo "libFAUDES-make: platform:" [$(FAUDES_PLATFORM)]
-	@echo "libFAUDES-make: ostype:"   [$(FAUDES_OSTYPE)]
+	@echo "libFAUDES-make: shell:"    [$(FAUDES_MSHELL)]
 	@echo "libFAUDES-make: linking:"  [$(FAUDES_LINKING)]
 	@echo " ============================== " 
 
-report-targets:
+report-stats:
 	@echo " ============================== " 
-	@echo "libFAUDES-make: targets " $(DEFAULTTARGETS)
+	- wc src/*.cpp src/*.h */*/src/*.cpp */*/src/*.h */*/tutorial/*.cpp
+	@echo "libFAUDES-make: statistics" 
 	@echo " ============================== "
 
 report-test:
-	@echo $(ECHOE) $(TESTTARGETS)
+	@echo $(TESTTARGETS)
 
 
 ### all phony targets

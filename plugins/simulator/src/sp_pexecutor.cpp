@@ -1,9 +1,9 @@
 /** @file sp_pexecutor.cpp Executor for multiple synchronized timed generators  */
 
 /* 
-   FAU Discrete Event Systems Library (libfaudes)
+   FAU Discrete Event Systems Library (libFAUDES)
 
-   Copyright (C) 2007, 2008 Thomas Moor
+   Copyright (C) 2007, 2008, 2024 Thomas Moor
    Copyright (C) 2007  Ruediger Berndt
    Exclusive copyright is granted to Klaus Schmidt
 
@@ -205,7 +205,7 @@ void ParallelExecutor::DoReadGenerators(TokenReader& rTr) {
     rTr.Peek(token);
     // is it a file name?
     if(token.Type()==Token::String) {
-      Insert(PrependDirectory(dirname,token.StringValue()));
+      Insert(PrependPath(dirname,token.StringValue()));
       rTr.Get(token);
       continue;
     }

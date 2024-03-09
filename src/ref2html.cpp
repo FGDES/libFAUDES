@@ -1449,7 +1449,7 @@ void  XtractPages(TokenReader& src,const std::string& rDstDir) {
     std::transform(mFrefSection.begin(), mFrefSection.end(), mFrefSection.begin(), tolower);
     std::transform(mFrefPage.begin(), mFrefPage.end(), mFrefPage.begin(), tolower);
     // dst file
-    std::string dstfile=rDstDir + faudes_pathsep() + mFrefSection + "_" + mFrefPage +".fref";
+    std::string dstfile=PrependPath(rDstDir,mFrefSection + "_" + mFrefPage +".fref");
     std::cerr << "ref2html: extracting page to \"" << dstfile << "\"" << std::endl;
     TokenWriter dst(dstfile);
     // copy section
@@ -1494,9 +1494,10 @@ void  XtractFiles(TokenReader& src,const std::string& rDstDir) {
       continue;
     } 
     // dst file
-    std::string dstfile=rDstDir + faudes_pathsep() + "images" + 
-      faudes_pathsep() + name;
-    std::transform(dstfile.begin(), dstfile.end(), dstfile.begin(), tolower);
+    std::string dstfile;
+    std::transform(name.begin(), name.end(), name.begin(), tolower);
+    dstfile=PrependPath(rDstDir,"images");
+    dstfile=PrependPath(dstfile,name);
     std::cerr << "ref2html: extracting image file to \"" << dstfile << "\"" << std::endl;
     // setup stream
     std::fstream fsout;
@@ -2303,9 +2304,9 @@ int main(int argc, char *argv[]) {
     std::set< std::string > dirfiles = ReadDirectory(*sit);
     std::set< std::string >::iterator dit=dirfiles.begin();
     for(;dit!=dirfiles.end();++dit) {
-      std::string ext  = ExtractExtension(*dit);
+      std::string ext  = ExtractSuffix(*dit);
       std::string base = ExtractBasename(*dit);
-      std::string src= PrependDirectory(*sit,base + ".fref");
+      std::string src= PrependPath(*sit,base + ".fref");
       // skip if not an fref file
       if(ext!="fref") continue;
       // record
@@ -2326,7 +2327,7 @@ int main(int argc, char *argv[]) {
     std::string base = ExtractBasename(*sit);
     std::string src= *sit;
     std::string dst= mDstFile;
-    if(dirdst) dst=PrependDirectory(mDstFile,base + ".html");
+    if(dirdst) dst=PrependPath(mDstFile,base + ".html");
     // process
     if(mSrcFiles.size()>1)
       std::cout << "ref2html: processing " << src << " to " << dst << std::endl;

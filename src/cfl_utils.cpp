@@ -1,4 +1,4 @@
-/** @file cfl_helper.cpp   Helper functions */
+/** @file cfl_utils.cpp   C-level utility functions */
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
@@ -23,7 +23,7 @@
 */
 
 
-#include "cfl_helper.h"
+#include "cfl_utils.h"
 
 
 // Debug includes
@@ -251,12 +251,6 @@ std::string CreateTempFile(void) {
 }
 
 
-// RemoveFile(void)
-// todo: sys dependant *
-bool RemoveFile(const std::string& rFileName) {
-  return std::remove(rFileName.c_str()) == 0;
-}
-
 
 // ExtractPath
 std::string ExtractDirectory(const std::string& rFullPath) {
@@ -290,8 +284,8 @@ std::string ExtractBasename(const std::string& rFullPath) {
   return res;
 }
 
-// ExtractExtension
-std::string ExtractExtension(const std::string& rFullPath) {
+// ExtractSuffix
+std::string ExtractSuffix(const std::string& rFullPath) {
   std::string res=rFullPath;
   std::size_t seppos = res.find_last_of(faudes_pathseps());
   if(seppos!=std::string::npos) {
@@ -306,13 +300,31 @@ std::string ExtractExtension(const std::string& rFullPath) {
 }
 
 // PrependPath
-std::string PrependDirectory(const std::string& rDirectory, const std::string& rFileName) {
-  std::string res=rDirectory;
+std::string PrependPath(const std::string& rLeft, const std::string& rRight) {
+  // bail out in trivial args
+  if(rLeft=="")
+    return std::string(rRight);
+  if(rRight=="")
+    return std::string(rLeft);
+  // system default
   char sepchar=faudes_pathsep().at(0);
-  if(res!="")
+  // user overwrite by left argument
+  std::size_t seppos;
+  seppos=rLeft.find_last_of(faudes_pathseps());
+  if(seppos!=std::string::npos) 
+    sepchar=rLeft.at(seppos);
+  // go doit  
+  std::string res=rLeft;
   if(res.at(res.length()-1)!=sepchar)
     res.append(1,sepchar);
-  res.append(rFileName);
+  if(rRight.at(0)!=sepchar){
+    res.append(rRight);
+    return res;
+  }
+  if(rRight.length()<=1) {
+    return res;
+  }
+  res.append(rRight,1,std::string::npos);  
   return res;
 }
 
