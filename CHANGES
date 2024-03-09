@@ -21,6 +21,13 @@ not affect libFAUDES aplications. For the time being, we recommend
 to get the 2.31* from the FGDES/LRT/FAU download page and wait for
 2.32* until stable.
 
+***
+
+We are now internally using "/" as path default seperator on all
+platforms including MS Windows. Only when a "\" is sensed in the 
+path from the left, we also use "\" when appending to such a path.
+Lets figure how far we get with this scheeme.
+
 
 ##########
 
