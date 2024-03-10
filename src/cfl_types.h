@@ -337,7 +337,7 @@ class FAUDES_API Type {
    *    Source to copy from
    * @return Reference to this object.
    */
-  virtual Type& operator=(const Type& rSrc) override;
+  virtual Type& operator=(const Type& rSrc);
 
   /**
    * Test equality of configuration data.
@@ -372,7 +372,7 @@ class FAUDES_API Type {
    * @return 
    *   True on match.
    */
-  virtual bool operator==(const Type& rOther) const override;
+  virtual bool operator==(const Type& rOther) const;
 
 
   /**
@@ -388,7 +388,7 @@ class FAUDES_API Type {
    * @return 
    *   True on mismatch.
    */
-  virtual bool operator!=(const Type& rOther) const override;
+  virtual bool operator!=(const Type& rOther) const;
 
 
   /** 
