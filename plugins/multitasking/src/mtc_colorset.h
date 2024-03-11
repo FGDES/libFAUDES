@@ -61,6 +61,14 @@ FAUDES_TYPE_DECLARATION(ColorSet,ColorSet,NameSet)
     };
 
     /**
+     * Copy-onstructor for ColorSet
+     */
+    ColorSet(const ColorSet& rSourceSet) : NameSet() {
+      DoAssign(rSourceSet);
+      FD_DC("ColorSet("<<this<<")::ColorSet(rSourceSetr) with colorsymtab "<< SymbolTablep()); 
+    };
+
+    /**
      * Constructor for ColorSet with static ColorSymbolTable.
      * This version reads a file with given label to find the colors
      * inside the file.

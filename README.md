@@ -2,7 +2,7 @@
 
 
 
-## OVERVIEW
+## Overview
 
 
 libFAUDES is a C++ library that implements data structures for the representation 
@@ -17,7 +17,7 @@ General Public License.  Different terms may apply to libFAUDES plug-ins.
 
 
 
-## DOCUMENTATION
+## Documentation
 
 libFAUDES ships with auto-generated HTML documentaion which can be
 accessed via ./doc/index.html. An online version is available at
@@ -31,6 +31,20 @@ https://fgdes.tf.fau.de/download.html
 If you want to build your own, see the build process documentation
 
 https://fgdes.tf.fau.de/faudes/faudes_build.html
+
+
+## Versioning/Branching
+
+Originally, libFAUDES was designed for joint development by its compile-time plug-in
+machanism ... quite some time before git existed. At the current stage, we
+use the main branch of this repository for our development process. In modern terminology
+this remotely translates to <i>nightly builds</i> and we would not even bother to update the
+version number (as specified in the file `VERSION`). Thus, if you are looking for a stable
+code base, please consult our web site. If on the other hand you plan to contribute to libFAUDES
+via GitHub, you will most definitely want to instantiate you personal branch. And: please
+let us know, so we can focus our efforts.
+
+
 
 
 ## Authors/Copyright

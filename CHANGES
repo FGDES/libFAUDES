@@ -24,10 +24,20 @@ to get the 2.31* from the FGDES/LRT/FAU download page and wait for
 ***
 
 We are now internally using "/" as path default seperator on all
-platforms including MS Windows. Only when a "\" is sensed in the 
-path from the left, we also use "\" when appending to such a path.
-Lets figure how far we get with this scheeme.
+platforms including MS Windows. Only when a "\" is sensed in the path 
+from the left, we also use "\" when appending to such a path. Why on
+earth does MS accept "/" on the sytem interface but implements "cmd.exe"
+to not to do so. "flxinstall" uses "std::system" and this  translates to
+an invocation of "cmd.exe" and there we do need "\" for all built in 
+commands in contrast to the well established "/". Lets figure how far 
+we get with our new semi-smart scheeme. 
 
+***
+
+Yet again the token IO. We have chnaged the methoeds "ReadInteger" and
+alike of "TokenReader" to not digest a mismatching token (while still
+throwing an exception). This whould have been the design in the first
+place.
 
 ##########
 
