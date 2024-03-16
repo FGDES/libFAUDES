@@ -938,8 +938,8 @@ private:
     if(!csattr) return false; \
     if(!DoEqual(*csattr)) return false;		\
     return true;} \
-  ctemp bool ctype::operator==(const ctype& rOther) { return DoEqual(rOther); } \
-  ctemp bool ctype::operator!=(const ctype& rOther) { return !DoEqual(rOther); }
+  ctemp bool ctype::operator==(const ctype& rOther) const { return DoEqual(rOther); } \
+  ctemp bool ctype::operator!=(const ctype& rOther) const { return !DoEqual(rOther); }
 
 
 /** faudes type implementation macros, overall */
@@ -956,7 +956,7 @@ private:
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) override { this->Clear(); this->DoAssign(rSrc); return *this; } \
+  ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); this->DoAssign(rSrc); return *this; } \
   bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
     if(typeid(rOther) != typeid(*this)) return false; \
@@ -1008,7 +1008,7 @@ private:
       { this->Clear(); DoAssign(*csattr); return *this;}      \
     cbase::Assign(rSrc); \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) override { this->Clear(); DoAssign(rSrc); return *this;} \
+  ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); DoAssign(rSrc); return *this;} \
   bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
     if(typeid(rOther) != typeid(*this)) return false; \
@@ -1092,7 +1092,7 @@ private:
     if(const ctype* csattr=dynamic_cast<const ctype*>(&rSrc)) { this->Clear(); return DoAssign(*csattr);} \
     cbase::Assign(rSrc); \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) override { \
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { \
     FD_WARN("RTI "<< typeid(ctype).name() << "::ASSIGN() O: " << typeid(*this).name() << \
       " from " << typeid(rSrc).name()); \
     this->Clear(); \
