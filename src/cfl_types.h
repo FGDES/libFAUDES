@@ -929,7 +929,7 @@ private:
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) override { this->Clear(); DoAssign(rSrc); return *this; }
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); DoAssign(rSrc); return *this; }
 #define FAUDES_TYPE_TIMPLEMENTATION_EQUAL(ftype,ctype,cbase,ctemp)	\
   ctemp bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
@@ -938,8 +938,8 @@ private:
     if(!csattr) return false; \
     if(!DoEqual(*csattr)) return false;		\
     return true;} \
-  ctemp bool ctype::operator==(const ctype& rOther) const override { return DoEqual(rOther); } \
-  ctemp bool ctype::operator!=(const ctype& rOther) const override { return !DoEqual(rOther); }
+  ctemp bool ctype::operator==(const ctype& rOther) { return DoEqual(rOther); } \
+  ctemp bool ctype::operator!=(const ctype& rOther) { return !DoEqual(rOther); }
 
 
 /** faudes type implementation macros, overall */
