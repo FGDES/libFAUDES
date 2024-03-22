@@ -42,7 +42,7 @@ namespace faudes {
  *
  * To derive a class from AttributeVoid you should reimplement the virtual
  * interface
- * - virtual methody DoRead and DoWrtie for token io (as in faudes::Type)
+ * - virtual methody DoRead and DoWrite for token io (as in faudes::Type)
  * - virtual methods for DoAssign() (as in faudes::Type) 
  * - the factory method New() (use provided macro from faudes::Type)
  * - the rti typecast method Cast() (use provided macro from faudes::Type)
