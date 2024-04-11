@@ -96,6 +96,10 @@ class FAUDES_TAPI TBaseSet : public Type {
 
 public:
 
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
+
   /** allow access to attribute interface class */
   template<class TP, class AP, class CP> friend class TAttrMap;
 
