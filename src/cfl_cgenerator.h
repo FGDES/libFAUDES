@@ -58,6 +58,11 @@ class FAUDES_API AttributeCFlags : public AttributeFlags {
 FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
 
  public:
+
+  using AttributeFlags::operator=;
+  using AttributeFlags::operator==;
+  using AttributeFlags::operator!=;
+
   /**
    * Default constructor 
    */
