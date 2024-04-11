@@ -49,6 +49,9 @@ Elementary type, representing an integer value.
 class FAUDES_API Integer : public Type {
 
  public:
+
+  using Type::operator=;
+
   /** Constructor */
   Integer(void);
 
@@ -239,6 +242,9 @@ Elementary type, representing a string value.
 class FAUDES_API String : public Type{
 
  public:
+
+  using Type::operator=;
+
   /** Constructor */
   String(void);
 
@@ -390,6 +396,9 @@ Elementary type, representing a boolean value.
 class FAUDES_API Boolean : public Type{
 
  public:
+
+  using Type::operator=;
+
   /** Constructor */
   Boolean(void);
 
