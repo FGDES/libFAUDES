@@ -48,6 +48,8 @@ class FAUDES_API TypeRegistry : public Type {
 
 public:
 
+  using Type::operator=;
+
   /** Convenience typedef to access registry entries */     
   typedef std::map<std::string, TypeDefinition*>::const_iterator Iterator;
 
