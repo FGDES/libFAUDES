@@ -247,6 +247,10 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
 
   public:
 
+  using TBaseSet<Transition,Cmp>::operator=;
+  using TBaseSet<Transition,Cmp>::operator==;
+  using TBaseSet<Transition,Cmp>::operator!=;
+
   /** @name Constructors & Destructor */ 
   /** @{ doxygen group */
 
@@ -991,6 +995,10 @@ class FAUDES_TAPI TaTransSet : public TransSet, public TAttrMap<Transition,Attr,
 FAUDES_TYPE_DECLARATION(Void,TaTransSet,TransSet)
 
 public:
+
+  using TransSet::operator=;
+  using TransSet::operator==;
+  using TransSet::operator!=;
 
 
   /** @name Constructors & Destructor */ 
