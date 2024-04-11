@@ -61,6 +61,8 @@ class IndexSet;
 class FAUDES_API SymbolTable : public Type {
 public:
 
+  using Type::operator=;
+
   /** Creates a new SymbolTable */
   SymbolTable(void);
 
