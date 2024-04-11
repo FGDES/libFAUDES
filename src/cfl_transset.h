@@ -234,13 +234,13 @@ class FAUDES_API TransSort {
  */
 
 // tweak: this appears to be a g++ 4.2 (OsX) issue --- fails at dynamic cast if this symbol is not explicitly exposed
-#ifdef __GNUC__
+//#ifdef __GNUC__
+//template <class Cmp=TransSort::X1EvX2>
+//class FAUDES_API TTransSet : public TBaseSet<Transition,Cmp> {
+//#else
 template <class Cmp=TransSort::X1EvX2>
-class FAUDES_API TTransSet : public TBaseSet<Transition,Cmp> {
-#else
-template <class Cmp=TransSort::X1EvX2>
-class TTransSet : public TBaseSet<Transition,Cmp> {
-#endif
+class FAUDES_TAPI TTransSet : public TBaseSet<Transition,Cmp> {
+//#endif
 
 FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
 
@@ -986,7 +986,7 @@ typedef TTransSet<TransSort::X1X2Ev> TransSetX1X2Ev;
 
 
 template <class Attr>
-class FAUDES_API TaTransSet : public TransSet, public TAttrMap<Transition,Attr,TransSort::X1EvX2> {
+class FAUDES_TAPI TaTransSet : public TransSet, public TAttrMap<Transition,Attr,TransSort::X1EvX2> {
 
 FAUDES_TYPE_DECLARATION(Void,TaTransSet,TransSet)
 

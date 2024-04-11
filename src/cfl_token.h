@@ -3,6 +3,7 @@
 /* FAU Dscrete Event Systems Library (libfaudes)
 
 Copyright (C) 2006  Bernd Opitz
+Copyright (C) 2006, 2020, 2024  Thomas Moor
 Exclusive copyright is granted to Klaus Schmidt
 
 This library is free software; you can redistribute it and/or
@@ -24,7 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #define FAUDES_TOKEN_H
 
 #include "cfl_definitions.h"
-#include "cfl_helper.h"
+#include "cfl_utils.h"
 #include <string>
 #include <iostream>
 #include <fstream>

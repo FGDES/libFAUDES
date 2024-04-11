@@ -3,8 +3,8 @@
 /* Hierarchical IO Systems Plug-In for FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Sebastian Perk 
-   Copyright (C) 2006  Thomas Moor 
    Copyright (C) 2006  Klaus Schmidt
+   Copyright (C) 2006, 2024  Thomas Moor 
 
 */
 
@@ -44,7 +44,7 @@ namespace faudes {
  */
 
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
-class THioPlant : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
+class FAUDES_TAPI THioPlant : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
   public:
     /**
      * Creates an empty HioPlant object 

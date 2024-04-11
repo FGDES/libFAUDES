@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2006  Bernd Opitz
-Copywrite (C) 2007 Thomas Moor
+Copywrite (C) 2007, 2024 Thomas Moor
 Exclusive copyright is granted to Klaus Schmidt
 
 This library is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #include "cfl_definitions.h"
 #include "cfl_types.h"
 #include "cfl_exception.h"
-#include "cfl_helper.h" 
+#include "cfl_utils.h" 
 #include "cfl_indexset.h" 
 
 #include <algorithm>

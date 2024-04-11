@@ -40,7 +40,7 @@ namespace faudes {
  */
 
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
-class THioConstraint : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
+class FAUDES_TAPI THioConstraint : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
 public:
     /**
      * Creates an empty HioConstraint object 

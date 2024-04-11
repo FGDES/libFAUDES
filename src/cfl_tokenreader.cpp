@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2006  Bernd Opitz
-Copyright (C) 2006  Thomas Moor
+Copyright (C) 2006. 2010  Thomas Moor
 Exclusive copyright is granted to Klaus Schmidt
 
 This library is free software; you can redistribute it and/or
@@ -454,36 +454,39 @@ bool TokenReader::Eos(const std::string& rLabel) {
 // ReadInteger()
 long int TokenReader::ReadInteger(void) {
   Token token;			
-  Get(token);
+  Peek(token);
   if(!token.IsInteger()) {
     std::stringstream errstr;
     errstr << "Integer expected at " << FileLine();
     throw Exception("TokenReader::TokenReader", errstr.str(), 50);
   }
+  Get(token);
   return token.IntegerValue();
 }
 
 // ReadFloat()
 double TokenReader::ReadFloat(void) {
   Token token;			
-  Get(token);
+  Peek(token);
   if((!token.IsFloat()) && (!token.IsInteger())) {
     std::stringstream errstr;
     errstr << "Float expected at " << FileLine();
     throw Exception("TokenReader::TokenReader", errstr.str(), 50);
   }
+  Get(token);
   return token.FloatValue();
 }
 
 // ReadString()
 std::string TokenReader::ReadString(void) {
   Token token;			
-  Get(token);
+  Peek(token);
   if(!token.IsString()) {
     std::stringstream errstr;
     errstr << "String expected at " << FileLine();
     throw Exception("TokenReader::TokenReader", errstr.str(), 50);
   }
+  Get(token);
   return token.StringValue();
 }
 
@@ -491,24 +494,26 @@ std::string TokenReader::ReadString(void) {
 // ReadOption()
 std::string TokenReader::ReadOption(void) {
   Token token;			
-  Get(token);
+  Peek(token);
   if(!token.IsOption()) {
     std::stringstream errstr;
     errstr << "Option expected at " << FileLine();
     throw Exception("TokenReader::TokenReader", errstr.str(), 50);
   }
+  Get(token);
   return token.OptionValue();
 }
 
 // ReadBinary()
 void TokenReader::ReadBinary(std::string& rData) {
   Token token;			
-  Get(token);
+  Peek(token);
   if(!token.IsBinary()) {
     std::stringstream errstr;
     errstr << "Binary string expected at " << FileLine();
     throw Exception("TokenReader::TokenReader", errstr.str(), 50);
   }
+  Get(token);
   rData = token.StringValue();
 }
 

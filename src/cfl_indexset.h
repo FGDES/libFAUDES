@@ -4,7 +4,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Bernd Opitz
-   Copyright (C) 2007  Thomas Moor
+   Copyright (C) 2007, 2024  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -77,9 +77,9 @@ template<class Attr> class TaIndexSet;
 
 class FAUDES_API IndexSet : public TBaseSet<Idx> {
 
-FAUDES_TYPE_DECLARATION(IndexSet,IndexSet,TBaseSet<Idx>)
-
 public:
+
+  FAUDES_TYPE_DECLARATION(IndexSet,IndexSet,TBaseSet<Idx>)
 
   /** 
    * We implement "protected privacy for template classes" by friendship.
@@ -311,11 +311,12 @@ typedef  TBaseVector<IndexSet> IndexSetVector;
 
 
 template<class Attr>
-class FAUDES_API TaIndexSet : public IndexSet, public TAttrMap<Idx,Attr> {
-
-FAUDES_TYPE_TDECLARATION(Void,TaIndexSet,IndexSet)
+class FAUDES_TAPI TaIndexSet : public IndexSet, public TAttrMap<Idx,Attr> {
 
 public:
+
+  FAUDES_TYPE_TDECLARATION(Void,TaIndexSet,IndexSet)
+
 
   /** 
    * We implement "protected privacy for template classes" by friendship.
@@ -542,12 +543,11 @@ public:
 
 };
 
-/** Convenience Macro */
-//template<class Attr> typedef TaStateSet<class Attr> TaIndexSet<class Attr>
-#define TaStateSet TaIndexSet
-
-
-
+/** Convenience Macro (pre C++11) */
+//#define TaStateSet TaIndexSet  //
+/** Convenience Typedef (C++11) */
+template <class Attr> using TaStateSet = TaIndexSet<Attr>;
+ 
 
 /** @} doxygen group */
 

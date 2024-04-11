@@ -48,20 +48,21 @@
 
 /** Interface export/import symbols: windows */
 #ifdef FAUDES_WINDOWS
-#ifdef FAUDES_BUILD_DSO
   #ifdef __GNUC__
-    #define FAUDES_API __attribute__ ((dllexport))
+    #ifdef FAUDES_BUILD_DSO
+      #define FAUDES_API __attribute__ ((dllexport))
+    #endif
+    #ifdef FAUDES_BUILD_APP
+      #define FAUDES_API __attribute__ ((dllimport))
+    #endif
   #else
-    #define FAUDES_API __declspec(dllexport) 
+    #ifdef FAUDES_BUILD_DSO
+      #define FAUDES_API __declspec(dllexport) 
+    #endif
+    #ifdef FAUDES_BUILD_APP
+      #define FAUDES_API __declspec(dllimport) 
+    #endif
   #endif
-#endif
-#ifdef FAUDES_BUILD_APP
-  #ifdef __GNUC__
-    #define FAUDES_API __attribute__ ((dllimport))
-  #else
-    #define FAUDES_API __declspec(dllimport) 
-  #endif
-#endif
 #endif
 
 /** Interface export/import symbols: posix/gcc */
@@ -69,16 +70,17 @@
 #ifdef FAUDES_BUILD_DSO
   #if __GNUC__ >= 4
     #define FAUDES_API __attribute__ ((visibility ("default")))
+    #define FAUDES_TAPI  __attribute__ ((visibility ("default")))
   #endif
-#endif
-#ifdef FAUDES_BUILD_APP
-  #define FAUDES_API
 #endif
 #endif
 
 /** Interface export/import symbols: default */
 #ifndef FAUDES_API
    #define FAUDES_API
+#endif
+#ifndef FAUDES_TAPI
+   #define FAUDES_TAPI
 #endif
  
 
@@ -170,14 +172,15 @@
 
 
 
-// Path-seperators (see cfl_helper.cpp)
+// Path-seperators (see cfl_utils.cpp)
 //  * the first separator is the one used to prepend directories etc
 //  * all other separators are used to extract basenames
 //  * using gcc/make also on Windows, we occasionaly get Unix style files names
 //    in the build process ... thus we allways define the Unix "/" as a separator 
-//  * summary: we use "/" for POSIX and "\\:/" for Windows.
+//  * up to libFAUDES 2.31 we used "/" for POSIX and "\\:/" for Windows.
+//  * as of libFAUDES 2.32 we used "/" for POSIX and "/\\:" for Windows.
 extern FAUDES_API const std::string& faudes_pathseps(void); 
-// Path-seperator (first char of above, see cfl_helper.cpp)
+// Path-seperator (first char of above, see cfl_utils.cpp)
 extern FAUDES_API const std::string& faudes_pathsep(void);
 
 

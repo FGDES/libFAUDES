@@ -2,6 +2,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
+Copyright (C) 2006, 2010  Thomas Moor
 Copyright (C) 2006  Bernd Opitz
 Exclusive copyright is granted to Klaus Schmidt
 
@@ -116,7 +117,7 @@ public:
   /** 
    * Access C++ stream
    *
-   * This method provides direc access to the underlying C++ stream.
+   * This method provides direct access to the underlying C++ stream.
    * After any such access, the TokenReader must be Rewind() to reset
    * its internal state.
    *
@@ -170,7 +171,7 @@ public:
   /**
    * Get next token. 
    *
-   * Same as Pekk() except that the token is removed from the buffer.
+   * Same as Peek() except that the token is removed from the buffer.
    *
    * @param token
    *   Reference to token
@@ -329,7 +330,7 @@ public:
    *   - Token mismatch  (id 50)
    *
    * @return
-   *   value of index token
+   *   value of integer token
    */
   long int ReadInteger(void);
 

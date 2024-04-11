@@ -4,7 +4,7 @@
    FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2007  Ruediger Berndt
-   Copyright (C) 2007  Thomas Moor
+   Copyright (C) 2007, 2010, 2024  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 	
 */
