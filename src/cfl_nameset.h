@@ -72,6 +72,10 @@ FAUDES_TYPE_DECLARATION(EventSet,NameSet,TBaseSet<Idx>)
 
 public:
 
+  using TBaseSet<Idx>::operator=;
+  using TBaseSet<Idx>::operator==;
+  using TBaseSet<Idx>::operator!=;
+
   /** 
    * We implement "protected privacy for template classes" by friendship.
    * This is used for the pragmatic implemention of conversion constructors.
@@ -571,6 +575,10 @@ FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
 
 
  public:
+
+  using NameSet::operator=;
+  using NameSet::operator==;
+  using NameSet::operator!=;
   /**
    * Constructor for NameSet referring to the static SymbolTable. 
    */
