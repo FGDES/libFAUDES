@@ -213,6 +213,8 @@ namespace faudes {
 class FAUDES_API vGenerator : public Type  {
 
  public:
+
+  using Type::operator=;
     
   /** @name Constructors & Destructor */
   /** @{ doxygen group */
