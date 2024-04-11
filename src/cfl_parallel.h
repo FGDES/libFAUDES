@@ -43,6 +43,11 @@ namespace faudes {
 class FAUDES_API ProductCompositionMap : public Type {
   FAUDES_TYPE_DECLARATION(ProductCompositionMap,ProductCompositionMap,Type)
 public:
+
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
+
   // std faudes type
   ProductCompositionMap(void);
   ProductCompositionMap(const ProductCompositionMap& rOther);
