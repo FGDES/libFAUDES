@@ -55,6 +55,10 @@ FAUDES_TYPE_DECLARATION(Void,AttributeVoid,Type)
 
 public:
 
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
+
   /** Constructor */
   AttributeVoid(void);
 
@@ -205,6 +209,10 @@ class FAUDES_API AttributeFlags : public AttributeVoid {
 FAUDES_TYPE_DECLARATION(Void,AttributeFlags,AttributeVoid)
 
 public:
+
+  using AttributeVoid::operator=;
+  using AttributeVoid::operator==;
+  using AttributeVoid::operator!=;
 
   /** Default constructor */
   AttributeFlags(void) : AttributeVoid(), mFlags(mDefFlags) {};
