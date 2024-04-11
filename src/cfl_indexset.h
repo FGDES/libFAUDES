@@ -81,6 +81,10 @@ public:
 
   FAUDES_TYPE_DECLARATION(IndexSet,IndexSet,TBaseSet<Idx>)
 
+  using TBaseSet<Idx>::operator=;
+  using TBaseSet<Idx>::operator==;
+  using TBaseSet<Idx>::operator!=;
+
   /** 
    * We implement "protected privacy for template classes" by friendship.
    * This is used for the pragmatic implemention conversion constructors.
@@ -316,6 +320,10 @@ class FAUDES_TAPI TaIndexSet : public IndexSet, public TAttrMap<Idx,Attr> {
 public:
 
   FAUDES_TYPE_TDECLARATION(Void,TaIndexSet,IndexSet)
+
+  using IndexSet::operator=;
+  using IndexSet::operator==;
+  using IndexSet::operator!=;
 
 
   /** 
