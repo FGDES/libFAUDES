@@ -73,6 +73,10 @@ FAUDES_TYPE_DECLARATION(SymbolSet,SymbolSet,TBaseSet<std::string>)
 
 public:
 
+  using TBaseSet<std::string>::operator=;
+  using TBaseSet<std::string>::operator==;
+  using TBaseSet<std::string>::operator!=;
+
   /**
    * Constructor. 
    */
