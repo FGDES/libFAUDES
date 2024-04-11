@@ -224,6 +224,10 @@ class FAUDES_API Signature : public Type {
 
 public:
 
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
+
   /** Constructor */
   Signature(void);
 
@@ -418,6 +422,10 @@ class FAUDES_API FunctionDefinition : public Documentation {
  FAUDES_TYPE_DECLARATION(Void,FunctionDefinition,Documentation)
 
 public:
+
+  using Documentation::operator=;
+  using Documentation::operator==;
+  using Documentation::operator!=;
 
   /** 
    * Constructor 
@@ -712,6 +720,8 @@ protected:
 class FAUDES_API Function : public Type {
 
  public:
+
+  using Type::operator=;
   /** 
    * Constructor 
    * For the function to be operational, a valid reference to the corresponding 
