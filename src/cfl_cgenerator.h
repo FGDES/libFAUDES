@@ -277,6 +277,8 @@ typedef TBaseVector<cEventSet>     cEventSetVector;
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     class FAUDES_API TcGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
   public:
+
+    using Type::operator=;
     /**
      * Creates an emtpy System object 
      */
@@ -970,7 +972,6 @@ TEMP THIS::TcGenerator(const std::string& rFileName) : BASE(rFileName) {
 }
 
 // operator=
-using Type::operator=;
 TEMP THIS& THIS::operator= (const TcGenerator& rOtherGen) {
   FD_DG("TcGenerator(" << this << ")::operator = [v]" << &rOtherGen);
   return Assign(rOtherGen);
