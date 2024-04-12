@@ -69,6 +69,8 @@ namespace faudes {
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 class FAUDES_TAPI TaGenerator : public vGenerator {
  public:
+
+  using Type::operator=;
     
   /** Convenience typdef for member transiton set */
   typedef TaTransSet<TransAttr> ATransSet;
@@ -1039,7 +1041,6 @@ TEMP const Type* THIS::Cast(const Type* pOther) const {
 
 
 // operator=
-using Type::operator=;
 TEMP TaGenerator<GlobalAttr,StateAttr,EventAttr,TransAttr>& THIS::operator= (const TaGenerator& rOtherGen) {
   FD_DG("TaGenerator(" << this << ")::operator = [v]" << &rOtherGen);
   return Assign(rOtherGen);
