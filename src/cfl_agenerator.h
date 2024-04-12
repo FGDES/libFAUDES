@@ -1039,6 +1039,7 @@ TEMP const Type* THIS::Cast(const Type* pOther) const {
 
 
 // operator=
+using Type::operator=;
 TEMP TaGenerator<GlobalAttr,StateAttr,EventAttr,TransAttr>& THIS::operator= (const TaGenerator& rOtherGen) {
   FD_DG("TaGenerator(" << this << ")::operator = [v]" << &rOtherGen);
   return Assign(rOtherGen);
