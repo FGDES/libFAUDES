@@ -972,7 +972,6 @@ TEMP THIS::TcGenerator(const std::string& rFileName) : BASE(rFileName) {
 
 // operator=
 TEMP THIS& THIS::operator= (const TcGenerator& rOtherGen) {
-  using Type::operator=;
   FD_DG("TcGenerator(" << this << ")::operator = [v]" << &rOtherGen);
   return Assign(rOtherGen);
 }
