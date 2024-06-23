@@ -3,7 +3,7 @@
 /* 
    FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2008, Thomas Moor
+   Copyright (C) 2008, 2024 Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
 */
@@ -451,6 +451,11 @@ void nDevice::DoReadPreface(TokenReader& rTr, const std::string& rLabel, const T
   // loop network nodes
   while(!rTr.Eos("Network")) {
     rTr.ReadBegin("Node",ntag);
+    if(!ntag.ExistsAttributeString("name")) {
+      std::stringstream errstr;
+      errstr << "Simplenet node name expected at " << rTr.FileLine();
+      throw Exception("nDevice::DoRead", errstr.str(), 50);
+    }
     std::string node=ntag.AttributeStringValue("name");
     InsNode(node);
     // undocumented feature: explicit server addresses in dev file; tmoor 20121113
@@ -459,7 +464,7 @@ void nDevice::DoReadPreface(TokenReader& rTr, const std::string& rLabel, const T
       defaddress.IpColonPort(ntag.AttributeStringValue("address"));
       if(!defaddress.Valid()) {
         std::stringstream errstr;
-        errstr << "Simplenet address expected at " << rTr.FileLine();
+        errstr << "Simplenet node address expected at " << rTr.FileLine();
         throw Exception("nDevice::DoRead", errstr.str(), 50);
       }
       mNetworkNodes[node]=defaddress.IpColonPort();
