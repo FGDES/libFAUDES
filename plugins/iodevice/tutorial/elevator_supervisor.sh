@@ -6,8 +6,8 @@
 
 # Configure
 SIMFAUDES=../../../bin/simfaudes
-SIMFILE=date/elevator_supervisor.sim
-DEVFILE=date/elevator_comedi.dev
+SIMFILE=data/elevator_supervisor.sim
+DEVFILE=data/elevator_comedi.dev
 
 echo Elevator Simulation
 echo
