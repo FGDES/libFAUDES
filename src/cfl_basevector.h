@@ -73,6 +73,10 @@ FAUDES_TYPE_DECLARATION(Void,vBaseVector,Type)
 
 public:
 
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
+
   /**
    * Constructor. 
    */
@@ -556,6 +560,10 @@ class FAUDES_TAPI TBaseVector : public vBaseVector {
 FAUDES_TYPE_TDECLARATION(Void,TBaseVector,vBaseVector)
 
 public:
+
+  using vBaseVector::operator=;
+  using vBaseVector::operator==;
+  using vBaseVector::operator!=;
 
   /**
    * Constructor. 

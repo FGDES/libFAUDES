@@ -264,6 +264,7 @@ int main(int argc, char *argv[]) {
     rtiheader << "/* Function class for C++ function " << ctype << "*/" << std::endl;
     rtiheader << "class " << rtiname << " : public Function { " << std::endl;
     rtiheader << "public:" << std::endl;
+    rtiheader << "  using Function::operator=;" << std::endl;
     rtiheader << rtiname << "(const FunctionDefinition* fdef) : Function(fdef) {};" << std::endl;
     rtiheader << "virtual Function* New(void) const { return new " << rtiname << "(pFuncDef); };" << std::endl;
     rtiheader << "protected:" << std::endl;

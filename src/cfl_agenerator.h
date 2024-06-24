@@ -69,6 +69,8 @@ namespace faudes {
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 class FAUDES_TAPI TaGenerator : public vGenerator {
  public:
+
+  using vGenerator::operator=;
     
   /** Convenience typdef for member transiton set */
   typedef TaTransSet<TransAttr> ATransSet;

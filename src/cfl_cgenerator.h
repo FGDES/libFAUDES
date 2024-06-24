@@ -58,6 +58,11 @@ class FAUDES_API AttributeCFlags : public AttributeFlags {
 FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
 
  public:
+
+  using AttributeFlags::operator=;
+  using AttributeFlags::operator==;
+  using AttributeFlags::operator!=;
+
   /**
    * Default constructor 
    */
@@ -272,6 +277,9 @@ typedef TBaseVector<cEventSet>     cEventSetVector;
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     class FAUDES_API TcGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
   public:
+
+    using TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
+
     /**
      * Creates an emtpy System object 
      */

@@ -1076,7 +1076,7 @@ private:
     if(!this->DoEqual(*csattr)) return false;		\
     return true;} \
   ctemp bool ctype::operator==(const ctype& rOther) const { return this->DoEqual(rOther); } \
-  ctemp bool ctype::operator!=(const ctype& rOther) const { return !this->DoEqual(rOther); } 
+  ctemp bool ctype::operator!=(const ctype& rOther) const{ return !this->DoEqual(rOther); } 
 */
 
 /** faudes type implementation macros, overall, debug version */
@@ -1131,6 +1131,12 @@ class FAUDES_API Documentation : public Type {
   FAUDES_TYPE_DECLARATION(Void,Documentation,Type)
   
 public:
+
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
+
+
   /** Constructor */
   Documentation(void);
 
@@ -1467,6 +1473,10 @@ class FAUDES_API TypeDefinition : public Documentation {
  friend class TypeRegistry;
 
  public:
+
+  using Documentation::operator=;
+  using Documentation::operator==;
+  using Documentation::operator!=;
 
   /** 
    * Constructor 

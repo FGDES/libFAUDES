@@ -42,7 +42,7 @@ namespace faudes {
  *
  * To derive a class from AttributeVoid you should reimplement the virtual
  * interface
- * - virtual methody DoRead and DoWrtie for token io (as in faudes::Type)
+ * - virtual methody DoRead and DoWrite for token io (as in faudes::Type)
  * - virtual methods for DoAssign() (as in faudes::Type) 
  * - the factory method New() (use provided macro from faudes::Type)
  * - the rti typecast method Cast() (use provided macro from faudes::Type)
@@ -54,6 +54,10 @@ class FAUDES_API AttributeVoid : public Type {
 FAUDES_TYPE_DECLARATION(Void,AttributeVoid,Type)
 
 public:
+
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
 
   /** Constructor */
   AttributeVoid(void);
@@ -205,6 +209,10 @@ class FAUDES_API AttributeFlags : public AttributeVoid {
 FAUDES_TYPE_DECLARATION(Void,AttributeFlags,AttributeVoid)
 
 public:
+
+  using AttributeVoid::operator=;
+  using AttributeVoid::operator==;
+  using AttributeVoid::operator!=;
 
   /** Default constructor */
   AttributeFlags(void) : AttributeVoid(), mFlags(mDefFlags) {};
