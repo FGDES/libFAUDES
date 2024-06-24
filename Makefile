@@ -1539,6 +1539,8 @@ report-stats:
 
 report-test:
 	@echo $(TESTTARGETS)
+	@echo $(HEADERS)
+	@echo $(FAUDES_PLUGINS)
 
 
 ### all phony targets

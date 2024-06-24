@@ -337,7 +337,7 @@ class FAUDES_API Type {
    *    Source to copy from
    * @return Reference to this object.
    */
-  virtual Type& operator=(const Type& rSrc);
+  /*virtual*/ Type& operator=(const Type& rSrc);
 
   /**
    * Test equality of configuration data.
@@ -372,7 +372,7 @@ class FAUDES_API Type {
    * @return 
    *   True on match.
    */
-  virtual bool operator==(const Type& rOther) const;
+  /*virtual*/ bool operator==(const Type& rOther) const;
 
 
   /**
@@ -388,7 +388,7 @@ class FAUDES_API Type {
    * @return 
    *   True on mismatch.
    */
-  virtual bool operator!=(const Type& rOther) const;
+  /*virtual*/ bool operator!=(const Type& rOther) const;
 
 
   /** 
@@ -881,9 +881,9 @@ private:
   public: virtual const Type* Cast(const Type* pOther) const; \
   public: virtual ctype& Assign(const Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
-  public: virtual ctype& operator=(const ctype& rSrc);  \
-  public: virtual bool operator==(const ctype& rOther) const; \
-  public: virtual bool operator!=(const ctype& rOther) const; 
+  public: /*virtual*/ ctype& operator=(const ctype& rSrc);      \
+  public: /*virtual*/ bool operator==(const ctype& rOther) const; \
+  public: /*virtual*/ bool operator!=(const ctype& rOther) const; 
 
 /** faudes type implementation macros */
 #define FAUDES_TYPE_IMPLEMENTATION_NEW(ftype,ctype,cbase)	\
