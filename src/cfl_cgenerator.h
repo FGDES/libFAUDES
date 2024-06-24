@@ -358,7 +358,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      *   Other generator
      */
      /*virtual*/ TcGenerator& operator= (const TcGenerator& rOtherGen);
-     using TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
+     //using TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
   
     /**
      * Assignment method

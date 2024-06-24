@@ -127,7 +127,7 @@ class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventA
      *   Other generator
      */
     /*virtual*/ TtGenerator& operator= (const TtGenerator& rOtherGen) {this->Assign(rOtherGen); return *this;};
-    using vGenerator::operator=;
+    //using vGenerator::operator=;
 
    /**
     * Construct from file

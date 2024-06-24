@@ -95,7 +95,7 @@ class FAUDES_TAPI TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, Ev
      *   Other generator
      */
     /*virtual*/ TdiagGenerator& operator= (const Generator& rOtherGen) {this->Assign(rOtherGen); return *this;};
-    using TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
+    //using TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
      
     /** @} doxygen group */
   

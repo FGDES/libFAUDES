@@ -214,8 +214,6 @@ class FAUDES_API vGenerator : public Type  {
 
  public:
 
-  using Type::operator=;
-    
   /** @name Constructors & Destructor */
   /** @{ doxygen group */
 
@@ -335,6 +333,8 @@ class FAUDES_API vGenerator : public Type  {
    *   Other generator
    */
   /*virtual*/ vGenerator& operator= (const vGenerator& rOtherGen);
+  //using Type::operator=;
+    
 
   /**
    * Create another version of this generator.

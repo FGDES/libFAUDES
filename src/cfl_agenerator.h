@@ -70,7 +70,6 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 class FAUDES_TAPI TaGenerator : public vGenerator {
  public:
 
-  using vGenerator::operator=;
     
   /** Convenience typdef for member transiton set */
   typedef TaTransSet<TransAttr> ATransSet;
@@ -190,6 +189,7 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
    *   Other generator
    */
   /*virtual*/ TaGenerator& operator= (const TaGenerator& rOtherGen);
+  //using vGenerator::operator=;
 
   /**
    * Destructive copy to other TaGenerator 
