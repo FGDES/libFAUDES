@@ -628,15 +628,14 @@ FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
    */
   virtual TaNameSet& Assign(const TBaseSet<Idx>& rSrc);
 
-  /** Relaxed assignment operator 
-(uses base class to maintain attributes)
+  /** Relaxed assignment operator (uses base class to maintain attributes)
    *
    * @param rSrc 
    *    Source from which to assign
    * @return
    *    Ref to this set
    */
-  virtual TaNameSet& operator=(const NameSet& rSrc) { return Assign(rSrc); };
+  /*virtual*/ TaNameSet& operator=(const NameSet& rSrc) { return Assign(rSrc); };
 
   /** 
    * Iterators on nameset. 

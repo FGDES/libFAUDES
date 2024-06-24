@@ -870,9 +870,9 @@ private:
   public: virtual const Type* Cast(const Type* pOther) const; \
   public: virtual ctype& Assign(const Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
-  public: virtual ctype& operator=(const ctype& rSrc);  \
-  public: virtual bool operator==(const ctype& rOther) const; \
-  public: virtual bool operator!=(const ctype& rOther) const; 
+  public: /*virtual*/ ctype& operator=(const ctype& rSrc);	\
+  public: /*virtual*/ bool operator==(const ctype& rOther) const; \
+  public: /*virtual*/ bool operator!=(const ctype& rOther) const; 
 
 /** faudes type declaration macro, template version */
 #define FAUDES_TYPE_TDECLARATION(ftype,ctype,cbase)   \
