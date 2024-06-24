@@ -132,6 +132,12 @@
 // Extra Windows headers
 #ifdef FAUDES_WINDOWS
 
+#ifdef FAUDES_NETWORK
+#include <winsock2.h>
+#include <ws2tcpip.h>  // MS VC 2017
+#include <fcntl.h>
+#endif
+
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #define FAUDES_LEAN_AND_MEAN
@@ -148,11 +154,6 @@
 #include <mmsystem.h>
 #endif
 
-#ifdef FAUDES_NETWORK
-#include <winsock2.h>
-#include <ws2tcpip.h>  // MS VC 2017
-#include <fcntl.h>
-#endif
 
 #ifdef FAUDES_THREADS
 #include <process.h>

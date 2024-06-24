@@ -556,7 +556,8 @@ ifeq ($(FAUDES_PLATFORM),gcc_msys)
 FAUDES_MSHELL = posix
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
-DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
+DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols
+DSOOPTS += -Wl,--output-def,faudes.def -Wl,--out-implib,faudes.lib
 DOT_EXE = .exe
 LNKLIBS = -lwinmm -lws2_32    # winmm for win systime only 
 ifeq ($(DEBUG),yes)
@@ -564,7 +565,7 @@ MAINOPTS += -g
 LDFLAGS += -Wl,--as-needed 
 endif 
 ifeq ($(SHARED),yes)
-LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden 
+LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden
 endif
 #
 LIBFAUDES = faudes
