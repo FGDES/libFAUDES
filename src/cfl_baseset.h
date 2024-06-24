@@ -36,7 +36,7 @@
 
 // fix mingw toochain
 #ifdef THIS
-#undefine THIS
+#undefe THIS
 #endif  
 
 namespace faudes {
