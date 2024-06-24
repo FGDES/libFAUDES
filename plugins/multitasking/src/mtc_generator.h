@@ -136,7 +136,9 @@ class FAUDES_TAPI TmtcGenerator : public TcGenerator<GlobalAttr, StateAttr, Even
      * @param rOtherGen
      *   Other generator
      */
-     virtual TmtcGenerator& operator= (const TmtcGenerator& rOtherGen) {return this->Assign(rOtherGen);};
+    /*virtual*/ TmtcGenerator& operator= (const TmtcGenerator& rOtherGen) {return this->Assign(rOtherGen);};
+    using TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
+ 
 
     /** @} doxygen group */
 

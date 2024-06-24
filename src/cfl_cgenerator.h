@@ -278,7 +278,6 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     class FAUDES_API TcGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
   public:
 
-    using TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
 
     /**
      * Creates an emtpy System object 
@@ -358,7 +357,8 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @param rOtherGen
      *   Other generator
      */
-     virtual TcGenerator& operator= (const TcGenerator& rOtherGen);
+     /*virtual*/ TcGenerator& operator= (const TcGenerator& rOtherGen);
+     using TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
   
     /**
      * Assignment method

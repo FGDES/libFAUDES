@@ -189,7 +189,7 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
    * @param rOtherGen
    *   Other generator
    */
-  virtual TaGenerator& operator= (const TaGenerator& rOtherGen);
+  /*virtual*/ TaGenerator& operator= (const TaGenerator& rOtherGen);
 
   /**
    * Destructive copy to other TaGenerator 

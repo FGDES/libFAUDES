@@ -334,7 +334,7 @@ class FAUDES_API vGenerator : public Type  {
    * @param rOtherGen
    *   Other generator
    */
-  virtual vGenerator& operator= (const vGenerator& rOtherGen);
+  /*virtual*/ vGenerator& operator= (const vGenerator& rOtherGen);
 
   /**
    * Create another version of this generator.
