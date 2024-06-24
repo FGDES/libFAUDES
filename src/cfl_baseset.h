@@ -34,6 +34,11 @@
 #include <set>
 #include <algorithm>
 
+// fix mingw toochain
+#ifdef THIS
+#undefine THIS
+#endif  
+
 namespace faudes {
 
 /** @addtogroup ContainerClasses */
