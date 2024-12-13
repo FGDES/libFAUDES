@@ -3,7 +3,10 @@
 -- This script implements a variation of the common synthesis algorithm
 -- to address event priorities. For each event, we associate a priority
 -- by which it is executed in closed-loop configuration. Specifically,
--- uncontrollable ecents will be preempted by events with higher priority.
+-- uncontrollable events will be preempted by events with higher priority,
+-- so by enabeling a high priority event we can effectively disable a low
+-- priority cuncontrollable event.
+
 
 
 function faudes.SupPconNB(GPlant,ACtrl,TPrios,GSpec,GLoop)
@@ -44,7 +47,7 @@ function faudes.SupPconNB(GPlant,ACtrl,TPrios,GSpec,GLoop)
       local px = pcmap:Arg1State(lx)
       print("testing loop state", GLoop:StateName(lx))
       sit:Inc()
-      -- figure highest priority of event enabled in loop
+      -- figure highest priority of event enabled in loop candidate
       local lenabled=faudes.EventSet()
       local lmaxp=-1
       local lmaxe=nil
@@ -59,7 +62,7 @@ function faudes.SupPconNB(GPlant,ACtrl,TPrios,GSpec,GLoop)
 	tit:Inc()
       end
       print("highest priority loop event:",lmaxe,lmaxp)
-      -- figure highest priority uncontrollable event disabled in plant 
+      -- figure highest priority uncontrollable event disabled by loop candidate
       local pmaxp= -1
       local pmaxe=nil
       local tit = GPlant:TransRelBegin(px)
@@ -75,7 +78,7 @@ function faudes.SupPconNB(GPlant,ACtrl,TPrios,GSpec,GLoop)
 	end  
 	tit:Inc()
       end
-      print("highest priority disabled uncontrollabe plant event:",pmaxe,pmaxp)
+      print("highest priority disabled uncontrollabe event:",pmaxe,pmaxp)
       -- remove the loop state if disabled unctrollable events are not preempted
       if pmaxp >= 0 and lmaxp < pmaxp then
         print("schedule delete",GLoop:StateName(lx))
@@ -87,10 +90,9 @@ function faudes.SupPconNB(GPlant,ACtrl,TPrios,GSpec,GLoop)
     GLoop:Trim()
     -- terminate on fixpoint
   until delstates:Empty()
-
-
-
+  
 end
+
 
 -- --------------------------------------------------------------------------------
 -- Example:
