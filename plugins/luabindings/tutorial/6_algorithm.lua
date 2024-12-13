@@ -93,11 +93,11 @@ function faudes.SupPconNB(GPlant,ACtrl,TPrios,GSpec,GLoop)
 end
 
 -- --------------------------------------------------------------------------------
--- Example
--- elevate a cabin (m_on) until keyswitch in 1st floor becomes active (c_ar),
+-- Example:
+-- Elevate a cabin (m_on) until the keyswitch in 1st floor becomes active (c_ar),
 -- and stop (m_off) before the keyswitch becomes passive (c_lv); the actuator events
 -- m_on and m_moff will be executed with higher priority and thus preempt the sensor
--- events c_ar and c_lv
+-- events c_ar and c_lv. Specifically, after c_ar we can preempt c_lv by m_off.
 -- --------------------------------------------------------------------------------
 
 -- plant model: motor can be on or off, cabin can be in basement, first or second floor
@@ -135,20 +135,19 @@ GO  moff  GO
 GO  clv   GO
 GO  car   OK
 OK  moff  OK
-
 </TransRel>
 <InitStates>   GO  </InitStates>
 <MarkedStates> OK  </MarkedStates>
 </Generator>
 ]])
 
--- controllable events: actuators
+-- controllable events aka actuators
 EleCntrl=faudes.EventSet()
 EleCntrl:FromString([[
 <Alphabet> mon moff </Alphabet>
 ]])
 
--- priorities: actuators preempt sensors
+-- priorities such that actuators preempt sensors
 ElePrio={['mon']=1, ['moff']=1}
 
 -- run example
