@@ -518,7 +518,7 @@ endif
 # Targetting MS Windows
 # - validated with XP 32bit, Vista 32bit and MS Windows 7 64bit 
 # - using MinGW32 compiler  
-# - we used this toochain for binary distributions up to libFAUDE 2.26;
+# - we used this toolchain for binary distributions up to libFAUDE 2.26;
 # - dont hide DSO symbols for simplicty
 #
 # [for user targets only, no configuration tools available]
