@@ -1040,9 +1040,9 @@ rti-clean:
 
 # have those dirs
 $(OBJDIR): 
-	@$(MKDIR) -p $(OBJDIR) 
+	@$(MKDIR) $(OBJDIR) 
 $(BINDIR): 
-	@$(MKDIR) -p $(BINDIR) 
+	@$(MKDIR) $(BINDIR) 
 
 # minimal objects implicit rule
 $(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp $(OBJDIR)

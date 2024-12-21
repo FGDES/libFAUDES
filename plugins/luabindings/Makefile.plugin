@@ -117,8 +117,11 @@ endif
 ifeq ($(FAUDES_PLATFORM),gcc_lsb)
 LDFLAGS += -ldl 
 endif
-ifeq ($(SHARED),yes)
+ifeq ($(FAUDES_PLATFORM),gcc_msys)
+  LBP_LUAOPTS:= -DLUA_USE_ISATTY -DLUA_USE_MKSTEMP -DLUA_USE_POPEN -Wno-pedantic
+endif
 ifeq ($(FAUDES_PLATFORM),cl_win)
+ifeq ($(SHARED),yes)
   LBP_LUAOPTS:= /DLUA_BUILD_AS_DLL 
 endif
 endif
