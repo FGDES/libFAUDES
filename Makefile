@@ -282,7 +282,7 @@ endif
 CP  = /bin/cp -p 
 CPR = /bin/cp -pR
 RM = /bin/rm -rf
-MKDIR = /bin/mkdir
+MKDIR = /bin/mkdir -p
 ECHOE = echo -e
 TEMP = /tmp
 DOXYGEN = doxygen
