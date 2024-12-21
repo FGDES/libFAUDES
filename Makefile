@@ -467,6 +467,7 @@ ifeq ($(FAUDES_PLATFORM),cl_win)
 FAUDES_MSHELL = windows
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
+MKDIR = cmd /C echo MKDIR NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
 SWIG = cmd /C echo ERROR SWIG NOT CONFIGURED
 DIFF = fc /W
@@ -528,7 +529,8 @@ FAUDES_MSHELL = windows
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
-RM = cmd /C del /F /S /Q 
+RM = cmd /C del /F /S /Q
+MKDIR = cmd /C echo MKDIR NOT CONFIGURED
 SWIG = cmd /C echo ERROR SWIG NOT CONFIGURED
 DIFF = fc /W
 CXX = g++.exe
@@ -1038,9 +1040,9 @@ rti-clean:
 
 # have those dirs
 $(OBJDIR): 
-	@mkdir -p $(OBJDIR) 
+	@$(MKDIR) -p $(OBJDIR) 
 $(BINDIR): 
-	@mkdir -p $(BINDIR) 
+	@$(MKDIR) -p $(BINDIR) 
 
 # minimal objects implicit rule
 $(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp $(OBJDIR)
