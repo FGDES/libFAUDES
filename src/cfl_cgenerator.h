@@ -275,7 +275,7 @@ typedef TBaseVector<cEventSet>     cEventSetVector;
  */
 
 template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
-    class FAUDES_API TcGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
+    class FAUDES_TAPI TcGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr> {    
   public:
 
 

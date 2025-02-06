@@ -1,0 +1,21 @@
+libFAUDES plug-in to provide Yiheng Tang's implementation of
+the verification algorithm proposed in:
+
+Tang, Y., Moor, T.:
+Compositional non-blockingness verification of finite automata with prioritised events
+Discrete-Event Dynamic Systems, 2024.
+
+
+
+Contents
+
+Makefile.plugin        plugin to extend main makefile
+Makefile.tutorial      plugin to extend the tutorial targets of main makefile
+
+src/pev_*.cpp          c++ sources 
+src/pev_*.h            c++ headers
+src/pef_include.h      convenience header to include all other headers
+
+tutorial/pev_.*cpp     tutorial c++ sources, compile to executable
+tutorial/data/*        input data for tutorials
+

@@ -49,7 +49,7 @@ namespace faudes {
 
 
 template<class T, class Attr, class Cmp=std::less<T> >
-class FAUDES_API TAttrMap {
+class FAUDES_TAPI TAttrMap {
 
 
 public:
@@ -230,7 +230,7 @@ public:
    */
    void RestrictSet(const TBaseSet<T,Cmp>& rOtherSet);
 
-
+   
 
 protected:
 
@@ -431,7 +431,6 @@ TEMP void THIS::RestrictSet(const TBaseSet<T,Cmp>& rOtherSet) {
   }
 
 }
-
 
 
 // attribute typeinfo

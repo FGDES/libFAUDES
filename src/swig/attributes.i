@@ -1,4 +1,4 @@
-/** @file attributes.i @brief bindings for core attribite classes */
+/** @file attributes.i @brief bindings for core attribute classes */
 
 
 /* FAU Discrete Event Systems Library (libfaudes)

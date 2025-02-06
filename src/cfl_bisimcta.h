@@ -231,7 +231,7 @@ extern FAUDES_API void ComputeDelayedBisimulationCTA(const Generator& rGen, cons
  * \param rPrePartition
  *      prepartition (trivial classes MUST be included)
  */
-extern FAUDES_API void ComputeComputeWeakBisimulationSatCTA(const Generator& rGen, const EventSet& rSilent, std::list<StateSet>& rResult, const std::vector<StateSet>& rPrePartition);
+extern FAUDES_API void ComputeWeakBisimulationSatCTA(const Generator& rGen, const EventSet& rSilent, std::list<StateSet>& rResult, const std::vector<StateSet>& rPrePartition);
 
 
 } // namespace

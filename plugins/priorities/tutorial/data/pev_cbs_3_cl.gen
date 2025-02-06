@@ -1,0 +1,65 @@
+<Generator name="g_controller_3||g_plant_cb_3||g_plant_con_3">
+
+% 
+%  Statistics for g_controller_3||g_plant_cb_3||g_plant_con_3
+% 
+%  States:        20
+%  Init/Marked:   1/2
+%  Events:        7
+%  Transitions:   28
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+sd_2          sd_3          ar_3          lv_3          on_3          off_3        
+ar_4         
+</Alphabet>
+
+<States>
+<Consecutive>
+1              20            
+</Consecutive>
+</States>
+
+<TransRel>
+1              sd_2          2             
+2              on_3          3             
+3              ar_3          4             
+4              sd_3          5             
+4              lv_3          6             
+4              off_3         7             
+5              lv_3          16            
+5              on_3          9             
+6              sd_3          16            
+6              ar_3          11            
+6              off_3         17            
+6              ar_4          18            
+7              sd_3          8             
+8              on_3          9             
+9              lv_3          10            
+10             ar_3          11            
+10             ar_4          12            
+11             lv_3          15            
+12             ar_3          13            
+12             off_3         1             
+13             lv_3          14            
+16             ar_3          11            
+16             on_3          10            
+16             ar_4          18            
+17             sd_3          19            
+17             ar_4          20            
+19             on_3          10            
+19             ar_4          20            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1              2             
+</MarkedStates>
+
+
+</Generator>

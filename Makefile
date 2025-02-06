@@ -67,13 +67,14 @@ FAUDES_PLUGINS += diagnosis
 FAUDES_PLUGINS += hiosys
 FAUDES_PLUGINS += iosystem
 FAUDES_PLUGINS += coordinationcontrol
+#FAUDES_PLUGINS += priorities   # experimental/development
 FAUDES_PLUGINS += timed
 FAUDES_PLUGINS += simulator
 FAUDES_PLUGINS += iodevice
 #FAUDES_PLUGINS += pushdown      # out of maintenance
 #FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
 FAUDES_PLUGINS += luabindings
-#FAUDES_PLUGINS += pybindings    # conflicts with luabindings
+#FAUDES_PLUGINS += pybindings    # conflicts with luabindings, choose one of either
 endif
 
 

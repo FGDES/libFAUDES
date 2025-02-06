@@ -1,0 +1,66 @@
+#
+# makefile for libfaudes priorities plugin
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += priorities
+#
+
+PEV_NAME   = priorities
+PEV_BASE   = ./plugins/$(PEV_NAME)
+PEV_SRCDIR = $(PEV_BASE)/src
+
+#
+# list source files
+
+PEV_CPPFILES = pev_priorities.cpp pev_pgenerator.cpp pev_operators.cpp pev_abstraction.cpp pev_verify.cpp
+PEV_INCLUDE = pev_include.h
+PEV_RTIDEFS = pev_definitions.rti
+PEV_RTIFREF = priorities_index.fref 
+
+#
+# fix directories
+
+PEV_HEADERS := $(PEV_CPPFILES:.cpp=.h) $(PEV_INCLUDE) 
+PEV_SOURCES := $(PEV_CPPFILES:%=$(PEV_SRCDIR)/%)
+PEV_OBJECTS := $(PEV_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+PEV_RTIDEFS := $(PEV_RTIDEFS:%=$(PEV_SRCDIR)/registry/%)
+PEV_RTIFREF := $(PEV_RTIFREF:%=$(PEV_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(PEV_INCLUDE): $(PEV_SRCDIR)/$(PEV_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(PEV_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* priorities plugin configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_PRIORITIES" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(PEV_SOURCES)
+OBJECTS += $(PEV_OBJECTS)
+HEADERS += $(PEV_HEADERS)
+VPATH   += $(PEV_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(PEV_NAME)
+RTIDEFS += $(PEV_RTIDEFS)
+RTIFREF += $(PEV_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(PEV_SRCDIR)/registry/pev_interface.i 
+SWGMODULES += $(PEV_NAME)
+
+#
+# include tutorial 
+
+include $(PEV_BASE)/Makefile.tutorial

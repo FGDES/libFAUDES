@@ -164,7 +164,7 @@ Note that different and perhaps more restrictive license terms may apply to the 
 <p>
 Copyright (C) 2006 Bernd Opitz <br>
 Copyright (C) 2008 - 2010 Thomas Moor, Klaus Schmidt, Sebastian Perk <br>
-Copyright (C) 2010 - 2024 Thomas Moor, Klaus Schmidt<br>
+Copyright (C) 2010 - 2025 Thomas Moor, Klaus Schmidt<br>
 </p>
 */
 
@@ -177,7 +177,7 @@ Copyright (C) 2010 - 2024 Thomas Moor, Klaus Schmidt<br>
 
 A generator is a tupel G = (Q, Sigma, Delta, Qo, Qm). Generators are used
 to represent the closed and the marked language L(G) 
-and L_m(G) respectively. The core members of FAUDS generator classes are
+and L_m(G) respectively. The core members of FAUDES generator classes are
 - mpStates, the stateset Q, type faudes::StateSet;
 - mpAlphabet,  the Alphabet Sigma, type faudes::EventSet;
 - mpTransRel, the transitionrelation Delta, type faudes::TransSet; 

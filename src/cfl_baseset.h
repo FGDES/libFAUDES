@@ -1002,11 +1002,16 @@ private:
   /** TypeDefinition cache (should use guarded pointer here) */
   const TypeDefinition* pTypeDefinition;
 
-  /** Current/cached name of elements (used protected accessor method) */
-  std::string  mXElementTag;
-
   /** Current/cached faudes type-name */
   std::string  mFaudesTypeName;
+
+  /** Current/cached name of elements (use protected accessor methods for caching) */
+  std::string  mXElementTag;
+
+protected:  
+
+  /** Defauft name of elements (if not over written by registry) */
+  std::string  mXElementTagDef;
 
 
 };
@@ -1191,7 +1196,8 @@ TEMP THIS::TBaseSet(void) :
   mpClients(new std::list< TBaseSet<T,Cmp>* >),
   mDetached(false), 
   mLocked(false),
-  pTypeDefinition(NULL)
+  pTypeDefinition(NULL),
+  mXElementTagDef("Element")
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet()");
@@ -1210,7 +1216,8 @@ TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
   mpClients(new std::list< TBaseSet<T,Cmp>* >),
   mDetached(false), 
   mLocked(false), 
-  pTypeDefinition(NULL)
+  pTypeDefinition(NULL),
+  mXElementTagDef("Element")
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet()");
@@ -1231,7 +1238,8 @@ TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) :
   mpClients(new std::list< TBaseSet<T,Cmp>* >), // small detour ... for readability
   mDetached(false), 
   mLocked(false),
-  pTypeDefinition(NULL)
+  pTypeDefinition(NULL),
+  mXElementTagDef("Element")
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet(rOtherSet " << &rOtherSet << "): fake copy construct");
@@ -1787,9 +1795,9 @@ TEMP const std::string& THIS::XElementTag(void) const {
   if(mXElementTag.empty()) {
     // provide fake const
     THIS* fake_const = const_cast< THIS* >(this);
-    fake_const->mXElementTag="Element";
+    fake_const->mXElementTag=mXElementTagDef;
     const TypeDefinition* fdp=TypeDefinitionp();
-    if(fdp) fake_const->mXElementTag=fdp->XElementTag();
+    if(fdp) if(!fdp->XElementTag().empty()) fake_const->mXElementTag=fdp->XElementTag();
   }
   return mXElementTag;
 }

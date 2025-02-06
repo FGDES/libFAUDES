@@ -47,6 +47,7 @@ FAUDES_TYPE_IMPLEMENTATION_EQUAL(EventSet,NameSet,TBaseSet<Idx>)
 // empty constructor
 NameSet::NameSet(void) : TBaseSet<Idx>(){
   mpSymbolTable = SymbolTable::GlobalEventSymbolTablep();
+  mXElementTagDef="Event";
   Name("NameSet");
   FD_DC("NameSet("<<this<<")::NameSet() with symtab "<< mpSymbolTable); 
 }
@@ -55,6 +56,7 @@ NameSet::NameSet(void) : TBaseSet<Idx>(){
 NameSet::NameSet(const NameSet& rOtherSet) : TBaseSet<Idx>() {
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << ")");
   mpSymbolTable = rOtherSet.mpSymbolTable;
+  mXElementTagDef="Event";
   Assign(rOtherSet);
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << "): done");
 }
@@ -63,6 +65,7 @@ NameSet::NameSet(const NameSet& rOtherSet) : TBaseSet<Idx>() {
 NameSet::NameSet(const std::string& rFilename, const std::string& rLabel) : TBaseSet<Idx>() {
   FD_DC("NameSet(" << this << ")::NameSet(" << rFilename << ")");
   mpSymbolTable = SymbolTable::GlobalEventSymbolTablep();
+  mXElementTagDef="Event";
   Read(rFilename, rLabel);
 }
 

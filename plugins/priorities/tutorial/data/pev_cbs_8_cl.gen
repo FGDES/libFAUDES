@@ -1,0 +1,65 @@
+<Generator name="g_controller_8||g_plant_cb_8||g_plant_con_8">
+
+% 
+%  Statistics for g_controller_8||g_plant_cb_8||g_plant_con_8
+% 
+%  States:        20
+%  Init/Marked:   1/2
+%  Events:        7
+%  Transitions:   28
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+sd_7          sd_8          ar_8          lv_8          on_8          off_8        
+ar_9         
+</Alphabet>
+
+<States>
+<Consecutive>
+1              20            
+</Consecutive>
+</States>
+
+<TransRel>
+1              sd_7          2             
+2              on_8          3             
+3              ar_8          4             
+4              sd_8          5             
+4              lv_8          6             
+4              off_8         7             
+5              lv_8          16            
+5              on_8          9             
+6              sd_8          16            
+6              ar_8          11            
+6              off_8         17            
+6              ar_9          18            
+7              sd_8          8             
+8              on_8          9             
+9              lv_8          10            
+10             ar_8          11            
+10             ar_9          12            
+11             lv_8          15            
+12             ar_8          13            
+12             off_8         1             
+13             lv_8          14            
+16             ar_8          11            
+16             on_8          10            
+16             ar_9          18            
+17             sd_8          19            
+17             ar_9          20            
+19             on_8          10            
+19             ar_9          20            
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1              2             
+</MarkedStates>
+
+
+</Generator>

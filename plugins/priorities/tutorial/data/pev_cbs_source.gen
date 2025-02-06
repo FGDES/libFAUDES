@@ -1,0 +1,46 @@
+<Generator name="source">
+
+% 
+%  Statistics for source
+% 
+%  States:        9
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   11
+%  StateSymbols:  9
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+ar_1          sd_0          ar_0          lv_0         
+</Alphabet>
+
+<States>
+src_idle|p0_idle  src_busy|p0_idle  src_done|p0_idle  src_idle|p0_busy  src_busy|p0_busy  src_done|p0_busy 
+src_idle|p0_err  src_busy|p0_err  src_done|p0_err 
+</States>
+
+<TransRel>
+src_idle|p0_idle  ar_0          src_busy|p0_idle 
+src_busy|p0_idle  sd_0          src_done|p0_idle 
+src_done|p0_idle  lv_0          src_idle|p0_busy 
+src_idle|p0_busy  ar_1          src_idle|p0_idle 
+src_idle|p0_busy  ar_0          src_busy|p0_busy 
+src_busy|p0_busy  ar_1          src_busy|p0_idle 
+src_busy|p0_busy  sd_0          src_done|p0_busy 
+src_done|p0_busy  ar_1          src_done|p0_idle 
+src_done|p0_busy  lv_0          src_idle|p0_err 
+src_idle|p0_err  ar_0          src_busy|p0_err 
+src_busy|p0_err  sd_0          src_done|p0_err 
+</TransRel>
+
+<InitStates>
+src_idle|p0_idle 
+</InitStates>
+
+<MarkedStates>
+src_idle|p0_idle 
+</MarkedStates>
+
+
+</Generator>

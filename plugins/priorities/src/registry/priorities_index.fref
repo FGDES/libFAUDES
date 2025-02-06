@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Priorities" page="Index" title="Priorities PlugIn"> 
+
+<h1>
+Priorities PlugIn 
+</h1>
+
+<fsummary>
+Plug-in to provide Yiheng Tang's implementation for the verfication of non-blockingness
+of modular diccrete-event systems with prioritised events.
+</fsummary>
+
+
+<p>
+The priorities plug-in addresses systems with prioritised events. The main purpose is to
+provide an implementation of the algorithm proposed in <fcite name="PEV1"/>.
+Currently, the only documentation of this plug-in is via the tutorials.
+</p>
+
+
+<ftype_reference name="EventPriorities">
+
+<fdetails/>
+
+<p>
+  The faudes type <ftype>EventPriorities</ftype> ... [docu to be completeted in due course]
+</p>
+
+
+</ftype_reference>
+
+<ffnct_reference name="IsPNonblocking">
+
+<fdetails/>
+
+<p>
+The function <ffnct>IsPNonblocking</ffnct> ... [docu to be completeted in due course]
+</p>
+
+
+</ffnct_reference>
+
+
+
+<h2>
+<a id="literature">
+Literature
+</a>
+</h2>
+
+<fliterature name="PEV1">
+<fauthors>Y.&nbsp;Tang, T.&nbsp;Moor</fauthors>
+<ftitle>Compositional non-blockingness verification of finite automata with prioritised events</ftitle>   
+<fjournal>Discrete-Event Dynamic Systems</fjournal>
+<fyear>2024</fyear>
+</fliterature>
+
+
+</ReferencePage>
+
+
+  

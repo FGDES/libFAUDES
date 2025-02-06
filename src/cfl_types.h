@@ -861,6 +861,11 @@ private:
 };
 
 
+/**
+YS in 2023:
+operators =/==/!= use virtual DoAssign/DoEqual; so the operators themself do
+not need to be virtual
+*/ 
 
 
 /** faudes type declaration macro */

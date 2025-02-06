@@ -556,7 +556,7 @@ extern FAUDES_API void SetUnion(const EventSetVector& rSetVector, EventSet& rRes
  * "gamma" 0x0f
  * <\Alphabet> 
  * \endcode
- * As with TBAseSet, reading a file silently ignores unknown attributes. Thus, the above example
+ * As with TBaseSet, reading a file silently ignores unknown attributes. Thus, the above example
  * may also be read as NameSet.
  */
 
@@ -565,7 +565,7 @@ extern FAUDES_API void SetUnion(const EventSetVector& rSetVector, EventSet& rRes
 template<class Attr>
 class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
 
-FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
+  FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
 
   /** 
    * We implement "protected privacy for template classes" by friendship.
@@ -576,9 +576,13 @@ FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
 
  public:
 
+
+  /* YS in 2024 for MSys2 -- see comment in cfl_types implementation macros*/
   using NameSet::operator=;
   using NameSet::operator==;
   using NameSet::operator!=;
+
+
   /**
    * Constructor for NameSet referring to the static SymbolTable. 
    */
@@ -847,10 +851,23 @@ FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
   const Attr* AttributeType(void) const { return TAttrMap<Idx,Attr>::AttributeType(); };
   Attr* Attributep(const Idx& rElem) { return TAttrMap<Idx,Attr>::Attributep(rElem); };
   const Attr& Attribute(const Idx& rElem) const { return TAttrMap<Idx,Attr>::Attribute(rElem); };
-  void Attribute(const Idx& rElem, const Attr& rAttr) { return TAttrMap<Idx,Attr>::Attribute(rElem,rAttr); };
-  void Attribute(const Idx& rElem, const Type& rAttr) { return TAttrMap<Idx,Attr>::Attribute(rElem,rAttr); };
-  void AttributeTry(const Idx& rElem, const Type& rAttr) { return TAttrMap<Idx,Attr>::AttributeTry(rElem,rAttr); };
+  void Attribute(const Idx& rElem, const Attr& rAttr) { TAttrMap<Idx,Attr>::Attribute(rElem,rAttr); };
+  void Attribute(const Idx& rElem, const Type& rAttr) { TAttrMap<Idx,Attr>::Attribute(rElem,rAttr); };
+  void AttributeTry(const Idx& rElem, const Type& rAttr) { TAttrMap<Idx,Attr>::AttributeTry(rElem,rAttr); };
 
+ // convenience attribute interface using symbolic names
+ const Attr& Attribute(const std::string& rName) const {
+   return TAttrMap<Idx,Attr>::Attribute(Index(rName));
+ };
+ Attr* Attributep(const std::string& rName) {
+   return TAttrMap<Idx,Attr>::Attributep(Index(rName));
+ };
+ void Attribute(const std::string& rName, const Attr& rAttr) {
+   TAttrMap<Idx,Attr>::Attribute(Index(rName),rAttr);
+ };
+ void Attribute(const std::string& rName, const Type& rAttr) {
+   TAttrMap<Idx,Attr>::Attribute(Index(rName),rAttr);
+ };
 
  protected:
 
@@ -875,7 +892,6 @@ FAUDES_TYPE_TDECLARATION(Void,TaNameSet,NameSet)
    *   True on match.
    */
   bool DoEqual(const NameSet& rOtherSet) const;
-
 
 
 };
@@ -963,11 +979,12 @@ void TaNameSet<Attr>::DoAssign(const TaNameSet<Attr>& rSourceSet) {
 // DoEqual()
 template<class Attr>
 bool TaNameSet<Attr>::DoEqual(const NameSet& rOtherSet) const {
-  FD_DC("TaNAMESet::DoEqual()");
+  FD_DC("TaNameESet::DoEqual()");
   // base does the job, equality does not refer to attributes
   return NameSet::DoEqual(rOtherSet);
 }
 
+  
 // Relaxed Assign()
 template<class Attr>
 TaNameSet<Attr>& TaNameSet<Attr>::Assign(const TBaseSet<Idx>& rSourceSet) {

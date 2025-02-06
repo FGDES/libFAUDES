@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type EventPriorities -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="Priorities::EventPriorities" ctype="faudes::EventPriorities" autoregister="true"> 
+
+<Documentation ref="priorities_index.html#EventPriorities"> 
+Alphabet with priority attributes.
+</Documentation> 
+<Keywords> 
+Priorities    events        "prioritiesed events"  
+</Keywords> 
+
+<XElementTag value="Event"/>
+
+</TypeDefinition>
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsNonblocking -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Priorities::IsPNonblocking" ctype="faudes::IsPNonblocking"> 
+
+<Documentation ref="priorities_index.html#IsPNonblocking"> 
+Test for nonblockingness with prioritiesed events.
+</Documentation> 
+<Keywords> 
+Priorities Functions  priorities   generator  nonblocking   
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsPNonblocking(G1,G2 ... Gn, Prios)"> 
+<Parameter name="G" ftype="GeneratorVector" access="In"/> 
+<Parameter name="Prios" ftype="EventPriorities" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry>
