@@ -337,7 +337,7 @@ class FAUDES_API Type {
    *    Source to copy from
    * @return Reference to this object.
    */
-  /*virtual*/ Type& operator=(const Type& rSrc);
+  Type& operator=(const Type& rSrc);
 
   /**
    * Test equality of configuration data.
@@ -372,7 +372,7 @@ class FAUDES_API Type {
    * @return 
    *   True on match.
    */
-  /*virtual*/ bool operator==(const Type& rOther) const;
+  bool operator==(const Type& rOther) const;
 
 
   /**
@@ -388,7 +388,7 @@ class FAUDES_API Type {
    * @return 
    *   True on mismatch.
    */
-  /*virtual*/ bool operator!=(const Type& rOther) const;
+  bool operator!=(const Type& rOther) const;
 
 
   /** 
@@ -875,9 +875,9 @@ not need to be virtual
   public: virtual const Type* Cast(const Type* pOther) const; \
   public: virtual ctype& Assign(const Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
-  public: /*virtual*/ ctype& operator=(const ctype& rSrc);	\
-  public: /*virtual*/ bool operator==(const ctype& rOther) const; \
-  public: /*virtual*/ bool operator!=(const ctype& rOther) const; 
+  public: ctype& operator=(const ctype& rSrc);	  \
+  public: bool operator==(const ctype& rOther) const; \
+  public: bool operator!=(const ctype& rOther) const; 
 
 /** faudes type declaration macro, template version */
 #define FAUDES_TYPE_TDECLARATION(ftype,ctype,cbase)   \
@@ -886,9 +886,9 @@ not need to be virtual
   public: virtual const Type* Cast(const Type* pOther) const; \
   public: virtual ctype& Assign(const Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
-  public: /*virtual*/ ctype& operator=(const ctype& rSrc);      \
-  public: /*virtual*/ bool operator==(const ctype& rOther) const; \
-  public: /*virtual*/ bool operator!=(const ctype& rOther) const; 
+  public: ctype& operator=(const ctype& rSrc);      \
+  public: bool operator==(const ctype& rOther) const; \
+  public: bool operator!=(const ctype& rOther) const; 
 
 /** faudes type implementation macros */
 #define FAUDES_TYPE_IMPLEMENTATION_NEW(ftype,ctype,cbase)	\
@@ -999,110 +999,6 @@ not need to be virtual
   ctemp bool ctype::operator!=(const ctype& rOther) const { return !this->DoEqual(rOther); }
 
 
-/** faudes type implementation macros, overall */
-/*
-#define FAUDES_TYPE_IMPLEMENTATION(ftype,ctype,cbase)	\
-  ctype* ctype::New(void) const {			\
-    return new ctype(); }  \
-  ctype* ctype::Copy(void) const {			\
-    return new ctype(*this); }			\
-  const Type* ctype::Cast(const Type* pOther) const { \
-    return dynamic_cast<const ctype*>(pOther); } \
-  ctype& ctype::Assign(const Type& rSrc) { \
-    if(const ctype* csattr=dynamic_cast<const ctype*>(&rSrc)) \
-      { this->Clear(); DoAssign(*csattr); return *this;}      \
-    cbase::Assign(rSrc); \
-    return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); DoAssign(rSrc); return *this;} \
-  bool ctype::Equal(const Type& rOther) const { \
-    if(&rOther==this) return true; \
-    if(typeid(rOther) != typeid(*this)) return false; \
-    const ctype* csattr=dynamic_cast<const ctype*>(&rOther);	\
-    if(!csattr) return false; \
-    if(!DoEqual(*csattr)) return false;		\
-    return true;} \
-  bool ctype::operator==(const ctype& rOther) const { return DoEqual(rOther); } \
-  bool ctype::operator!=(const ctype& rOther) const { return !DoEqual(rOther); } 
-*/
-
-
-
-/** faudes type implementation macros, individual, template version */
-/*
-#define FAUDES_TYPE_TIMPLEMENTATION_NEW(ftype,ctype,cbase,ctemp)	\
-  ctemp ctype* ctype::New(void) const {			\
-    return new ctype(); } 
-#define FAUDES_TYPE_TIMPLEMENTATION_COPY(ftype,ctype,cbase,ctemp)	\
-  ctemp ctype* ctype::Copy(void) const {			\
-    return new ctype(*this); } 
-#define FAUDES_TYPE_TIMPLEMENTATION_CAST(ftype,ctype,cbase,ctemp)	\
-  ctemp const Type* ctype::Cast(const Type* pOther) const { \
-    return dynamic_cast<const ctype*>(pOther);} 
-#define FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(ftype,ctype,cbase,ctemp)	\
-  ctemp ctype& ctype::Assign(const Type& rSrc) { \
-    if(const ctype* csattr=dynamic_cast<const ctype*>(&rSrc)) { \
-      this->Clear(); DoAssign(*csattr); return *this;}		\
-    cbase::Assign(rSrc); \
-    return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); DoAssign(rSrc); return *this; }
-#define FAUDES_TYPE_TIMPLEMENTATION_EQUAL(ftype,ctype,cbase,ctemp)	\
-  ctemp bool ctype::Equal(const Type& rOther) const { \
-    if(&rOther==this) return true; \
-    if(typeid(rOther) != typeid(*this)) return false; \
-    const ctype* csattr=dynamic_cast<const ctype*>(&rOther); \
-    if(!csattr) return false; \
-    if(!this->DoEqual(*csattr)) return false;		\
-    return true;} \
-  ctemp bool ctype::operator==(const ctype& rOther) const { return this->DoEqual(rOther); } \
-  ctemp bool ctype::operator!=(const ctype& rOther) const { return !this->DoEqual(rOther); }
-*/
-
-
-/** faudes type implementation macros, overall, template version */
-/*
-#define FAUDES_TYPE_TIMPLEMENTATION(ftype,ctype,cbase,ctemp)	\
-  ctemp ctype* ctype::New(void) const {		\
-    return new ctype(); }  \
-  ctemp ctype* ctype::Copy(void) const {			\
-    return new ctype(*this); }  \
-  ctemp const Type* ctype::Cast(const Type* pOther) const { \
-    return dynamic_cast<const ctype*>(pOther);} \
-  ctemp ctype& ctype::Assign(const Type& rSrc) { \
-    if(const ctype* csattr=dynamic_cast<const ctype*>(&rSrc)) \
-      { this->Clear(); DoAssign(*csattr); return *this;}      \
-    cbase::Assign(rSrc); \
-    return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); DoAssign(rSrc); return *this; } \
-  ctemp bool ctype::Equal(const Type& rOther) const { \
-    if(&rOther==this) return true; \
-    if(typeid(rOther) != typeid(*this)) return false; \
-    const ctype* csattr=dynamic_cast<const ctype*>(&rOther);	\
-    if(!csattr) return false; \
-    if(!this->DoEqual(*csattr)) return false;		\
-    return true;} \
-  ctemp bool ctype::operator==(const ctype& rOther) const { return this->DoEqual(rOther); } \
-  ctemp bool ctype::operator!=(const ctype& rOther) const{ return !this->DoEqual(rOther); } 
-*/
-
-/** faudes type implementation macros, overall, debug version */
-/*
-#define FAUDES_TYPE_IMPLEMENTATION(ctype,cbase,ctemp)	\
-  ctemp ctype* ctype::New(void) const {			\
-    return new ctype(); }  \
-  ctemp const ctype* ctype::Cast(const Type* pOther) const { \
-    return dynamic_cast<const ctype*>(pOther);} \
-  ctemp ctype& ctype::Assign(const Type& rSrc) { \
-    FD_WARN("RTI "<< typeid(ctype).name() << "::ASSIGN() V: " << typeid(*this).name() << \
-      " from " << typeid(rSrc).name()); \
-    if(const ctype* csattr=dynamic_cast<const ctype*>(&rSrc)) { this->Clear(); return DoAssign(*csattr);} \
-    cbase::Assign(rSrc); \
-    return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { \
-    FD_WARN("RTI "<< typeid(ctype).name() << "::ASSIGN() O: " << typeid(*this).name() << \
-      " from " << typeid(rSrc).name()); \
-    this->Clear(); \
-    return DoAssign(rSrc); }
-*/
 
 
 

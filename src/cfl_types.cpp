@@ -87,18 +87,19 @@ bool Type::Equal(const Type& rOther) const {
 
 // equality (strict)
 bool Type::operator==(const Type& rOther) const { 
-  return typeid(*this)==typeid(rOther);
+  return DoEqual(rOther);
 }
 
 // equality
 bool Type::operator!=(const Type& rOther) const { 
-  return ! operator==(rOther);
+  return !DoEqual(rOther);
 }
 
 // assign
 Type& Type::operator=(const Type& rSource) {
   FD_DC("Type(" << this << ")::AssignementOperator(" << &rSource << ")");
   Clear();
+  DoAssign(rSource);
   return *this;
 }
 
@@ -109,7 +110,7 @@ void Type::DoAssign(const Type& rSource) {
 
 // equality
 bool Type::DoEqual(const Type& rOther) const {
-  FD_WARN("Type(" << this << ")::DoEqual(" << &rOther << ")");
+  //typeid(*this)==typeid(rOther); TM 2025
   return true;
 }
 

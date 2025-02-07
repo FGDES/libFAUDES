@@ -31,10 +31,9 @@ namespace faudes {
 // instantiate to export symbols for API type System (clang 8.0.0 issue, 2017/12 )
 /*
 template class FAUDES_API TaNameSet<AttributeCFlags>;
+template class FAUDES_TAPI TcGenerator<AttributeVoid, AttributeVoid, AttributeCFlags,AttributeVoid>; 
 */
 
-template class FAUDES_API TcGenerator<AttributeVoid, AttributeVoid, AttributeCFlags,AttributeVoid>; 
-  // template class FAUDES_API TaGenerator<AttributeVoid, AttributeVoid, AttributeCFlags,AttributeVoid>; 
 
 /***********************************************************************************
  *
