@@ -1046,11 +1046,11 @@ $(BINDIR):
 	@$(MKDIR) $(BINDIR) 
 
 # minimal objects implicit rule
-$(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp $(OBJDIR)
+$(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp | $(OBJDIR)
 	$(call FNCT_COMP_MIN,$<,$@)
 
 # have my rti executabels (static version for configure target)
-$(BINDIR)/rti2code$(DOT_EXE): $(SRCDIR)/rti2code.cpp $(MINFAUDES) $(BINDIR)   
+$(BINDIR)/rti2code$(DOT_EXE): $(SRCDIR)/rti2code.cpp $(MINFAUDES) | $(BINDIR)   
 	$(call FNCT_BUILD_MIN,$<,$@)
 
 # merge rti files
@@ -1542,7 +1542,7 @@ report-stats:
 	@echo " ============================== "
 
 report-test:
-	@echo $(TESTTARGETS)
+	@echo $(OBJECTSMIN)
 	@echo $(HEADERS)
 	@echo $(FAUDES_PLUGINS)
 

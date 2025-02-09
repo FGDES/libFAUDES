@@ -31,7 +31,7 @@ void SUParallel(
         pGenerator& rPRes);
 
 // the special fairness merge for SFC
- void UParallel_MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2, const Generator& rGen12, const EventSet& rMerge, Fairness& rFairRes);
+ void UParallel_MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2, const Generator& rGen12, const EventSet& rMerge, FairnessConstraints& rFairRes);
 
  
 }// namespace

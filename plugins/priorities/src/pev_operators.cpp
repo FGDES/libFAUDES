@@ -84,7 +84,7 @@ void Unify (pGenerator& rPGen){
         Transition trans = *tit++;
         rPGen.ClrTransition(trans);
     }
-    Fairness fair = rPGen.GlobalAttribute().FairConsts();
+    FairnessConstraints fair = rPGen.GlobalAttribute().Fairness();
     rPGen.Accessible();
     // handle fairness (neglect new evs not appear as transition)
     EventSet realnewevs;
@@ -93,20 +93,21 @@ void Unify (pGenerator& rPGen){
         // only preserve "real new events"
         if (newevs.Exists(tit->Ev)) realnewevs.Insert(tit->Ev);
     }
-    Fairness newfair;
-    Fairness::iterator fairit = rPGen.GlobalAttributep()->FairConsts().begin();
-    for(;fairit!=rPGen.GlobalAttributep()->FairConsts().end();fairit++){
-        EventSet cfair = *fairit;
-        EventSet::Iterator eit = fairit->Begin();
-        for(;eit!=fairit->End();eit++){
+    FairnessConstraints newfair;
+    FairnessConstraints::Position fpos = 0;
+    for(;fpos<rPGen.GlobalAttributep()->Fairness().Size();++fpos){
+        EventSet cfair = rPGen.GlobalAttributep()->Fairness().At(fpos);
+        EventSet::Iterator eit = rPGen.GlobalAttributep()->Fairness().At(fpos).Begin();
+        EventSet::Iterator eit_end = rPGen.GlobalAttributep()->Fairness().At(fpos).End();
+        for(;eit!=eit_end;eit++){
             std::map<Idx,EventSet>::const_iterator mit = newevsmap.find(*eit);
             if (mit!=newevsmap.end()){
                 cfair.InsertSet(mit->second*realnewevs);
             }
         }
-        newfair.insert(cfair);
+        newfair.Append(cfair);
     }
-    rPGen.GlobalAttributep()->SetFairConsts(newfair);
+    rPGen.GlobalAttributep()->Fairness(newfair);
 }
 
 
@@ -165,7 +166,7 @@ void SUParallel(
     FD_DF("Parallel: inserted indices in rResGen.alphabet( "
           << pResGen->AlphabetToString() << ")");
 
-    const Idx lowest = rPGen1.GlobalAttribute().PLowest();
+    const Idx lowest = rPGen1.GlobalAttribute().LowestPriority();
 
     // shared events
     EventSet sharedalphabet = rPGen1.Alphabet() * rPGen2.Alphabet();
@@ -410,12 +411,12 @@ void SUParallel(
 // the special fairness merge for SFC
 // does not do consistency check (should have been done before in SFC_Parallel)
 // rGen12 is the parallel composition of rPGen1 and rPGen2, which should have been computed before
-void UParallel_MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2, const Generator& rGen12, const EventSet& rMerge, Fairness& rFairRes){
-    rFairRes.clear();
+void UParallel_MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2, const Generator& rGen12, const EventSet& rMerge, FairnessConstraints& rFairRes){
+    rFairRes.Clear();
     // iterate over fairness of rPGen1
-    Fairness::const_iterator fairit = rPGen1.GlobalAttribute().FairConsts().begin();
-    for(;fairit!=rPGen1.GlobalAttribute().FairConsts().end();fairit++){
-        EventSet fair = *fairit;
+    FairnessConstraints::Position fpos = 0;
+    for(;fpos<rPGen1.GlobalAttribute().Fairness().Size();++fpos){
+      EventSet fair = rPGen1.GlobalAttribute().Fairness().At(fpos);
         EventSet fairm1 = fair * rMerge; // merging events in the current fairness (of rPGen1)
         EventSet::Iterator eit1 = fairm1.Begin();
         for(;eit1!=fairm1.End();eit1++){
@@ -430,12 +431,12 @@ void UParallel_MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2,
                 fair.Insert(newevname);
             }
         }
-        rFairRes.insert(fair);
+        rFairRes.Append(fair);
     }
     // iterate over fairness of rPGen2
-    fairit = rPGen2.GlobalAttribute().FairConsts().begin();
-    for(;fairit!=rPGen2.GlobalAttribute().FairConsts().end();fairit++){
-        EventSet fair = *fairit;
+    fpos = 0;
+    for(;fpos<rPGen2.GlobalAttribute().Fairness().Size();++fpos){
+        EventSet fair = rPGen2.GlobalAttribute().Fairness().At(fpos);
         EventSet fairm2 = fair * rMerge; // merging events in the current fairness (of rPGen2)
         EventSet::Iterator eit2 = fairm2.Begin();
         for(;eit2!=fairm2.End();eit2++){
@@ -450,7 +451,7 @@ void UParallel_MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2,
                 fair.Insert(newevname);
             }
         }
-        rFairRes.insert(fair);
+        rFairRes.Append(fair);
     }
 }
 

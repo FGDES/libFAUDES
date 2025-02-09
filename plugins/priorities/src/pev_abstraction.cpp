@@ -1,3 +1,26 @@
+/** @file pev_abstraction.cpp Conflict preserving abstractions */
+
+
+/* FAU Discrete Event Systems Library (libfaudes)
+
+   Copyright (C) 2023 Yiheng Tang
+   Copyright (C) 2025 Thomas Moor
+   Exclusive copyright is granted to Klaus Schmidt
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+
 #include "corefaudes.h"
 #include "pev_pgenerator.h"
 #include "pev_operators.h"
@@ -799,7 +822,7 @@ void AppendOmegaTermination(pGenerator& rPGen, EventPriorities& rPrios){
     Idx omega_terminal = rPGen.InsEvent("_OMEGA_TERMINAL_");
 
     // handle event prioriy
-    const Idx lowest = rPGen.GlobalAttribute().PLowest();
+    const Idx lowest = rPGen.GlobalAttribute().LowestPriority();
     rPGen.EventAttributep(omega)->Priority(lowest);
     rPGen.EventAttributep(omega_terminal)->Priority(lowest);
     rPrios.InsPriority("_OMEGA_",lowest);
@@ -816,9 +839,9 @@ void AppendOmegaTermination(pGenerator& rPGen, EventPriorities& rPrios){
     EventSet fairc;
     fairc.Insert(omega);
     fairc.Insert(omega_terminal);
-    Fairness fair;
-    fair.insert(fairc);
-    rPGen.GlobalAttributep()->SetFairConsts(fair);
+    FairnessConstraints fair;
+    fair.Append(fairc);
+    rPGen.GlobalAttributep()->Fairness(fair);
 }
 
 // install priority to a plain automaton
@@ -854,7 +877,7 @@ void WritePrio (const pGenerator& rPGen){
 void ShapeUpsilon(pGenerator& rPGen, const EventSet& rPEvs){
     StateSet::Iterator sit = rPGen.StatesBegin();
     for(;sit!=rPGen.StatesEnd();sit++){
-        Idx highest = rPGen.GlobalAttribute().PLowest();
+        Idx highest = rPGen.GlobalAttribute().LowestPriority();
         EventSet active = rPGen.ActiveEventSet(*sit);
         EventSet::Iterator eit = active.Begin();
         for(;eit!=active.End();eit++){
@@ -862,7 +885,7 @@ void ShapeUpsilon(pGenerator& rPGen, const EventSet& rPEvs){
                     && rPEvs.Exists(*eit)) // conjunct events in rPEvs as prioritised
                 highest = rPGen.EventAttribute(*eit).Priority();
         }
-        if (highest == rPGen.GlobalAttribute().PLowest()) continue;
+        if (highest == rPGen.GlobalAttribute().LowestPriority()) continue;
         else{
             TransSet::Iterator tit = rPGen.TransRelBegin(*sit);
             while(tit!=rPGen.TransRelEnd(*sit)){
@@ -1099,7 +1122,7 @@ void SaturatePDelayed(const pGenerator& rPGen,
     TransSet xTrans;
     StateSet::Iterator sit = rPGen.StatesBegin();
     for(;sit!=rPGen.StatesEnd();sit++){
-        Int k = rPGen.GlobalAttribute().PLowest();
+        Int k = rPGen.GlobalAttribute().LowestPriority();
         for(;k>=0;k--){
             xTrans.Insert(*sit,SilentEvAtPrio(rPGen,rSilent,k),*sit);
         }
@@ -1456,7 +1479,7 @@ void SaturatePWB(const pGenerator& rPGen,
             bool iszero = highest==0? true:false; // highest = 0 is a special case
                                                   // (does not need ++ to allow successive 0 trans)
             highest++; // for highest \neq 0, the highest allowed prioity is acturally highest++
-            Idx lowest = rPGen.GlobalAttribute().PLowest(); // allowed lowest priority, changed if some tau is active on X2
+            Idx lowest = rPGen.GlobalAttribute().LowestPriority(); // allowed lowest priority, changed if some tau is active on X2
             EventSet activesil = rPGen.ActiveEventSet(tit_lowest->X2) * rSilent;
             if (!activesil.Empty()){
                 Idx k_activesil = rPGen.EventAttribute(*activesil.Begin()).Priority();
@@ -1624,18 +1647,18 @@ StateSet StronglyCoaccessibleSet(const pGenerator& rPGen){
     Generator copy = rPGen;
     copy.Accessible();
     StateSet result = copy.States();
-    Fairness::const_iterator fairit = rPGen.GlobalAttribute().FairConsts().begin();
-    for(;fairit!=rPGen.GlobalAttribute().FairConsts().end();fairit++){
+    FairnessConstraints::Position fpos = 0;
+    for(;fpos<rPGen.GlobalAttribute().Fairness().Size();++fpos) {
+        const EventSet& fair = rPGen.GlobalAttribute().Fairness().At(fpos);
         copy.ClearMarkedStates();
         StateSet::Iterator sit = copy.StatesBegin();
         for(;sit!=copy.StatesEnd();sit++){
             // if a state can execute a fair event, it's "marked" for this fairness constraint
-            if(!(copy.ActiveEventSet(*sit) * (*fairit)).Empty()){
+            if(!(copy.ActiveEventSet(*sit) * fair).Empty()){
                 copy.SetMarkedState(*sit);
             }
         }
         result = result * copy.CoaccessibleSet(); //this is the ordinary function for marked states
-
     }
     return result;
 }
@@ -1674,7 +1697,7 @@ void BlockingSilentEvent(pGenerator& rPGen,const EventSet& rSilent){
                 // is this silent event with the highest priority at this state?
                 EventSet active = rPGen.ActiveEventSet(tit->X1);
                 EventSet::Iterator eit = active.Begin();
-                Idx highest = rPGen.GlobalAttribute().PLowest();
+                Idx highest = rPGen.GlobalAttribute().LowestPriority();
                 for(;eit!=active.End();eit++){
                     if (rPGen.EventAttribute(*eit).Priority()<highest)
                         highest = rPGen.EventAttribute(*eit).Priority();
@@ -1780,7 +1803,7 @@ void PConflictPreservingAbstraction(
         existingsil_k.insert(rPGen.EventAttribute(*eit).Priority());
     }
     Idx k = 0;
-    for(;k<=rPGen.GlobalAttribute().PLowest();k++){
+    for(;k<=rPGen.GlobalAttribute().LowestPriority();k++){
         if (existingsil_k.find(k) != existingsil_k.end()) continue;
         std::string silevname = ":::" + ToStringInteger(k);
         if (rPGen.Alphabet().Exists(silevname)){
@@ -1798,7 +1821,7 @@ void PConflictPreservingAbstraction(
 
     // certain conflicts
     // ******************NOTE: empty fairness constraints = trivial Nonblocking!
-    if (rPGen.GlobalAttribute().FairConsts().size()>0){ // cosmetically skip
+    if (rPGen.GlobalAttribute().Fairness().Size()>0){ // cosmetically skip
         BlockingEvent(rPGen,augsilent);
         BlockingSilentEvent(rPGen,augsilent);
         RemoveNonCoaccessibleOut(rPGen);
@@ -1834,13 +1857,14 @@ bool IsHideable(const pGenerator& rPGen,
                 const EventSet& rSilent,
                 const Transition& rTrans){
     if (!rSilent.Exists(rTrans.Ev)) return false; // this is not a silent event at all (e.g. _OMEGA_)
-    Fairness relevant; // collect all fairness constraints containing rTrans->Ev
-    Fairness::const_iterator fairit = rPGen.GlobalAttribute().FairConsts().begin();
-    for(;fairit!=rPGen.GlobalAttribute().FairConsts().end();fairit++){
-        if (fairit->Exists(rTrans.Ev))
-            relevant.insert(*fairit);
+    FairnessConstraints relevant; // collect all fairness constraints containing rTrans->Ev
+    FairnessConstraints::Position fpos = 0;
+    for(;fpos<rPGen.GlobalAttribute().Fairness().Size();++fpos){
+        const EventSet& fair = rPGen.GlobalAttribute().Fairness().At(fpos);
+        if(fair.Exists(rTrans.Ev))
+            relevant.Append(fair);
     }
-    if (relevant.empty()) return true; // this event is not in any fairness constraint
+    if (relevant.Empty()) return true; // this event is not in any fairness constraint
     // get the =>_Sig:k closure from rTrans->X2
     StateSet todo;
     StateSet visited;
@@ -1853,7 +1877,7 @@ bool IsHideable(const pGenerator& rPGen,
         Idx cstate = *todo.Begin();
         todo.Erase(todo.Begin());
         visited.Insert(cstate);
-        Fairness relevant_copy = relevant; // buffer a copy of relevant fairness constraints
+        FairnessConstraints relevant_copy = relevant; // buffer a copy of relevant fairness constraints
         StateSet todo_new; // buffer a state set for qualified silent successors
         TransSet::Iterator tit = rPGen.TransRelBegin(cstate);
         for(;tit!=rPGen.TransRelEnd(cstate);tit++){
@@ -1861,14 +1885,16 @@ bool IsHideable(const pGenerator& rPGen,
             if (rPGen.EventAttribute(tit->Ev).Priority()>k) continue; // required both for colouring or silent successor
             if (*tit == rTrans) continue;
             // how many relevant fairness constraints are satisfied?
-            Fairness::iterator fairit = relevant_copy.begin();
-            while(fairit!=relevant_copy.end()){
-                if (fairit->Exists(tit->Ev)){
-                    relevant_copy.erase(fairit++); // remove when this fairness cons is satisfied
+            FairnessConstraints::Position fpos = 0;
+            for(;fpos<relevant_copy.Size();++fpos){
+                const EventSet& fair = relevant_copy.At(fpos);
+                if (fair.Exists(tit->Ev)){
+                    relevant_copy.Erase(fpos); // remove when this fairness cons is satisfied
+		    continue;
                 }
-                else fairit++;
+                fpos++;
             }
-            if (relevant_copy.empty()) return true;
+            if (relevant_copy.Empty()) return true;
             // is tit->X2 a suitable silent successor?
             if (NonsilHigherThen(rPGen,rSilent,tit->X2,k)<=x1active){
                 todo_new.Insert(tit->X2);
@@ -1895,9 +1921,9 @@ EventSet HidePriviateEvs(pGenerator& rPGen,
     }
     // install tau events to alphabet
     std::vector<Idx> tauevs; // buffer a vector for fast search. Position index = priority
-    tauevs.reserve(rPGen.GlobalAttribute().PLowest()+1);
+    tauevs.reserve(rPGen.GlobalAttribute().LowestPriority()+1);
     Idx k = 0; // priority
-    for(;k<=rPGen.GlobalAttribute().PLowest();k++){
+    for(;k<=rPGen.GlobalAttribute().LowestPriority();k++){
         std::string tauevname = "__TAU"+ToStringInteger(rTau)+":"+ToStringInteger(k);
         if (rPGen.Alphabet().Exists(tauevname)){
             std::cout<<"HidePrivateEvs:: Generator "<<rPGen.Name()
@@ -1932,13 +1958,14 @@ EventSet HidePriviateEvs(pGenerator& rPGen,
 bool IsStronglyNonblocking(const pGenerator& rPGen){
     Generator copy = rPGen;
     copy.Accessible();
-    Fairness::const_iterator fairit = rPGen.GlobalAttribute().FairConsts().begin();
-    for(;fairit!=rPGen.GlobalAttribute().FairConsts().end();fairit++){
+    FairnessConstraints::Position fpos = 0;
+    for(;fpos<rPGen.GlobalAttribute().Fairness().Size();++fpos){
+        const EventSet& fair = rPGen.GlobalAttribute().Fairness().At(fpos);
         copy.ClearMarkedStates();
         StateSet::Iterator sit = copy.StatesBegin();
         for(;sit!=copy.StatesEnd();sit++){
             // if a state can execute a fair event, it's "marked" for this fairness constraint
-            if(!(copy.ActiveEventSet(*sit) * (*fairit)).Empty()){
+            if(!(copy.ActiveEventSet(*sit) * fair).Empty()){
                 copy.SetMarkedState(*sit);
             }
         }
@@ -1953,24 +1980,24 @@ bool IsStronglyNonblocking(const pGenerator& rPGen){
 
 
 // merge the fairness constraint of two pGenerators
-void MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2, Fairness& rFairRes){
-    rFairRes = rPGen1.GlobalAttribute().FairConsts();
-    Fairness::const_iterator fairit = rPGen2.GlobalAttribute().FairConsts().begin();
-    for(;fairit!=rPGen2.GlobalAttribute().FairConsts().end();fairit++){
-        rFairRes.insert(*fairit);
+void MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2, FairnessConstraints& rFairRes){
+    rFairRes = rPGen1.GlobalAttribute().Fairness();
+    FairnessConstraints::Position fpos = 0;
+    for(;fpos<rPGen2.GlobalAttribute().Fairness().Size();++fpos){
+        const EventSet& fair = rPGen2.GlobalAttribute().Fairness().At(fpos);
+        rFairRes.Append(fair);
     }
 }
 
 
-// the main function for non-conflict check
-// **************
-// This function includes multiple functionalities which are configured by pFairVec
-//     pFairVec: if not specified, treat omega-termination as the acceptance condition
-// (New plug-in style interface, no explicit fainess, TM 2025)
-bool IsPNonblocking(const GeneratorVector& rGvec,
+// The main function for non-conflict check.
+// a) if rFairVec is non-empty, fairness constraints are considered
+// b) if rFairVec is empty we treat omega-termination as the acceptance condition (see below wraper)
+bool IsPFNonblocking(const GeneratorVector& rGvec,
                        const EventPriorities& rPrios,
-                       const std::vector<Fairness>* pFairVec) {
-    // tranform back to YT original data type
+                       const std::vector<FairnessConstraints>& rFairVec) {
+
+    // tranform back to YT original data type for priosities (testing, TM 2025)
     /*
     std::map<std::string, Idx> priomap;  
     NameSet::Iterator eit=rPrios.Begin();
@@ -1983,17 +2010,18 @@ bool IsPNonblocking(const GeneratorVector& rGvec,
     EventPriorities prios=rPrios;
 
     // consistency check for coloured marking
-    if(pFairVec!=nullptr){
-        if (rGvec.Size()!=pFairVec->size()){
-            std::cout<< "InPNonconflicting:: consistency check fails. Size of gen vector and fairness vector unequal."<<std::endl;
+    if(rFairVec.size()>0){
+        if (rGvec.Size()!=rFairVec.size()){
+            std::cout<< "InPFNonconflicting:: consistency check fails. Size of gen vector and fairness vector unequal."<<std::endl;
             throw;
         }
         Idx git = 0;
         for(;git!=rGvec.Size();git++){
-            Fairness::const_iterator fairit = pFairVec->at(git).begin();
-            for(;fairit!=pFairVec->at(git).end();fairit++){
-                if (!(*fairit<=rGvec.At(git).Alphabet())){
-                    std::cout<< "InPNonconflicting:: consistency check fails. Generator "<<rGvec.At(git).Name()
+            FairnessConstraints::Position fpos = 0;
+            for(;fpos<rFairVec.at(git).Size();++fpos){
+                const EventSet& fair = rFairVec.at(git).At(fpos);
+                if (!(fair<=rGvec.At(git).Alphabet())){
+                    std::cout<< "IsPFNonconflicting:: consistency check fails. Generator "<<rGvec.At(git).Name()
                              <<" contains fairness event not in its alphabet."<<std::endl;
                     throw;
                 }
@@ -2018,12 +2046,12 @@ bool IsPNonblocking(const GeneratorVector& rGvec,
     for(;git!=rGvec.Size();git++){
         pGenerator pgen=rGvec.At(git);
 	pgen.Priorities(prios);
-        pgen.GlobalAttributep()->SetPLowest(lowest);
-        if (pFairVec==nullptr){ // go for omega termination
+        pgen.GlobalAttributep()->LowestPriority(lowest);
+        if (rFairVec.size()==0){ // go for omega termination
             AppendOmegaTermination(pgen,prios);
         }
         else{ // install predefined fairness
-            pgen.GlobalAttributep()->SetFairConsts(pFairVec->at(git));
+            pgen.GlobalAttributep()->Fairness(rFairVec.at(git));
         }
         pgenvec.push_back(pgen);
     }
@@ -2111,7 +2139,7 @@ bool IsPNonblocking(const GeneratorVector& rGvec,
         // *************** compose Gi and Gj and reinstall attributes to gij
         std::vector<pGenerator> newpgenvec;
         pGenerator gij;
-        Fairness newfairness;
+        FairnessConstraints newfairness;
         PCOMPVER_VERB0("Composing automata "<<pgenvec.at(imin).Name()<<" and "<<pgenvec.at(jmin).Name());
         SUParallel(pgenvec.at(imin),pgenvec.at(jmin),merging,privateevs,prios,gij);
         pGenerator pgij = gij;
@@ -2119,8 +2147,8 @@ bool IsPNonblocking(const GeneratorVector& rGvec,
         newpgenvec.push_back(pgij); // the composed generator is always the first element
         UParallel_MergeFairness(pgenvec.at(imin), pgenvec.at(jmin),gij, merging, newfairness);
 
-        newpgenvec[0].GlobalAttributep()->SetFairConsts(newfairness);
-        newpgenvec[0].GlobalAttributep()->SetPLowest(lowest);
+        newpgenvec[0].GlobalAttributep()->Fairness(newfairness);
+        newpgenvec[0].GlobalAttributep()->LowestPriority(lowest);
         // and retain other uncomposed automata
         git = 0;
         for(;git!=pgenvec.size();git++){
@@ -2135,16 +2163,22 @@ bool IsPNonblocking(const GeneratorVector& rGvec,
     return IsStronglyNonblocking(pgenvec.at(0));
 }
 
+// wrapper for no fairness constraints
+bool IsPNonblocking(const GeneratorVector& rGvec, const EventPriorities& rPrios) {
+  std::vector<FairnessConstraints> dummy;
+  return IsPFNonblocking(rGvec,rPrios,dummy);
+}
     
 
  
 /*
 ***********
-NEED OLD VERSION DUMMIES TO COMPILE (TM 2025)
+NEED OLD (?) VERSION DUMMIES TO COMPILE (TM 2025)
 ******
 */
 
 void PCandidate::MergeSilentLoops(Generator &g, const EventSet &silent){
+  FD_ERR("MergeSilentLoops(): revise pev-abstraction.cpp??");
 }
 
 void PCandidate::HidePrivateEvs(EventSet& silent){
@@ -2200,12 +2234,16 @@ void PCandidate::HidePrivateEvs(EventSet& silent){
 
 void PCandidate::ObservationEquivalenceQuotient_NonPreemptive(Generator &g,
         const EventSet &silent){
+  FD_ERR("ObservationEquivalenceQuotient_NonPreemptive(): revise pev_abstraction.cpp??");
 }
 
+
 void PCandidate::ObservationEquivalenceQuotient_Preemptive(Generator &g, const EventSet &silent, const bool& flag){
+  FD_ERR("ObservationEquivalenceQuotient_Preemptive(): revise pev_abstraction.cpp??");
 }
 
 void PCandidate::ConflictEquivalentAbstraction(EventSet& silent){
+  FD_ERR("ConflictEquivalentAbstraction(): revise pev_abstraction.cpp??");
 }
 
 

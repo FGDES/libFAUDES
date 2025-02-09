@@ -29,11 +29,12 @@ namespace faudes {
   
 /*
 ********************************
-Autoregister PrioritisedAlphabet
+Autoregister 
 ********************************
 */
 
 AutoRegisterType<EventPriorities> gRtiEventPriorities("EventPriorities");
+AutoRegisterType<FairnessConstraints> gRtiFairnessConstraints("FairnessConstraints");
   
 
 /*

@@ -405,9 +405,23 @@ public:
   virtual void Append(const std::string& rFileName);
 
   /** 
+   * Find element.
+   * This method iterates through the vector to find a matching element. This is generally inefficient,
+   * consider to use an STL set instead.
+   *
+   * @param rElem
+   *    Element to serach for
+   * @return
+   *    Position on success (or >= Size() for not found)
+   * @exception Exception
+   *   - Cannot cast element type (63)
+   */
+  virtual Position  Find(const Type& rElem);
+
+  /** 
    * Specify a filename.
-   * When each entry has a filenam specified,
-   * file io of the vector will be to indivudual files.
+   * When each entry has a filename specified,
+   * file io of the vector will be to indiviudual files.
    *
    * @param pos
    *    Position of entry
@@ -432,7 +446,7 @@ public:
 
   /**
    * Take ownership of all entries.
-   * Thsi method will take ownership of all entries, including those, that
+   * This method will take ownership of all entries, including those, that
    * have been set by pointer reference. When the vector is destructed, all
    * entries will be destructed, too. However, write access may invalidate 
    * element pointers.
@@ -547,7 +561,7 @@ private:
  * Vector template.
  *
  * The vector templates specializes the bass vBaseVector in that it uses the template
- * paremeter to specify the type of its entries. See vBaseVector for element access
+ * parameter to specify the type of its entries. See vBaseVector for element access
  * methods.
  *
  * TVectorSet serves is used to implement the libFaudes vectors

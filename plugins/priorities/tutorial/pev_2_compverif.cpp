@@ -20,8 +20,8 @@ int main(int argc, char* argv[]) {
     GeneratorVector gvoi;
     gvoi.Clear();
     EventPriorities prios;
-    std::vector<Fairness> fairvec;
-    Fairness faircons;
+    std::vector<FairnessConstraints> fairvec;
+    FairnessConstraints faircons;
     EventSet fair;
     
     // number of conveyor belts (needs to match cbs_setup.lua)
@@ -37,42 +37,20 @@ int main(int argc, char* argv[]) {
     // read priorities
     prios.Read("data/pev_cbs_prios.alph");
 
-    // programatic priorities
-    /*
-    prios.Clear();
-    Idx id = 0;
-    for(;id!=gvoi.Size();id++){
-        Generator* cgen = &gvoi.At(id);
-        EventSet::Iterator eit = cgen->AlphabetBegin();
-        for(;eit!=cgen->AlphabetEnd();eit++){
-            std::string name = cgen->EventName(*eit);
-            if (name[0]=='s'){ // its a send event sd_*
-	      prios.InsPriority(name,0);
-            }
-            else if(name[0]=='o'){ // its an on/off event
-  	        prios.InsPriority(name,1);
-            }
-            else{
-  	        prios.InsPriority(name,2);
-            }
-        }
-    }
-    */
-
     // report
     prios.Write();
     
     // construct fairness  
     for (int i = 0; i<=count+1; i++){
-        faircons.clear();
+        faircons.Clear();
         fair.Clear();
         fair.Insert("ar_"+ToStringInteger(i));
-        faircons.insert(fair);
+        faircons.Append(fair);
         fairvec.push_back(faircons);
     }
 
     auto start = std::clock();
-    bool isnc = IsPNonblocking(gvoi,prios,&fairvec);
+    bool isnc = IsPFNonblocking(gvoi,prios,fairvec);
     std::cout<<"Duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;
     std::cout<<"Is P-Nonconflicting? "<< isnc<<std::endl;
     return 0;

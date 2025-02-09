@@ -30,46 +30,36 @@ namespace faudes {
 
 
 /*!
- * \brief Fairness
- * Set of eventset denoting fairness constraints of a PGenerator.
- * Each EventSet in Fairness is one fairness constraint
- */
-typedef std::set<EventSet> Fairness;
-
-
-/*!
- * \brief The PGenGl class
- * Class wraping various global attribute of a FPGene including
- * Fairness and lowest event priority
+ * \brief The AttributePGenGl class
+ * Class wraping various global attributes of a FPGene including
+ * Fairness and lowest event priority.
  * Note: this is not yet a propper faudes Attribute, it misses out on
  * serialisation.
  */
 
-class FAUDES_API PGenGl : public AttributeVoid {
+class FAUDES_API AttributePGenGl : public AttributeVoid {
 
-FAUDES_TYPE_DECLARATION(Void,PGenGl,AttributeVoid)
+FAUDES_TYPE_DECLARATION(Void,AttributePGenGl,AttributeVoid)
 
 public:
     /**
     * Default constructor
     */
-    PGenGl(void) : AttributeVoid() {}
+    AttributePGenGl(void) : AttributeVoid() {}
 
     /** Destructor */
-    virtual ~PGenGl(void) {}
+    virtual ~AttributePGenGl(void) {}
 
-    void SetPLowest (const Idx& rPriority) {mPLowest = rPriority;}
-
-    Idx PLowest(void) const { return mPLowest;  }
-
-    void SetFairConsts (const Fairness& rFair) {mFairConsts = rFair;}
-
-    const Fairness& FairConsts(void) const { return mFairConsts;  }
+    /** Access members */
+    void LowestPriority(const Idx rPriority) { mPLowest = rPriority; }
+    Idx LowestPriority(void) const { return mPLowest;  }
+    void Fairness(const FairnessConstraints& rFair) { mFairConsts = rFair; }
+    const FairnessConstraints& Fairness(void) const { return mFairConsts; }
 
     /**
     * Clear (mandatory for serialisation)
     */
-    void Clear(void) { mPLowest = 0; mFairConsts.clear();}
+    void Clear(void) { mPLowest = 0; mFairConsts.Clear();}
 
 protected:
     /**
@@ -78,7 +68,7 @@ protected:
     * @param rSrcAttr
     *    Source to assign from
     */
-    void DoAssign(const PGenGl& rSrcAttr){mPLowest = rSrcAttr.mPLowest; mFairConsts = rSrcAttr.mFairConsts;}
+    void DoAssign(const AttributePGenGl& rSrcAttr){mPLowest = rSrcAttr.mPLowest; mFairConsts = rSrcAttr.mFairConsts;}
 
     /**
     * Test equality of configuration data.
@@ -88,7 +78,7 @@ protected:
     * @return
     *   True on match.
     */
-    bool DoEqual(const PGenGl& rOther) const {return (mPLowest == rOther.mPLowest && mFairConsts == rOther.mFairConsts);}
+    bool DoEqual(const AttributePGenGl& rOther) const {return (mPLowest == rOther.mPLowest && mFairConsts == rOther.mFairConsts);}
 
     /**
     * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -126,7 +116,7 @@ protected:
      * \brief mFairConst
      * fairness constraints
      */
-    Fairness mFairConsts;
+    FairnessConstraints mFairConsts;
 
     /**
     * lowest priority value of globally all events (not only my alphabet).
@@ -141,7 +131,7 @@ protected:
  * 
  * @section PGeneratorOverview Overview
  * 
- * The TpGenerator is a variant of the TcGenerator to add an interface for priositised events
+ * The TpGenerator is a variant of the TcGenerator to add an interface for priositised events and fairness
  *
  * Technically, the construct is based on the specialized attribute class faudes::AttributePriority
  * derived from faudes::AttributeCFlags. The TpGenerator expects an event attribute template parameter
@@ -296,23 +286,57 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      */
     void Priorities(const TpEventSet<EventAttr>& rOtherSet);
 
-  private:
+    /**
+     * Get lowest  priority
+     * Note: this is a dumb member -- you need to set it programatically
+     *
+     * @return
+     *  lowest priority
+     *
+     */
+    Idx LowestPriority(void) const;
 
-  protected:
+    /**
+     * Set lowest priority
+     * Note: this is a dumb member -- you need to set it programatically
+     *
+     * @param
+     *  lowest priority
+     *
+     */
+    void LowestPriority(Idx prio);
+
+    /**
+     * Get fairness constraints
+     *
+     * @return
+     *  vector of fainess eventsets
+     *
+     */
+    FairnessConstraints Fairness(void) const;
+
+    /**
+     * Set fairness constraints
+     *
+     * @param
+     *  fairness constraints
+     *
+     */
+    void Fairness(const FairnessConstraints& rFair);
+
+
 
 }; // end class TpGenerator
 
     
 /** 
  * Convenience typedef for std prioritised generator 
- *
- * @ingroup GeneratorClasses
  */
-typedef TpGenerator<PGenGl, AttributeVoid, AttributePriority, AttributeVoid> PrioritisedSystem;
+typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, AttributeVoid> PrioritisedGenerator;
 
 
-// compatibility with YT's original code
-typedef TpGenerator<PGenGl, AttributeVoid, AttributePriority, AttributeVoid> pGenerator;
+// Tyoedef for compatibility with YT's original code / internal use
+typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, AttributeVoid> pGenerator;
   
 /** 
  * Convenience typedef for vectors of priositised systems
@@ -411,36 +435,59 @@ TEMP THIS THIS::NewPGen(void) const {
 //}
 
 
-  // Priority(index)
-  TEMP Idx THIS::Priority(const Idx index) const {
-    return this->EventAttribute(index).Priority();
-  } 
+// Priority(index)
+TEMP Idx THIS::Priority(const Idx index) const {
+ return this->EventAttribute(index).Priority();
+} 
 	
-  // Priority(name)
-  TEMP Idx THIS::Priority(const std::string& rName) const {
-    return this->EventAttribute(rName).Priority();
-  } 
+// Priority(name)
+TEMP Idx THIS::Priority(const std::string& rName) const {
+ return this->EventAttribute(rName).Priority();
+} 
 	
-  // Priority(index,prio)
-  TEMP void THIS::Priority(const Idx index, const Idx prio) {
-    this->EventAttributep(index)->Priority(prio);
-  } 
+// Priority(index,prio)
+TEMP void THIS::Priority(const Idx index, const Idx prio) {
+ this->EventAttributep(index)->Priority(prio);
+} 
 	
-  // Priority(name,prio)
-  TEMP void THIS::Priority(const std::string& rName, Idx prio) {
-    this->EventAttributep(rName)->Priority(prio);
-  } 
+// Priority(name,prio)
+TEMP void THIS::Priority(const std::string& rName, Idx prio) {
+  this->EventAttributep(rName)->Priority(prio);
+} 
 	
-  // Priorities(otherset)
-  TEMP void THIS::Priorities(const TpEventSet<EventAttr>& rOtherSet) {
-    NameSet::Iterator eit=this->AlphabetBegin();  
-    NameSet::Iterator eit_end=this->AlphabetEnd();
-    for(;eit!=eit_end;++eit) {
-      if(rOtherSet.Exists(*eit))
-	Priority(*eit,rOtherSet.Priority(*eit));
-    }
+// Priorities(otherset)
+TEMP void THIS::Priorities(const TpEventSet<EventAttr>& rOtherSet) {
+  NameSet::Iterator eit=this->AlphabetBegin();  
+  NameSet::Iterator eit_end=this->AlphabetEnd();
+  for(;eit!=eit_end;++eit) {
+    if(rOtherSet.Exists(*eit))
+      Priority(*eit,rOtherSet.Priority(*eit));
   }
+}
 
+// LowestPriority
+TEMP Idx THIS::LowestPriority(void) const {
+  return this->GlobalAttribute().LowestPriosity();
+}
+
+// LowestPriority
+TEMP void THIS::LowestPriority(Idx prio) {
+  this->GlobalAttribute().LowestPriosity(prio);
+}
+
+// Fairness
+TEMP FairnessConstraints THIS::Fairness(void) const {
+  return this->GlobalAttribute().Fairness();
+}
+
+// Fairness
+TEMP void THIS::Fairness(const FairnessConstraints& rFair) {
+  this->GlobalAttributep()->Fairness(rFair);
+}
+  
+
+
+  
 #undef TEMP
 #undef BASE
 #undef THIS

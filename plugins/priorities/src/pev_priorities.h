@@ -360,7 +360,14 @@ class FAUDES_TAPI TpEventSet : public TaEventSet<Attr> {
  */
 typedef TpEventSet<AttributePriority> EventPriorities;
 
+/** 
+ * Convenience typedef for fairness constraints (one EventSet per constraint)
+ *
+ */
+typedef TBaseVector<EventSet> FairnessConstraints;
 
+
+ 
 /*
 ******************************************************** 
 ******************************************************** 

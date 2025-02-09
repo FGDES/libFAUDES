@@ -1,3 +1,26 @@
+/** @file pev_abstraction.h Conflict preserving abstractions */
+
+
+/* FAU Discrete Event Systems Library (libfaudes)
+
+   Copyright (C) 2023 Yiheng Tang
+   Copyright (C) 2025 Thomas Moor
+   Exclusive copyright is granted to Klaus Schmidt
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+
 #ifndef PEV_ABSTRACTION_H
 #define PEV_ABSTRACTION_H
 
@@ -19,15 +42,19 @@ namespace faudes {
 void AppendOmega(Generator& rGen);
 
 // shaping
-extern FAUDES_API void ShapeUpsilon(pGenerator& rPGen, const EventSet& pevs);
-extern FAUDES_API void ShapePriorities(pGenerator& rPGen);
-extern FAUDES_API void ShapePreemption(Generator& rPGen, const EventSet& pevs);
-extern FAUDES_API bool IsShaped(const pGenerator& rPGen, const EventSet& pevs);
+FAUDES_API void ShapeUpsilon(pGenerator& rPGen, const EventSet& pevs);
+FAUDES_API void ShapePriorities(pGenerator& rPGen);
+FAUDES_API void ShapePreemption(Generator& rPGen, const EventSet& pevs);
+FAUDES_API bool IsShaped(const pGenerator& rPGen, const EventSet& pevs);
 
-// API YT
-extern FAUDES_API bool IsPNonblocking(const GeneratorVector& rGvec,
-                       const EventPriorities& rPrios,
-                       const std::vector<Fairness>* pFairVec = nullptr);
+// main API
+FAUDES_API bool IsPFNonblocking(
+    const GeneratorVector& rGvec,
+    const EventPriorities& rPrios,
+    const std::vector<FairnessConstraints>& rFairVec);
+FAUDES_API bool IsPNonblocking(
+    const GeneratorVector& rGvec,
+    const EventPriorities& rPrios);
 
   
   

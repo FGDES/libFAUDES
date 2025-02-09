@@ -17,9 +17,15 @@ Relative to 2.31*
 ***
 
 Tuning the build system for the migration to GitHub. This should
-not affect libFAUDES aplications. For the time being, we recommend
+not affect libFAUDES applications. For the time being, we recommend
 to get the 2.31* from the FGDES/LRT/FAU download page and wait for
 2.32* until stable.
+
+***
+
+Transitioning to MSYS2 as build environment on MS Windows. Building with
+MS compilers "cl.exe" should still work fine, howeverm we not test on
+this on a regular basis anymore.
 
 ***
 
@@ -34,9 +40,9 @@ we get with our new semi-smart scheeme.
 
 ***
 
-Yet again the token IO. We have chnaged the methoeds "ReadInteger" and
+Yet again the token IO. We have changed the methoeds "ReadInteger" and
 alike of "TokenReader" to not digest a mismatching token (while still
-throwing an exception). This whould have been the design in the first
+throwing an exception). This should have been the design in the first
 place.
 
 ##########
@@ -45,8 +51,8 @@ Relative to 2.30b
 
 ***
 
-Performance improvements for Product (used in LanguageIntersection,
-Languagedifference, and may more)
+Significant performance improvements for Product composition (used in LanguageIntersection,
+Languagedifference, and many more)
 
 ***
 

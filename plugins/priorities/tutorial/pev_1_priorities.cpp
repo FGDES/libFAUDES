@@ -81,11 +81,29 @@ int main() {
     std::cout << "manipulate priorities: mismatch (PASS)" << std::endl;
 
 
+  ////////////////////////////////////////////////////
+  // Fairness
+  ////////////////////////////////////////////////////
 
+  FairnessConstraints fconstr;
+  EventSet falph1, falph2;
+  falph1.FromString("<EventSet> alpha beta </EventSet>");
+  falph2.FromString("<EventSet> beta gamma </EventSet>");
+  fconstr.Append(falph1);
+  fconstr.Append(falph2);
+  fconstr.Write();
+  FairnessConstraints::Position pos=fconstr.Find(falph2);
+  if(pos==1) 
+    std::cout << "found alph2 at " << pos << " (PASS)" << std::endl;
+  else
+    std::cout << "found alph2 at " << pos << " (FAIL)" << std::endl;
+
+  
 
   ////////////////////////////////////////////////////
   // pGenerator
   ////////////////////////////////////////////////////
+
   pGenerator pgen;
   pgen.FromString(R"(
     <Generator>
@@ -97,6 +115,7 @@ int main() {
     </Generator>
   )");
   pgen.Priorities(prios3);
+  pgen.Fairness(fconstr);
   pgen.XWrite();
   
 

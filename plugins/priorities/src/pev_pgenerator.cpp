@@ -28,15 +28,15 @@ namespace faudes {
 
 /*
 ********************************
-PGenGl implementation 
+AttributePGenGl implementation 
 ********************************
 */
 
-FAUDES_TYPE_IMPLEMENTATION(Void,PGenGl,AttributeVoid)
+FAUDES_TYPE_IMPLEMENTATION(Void,AttributePGenGl,AttributeVoid)
   
 /*
 ********************************
-Autoregister PGenerator
+Autoregister pGenerator
 ********************************
 */
 

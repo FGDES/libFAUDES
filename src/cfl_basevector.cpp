@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Bernd Opitz
-   Copyright (C) 2007  Thomas Moor
+   Copyright (C) 2007, 2025  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -394,6 +394,20 @@ void vBaseVector::Append(const std::string& rFileName) {
 }
  
 
+// find 
+vBaseVector::Position vBaseVector::Find(const Type& rElem) {
+  if(!ElementTry(rElem)) {
+    std::stringstream errstr;
+    errstr << "cannot cast element " << std::endl;
+    throw Exception("vBaseVector::Find(elem)", errstr.str(), 63);
+  }
+  Position pos=0;
+  for(;pos<Size();++pos) {
+    if(rElem.Equal(At(pos))) return pos;
+  }
+  return Size();
+}
+ 
 // FilenameAt()
 const std::string& vBaseVector::FilenameAt(const Position& pos) const {
 #ifdef FAUDES_CHECKED
