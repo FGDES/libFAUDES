@@ -1,28 +1,23 @@
+// @file pev_3_verify.cpp verification with std synchronous marking
+
+// 1) generate models via "pev_cbs_setup.lua"
+// 2) run this executable
+
+// NOTE: not functional as of 2025 TM
 
 #include "libfaudes.h"
 
 using namespace faudes;
 
-void ParallelAll(const GeneratorVector& rGvec, Generator& result){
-    result = rGvec.At(0);
-    Idx git = 1;
-    for(;git!=rGvec.Size();git++){
-        Parallel(result,rGvec.At(git),result);
-    }
-}
 
 
-// parse commandline and invoke per task wrapper
+// main
 int main(int argc, char* argv[]) {
-
 
     ConsoleOut::G()->Verb(1);
     GeneratorVector gvoi;
     gvoi.Clear();
     EventPriorities prios;
-    std::vector<FairnessConstraints> fairvec;
-    FairnessConstraints faircons;
-    EventSet fair;
     
     // number of conveyor belts (needs to match cbs_setup.lua)
     const int count = 8;
@@ -37,22 +32,23 @@ int main(int argc, char* argv[]) {
     // read priorities
     prios.Read("data/pev_cbs_prios.alph");
 
-    // report
-    prios.Write();
-    
-    // construct fairness  
-    for (int i = 0; i<=count+1; i++){
-        faircons.Clear();
-        fair.Clear();
-        fair.Insert("ar_"+ToStringInteger(i));
-        faircons.Append(fair);
-        fairvec.push_back(faircons);
-    }
-
+    // do compositional verification
     auto start = std::clock();
-    bool isnc = IsPFNonblocking(gvoi,prios,fairvec);
+    bool isnc = IsPNonblocking(gvoi,prios);
     std::cout<<"Duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;
     std::cout<<"Is P-Nonconflicting? "<< isnc<<std::endl;
+
+    // do monolytic verification
+    /*
+    start = std::clock();
+    Generator gall;
+    Parallel(gvoi,gall);
+    Shape(gall,prios);
+    isnc = IsNonblocking(gall);
+    std::cout<<"Duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;
+    std::cout<<"Is P-Nonconflicting? "<< isnc<<std::endl;
+    */
+
     return 0;
 
 

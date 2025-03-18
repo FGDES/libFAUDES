@@ -47,6 +47,33 @@ void Parallel(const Generator& rGen1, const Generator& rGen2, Generator& rResGen
 }
  
 
+// Parallel for multiple Generators
+void Parallel(
+  const GeneratorVector& rGenVec,
+  Generator& rResGen)
+{
+  // helpers:
+  std::map< std::pair<Idx,Idx>, Idx> cmap;
+  // prepare result
+  rResGen.Clear();
+  // ignore empty
+  if(rGenVec.Size()==0) {
+    return;
+  }
+  // copy one 
+  if(rGenVec.Size()==1) {
+    rResGen=rGenVec.At(0);
+    return;
+  }
+  // run parallel 
+  Parallel(rGenVec.At(0),rGenVec.At(1),cmap,rResGen);
+  for(GeneratorVector::Position i=2; i<rGenVec.Size(); i++) { 
+     Parallel(rResGen,rGenVec.At(i),cmap,rResGen);
+     FD_DF("Parallel():: # rResGen " << rResGen.Size());
+  }
+
+}
+
 // Parallel for Generators, transparent for event attributes.
 void aParallel(
   const Generator& rGen1,

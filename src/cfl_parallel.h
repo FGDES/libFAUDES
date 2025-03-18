@@ -114,6 +114,24 @@ extern FAUDES_API void Parallel(const Generator& rGen1, const Generator& rGen2, 
  * Parallel composition.
  *
  * See also Parallel(const Generator&, const Generator&, Generator&).
+ * This version takes a vector of generators as argument to perform
+ * a synchronous composition of multiple generators. The implementation
+ * calls the std Parallel multiple times, future implementations may
+ * explore the overall reachable state set.
+ *
+ * @param rGenVec
+ *   Vector of input generators
+ * @param rResGen
+ *   Reference to resulting composition generator
+ *
+ */
+extern FAUDES_API void Parallel(const GeneratorVector& rGenVec, Generator& rResGen);
+
+
+/**
+ * Parallel composition.
+ *
+ * See also Parallel(const Generator&, const Generator&, Generator&).
  * This version tries to be transparent on event attributes: if
  * argument attributes match and if the result can take the respective
  * attributes, then they are copied; it is considered an error if 

@@ -470,31 +470,23 @@ end
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
 
---[[
--- generate jpgs with N=1 for inspection
+--
+-- generate jpgs for inspection
 print('======================================')
 print('======================================')
-print('generating *.jpg for N=1')
-SetN(1)
 g_src=ModelSrc()
 g_src:GraphWrite(string.format('tmp_%s.jpg',NameSrc()))
-g_pa1=ModelPaI(1)
-g_pa1:GraphWrite(string.format('tmp_%s.jpg',NamePaI(1)))
-g_pb1=ModelPbI(1)
-g_pb1:GraphWrite(string.format('tmp_%s.jpg',NamePbI(1)))
-g_snk=ModelSnk(1)
+g_pa1=ModelPcbI(1)
+g_pa1:GraphWrite(string.format('tmp_%s.jpg',NamePcbI(1)))
+g_pb1=ModelPconI(1)
+g_pb1:GraphWrite(string.format('tmp_%s.jpg',NamePconI(1)))
+g_pb1=ModelCI(1)
+g_pb1:GraphWrite(string.format('tmp_%s.jpg',NameCI(1)))
+g_pb1=ModelCI(N)
+g_pb1:GraphWrite(string.format('tmp_%s.jpg',NameCI(N)))
+g_snk=ModelSnk()
 g_snk:GraphWrite(string.format('tmp_%s.jpg',NameSnk(1)))
-g_ca1=ModelCaI(1)
-g_ca1:GraphWrite(string.format('tmp_%s.jpg',NameCaI(1)))
-g_cb1=ModelCbI(1)
-g_cb1:GraphWrite(string.format('tmp_%s.jpg',NameCbI(1)))
-g_c1=ModelCI(1)
-g_c1:GraphWrite(string.format('tmp_%s.jpg',NameCI(1)))
-g_all=ModelAll()
-MergeBlockingStates(g_all)
-Shape(g_all)
-g_all:GraphWrite("g_all.jpg")
---]]
+--
 
 
 

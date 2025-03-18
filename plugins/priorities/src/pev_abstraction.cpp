@@ -2012,7 +2012,7 @@ bool IsPFNonblocking(const GeneratorVector& rGvec,
     // consistency check for coloured marking
     if(rFairVec.size()>0){
         if (rGvec.Size()!=rFairVec.size()){
-            std::cout<< "InPFNonconflicting:: consistency check fails. Size of gen vector and fairness vector unequal."<<std::endl;
+            std::cout<< "IsPFNonconflicting:: consistency check fails. Size of gen vector and fairness vector unequal."<<std::endl;
             throw;
         }
         Idx git = 0;
