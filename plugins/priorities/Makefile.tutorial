@@ -11,11 +11,11 @@ PEV_TUTORIAL_DIR = ./plugins/priorities/tutorial
 #
 # source files
 PEV_TUTORIAL_CPPFILES = \
-	pev_1_priorities.cpp pev_2_compverif.cpp
+	pev_1_priorities.cpp pev_2_verify.cpp pev_3_verfair.cpp
  
 # executables
 PEV_TUTORIAL_EXECUTABLES = \
-	pev_1_priorities pev_2_compverif
+	pev_1_priorities pev_2_verify pev_3_verfair
  	
 PEV_TUTORIAL_EXECUTABLES := $(PEV_TUTORIAL_EXECUTABLES:%=$(PEV_TUTORIAL_DIR)/%$(DOT_EXE))
 

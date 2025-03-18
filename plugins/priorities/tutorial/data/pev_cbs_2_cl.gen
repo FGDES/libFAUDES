@@ -4,7 +4,7 @@
 %  Statistics for g_controller_2||g_plant_cb_2||g_plant_con_2
 % 
 %  States:        20
-%  Init/Marked:   1/2
+%  Init/Marked:   1/4
 %  Events:        7
 %  Transitions:   28
 %  StateSymbols:  0
@@ -58,7 +58,7 @@ ar_3
 </InitStates>
 
 <MarkedStates>
-1              2             
+1              2              7              8             
 </MarkedStates>
 
 

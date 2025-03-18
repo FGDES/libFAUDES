@@ -1,5 +1,16 @@
 --
--- Model for N-conveyor belts for transport from the left to the right, incl supervisors
+-- Automata nodels for an N conveyor belts setup to transport workpieces from the left to
+-- the right, incl. local supervisorsm, a source and a sink.
+--
+-- This example has been reported by Tang/Moor at WODES 2022, and was further developed for
+-- the journal version in DEDS 2024. Allthough the transition structures for both variants
+-- are identical, the WODES 2022 version uses the common synchronous marking while the DEDS 2024
+-- version uses a more elaborate fairness constraint. Both papers are available e.g. via
+--
+-- https://fgdes.tf.fau.de/publications.html
+--
+-- There is no Lua-interface for the latter feature, hence we only set up autoamta and then
+-- run the corresponding C-tutorial.
 --
 
 -- configure
@@ -21,7 +32,7 @@ N=8
 -- off_i: turn motor off
 
 
--- original event names (concise for discussion/publication)
+-- symolic event names (concise for discussion/publication)
 function EventSdI(par_i)
   return string.format('sd_%d',par_i)
 end
@@ -38,7 +49,7 @@ function EventOffI(par_i)
   return string.format('off_%d',par_i)
 end
 
--- FlexFact event names (for hardware-in-the-loop simulation)
+-- symolic event names (alternative version for hardware-in-the-loop simulation with FlexFact)
 --[[
 function EventInI(par_i)
   return string.format('cb%d_sd',par_i)
@@ -128,9 +139,9 @@ end
 SetPriorities(N)
 
 --
--- File names
+-- Generator names
 --
--- The below functions provide names for our models, e.g., for file io
+-- The below functions provide names for our models
 --
 function NamePcbI(par_i)
   return string.format('g_plant_cb_%d',par_i)
@@ -163,30 +174,34 @@ end
 
 --
 -- Plant, single conveyor belt
--- ** workpiace arrive/leave only when motor is on
+-- ** workpiece may arrive or leave only when motor is on
 --
 function ModelPcbI(par_i)
 
-  -- Prepare result
+  -- prepare result
   pcb=faudes.Generator()
   pcb:Clear()
 
-  -- Insert events
+  -- have a name
+  pcb:Name(NamePcbI(par_i))
+
+  -- insert events
   local ev_ar  =pcb:InsEvent(EventArI(par_i))
   local ev_lv  =pcb:InsEvent(EventLvI(par_i))
   local ev_on =pcb:InsEvent(EventOnI(par_i))
   local ev_off =pcb:InsEvent(EventOffI(par_i))
  
-  -- Insert states
+  -- insert states
   local st_offvac=pcb:InsState(string.format('p%d_offvac',par_i))   -- motor off, sensor vaccant
+  local st_onvac=pcb:InsState(string.format('p%d_onvac',par_i))     -- motor on, sensor vaccant
+  local st_onocc=pcb:InsState(string.format('p%d_onocc',par_i))     -- motor on, sensor occupied
+  local st_offocc=pcb:InsState(string.format('p%d_offocc',par_i))   -- motor off, sensor occupied
   pcb:InsInitState(st_offvac)
   pcb:InsMarkedState(st_offvac)
-  local st_onvac=pcb:InsState(string.format('p%d_onvac',par_i))
-  local st_onocc=pcb:InsState(string.format('p%d_onocc',par_i))  -- motor on, sensor occupied
-  local st_offocc=pcb:InsState(string.format('p%d_offocc',par_i))
+  pcb:InsMarkedState(st_offocc) -- TM: want to use this for DEDS variant and WODES variant
   
 
-  -- Insert transitions (nominal)
+  -- insert transitions (intended operation)
   pcb:SetTransition(st_offvac,ev_on,st_onvac)
   pcb:SetTransition(st_onvac,ev_off,st_offvac)
   pcb:SetTransition(st_offocc,ev_on,st_onocc)
@@ -194,49 +209,46 @@ function ModelPcbI(par_i)
   pcb:SetTransition(st_onvac,ev_ar,st_onocc)
   pcb:SetTransition(st_onocc,ev_lv,st_onvac)
 
-  -- Insert transitions (selfloops)
+  -- insert transitions (actuator selfloops)
   pcb:SetTransition(st_offvac,ev_off,st_offvac)
   pcb:SetTransition(st_onvac,ev_on,st_onvac)
   pcb:SetTransition(st_offocc,ev_off,st_offocc)
   pcb:SetTransition(st_onocc,ev_on,st_onocc)
-
-  -- have a name
-  pcb:Name(NamePcbI(par_i))
 
   -- done
   return pcb
 
 end
 
--- Plant, connecition between conveyor belts
+-- Plant, relation between two consecutive conveyor belts
 -- ** only when a workpiece leaves cbi, cbi+1 can get a workpiece
--- ** if two workpieces leaves cbi without cbi+1 gets a workpiece in between, an error is issued
--- ** this is considered as a part of plant model of cbi
+-- ** if two workpieces leaves cbi without cbi+1 gets a workpiece in between, this is considered an  error
+-- ** this automaton is considered as a part of plant model of cbi
 function ModelPconI(par_i)
 
-  -- Prepare result
+  -- prepare result
   pcon=faudes.Generator()
   pcon:Clear()
 
-  -- Insert events
+  -- have a name
+  pcon:Name(NamePconI(par_i))
+
+  -- insert events
   local ev_lv  =pcon:InsEvent(EventLvI(par_i))
   local ev_ar  =pcon:InsEvent(EventArI(par_i + 1))
  
-  -- Insert states
+  -- insert states
   local st_idle=pcon:InsState(string.format('p%d_idle',par_i))   -- idle state
-  pcon:InsInitState(st_idle)
-  pcon:InsMarkedState(st_idle)
   local st_busy=pcon:InsState(string.format('p%d_busy',par_i)) -- a workpiece is under transfer
   local st_err=pcon:InsState(string.format('p%d_err',par_i))  -- error state
+  pcon:InsInitState(st_idle)
+  pcon:InsMarkedState(st_idle)
   
 
-  -- Insert transitions 
+  -- insert transitions 
   pcon:SetTransition(st_idle,ev_lv,st_busy)
   pcon:SetTransition(st_busy,ev_ar,st_idle)
   pcon:SetTransition(st_busy,ev_lv,st_err)  
-
-  -- have a name
-  pcon:Name(NamePconI(par_i))
 
   -- done
   return pcon
@@ -261,10 +273,10 @@ function ModelSrc()
 
   -- Insert states
   local st_idle=src:InsState('src_idle')
-  src:InsInitState(st_idle)
-  src:InsMarkedState(st_idle)
   local st_busy=src:InsState('src_busy')
   local st_done=src:InsState('src_done')
+  src:InsInitState(st_idle)
+  src:InsMarkedState(st_idle)
 
   -- Insert transitions (nominal)
   src:SetTransition(st_idle,ev_ar,st_busy)
@@ -303,11 +315,11 @@ function ModelSnk()
  
   -- Insert states
   local st_idle=snk:InsState('snk_idle')
-  snk:InsInitState(st_idle)
-  snk:InsMarkedState(st_idle)
   local st_busy=snk:InsState('snk_busy')
   local st_done=snk:InsState('snk_done')
   local st_err=snk:InsState('snk_err')
+  snk:InsInitState(st_idle)
+  snk:InsMarkedState(st_idle)
 
   -- Insert transitions
   snk:SetTransition(st_idle,ev_sd,st_busy)
@@ -331,7 +343,7 @@ end
 --    (sd_{i-1} -- on_i -- ar_i -- (sd_i + (off_i -- sd_i)) -- on_i -- ar_{i+1} -- off_i)^*
 --    the choice of (sd_i + (off_i -- sd_i)) can be interpreted as such that either we go on
 --    for send to cbi+1 directly (if cbi+1 is ready to synch) or we first stop, and wait until
---    cbi+1 becomes ready. The intension here is, if wee let sd-events have higher priority
+--    cbi+1 becomes ready. The intension here is, if we let sd-events have higher priority
 --    over off-events, the (off_i -- sd_i) choice will not be entered if sd_i is directly executable
 -- ** also, issue an error when sensor events occurs unexpectedly
 function ModelCI(par_i)
@@ -436,11 +448,6 @@ function ExportModels()
   local i
   local cmp
   for i=1,N do
-    -- YT's verbose export
-    --ModelPcbI(i):Write(string.format('%d_Pcb.gen',i))
-    --ModelPconI(i):Write(string.format('%d_Pcon.gen',i))
-    --ModelCI(i):Write(string.format('%d_C.gen',i))
-    
     -- this is what I want
     ModelCLI(i):Write(string.format('pev_cbs_%d_cl.gen',i))
   end
@@ -458,7 +465,7 @@ end
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
 --
--- Testing
+-- Debugging
 --
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
@@ -470,19 +477,19 @@ print('======================================')
 print('generating *.jpg for N=1')
 SetN(1)
 g_src=ModelSrc()
-g_src:GraphWrite(string.format('%s.jpg',NameSrc()))
+g_src:GraphWrite(string.format('tmp_%s.jpg',NameSrc()))
 g_pa1=ModelPaI(1)
-g_pa1:GraphWrite(string.format('%s.jpg',NamePaI(1)))
+g_pa1:GraphWrite(string.format('tmp_%s.jpg',NamePaI(1)))
 g_pb1=ModelPbI(1)
-g_pb1:GraphWrite(string.format('%s.jpg',NamePbI(1)))
+g_pb1:GraphWrite(string.format('tmp_%s.jpg',NamePbI(1)))
 g_snk=ModelSnk(1)
-g_snk:GraphWrite(string.format('%s.jpg',NameSnk(1)))
+g_snk:GraphWrite(string.format('tmp_%s.jpg',NameSnk(1)))
 g_ca1=ModelCaI(1)
-g_ca1:GraphWrite(string.format('%s.jpg',NameCaI(1)))
+g_ca1:GraphWrite(string.format('tmp_%s.jpg',NameCaI(1)))
 g_cb1=ModelCbI(1)
-g_cb1:GraphWrite(string.format('%s.jpg',NameCbI(1)))
+g_cb1:GraphWrite(string.format('tmp_%s.jpg',NameCbI(1)))
 g_c1=ModelCI(1)
-g_c1:GraphWrite(string.format('%s.jpg',NameCI(1)))
+g_c1:GraphWrite(string.format('tmp_%s.jpg',NameCI(1)))
 g_all=ModelAll()
 MergeBlockingStates(g_all)
 Shape(g_all)
@@ -491,7 +498,7 @@ g_all:GraphWrite("g_all.jpg")
 
 
 
--- export automata models with N=1 for external processing
+-- export automata models with for external processing
 print('======================================')
 print('======================================')
 ExportModels()
