@@ -24,18 +24,55 @@ Currently, the only documentation of this plug-in is via the tutorials.
 <fdetails/>
 
 <p>
-The faudes type <ftype>EventPriorities</ftype> ... [docu to be completeted in due course]
+The faudes type <ftype>EventPriorities</ftype> represents an alphabet with per event priorities.
+I.e., each event is associatyed with a non-negative integer which indicates execution priority.
+Events with a higher priority preempt those of lower priority. See also <ffnct>ShapePriorities</ffnct>.
 </p>
+
+<p>
+For historical reasons, a low numerical valuecorresponds to a high priority,
+as in 1st priority vs. second priority.
+</p>
+
+<p> 
+Token-IO is strict XML only. Example:
+</p>
+<pre>
+&lt;EventPriorities name="aigma_prio"&gt;
+% event with priority 2
+&lt;Event name="alpha"&gt;
+&lt;Priority value="2"/&gt;
+&lt;/Event&gt;
+% event with default priority 0
+&lt;Event name="sd_1"/&gt;
+...
+&lt;/EventPriorities&gt;
+</pre>
 
 
 </ftype_reference>
+
+<ffnct_reference name="ShapePriorities">
+
+<fdetails/>
+
+<p>
+The function <ffnct>ShapePriorities</ffnct> implements the semantics of prioritised events by
+removing all transitions which are effectively preempted by a higher priority event.  
+</p>
+
+
+</ffnct_reference>
 
 <ffnct_reference name="IsPNonblocking">
 
 <fdetails/>
 
 <p>
-The function <ffnct>IsPNonblocking</ffnct> ... [docu to be completeted in due course]
+Priorities effect the non-blockingness of composed generators. Specifically, shaping does not commute
+wiuth parallel composition. Thus, the naive way to test for conflicts in a composed system is to first
+obtain a monolitic representation, then to apply the shaping operatior, and finally to test for blocking states. In contrast, the function <ffnct>IsPNonblocking</ffnct> implements a compositional approach and
+aims for relevant computational benefits.
 </p>
 
 

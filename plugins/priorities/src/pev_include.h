@@ -57,7 +57,7 @@ modular diccrete-event systems with prioritised events was, see:
 <p>
 Y.&nbsp;Tang, T.&nbsp;Moor:
 Compositional non-blockingness verification of finite automata with prioritised events,
-<it>Discrete-Event Dynamic Systems</it>, 2024.
+<i>Discrete-Event Dynamic Systems</i>, 2024.
 </p>
 
 <p>
