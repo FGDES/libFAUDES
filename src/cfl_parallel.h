@@ -129,6 +129,24 @@ extern FAUDES_API void Parallel(const GeneratorVector& rGenVec, Generator& rResG
 
 
 /**
+ * Parallel composition, non-blocking part.
+ *
+ * See also Parallel(const Generator&, const Generator&, Generator&).
+ * This version takes a vector of generators as argument to perform
+ * a synchronous composition of multiple generators. The implementation
+ * calls the std Parallel multiple times, and, at each stage, removes outgoing transitions
+ * from blocking states. Thus, the result will be accurate for non-blocking part only.
+ *
+ * @param rGenVec
+ *   Vector of input generators
+ * @param rResGen
+ *   Reference to resulting composition generator
+ *
+ */
+extern FAUDES_API void ParallelNB(const GeneratorVector& rGenVec, Generator& rResGen);
+
+
+/**
  * Parallel composition.
  *
  * See also Parallel(const Generator&, const Generator&, Generator&).

@@ -42,8 +42,9 @@ namespace faudes {
 void AppendOmega(Generator& rGen);
 
 // shaping
-FAUDES_API void ShapeUpsilon(pGenerator& rPGen, const EventSet& pevs);
+FAUDES_API void ShapeUpsilon(pGenerator& rPGen, const EventSet& rFilter);
 FAUDES_API void ShapePriorities(pGenerator& rPGen);
+  FAUDES_API void ShapePriorities(vGenerator& rPGen, const EventPriorities& rPrios);
 FAUDES_API void ShapePreemption(Generator& rPGen, const EventSet& pevs);
 FAUDES_API bool IsShaped(const pGenerator& rPGen, const EventSet& pevs);
 

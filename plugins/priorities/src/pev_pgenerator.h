@@ -31,7 +31,7 @@ namespace faudes {
 
 /*!
  * \brief The AttributePGenGl class
- * Class wraping various global attributes of a FPGene including
+ * Class wraping various global attributes of a FPGen including
  * Fairness and lowest event priority.
  * Note: this is not yet a propper faudes Attribute, it misses out on
  * serialisation.
@@ -287,6 +287,13 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     void Priorities(const TpEventSet<EventAttr>& rOtherSet);
 
     /**
+     * Get Priorities 
+     *
+     *
+     */
+     EventPriorities Priorities(void) const;
+
+    /**
      * Get lowest  priority
      * Note: this is a dumb member -- you need to set it programatically
      *
@@ -465,6 +472,16 @@ TEMP void THIS::Priorities(const TpEventSet<EventAttr>& rOtherSet) {
   }
 }
 
+// Priorities()
+TEMP EventPriorities THIS::Priorities(void) const {
+  EventPriorities res;
+  NameSet::Iterator eit=this->AlphabetBegin();  
+  NameSet::Iterator eit_end=this->AlphabetEnd();
+  for(;eit!=eit_end;++eit) {
+    res.InsPriority(*eit,this->Priority(*eit));
+  }
+  return res;    
+}
 // LowestPriority
 TEMP Idx THIS::LowestPriority(void) const {
   return this->GlobalAttribute().LowestPriosity();

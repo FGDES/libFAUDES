@@ -90,6 +90,15 @@ extern FAUDES_API void ConflictEquivalentAbstraction(vGenerator& rGen, EventSet&
  */
 extern FAUDES_API void RemoveTauLoops(Generator& rGen, const EventSet& silent);
  
+/**
+ * Remove outgoing transitions from blocking states.
+ * This is the certain conflicts rule proposed by R. Malik and H. Flordal in "Compositional
+ * verification in supervisory control", SIAM Journal of Control and Optimization, 2009.
+ *
+ * @param rGen
+ *   input/output generator
+ */
+extern FAUDES_API void RemoveNonCoaccessibleOut(vGenerator& rGen);
 
 
  

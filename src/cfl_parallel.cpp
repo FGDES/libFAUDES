@@ -21,6 +21,7 @@
 
 
 #include "cfl_parallel.h"
+#include "cfl_conflequiv.h"
 
 /* turn on debugging for this file */
 //#undef FD_DF
@@ -56,22 +57,46 @@ void Parallel(
   std::map< std::pair<Idx,Idx>, Idx> cmap;
   // prepare result
   rResGen.Clear();
+  bool rnames=rResGen.StateNamesEnabled();
   // ignore empty
   if(rGenVec.Size()==0) {
     return;
   }
   // copy one 
-  if(rGenVec.Size()==1) {
-    rResGen=rGenVec.At(0);
+  rResGen=rGenVec.At(0);
+  rResGen.StateNamesEnabled(rnames);
+  // run parallel 
+  for(GeneratorVector::Position i=1; i<rGenVec.Size(); i++) {
+    Parallel(rResGen,rGenVec.At(i),cmap,rResGen);
+    FD_DF("Parallel() cnt " << i << " states " << rResGen.Size());
+    FD_DF("Parallel() cnt " << i << " coreach " << rResGen.CoaccessibleSet().Size());
+  }
+}
+
+// Parallel for multiple Generators, nonblocking part only
+void ParallelNB(
+  const GeneratorVector& rGenVec,
+  Generator& rResGen)
+{
+  // helpers:
+  std::map< std::pair<Idx,Idx>, Idx> cmap;
+  // prepare result
+  rResGen.Clear();
+  bool rnames=rResGen.StateNamesEnabled();
+  // ignore empty
+  if(rGenVec.Size()==0) {
     return;
   }
+  // copy one 
+  rResGen=rGenVec.At(0);
+  rResGen.StateNamesEnabled(rnames);
   // run parallel 
-  Parallel(rGenVec.At(0),rGenVec.At(1),cmap,rResGen);
-  for(GeneratorVector::Position i=2; i<rGenVec.Size(); i++) { 
-     Parallel(rResGen,rGenVec.At(i),cmap,rResGen);
-     FD_DF("Parallel():: # rResGen " << rResGen.Size());
+  for(GeneratorVector::Position i=1; i<rGenVec.Size(); i++) {
+    RemoveNonCoaccessibleOut(rResGen);
+    FD_DF("ParallelNB() cnt " << i << " certconf trans #" << rResGen.TransRel().Size());
+    Parallel(rResGen,rGenVec.At(i),cmap,rResGen);
+    FD_DF("ParallelNB() cnt " << i << " parallel trans #" << rResGen.TransRel().Size());
   }
-
 }
 
 // Parallel for Generators, transparent for event attributes.

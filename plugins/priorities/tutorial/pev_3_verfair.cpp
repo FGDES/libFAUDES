@@ -24,14 +24,14 @@ int main(int argc, char* argv[]) {
     const int count = 8;
 
     // read models
-    gvoi.Append(Generator("data/pev_cbs_source.gen"));
+    gvoi.Append(Generator("tmp_pev_cbs_src.gen"));
     for(int i = 1;i<=count;i++){
-        gvoi.Append(Generator("data/pev_cbs_"+ToStringInteger(i)+"_cl.gen"));
+        gvoi.Append(Generator("tmp_pev_cbs_"+ToStringInteger(i)+"_cl.gen"));
     }
-    gvoi.Append(Generator("data/pev_cbs_sink.gen"));
+    gvoi.Append(Generator("tmp_pev_cbs_snk.gen"));
 
     // read priorities
-    prios.Read("data/pev_cbs_prios.alph");
+    prios.Read("tmp_pev_cbs_prios.alph");
 
     // report
     prios.Write();

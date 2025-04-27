@@ -1,0 +1,69 @@
+ISPNonconflicting:: Installing priority and appending omega termination
+========================================
+Remaining automata: 10
+Abstracting Automaton source, with state count: 10
+State count after abstraction: 6
+Abstracting Automaton g_controller_1||g_plant_cb_1||g_plant_con_1, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton g_controller_2||g_plant_cb_2||g_plant_con_2, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton g_controller_3||g_plant_cb_3||g_plant_con_3, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton g_controller_4||g_plant_cb_4||g_plant_con_4, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton g_controller_5||g_plant_cb_5||g_plant_con_5, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton g_controller_6||g_plant_cb_6||g_plant_con_6, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton g_controller_7||g_plant_cb_7||g_plant_con_7, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton g_controller_8||g_plant_cb_8||g_plant_con_8, with state count: 21
+State count after abstraction: 7
+Abstracting Automaton sink, with state count: 5
+State count after abstraction: 5
+Composing automata source and g_controller_1||g_plant_cb_1||g_plant_con_1
+========================================
+Remaining automata: 9
+Abstracting Automaton source||g_controller_1||g_plant_cb_1||g_plant_con_1, with state count: 11
+State count after abstraction: 8
+Composing automata source||g_controller_1||g_plant_cb_1||g_plant_con_1 and g_controller_2||g_plant_cb_2||g_plant_con_2
+========================================
+Remaining automata: 8
+Abstracting Automaton source||g_controller_1||g_plant_cb_...ller_2||g_plant_cb_2||g_plant_con_2, with state count: 23
+State count after abstraction: 10
+Composing automata source||g_controller_1||g_plant_cb_...ller_2||g_plant_cb_2||g_plant_con_2 and g_controller_3||g_plant_cb_3||g_plant_con_3
+========================================
+Remaining automata: 7
+Abstracting Automaton source||g_controller_1||g_plant_cb_...ller_3||g_plant_cb_3||g_plant_con_3, with state count: 28
+State count after abstraction: 13
+Composing automata source||g_controller_1||g_plant_cb_...ller_3||g_plant_cb_3||g_plant_con_3 and g_controller_4||g_plant_cb_4||g_plant_con_4
+========================================
+Remaining automata: 6
+Abstracting Automaton source||g_controller_1||g_plant_cb_...ller_4||g_plant_cb_4||g_plant_con_4, with state count: 37
+State count after abstraction: 16
+Composing automata source||g_controller_1||g_plant_cb_...ller_4||g_plant_cb_4||g_plant_con_4 and g_controller_5||g_plant_cb_5||g_plant_con_5
+========================================
+Remaining automata: 5
+Abstracting Automaton source||g_controller_1||g_plant_cb_...ller_5||g_plant_cb_5||g_plant_con_5, with state count: 46
+State count after abstraction: 19
+Composing automata source||g_controller_1||g_plant_cb_...ller_5||g_plant_cb_5||g_plant_con_5 and g_controller_6||g_plant_cb_6||g_plant_con_6
+========================================
+Remaining automata: 4
+Abstracting Automaton source||g_controller_1||g_plant_cb_...ller_6||g_plant_cb_6||g_plant_con_6, with state count: 55
+State count after abstraction: 22
+Composing automata source||g_controller_1||g_plant_cb_...ller_6||g_plant_cb_6||g_plant_con_6 and g_controller_7||g_plant_cb_7||g_plant_con_7
+========================================
+Remaining automata: 3
+Abstracting Automaton source||g_controller_1||g_plant_cb_...ller_7||g_plant_cb_7||g_plant_con_7, with state count: 64
+State count after abstraction: 25
+Composing automata source||g_controller_1||g_plant_cb_...ller_7||g_plant_cb_7||g_plant_con_7 and g_controller_8||g_plant_cb_8||g_plant_con_8
+========================================
+Remaining automata: 2
+Abstracting Automaton source||g_controller_1||g_plant_cb_...ller_8||g_plant_cb_8||g_plant_con_8, with state count: 73
+State count after abstraction: 28
+Composing automata source||g_controller_1||g_plant_cb_...ller_8||g_plant_cb_8||g_plant_con_8 and sink
+========================================
+Remaining automata: 1
+Final state count: 46
+Duration in seconds: 0.109162
+Is P-Nonconflicting? 1

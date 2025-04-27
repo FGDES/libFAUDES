@@ -1,20 +1,24 @@
 --
--- Automata nodels for an N conveyor belts setup to transport workpieces from the left to
--- the right, incl. local supervisorsm, a source and a sink.
+-- Automata models for an N conveyor belts setup to transport workpieces from the left to
+-- the right, incl. local supervisors, a source and a sink.
 --
 -- This example has been reported by Tang/Moor at WODES 2022, and was further developed for
--- the journal version in DEDS 2024. Allthough the transition structures for both variants
--- are identical, the WODES 2022 version uses the common synchronous marking while the DEDS 2024
--- version uses a more elaborate fairness constraint. Both papers are available e.g. via
+-- the journal version published in DEDS 2024. Allthough the transition structures for both
+-- variants are identical, the WODES 2022 version uses the common synchronous marking while
+-- the DEDS 2024 variant uses a more elaborate fairness constraint. Both papers are
+-- available e.g. via
 --
 -- https://fgdes.tf.fau.de/publications.html
 --
--- There is no Lua-interface for the latter feature, hence we only set up autoamta and then
+-- There is no Lua-interface for fairness constraints, hence we only set up autoamta and then
 -- run the corresponding C-tutorial.
 --
 
--- configure
-N=8
+-- configure number of conveyor belts via command line, default to 5
+N=arg[1]
+if N == nil then N=5 end  
+print(string.format('pev_cbs_setup.lua: number of conveyor belts N=%d',N))
+
 
 
 -- ----------------------------------------------------------------------------
@@ -25,82 +29,39 @@ N=8
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
 
--- sd_i:  synch event (utilised in spec only) for sending workpiece from i-th conveyor (or source)
+-- sd_i:  synch event for sending workpiece from i-th conveyor (or source)
 -- ar_i:  workpiece arrives at sensor 
 -- lv_i:  workpiece enters leaves sensor 
 -- on_i:  turn motor on
 -- off_i: turn motor off
 
-
--- symolic event names (concise for discussion/publication)
-function EventSdI(par_i)
-  return string.format('sd_%d',par_i)
-end
-function EventArI(par_i)
-  return string.format('ar_%d',par_i)
-end
-function EventLvI(par_i)
-  return string.format('lv_%d',par_i)
-end
-function EventOnI(par_i)
-  return string.format('on_%d',par_i)
-end
-function EventOffI(par_i)
-  return string.format('off_%d',par_i)
-end
-
--- symolic event names (alternative version for hardware-in-the-loop simulation with FlexFact)
---[[
-function EventInI(par_i)
-  return string.format('cb%d_sd',par_i)
-end
-function EventArI(par_i)
-  if par_i == N+1 then
-    return 'xs_wpar'   -- "xs_wpar" is "ar_(N+1)" aka "arive at exit slide sensor"
-  end
-  return string.format('cb%d_wpar',par_i)
-end
-function EventLvI(par_i)
-if par_i == N+1 then
-    return 'xs_wplv'   -- "xs_wplv" is "lv_(N+1)" aka "leave from exit slide sensor"
-  end
-  if par_i == 0 then
-    return 'sf_wplv'   -- "sf_wplv" is "lv_(0)" aka "leaving sensor left of CB1"
-  end
-  return string.format('cb%d_wplv',par_i)
-end
-function EventOnI(par_i)
-  return string.format('cb%d_bm+',par_i)
-end
-function EventOffI(par_i)
-  return string.format('cb%d_boff',par_i)
-end
---]]
-
---
--- Alphabets
---
+-- symolic event names
+function EventSdI(par_i)  return string.format('sd_%d',par_i) end
+function EventArI(par_i)  return string.format('ar_%d',par_i) end
+function EventLvI(par_i)  return string.format('lv_%d',par_i) end
+function EventOnI(par_i)  return string.format('on_%d',par_i) end
+function EventOffI(par_i) return string.format('off_%d',par_i) end
 
 -- overall alphabet, incl source and sink
 function SetSigmaAll(par_n)
-  SigmaAll=faudes.Alphabet();
+  SigmaAll=faudes.EventPriorities();
   SigmaAll:Name(string.format('sigma_all_%d',par_n));
   -- std components
   local i
   for i=1,par_n do
-    SigmaAll:Insert(EventSdI(i))    
-    SigmaAll:Insert(EventArI(i))
-    SigmaAll:Insert(EventLvI(i))
-    SigmaAll:Insert(EventOnI(i))
-    SigmaAll:Insert(EventOffI(i))
+    SigmaAll:InsPriority(EventSdI(i),0)    
+    SigmaAll:InsPriority(EventArI(i),2)
+    SigmaAll:InsPriority(EventLvI(i),2)
+    SigmaAll:InsPriority(EventOnI(i),1)
+    SigmaAll:InsPriority(EventOffI(i),1)
   end
   -- left environment (feeder)
-  SigmaAll:Insert(EventSdI(0))
-  SigmaAll:Insert(EventArI(0))
-  SigmaAll:Insert(EventLvI(0))
+  SigmaAll:InsPriority(EventSdI(0),0)
+  SigmaAll:InsPriority(EventArI(0),2)
+  SigmaAll:InsPriority(EventLvI(0),2)
   -- right environment (slide)
-  SigmaAll:Insert(EventLvI(par_n+1))  
-  SigmaAll:Insert(EventArI(par_n+1))  
+  SigmaAll:InsPriority(EventLvI(par_n+1),2)  
+  SigmaAll:InsPriority(EventArI(par_n+1),2)  
 end
 
 
@@ -108,59 +69,16 @@ end
 SetSigmaAll(N)
 
 --
--- Priorities
---
-
--- priorities for universum of all events
-function SetPriorities(par_n)
-   PrioritiesAll=faudes.EventPriorities() 
-   eit=SigmaAll:Begin()
-   eit_end=SigmaAll:End()
-   while eit~=eit_end do 
-     ev=eit:Name()
-     if ev:sub(1, 1) == "s" then
-       -- sd* gets prio 0
-       PrioritiesAll:InsPriority(ev,0)
-     else
-       if ev:sub(1, 1) == "o" then
-         -- on/off gets prio 1
-         PrioritiesAll:InsPriority(ev,1)
-       else
-         -- anything else gets 2
-         PrioritiesAll:InsPriority(ev,2)
-       end
-    end
-    eit:Inc()
-  end
-end
-
-
--- execute
-SetPriorities(N)
-
---
 -- Generator names
 --
 -- The below functions provide names for our models
 --
-function NamePcbI(par_i)
-  return string.format('g_plant_cb_%d',par_i)
-end
-function NamePconI(par_i)
-  return string.format('g_plant_con_%d',par_i)
-end
-function NameCI(par_i)
-  return string.format('g_controller_%d',par_i)
-end
-function NameCompI(par_i)
-  return string.format('g_component_%d',par_i)
-end
-function NameSrc()
-  return 'source'
-end
-function NameSnk()
-  return 'sink'
-end
+function NamePcbI(par_i)  return string.format('cb_%d',par_i) end
+function NamePconI(par_i) return string.format('con_%d',par_i) end
+function NameCI(par_i)    return string.format('sup_%d',par_i) end
+function NameCompI(par_i) return string.format('cmp_%d',par_i) end
+function NameSrc()        return 'src' end
+function NameSnk()        return 'snk' end
 
 
 
@@ -178,19 +96,16 @@ end
 --
 function ModelPcbI(par_i)
 
-  -- prepare result
+-- prepare result
   pcb=faudes.Generator()
   pcb:Clear()
-
   -- have a name
   pcb:Name(NamePcbI(par_i))
-
   -- insert events
   local ev_ar  =pcb:InsEvent(EventArI(par_i))
   local ev_lv  =pcb:InsEvent(EventLvI(par_i))
   local ev_on =pcb:InsEvent(EventOnI(par_i))
   local ev_off =pcb:InsEvent(EventOffI(par_i))
- 
   -- insert states
   local st_offvac=pcb:InsState(string.format('p%d_offvac',par_i))   -- motor off, sensor vaccant
   local st_onvac=pcb:InsState(string.format('p%d_onvac',par_i))     -- motor on, sensor vaccant
@@ -199,8 +114,6 @@ function ModelPcbI(par_i)
   pcb:InsInitState(st_offvac)
   pcb:InsMarkedState(st_offvac)
   pcb:InsMarkedState(st_offocc) -- TM: want to use this for DEDS variant and WODES variant
-  
-
   -- insert transitions (intended operation)
   pcb:SetTransition(st_offvac,ev_on,st_onvac)
   pcb:SetTransition(st_onvac,ev_off,st_offvac)
@@ -208,13 +121,11 @@ function ModelPcbI(par_i)
   pcb:SetTransition(st_onocc,ev_off,st_offocc)
   pcb:SetTransition(st_onvac,ev_ar,st_onocc)
   pcb:SetTransition(st_onocc,ev_lv,st_onvac)
-
   -- insert transitions (actuator selfloops)
   pcb:SetTransition(st_offvac,ev_off,st_offvac)
   pcb:SetTransition(st_onvac,ev_on,st_onvac)
   pcb:SetTransition(st_offocc,ev_off,st_offocc)
   pcb:SetTransition(st_onocc,ev_on,st_onocc)
-
   -- done
   return pcb
 
@@ -222,34 +133,29 @@ end
 
 -- Plant, relation between two consecutive conveyor belts
 -- ** only when a workpiece leaves cbi, cbi+1 can get a workpiece
--- ** if two workpieces leaves cbi without cbi+1 gets a workpiece in between, this is considered an  error
+-- ** if two workpieces leave cbi without cbi+1 to get a workpiece in between,
+--    this is considered an  error
 -- ** this automaton is considered as a part of plant model of cbi
 function ModelPconI(par_i)
 
   -- prepare result
   pcon=faudes.Generator()
   pcon:Clear()
-
   -- have a name
   pcon:Name(NamePconI(par_i))
-
   -- insert events
   local ev_lv  =pcon:InsEvent(EventLvI(par_i))
   local ev_ar  =pcon:InsEvent(EventArI(par_i + 1))
- 
   -- insert states
   local st_idle=pcon:InsState(string.format('p%d_idle',par_i))   -- idle state
   local st_busy=pcon:InsState(string.format('p%d_busy',par_i)) -- a workpiece is under transfer
   local st_err=pcon:InsState(string.format('p%d_err',par_i))  -- error state
   pcon:InsInitState(st_idle)
   pcon:InsMarkedState(st_idle)
-  
-
   -- insert transitions 
   pcon:SetTransition(st_idle,ev_lv,st_busy)
   pcon:SetTransition(st_busy,ev_ar,st_idle)
   pcon:SetTransition(st_busy,ev_lv,st_err)  
-
   -- done
   return pcon
 
@@ -265,30 +171,24 @@ function ModelSrc()
   -- Prepare result
   src=faudes.Generator()
   src:Clear()
-
   -- Insert events
   local ev_ar    =src:InsEvent(EventArI(0))
   local ev_sd   =src:InsEvent(EventSdI(0))
   local ev_lv    =src:InsEvent(EventLvI(0))
-
   -- Insert states
   local st_idle=src:InsState('src_idle')
   local st_busy=src:InsState('src_busy')
   local st_done=src:InsState('src_done')
   src:InsInitState(st_idle)
   src:InsMarkedState(st_idle)
-
   -- Insert transitions (nominal)
   src:SetTransition(st_idle,ev_ar,st_busy)
   src:SetTransition(st_busy,ev_sd,st_done)
   src:SetTransition(st_done,ev_lv,st_idle)
-
   -- compose with its connecition part to cb1  
   faudes.Parallel(src,ModelPconI(0),src)
-
   -- have a name
   src:Name(NameSrc())
-
   -- done
   return src
 
@@ -307,12 +207,10 @@ function ModelSnk()
   -- Prepare result
   snk=faudes.Generator()
   snk:Clear()
-
   -- Insert events
   local ev_sd   =snk:InsEvent(EventSdI(N))
   local ev_ar   =snk:InsEvent(EventArI(N+1))
   local ev_lv   =snk:InsEvent(EventLvI(N+1))
- 
   -- Insert states
   local st_idle=snk:InsState('snk_idle')
   local st_busy=snk:InsState('snk_busy')
@@ -320,16 +218,13 @@ function ModelSnk()
   local st_err=snk:InsState('snk_err')
   snk:InsInitState(st_idle)
   snk:InsMarkedState(st_idle)
-
   -- Insert transitions
   snk:SetTransition(st_idle,ev_sd,st_busy)
   snk:SetTransition(st_busy,ev_ar,st_done)
   snk:SetTransition(st_done,ev_lv,st_idle)
   snk:SetTransition(st_idle,ev_ar,st_err)
-
   -- have a name
   snk:Name(NameSnk(N+1))
-
   -- done
   return snk
 
@@ -351,7 +246,6 @@ function ModelCI(par_i)
   -- Prepare result
   ctrl=faudes.Generator()
   ctrl:Clear()
-
   -- Insert events
   local ev_on  =ctrl:InsEvent(EventOnI(par_i))
   local ev_off =ctrl:InsEvent(EventOffI(par_i))
@@ -359,7 +253,6 @@ function ModelCI(par_i)
   local ev_arx =ctrl:InsEvent(EventArI(par_i+1))
   local ev_sd =ctrl:InsEvent(EventSdI(par_i))
   local ev_sdp =ctrl:InsEvent(EventSdI(par_i-1))
- 
   -- Insert states
   local st_a=ctrl:InsState(string.format('%d_a',par_i))
   ctrl:InsInitState(st_a)
@@ -371,7 +264,6 @@ function ModelCI(par_i)
   local st_g=ctrl:InsState(string.format('%d_g',par_i))
   local st_h=ctrl:InsState(string.format('%d_h',par_i))
   local st_err=ctrl:InsState(string.format('%d_err',par_i))
-  
   -- Insert transitions (nominal)
   ctrl:SetTransition(st_a,ev_sdp,st_b)
   ctrl:SetTransition(st_b,ev_on,st_c)
@@ -382,7 +274,6 @@ function ModelCI(par_i)
   ctrl:SetTransition(st_f,ev_on,st_g)
   ctrl:SetTransition(st_g,ev_arx,st_h)
   ctrl:SetTransition(st_h,ev_off,st_a)
-
   -- Insert transitions (error)
   ctrl:SetTransition(st_a,ev_ar,st_err)
   ctrl:SetTransition(st_a,ev_arx,st_err)
@@ -400,16 +291,12 @@ function ModelCI(par_i)
   -- ctrl:SetTransition(st_g,ev_arx,st_err) -- st_g has norminal ev_arx
   ctrl:SetTransition(st_h,ev_ar,st_err)
   ctrl:SetTransition(st_h,ev_arx,st_err)
-
-
   -- mark all states excep error state
   local marked=ctrl:States():Copy()
   marked:Erase(st_err)
   ctrl:InsMarkedStates(marked)
-
   -- have a name
   ctrl:Name(NameCI(par_i))
-
   -- done
   return ctrl
 
@@ -426,10 +313,10 @@ function ModelCLI(par_i)
   cl=ModelCI(par_i)
   faudes.Parallel(cl,ModelPcbI(par_i),cl)
   faudes.Parallel(cl,ModelPconI(par_i),cl)
-
   -- done
   cl:StateNamesEnabled(false)
   return cl
+  
 end  
 
 
@@ -437,29 +324,27 @@ end
 -- export generator files for external processing
 --
 function ExportModels()
- 
 
-  print(string.format('exporting models for N=%d',N))
-
+  -- say hello
+  print('pev_cbs_setup.lua: exporting models')
   -- export model source
-  ModelSrc():Write(string.format('pev_cbs_%s.gen',NameSrc()))
-
+  ModelSrc():Write(string.format('tmp_pev_cbs_%s.gen',NameSrc()))
   -- export closed-loop conveyor belts
   local i
   local cmp
   for i=1,N do
     -- this is what I want
-    ModelCLI(i):Write(string.format('pev_cbs_%d_cl.gen',i))
+    ModelCLI(i):Write(string.format('tmp_pev_cbs_%d_cl.gen',i))
   end
-
-  -- export model destination
-  ModelSnk():Write(string.format('pev_cbs_%s.gen',NameSnk(N)))
-
+  -- export model sink
+  ModelSnk():Write(string.format('tmp_pev_cbs_%s.gen',NameSnk(N)))
   -- export priorities
-  PrioritiesAll:Write('pev_cbs_prios.alph')
-
+  SigmaAll:Write('tmp_pev_cbs_prios.alph')
 
 end
+
+-- execute
+ExportModels()
 
 
 -- ----------------------------------------------------------------------------
@@ -472,6 +357,7 @@ end
 
 --
 -- generate jpgs for inspection
+--[[
 print('======================================')
 print('======================================')
 g_src=ModelSrc()
@@ -486,12 +372,6 @@ g_pb1=ModelCI(N)
 g_pb1:GraphWrite(string.format('tmp_%s.jpg',NameCI(N)))
 g_snk=ModelSnk()
 g_snk:GraphWrite(string.format('tmp_%s.jpg',NameSnk(1)))
---
+--]]
 
-
-
--- export automata models with for external processing
-print('======================================')
-print('======================================')
-ExportModels()
 

@@ -821,8 +821,8 @@ void AppendOmegaTermination(pGenerator& rPGen, EventPriorities& rPrios){
     Idx omega = rPGen.InsEvent("_OMEGA_");
     Idx omega_terminal = rPGen.InsEvent("_OMEGA_TERMINAL_");
 
-    // handle event prioriy
-    const Idx lowest = rPGen.GlobalAttribute().LowestPriority();
+    // Handle event prioriy
+    const Idx lowest = rPGen.GlobalAttribute().LowestPriority() - 1; // YT-2025-04
     rPGen.EventAttributep(omega)->Priority(lowest);
     rPGen.EventAttributep(omega_terminal)->Priority(lowest);
     rPrios.InsPriority("_OMEGA_",lowest);
@@ -874,6 +874,8 @@ void WritePrio (const pGenerator& rPGen){
 // shaping priosities but only for specified preempting events
 // (used for Upsilon-shaping)
 // NOTE: retains unreachable states
+// YT original code for reference
+/*
 void ShapeUpsilon(pGenerator& rPGen, const EventSet& rPEvs){
     StateSet::Iterator sit = rPGen.StatesBegin();
     for(;sit!=rPGen.StatesEnd();sit++){
@@ -899,13 +901,62 @@ void ShapeUpsilon(pGenerator& rPGen, const EventSet& rPEvs){
             }
         }
     }
-//    rPGen.Accessible();
+}
+*/
+
+// shaping priosities for specified preempting events (retains unreachable states)
+void ShapeUpsilon(vGenerator& rGen, const EventPriorities& rPrios, const EventSet& rFilter){
+  Idx lowest  = rPrios.LowestPriority();
+  StateSet::Iterator sit = rGen.StatesBegin();
+  for(;sit!=rGen.StatesEnd();sit++){
+    // figure gighest enabled priority
+    Idx highest = lowest;
+    TransSet::Iterator tit = rGen.TransRelBegin(*sit);
+    TransSet::Iterator tit_end = rGen.TransRelEnd(*sit);
+    for(;tit!=tit_end; ++tit){
+      Idx prio=rPrios.Priority(tit->Ev);
+      if(prio < highest) 
+	if(rFilter.Exists(tit->Ev)) 
+	   highest = prio;
+    }
+    // bail out if all enabled events are of lowest priority
+    if(highest == lowest) continue;
+    // remove preempted transitions
+    tit = rGen.TransRelBegin(*sit);
+    tit_end = rGen.TransRelEnd(*sit);
+    while(tit!=tit_end) {
+      if(rPrios.Priority(tit->Ev)>highest){
+        if(rPrios.SymbolicName(tit->Ev)=="_OMEGA_")
+          rGen.ClrMarkedState(tit->X1); // unmark if remove omega transition, cosmetic
+        rGen.ClrTransition(tit++);
+      } else {
+        ++tit;
+      }       
+    }
+  }
 }
 
-// ordinary shaping by priority
-void ShapePriorities(pGenerator& rPGen){
-    ShapeUpsilon(rPGen,rPGen.Alphabet());
+// API using pGenerator
+void ShapeUpsilon(pGenerator& rPGen, const EventSet& rFilter){
+  const EventPriorities prios=rPGen.Priorities();
+  ShapeUpsilon(rPGen,prios,rFilter);
 }
+
+// API ordinary shaping by priority, incl. removal of unreachable states
+void ShapePriorities(vGenerator& rGen, const EventPriorities& rPrios){
+  ShapeUpsilon(rGen,rPrios,rGen.Alphabet());
+  rGen.Accessible();
+}
+
+// API ordinary shaping by priority, incl. removal of unreachable states
+void ShapePriorities(pGenerator& rPGen){
+  const EventPriorities prios=rPGen.Priorities();
+  ShapeUpsilon(rPGen,prios,rPGen.Alphabet());
+  rPGen.Accessible();
+}
+
+
+  
 
 // shape by set of preempting events only (TM2025: need this old version to compile/link example)
 void ShapePreemption(Generator& rGen, const EventSet &pevs){

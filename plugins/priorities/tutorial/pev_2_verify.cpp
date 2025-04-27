@@ -3,7 +3,6 @@
 // 1) generate models via "pev_cbs_setup.lua"
 // 2) run this executable
 
-// NOTE: not functional as of 2025 TM
 
 #include "libfaudes.h"
 
@@ -23,14 +22,14 @@ int main(int argc, char* argv[]) {
     const int count = 8;
 
     // read models
-    gvoi.Append(Generator("data/pev_cbs_source.gen"));
+    gvoi.Append(Generator("tmp_pev_cbs_src.gen"));
     for(int i = 1;i<=count;i++){
-        gvoi.Append(Generator("data/pev_cbs_"+ToStringInteger(i)+"_cl.gen"));
+        gvoi.Append(Generator("tmp_pev_cbs_"+ToStringInteger(i)+"_cl.gen"));
     }
-    gvoi.Append(Generator("data/pev_cbs_sink.gen"));
+    gvoi.Append(Generator("tmp_pev_cbs_snk.gen"));
 
     // read priorities
-    prios.Read("data/pev_cbs_prios.alph");
+    prios.Read("tmp_pev_cbs_prios.alph");
 
     // do compositional verification
     auto start = std::clock();
@@ -39,15 +38,14 @@ int main(int argc, char* argv[]) {
     std::cout<<"Is P-Nonconflicting? "<< isnc<<std::endl;
 
     // do monolytic verification
-    /*
     start = std::clock();
     Generator gall;
-    Parallel(gvoi,gall);
-    Shape(gall,prios);
+    gall.StateNamesEnabled(false);
+    ParallelNB(gvoi,gall);
+    ShapePriorities(gall,prios);
     isnc = IsNonblocking(gall);
     std::cout<<"Duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;
     std::cout<<"Is P-Nonconflicting? "<< isnc<<std::endl;
-    */
 
     return 0;
 
