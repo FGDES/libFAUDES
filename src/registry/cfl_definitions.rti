@@ -1479,6 +1479,33 @@ CoreFaudes    Functions     "generator misc"  "parallel composition"  "synchrono
 
 <!-- =================================================== -->
 <!-- =================================================== -->
+<!-- Faudes Function ParallelNB -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="CoreFaudes::ParallelNB" ctype="faudes::ParallelNB"> 
+
+<Documentation ref="corefaudes_parallel.html#Parallel"> 
+Computes the parallel composition of multiple generators.
+</Documentation> 
+<Keywords> 
+CoreFaudes    Functions     "generator misc"  "parallel composition"  "synchronous product"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="GRes = || G_i"> 
+<Parameter name="GVec" ftype="GeneratorVector" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
 <!-- Faudes Function PrefixClosure -->
 <!-- =================================================== -->
 <!-- =================================================== -->

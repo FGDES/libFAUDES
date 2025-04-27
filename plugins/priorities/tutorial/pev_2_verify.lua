@@ -23,13 +23,27 @@ gvec:Append("tmp_pev_cbs_snk.gen")
 -- read priorities
 prios = faudes.EventPriorities("tmp_pev_cbs_prios.alph");
 
--- do verfy
+-- do verify (compositional)
 print('pev_2_verify.lua: compositional verification')
 isnc = faudes.IsPNonblocking(gvec,prios)
 if isnc then
-  print('pev_2_verify: nonconflictingness confirmed')
+  print('pev_2_verify: nonconflictingness confirmed (PASS)')
 else
-  print('pev_2_verify: nonconflictingness failed')
+  print('pev_2_verify: nonconflictingness failed (FAIL)')
 end
 
+-- do verify (monolitic, for limited number of conveyor belts)
+if tonumber(N) <6 then
+  print('pev_2_verify.lua: monolitic verification')
+  gall=faudes.Generator()
+  faudes.ParallelNB(gvec,gall)
+  print('pev_2_verify: overall statecount:',gall:Size())
+  faudes.ShapePriorities(gall,prios)
+  isnc = faudes.IsNonblocking(gall)
+  if isnc then
+    print('pev_2_verify: nonconflictingness confirmed (PASS)')
+  else
+    print('pev_2_verify: nonconflictingness failed (FAIL)')
+  end
+end
 

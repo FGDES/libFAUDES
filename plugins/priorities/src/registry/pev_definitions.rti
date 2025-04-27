@@ -48,5 +48,31 @@ Priorities Functions  priorities   generator  nonblocking
 
 </FunctionDefinition> 
 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function ShapePriorities -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Priorities::ShapePriorities" ctype="faudes::ShapePriorities"> 
+
+<Documentation ref="priorities_index.html#ShapePriorities"> 
+Shape a generator by prioritiesing events.
+</Documentation> 
+<Keywords> 
+Priorities Functions  priorities   generator  nonblocking   
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="ShapePriorities(G,Prios)"> 
+<Parameter name="G" ftype="Generator" access="InOut"/> 
+<Parameter name="Prios" ftype="EventPriorities" access="In"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
 
 </Registry>
