@@ -31,6 +31,7 @@ if isnc then
 else
   print('pev_2_verify: nonconflictingness failed (FAIL)')
 end
+FAUDES_TEST_DUMP("prio comp ver",isnc)
 
 -- do verify (monolitic, for limited number of conveyor belts)
 if tonumber(N) <6 then

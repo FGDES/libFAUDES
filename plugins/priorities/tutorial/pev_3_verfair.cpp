@@ -12,6 +12,14 @@ using namespace faudes;
 int main(int argc, char* argv[]) {
 
 
+    // read number of conveyor belts from command line
+    // (defaults to 5, needs to match models prepared by pev_cbs_setup.lua)
+    int count=0;
+    if(argc==2) count=atoi(argv[1]);
+    if(count==0) count=5;
+    std::cout<<"configured for "<<count<<" conveyor belts" << std::endl;
+    
+    // prepare results
     ConsoleOut::G()->Verb(1);
     GeneratorVector gvoi;
     gvoi.Clear();
@@ -20,9 +28,6 @@ int main(int argc, char* argv[]) {
     FairnessConstraints faircons;
     EventSet fair;
     
-    // number of conveyor belts
-    const int count = 8;
-
     // read models
     gvoi.Append(Generator("tmp_pev_cbs_src.gen"));
     for(int i = 1;i<=count;i++){
@@ -33,9 +38,6 @@ int main(int argc, char* argv[]) {
     // read priorities
     prios.Read("tmp_pev_cbs_prios.alph");
 
-    // report
-    prios.Write();
-    
     // construct fairness constraints 
     for (int i = 0; i<=count+1; i++){
         faircons.Clear();
@@ -45,10 +47,20 @@ int main(int argc, char* argv[]) {
         fairvec.push_back(faircons);
     }
 
+    // do compositional verification
+    std::cout<<"starting compositional verification" << std::endl;
     auto start = std::clock();
     bool isnc = IsPFNonblocking(gvoi,prios,fairvec);
-    std::cout<<"Duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;
-    std::cout<<"Is P-Nonconflicting? "<< isnc<<std::endl;
+    std::cout<<"duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;
+    if(isnc)
+      std::cout<<"p-nonconflicting test passed"<<std::endl;
+    else
+      std::cout<<"p-nonconflicting test failed"<<std::endl;
+
+    // record test case
+    FAUDES_TEST_DUMP("prio comp ver",isnc);
+
+    // done
     return 0;
 
 }
