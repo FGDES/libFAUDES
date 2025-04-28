@@ -15,7 +15,7 @@ PEV_SRCDIR = $(PEV_BASE)/src
 #
 # list source files
 
-PEV_CPPFILES = pev_priorities.cpp pev_pgenerator.cpp pev_operators.cpp pev_abstraction.cpp pev_verify.cpp
+PEV_CPPFILES = pev_priorities.cpp pev_pgenerator.cpp pev_sparallel.cpp pev_abstraction.cpp pev_verify.cpp
 PEV_INCLUDE = pev_include.h
 PEV_RTIDEFS = pev_definitions.rti
 PEV_RTIFREF = priorities_index.fref 

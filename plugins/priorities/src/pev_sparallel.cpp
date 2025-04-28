@@ -1,4 +1,26 @@
-#include "pev_operators.h"
+/** @file pev_sparallel.cpp Sshaped parallel composition */
+
+/* FAU Discrete Event Systems Library (libfaudes)
+
+   Copyright (C) 2023 Yiheng Tang
+   Copyright (C) 2025 Thomas Moor
+   Exclusive copyright is granted to Klaus Schmidt
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+
+#include "pev_sparallel.h"
 
 namespace faudes {
 
@@ -14,100 +36,6 @@ std::string MergeEventNames (const std::set<std::string>& rNames){
         result += *nameit;
     }
     return result;
-}
-
-// the unifying opertor for a single automaton.
-// since we only conside the use-case for SFC verification, we consider the set of
-// unifiable events as exactly the set of events at priority = 1.
-// also handle fairness and alphabet
-void Unify (pGenerator& rPGen){
-    EventSet uevs;
-    EventSet::Iterator eit = rPGen.AlphabetBegin();
-    for(;eit!=rPGen.AlphabetEnd();eit++){
-        if (rPGen.EventAttribute(*eit).Priority()==1) uevs.Insert(*eit);
-    }
-    TransSet toremove; // buffer the set of transitions to remove, i.e. the interleaving trans
-    EventSet newevs;
-    std::map<Idx,EventSet> newevsmap; // map an old u ev to a set of newevs
-    StateSet::Iterator sit = rPGen.StatesBegin();
-    for(;sit!=rPGen.StatesEnd();sit++){
-        EventSet uactive = rPGen.ActiveEventSet(*sit) * uevs;
-        if (uactive.Size()<2) continue; // skip for 0 or 1 active u event
-        const EventSet uactive_copy = uactive; // buffer a copy for fairness
-        // push active u-ev transitions to toremove
-        TransSet::Iterator tit = rPGen.TransRelBegin(*sit);
-        for(;tit!=rPGen.TransRelEnd(*sit);tit++){
-            if (uevs.Exists(tit->Ev)){
-                toremove.Insert(*tit);
-            }
-        }
-        // find target state of unification
-        // ************************CAUTION*********
-        // the current implementation is rather lasy -- only works for SFC,
-        // i.e. all simulatanously active unifiable events must form a "diamond" structure
-        // and conflicting transitions must have been resolved before
-        // ****************************************
-        Idx front = *sit;
-        std::set<std::string> evs; // record event names to unify
-        while (!uactive.Empty()){
-            tit = rPGen.TransRelBegin(front);
-            for (;tit!=rPGen.TransRelEnd(front);tit++){
-                if (uactive.Exists(tit->Ev)) break;
-            }
-            if (tit == rPGen.TransRelEnd(front)){
-                throw Exception("Unify()","Ill-formed structure for transition unification. "
-                                "Interleaving transitions do not form diamond near state "+ToStringInteger(front),0);
-            }
-            front = tit->X2;
-            evs.insert(rPGen.EventName(tit->Ev));
-            uactive.Erase(tit->Ev);
-        }
-        std::string newevname = MergeEventNames(evs);
-        Idx newev;
-        EventSet::Iterator neweit = newevs.Find(newevname);
-        if (neweit==newevs.End()){ // this is really a new event for the alphabet
-            newevs.Insert(newevname);
-            newev = rPGen.InsEvent(newevname);
-            EventSet::Iterator eit = uactive_copy.Begin();
-            for(;eit!=uactive_copy.End();eit++){
-                newevsmap[*eit].Insert(newev);
-            }
-        }
-        else{
-            newev = *rPGen.FindEvent(newevname);
-        }
-        rPGen.SetTransition(*sit,newev,front);
-    }
-    // remove transitions
-    TransSet::Iterator tit = toremove.Begin();
-    while (tit!=toremove.End()){
-        Transition trans = *tit++;
-        rPGen.ClrTransition(trans);
-    }
-    FairnessConstraints fair = rPGen.GlobalAttribute().Fairness();
-    rPGen.Accessible();
-    // handle fairness (neglect new evs not appear as transition)
-    EventSet realnewevs;
-    tit = rPGen.TransRelBegin();
-    for(;tit!=rPGen.TransRelEnd();tit++){
-        // only preserve "real new events"
-        if (newevs.Exists(tit->Ev)) realnewevs.Insert(tit->Ev);
-    }
-    FairnessConstraints newfair;
-    FairnessConstraints::Position fpos = 0;
-    for(;fpos<rPGen.GlobalAttributep()->Fairness().Size();++fpos){
-        EventSet cfair = rPGen.GlobalAttributep()->Fairness().At(fpos);
-        EventSet::Iterator eit = rPGen.GlobalAttributep()->Fairness().At(fpos).Begin();
-        EventSet::Iterator eit_end = rPGen.GlobalAttributep()->Fairness().At(fpos).End();
-        for(;eit!=eit_end;eit++){
-            std::map<Idx,EventSet>::const_iterator mit = newevsmap.find(*eit);
-            if (mit!=newevsmap.end()){
-                cfair.InsertSet(mit->second*realnewevs);
-            }
-        }
-        newfair.Append(cfair);
-    }
-    rPGen.GlobalAttributep()->Fairness(newfair);
 }
 
 

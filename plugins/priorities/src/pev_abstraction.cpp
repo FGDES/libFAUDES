@@ -23,7 +23,7 @@
 
 #include "corefaudes.h"
 #include "pev_pgenerator.h"
-#include "pev_operators.h"
+#include "pev_sparallel.h"
 #include "pev_abstraction.h"
 
 #define PCOMPVER_VERB1(msg) \
@@ -2048,15 +2048,6 @@ bool IsPFNonblocking(const GeneratorVector& rGvec,
                        const EventPriorities& rPrios,
                        const std::vector<FairnessConstraints>& rFairVec) {
 
-    // tranform back to YT original data type for priosities (testing, TM 2025)
-    /*
-    std::map<std::string, Idx> priomap;  
-    NameSet::Iterator eit=rPrios.Begin();
-    NameSet::Iterator eit_end=rPrios.End();
-    for(;eit!=eit_end;++eit)
-      priomap[rPrios.SymbolicName(*eit)]=rPrios.Priority(*eit);
-    */  
-
     // have a writable copy
     EventPriorities prios=rPrios;
 
@@ -2086,7 +2077,7 @@ bool IsPFNonblocking(const GeneratorVector& rGvec,
     // if isSFC==1, set up merging events. Also check priority (disjunct is checked by SFC_Parallel)
 
 
-    PCOMPVER_VERB0("ISPNonconflicting:: Installing priority and appending omega termination")
+    PCOMPVER_VERB0("IsPFNonconflicting:: Installing priority and appending omega termination")
     // get lowest priority
     Idx lowest = prios.LowestPriority();
     lowest++; // PWB need this
