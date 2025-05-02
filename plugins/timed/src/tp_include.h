@@ -24,7 +24,7 @@
 
 @ingroup AllPlugins
 
-@section Overview
+@section TpOverview Overview
 
 <p>
 This plugin extends libFAUDES to model timed automata as discussed
@@ -48,7 +48,7 @@ vol 126, pp 183-235, 1994.
 </i>
 </p>
 
-@section License
+@section TpLicense License
 
 <p>
 The current implementation of the timed plugin is a re-design based 

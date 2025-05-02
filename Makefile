@@ -1336,7 +1336,7 @@ docs: reftools rtitools doc-images doc-base doc-luafaudes doc-reference includes
 	$(REF2HTMLCMD) -doxfooter $(DOXDOCDIR)/doxygen_footer.html
 	cp $(SRCDIR)/doxygen/doxygen.xml $(DOXDOCDIR)
 	@echo running doxygen
-	( cat $(SRCDIR)/doxygen/doxygen.conf ; \
+	( cat $(SRCDIR)/doxygen/doxygen_1110.conf ; \
               echo "INPUT += $(VPATH)" ; \
 	      echo "INPUT += $(SRCDIR)/doxygen/doxygen_groups.h" ; \
 	      echo "INCLUDE_PATH += $(INCLUDEDIR)" ; \
@@ -1344,7 +1344,8 @@ docs: reftools rtitools doc-images doc-base doc-luafaudes doc-reference includes
               echo "INCLUDE_PATH += $(SRCDIR)/doxygen" ; \
               echo "PROJECT_NAME = \"libFAUDES $(FAUDES_VERSION)\"" ; \
         ) | $(DOXYGEN) -
-	cp $(SRCDIR)/doxygen/doxygen.css $(DOXDOCDIR)
+	cp $(SRCDIR)/doxygen/doxygen_1110.css $(DOXDOCDIR)/doxygen.css 
+	cat $(SRCDIR)/doxygen/doxygen_extra_1110.css >> $(DOXDOCDIR)/doxygen.css	
 	cat $(SRCDIR)/doxygen/faudes.css >> $(DOXDOCDIR)/doxygen.css	
 	- cp $(DOXDOCDIR)/main.html $(DOXDOCDIR)/index.html
 	@echo processing fref to html

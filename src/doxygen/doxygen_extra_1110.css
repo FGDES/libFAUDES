@@ -1,0 +1,93 @@
+/* overwriting augenerated doxygen.css */
+/* based on inspection of doxygen 1.11.0 default css */
+
+/* use my fonts */
+body, table, div, p, dl {
+	/* font: 400 14px/19px Roboto,sans-serif; faudes */
+	font: 100% Lucida Grande, Verdana, Geneva, Arial, sans-serif;
+}
+
+
+/* use my fonts */
+#doc-content p.reference, p.definition {
+	/* font: 400 14px/22px Roboto,sans-serif; */
+	font: 100% Lucida Grande, Verdana, Geneva, Arial, sans-serif;
+}
+
+
+/* style my code fragments */
+#doc-content pre.fragment {
+        border: 1px solid #C4CFE5;
+        background-color: #FBFCFD;
+        padding: 4px 6px;
+        margin: 4px 8px 4px 2px;
+        overflow: auto;
+        word-wrap: break-word;
+        font-size:  9pt;
+        line-height: 125%;
+	/* font-size: 105%;  std */
+	font-size: 90%;  /* faudes */
+}
+
+/* faudes: mimique h1: annihilate headerbox */
+#doc-content div.header {  
+  border: 0px;
+}
+
+/* faudes: mimique h1: div.title */
+#doc-content div.header div.title {  
+  background-color: #FFF3CC;
+  border-top: 1px solid #E0D3AC;
+  border-bottom: 1px solid #E0D3AC;
+  text-align: left;
+  font-weight:bold;
+  font-size: 160%;
+  margin-top: 0px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  margin-bottom: 20px;
+  padding: 2px;
+  padding-left:  20px;
+  color: black;
+}
+
+
+/* faudes: make summary in header invisible */
+#doc-content div.header div.summary {
+  visibility: hidden;
+  width: 0px;
+  height: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* faudes: make extra div in header invisible */
+#doc-content div.header div.headertitle {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;  
+}
+
+/* faudes: mimique h2 in groupheader */
+#doc-content h2.groupheader {
+  background-color: #FFF3CC;
+  border-top: 1px solid #E0D3AC;
+  border-bottom: 1px solid #E0D3AC;
+  text-align: left;
+  font-weight:bold;
+  font-size: 120%;
+  margin-top: 9px;
+  margin-left:  -20px;
+  margin-right: -20px;
+  margin-bottom: 20px;
+  padding: 2px;
+  padding-left:  20px;
+  color: black;
+}
+
+#doc-content h2.memtitle {
+  margin-left:   0px;
+  margin-right:  0px;
+  margin-bottom: 0px;
+  padding: 8px;
+}

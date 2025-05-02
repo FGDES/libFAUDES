@@ -69,7 +69,7 @@ consistent integration with libFAUDES and Lua bindings.
 </p>
 
 
-@section License
+@section PevLicense License
 
 <p>
 The priosities plugin is distributed with libFAUDES and under the terms of

@@ -147,7 +147,7 @@ by Lua scripts that register with the libFAUDES run-time interface. Thus, libFAU
 that interface to libFAUDES via the RTI can be transparently extended by Lua scripts. 
 
 
-@section License
+@section LbpLicense License
 
 The luabindings plug-in is distributed with libFAUDES. 
 All code except Lua sources are provided under terms of the LGPL. 

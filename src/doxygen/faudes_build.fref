@@ -279,7 +279,7 @@ in <tt>./doc/reference</tt>
 <tt>doc</tt>/<tt>doc-clean</tt> to set up the doxygen and static HTML documentation in the 
 <tt>./doc</tt> directory  
 (requires all of the above plus
-<a href="http://www.doxygen.org">doxygen</a> v1.4.4 or above),
+<a href="http://www.doxygen.org">doxygen</a> v1.9.3 or above),
 </p></li>
 <li><p>
 <tt>configure</tt> to do an overall configuration
