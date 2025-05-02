@@ -510,17 +510,21 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"\\delta","delta");
   buff=StringSubstitute(buff,"\\epsilon","epsilon");
   buff=StringSubstitute(buff,"\\omega","w");
+  buff=StringSubstitute(buff,"\\Upsilon","Upsilon");
   // one-arg macros
   buff=TexMacroSubstitute1(buff,"\\ProInv","Pinv#1");
   buff=TexMacroSubstitute1(buff,"\\Pro","P#1");
   buff=TexMacroSubstitute1(buff,"\\Closure","Closure(#1)");
   buff=TexMacroSubstitute1(buff,"\\Prefix","Prefix(#1)");
+  buff=TexMacroSubstitute1(buff,"\\Shape","Shape(#1)");
   // tex math spacing and plain text
   buff=TexMacroSubstitute1(buff,"\\texttt","\\text{<tt>#1</tt>}");
   buff=TexMacroSubstitute1(buff,"\\mathtt","\\text{<tt>#1</tt>}");
   buff=TexMacroSubstitute1(buff,"\\textit","\\text{<i>#1</i>}");
   buff=TexMacroSubstitute1(buff,"\\mathit","\\text{<i>#1</i>}");
-  buff=TexMacroSubstitute1(buff,"\\mathsf","\\text{<sf>#1</i>}");
+  buff=TexMacroSubstitute1(buff,"\\mathsf","\\text{<sf>#1</sf>}");
+  buff=TexMacroSubstitute1(buff,"\\mathbb","\\text{<it>#1</it>}");
+  buff=TexMacroSubstitute1(buff,"\\textbb","\\text{<it>#1</it>}");
   buff=TexSpacing(buff);
   // super- and subscripts
   buff=TexScripts(buff);
@@ -530,6 +534,7 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"\\[","[");
   buff=StringSubstitute(buff,"\\]","]");
   buff=StringSubstitute(buff,"=","&nbsp;=&nbsp;");
+  buff=StringSubstitute(buff,"\colon","&nbsp:&nbsp;");
   buff=StringSubstitute(buff,"class&nbsp;=&nbsp;","class=");     // fix csss class
   buff=StringSubstitute(buff,":&nbsp;=&nbsp;","&nbsp;:=&nbsp;"); //fix :=
   buff=StringSubstitute(buff,"\\neq","&nbsp&ne;&nbsp;");

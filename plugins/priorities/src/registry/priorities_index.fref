@@ -14,9 +14,51 @@ of modular diccrete-event systems with prioritised events.
 
 <p>
 The priorities plug-in addresses systems with prioritised events. The main purpose is to
-provide an implementation of the algorithm proposed in <fcite name="PEV1"/>.
-Currently, the only documentation of this plug-in is via the tutorials.
+provide an implementation of the algorithm proposed in <fcite name="PEV1"/> and <fcite name="PEV2"/> and which extends
+earlier work <fcite name="C4"/> to prioritised events.
+We briefly outline the context and refer to <fcite name="PEV1"/> for further details.
 </p>
+
+<p>
+Consider an overall system, composed of a number of generators
+<fimath>G_1</fimath>, <fimath>G_2</fimath> ... <fimath>G_n</fimath>
+with the common synchronisation of shared events.
+This establishes the
+overall alphabet <fimath>\Sigma_{all}</fimath>; i.e., the set of all events relevant to either generator under
+consideration.
+Each event <fimath>\sigma\in\Sigma_{all}</fimath>
+is asigned a non-negative integer to indicate its execution pririty; i.e., we have a map
+<fimath>\texttt{prio}\colon\Sigma_{all}\rightarrow\mathbb{N}</fimath>. 
+as a global entity.
+Thia map is implemented by the faudes type <ftype>EventPriorities</ftype>.
+It provides access to the individual priorituies and some auxiliar functions, e.g., finding minimum
+and maximum priorities.
+</p>
+<p>
+Coming back to the composed system, at any instance of physical time, there is a set of enabled events.
+Among the enabled events, those of higher priority preempt those of lower priority; i.e., only those of
+highest priority win the race.
+A typical application scenario are discrete-event dynamics  implemented by a numer of functions in PLC code;
+actuators can be triggered immediately, while the PLC needs to wait for sensors to report events.
+</p>
+<p>
+For the trivial case of a system composed of only one component <fimath>G_1</fimath>, i.e., <fimath>n=1</fimath>,
+the effect of prioritised events is implemented by the so called <i>shaping</i> operator..
+It iterates over all states and removes any outgoing transitions that are labled with some event,
+that is preempted by another event that is of higher priority.
+The shaping operator is implemented by the faudes function <ffnct>ShapePriorities</ffnct>
+</p>
+<p>
+As it happens, the shaping operator does not commute with synchronous composition. In order to evaluate blockingness
+for a non-trivial composed system, one would naively first compute the ordinary parallel composition, then apply the shaping operator, and finally test for the existence of blocking states. Computaional efficiency can be substantially improved
+by the compositional approach reported in  <fcite name="PEV1"/>. Here, the composition of individual components alternates with so called <i>conflict preservin abstractions</i>.
+An implementation of this method is provided by <ffnct>IsPNonblocking</ffnct>.
+</p>
+<p>
+This plug-in comes with the scalable conveyor belt example reported in <fcite name="REV1"/>; see the tutorials
+<tt>pev_2_verify</tt> and <tt>pev_3_verfair</tt>.
+</p>
+  
 
 
 <ftype_reference name="EventPriorities">
@@ -29,22 +71,26 @@ I.e., each event is associatyed with a non-negative integer which indicates exec
 Events with a higher priority preempt those of lower priority. See also <ffnct>ShapePriorities</ffnct>.
 </p>
 
-<p>
-For historical reasons, a low numerical valuecorresponds to a high priority,
-as in 1st priority vs. second priority.
+<p> 
+<strong>Note.</strong> The literature <fcite name="PEV1"/> refers to ordinal numbers for priorities, e.g.,
+1st priority preemts 2nd priority. This turned out counter-intuitive in practice and is not consistent with
+the priorities used in the Simulator-PlugIn or CompileDES. Thereforr, the current implementation goes by the
+more common
+order <i>the higher the figure, the higher the priority</i>; e.g. priority 5 preempts priority 4.  
 </p>
+
 
 <p> 
 Token-IO is strict XML only. Example:
 </p>
 <pre>
 &lt;EventPriorities name="aigma_prio"&gt;
-% event with priority 2
+% event alpha with priority 2
 &lt;Event name="alpha"&gt;
 &lt;Priority value="2"/&gt;
 &lt;/Event&gt;
-% event with default priority 0
-&lt;Event name="sd_1"/&gt;
+% event beta with default priority 0
+&lt;Event name="bate"/&gt;
 ...
 &lt;/EventPriorities&gt;
 </pre>
@@ -70,9 +116,11 @@ removing all transitions which are effectively preempted by a higher priority ev
 
 <p>
 Priorities effect the non-blockingness of composed generators. Specifically, shaping does not commute
-wiuth parallel composition. Thus, the naive way to test for conflicts in a composed system is to first
-obtain a monolitic representation, then to apply the shaping operatior, and finally to test for blocking states. In contrast, the function <ffnct>IsPNonblocking</ffnct> implements a compositional approach and
-aims for relevant computational benefits.
+with parallel composition. Thus, the naive way to test for conflicts in a composed system is to first
+obtain a monolitic representation, then to apply the shaping operatior, and finally to test for blocking states.
+In contrast, the function <ffnct>IsPNonblocking</ffnct> implements a compositional approach and
+aims for relevant computational benefits; see also <fcite name="PEV1"/>. The example discussed in the cited
+literature is provided as tutorial <tt>pev_2_verify</tt>, both, in a C++ and a Lua version.
 </p>
 
 
@@ -87,6 +135,12 @@ Literature
 </h2>
 
 <fliterature name="PEV1">
+<fauthors>Y.&nbsp;Tang, T.&nbsp;Moor</fauthors>
+<ftitle>Compositional verification of non-blockingness with prioritised events</ftitle>
+<fjournal>16th IFAC Workshop on Discrete Event Systems (WODES)</fjournal>
+<fyear>2022</fyear>.
+</fliterature>
+<fliterature name="PEV2">
 <fauthors>Y.&nbsp;Tang, T.&nbsp;Moor</fauthors>
 <ftitle>Compositional non-blockingness verification of finite automata with prioritised events</ftitle>   
 <fjournal>Discrete-Event Dynamic Systems</fjournal>

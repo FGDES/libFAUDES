@@ -259,8 +259,7 @@ When adding or removing libFAUDES
 the build-system needs to
 configure the source tree and generate UI and API documentation.
 In this stage, the current build-system relies on a number of more or less
-common Unix tools.
-For the following <i>library developer targets</i> we recommend a Unix-style 
+common Unix tools. For the following <i>library developer targets</i> we recommend a Unix-style 
 environment:
 </p>
 
@@ -279,13 +278,13 @@ in <tt>./doc/reference</tt>
 <tt>doc</tt>/<tt>doc-clean</tt> to set up the doxygen and static HTML documentation in the 
 <tt>./doc</tt> directory  
 (requires all of the above plus
-<a href="http://www.doxygen.org">doxygen</a> v1.9.3 or above),
+<a href="http://www.doxygen.org">doxygen</a> v1.9.3 dated 2023 or above),
 </p></li>
 <li><p>
 <tt>configure</tt> to do an overall configuration
 (requires all of the above plus
 <a href="http://www.swig.org">SWIG</a> v1.3.36 or above
-for the luabindings plug-in), and
+for the luabindings/pybindings plug-ins), and
 </p></li>
 <li><p>
 <tt>dist-clean</tt> to remove any non-source files.
@@ -293,20 +292,26 @@ for the luabindings plug-in), and
 </ul>
 
 <p>
-Most Linux distributions come with Perl, doxygen and SWIG. The latter may
+Most Linux distributions come with Perl, doxygen and SWIG. The latter two may
 require installation, e.g., for Debian
 </p>
 <pre>
-sudo apt install swig
+sudo apt install doxygen swig
 </pre>
 <p>
-Here, the particular version can be crucial
---- we have positive confirmation ranging from v1.3.36 up to v4.1.1;
-cross-configuration for Windows/VS-compiler requires at least 3.02,
-however, the early 3.xx series seems to produce some spurious warnings
+Here, the particular versions can be crucial
+--- we have positive confirmation for SWIG ranging from v1.3.36 up to v4.1.1;
+cross-configuration for Windows/VS-compiler requires at least 3.0.2,
+however, the early 3.x.z series seems to produce some spurious warnings
 with Linux/gcc. In the case you rely on older versions of SWIG, you may want to
-test the a tweaked versions of <tt>typemaps.i</tt> archieved  as
-<tt>./plugins/luabindings/src/</tt> and taken from SWIG v2.0.10. 
+test the tweaked versions of <tt>typemaps.i</tt> archieved  as
+<tt>./plugins/luabindings/src/</tt> and taken from SWIG v2.0.10.
+</p>
+<p>
+Likewise, doxygen is in continuous development and configuration/stylesheets are
+subject to changes for the better. We are testing/developing with a recent toolchain, where recent
+reads <i>modulo availability from common Linux distributions</i>. If you experience any issues related
+to a specific version of doxygen, please report back.
 </p>
 
 <p>
@@ -317,6 +322,10 @@ use <a href="https://www.macports.org">MacPorts</a> to install SWIG and doxygen,
 <pre>
 port install swig doxygen    
 </pre>
+<p>
+Regaeding the versions of the respective tools, the same concerns as apply as for Linux. Try to use fairly recent
+versions and report back any issues.
+</p>
 
 
 <p>
@@ -330,6 +339,9 @@ from a MSYS2 terminal window, e.g.:
 <pre>
 pacman -S swig perl doxygen ncurses-devel libreadline-devel 
 </pre>
+<p>
+Reagding versions of the respective tools, the same concerns as apply as for Linux and/or macOS.
+</p>
 
 
 <p>

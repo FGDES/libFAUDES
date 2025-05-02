@@ -1,0 +1,107 @@
+/*
+faudes doxygen fix: paragraph margins etc
+collection of obsolete doxygen pre v1.6 styes
+*/
+
+div.contents {
+  margin-left: 0px;
+  margin-right: 0px;
+  /* faudes: overwrite for fixed width */
+  padding: 12px;
+  margin-right: auto;
+  width: 819px;
+}
+
+.contents p {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.mdescRight p {
+  margin: 0px;
+}
+
+.contents h1 {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 22px;
+}
+
+.contents h2 {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 22px;
+}
+
+.contents h3 {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 22px;
+}
+
+/* doxygen fix: hide strategic headline  ***/
+div.contents > a#details:first-child + h2 {
+    display:none;
+}
+
+/* doxygen adaption ***/
+/* extracted "doxygen -w html", good for 1.4.4, 1.5.5, 1.8.1 */
+
+table.memname {
+  margin-right: -1000px;  /* adapt */
+  overflow: visible;
+}
+
+a.anchor {
+  color: #000000; /* adapt */
+}
+
+DIV.qindex {
+	/* width: 100%; */ /* adapt */
+	background-color: #e8eef2;
+	border: 1px solid #84b0c7;
+	text-align: center;
+	padding: 2px;
+        margin-left: 0px; /* adapt */
+        margin-right: 7px; /* adapt ... not functional*/
+	line-height: 140%;
+}
+
+DIV.nav {
+        width: 100%;
+        background-color: #eeeeff;
+        border: 1px solid #b0b0b0;
+        text-align: center;
+        margin: 0px;  /* adapt */
+        padding: 0px; /* adapt */
+        line-height: 140%;
+}
+
+DIV.navpath {
+	/* width: 100%; */
+	background-color: #e8eef2;
+	border: 1px solid #84b0c7;
+	text-align: center;
+	padding: 2px;
+	margin: 2px;
+        margin-top: 0px; /* adapt */
+        margin-left: 0px; /* adapt */
+        margin-right: 77px; /* adapt ?? not functional .. want  0px*/
+	line-height: 140%;
+}
+DIV.navtab {
+       background-color: #e8eef2;
+       border: 1px solid #84b0c7;
+       text-align: center;
+       margin: 2px;
+       margin-right: 15px;
+       padding: 2px;
+}
+TD.navtab {
+       font-size: 70%;
+}
+
+table.mdTable {
+       margin-right: -1000px; /* adapt */
+}
+
