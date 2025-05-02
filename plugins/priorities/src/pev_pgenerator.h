@@ -53,13 +53,15 @@ public:
     /** Access members */
     void LowestPriority(const Idx rPriority) { mPLowest = rPriority; }
     Idx LowestPriority(void) const { return mPLowest;  }
+    void HighestPriority(const Idx rPriority) { mPHighest = rPriority; }
+    Idx HighestPriority(void) const { return mPHighest;  }
     void Fairness(const FairnessConstraints& rFair) { mFairConsts = rFair; }
     const FairnessConstraints& Fairness(void) const { return mFairConsts; }
 
     /**
     * Clear (mandatory for serialisation)
     */
-    void Clear(void) { mPLowest = 0; mFairConsts.Clear();}
+    void Clear(void) { mPLowest = 0; mPHighest=0; mFairConsts.Clear();}
 
 protected:
     /**
@@ -68,7 +70,7 @@ protected:
     * @param rSrcAttr
     *    Source to assign from
     */
-    void DoAssign(const AttributePGenGl& rSrcAttr){mPLowest = rSrcAttr.mPLowest; mFairConsts = rSrcAttr.mFairConsts;}
+    void DoAssign(const AttributePGenGl& rSrcAttr){mPLowest = rSrcAttr.mPLowest; mPHighest = rSrcAttr.mPHighest; mFairConsts = rSrcAttr.mFairConsts;}
 
     /**
     * Test equality of configuration data.
@@ -78,7 +80,7 @@ protected:
     * @return
     *   True on match.
     */
-    bool DoEqual(const AttributePGenGl& rOther) const {return (mPLowest == rOther.mPLowest && mFairConsts == rOther.mFairConsts);}
+    bool DoEqual(const AttributePGenGl& rOther) const {return (mPLowest == rOther.mPLowest && mPHighest == rOther.mPHighest && mFairConsts == rOther.mFairConsts);}
 
     /**
     * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -120,9 +122,13 @@ protected:
 
     /**
     * lowest priority value of globally all events (not only my alphabet).
-    * 0 is highest.
     */
     Idx mPLowest = 0;
+
+    /**
+    * highest priority value of globally all events (not only my alphabet).
+    */
+    Idx mPHighest = 0;
 };
 
 
@@ -314,6 +320,26 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     void LowestPriority(Idx prio);
 
     /**
+     * Get highest  priority
+     * Note: this is a dumb member -- you need to set it programatically
+     *
+     * @return
+     *  highest priority
+     *
+     */
+    Idx HighestPriority(void) const;
+
+    /**
+     * Set highest priority
+     * Note: this is a dumb member -- you need to set it programatically
+     *
+     * @param
+     *  highest priority
+     *
+     */
+    void HighestPriority(Idx prio);
+
+    /**
      * Get fairness constraints
      *
      * @return
@@ -484,12 +510,22 @@ TEMP EventPriorities THIS::Priorities(void) const {
 }
 // LowestPriority
 TEMP Idx THIS::LowestPriority(void) const {
-  return this->GlobalAttribute().LowestPriosity();
+  return this->GlobalAttribute().LowestPriority();
 }
 
 // LowestPriority
 TEMP void THIS::LowestPriority(Idx prio) {
-  this->GlobalAttribute().LowestPriosity(prio);
+  this->GlobalAttributep()->LowestPriority(prio);
+}
+
+// HighestPriority
+TEMP Idx THIS::HighestPriority(void) const {
+  return this->GlobalAttribute().HighestPriority();
+}
+
+// HighestPriority
+TEMP void THIS::HighestPriority(Idx prio) {
+  this->GlobalAttributep()->HighestPriority(prio);
 }
 
 // Fairness

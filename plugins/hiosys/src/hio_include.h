@@ -23,7 +23,7 @@
 
 /** 
 
-@defgroup hiosysplugin Hierarchical I/O Systems PlugIn
+@defgroup hiosysplugin Hierarchical I/O Systems Plug-In
 
 @ingroup AllPlugins
 

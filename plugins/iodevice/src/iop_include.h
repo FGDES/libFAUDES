@@ -21,7 +21,7 @@
 
 /**
  
-@defgroup IODevicePlugin I/O Device PlugIn
+@defgroup IODevicePlugin I/O Device Plug-In
 
 
 @ingroup AllPlugins

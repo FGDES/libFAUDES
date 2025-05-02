@@ -30,7 +30,7 @@
 /**
  
 
-@defgroup IoSysPlugin I/O System PlugIn
+@defgroup IoSysPlugin I/O System Plug-In
 
 
 @ingroup AllPlugins

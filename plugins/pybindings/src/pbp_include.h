@@ -17,7 +17,7 @@
 
 /**
  
-@defgroup PybindingsPlugin Python Bindings PlugIn
+@defgroup PybindingsPlugin Python Bindings Plug-In
 
 
 @ingroup AllPlugins

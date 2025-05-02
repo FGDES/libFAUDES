@@ -19,7 +19,7 @@
 
 /**
  
-@defgroup LuabindingsPlugin Lua Bindings PlugIn
+@defgroup LuabindingsPlugin Lua Bindings Plug-In
 
 
 @ingroup AllPlugins

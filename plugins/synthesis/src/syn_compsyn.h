@@ -57,7 +57,7 @@ namespace faudes {
  *
  * @ingroup SynthesisPlugIn
  */
-extern FAUDES_API void CompositionalSynthesis(const GeneratorVector& rPlantGenVec, 
+FAUDES_API void CompositionalSynthesis(const GeneratorVector& rPlantGenVec, 
 	      const EventSet& rConAlph,
 	      const GeneratorVector& rSpecGenVec, 
 	      std::map<Idx,Idx>& rMapEventsToPlant,
@@ -85,7 +85,7 @@ extern FAUDES_API void CompositionalSynthesis(const GeneratorVector& rPlantGenVe
  *   Resulting supervisor automata
  *
  */
-extern FAUDES_API void CompositionalSynthesisUnchecked(const GeneratorVector& rPlantGenVec, 
+FAUDES_API void CompositionalSynthesisUnchecked(const GeneratorVector& rPlantGenVec, 
 	      const EventSet& rConAlph,
 	      const GeneratorVector& rSpecGenVec, 
 	      std::map<Idx,Idx>& rMapEventsToPlant,
@@ -107,7 +107,7 @@ extern FAUDES_API void CompositionalSynthesisUnchecked(const GeneratorVector& rP
  *   Specification components (must be deterministic)
  *
  */
-extern FAUDES_API void ControlProblemConsistencyCheck(const GeneratorVector& rPlantGenVec, 
+FAUDES_API void ControlProblemConsistencyCheck(const GeneratorVector& rPlantGenVec, 
 		   const EventSet& rConAlph,
 		   const GeneratorVector& rSpecGenVec);
 

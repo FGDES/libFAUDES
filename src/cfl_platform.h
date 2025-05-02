@@ -23,7 +23,7 @@
 #ifndef FAUDES_PLATFORM_H
 #define FAUDES_PLATFORM_H
 
-/** Sense POSIX versus Windows */
+/* Sense POSIX versus Windows */
 #ifndef FAUDES_POSIX
 #ifndef FAUDES_WINDOWS
 #ifndef FAUDES_GENERIC
@@ -46,7 +46,7 @@
 #endif
 
 
-/** Interface export/import symbols: windows */
+/* Interface export/import symbols: windows */
 #ifdef FAUDES_WINDOWS
   #ifdef __GNUC__
     #ifdef FAUDES_BUILD_DSO
@@ -65,7 +65,7 @@
   #endif
 #endif
 
-/** Interface export/import symbols: posix/gcc */
+/* Interface export/import symbols: posix/gcc */
 #ifdef FAUDES_POSIX
 #ifdef FAUDES_BUILD_DSO
   #if __GNUC__ >= 4
@@ -75,7 +75,7 @@
 #endif
 #endif
 
-/** Interface export/import symbols: default */
+/* Interface export/import symbols: default */
 #ifndef FAUDES_API
    #define FAUDES_API
 #endif
@@ -85,7 +85,7 @@
  
 
 
-// Std headers 
+/* Std headers */
 #include <cstdlib>
 #include <cstring>
 #include <inttypes.h>

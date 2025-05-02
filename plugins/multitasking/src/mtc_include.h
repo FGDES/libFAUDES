@@ -41,7 +41,7 @@ Includes all multitasking plug-in headers
 
 /**
 
-@defgroup MultitaskingPlugin Multitasking PlugIn
+@defgroup MultitaskingPlugin Multitasking Plug-In
 
 @ingroup AllPlugins
 

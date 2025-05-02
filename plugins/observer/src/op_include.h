@@ -44,7 +44,7 @@
 /**
  
 
-@defgroup ObserverPlugin Observer PlugIn
+@defgroup ObserverPlugin Observer Plug-In
 
 
 @ingroup AllPlugins

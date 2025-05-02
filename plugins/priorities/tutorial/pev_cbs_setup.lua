@@ -49,19 +49,19 @@ function SetSigmaAll(par_n)
   -- std components
   local i
   for i=1,par_n do
-    SigmaAll:InsPriority(EventSdI(i),0)    
-    SigmaAll:InsPriority(EventArI(i),2)
-    SigmaAll:InsPriority(EventLvI(i),2)
-    SigmaAll:InsPriority(EventOnI(i),1)
-    SigmaAll:InsPriority(EventOffI(i),1)
+    SigmaAll:InsPriority(EventSdI(i),3)    
+    SigmaAll:InsPriority(EventArI(i),1)
+    SigmaAll:InsPriority(EventLvI(i),1)
+    SigmaAll:InsPriority(EventOnI(i),2)
+    SigmaAll:InsPriority(EventOffI(i),2)
   end
   -- left environment (feeder)
-  SigmaAll:InsPriority(EventSdI(0),0)
-  SigmaAll:InsPriority(EventArI(0),2)
-  SigmaAll:InsPriority(EventLvI(0),2)
+  SigmaAll:InsPriority(EventSdI(0),3)
+  SigmaAll:InsPriority(EventArI(0),1)
+  SigmaAll:InsPriority(EventLvI(0),1)
   -- right environment (slide)
-  SigmaAll:InsPriority(EventLvI(par_n+1),2)  
-  SigmaAll:InsPriority(EventArI(par_n+1),2)  
+  SigmaAll:InsPriority(EventLvI(par_n+1),1)  
+  SigmaAll:InsPriority(EventArI(par_n+1),1)  
 end
 
 

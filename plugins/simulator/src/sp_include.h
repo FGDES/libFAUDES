@@ -29,7 +29,7 @@
 
 /**
  
-@defgroup SimulatorPlugin Simulator PlugIn
+@defgroup SimulatorPlugin Simulator Plug-In
 
 
 @ingroup AllPlugins

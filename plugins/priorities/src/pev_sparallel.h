@@ -37,7 +37,7 @@ void SUParallel(
         const pGenerator& rPGen1, const pGenerator& rPGen2,
         std::map< std::pair<Idx,Idx>, Idx>& rCompositionMap,
         EventSet& rMerge,
-        const EventSet& rPrio,
+        const EventSet& rPrivate,
         EventPriorities& rPrios,
         pGenerator& rPRes);
 
@@ -45,7 +45,7 @@ void SUParallel(
 void SUParallel(
         const pGenerator& rPGen1, const pGenerator& rPGen2,
         EventSet& rMerge,
-        const EventSet& rPrio,
+        const EventSet& rPrivate,
         EventPriorities& rPrios,
         pGenerator& rPRes);
 

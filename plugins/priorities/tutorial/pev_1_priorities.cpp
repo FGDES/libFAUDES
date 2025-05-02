@@ -39,7 +39,7 @@ int main() {
 
 
   ////////////////////////////////////////////////////
-  // Convenienceclass PriositisedAlphabet (fully registered faudes type)
+  // Convenienceclass EventPriorities (fully registered faudes type)
   ////////////////////////////////////////////////////
 
   // set up some alphabet with prioritised events
@@ -47,14 +47,19 @@ int main() {
   alpha= prios2.Insert("alpha");
   beta=  prios2.Insert("beta");
   gamma= prios2.Insert("gamma");
-  prios2.Priority(alpha,13);    // access by index
-  prios2.Priority("beta",23);   // access by symbolic name (convenience, performance penalty)
-  prios2.Priority("gamma",23);  // access by symbolic name (convenience, performance penalty)  
+  prios2.Priority(alpha,0);     // access by index
+  prios2.Priority("beta",10);   // access by symbolic name (convenience, performance penalty)
+  prios2.Priority("gamma",20);  // access by symbolic name (convenience, performance penalty)  
   // report
   std::cout << "alphabet of priorisied events (using convenience class)" << std::endl;
   prios2.Write();
 
-  // test copy/casting/equality
+  // normalise to a consecutive range starting with 1
+  prios2.NormalisePriorities();
+  std::cout << "normalised priosities" << std::endl;
+  prios2.Write();
+  
+  // stress test copy/casting/equality
   EventSet events(prios2);
   bool ok= events == prios2;
   if(ok)
@@ -118,6 +123,5 @@ int main() {
   pgen.Fairness(fconstr);
   pgen.XWrite();
   
-
 
 }

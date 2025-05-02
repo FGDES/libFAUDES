@@ -19,7 +19,7 @@
 /**
  
 
-@defgroup TimedPlugin Timed Automata PlugIn
+@defgroup TimedPlugin Timed Automata Plug-In
 
 
 @ingroup AllPlugins

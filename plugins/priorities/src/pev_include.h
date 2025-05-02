@@ -27,32 +27,34 @@
 /**
  
 
-@defgroup PriositiesPlugin Priorities PlugIn
+@defgroup PrioritiesPlugin Priorities Plug-In
 
 
 @ingroup AllPlugins
 
-@section Overview
-
 
 <p>
-The priorities plug-in addresses systems with prioritised events. Detailed documentation
-will be provieded in due course via the user reference.
+The priorities plug-in addresses systems with prioritised events. Technically, an event priority
+is a non-negatie integer. Semantically, events of higher priority will preempt any event of lower
+priority.
 </p>
 
-@section License
-
 <p>
-The priosities plugin is distributed with libFAUDES and under the terms of
-the LGPL.
+As its base API, this plug-in provides
+- the template faudes::TpEventSet for an alphabet of prioritised events,
+- the template faudes::TpGenerator for a generator with prioritised events, and
+- the function faudes::ShapePriorities to implement the premting effect for a given generator.
+Usage should be fairly intuitive, see also the provided tutorials.
 </p>
 
-@section Contents
-
 <p>
-For the methodological background of Yiheng Tang's work on the verfication of non-blockingness for
-modular diccrete-event systems with prioritised events was, see:
-<p>
+Regarding algorithms, we provide the two function
+- faudes::IsPNonconflicting and
+- faudes::IsPFNonconflicting
+Both functions implement a compositional approach to the verfication of non-conflictingness for the
+parallel composition of multiple components with a global interpretation of preemption by event
+priorities. Thechnical details have been reported in 
+</p>
 
 <p>
 Y.&nbsp;Tang, T.&nbsp;Moor:
@@ -61,12 +63,24 @@ Compositional non-blockingness verification of finite automata with prioritised 
 </p>
 
 <p>
-Yiheng's original implementation was designed as a
-libFAUDES application. At this stage, we are transforming the code base to a
-libFAUDES plug-in, incl. integration with the faudes registry and a luaFAUDES interface.
+
+The code base is Yiheng Tang's original work with some later cos,etic extensions to address
+consistent integration with libFAUDES and Lua bindings.
 </p>
 
 
+@section License
+
+<p>
+The priosities plugin is distributed with libFAUDES and under the terms of
+the LGPL.
+</p>
+<br>
+<br>
+<br>
+<p>
+Copyright (c) 2024,2025,  Yiheng Tang, Thomas Moor.
+</p>
 
 
 */

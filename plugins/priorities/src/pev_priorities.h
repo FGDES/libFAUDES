@@ -27,12 +27,15 @@
 
 namespace faudes {
 
-/*!
- * \brief The AttributePriority class
- * Class denoting the event priority of events in a
- * prioritised generator (PGenerator)
+/**
+ * The class AttributePriority is intendened to be used as an event
+ * attribute. the class is derived from AttributeCFlags 
+ * and accommedates an additional non-negative integer to represent
+ * an event priority. See also the template TpEventSet<Attr> for a convenience
+ * wrapper of an alphabet with attributes of type AttributePriority per event..
+ *
+ * @ingroup PrioritiesPlugin
  */
-
 class FAUDES_API AttributePriority : public AttributeCFlags {
 
 FAUDES_TYPE_DECLARATION(Void,AttributePriority,AttribiteCFlags)
@@ -72,9 +75,9 @@ public:
   /** get priority */
   Idx Priority(void) const { return mPriority;}
 
-  /** compare priority (strictly ensure that a<b iff a preempts b)*/
-  bool operator<(const AttributePriority& rOther) const {
-    if(mPriority < rOther.mPriority ) return true;
+  /** compare priority (a>b iff a preempts b)*/
+  bool operator>(const AttributePriority& rOther) const {
+    if(mPriority > rOther.mPriority ) return true;
     return false;
   }
 
@@ -169,6 +172,27 @@ convenience class to declare universal event priorities
 ******************************************************** 
 */
 
+/**
+ * The template TpEventSet<Attr> provides access members for event priorities.
+ * The template parameter is expected to be a descendant of AttributePriority.
+ * There also is the convenience typedef faudes::EventPriorities for this intended usecase.
+ *
+ * Token IO is proper XML with default priority 0. Example:
+ * <PRE>
+ * &lt;Alphabet&gt;
+ * &lt;!-- avent alpha with priority 10 --&gt;
+ * &lt;Event name="alpha"&gt;
+ * &lt;Priority value="10"/&gt;
+ * &lt;/Event&gt;
+ * &lt;!-- avent beta with default priority 0 --&gt;
+ * &lt;Event name="beta"/&gt;
+ * &lt;Priority value="20"/&gt;
+ * &lt;/Event&gt;
+ * &lt;/Alphabet&gt;  
+ * </PRE>
+ *
+ * @ingroup PrioritiesPlugin
+ */
 template <class Attr>
 class FAUDES_TAPI TpEventSet : public TaEventSet<Attr> {
 
@@ -238,22 +262,6 @@ class FAUDES_TAPI TpEventSet : public TaEventSet<Attr> {
    */
   Idx Priority(const Idx idx) const { return this->Attribute(idx).Priority(); }
 
-  /**
-   * Get lowest priority
-   *
-   * @return lowest priority
-   */
-  Idx LowestPriority(void) const {
-    Idx low=0;
-    NameSet::Iterator eit = this->Begin();
-    NameSet::Iterator eit_end = this->End();
-    for(;eit!=eit_end;eit++){
-      Idx prio=Priority(*eit);
-      if(prio>low) low =prio;
-    }
-    return low;
-  }
-  
    /**
    * Set priority by symbolic name
    *
@@ -330,7 +338,61 @@ class FAUDES_TAPI TpEventSet : public TaEventSet<Attr> {
   }
     
 
- protected:
+  /**
+   * Get lowest priority
+   *
+   * @return lowest priority
+   */
+  Idx LowestPriority(void) const {
+    Idx low=FAUDES_IDX_MAX;
+    NameSet::Iterator eit = this->Begin();
+    NameSet::Iterator eit_end = this->End();
+    for(;eit!=eit_end;eit++){
+      Idx prio=Priority(*eit);
+      if(prio<low) low =prio;
+    }
+    return low;
+  }
+  
+  /**
+   * Get highest priority
+   *
+   * @return highest priority
+   */
+  Idx HighestPriority(void) const {
+    Idx high=0;
+    NameSet::Iterator eit = this->Begin();
+    NameSet::Iterator eit_end = this->End();
+    for(;eit!=eit_end;eit++){
+      Idx prio=Priority(*eit);
+      if(prio>high) high =prio;
+    }
+    return high;
+  }
+  
+  /**
+   * Normalise priorities
+   *
+   * Rearrange priorities to be consecutive intergers ranging from 1 to the highest priority.
+   *
+   */
+  void NormalisePriorities(void) {
+    std::map<Idx,Idx> priomap;
+    NameSet::Iterator eit = this->Begin();
+    NameSet::Iterator eit_end = this->End();
+    for(;eit!=eit_end;++eit) 
+      priomap[this->Priority(*eit)]=0;
+    std::map<Idx,Idx>::iterator pit;
+    Idx prio=1;
+    for(pit=priomap.begin();pit!=priomap.end();++pit)
+      pit->second=prio++;
+    eit = this->Begin();
+    eit_end = this->End();
+    for(;eit!=eit_end;++eit) 
+      this->Priority(*eit,priomap[this->Priority(*eit)]);
+  }
+
+  protected:
 
   /**
    * Reimplement DoWrite to enforce XML token-io
@@ -357,12 +419,14 @@ class FAUDES_TAPI TpEventSet : public TaEventSet<Attr> {
 /** 
  * Convenience typedef for std alphabet with priorities
  *
+ * @ingroup PrioritiesPlugin
  */
 typedef TpEventSet<AttributePriority> EventPriorities;
 
 /** 
  * Convenience typedef for fairness constraints (one EventSet per constraint)
  *
+ * @ingroup PrioritiesPlugin
  */
 typedef TBaseVector<EventSet> FairnessConstraints;
 

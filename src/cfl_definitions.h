@@ -77,8 +77,9 @@ typedef double Float;
 
 /** Debug: output macro for optional redirection of all console output */
 #define FAUDES_WRITE_CONSOLE(message) \
-  { if(!faudes::ConsoleOut::G()->Mute()) {				\
-      std::ostringstream cfl_line; cfl_line << message << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str());} }
+  { if(!faudes::ConsoleOut::G()->Mute()) { \
+      std::ostringstream cfl_line; cfl_line << message << std::endl; \
+      faudes::ConsoleOut::G()->Write(cfl_line.str()); } }
 
 /** Debug: always report warnings */
 #define FD_WARN(message) FAUDES_WRITE_CONSOLE("FAUDES_WARNING:   " << message)
