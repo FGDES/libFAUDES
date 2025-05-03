@@ -401,47 +401,62 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
   for(;sit!=rGen.StatesEnd();++sit) {
     FD_DF("Automaton: processing state " << *sit);
     cs=*sit;
+    // iterrate transrel to find current state cs
     for(;tit!=rGen.TransRelEnd();++tit) 
       if(tit->X1 >= cs) break;
-    bool fina= (tit!=rGen.TransRelEnd());
-    bool finb= false;
-    if(fina) finb = (tit->X1 == cs);
-    if(!finb) {
-      FD_DF("Automaton: completing state");
+    bool found= false;
+    if(tit!=rGen.TransRelEnd())
+      if(tit->X1 == cs) found=true;
+    // current state not found, so all transitions to go to dump
+    if(!found) {
+      FD_DF("Automaton: state not found, all transitions go to dump");
       for(eit=rGen.AlphabetBegin();eit!=rGen.AlphabetEnd();++eit) 
         rGen.SetTransition(cs,*eit,dump);
-      dumpReached=true;
+      if(cs!=dump) dumpReached=true;
       continue;
-    }  
+    }
+    // current state found, search for enabled events
     eit=rGen.AlphabetBegin();
-    while(tit!=rGen.TransRelEnd()) {    
+    while(tit!=rGen.TransRelEnd()) {
+      // event to resolve
       ce=*eit;
       FD_DF("Automaton: processing " << tit->Str() << " awaiting " << ce);
-      while(ce<tit->Ev) {
-        FD_DF("Automaton: add " << cs << "-(" << ce << ")->");
-        rGen.SetTransition(cs,ce,dump);
-        dumpReached=true;
-        ++eit;
+      while(eit!=rGen.AlphabetEnd()) {
         ce=*eit;
+        if(ce==tit->Ev) break;
+	// add missing transition to dump
+        FD_DF("Automaton: add " << cs << "-(" << ce << ")->dump");
+        rGen.SetTransition(cs,ce,dump);
+        if(cs!=dump) dumpReached=true;
+	// look for next event
+        ++eit;
       }
-      bool fin1=false;
+      // all events resolved, go for next state
+      if(eit==rGen.AlphabetEnd()) break;
+      // all events up to ce have been resolved
+      // test whether we have more transitions for the current state
+      bool fin=false;
       while(tit!=rGen.TransRelEnd()) {
         ++tit;
-        if(tit->X1!=cs) {fin1=true; break;}
+	if(tit==rGen.TransRelEnd()) {fin=true; break;}
+        if(tit->X1!=cs) {fin=true; break;}
         if(tit->Ev!=ce) break;
         FD_DF("Automaton: skip " << tit->Str());
       }
-      bool fin2= (tit==rGen.TransRelEnd());
-      ++eit;
-      if(fin1 || fin2) {
-        while(eit != rGen.AlphabetEnd()) {
-          FD_DF("Automaton: fin " << cs << "-(" << *eit  << ")->");
-          rGen.SetTransition(cs,*eit,dump);
-          dumpReached=true;
-          ++eit;
-        }
+      // there are more transitions to consider, so resolve the next event
+      if(!fin) {
+         ++eit;
+	 continue;
       }
-      if(fin1||fin2) break;
+      // we did ran out transitions, so complete this state
+      ++eit;
+      while(eit != rGen.AlphabetEnd()) {
+        FD_DF("Automaton: fin " << cs << "-(" << *eit  << ")->dump");
+        rGen.SetTransition(cs,*eit,dump);
+        if(cs!=dump) dumpReached=true;
+        ++eit;
+      }
+      break;
     }
   }
   

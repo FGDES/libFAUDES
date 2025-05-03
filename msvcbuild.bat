@@ -1,10 +1,10 @@
 REM ================================== build libFAUDES with MSVC toolchain
 
-REM ==== borrow GNU make from MSYS/MinGW
+REM ==== borrow GNU make, e.g. from MSYS2 installation
 set GNUMAKE=C:\msys64\ucrt64\bin\mingw32-make.exe
 
 REM ==== set paths for MSVC command line tools
-"%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
+call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
 
 REM ==== build libFAUDES shared/release
 %GNUMAKE% FAUDES_PLATFORM=cl_win clean
