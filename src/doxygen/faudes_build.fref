@@ -180,16 +180,16 @@ Then, explicitly set the target platform and compile libFAUDES from a
 MSYS2 terminal:
 </p>
 <pre>
-./libFAUDES&gt; make -j FAUDES_PLATFORM=gcc_msys
-./libFAUDES&gt; make -j FAUDES_PLATFORM=gcc_msys tutorial 
+./libFAUDES&gt; make FAUDES_PLATFORM=gcc_msys -j
+./libFAUDES&gt; make FAUDES_PLATFORM=gcc_msys -j tutorial  
 ./libFAUDES&gt; make FAUDES_PLATFORM=gcc_msys test 
 </pre>
 As an alternative to MSYS2, you can resort to a plain MinGW toolchain,
 set the PATH variable and use an MS Windows commandline to run
 <pre>
 set PATH=%PATH%;C:\Wherever_MinGW_is\bin
-C:\libFAUDES&gt; mingw64-make -j FAUDES_PLATFORM=gcc_win
-C:\libFAUDES&gt; mingw64-make -j FAUDES_PLATFORM=gcc_win tutorial 
+C:\libFAUDES&gt; mingw64-make FAUDES_PLATFORM=gcc_win -j
+C:\libFAUDES&gt; mingw64-make FAUDES_PLATFORM=gcc_win -j tutorial 
 C:\libFAUDES&gt; mingw64-make FAUDES_PLATFORM=gcc_win test 
 </pre>
 
@@ -219,8 +219,8 @@ edition of MSVC 2015 and MSVC 2022. Example for the MS Windows commandline:
 </p>
 <pre>
 call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
-&gt; mingw64-make -j FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
-&gt; mingw64-make -j FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" tutorial
+&gt; mingw64-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j
+&gt; mingw64-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorial
 &gt; mingw64-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
 </pre>
 <p>
@@ -232,10 +232,10 @@ for static linking with an host application. Relevant compiler
 options are <tt>/MDd</tt> and <tt>/EHsc</tt>, in some cases
 <tt>/Zi</tt> may also be of interest. Note that applications with static
 linking to libFAUDES may only be distributed under terms of the GPL license.
-For dynamic linking in release mode, we have set up
+For dynamic linking in release mode, we have 
 </p>
 <pre>
-&gt; mingw64-make -j FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
+&gt; mingw64-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared" -j
 </pre>
 <p>
 to build the shared object <tt>faudes.dll</tt> along with the linker

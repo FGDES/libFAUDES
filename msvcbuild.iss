@@ -1,0 +1,242 @@
+; Innso Setup Configuration for libFAUDES MS Windows distribution
+;
+;
+
+[Setup]
+MinVersion=11.0.22000	
+AppCopyright=Moor/Schmidt/Perk
+AppName=libFAUDES
+AppVersion={%FAUDES_VERSION_MAJOR}.{%FAUDES_VERSION_MINOR}
+AppVerName=libFAUDES {%FAUDES_VERSION_MAJOR}.{%FAUDES_VERSION_MINOR}
+ArchitecturesInstallIn64BitMode=x64
+ArchitecturesAllowed=x64
+PrivilegesRequired=none
+ShowLanguageDialog=no
+LanguageDetectionMethod=uilanguage
+UsePreviousAppDir=false
+DefaultDirName={sd}\FAUDES\libFAUDES
+;OutputDir=.\
+;SetupIconFile= images\icon_red_win.ico
+OutputBaseFilename=libfaudes-{%FAUDES_VERSION_MAJOR}_{%FAUDES_VERSION_MINOR}_setup.exe
+
+[Types]
+Name: "full"; Description: "Full installation"
+Name: "compact"; Description: "Compact installation"
+Name: "custom"; Description: "Custom installation"; Flags: iscustom
+
+[Components]
+Name: "executables"; Description: "libFAUDES incl. executables";   Flags: fixed;  Types: full compact custom
+Name: "documentation"; Description: "User Reference C++ API Documentation";    Types: full
+Name: "examples";      Description: "Example data and luafaudes scripts";      Types: full
+Name: "develop";       Description: "C++ header files";                        Types: full
+
+[Tasks]
+Name: "syspath"; Description: "Set system PATH to include {app} [admins only, effective after reboot]"; Flags: unchecked restart; Check: CanSetSystemPath();
+Name: "userpath"; Description: "Set user PATH to include {app} [effective after reboot]"; Flags: unchecked restart; Check: CanSetUserPath();
+Name: "syspathok"; Description: "Set system PATH to include {app}"; Flags: unchecked; Check: SystemPathHasFaudes();
+Name: "userpathok"; Description: "Set user PATH to include {app}"; Flags: unchecked; Check: UserPathHasFaudes();
+
+
+[Dirs]
+Name: {app}\StdFlx
+Name: {app}\Doc;                      Components: documentation
+Name: {app}\Include;                  Components: develop
+Name: {app}\Examples\corefaudes;      Components: examples
+Name: {app}\Examples\corefaudes\data; Components: examples
+Name: {app}\Examples\synthesis;       Components: examples
+Name: {app}\Examples\synthesis\data;  Components: examples
+Name: {app}\Examples\observer;        Components: examples
+Name: {app}\Examples\observer\data;   Components: examples
+Name: {app}\Examples\priorities;      Components: examples
+Name: {app}\Examples\priosities\data; Components: examples
+Name: {app}\Examples\hiosys;          Components: examples
+Name: {app}\Examples\hiosys\data;     Components: examples
+Name: {app}\Examples\iosystem;        Components: examples
+Name: {app}\Examples\iosysten\data;   Components: examples
+Name: {app}\Examples\multitasking;    Components: examples
+Name: {app}\Examples\multitasking\data; Components: examples
+Name: {app}\Examples\diagnosis;       Components: examples
+Name: {app}\Examples\diagnosis\data;  Components: examples
+Name: {app}\Examples\simulator;       Components: examples
+Name: {app}\Examples\simulator\data;  Components: examples
+Name: {app}\Examples\iodevice;        Components: examples
+Name: {app}\Examples\iodevice\data;   Components: examples
+Name: {app}\Examples\extensions;      Components: examples
+
+[Files]
+Source: libfaudes\faudes.*;    DestDir: {app}
+Source: libfaudes\faudesd.*;    DestDir: {app}
+Source: libfaudes\include\libfaudes.rti; DestDir: {app}
+Source: libfaudes\bin\*.dll;        DestDir: {app}
+Source: libfaudes\bin\*.exe;        DestDir: {app}
+Source: libfaudes\bin\luafaudes.flx;        DestDir: {app}
+Source: libfaudes\include\*;        DestDir: {app}\Include;  Flags: recursesubdirs createallsubdirs; Components: develop
+Source: libfaudes\doc\*.* ; DestDir: {app}\Doc; Flags: recursesubdirs createallsubdirs;         Components: documentation
+Source: libfaudes\VERSION; DestDir: {app}
+;Source: README_libfaudes_windows_binary.txt; DestDir: {app}
+Source: libfaudes\stdflx\*.flx;     DestDir: {app}\StdFlx; 
+Source: libfaudes\plugins\luabindings\tutorial\data\*; DestDir: {app}\Examples\corefaudes\data; Components: examples
+Source: libfaudes\plugins\luabindings\tutorial\*.lua;  DestDir: {app}\Examples\corefaudes;      Components: examples
+Source: libfaudes\plugins\synthesis\tutorial\*.lua;    DestDir: {app}\Examples\synthesis;       Components: examples
+Source: libfaudes\plugins\synthesis\tutorial\data\*;   DestDir: {app}\Examples\synthesis\data;  Components: examples
+Source: libfaudes\plugins\observer\tutorial\*.lua;     DestDir: {app}\Examples\observer;       Components: examples
+Source: libfaudes\plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;  Flags: recursesubdirs createallsubdirs;  Components: examples
+Source: libfaudes\plugins\hiosys\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
+Source: libfaudes\plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs crSource: libfaudes\plugins\priorities\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
+Source: libfaudes\plugins\priosities\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs createallsubdirs;   Components: examples
+Source: libfaudes\plugins\iosystem\tutorial\*.lua;     DestDir: {app}\Examples\iosystem;          Components: examples
+Source: libfaudes\plugins\iosystem\tutorial\data\*;    DestDir: {app}\Examples\iosystem\data;    Flags: recursesubdirs createallsubdirs;   Components: examples
+Source: libfaudes\plugins\multitasking\tutorial\*.lua;  DestDir: {app}\Examples\multitasking;       Components: examples
+Source: libfaudes\plugins\multitasking\tutorial\data\*; DestDir: {app}\Examples\multitasking\data;  Components: examples
+Source: libfaudes\plugins\diagnosis\tutorial\*.lua;    DestDir: {app}\Examples\diagnosis;       Components: examples
+Source: libfaudes\plugins\diagnosis\tutorial\data\*;   DestDir: {app}\Examples\diagnosis\data;  Components: examples
+Source: libfaudes\plugins\simulator\tutorial\data\*;   DestDir: {app}\Examples\simulator\data;  Components: examples
+Source: libfaudes\plugins\simulator\tutorial\*.sh;     DestDir: {app}\Examples\simulator;       Components: examples
+Source: libfaudes\plugins\iodevice\tutorial\data\*;    DestDir: {app}\Examples\iodevice\data;   Components: examples
+Source: libfaudes\plugins\iodevice\tutorial\*.sh;      DestDir: {app}\Examples\iodevice;        Components: examples
+Source: libfaudes\plugins\luabindings\tutorial\*.flx;    DestDir: {app}\Examples\extensions;    Components: examples
+
+
+
+
+
+[Registry]
+Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Control\Session Manager\Environment; ValueType: expandsz; ValueName: Path; ValueData: {code:GetFaudesSystemPath}; Flags: preservestringtype; Check: CanSetSystemPath(); Tasks: syspath
+Root: HKCU; Subkey: Environment;                                                  ValueType: expandsz; ValueName: Path; ValueData: {code:GetFaudesUserPath};   Flags: preservestringtype; Check: CanSetUserPath(); Tasks: userpath
+
+
+[Code]
+var
+  OldPath: String;
+  NewPath: String;
+  HasFaudes: Boolean;
+  OkPath: Boolean;
+
+
+// compose NewPath from OldPath
+// sets HasFaudes if no changes required
+function ComposeFaudesPath() : Boolean;
+var
+  FaudesPath: String;
+  Location: Integer;
+begin
+  // expand constant
+  FaudesPath:=ExpandConstant('{app}');
+  HasFaudes:=false;
+  if OkPath then
+  begin
+    // debug report
+    //MsgBox('Your path [' + WhichPath + ']: ' + OldPath, mbInformation, MB_OK);
+    Location := Pos(FaudesPath, OldPath);
+    // path allready holds libFAUDES path
+    if Location <>0 then
+    begin
+      // MsgBox('Your path allready contains libFAUDES. Fine.',mbInformation, MB_OK);
+      HasFaudes:=true;
+    end
+    // fix end with extra semicolon
+    if length(OldPath)>0 then
+      if OldPath[length(OldPath)] <> ';' then
+        OldPath := OldPath + ';';
+    // build new path
+    NewPath := OldPath + FaudesPath + ';';
+    // let user know
+    // MsgBox('New path [' + WhichPath + ']: ' + NewPath, mbInformation, MB_OK);
+  end
+  // done
+  Result := OkPath;
+end;
+
+
+// prepare new system path
+function PrepareSystemPath() : Boolean;
+var
+  FaudesPath: String;
+begin
+  // expand constant
+  FaudesPath:=ExpandConstant('{app}');
+  // get current reg key
+  OkPath:=RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', OldPath);
+  if ( length(OldPath) = 0 ) then OkPath := false;
+  // compose new path
+  ComposeFaudesPath();
+  // done
+  Result := OkPath;
+end;
+  
+// prepare new user path
+function PrepareUserPath() : Boolean;
+var
+  FaudesPath: String;
+begin
+  // expand constant
+  FaudesPath:=ExpandConstant('{app}');
+  // get current reg key
+  OkPath:=RegQueryStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', OldPath);
+  if not OkPath then OldPath :=''
+  OkPath:=true;
+  // compose new path
+  ComposeFaudesPath();
+  // done
+  Result := OkPath;
+end;
+
+// get the new path as string
+function GetFaudesUserPath(dummy : String) : String;
+begin
+  // check and get
+  PrepareUserPath();
+  // done
+  Result:=NewPath;
+end;
+
+
+// get the new path as string
+function GetFaudesSystemPath(dummy : String) : String;
+begin
+  // check and get
+  PrepareSystemPath();
+  // done
+  Result:=NewPath;
+end;
+
+
+// true if we can set the user path
+function CanSetUserPath() : Boolean;
+begin
+  // check and get
+  PrepareUserPath();
+  // done
+  Result:= OkPath AND NOT HasFaudes;
+end;
+
+
+// true if we can set the system path
+function CanSetSystemPath() : Boolean;
+begin
+  // check and get
+  PrepareSystemPath();
+  // done
+  Result:= OkPath AND NOT HasFaudes;
+end;
+
+
+// true if the user path already contains faudes
+function UserPathHasFaudes() : Boolean;
+begin
+  // check and get
+  PrepareUserPath();
+  // done
+  Result:= OkPath AND HasFaudes;
+end;
+
+// true if the system path already contains faudes
+function SystemPathHasFaudes() : Boolean;
+begin
+  // check and get
+  PrepareSystemPath();
+  // done
+  Result:= OkPath AND HasFaudes;
+end;
+
+
