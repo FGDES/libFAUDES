@@ -289,7 +289,7 @@ int main() {
   std::cout << "################################\n";
   
   // Record test case  
-  FAUDES_TEST_DUMP("automaton ", automaton_g);
+  FAUDES_TEST_DUMP("automaton", automaton_g);
   
 
   ////////////////////////////

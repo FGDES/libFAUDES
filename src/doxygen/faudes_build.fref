@@ -144,15 +144,15 @@ After extracting the libFAUDES archive to e.g. <tt>./libFAUDES</tt>,
 open a shell (aka <i>console</i>, <i>command line</i>, etc) and run
 </p>
 <pre>
-./libFAUDES&gt; make -j20
-./libFAUDES&gt; make -j20 tutorial
+./libFAUDES&gt; make -j
+./libFAUDES&gt; make -j tutorial
 ./libFAUDES&gt; make test
 </pre>
 <p>
 to re-compile libFAUDES. 
 Technically, the <tt>GNU-make</tt> tool extracts the rules of how exactly the targets
-are to be built from the the <tt>Makefile</tt>. The option <tt>-j20</tt> tells make to
-run up to 20 jobs in parallel which significantly speeds up the build process.
+are to be built from the the <tt>Makefile</tt>. The option <tt>-j</tt> tells make to
+run jobs in parallel which significantly speeds up the build process.
 There are a number of details to be addressed here.
 </p>
 
@@ -180,16 +180,16 @@ Then, explicitly set the target platform and compile libFAUDES from a
 MSYS2 terminal:
 </p>
 <pre>
-./libFAUDES&gt; make -j20 FAUDES_PLATFORM=gcc_msys
-./libFAUDES&gt; make -j20 FAUDES_PLATFORM=gcc_msys tutorial 
+./libFAUDES&gt; make -j FAUDES_PLATFORM=gcc_msys
+./libFAUDES&gt; make -j FAUDES_PLATFORM=gcc_msys tutorial 
 ./libFAUDES&gt; make FAUDES_PLATFORM=gcc_msys test 
 </pre>
 As an alternative to MSYS2, you can resort to a plain MinGW toolchain,
 set the PATH variable and use an MS Windows commandline to run
 <pre>
 set PATH=%PATH%;C:\Wherever_MinGW_is\bin
-C:\libFAUDES&gt; mingw64-make -j20 FAUDES_PLATFORM=gcc_win
-C:\libFAUDES&gt; mingw64-make -j20 FAUDES_PLATFORM=gcc_win tutorial 
+C:\libFAUDES&gt; mingw64-make -j FAUDES_PLATFORM=gcc_win
+C:\libFAUDES&gt; mingw64-make -j FAUDES_PLATFORM=gcc_win tutorial 
 C:\libFAUDES&gt; mingw64-make FAUDES_PLATFORM=gcc_win test 
 </pre>
 
@@ -219,13 +219,15 @@ edition of MSVC 2015 and MSVC 2022. Example for the MS Windows commandline:
 </p>
 <pre>
 call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
-&gt; mingw64-make -j20 FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
+&gt; mingw64-make -j FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
+&gt; mingw64-make -j FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" tutorial
+&gt; mingw64-make FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
 </pre>
 <p>
 The batch file provided by MS Visual C sets up the environment to the 64bit
 compilers. Then "FAUDES_LINKING="static debug" directs make to build
 the archieve <tt>faudesd.lib</tt>. While it links dynamically against
-the C libraries in their debug variant, <tt>faudesd.lib</tt> isitself is meant
+the C libraries in their debug variant, <tt>faudesd.lib</tt> itself is meant
 for static linking with an host application. Relevant compiler
 options are <tt>/MDd</tt> and <tt>/EHsc</tt>, in some cases
 <tt>/Zi</tt> may also be of interest. Note that applications with static
@@ -233,7 +235,7 @@ linking to libFAUDES may only be distributed under terms of the GPL license.
 For dynamic linking in release mode, we have set up
 </p>
 <pre>
-&gt; mingw64-make -j20 FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
+&gt; mingw64-make -j FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared"
 </pre>
 <p>
 to build the shared object <tt>faudes.dll</tt> along with the linker

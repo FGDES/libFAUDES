@@ -907,7 +907,7 @@ package:
 
 clean: $(CLEANTARGETS)
 	$(RM) $(call FNCT_FIXDIRSEP,$(CLEANFILES)) 
-	$(RM) $(call FNCT_FIXDIRSEP,obj/*)
+	$(RM) $(call FNCT_FIXDIRSEP,obj/*.*)
 	$(RM) tmp_valext 
 
 dist-clean: doc-clean $(DISTCLEANTARGETS)
