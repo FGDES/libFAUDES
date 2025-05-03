@@ -2349,7 +2349,7 @@ TEMP const AttributeVoid* THIS::DoAttribute(const T& rElem) const {
 TEMP AttributeVoid* THIS::DoAttributeExplicit(const T& rElem) {
   FD_DC("TBaseSet::DoAttributeExplicit(elem)");
 #ifdef FAUDES_DEBUG_CODE
-  if(this->pAttributes!=this->::mpAttributes) {
+  if(this->pAttributes!=this->mpAttributes) {
     FD_ERR("TBaseSet::DoAttributeExplicit(elem): attributes not detached");
     abort();
   }

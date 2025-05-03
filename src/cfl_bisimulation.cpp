@@ -955,8 +955,8 @@ void Bisimulation::computeInfoMap(Pnode& B, Pnode& Bstates, Idx ev, vector<Idx>&
 // -- this did not help performance
 void Bisimulation::setInfoMap(Pnode& BSmaller, Pnode& BLarger, Idx ev) {
 
-  FD_DF("Bisimulation::setInfoMap(" << B.index << "," << Bstates.index << "," << gen->EventName(ev) << ", Stateset&)");
-  FD_DF("Bisimulation::setInfoMap: consider stateSet of coset " << Bstates.index);
+  //FD_DF("Bisimulation::setInfoMap(" << B.index << "," << Bstates.index << "," << gen->EventName(ev) << ", Stateset&)");
+  //FD_DF("Bisimulation::setInfoMap: consider stateSet of coset " << Bstates.index);
 
   // clear info
   vector<State>::iterator sit=states.begin();

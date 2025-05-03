@@ -1184,7 +1184,7 @@ void TaNameSet<Attr>::RestrictSet(const TBaseSet<Idx>& rOtherSet) {
 // Attributes(set)
 template<class Attr>
 void TaNameSet<Attr>::Attributes(const TBaseSet<Idx>& rOtherSet) {
-  FD_DC("TaNameSet(" << this << ")::Attributes(otherset) with type " << typeid(*rOtherSet.AttributeType()).name());
+  FD_DC("TaNameSet(" << this << ")::Attributes(otherset) with type " << typeid(rOtherSet.AttributeType()).name());
 #ifdef FAUDES_CHECKED
   const NameSet* nset = dynamic_cast<const NameSet*>(&rOtherSet);
   if(!nset) {

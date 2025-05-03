@@ -48,7 +48,7 @@ void SUParallel(
 		EventPriorities& rPrios,
 		pGenerator& rPRes)
 {
-  FD_DF("Parallel(" << &rGen1 << "," << &rGen2 << ")");
+  FD_DF("Parallel(" << &rPGen1 << "," << &rPGen2 << ")");
 
   // prepare result
   Generator* pResGen = &rPRes;

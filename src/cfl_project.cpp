@@ -1513,8 +1513,8 @@ void aInvProject(Generator& rGen, const EventSet& rProjectAlphabet) {
   // perform
   InvProject(rGen,rProjectAlphabet);
   // copy all attributes from input alphabets
-  FD_DF("aInvProject(..): fixing attributes: source " << typeid(*rProjectAlphabet.AttributeType()).name() <<
-	  " dest " << typeid(*rGen.Alphabet().AttributeType()).name());
+  FD_DF("aInvProject(..): fixing attributes: source " << typeid(rProjectAlphabet.AttributeType()).name() <<
+	  " dest " << typeid(rGen.Alphabet().AttributeType()).name());
   for(EventSet::Iterator eit=newevents.Begin(); eit!=newevents.End(); ++eit)  
     rGen.EventAttribute(*eit,rProjectAlphabet.Attribute(*eit));
 }

@@ -60,7 +60,7 @@ public:
    * plain stl set debugging output
    */
   std::string setstr(const std::set<Idx>& sset) {
-     std::set<Idx>::iterator ssit;
+     std::set<Idx>::const_iterator ssit;
      std::stringstream str;
      str << "{";
      for(ssit = sset.begin(); ssit != sset.end(); ++ssit) 
@@ -69,6 +69,18 @@ public:
      return str.str();
   }
 
+  /**
+   * plain stl vec debugging output
+   */
+  std::string vecstr(const std::vector<Idx>& svec) {
+     std::vector<Idx>::const_iterator ssit;
+     std::stringstream str;
+     str << "[";
+     for(ssit = svec.begin(); ssit != svec.end(); ++ssit) 
+       str << " " << *ssit;
+     str << " ]";
+     return str.str();
+  }
   /**
    * Hopcroft algorithm data structure: vector of blocks
    * [revision 201508 tmoor: use plain stl vectors and maintain sorting manually]
@@ -240,8 +252,8 @@ public:
 	  blocks[j].swap(dp);
           blocks.push_back(std::vector<Idx>());
           blocks.back().swap(dpp);
-	  FD_DF("StateMin: new block D' as B[" << j << "] = " << setstr(dp));
-	  FD_DF("StateMin: new block D'' as B[" << blocks.size()-1 << "] = " << setstr(dpp));
+	  FD_DF("StateMin: new block D' as B[" << j << "] = " << vecstr(dp));
+	  FD_DF("StateMin: new block D'' as B[" << blocks.size()-1 << "] = " << vecstr(dpp));
   	  // if D was active then mark both D', D'' active, else mark smaller part D'' as active
           // [... and both cases effectively amount to mark D'' active]
 	  active.push((Idx)blocks.size()- 1);
@@ -279,7 +291,7 @@ public:
       // create state in new generator for every block
       Idx newstate = i+1;
       pResGen->InsState(newstate);
-      FD_DF("StateMin: block " << setstr(blocks.at(i)) << " -> new state " << newstate);
+      FD_DF("StateMin: block " << vecstr(blocks.at(i)) << " -> new state " << newstate);
       std::ostringstream ostr; 
       std::vector<Idx>::iterator ssit = blocks[i].begin();
       std::vector<Idx>::iterator ssit_end = blocks[i].end();
@@ -343,7 +355,7 @@ public:
     for(Idx i = 0; i < blocks.size(); ++i) {
       Idx newstate = i+1;
       rNewIndices.push_back(newstate);
-      FD_DF("StateMin: block " << setstr(*blocks[i]) << " -> new state " << newstate);
+      FD_DF("StateMin: block " << vecstr(blocks[i]) << " -> new state " << newstate);
       std::vector<Idx>::iterator ssit = blocks[i].begin();
       std::vector<Idx>::iterator ssit_end = blocks[i].end();
       block.Clear();

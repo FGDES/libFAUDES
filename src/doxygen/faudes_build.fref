@@ -215,10 +215,10 @@ to compile libFAUDES with the same version of <tt>cl.exe</tt> as it will be used
 an specically to do so with matching compiler/linker options. Among the vast number of precivable usecases, libFAUDES 
 is currently distributed in two orthogonal shapes that can be selected with the  
 FAUDES_LINKING switch as demonstrated below and that have both been tested to compile with the community 
-edition of MS Vusial C 2015. From the MS Winddows commandline, run
+edition of MSVC 2015 and MSVC 2022. Example for the MS Windows commandline: 
 </p>
 <pre>
-call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"  x86_amd64
+call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
 &gt; mingw64-make -j20 FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"
 </pre>
 <p>
@@ -333,7 +333,7 @@ For development on a Windows system,
 we recommend to use either <a href="http://www.cygwin.com">Cygwin</a>
 or <a href="https://www.msys2.org">MSYS2</a> as close-to-POSIX
 environments. As of libFAUDES 2.32b, we are testing with
-MSYS2 version 20240113 on Windows 10. Required packages can be installed
+MSYS2 version 20240113 on Windows 10 and Windows 11. Required packages can be installed
 from a MSYS2 terminal window, e.g.:
 </p>
 <pre>

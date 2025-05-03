@@ -571,7 +571,7 @@ bool OmegaControlledLiveness(
 
       // prepare target for P(): targetLstar = initialK * markedK + resolved 
       targetLstar = (initialK * rSupCandGen.MarkedStates()) + resolved;
-      FD_DF("OmegaControlledLiveness(): [STD] iterate resolved/targetLstar #" << xsz << "/" << targetLstar.Size());
+      FD_DF("OmegaControlledLiveness(): [STD] iterate resolved/targetLstar #" << rsz << "/" << targetLstar.Size());
 
       // evaluate p(targetLstar) = mu(initialL).[ thetaTilde(targetLstar+initialL) ] 
       // here, thetaTilde(T) denotes the set of states that can be controlled such that T is persistently
