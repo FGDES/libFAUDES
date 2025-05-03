@@ -141,7 +141,22 @@ false
 % 
 % 
 
-%%% test mark: concat  [at 3_functions.cpp:336]
+%%% test mark: automaton  [at 3_functions.cpp:292]
+% 
+%  Statistics for Automaton(g1)
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   12
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: concat  [at 3_functions.cpp:338]
 % 
 %  Statistics for Concatenate(g5,g6)
 % 
@@ -156,7 +171,7 @@ false
 % 
 % 
 
-%%% test mark: kleene closure  [at 3_functions.cpp:402]
+%%% test mark: kleene closure  [at 3_functions.cpp:404]
 % 
 %  Statistics for KleeneClosure(g1)
 % 
@@ -171,7 +186,7 @@ false
 % 
 % 
 
-%%% test mark: kleene closure  [at 3_functions.cpp:421]
+%%% test mark: kleene closure  [at 3_functions.cpp:423]
 % 
 %  Statistics for KleeneClosureNonDet(g2)
 % 
@@ -186,7 +201,7 @@ false
 % 
 % 
 
-%%% test mark: prefix closure [at 3_functions.cpp:457]
+%%% test mark: prefix closure [at 3_functions.cpp:459]
 % 
 %  Statistics for PrefixClosure(g)
 % 
@@ -201,7 +216,7 @@ false
 % 
 % 
 
-%%% test mark: omega closure [at 3_functions.cpp:494]
+%%% test mark: omega closure [at 3_functions.cpp:496]
 % 
 %  Statistics for OmegaClosure(g)
 % 
@@ -216,7 +231,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 0 [at 3_functions.cpp:557]
+%%% test mark: nonblocking 0 [at 3_functions.cpp:559]
 % 
 %  Statistics for noblo_ae
 % 
@@ -231,7 +246,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 1 [at 3_functions.cpp:578]
+%%% test mark: nonblocking 1 [at 3_functions.cpp:580]
 <Boolean>
 true         
 </Boolean>
@@ -239,7 +254,7 @@ true
 % 
 % 
 
-%%% test mark: nonblocking 2 [at 3_functions.cpp:596]
+%%% test mark: nonblocking 2 [at 3_functions.cpp:598]
 <Boolean>
 true         
 </Boolean>
@@ -247,7 +262,7 @@ true
 % 
 % 
 
-%%% test mark: nonblocking 3 [at 3_functions.cpp:614]
+%%% test mark: nonblocking 3 [at 3_functions.cpp:616]
 <Boolean>
 false        
 </Boolean>
@@ -255,7 +270,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 4 [at 3_functions.cpp:631]
+%%% test mark: nonblocking 4 [at 3_functions.cpp:633]
 <Boolean>
 false        
 </Boolean>
@@ -263,7 +278,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 9a [at 3_functions.cpp:716]
+%%% test mark: nonblocking 9a [at 3_functions.cpp:718]
 <Boolean>
 false        
 </Boolean>
@@ -271,7 +286,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 9b [at 3_functions.cpp:726]
+%%% test mark: nonblocking 9b [at 3_functions.cpp:728]
 <Boolean>
 false        
 </Boolean>

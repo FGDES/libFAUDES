@@ -288,6 +288,8 @@ int main() {
   automaton_g.DWrite();
   std::cout << "################################\n";
   
+  // Record test case  
+  FAUDES_TEST_DUMP("automaton ", automaton_g);
   
 
   ////////////////////////////

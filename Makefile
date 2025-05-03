@@ -426,8 +426,8 @@ ECHOE = echo -e
 export MACOSX_DEPLOYMENT_TARGET = 10.9
 #
 ifeq ($(DEBUG),yes)
-MAINOPTS += -g
-LDFLAGS += -g
+MAINOPTS += -g -D_GLIBCXX_DEBUG
+LDFLAGS += -g -D_GLIBCXX_DEBUG
 endif 
 ifeq ($(SHARED),yes)
 LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden  
@@ -768,7 +768,7 @@ DEFAULTTARGETS = report-platform libfaudes binaries
 default: default_after_include
 	@echo " ============================== " 
 	@echo "libFAUDES-make: default targets: done" 
-	@echo "libFAUDES-make: you may now compile the tutorials by \"make -j20 tutorial\"" 
+	@echo "libFAUDES-make: you may now compile the tutorials by \"make -j tutorial\"" 
 	@echo " ============================== " 
 
 ####################################
@@ -869,7 +869,7 @@ prepare: $(PREPARETARGETS)
 configure: prepare $(CONFIGURETARGETS)
 	@echo " ============================== " 
 	@echo "libFAUDES-make: configure: done" 
-	@echo "libFAUDES-make: you may now compile the default targets by \"make -j20\"" 
+	@echo "libFAUDES-make: you may now compile the default targets by \"make -j\"" 
 	@echo " ============================== " 
 
 libfaudes: $(LIBFAUDES) includes
@@ -952,7 +952,12 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -f */*/*/*/*.bak  
 	rm -f */*/*/*/*/*~  
 	rm -f */*/*/*/*/._*  
-	rm -f */*/*/*/*/*.bak  
+	rm -f */*/*/*/*/*.bak
+	@echo " ============================== " 
+	@echo "libFAUDES-make: dist-clean: done" 
+	@echo "libFAUDES-make: you may now edit the Makefile and configure the sources by \"make -j configure\"" 
+	@echo " ============================== " 
+
 
 
 
