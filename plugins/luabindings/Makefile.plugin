@@ -105,24 +105,29 @@ LBP_OBJECTS += $(LBP_OBJDIR)/lbp_load$(DOT_O)
 #
 # lua compile-time and runtime options
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
-  LBP_LUAOPTS:= -DLUA_USE_LINUX -Wno-pedantic
+  LBP_LUAOPTS= -DLUA_USE_LINUX -Wno-pedantic
   LDFLAGS += -ldl -lreadline -lhistory -lncurses
+  LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
   # using this will make libFAUDES depend on libreadline 
   #LBP_LUAOPTS = -DLUA_USE_LINUX
   #LDFLAGS += -lreadline
   LBP_LUAOPTS +=-DLUA_USE_MKSTEMP
+  LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),gcc_lsb)
-LDFLAGS += -ldl 
+  LDFLAGS += -ldl 
+  LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
-  LBP_LUAOPTS:= -DLUA_USE_ISATTY -DLUA_USE_MKSTEMP -DLUA_USE_POPEN -Wno-pedantic
+  LBP_LUAOPTS= -DLUA_USE_ISATTY -DLUA_USE_MKSTEMP -DLUA_USE_POPEN -Wno-pedantic
+  LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),cl_win)
 ifeq ($(SHARED),yes)
-  LBP_LUAOPTS:= /DLUA_BUILD_AS_DLL 
+  LBP_LUAOPTS= /DLUA_BUILD_AS_DLL 
+  LBP_SWCFLAGS= 
 endif
 endif
 
@@ -180,8 +185,6 @@ $(LBP_OBJDIR)/corefaudes_luawrapper.cpp: $(SRCDIR)/swig/corefaudes.i
 # compile section: compile to object files
 ########################################################
 
-
-LBP_SWCFLAGS = -Wno-misleading-indentation
 
 
 # implicit rule .cpp -> .o for all std lbp-objects 

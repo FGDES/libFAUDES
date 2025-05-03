@@ -72,7 +72,7 @@ namespace faudes {
  *
  */
 
-class FAUDES_TAPI vBaseVector : public Type {
+class FAUDES_API vBaseVector : public Type {
 
 FAUDES_TYPE_DECLARATION(Void,vBaseVector,Type)
 
