@@ -21,22 +21,20 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-#define FAUDES_DEBUG_FUNCTION
 
 #include "corefaudes.h"
 #include "pev_pgenerator.h"
 #include "pev_sparallel.h"
 #include "pev_abstraction.h"
 
-#define PCOMPVER_VERB2(msg)						\
-  { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=2 )) { \
-      std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str());} }
-#define PCOMPVER_VERB1(msg)						\
-  { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=1 )) { \
-      std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str());} }
-
 
 namespace faudes {
+
+/*
+************************************
+Implementation of class Candidate
+************************************
+*/
 
 // Merge equivalent classes, i.e. perform quotient abstraction
 // (this implementation works fine with a small amount of small equiv classes)
@@ -119,7 +117,8 @@ void Candidate::MergeEquivalenceClasses(
     }
   }
 }
-// Compute extended transition relation '=>', i.e. relate each two states that
+
+ // Compute extended transition relation '=>', i.e. relate each two states that
 // can be reached by one non-slilent event and an arbitrary amount of silent
 // events befor/after the non-silent event
 //

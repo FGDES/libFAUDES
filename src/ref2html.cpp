@@ -534,7 +534,7 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"\\[","[");
   buff=StringSubstitute(buff,"\\]","]");
   buff=StringSubstitute(buff,"=","&nbsp;=&nbsp;");
-  buff=StringSubstitute(buff,"\colon","&nbsp:&nbsp;");
+  buff=StringSubstitute(buff,"\\colon","&nbsp:&nbsp;");
   buff=StringSubstitute(buff,"class&nbsp;=&nbsp;","class=");     // fix csss class
   buff=StringSubstitute(buff,":&nbsp;=&nbsp;","&nbsp;:=&nbsp;"); //fix :=
   buff=StringSubstitute(buff,"\\neq","&nbsp&ne;&nbsp;");

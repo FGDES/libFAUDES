@@ -24,13 +24,13 @@
 #ifndef PEV_ABSTRACTION_H
 #define PEV_ABSTRACTION_H
 
-#define COMPVER_VERB2(msg) \
+#define PCOMPVER_VERB2(msg) \
   { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=2 )) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
-#define COMPVER_VERB1(msg) \
+#define PCOMPVER_VERB1(msg) \
   { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=1 )) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
-#define COMPVER_VERB0(msg) \
+#define PCOMPVER_VERB0(msg) \
   { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=0 )) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
 

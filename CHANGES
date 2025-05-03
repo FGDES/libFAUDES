@@ -17,9 +17,8 @@ Relative to 2.32*
 ***
 
 Updated the doxygen configuration and stylesheets. We are now testing/
-developing with doxygen v.1.11.0 wich is common in 2025. If you need to
-downgrage, there are still the v1.9.3 files in the bundle --- you would
-need to adapt the Makefile; grep for "_1110" and replace by "_1093".
+developing with doxygen v.1.11.0 which is common in 2025. Ignoring various
+doxygen warnings, our now configuartion is fine back to v1.9.1. 
 
 ##########
 

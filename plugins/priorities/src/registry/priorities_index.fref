@@ -74,9 +74,8 @@ Events with a higher priority preempt those of lower priority. See also <ffnct>S
 <p> 
 <strong>Note.</strong> The literature <fcite name="PEV1"/> refers to ordinal numbers for priorities, e.g.,
 1st priority preemts 2nd priority. This turned out counter-intuitive in practice and is not consistent with
-the priorities used in the Simulator-PlugIn or CompileDES. Thereforr, the current implementation goes by the
-more common
-order <i>the higher the figure, the higher the priority</i>; e.g. priority 5 preempts priority 4.  
+the priorities used in the Simulator-PlugIn or CompileDES. Therefore, the current implementation goes by
+the more common order <i>the higher the figure, the higher the priority</i>; e.g. priority 2 preempts priority 1.  
 </p>
 
 
@@ -104,7 +103,7 @@ Token-IO is strict XML only. Example:
 
 <p>
 The function <ffnct>ShapePriorities</ffnct> implements the semantics of prioritised events by
-removing all transitions which are effectively preempted by a higher priority event.  
+removing all transitions which are preempted by a higher priority event.  
 </p>
 
 

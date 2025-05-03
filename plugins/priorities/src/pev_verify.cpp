@@ -234,13 +234,13 @@ bool CompVerify::IsNonconflicting() {
     bool isInitial = true; //this will be set to false from the second iteration
     // flagging the task. False when ordinary composition, true when preemption considered
     if (!mIsPreemptive){
-        COMPVER_VERB0("IsNonconflicting::Start Iteration. Perform ordinary non-conflictingness check");
+        PCOMPVER_VERB0("IsNonconflicting::Start Iteration. Perform ordinary non-conflictingness check");
     }
     else {
-        COMPVER_VERB0("IsNonconflicting::Start Iteration. Perform non-conflictingness check w.r.t. preemption");
+        PCOMPVER_VERB0("IsNonconflicting::Start Iteration. Perform non-conflictingness check w.r.t. preemption");
     }
     while (true){
-        COMPVER_VERB0("IsNonconflicting::Iterating. Remaining automata: " + ToStringInteger(mSynchCandidates->Size()));
+        PCOMPVER_VERB0("IsNonconflicting::Iterating. Remaining automata: " + ToStringInteger(mSynchCandidates->Size()));
 
         // trivial cases
         if(mSynchCandidates->Size()==0) return true;
@@ -271,8 +271,8 @@ bool CompVerify::IsNonconflicting() {
         for(;scit!=mSynchCandidates->CandidatesEnd();scit++){
             // ***************************************************
             // abstraction
-            COMPVER_VERB0("====================================")
-            COMPVER_VERB0("IsNonconflicting::Abstract generator " + (*scit)->GenRaw().Name() + ". State count: "
+            PCOMPVER_VERB0("====================================")
+            PCOMPVER_VERB0("IsNonconflicting::Abstract generator " + (*scit)->GenRaw().Name() + ". State count: "
                           + ToStringInteger((*scit)->GenRaw().Size()));
             if (!mIsPreemptive){
                 (*scit)->ConflictEquivalentAbstraction(silent);
@@ -280,11 +280,11 @@ bool CompVerify::IsNonconflicting() {
             else {
                 PCandidate* pcand = dynamic_cast<PCandidate*>(*scit);
                 pcand->ConflictEquivalentAbstraction(silent);
-                COMPVER_VERB0("State Count of Generator "<<pcand->GenRaw().Name()<<": "<<pcand->GenRaw().Size())
-                COMPVER_VERB0("State Count of Generator "<<pcand->GenMerged().Name()<<": "<<pcand->GenMerged().Size())
+                PCOMPVER_VERB0("State Count of Generator "<<pcand->GenRaw().Name()<<": "<<pcand->GenRaw().Size())
+                PCOMPVER_VERB0("State Count of Generator "<<pcand->GenMerged().Name()<<": "<<pcand->GenMerged().Size())
 
             }
-            COMPVER_VERB1("IsNonconflicting::Abstraction done. State count: "
+            PCOMPVER_VERB1("IsNonconflicting::Abstraction done. State count: "
                            + ToStringInteger((*scit)->GenMerged().Size()));
 
 
@@ -382,7 +382,7 @@ bool CompVerify::IsNonconflicting() {
         std::pair<Candidate*, Candidate*> newpair;
         newpair.first = *imin;
         newpair.second = *jmin;
-        COMPVER_VERB0("IsNonconflicting::" + (*imin)->GenRaw().Name() + " and " + (*jmin)->GenRaw().Name() + " will be composed.");
+        PCOMPVER_VERB0("IsNonconflicting::" + (*imin)->GenRaw().Name() + " and " + (*jmin)->GenRaw().Name() + " will be composed.");
         // instantiate a new synchcandidate set for next iteration
         SynchCandidates* newSynchCandidates = new SynchCandidates();
 
@@ -424,10 +424,10 @@ void CompVerify::GenerateTrace(const Generator& rGen){
     SccFilter filter(SccFilter::FMode::FmStatesAvoid,marked);
     std::list<StateSet> scclist;
     StateSet root;
-    COMPVER_VERB0("GenerateTrace():: Computing strongly connected components (scc)")
+    PCOMPVER_VERB0("GenerateTrace():: Computing strongly connected components (scc)")
     ComputeScc(rGen,filter,scclist,root);
 
-    COMPVER_VERB0("GenerateTrace():: Figuring out scc without outgoing transitions")
+    PCOMPVER_VERB0("GenerateTrace():: Figuring out scc without outgoing transitions")
     // consider only scc without outgoing transitions
     std::list<StateSet>::iterator sccit = scclist.begin();
     StateSet::Iterator rit; // root iterator
@@ -459,9 +459,9 @@ void CompVerify::GenerateTrace(const Generator& rGen){
 
     // just report the first counter-example, not necessarily the shortest
     rit = root.Begin();
-    COMPVER_VERB0("GenerateTrace():: Generating trace to the first scc")
+    PCOMPVER_VERB0("GenerateTrace():: Generating trace to the first scc")
     ShortestPath(rGen,mCounterExp,rGen.InitState(),*rit);
-    COMPVER_VERB0("GenerateTrace():: Generation done. Trace length: " + ToStringInteger(mCounterExp.Size()))
+    PCOMPVER_VERB0("GenerateTrace():: Generation done. Trace length: " + ToStringInteger(mCounterExp.Size()))
 }
 
 bool CompVerify::ShortestPath(const Generator& rGen, Generator& rRes, Idx begin, Idx end){
@@ -552,7 +552,7 @@ void CompVerify::StateMergingExpansion (
     // delete all tau transitions corresponds to "this" cand
     Idx cstate = *rCE.InitStatesBegin(); // we shall only have one intial state
 
-    COMPVER_VERB2("StateMergingExpansion(): deleting tau-transitions from current candidate")
+    PCOMPVER_VERB2("StateMergingExpansion(): deleting tau-transitions from current candidate")
     TransSetX2EvX1 rtrel; // set up backwards transrel, as we want to delete tau-trans with its SOURCE state
     rCE.TransRel().ReSort(rtrel);
     while (true){
@@ -582,7 +582,7 @@ void CompVerify::StateMergingExpansion (
         else cstate = rCE.TransRelBegin(cstate)->X2;
     }
 
-    COMPVER_VERB2("StateMergingExpansion(): deletion done")
+    PCOMPVER_VERB2("StateMergingExpansion(): deletion done")
     // initialize CE with single state for each initial state in concrete candidate
     StateSet::Iterator sit = cand->GenRaw().InitStatesBegin();
     for (;sit != cand->GenRaw().InitStatesEnd();sit++){
@@ -601,8 +601,8 @@ void CompVerify::StateMergingExpansion (
     }
     Idx counter = (*cand).Silentevs().Size();
     while (!queue.empty()){
-        COMPVER_VERB2("StateMergingExpansion(): ======================================== ")
-        COMPVER_VERB2("StateMergingExpansion(): queue size: " + ToStringInteger(queue.size()))
+        PCOMPVER_VERB2("StateMergingExpansion(): ======================================== ")
+        PCOMPVER_VERB2("StateMergingExpansion(): queue size: " + ToStringInteger(queue.size()))
 
         // find the shortest queue element with lenght = |ceGenerated| + |ceToProceed|
         std::set<std::pair<CounterExample,CounterExample>>::iterator queit = queue.begin();
@@ -613,8 +613,8 @@ void CompVerify::StateMergingExpansion (
         }
         CounterExample ceGenerated = shortest->first;
         CounterExample ceToProcess = shortest->second;
-        COMPVER_VERB2("StateMergingExpansion(): picked ceGenerated size: " + ToStringInteger(ceGenerated.Size()))
-        COMPVER_VERB2("StateMergingExpansion(): picked ceToProcess size: " + ToStringInteger(ceToProcess.Size()))
+        PCOMPVER_VERB2("StateMergingExpansion(): picked ceGenerated size: " + ToStringInteger(ceGenerated.Size()))
+        PCOMPVER_VERB2("StateMergingExpansion(): picked ceToProcess size: " + ToStringInteger(ceToProcess.Size()))
         queue.erase(shortest); // ... and erase it
 
         // some preparation for the if-else-cascade later on======>
@@ -771,7 +771,7 @@ void CompVerify::StateMergingExpansion (
 
 void CompVerify::CounterExampleRefinement(){
     // install state attribute for the initial CE
-    COMPVER_VERB0("CounterExampleRefinement(): Preparing")
+    PCOMPVER_VERB0("CounterExampleRefinement(): Preparing")
     ClearAttribute(mCounterExp);
     StateSet::Iterator sit = mCounterExp.StatesBegin();
     SynchCandidates::Iterator scit = mAllCandidates.top()->CandidatesBegin();
@@ -786,7 +786,7 @@ void CompVerify::CounterExampleRefinement(){
     Idx currentit = 1;
 
     while (!mAllCandidates.empty()){
-        COMPVER_VERB0("CounterExampleRefinement(): remaining iteration: " + ToStringInteger(mAllCandidates.size()));
+        PCOMPVER_VERB0("CounterExampleRefinement(): remaining iteration: " + ToStringInteger(mAllCandidates.size()));
         scit = mAllCandidates.top()->CandidatesBegin();
 
         // merge silent events. convenient preparation for state merging expansion
@@ -800,10 +800,10 @@ void CompVerify::CounterExampleRefinement(){
 
         scit = mAllCandidates.top()->CandidatesBegin();
         for (;scit!=mAllCandidates.top()->CandidatesEnd();scit++){
-            COMPVER_VERB0("CounterExampleRefinement(): Extracting state merging for " + (*scit)->GenMerged().Name());
+            PCOMPVER_VERB0("CounterExampleRefinement(): Extracting state merging for " + (*scit)->GenMerged().Name());
             StateMergingExpansion(mAllCandidates.top(),*scit,mCounterExp);
             if (mAllCandidates.size()!=1){
-                COMPVER_VERB0("CounterExampleRefinement(): Extracting composition map for " + (*scit)->GenRaw().Name());
+                PCOMPVER_VERB0("CounterExampleRefinement(): Extracting composition map for " + (*scit)->GenRaw().Name());
                 ExtractParallel(*scit,mCounterExp);
                 break; // if in a higher iteration, no need to concretize for other candidates
             }
