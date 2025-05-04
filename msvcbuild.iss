@@ -6,18 +6,18 @@
 MinVersion=11.0.22000	
 AppCopyright=Moor/Schmidt/Perk
 AppName=libFAUDES
-AppVersion={%FAUDES_VERSION_MAJOR}.{%FAUDES_VERSION_MINOR}
+AppVersion={#VMAJOR}.{#VMINOR}
 AppVerName=libFAUDES {%FAUDES_VERSION_MAJOR}.{%FAUDES_VERSION_MINOR}
-ArchitecturesInstallIn64BitMode=x64
-ArchitecturesAllowed=x64
+ArchitecturesInstallIn64BitMode=x64compatible
+ArchitecturesAllowed=x64compatible
 PrivilegesRequired=none
 ShowLanguageDialog=no
 LanguageDetectionMethod=uilanguage
 UsePreviousAppDir=false
 DefaultDirName={sd}\FAUDES\libFAUDES
 ;OutputDir=.\
-;SetupIconFile= images\icon_red_win.ico
-OutputBaseFilename=libfaudes-{%FAUDES_VERSION_MAJOR}_{%FAUDES_VERSION_MINOR}_setup.exe
+SetupIconFile= images\icon_red_win.ico
+OutputBaseFilename=libfaudes-{#VMAJOR}_{#VMINOR}_setup
 
 [Types]
 Name: "full"; Description: "Full installation"
@@ -64,37 +64,37 @@ Name: {app}\Examples\iodevice\data;   Components: examples
 Name: {app}\Examples\extensions;      Components: examples
 
 [Files]
-Source: libfaudes\faudes.*;    DestDir: {app}
-Source: libfaudes\faudesd.*;    DestDir: {app}
-Source: libfaudes\include\libfaudes.rti; DestDir: {app}
-Source: libfaudes\bin\*.dll;        DestDir: {app}
-Source: libfaudes\bin\*.exe;        DestDir: {app}
-Source: libfaudes\bin\luafaudes.flx;        DestDir: {app}
-Source: libfaudes\include\*;        DestDir: {app}\Include;  Flags: recursesubdirs createallsubdirs; Components: develop
-Source: libfaudes\doc\*.* ; DestDir: {app}\Doc; Flags: recursesubdirs createallsubdirs;         Components: documentation
-Source: libfaudes\VERSION; DestDir: {app}
+Source: faudes.*;    DestDir: {app}
+Source: faudesd.*;    DestDir: {app}
+Source: include\libfaudes.rti; DestDir: {app}
+Source: bin\*.exe;        DestDir: {app}
+Source: bin\luafaudes.flx;        DestDir: {app}
+Source: include\*;        DestDir: {app}\Include;  Flags: recursesubdirs createallsubdirs; Components: develop
+Source: doc\*.* ; DestDir: {app}\Doc; Flags: recursesubdirs createallsubdirs;         Components: documentation
+Source: VERSION; DestDir: {app}
 ;Source: README_libfaudes_windows_binary.txt; DestDir: {app}
-Source: libfaudes\stdflx\*.flx;     DestDir: {app}\StdFlx; 
-Source: libfaudes\plugins\luabindings\tutorial\data\*; DestDir: {app}\Examples\corefaudes\data; Components: examples
-Source: libfaudes\plugins\luabindings\tutorial\*.lua;  DestDir: {app}\Examples\corefaudes;      Components: examples
-Source: libfaudes\plugins\synthesis\tutorial\*.lua;    DestDir: {app}\Examples\synthesis;       Components: examples
-Source: libfaudes\plugins\synthesis\tutorial\data\*;   DestDir: {app}\Examples\synthesis\data;  Components: examples
-Source: libfaudes\plugins\observer\tutorial\*.lua;     DestDir: {app}\Examples\observer;       Components: examples
-Source: libfaudes\plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;  Flags: recursesubdirs createallsubdirs;  Components: examples
-Source: libfaudes\plugins\hiosys\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
-Source: libfaudes\plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs crSource: libfaudes\plugins\priorities\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
-Source: libfaudes\plugins\priosities\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs createallsubdirs;   Components: examples
-Source: libfaudes\plugins\iosystem\tutorial\*.lua;     DestDir: {app}\Examples\iosystem;          Components: examples
-Source: libfaudes\plugins\iosystem\tutorial\data\*;    DestDir: {app}\Examples\iosystem\data;    Flags: recursesubdirs createallsubdirs;   Components: examples
-Source: libfaudes\plugins\multitasking\tutorial\*.lua;  DestDir: {app}\Examples\multitasking;       Components: examples
-Source: libfaudes\plugins\multitasking\tutorial\data\*; DestDir: {app}\Examples\multitasking\data;  Components: examples
-Source: libfaudes\plugins\diagnosis\tutorial\*.lua;    DestDir: {app}\Examples\diagnosis;       Components: examples
-Source: libfaudes\plugins\diagnosis\tutorial\data\*;   DestDir: {app}\Examples\diagnosis\data;  Components: examples
-Source: libfaudes\plugins\simulator\tutorial\data\*;   DestDir: {app}\Examples\simulator\data;  Components: examples
-Source: libfaudes\plugins\simulator\tutorial\*.sh;     DestDir: {app}\Examples\simulator;       Components: examples
-Source: libfaudes\plugins\iodevice\tutorial\data\*;    DestDir: {app}\Examples\iodevice\data;   Components: examples
-Source: libfaudes\plugins\iodevice\tutorial\*.sh;      DestDir: {app}\Examples\iodevice;        Components: examples
-Source: libfaudes\plugins\luabindings\tutorial\*.flx;    DestDir: {app}\Examples\extensions;    Components: examples
+Source: stdflx\*.flx;     DestDir: {app}\StdFlx; 
+Source: plugins\luabindings\tutorial\data\*; DestDir: {app}\Examples\corefaudes\data; Components: examples
+Source: plugins\luabindings\tutorial\*.lua;  DestDir: {app}\Examples\corefaudes;      Components: examples
+Source: plugins\synthesis\tutorial\*.lua;    DestDir: {app}\Examples\synthesis;       Components: examples
+Source: plugins\synthesis\tutorial\data\*;   DestDir: {app}\Examples\synthesis\data;  Components: examples
+Source: plugins\observer\tutorial\*.lua;     DestDir: {app}\Examples\observer;       Components: examples
+Source: plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;  Flags: recursesubdirs createallsubdirs;  Components: examples
+Source: plugins\hiosys\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
+Source: plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs crSource: plugins\priorities\tutorial\*.lua;       Components: examples
+Source: plugins\priorities\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;        Components: examples
+Source: plugins\priosities\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;   Components: examples
+Source: plugins\iosystem\tutorial\*.lua;     DestDir: {app}\Examples\iosystem;          Components: examples
+Source: plugins\iosystem\tutorial\data\*;    DestDir: {app}\Examples\iosystem\data;    Flags: recursesubdirs createallsubdirs;   Components: examples
+Source: plugins\multitasking\tutorial\*.lua;  DestDir: {app}\Examples\multitasking;       Components: examples
+Source: plugins\multitasking\tutorial\data\*; DestDir: {app}\Examples\multitasking\data;  Components: examples
+Source: plugins\diagnosis\tutorial\*.lua;    DestDir: {app}\Examples\diagnosis;       Components: examples
+Source: plugins\diagnosis\tutorial\data\*;   DestDir: {app}\Examples\diagnosis\data;  Components: examples
+Source: plugins\simulator\tutorial\data\*;   DestDir: {app}\Examples\simulator\data;  Components: examples
+Source: plugins\simulator\tutorial\*.sh;     DestDir: {app}\Examples\simulator;       Components: examples
+Source: plugins\iodevice\tutorial\data\*;    DestDir: {app}\Examples\iodevice\data;   Components: examples
+Source: plugins\iodevice\tutorial\*.sh;      DestDir: {app}\Examples\iodevice;        Components: examples
+Source: plugins\luabindings\tutorial\*.flx;    DestDir: {app}\Examples\extensions;    Components: examples
 
 
 
@@ -133,7 +133,7 @@ begin
     begin
       // MsgBox('Your path allready contains libFAUDES. Fine.',mbInformation, MB_OK);
       HasFaudes:=true;
-    end
+    end;
     // fix end with extra semicolon
     if length(OldPath)>0 then
       if OldPath[length(OldPath)] <> ';' then
@@ -142,7 +142,7 @@ begin
     NewPath := OldPath + FaudesPath + ';';
     // let user know
     // MsgBox('New path [' + WhichPath + ']: ' + NewPath, mbInformation, MB_OK);
-  end
+  end;
   // done
   Result := OkPath;
 end;
@@ -173,7 +173,7 @@ begin
   FaudesPath:=ExpandConstant('{app}');
   // get current reg key
   OkPath:=RegQueryStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', OldPath);
-  if not OkPath then OldPath :=''
+  if not OkPath then OldPath :='';
   OkPath:=true;
   // compose new path
   ComposeFaudesPath();
