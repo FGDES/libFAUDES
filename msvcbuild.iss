@@ -1,10 +1,10 @@
-; Innso Setup Configuration for libFAUDES MS Windows distribution
+; Inno Setup Configuration for libFAUDES MS Windows distribution
 ;
 ;
 
 [Setup]
-MinVersion=11.0.22000	
-AppCopyright=Moor/Schmidt/Perk
+MinVersion=10.0.22000	
+AppCopyright=Moor/FGDES
 AppName=libFAUDES
 AppVersion={#VMAJOR}.{#VMINOR}
 AppVerName=libFAUDES {%FAUDES_VERSION_MAJOR}.{%FAUDES_VERSION_MINOR}
@@ -15,8 +15,8 @@ ShowLanguageDialog=no
 LanguageDetectionMethod=uilanguage
 UsePreviousAppDir=false
 DefaultDirName={sd}\FAUDES\libFAUDES
-;OutputDir=.\
-SetupIconFile= images\icon_red_win.ico
+OutputDir=.\
+;SetupIconFile= images\icon_red_win.ico
 OutputBaseFilename=libfaudes-{#VMAJOR}_{#VMINOR}_setup
 
 [Types]
@@ -81,9 +81,9 @@ Source: plugins\synthesis\tutorial\data\*;   DestDir: {app}\Examples\synthesis\d
 Source: plugins\observer\tutorial\*.lua;     DestDir: {app}\Examples\observer;       Components: examples
 Source: plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;  Flags: recursesubdirs createallsubdirs;  Components: examples
 Source: plugins\hiosys\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
-Source: plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs crSource: plugins\priorities\tutorial\*.lua;       Components: examples
+Source: plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs createallsubdirs; Components: examples
 Source: plugins\priorities\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;        Components: examples
-Source: plugins\priosities\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;   Components: examples
+Source: plugins\priorities\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;   Components: examples
 Source: plugins\iosystem\tutorial\*.lua;     DestDir: {app}\Examples\iosystem;          Components: examples
 Source: plugins\iosystem\tutorial\data\*;    DestDir: {app}\Examples\iosystem\data;    Flags: recursesubdirs createallsubdirs;   Components: examples
 Source: plugins\multitasking\tutorial\*.lua;  DestDir: {app}\Examples\multitasking;       Components: examples

@@ -23,6 +23,6 @@ REM ==== build libFAUDES static/debugging
 %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
 
 REM ==== run Inno to build setup.exe
-%INNOSCC msvcbuild.iss /DVMAJOR=%FAUDES_VERSION_MAJOR% /DVMINOR=%FAUDES_VERSION_MINOR%
+%INNOSCC% msvcbuild.iss /DVMAJOR=%FAUDES_VERSION_MAJOR% /DVMINOR=%FAUDES_VERSION_MINOR%
 
 
