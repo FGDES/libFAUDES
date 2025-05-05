@@ -18,7 +18,7 @@ LanguageDetectionMethod=uilanguage
 UsePreviousAppDir=false
 DefaultDirName={sd}\FAUDES\libFAUDES
 OutputDir=.\
-SetupIconFile= images\msvcdist.ico
+SetupIconFile=msvcdist.ico
 OutputBaseFilename=libfaudes-{#VMAJOR}_{#VMINOR}_setup
 
 [Types]
@@ -78,14 +78,15 @@ Source: VERSION;                DestDir: {app}
 Source: msvcreadme.md;          DestDir: {app}; DestName: Readme.md
 Source: stdflx\*.flx;           DestDir: {app}\StdFlx; 
 Source: {#MSVCREDIST}\msvcp140.dll;          DestDir: {app}; Components: msvcdlls
+Source: {#MSVCREDIST}\vcruntime140.dll;      DestDir: {app}; Components: msvcdlls
 Source: plugins\luabindings\tutorial\data\*; DestDir: {app}\Examples\corefaudes\data; Components: examples
 Source: plugins\luabindings\tutorial\*.lua;  DestDir: {app}\Examples\corefaudes;      Components: examples
 Source: plugins\synthesis\tutorial\*.lua;    DestDir: {app}\Examples\synthesis;       Components: examples
 Source: plugins\synthesis\tutorial\data\*;   DestDir: {app}\Examples\synthesis\data;  Components: examples
 Source: plugins\observer\tutorial\*.lua;     DestDir: {app}\Examples\observer;        Components: examples
-Source: plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;   Components: examples Flags: recursesubdirs createallsubdirs;
+Source: plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;   Components: examples; Flags: recursesubdirs createallsubdirs;
 Source: plugins\hiosys\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
-Source: plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;     Components: examples Flags: recursesubdirs createallsubdirs;
+Source: plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;     Components: examples; Flags: recursesubdirs createallsubdirs;
 Source: plugins\priorities\tutorial\*.lua;   DestDir: {app}\Examples\hiosys;          Components: examples
 Source: plugins\priorities\tutorial\data\*;  DestDir: {app}\Examples\hiosys\data;     Components: examples
 Source: plugins\iosystem\tutorial\*.lua;     DestDir: {app}\Examples\iosystem;        Components: examples

@@ -14,8 +14,8 @@ REM ==== build libFAUDES static/debugging/testing (keep "faudesd.lib")
 %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorial
 %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
 
-REM ==== build libFAUDES shared/release (keep faudes.dll)
+REM ==== build libFAUDES shared/release (keep faudes.dll, and ./bin/*.exe))
 %GNUMAKE% FAUDES_PLATFORM=cl_win clean
-%GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared" -j libfaudes
+%GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared" -j 
 
 
