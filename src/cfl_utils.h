@@ -151,6 +151,13 @@ extern FAUDES_API std::string PluginsString();
  */
 extern FAUDES_API std::string ContributorsString();
 
+/**
+ * Return contributors as std::string
+ *
+ * @return 
+ *   std::string 
+ */
+extern FAUDES_API std::string BuildString();
 
 /**
  * Convenience function: process dot file

@@ -132,15 +132,26 @@ std::string VersionString() {
 	return std::string(FAUDES_VERSION);
 }
 
-// FDPluginsString()
+// FluginsString()
 std::string PluginsString() {
   return std::string(FAUDES_PLUGINS);
 }
 
-// FDContributorsString()
+// ContributorsString()
 std::string ContributorsString() {
   return 
     "Ramon Barakat, Ruediger Berndt, Christian Breindl, Christine Baier, Tobias Barthel, Christoph Doerr, Marc Duevel, Norman Franchi, Stefan Goetz, Rainer Hartmann, Jochen Hellenschmidt, Stefan Jacobi, Matthias Leinfelder, Tomas Masopust, Michael Meyer, Andreas Mohr, Thomas Moor, Mihai Musunoi, Bernd Opitz, Katja Pelaic, Irmgard Petzoldt, Sebastian Perk, Thomas Rempel, Daniel Ritter, Berno Schlein, Ece Schmidt, Klaus Schmidt, Anne-Kathrin Schmuck, Sven Schneider, Matthias Singer, Yiheng Tang, Ulas Turan, Christian Wamser, Zhengying Wang, Thomas Wittmann, Shi Xiaoxun, Yang Yi, Jorgos Zaddach, Hao Zhou, Christian Zwick, et al";
+}
+
+// ContributorsString()
+std::string BuildString() {
+#ifdef FAUDES_BUILDEND
+  std::string res(__DATE__ " " __TIME__ " " + FAUDES_BUILDENV);
+#else  
+  std::string res(__DATE__ " " __TIME__ " generic");
+#endif
+  return res;
+  
 }
 
 

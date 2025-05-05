@@ -116,6 +116,7 @@ void faudes_statenames_on(void) {faudes_statenames=true; Generator::StateNamesEn
 void faudes_statenames_off(void) {faudes_statenames=false; Generator::StateNamesEnabledDefault(false); }
 void faudes_dotexecpath(const std::string& filename)  { faudes_dotpath=filename; }
 std::string  faudes_version(void) { return VersionString()+" "+PluginsString(); }
+std::string  faudes_build(void) { return BuildString(); }
 
 // helper: run dot for test
 bool faudes_dotready(void) {
@@ -144,6 +145,8 @@ void faudes_statenames_off(void);
 void faudes_dotexecpath(const std::string& filename);
 %rename(Version) faudes_version;
 std::string  faudes_version(void);
+%rename(Build) faudes_build;
+std::string  faudes_build(void);
 
  
 /*

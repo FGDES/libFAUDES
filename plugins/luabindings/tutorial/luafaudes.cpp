@@ -135,6 +135,7 @@ static void print_version (void) {
   sstr 
     << "Welcome to luafaudes console." << std::endl
     << "Versions: " << VersionString() << " / " << LUA_VERSION << std::endl
+    << "Build: " << BuildString() << std::endl
     << "Plug-Ins: " << PluginsString() << std::endl
     << "Credits: This libFAUDES interpreter is based on the projects Lua and SWIG." << std::endl
     << "Type 'faudes.Help()' for a list of faudes related types and functions." << std::endl

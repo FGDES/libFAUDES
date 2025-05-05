@@ -93,6 +93,7 @@ public:
   void InsPriority(const std::string& rName, const Idx prio);
   void Priorities(const EventPriorities& rOther);
   Idx LowestPriority(void) const;
+  Idx HighestPriority(void) const;
 };
 
 
@@ -103,10 +104,11 @@ SwigHelpTopic("EventPriorities","EventPriorities methods on top of Alphabet");
 
 SwigHelpEntry("EventPriorities","Priorities","int Priority(int)");
 SwigHelpEntry("EventPriorities","Priorities","int Priority(string)");
-SwigHelpEntry("EventPriorities","Priorities","int Priority(int,int)");
-SwigHelpEntry("EventPriorities","Priorities","int Priority(string,int)");
-SwigHelpEntry("EventPriorities","Priorities"," Priorities(EventPriorities)");
+SwigHelpEntry("EventPriorities","Priorities","    Priority(int,int)");
+SwigHelpEntry("EventPriorities","Priorities","    Priority(string,int)");
+SwigHelpEntry("EventPriorities","Priorities","    Priorities(EventPriorities)");
 SwigHelpEntry("EventPriorities","Priorities","int LowestPriority()");
+SwigHelpEntry("EventPriorities","Priorities","int HighestPriority()");
 
 /*
 **************************************************
