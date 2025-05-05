@@ -329,7 +329,7 @@ MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
 #MAINOPTS += -std=gnu++98 -D_GLIBCXX_USE_CXX11_ABI=0 
 #MAINOPTS += -std=gnu++11 -D_GLIBCXX_USE_CXX11_ABI=1 
 MAINOPTS += -std=gnu++11
-MAINOPTS += -DFAUDES_BUILDENV=gcc_linux
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_linux\"
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 LDFLAGS += -Wl,--as-needed  
 ifeq ($(DEBUG),yes)
@@ -353,7 +353,7 @@ endif
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux32)
 MAINOPTS = -m32 -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
-MAINOPTS += -DFAUDES_BUILDENV=gcc_linux32
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_linux32\"
 WARNINGS = -pedantic -Wall
 LDFLAGS += -m32 -Wl,--as-needed  
 ifeq ($(DEBUG),yes)
@@ -386,7 +386,7 @@ CXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
 CC = /opt/lsb/bin/lsbcc   --lsb-target-version=4.1 --lsb-besteffort
 LXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
 MAINOPTS =  -fPIC -fstrict-aliasing -fmessage-length=0 -O3 -fno-stack-protector -std=gnu++98 
-MAINOPTS += -DFAUDES_BUILDENV=gcc_lsb)
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_lsb\"
 WARNINGS = -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 LDFLAGS += -Wl,--as-needed
 ifeq ($(SHARED),yes)
@@ -422,7 +422,7 @@ CC = clang
 LXX = clang++
 #
 MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.9 -stdlib=libc++ 
-MAINOPTS += -DFAUDES_BUILDENV=gcc_osx
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_osx\"
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
 DSOOPTS = -dynamiclib  -single_module 
 ECHOE = echo -e
@@ -484,7 +484,7 @@ AR = lib.exe
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2 
-MAINOPTS += /DFAUDES_BUILDENV=gcc_linux
+MAINOPTS += /DFAUDES_BUILDENV=\"cl_win\"
 COUTOPT = /Fo
 LOUTOPT = /Fe
 AOUTOPT = /OUT:

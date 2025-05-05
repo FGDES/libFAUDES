@@ -145,13 +145,15 @@ std::string ContributorsString() {
 
 // ContributorsString()
 std::string BuildString() {
-#ifdef FAUDES_BUILDEND
-  std::string res(__DATE__ " " __TIME__ " " + FAUDES_BUILDENV);
+  std::string res;
+  res = res + std::string(__DATE__);
+  res = res + std::string(" ") + std::string(__TIME__);
+#ifdef FAUDES_BUILDENV
+  res = res + std::string(" ") + std::string(FAUDES_BUILDENV);
 #else  
-  std::string res(__DATE__ " " __TIME__ " generic");
+  res = res + std::string(" generic");
 #endif
   return res;
-  
 }
 
 
