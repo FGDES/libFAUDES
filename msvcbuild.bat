@@ -1,16 +1,12 @@
 REM ================================== build libFAUDES with MSVC toolchain
 
+REM === (need to configure sources before e.g. in an MSYS environment)
+
 REM ==== borrow GNU make, e.g. from MSYS2 installation
 set GNUMAKE=C:\msys64\ucrt64\bin\mingw32-make.exe
 
 REM ==== set paths for MSVC command line tools
 call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
-
-REM ==== have Inno Setup
-set INNOSCC="%ProgramFiles(x86)%\Inno Setup 6\iscc"
-
-REM ==== set FAUDES version numbers
-call VERSION.bat
 
 REM ==== build libFAUDES static/debugging/testing (keep "faudesd.lib")
 %GNUMAKE% FAUDES_PLATFORM=cl_win clean
@@ -18,18 +14,8 @@ REM ==== build libFAUDES static/debugging/testing (keep "faudesd.lib")
 %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorial
 %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
 
-REM ==== build libFAUDES static/release (keep luafaudes, simfudes etc))
-%GNUMAKE% FAUDES_PLATFORM=cl_win clean
-%GNUMAKE% FAUDES_PLATFORM=cl_win -j libfaudes
-
 REM ==== build libFAUDES shared/release (keep faudes.dll)
 %GNUMAKE% FAUDES_PLATFORM=cl_win clean
 %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared" -j libfaudes
-
-
-
-
-REM ==== run Inno to build setup.exe
-%INNOSCC% msvcbuild.iss /DVMAJOR=%FAUDES_VERSION_MAJOR% /DVMINOR=%FAUDES_VERSION_MINOR%
 
 

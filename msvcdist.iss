@@ -1,13 +1,15 @@
-; Inno Setup Configuration for libFAUDES MS Windows distribution
+; Installer Configuration for libFAUDES MS Windows distribution
 ;
+; As of 2025, we are using Inno Setup version 6.5
 ;
+
 
 [Setup]
 MinVersion=10.0.22000	
 AppCopyright=Moor/FGDES
 AppName=libFAUDES
 AppVersion={#VMAJOR}.{#VMINOR}
-AppVerName=libFAUDES {%FAUDES_VERSION_MAJOR}.{%FAUDES_VERSION_MINOR}
+AppVerName=libFAUDES {#VMINOR}.{#VMAJOR}
 ArchitecturesInstallIn64BitMode=x64compatible
 ArchitecturesAllowed=x64compatible
 PrivilegesRequired=none
@@ -16,7 +18,7 @@ LanguageDetectionMethod=uilanguage
 UsePreviousAppDir=false
 DefaultDirName={sd}\FAUDES\libFAUDES
 OutputDir=.\
-;SetupIconFile= images\icon_red_win.ico
+SetupIconFile= images\msvcdist.ico
 OutputBaseFilename=libfaudes-{#VMAJOR}_{#VMINOR}_setup
 
 [Types]
@@ -26,6 +28,7 @@ Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
 [Components]
 Name: "executables"; Description: "libFAUDES incl. executables";   Flags: fixed;  Types: full compact custom
+Name: "msvcdlls"; Description: "MSVC redistributable DLLs"; Types: full
 Name: "documentation"; Description: "User Reference C++ API Documentation";    Types: full
 Name: "examples";      Description: "Example data and luafaudes scripts";      Types: full
 Name: "develop";       Description: "C++ header files";                        Types: full
@@ -64,41 +67,38 @@ Name: {app}\Examples\iodevice\data;   Components: examples
 Name: {app}\Examples\extensions;      Components: examples
 
 [Files]
-Source: faudes.*;    DestDir: {app}
-Source: faudesd.*;    DestDir: {app}
-Source: include\libfaudes.rti; DestDir: {app}
-Source: bin\*.exe;        DestDir: {app}
-Source: bin\luafaudes.flx;        DestDir: {app}
-Source: include\*;        DestDir: {app}\Include;  Flags: recursesubdirs createallsubdirs; Components: develop
-Source: doc\*.* ; DestDir: {app}\Doc; Flags: recursesubdirs createallsubdirs;         Components: documentation
-Source: VERSION; DestDir: {app}
-;Source: README_libfaudes_windows_binary.txt; DestDir: {app}
-Source: stdflx\*.flx;     DestDir: {app}\StdFlx; 
+Source: faudes.*;		DestDir: {app}
+Source: faudesd.*;    		DestDir: {app}
+Source: include\libfaudes.rti;	DestDir: {app}
+Source: bin\*.exe;        	DestDir: {app}
+Source: bin\luafaudes.flx;      DestDir: {app}
+Source: include\*;        	DestDir: {app}\Include;  Flags: recursesubdirs createallsubdirs; Components: develop
+Source: doc\*.* ; 		DestDir: {app}\Doc; Flags: recursesubdirs createallsubdirs; Components: documentation
+Source: VERSION;                DestDir: {app}
+Source: msvcreadme.md;          DestDir: {app}; DestName: Readme.md
+Source: stdflx\*.flx;           DestDir: {app}\StdFlx; 
+Source: {#MSVCREDIST}\msvcp140.dll;          DestDir: {app}; Components: msvcdlls
 Source: plugins\luabindings\tutorial\data\*; DestDir: {app}\Examples\corefaudes\data; Components: examples
 Source: plugins\luabindings\tutorial\*.lua;  DestDir: {app}\Examples\corefaudes;      Components: examples
 Source: plugins\synthesis\tutorial\*.lua;    DestDir: {app}\Examples\synthesis;       Components: examples
 Source: plugins\synthesis\tutorial\data\*;   DestDir: {app}\Examples\synthesis\data;  Components: examples
-Source: plugins\observer\tutorial\*.lua;     DestDir: {app}\Examples\observer;       Components: examples
-Source: plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;  Flags: recursesubdirs createallsubdirs;  Components: examples
+Source: plugins\observer\tutorial\*.lua;     DestDir: {app}\Examples\observer;        Components: examples
+Source: plugins\observer\tutorial\data\*;    DestDir: {app}\Examples\observer\data;   Components: examples Flags: recursesubdirs createallsubdirs;
 Source: plugins\hiosys\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;          Components: examples
-Source: plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;    Flags: recursesubdirs createallsubdirs; Components: examples
-Source: plugins\priorities\tutorial\*.lua;       DestDir: {app}\Examples\hiosys;        Components: examples
-Source: plugins\priorities\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;   Components: examples
-Source: plugins\iosystem\tutorial\*.lua;     DestDir: {app}\Examples\iosystem;          Components: examples
-Source: plugins\iosystem\tutorial\data\*;    DestDir: {app}\Examples\iosystem\data;    Flags: recursesubdirs createallsubdirs;   Components: examples
-Source: plugins\multitasking\tutorial\*.lua;  DestDir: {app}\Examples\multitasking;       Components: examples
-Source: plugins\multitasking\tutorial\data\*; DestDir: {app}\Examples\multitasking\data;  Components: examples
+Source: plugins\hiosys\tutorial\data\*;      DestDir: {app}\Examples\hiosys\data;     Components: examples Flags: recursesubdirs createallsubdirs;
+Source: plugins\priorities\tutorial\*.lua;   DestDir: {app}\Examples\hiosys;          Components: examples
+Source: plugins\priorities\tutorial\data\*;  DestDir: {app}\Examples\hiosys\data;     Components: examples
+Source: plugins\iosystem\tutorial\*.lua;     DestDir: {app}\Examples\iosystem;        Components: examples
+Source: plugins\iosystem\tutorial\data\*;    DestDir: {app}\Examples\iosystem\data;   Components: examples
+Source: plugins\multitasking\tutorial\*.lua; DestDir: {app}\Examples\multitasking;    Components: examples
+Source: plugins\multitasking\tutorial\data\*; DestDir: {app}\Examples\multitasking\data; Components: examples
 Source: plugins\diagnosis\tutorial\*.lua;    DestDir: {app}\Examples\diagnosis;       Components: examples
 Source: plugins\diagnosis\tutorial\data\*;   DestDir: {app}\Examples\diagnosis\data;  Components: examples
 Source: plugins\simulator\tutorial\data\*;   DestDir: {app}\Examples\simulator\data;  Components: examples
 Source: plugins\simulator\tutorial\*.sh;     DestDir: {app}\Examples\simulator;       Components: examples
 Source: plugins\iodevice\tutorial\data\*;    DestDir: {app}\Examples\iodevice\data;   Components: examples
 Source: plugins\iodevice\tutorial\*.sh;      DestDir: {app}\Examples\iodevice;        Components: examples
-Source: plugins\luabindings\tutorial\*.flx;    DestDir: {app}\Examples\extensions;    Components: examples
-
-
-
-
+Source: plugins\luabindings\tutorial\*.flx;  DestDir: {app}\Examples\extensions;      Components: examples
 
 [Registry]
 Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Control\Session Manager\Environment; ValueType: expandsz; ValueName: Path; ValueData: {code:GetFaudesSystemPath}; Flags: preservestringtype; Check: CanSetSystemPath(); Tasks: syspath
