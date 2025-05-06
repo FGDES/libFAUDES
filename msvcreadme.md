@@ -6,37 +6,35 @@
  Copyright (C) 2010-2025 Thomas Moor, Klaus Schmidt
 
 
-===============================================================================
-Directions for the User
-===============================================================================
+## Directions for the User
 
-This is an MS-Windows 64bit binary package of libFAUDES. It is provided for 
-convenience. For further information on libFAUDES and friends, please consult
+The MS Windows 64bit binary package of libFAUDES is distributed for
+convenience. Documentation and further resources are provided at
 
 https://fgdes.tf.fau.de/faudes
 
-This binary distribution was built with the compiler provided by MS Visual Studio
+This binary distribution was built with the toolchain from by MS Visual Studio
 Version 2022 in a 64bit MS Windows 11 environment. It includes
 
-- the tools lufaudes, simfaudes and friends in .\libFAUDES\
-- MS VC DLLs aka MS VC redistributables; see below (!)
+- the tools luafaudes.exe, simfaudes.exe and friends in .\libFAUDES\
+- MS VC DLLs aka MS VC redistributables; see below (!!!)
 - the HTML documentation in .\libFAUDES\Doc\index.html
 - some Lua examples in .\libFAUDES\Examles
-- for application development the C++ headers in .libFAUDES\include and a static
-  debug version "faudesd.lib" of libFAUDES, compiled with /MDd. 
-
-Note on MS VC redistributables. Building libFAUDES with the MS compilers has the
-pro that we are completely within the MS ecosystem. Unfortunally, MS Windows does
-not come with all DLLs required by executables compiled with MS compilers. The
-libFAUDES binary package does include those DLLs that we believe might be missing
-if you do not have the MS compilers on your system. This is for convenience. The
-proper way is to get those DLLs directly from MS. They are free of charge and you
-may google them by the keyword "vcredist.x64.exe".
+- the C++ headers in .libFAUDES\include and a static debug version
+  "faudesd.lib" of libFAUDES, compiled with /MDd. 
 
 
-===============================================================================
-Directions for the Developer
-===============================================================================
+## Note on MS VC redistributables.
+
+Building libFAUDES with the MS compilers has the pro that the generated binaries
+are completely within the MS ecosystem. Unfortunally, a plain MS Windows installation
+does not come with all DLLs such binaries link to. The libFAUDES binary package therefore
+optionally copies those DLLs locally into the libFAUDES folder. This is meant for
+convenience. Alternatively, you can get those DLLs directly from MS. They are free
+of charge and you may google them by the keyword "vcredist.x64.exe".
+
+
+## Directions for the Developer
 
 The sources of the package are hosted on GitHub, see
 
