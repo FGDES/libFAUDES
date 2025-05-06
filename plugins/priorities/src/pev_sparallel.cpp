@@ -224,7 +224,7 @@ void SUParallel(
 	    if (!rPRes.ExistsEvent(newevname)){
 	      newev = rPRes.InsEvent(newevname);
 	      newMerge.Insert(newevname);
-	      rPrios.InsPriority(newevname,1); //TMPRIO ??
+	      rPrios.InsPriority(newevname,2); //TMPRIO SCT-TransEvents only
 	    }
 	    else{
 	      newev = *rPRes.FindEvent(newevname);

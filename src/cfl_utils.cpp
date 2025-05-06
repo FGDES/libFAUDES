@@ -146,13 +146,16 @@ std::string ContributorsString() {
 // ContributorsString()
 std::string BuildString() {
   std::string res;
-  res = res + std::string(__DATE__);
-  res = res + std::string(" ") + std::string(__TIME__);
 #ifdef FAUDES_BUILDENV
-  res = res + std::string(" ") + std::string(FAUDES_BUILDENV);
+  res = res + std::string(FAUDES_BUILDENV);
 #else  
-  res = res + std::string(" generic");
+  res = res + std::string("generic");
 #endif
+#ifdef FAUDES_BUILDTIME  
+  res = res + std::string(" ") + std::string(FAUDES_BUILDTIME);
+#else
+  res = res + std::string(" ") + std::string(FAUDES_CONFIG_TIMESTAMP);
+#endif  
   return res;
 }
 

@@ -182,7 +182,7 @@ endif
 
 FILE_CONFIG = Makefile.configuration
 
-# if "configuration" are "dist-clean" are not the target, read make variables from file
+# if "configuration" or "dist-clean" are not the target, read make variables from file
 ifneq (configure,$(findstring configure,$(MAKECMDGOALS)))
 ifneq (dist-clean,$(findstring dist-clean,$(MAKECMDGOALS)))
 include $(FILE_CONFIG)
@@ -257,9 +257,22 @@ ifeq ($(FAUDES_PLATFORM),)
 FAUDES_PLATFORM := gcc_generic
 endif
 
+# figure type of shell available for make
+FAUDES_MSHELL = posix
+ifeq ($(FAUDES_PLATFORM),cl_win)
+FAUDES_MSHELL = windows
+endif
+ifeq ($(FAUDES_PLATFORM),gcc_win)
+FAUDES_MSHELL = windows
+endif
+
+# set timestamp
+ifeq ($(FAUDES_MSHELL),posix)
+MAKETIME=$(shell date "+%Y-%m-%dT%H:%M:%S")
+endif
+
 ### sensible/posix defaults: generic g++ compiler on a Unix system
 #
-FAUDES_MSHELL = posix
 CXX = g++ 
 CC = gcc 
 LXX = g++
@@ -423,6 +436,7 @@ LXX = clang++
 #
 MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.9 -stdlib=libc++ 
 MAINOPTS += -DFAUDES_BUILDENV=\"gcc_osx\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
 DSOOPTS = -dynamiclib  -single_module 
 ECHOE = echo -e
@@ -470,7 +484,6 @@ endif
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-FAUDES_MSHELL = windows
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MKDIR = cmd /C echo MKDIR NOT CONFIGURED
@@ -532,7 +545,6 @@ endif
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),gcc_win)
-FAUDES_MSHELL = windows
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
@@ -562,7 +574,6 @@ endif
 # - we consider to use this toolchain for binary distributions from libFAUDE 2.32c onwards
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
-FAUDES_MSHELL = posix
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols
@@ -983,6 +994,7 @@ $(INCLUDEDIR)/configuration.h: $(SRCDIR)/configuration.h.template
 	cp $(SRCDIR)/configuration.h.template $(INCLUDEDIR)/configuration.h
 	echo "/* faudes core configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_VERSION \"libFAUDES $(FAUDES_VERSION)\"" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_CONFIG_TIMESTIMEP \"$(MAKETIME)\"" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGINS \"$(pluginstringD)\"" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGINS_RTILOAD {$(FAUDES_PLUGINS_RTILOAD)}" >> $(INCLUDEDIR)/configuration.h
 ifeq (core_systime,$(findstring core_systime,$(FAUDES_OPTIONS)))
