@@ -1,11 +1,9 @@
 
 ## libFAUDES - Friedrich-Alexander-University Discrete Event Systems Library
 
-Copyright (C) 2006 Bernd Opitz
-
-Copyright (C) 2006-2009 Thomas Moor, Klaus Schmidt, Sebastian Perk
-
-Copyright (C) 2010-2025 Thomas Moor, Klaus Schmidt
+- Copyright (C) 2006 Bernd Opitz
+- Copyright (C) 2006-2009 Thomas Moor, Klaus Schmidt, Sebastian Perk
+- Copyright (C) 2010-2025 Thomas Moor, Klaus Schmidt
 
 
 ## Directions for the User
