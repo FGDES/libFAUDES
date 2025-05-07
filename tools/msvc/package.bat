@@ -1,6 +1,6 @@
 echo "================================== build libFAUDES installer with Inno Setup"
 
-echo "=== (need to build libFAUDES with MS VC before, e.g. via  msvcvuild.bat))"
+echo "=== (need to build libFAUDES with MS VC before, e.g. via msvc/build.bat)"
 
 echo "=== sanity check for libFAUDES working directory"
 if not exist "VERSION" (
