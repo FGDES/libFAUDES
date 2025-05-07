@@ -18,10 +18,10 @@ Version 2022 in a 64bit MS Windows 11 environment. It includes
 
 - the tools `luafaudes.exe`, `simfaudes.exe` and friends in `.\libFAUDES\`
 - MS VC DLLs aka MS VC redistributables; see below (!!!)
-- the HTML documentation in *.\libFAUDES\Doc\index.html*
-- some Lua examples in *.\libFAUDES\Examles\*
-- the C++ headers in *.libFAUDES\include* and a static debug version
-  *faudesd.lib* of libFAUDES, compiled with /MDd. 
+- the HTML documentation in `.\libFAUDES\Doc\index.html`
+- some Lua examples in `.\libFAUDES\Examles\`
+- the C++ headers in `.libFAUDES\include` and a static debug version
+  `faudesd.lib` of libFAUDES, compiled with /MDd. 
 
 
 ## Note on MS VC redistributables.
@@ -48,8 +48,8 @@ Specifically, we used an MSYS2 environment for the configuration stage and an
 MS Windows command prompt for compilation and packaging the installer. Corresponding
 batch files are included with the libFAUDES sources.
 
-- *tools/msvc/build.bat* to build shared and static versions of libFAUDES
-- *tools/msvc/package.bat* to build the installer
+- `tools/msvc/build.bat` to build shared and static versions of libFAUDES
+- `tools/msvc/package.bat` to build the installer
 
 However, the above files heavily depend of the development environment. If you want
 to build your own libFAUDES distribution with MS VC compilers, you will need to
