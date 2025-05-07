@@ -76,7 +76,7 @@ Source: bin\luafaudes.flx;      DestDir: {app}
 Source: include\*;        	DestDir: {app}\Include;  Flags: recursesubdirs createallsubdirs; Components: develop
 Source: doc\*.* ; 		DestDir: {app}\Doc; Flags: recursesubdirs createallsubdirs; Components: documentation
 Source: tools\msvc\VERSION.bat; DestDir: {app}
-Source: tools\msvs\readme.md;   DestDir: {app}; DestName: ReadMe.md
+Source: tools\msvc\readme.md;   DestDir: {app}; DestName: ReadMe.md
 Source: stdflx\*.flx;           DestDir: {app}\StdFlx; 
 Source: {#MSVCREDIST}\msvcp140.dll;          DestDir: {app}; Components: msvcdlls
 Source: {#MSVCREDIST}\vcruntime140.dll;      DestDir: {app}; Components: msvcdlls
