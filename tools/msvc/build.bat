@@ -2,8 +2,14 @@ REM ================================== build libFAUDES with MSVC toolchain
 
 REM === (need to configure sources before e.g. in an MSYS environment)
 
+REM === sanity check
+if not exist VERSION.bat {
+  echo need to cd to libFAUDES base path
+  exit
+}
+
 REM ==== borrow GNU make, e.g. from MSYS2 installation
-set GNUMAKE=C:\msys64\ucrt64\bin\mingw32-make.exe
+set GNUMAKE=C:\msys64\ucrt64\bin\mingw32-make.exe 
 
 REM ==== set paths for MSVC command line tools
 call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"

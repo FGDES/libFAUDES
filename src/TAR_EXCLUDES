@@ -4,6 +4,7 @@ CVS
 */*~
 */._*
 */.DS*
+.git/*
 .depend
 kbusdemo.tgz
 wago/kbusDemo

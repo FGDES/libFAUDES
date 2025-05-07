@@ -17,7 +17,8 @@ ShowLanguageDialog=no
 LanguageDetectionMethod=uilanguage
 UsePreviousAppDir=false
 DefaultDirName={sd}\FAUDES\libFAUDES
-OutputDir=.\
+OutputDir=..\..\
+SourceDir=..\..\
 SetupIconFile=msvcdist.ico
 OutputBaseFilename=libfaudes-{#VMAJOR}_{#VMINOR}_setup
 

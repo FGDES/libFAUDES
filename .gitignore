@@ -22,7 +22,10 @@ doc/*
 Makefile.configuration
 Makefile.depend
 
-# ignore test cases
+# ignore distribution
+dist/*
+
+# Ignore test cases
 **/tmp_*.gen
 
 # ignore my private stuff
