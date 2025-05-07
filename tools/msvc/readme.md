@@ -1,9 +1,11 @@
 
- libFAUDES - Friedrich Alexander University Discrete Event Systems Library
+## libFAUDES - Friedrich-Alexander-University Discrete Event Systems Library
 
- Copyright (C) 2006 Bernd Opitz
- Copyright (C) 2006-2009 Thomas Moor, Klaus Schmidt, Sebastian Perk
- Copyright (C) 2010-2025 Thomas Moor, Klaus Schmidt
+Copyright (C) 2006 Bernd Opitz
+
+Copyright (C) 2006-2009 Thomas Moor, Klaus Schmidt, Sebastian Perk
+
+Copyright (C) 2010-2025 Thomas Moor, Klaus Schmidt
 
 
 ## Directions for the User
@@ -16,12 +18,12 @@ https://fgdes.tf.fau.de/faudes
 This binary distribution was built with the toolchain from by MS Visual Studio
 Version 2022 in a 64bit MS Windows 11 environment. It includes
 
-- the tools luafaudes.exe, simfaudes.exe and friends in .\libFAUDES\
+- the tools *luafaudes.exe*, *simfaudes.exe* and friends in *.\libFAUDES\*
 - MS VC DLLs aka MS VC redistributables; see below (!!!)
-- the HTML documentation in .\libFAUDES\Doc\index.html
-- some Lua examples in .\libFAUDES\Examles
-- the C++ headers in .libFAUDES\include and a static debug version
-  "faudesd.lib" of libFAUDES, compiled with /MDd. 
+- the HTML documentation in *.\libFAUDES\Doc\index.html*
+- some Lua examples in *.\libFAUDES\Examles\*
+- the C++ headers in *.libFAUDES\include* and a static debug version
+  *faudesd.lib* of libFAUDES, compiled with /MDd. 
 
 
 ## Note on MS VC redistributables.
@@ -45,16 +47,17 @@ The general build process consists of multiple stages and is documented at
 https://fgdes.tf.fau.de/faudes/faudes_build.html
 
 Specifically, we used an MSYS2 environment for the configuration stage and an
-MS Windows command promt for compilation and packaging the installer. Corresponding
+MS Windows command prompt for compilation and packaging the installer. Corresponding
 batch files are included with the libFAUDES sources.
 
-- msvcbuild.bat to build shared and static versions of libFAUDES
-- msvcdist.bat to build the installer
+- *tools/msvc/build.bat* to build shared and static versions of libFAUDES
+- *tools/msvc/package.bat* to build the installer
 
 However, the above files heavily depend of the development environment. If you want
-to build your own, you will need to inspect/understand/adjust. In the case you do
-not need to distribute binary packages, you are better of by sticking to MSYS
-for all development stages.
+to build your own libFAUDES distribution with MS VC compilers, you will need to
+inspect/understand/adjust the batchfiles to your needs. In the case you do
+not need to distribute binary packages, you are far better of by sticking to MSYS2
+for all development stages and dont bother MS VC at all.
 
 
  
