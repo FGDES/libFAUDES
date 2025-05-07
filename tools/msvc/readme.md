@@ -16,7 +16,7 @@ https://fgdes.tf.fau.de/faudes
 This binary distribution was built with the toolchain from by MS Visual Studio
 Version 2022 in a 64bit MS Windows 11 environment. It includes
 
-- the tools *luafaudes.exe*, *simfaudes.exe* and friends in *.\libFAUDES\*
+- the tools `luafaudes.exe`, `simfaudes.exe` and friends in `.\libFAUDES\`
 - MS VC DLLs aka MS VC redistributables; see below (!!!)
 - the HTML documentation in *.\libFAUDES\Doc\index.html*
 - some Lua examples in *.\libFAUDES\Examles\*
