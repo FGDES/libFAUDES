@@ -2,19 +2,10 @@ This directory contains tools used by the libFAUDES build system
 
 * lua2html: a lua code formater
 * aspell: bash scripts to spellcheck libFAUDES documentation
+* msvc: batch files to build with MS VC compilers
 
 Note that the above tools are only required if you extend or otherwise
 reconfigure libFAUDES and need to run a "make configure".
 
-===============================================================================
-lua2html ...
-
-... is a perl skript that converts Lua code to nicely decorated HTML.
-
-===============================================================================
-aspell ...
-
-... is a spellchecker that may be used to eliminate some of the typos
-in the libFAUDES online documentation. 
 
 
