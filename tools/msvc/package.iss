@@ -19,7 +19,7 @@ UsePreviousAppDir=false
 DefaultDirName={sd}\FAUDES\libFAUDES
 OutputDir=..\..\
 SourceDir=..\..\
-SetupIconFile=msvcdist.ico
+SetupIconFile=tools\msvc\package.ico
 OutputBaseFilename=libfaudes-{#VMAJOR}_{#VMINOR}_setup
 
 [Types]
