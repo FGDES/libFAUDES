@@ -122,11 +122,11 @@ std::string mCsourceLink="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/csource
 std::string mCssFile="faudes.css";
 */
 
-std::string mDownloadLink="http://www.rt.techfak.fau.de/FGdes/download.html";
-std::string mFaudesLink="http://www.rt.techfak.fau.de/FGdes/faudes";
-std::string mDestoolLink="http://www.rt.techfak.fau.de/FGdes/destool";
-std::string mLuafaudesLink="http://www.rt.techfak.fau.de/FGdes/faudes/luafaudes/";
-std::string mCsourceLink="http://www.rt.techfak.fau.de/FGdes/faudes/csource/";
+std::string mDownloadLink="http://fgdes.tf.fau.de/download.html";
+std::string mFaudesLink="http://fgdes.tf.fau.de/faudes";
+std::string mDestoolLink="http://fgdes.tf.fau.de/destool";
+std::string mLuafaudesLink="http://fgdes.tf.fau.de/faudes/luafaudes/";
+std::string mCsourceLink="http://fgdes.tf.fau.de/faudes/csource/";
 std::string mCssFile="faudes.css";
 
 std::string mThisChapterClass="chapter_this";
