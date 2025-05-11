@@ -140,7 +140,7 @@ bool TokenReader::Peek(Token& token) {
   }
   // get from peek buffer 
   token=mPeekToken;
-  // substitute empty sections
+  // peek begin on empty section
   if(token.IsEmpty())  token.ClrEnd();
   // done
   FD_DV("TokenReader: Peek: " << token.Str());
@@ -150,17 +150,18 @@ bool TokenReader::Peek(Token& token) {
 // Get(token)
 bool TokenReader::Get(Token& token) {
   bool res;
-  // get token from peek buffer 
-  res=Peek(token);
+  // fill peek buffer
+  if(!Peek(token)) return false;
+  // get token from peek buffer
+  token=mPeekToken;
   // invalidate buffer: case a
   if(!mPeekToken.IsEmpty()) mPeekToken.SetNone();
   // invalidate buffer: case b
   if(mPeekToken.IsEmpty()) {
     FD_DV("TokenReader: fake end : " << mPeekToken.Str());
+    token.ClrEnd();
     mPeekToken.SetEnd(std::string(mPeekToken.StringValue()));
   }
-  // bail out on error
-  if(!res) return false;
   // ignore misbehavong <br> tag in by level management
   if(token.IsBegin("br") || token.IsEnd("br")) return true;
   // track state (level of nested sections, filepos etc)
@@ -440,13 +441,7 @@ bool TokenReader::Eos(const std::string& rLabel) {
   // peek token and check for end of section
   Token token;
   Peek(token);
-  if(! (token.IsEnd() && !token.IsBegin()))
-    return false;
-  if((token.IsEnd() && !token.IsBegin())  && (token.StringValue() == rLabel))
-    return true; 
-  std::stringstream errstr;
-  errstr << "section end \"" << rLabel << "\" expected at " << FileLine();
-  throw Exception("TokenReader::Eos", errstr.str(), 51);
+  if(token.IsEnd(rLabel)) return true;
   return false;
 }
   
