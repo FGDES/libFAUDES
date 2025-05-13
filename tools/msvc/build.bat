@@ -12,7 +12,7 @@ echo "==== borrow GNU make, e.g. from MSYS2 installation"
 set GNUMAKE=C:\msys64\ucrt64\bin\mingw32-make.exe 
 
 echo "==== set paths for MSVC command line tools"
-call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
+call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64"
 
 echo "==== build libFAUDES static/debugging/testing (keeping faudesd.lib)"
 %GNUMAKE% FAUDES_PLATFORM=cl_win clean
