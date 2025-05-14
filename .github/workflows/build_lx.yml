@@ -15,11 +15,11 @@ jobs:
           sudo apt-get install doxygen swig
           sudo apt-get install libreadline-dev
     - name: Configure libFAUDES
-      run: make configure
+      run: make -j configure
     - name: Build libFAUDES
-      run: make
+      run: make -j
     - name: Build Tutorials
-      run: make tutorial
+      run: make -j tutorial
     - name: Run Test Cases
       run: make test
     - name: Build Package
