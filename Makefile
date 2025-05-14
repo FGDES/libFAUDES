@@ -922,7 +922,7 @@ package:
 	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  -j20 &> /dev/null
 	@echo "#### libFAUDES  package: clean" 
 	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  clean &> /dev/null 
-	@echo "#### libFAUDES  package: tar" 
+	@echo "#### libFAUDES  package: tar"  
 	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes-$(FAUDES_FILEVERSION).tar.gz libfaudes-$(FAUDES_FILEVERSION)
 	@echo "#### package ok: ./libfaudes-$(FAUDES_FILEVERSION).tar.gz"" 
 	@echo "#### libFAUDES pacakge: done"
