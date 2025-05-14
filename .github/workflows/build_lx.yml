@@ -22,7 +22,7 @@ jobs:
       run: make test
     - name: Build Package
       run: make package
-      - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v4
       with:
         name: Upload TGZ
         path: faudes_*.tar.gz
