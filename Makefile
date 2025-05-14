@@ -295,6 +295,7 @@ endif
 #
 CP  = /bin/cp -p 
 CPR = /bin/cp -pR
+MV  = /bin/mv  
 RM = /bin/rm -rf
 MKDIR = /bin/mkdir -p
 ECHOE = echo -e
@@ -682,8 +683,6 @@ BINDIR = bin
 INCLUDEDIR = include
 # where to place all .o files 
 OBJDIR = obj
-# where to place the distribution package 
-DIST = dist
 # where html docu is placed 
 DOCDIR = doc
 # where doxygen output is placed (via doxygen.conf)
@@ -903,22 +902,28 @@ tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) includes
 	@echo " ============================== " 
 
 package: 
-	$(RM) $(DIST) 
-	$(MKDIR) $(DIST) 
-	- rm -rf $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) 
-	- cp -pR . $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) 
-	- cp -pR $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) $(DIST) 
-	$(RM) $(DIST)/libfaudes-$(FAUDES_FILEVERSION)/plugins
-	$(MKDIR) $(DIST)/libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  $(pluginstringC) $(DIST)/libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/example $(DIST)/libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/hybrid $(DIST)/libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/pybindings $(DIST)/libfaudes-$(FAUDES_FILEVERSION)/plugins
-	cd $(DIST)/libfaudes-$(FAUDES_FILEVERSION) ; $(MAKE) dist-clean
-	cd $(DIST)/libfaudes-$(FAUDES_FILEVERSION) ; $(MAKE) configure 
-	cd $(DIST)/libfaudes-$(FAUDES_FILEVERSION) ; $(MAKE) -j20
-	cd $(DIST)/libfaudes-$(FAUDES_FILEVERSION) ; $(MAKE) clean
-	tar --verbose --create --gzip --directory="$(DIST)"  --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file="$(DIST)/libfaudes-$(FAUDES_FILEVERSION).tar.gz" libfaudes-$(FAUDES_FILEVERSION)
+	$(RM) libfaudes-$(FAUDES_FILEVERSION) 
+	$(RM) $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) 
+	$(MKDIR) $(TEMP)/libfaudes-$(FAUDES_FILEVERSION)
+	$(CPR) ./ $(TEMP)/libfaudes-$(FAUDES_FILEVERSION)
+	$(MV) $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) ./
+	$(RM) ./libfaudes-$(FAUDES_FILEVERSION)/plugins
+	$(MKDIR) .//libfaudes-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  $(pluginstringC) ./libfaudes-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  plugins/example ./libfaudes-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  plugins/hybrid ./libfaudes-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  plugins/pybindings ./libfaudes-$(FAUDES_FILEVERSION)/plugins
+	@echo "#### libFaudes dist-clean"
+	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  dist-clean > /dev/null
+	@echo "#### libFaudes configure"
+	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  -j20 configure > /dev/null
+	@echo "#### libFaudes build"
+	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  -j20 > /dev/null
+	@echo "#### libFaudes clean" 
+	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  clean > /dev/null 
+	@echo "#### libFaudes tar package" 
+	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes-$(FAUDES_FILEVERSION).tar.gz libfaudes-$(FAUDES_FILEVERSION)
+	@echo "#### libFaudes pacakge: done" 
 
 
 ####################################
