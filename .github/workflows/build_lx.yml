@@ -27,4 +27,4 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: Upload TGZ
-        path: dist/libfaudes_*.tar.gz
+        path: ./libfaudes_*.tar.gz
