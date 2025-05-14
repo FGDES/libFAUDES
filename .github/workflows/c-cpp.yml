@@ -13,7 +13,7 @@ jobs:
     - name: Install Extra Libs
       run: |
           sudo apt-get install doxygen swig
-          sudo apt-get install libreadline6 libreadline6-dev
+          sudo apt-get install libreadline-dev
     - name: configure
       run: make configure
     - name: make
