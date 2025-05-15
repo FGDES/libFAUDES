@@ -121,14 +121,15 @@ ifeq ($(FAUDES_PLATFORM),gcc_lsb)
   LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
-  LBP_LUAOPTS= -DLUA_USE_ISATTY -DLUA_USE_MKSTEMP -DLUA_USE_POPEN -Wno-pedantic
+  LBP_LUAOPTS= -DLUA_USE_MKSTEMP -DLUA_USE_POPEN -Wno-pedantic
+  #LBP_LUAOPTS+= -DLUA_USE_ISATTY # dont like this in emacs shell 
   LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),cl_win)
 ifeq ($(SHARED),yes)
   LBP_LUAOPTS= /DLUA_BUILD_AS_DLL 
-  LBP_SWCFLAGS= 
 endif
+  LBP_SWCFLAGS= 
 endif
 
 #

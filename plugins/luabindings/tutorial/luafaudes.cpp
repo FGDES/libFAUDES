@@ -36,8 +36,19 @@
 // luafaudes: use my include file (incl. lpb_include.h)
 #include "libfaudes.h"
 
-// import all
+// luafaudes: import all
 using namespace faudes;
+
+
+// luafaudes: dislike isatty on MSYS
+#if defined(LUA_USE_ISATTY)
+#include <unistd.h>
+#define faudes_stdin_is_tty()	isatty(0)
+#else
+#define faudes_stdin_is_tty()	1 
+#endif
+
+
 
 // below this line: all from lua provided interpreter lua.cpp, except tagged "luafaudes"
 static lua_State *globalL = NULL;
@@ -503,15 +514,18 @@ static int pmain (lua_State *L) {
   if (script)
     s->status = handle_script(L, argv, script);
   if (s->status != 0) return 0;
-  if (has_i)
+  if (has_i) {
     dotty(L);
-  else if (script == 0 && !has_e && !has_v) {
-    if (lua_stdin_is_tty()) {
-      print_version(); 
-      dotty(L);
-    }
-    else dofile(L, NULL);  /* executes stdin as a file */
+    return 0;
   }
+  if (script == 0 && !has_e) {
+    if (faudes_stdin_is_tty()) {
+      if(!has_v) print_version(); 
+      dotty(L);
+      return 0;
+    }
+  }
+  dofile(L, NULL);  /* executes stdin as a file */
   return 0;
 }
 

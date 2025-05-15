@@ -578,6 +578,8 @@ endif
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_msys\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols
 DSOOPTS += -Wl,--output-def,faudes.def -Wl,--out-implib,faudes.lib
 DOT_EXE = .exe
