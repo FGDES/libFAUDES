@@ -39,7 +39,6 @@
 // luafaudes: import all
 using namespace faudes;
 
-
 // luafaudes: dislike isatty on MSYS
 #if defined(LUA_USE_ISATTY)
 #include <unistd.h>
@@ -47,8 +46,6 @@ using namespace faudes;
 #else
 #define faudes_stdin_is_tty()	1 
 #endif
-
-
 
 // below this line: all from lua provided interpreter lua.cpp, except tagged "luafaudes"
 static lua_State *globalL = NULL;
@@ -146,7 +143,6 @@ static void print_version (void) {
   sstr 
     << "Welcome to luafaudes console." << std::endl
     << "Versions: " << VersionString() << " / " << LUA_VERSION << std::endl
-    << "Build: " << BuildString() << std::endl
     << "Plug-Ins: " << PluginsString() << std::endl
     << "Credits: This libFAUDES interpreter is based on the projects Lua and SWIG." << std::endl
     << "Type 'faudes.Help()' for a list of faudes related types and functions." << std::endl
@@ -522,10 +518,9 @@ static int pmain (lua_State *L) {
     if (faudes_stdin_is_tty()) {
       if(!has_v) print_version(); 
       dotty(L);
-      return 0;
     }
+    else dofile(L, NULL);  /* executes stdin as a file */
   }
-  dofile(L, NULL);  /* executes stdin as a file */
   return 0;
 }
 

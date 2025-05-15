@@ -55,7 +55,7 @@ namespace faudes {
  * @return
  *	true if the observer property holds
  *
- * @ingroup MTCPlugin
+ * @ingroup MultitaskingPlugin
  *
  */
  extern FAUDES_API bool IsMtcObs(const MtcSystem& rLowGen, const EventSet& rHighAlph);

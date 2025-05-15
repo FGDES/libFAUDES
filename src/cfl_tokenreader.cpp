@@ -149,7 +149,6 @@ bool TokenReader::Peek(Token& token) {
 
 // Get(token)
 bool TokenReader::Get(Token& token) {
-  bool res;
   // fill peek buffer
   if(!Peek(token)) return false;
   // get token from peek buffer
@@ -201,7 +200,7 @@ bool TokenReader::Get(Token& token) {
   }
   FD_DV("TokenReader:Get(): " << token.Str());
 
-  return res;
+  return true;
 }
 
 // SeekBegin(label)

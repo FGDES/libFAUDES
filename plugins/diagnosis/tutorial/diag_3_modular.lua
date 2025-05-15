@@ -45,3 +45,5 @@ diag[1]:GraphWrite('tmp_demo_diagnoser_3_modul_c1.png')
 -- Record test case
 FAUDES_TEST_DUMP("modular sys 3",ok)
 FAUDES_TEST_DUMP("modular sys 3",diag)
+
+print("done")

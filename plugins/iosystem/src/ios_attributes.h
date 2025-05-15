@@ -33,7 +33,7 @@ namespace faudes {
  * +I+ and +O+ in .gen file to make sure an event will be inserted in
  * Iput or OTput event set.
  *
- * @ingroup iosysplugin  
+ * @ingroup IoSysPlugin  
  */
 
 class FAUDES_API AttributeIosEvent : public AttributeFlags {
@@ -239,7 +239,7 @@ typedef TaNameSet<AttributeIosEvent> IosEventSet;
  * the DoRead/DoWrite methods were overwritten. Use +I+ for input, +O+ for 
  * output states. 
  *
- * @ingroup iosysplugin 
+ * @ingroup IoSysPlugin 
  */
 
 class FAUDES_API AttributeIosState : public AttributeFlags 
