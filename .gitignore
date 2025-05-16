@@ -21,6 +21,7 @@ include/*
 doc/*
 Makefile.configuration
 Makefile.depend
+tools/msvc/VERSION.bat
 
 # ignore distribution
 dist/*
@@ -34,6 +35,9 @@ plugins/iodevice/libwpc/bin/*
 # osx irritations
 **/.DS_Store
 **/pd_Logfile.txt
+
+# ignore dist packages
+libfaudes-2*
 
 # local archive
 local
