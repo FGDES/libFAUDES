@@ -420,6 +420,10 @@ endif
 #
 #  Mac OS X 10.5 and later
 #
+# - a note on the @rpath topic: as of libFAUDES 2.33d we build the shared object with @rpath in
+#   the install name; when building executables, we then set the @rpath relative to the
+#   @executable_path in a fairly general manner; all in all we avoid the "install-name_tool"
+#   hassel when buulding applications
 # - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7,
 #   Mac OS X 10.11, and macOS2 during development of libFAUDES.
 # - as of libFAUDES 2.27i, only the Mac OS X 10.11 environment is
@@ -430,6 +434,8 @@ endif
 # - test deployment target by "otool -l FILE | grep version"
 # - moving to libc++ and c11, we now should target for MAC OS X 10.9 (although 10.7 still works)
 #
+#
+
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
 #
 CXX = clang++ -std=gnu++11 
@@ -439,8 +445,9 @@ LXX = clang++
 MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.9 -stdlib=libc++ 
 MAINOPTS += -DFAUDES_BUILDENV=\"gcc_osx\"
 MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
-WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
-DSOOPTS = -dynamiclib  -single_module 
+WARNINGS =  -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
+DSOOPTS  =  -dynamiclib  -single_module
+DSOOPTS  += -install_name @rpath/$@
 ECHOE = echo -e
 # 
 export MACOSX_DEPLOYMENT_TARGET = 10.9
@@ -451,8 +458,10 @@ LDFLAGS += -g -D_GLIBCXX_DEBUG
 endif 
 ifeq ($(SHARED),yes)
 LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden  
-LDFLAGS +=  -Wl,-rpath,@executable_path/.,-rpath,@executable_path/../lib,-rpath,@executable_path/../,-rpath,@executable_path/../../../ -stdlib=libc++
-FNCT_POST_APP = install_name_tool -change libfaudes.dylib @rpath/libfaudes.dylib $(1); strip $(1) 
+LDFLAGS +=  -stdlib=libc++
+LDFLAGS += -Wl,-rpath,@executable_path/.,-rpath,@executable_path/../lib,-rpath,@executable_path/../,-rpath,@executable_path/../../../ 
+#LDFLAGS += -Wl,-install_name,@rpath/libfaudes.dylib
+FNCT_POST_APP = strip $(1) 
 endif 
 ifeq (core_threads,$(findstring core_threads,$(FAUDES_OPTIONS)))
 LNKLIBS += -lpthread 
