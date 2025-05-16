@@ -35,14 +35,12 @@ https://fgdes.tf.fau.de/faudes/faudes_build.html
 
 ## Versioning/Branching
 
-Originally, libFAUDES was designed for joint development by its compile-time plug-in
-machanism ... quite some time before Git existed. At the current stage, we
-use the main branch of this repository for our development process. In modern terminology
-this translates to <i>testing</i> and we would not even bother to update the
+The main branch of this repository is used for our dayly development process. In modern 
+terminology this translates to <i>testing</i> and we would not even bother to update the
 version number (as specified in the file `VERSION`). Thus, if you are looking for a stable
-code base for your project, please consult our web site. If on the other hand you plan to contribute to libFAUDES
-via GitHub, you will most definitely want to instantiate you personal branch. And: please
-let us know, so we can focus our efforts.
+code base for a libFAUDES based application, clone one of the tagged releases. If on the 
+other hand you plan to contribute to libFAUDES via GitHub, you will most definitely want to 
+instantiate you personal branch. And: please let us know, so we can focus our efforts.
 
 
 
