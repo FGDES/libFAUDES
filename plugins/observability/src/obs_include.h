@@ -21,7 +21,7 @@ The current implementation is experimental and distributed
 for inspection/discussion only.
 </p>
 
-@section ObservabilityLicense License
+@subsection ObservabilityLicense License
 This plug-in is distributed with libFAUDES and under the terms of the LGPL.
 <br>
 <br>

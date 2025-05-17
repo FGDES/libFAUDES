@@ -142,18 +142,8 @@ int main() {
   Generator wparallel_g1("data/wparallel_g1.gen");
   Generator wparallel_g2("data/wparallel_g2.gen");
 
-  // perform composition
-  Generator wparallel_g1g2;
-  OmegaParallel(wparallel_g1, wparallel_g2, wparallel_g1g2);
-  
-  // write result and operands for html docu
-  wparallel_g1.Write("tmp_wparallel_g1.gen");
-  wparallel_g2.Write("tmp_wparallel_g2.gen");
-  wparallel_g1g2.Write("tmp_wparallel_g1g2.gen");
-
   // Test protocol
   FAUDES_TEST_DUMP("parallel",parallel_g1g2);
-  FAUDES_TEST_DUMP("wparallel",wparallel_g1g2);
 
 
   ////////////////////////////
@@ -457,43 +447,6 @@ int main() {
   
   // Record test case  
   FAUDES_TEST_DUMP("prefix closure", prefixclosure_g);
-
-
-  ////////////////////////////
-  // omega closure
-  ////////////////////////////
-  
-
-  // read generator and write for html docu
-  Generator omegaclosure_g("data/omegaclosure_g.gen");
-  omegaclosure_g.Write("tmp_omegaclosure_g.gen");
-  
-  // test omega closure
-  bool isomegaclosed_g = IsOmegaClosed(omegaclosure_g);
-  
-  // compute omega closure
-  OmegaClosure(omegaclosure_g);
-  omegaclosure_g.Write("tmp_omegaclosure_gRes.gen");
-
-  // test omega closure
-  bool isomegaclosed_gRes = IsOmegaClosed(omegaclosure_g);
-  
-  // inspect on console 
-  std::cout << "################################\n";
-  std::cout << "# omega closure \n";
-  if(isomegaclosed_g) 
-     std::cout << "# argument was omega closed (test case error!)\n";
-  else
-     std::cout << "# argument was not omega closed (expected)\n";
-  if(isomegaclosed_gRes) 
-     std::cout << "# result is omega closed (expected)\n";
-  else
-     std::cout << "# result is not omega closed (test case error!)\n";
-  omegaclosure_g.DWrite();
-  std::cout << "################################\n";
-  
-  // Record test case  
-  FAUDES_TEST_DUMP("omega closure", omegaclosure_g);
 
 
   ////////////////////////////

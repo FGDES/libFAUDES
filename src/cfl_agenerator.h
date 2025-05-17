@@ -45,7 +45,7 @@ namespace faudes {
 /**
  * Generator with specified attribute types.
  *
- * @section AGeneratorOverview Overview
+ * @subsection AGeneratorOverview Overview
  *
  * The TaGenerator takes four template parameters to specify attribute classes for
  * the global attribute and state-, event- and transition-attributes. 

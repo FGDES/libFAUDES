@@ -257,7 +257,7 @@ typedef TBaseVector<cEventSet>     cEventSetVector;
 /**
  * Generator with controllability attributes. 
  * 
- * @section CGeneratorOverview Overview
+ * @subsection CGeneratorOverview Overview
  * 
  * The TcGenerator is a variant of the TaGenerator to add an interface for events with 
  * controllabilty attributes, ie an event may be controllable, observable or forcible. 

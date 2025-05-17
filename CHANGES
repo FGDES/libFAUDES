@@ -16,6 +16,12 @@ Relative to 2.32*
 
 ***
 
+Refactored to collect all Buechi-related utilities in a separate plug-in.
+This includes renaming for some functions from "AbcOmegaXyz" to "AbcBuechiXyz".
+
+
+***
+
 Updated the doxygen configuration and stylesheets. We are now testing/
 developing with doxygen v.1.11.0 which is common in 2025. Ignoring various
 doxygen warnings, our now configuartion is fine back to v1.9.1. 

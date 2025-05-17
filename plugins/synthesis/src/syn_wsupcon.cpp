@@ -26,6 +26,7 @@
 #include "syn_supnorm.h"
 #include "syn_functions.h"
 
+#include "omg_include.h"
 
 namespace faudes {
 
@@ -55,12 +56,12 @@ bool IsOmegaControllable(
 
 #ifdef FAUDES_CHECKED
   // generators are meant to be nonblocking
-  if( !IsOmegaTrim(rGenCand) ) {
+  if( !IsBuechiTrim(rGenCand) ) {
     std::stringstream errstr;
     errstr << "Argument \"" << rGenCand.Name() << "\" is not omega-trim.";
     throw Exception("IsOmegaControllable(..)", errstr.str(), 201);
   }
-  if( !IsOmegaTrim(rGenPlant) ) {
+  if( !IsBuechiTrim(rGenPlant) ) {
     std::stringstream errstr;
     errstr << "Argument \"" << rGenPlant.Name() << "\" is not omega-trim.";
     throw Exception("IsOmegaControllable(..)", errstr.str(), 201);
@@ -95,7 +96,7 @@ bool IsOmegaControllable(
   if(!IsControllableUnchecked(rGenPlant,rCAlph,rGenCand,dummy)) return false;
 
   // test relative closedness
-  if(!IsRelativelyOmegaClosedUnchecked(rGenPlant,rGenCand)) return false;
+  if(!IsBuechiRelativelyClosedUnchecked(rGenPlant,rGenCand)) return false;
 
   // pass
   FD_DF("IsOmegaControllable(...): passed");
@@ -1487,8 +1488,8 @@ void OmegaSupConNormNBUnchecked(
   // perform product
   std::map< OPSState , Idx> cmap; 
   OmegaSupConProduct(rPlantGen, rCAlph, rSpecGen, cmap, *pResGen);
-  pResGen->OmegaTrim();
-
+  BuechiTrim(*pResGen);
+  
   // no statenames impülemented
   pResGen->StateNamesEnabled(false);
 
@@ -1659,7 +1660,7 @@ void OmegaConNB(
   if(!IsControllable(rPlantGen,rCAlph,rResGen)) {
     throw Exception("OmegaConNB(..)", "ERROR: controllability test failed", 500);
   }
-  if(!IsRelativelyOmegaClosed(rPlantGen,rResGen)) {
+  if(!IsBuechiRelativelyClosed(rPlantGen,rResGen)) {
     throw Exception("OmegaConNB(..)", "ERROR: rel. top. closedness test failed", 500);
   }
 #endif
@@ -1765,13 +1766,13 @@ void OmegaConNormNB(
     }
   }
   // trim (?)
-  rResGen.OmegaTrim();
+  BuechiTrim(rResGen);
 //#ifdef FAUDES_CODE
   // during development: test controllability, normality and livenes  
   if(!IsControllable(rPlantGen,rCAlph,rResGen)) {
     throw Exception("OmegaConNormNB(..)", "ERROR: controllability test failed", 500);
   }
-  if(!IsRelativelyOmegaClosed(rPlantGen,rResGen)) {
+  if(!IsBuechiRelativelyClosed(rPlantGen,rResGen)) {
     throw Exception("OmegaConNormNB(..)", "ERROR: rel. top. closedness test failed", 500);
   }
   Generator prK=rResGen;

@@ -45,7 +45,6 @@
 #include "cfl_determin.h"
 #include "cfl_regular.h"
 #include "cfl_statemin.h"
-#include "cfl_omega.h"
 #include "cfl_conflequiv.h"
 #include "cfl_bisimulation.h"
 #include "cfl_bisimcta.h"

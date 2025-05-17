@@ -625,7 +625,7 @@ int main() {
     std::cout << "trimness: ok [error]\n";
   else
     std::cout << "trimness: failed [expected]\n";
-  bool isotrim = greach.IsOmegaTrim(); 
+  bool isotrim = IsBuechiTrim(greach);
   if(isotrim) 
     std::cout << "w-trimness: ok [error]\n";
   else
@@ -667,7 +667,7 @@ int main() {
   // and a marked state.
   Generator gotrim(greach);
   gotrim.Name("GOmegaTrim");
-  gotrim.OmegaTrim();
+  BuechiTrim(gotrim);
 
   // show effect on console
   std::cout << "################################\n";

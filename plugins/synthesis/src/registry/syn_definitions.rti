@@ -134,32 +134,6 @@ Synthesis     controllability  "relative closed"  "relative marked"  nonblocking
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function IsRelativelyOmegaClosed -->
-<!-- =================================================== -->
-<!-- =================================================== -->
-
-<FunctionDefinition name="Synthesis::IsRelativelyOmegaClosed" ctype="faudes::IsRelativelyOmegaClosed"> 
-
-<Documentation ref="synthesis_omega.html#IsRelativelyOmegaClosed"> 
-Test for relative omega-closedness.
-</Documentation> 
-<Keywords> 
-Synthesis     controllability  "relative closed"  "relative marked"  nonblocking   
-</Keywords> 
-
-<VariantSignatures> 
-<Signature name="IsRelativelyOmegaClosed(GPlant,GCand)"> 
-<Parameter name="GPlant" ftype="Generator" access="In"/> 
-<Parameter name="GCand" ftype="Generator" access="In"/> 
-<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
-</Signature> 
-</VariantSignatures> 
-
-</FunctionDefinition> 
-
-
-<!-- =================================================== -->
-<!-- =================================================== -->
 <!-- Faudes Function IsRelativelyPrefixClosed -->
 <!-- =================================================== -->
 <!-- =================================================== -->

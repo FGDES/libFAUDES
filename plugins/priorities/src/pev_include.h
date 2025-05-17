@@ -69,14 +69,12 @@ consistent integration with libFAUDES and Lua bindings.
 </p>
 
 
-@section PevLicense License
+@subsection PevLicense License
 
 <p>
 The priosities plugin is distributed with libFAUDES and under the terms of
 the LGPL.
 </p>
-<br>
-<br>
 <br>
 <p>
 Copyright (c) 2024,2025,  Yiheng Tang, Thomas Moor.

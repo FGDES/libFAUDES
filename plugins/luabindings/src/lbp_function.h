@@ -295,7 +295,6 @@ protected:
    *
    * @param rSrc 
    *    Source to copy from
-   * @return Reference to this object.
    */
   virtual void DoAssign(const LuaFunctionDefinition& rSrc);
 

@@ -52,7 +52,7 @@ of a libFAUDES application without bothering with C++ implementation technicalit
 
 <br>
 
-@section SecHomeCompile Compile
+@subsection SecHomeCompile Compile
 
 
 <p>
@@ -86,7 +86,7 @@ see the
 <br/>
 
 
-@section SecCoding Coding Conventions
+@subsection SecCoding Coding Conventions
 
 
 <p>
@@ -144,7 +144,7 @@ never ever have "using" statements in headers.
 
 <br/>
 
-@section SecHomeLicense License 
+@sunsection SecHomeLicense License 
 
 
 <p>
@@ -153,12 +153,6 @@ are provided for free under conditions of the GNU Lesser General Public License.
 Note that different and perhaps more restrictive license terms may apply to the plug-ins that reside in the plug-in directory.
 </p>
 
-
-
-
-<br>
-<br>
-<br>
 
 
 <p>

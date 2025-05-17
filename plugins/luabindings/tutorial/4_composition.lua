@@ -84,24 +84,6 @@ FAUDES_TEST_DUMP("parallel incl. comp. map a", sc_21)
 FAUDES_TEST_DUMP("parallel incl. comp. map b", s1_3)
 FAUDES_TEST_DUMP("parallel incl. comp. map c", s2_3)
 
--- ------------------------------------------
--- Omega parallel
--- ------------------------------------------
-
--- Announce
-print("################# Omega parallel composition (incl attributes)");
-
-
--- Compose overall plant
-omachines = faudes.System()
-faudes.OmegaParallel(machine1,machine2,omachines)
-
--- Report
-omachines:Write()
-omachines:GraphWrite("tmp_omachines.svg")
-
--- Record test case
-FAUDES_TEST_DUMP("omegaparallel incl. attr.",omachines)
 
 
 -- ------------------------------------------

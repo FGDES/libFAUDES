@@ -166,17 +166,17 @@ group <tt>AllPlugins</tt>:
 
 @ingroup AllPlugins
 
-@section Overview
+@subsection Overview
 
 This example demonstrates the libFAUDES plug-in mechanism and  
 may serve as a template for setting up ... etc.
 
-@section License
+@subsection License
 
 The example plug-in is distributed with libFAUDES and under the terms of
 the LGPL.
 
-@section Contents
+@subsection Contents
 
 */
 </pre>

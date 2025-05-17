@@ -265,55 +265,7 @@ the result:
 <br/>
 </p>
 
-</ffnct_reference>
 
-
-<ffnct_reference name="IsOmegaTrim">
-<fdetails/>
-<p>
-A generator <i>G</i> is <i>omega-trim</i> if it is accessible, co-accessible,
-and complete;
-i.e. if all states contribute to the omega language <fimath>Bm(G)</fimath>.
-This function returns "true" if <i>G</i> is omega-trim.
-Else it returns "false".
-</p>
-
-<p>
-The example generator fails to be trim since it is neither accessible
-nor co-accessible nor complete. Clearly, any state that is not 
-accessible or not co-accessibe does contribute to <fimath>Bm(G)</fimath>,
-neither does a state that is guaranteed to evolve into a state with no successor.
-Note, however, the states <tt>s3</tt> and <tt>s4</tt> do not fall
-into any of the latter cathegories but still don't conribute to <fimath>Bm(G)</fimath>.
-This is because <tt>s3</tt> and <tt>s4</tt> can evolve into a marked state and 
-they can be extended infinitely, but they can not be extended infinitely while 
-passing marked states infinitely often.
-</p>
-
-</ffnct_reference>
-
-
-
-
-
-<ffnct_reference name="OmegaTrim">
-<fdetails/>
-
-<p>
-Convert a given generator <i>G</i> to an omega-trim generator by 
-repeatedly removing states that are not accessible, not co-accessible, or have no successor state.
-The language <fimath>Bm(G)</fimath> is not affected.
-</p>
-
-<p>
-When applied on the above example, <ffnct>OmegaTrim</ffnct> returns 
-the result:
-<br/>
-<br/>
-<fimage fsrc="tmp_gotrim"/> 
-<br/>
-<br/>
-</p>
 
 
 </ffnct_reference>

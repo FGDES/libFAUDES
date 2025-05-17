@@ -59,28 +59,6 @@ The generated and marked languages <fimath>L(G)</fimath> and <fimath>Lm(G)</fima
 <fdmath>L_m(G)\ :=\ \{s\in\Sigma^* \ |\ \delta(Q_o,s)\ \cap\ Q_m \neq\emptyset\ \}</fdmath>.
 </p>
 
-<p>
-When infinite length strings are to be considered, we may refer to 
-the omega languages
-<br />
-<br />
-<fdmath>B(G)\ :=\ \{w \in \Sigma^w \ |\ \text{all prefixes } s\lt w \text{ are in } L(G)\ \}</fdmath> ,
-<br />
-<fdmath>Bm(G)\ :=\ \{w \in \Sigma^w \ |\ \text{there ex. a corresponding state sequence with inf. many states in }Q_m\  \}
-</fdmath> .
-<br />
-<br />
-The latter is refered to as <i>Buechi acceptance condition</i>. 
-For deterministic generators, 
-<fimath>Bm(G)</fimath> can be expressed as the limit of <fimath>Lm(G)</fimath>:
-<br />
-<br />
-<fdmath>Bm(G)\ =\ B(Lm(G))\ :=\ \{w \in \Sigma^w \ |\ \text{infinitely many prefixes } s\lt w \text{ are in } Lm(G)\ \}</fdmath> .
-<br />
-<br />
-In particular, for deterministic generators <fimath>G_1</fimath> and <fimath>G_2</fimath>
-with <fimath>Lm(G_1)=Lm(G_2)</fimath> we have <fimath>Bm(G_1)=Bm(G_2)</fimath>.
-</p>
 
 
 <h2>

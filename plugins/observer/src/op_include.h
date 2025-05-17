@@ -49,7 +49,7 @@
 
 @ingroup AllPlugins
 
-@section OpOverview Overview
+@subsection OpOverview Overview
 
 <p>
 This plugin offers algorithms for the verification and synthesis 
@@ -72,7 +72,7 @@ K. Schmidt and C. Breindl, "On Maximal Permissiveness of Hierarchical and Modula
 Control Approaches for Discrete Event Systems," Workshop on Discrete Event Systems, 2008. 
 </i></p>
 
-@section OpLicense License
+@subsection OpLicense License
 
 <p>
 The initial version of the observer plug-in was implemented 
@@ -83,10 +83,6 @@ The observer plugin is distributed with libFAUDES and under the terms of
 the LGPL.
 </p>
 
-
-
-<br>
-<br>
 <br>
 
 

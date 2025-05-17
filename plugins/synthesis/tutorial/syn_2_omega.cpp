@@ -54,15 +54,15 @@ int main() {
   Generator specab3("data/wspecab3.gen");
 
   // Fix lazy specifications by intersection with plant
-  Generator specab11; OmegaProduct(specab1,machineab1,specab11); specab11.OmegaTrim();
-  Generator specab21; OmegaProduct(specab2,machineab1,specab21); specab21.OmegaTrim();
-  Generator specab31; OmegaProduct(specab3,machineab1,specab31); specab31.OmegaTrim();
-  Generator specab12; OmegaProduct(specab1,machineab2,specab12); specab12.OmegaTrim();
-  Generator specab22; OmegaProduct(specab2,machineab2,specab22); specab22.OmegaTrim();
-  Generator specab32; OmegaProduct(specab3,machineab2,specab32); specab32.OmegaTrim();
-  Generator specab13; OmegaProduct(specab1,machineab3,specab13); specab13.OmegaTrim();
-  Generator specab23; OmegaProduct(specab2,machineab3,specab23); specab23.OmegaTrim();
-  Generator specab33; OmegaProduct(specab3,machineab3,specab33); specab33.OmegaTrim();
+  Generator specab11; BuechiProduct(specab1,machineab1,specab11); BuechiTrim(specab11);
+  Generator specab21; BuechiProduct(specab2,machineab1,specab21); BuechiTrim(specab21);
+  Generator specab31; BuechiProduct(specab3,machineab1,specab31); BuechiTrim(specab31);
+  Generator specab12; BuechiProduct(specab1,machineab2,specab12); BuechiTrim(specab12);
+  Generator specab22; BuechiProduct(specab2,machineab2,specab22); BuechiTrim(specab22);
+  Generator specab32; BuechiProduct(specab3,machineab2,specab32); BuechiTrim(specab32);
+  Generator specab13; BuechiProduct(specab1,machineab3,specab13); BuechiTrim(specab13);
+  Generator specab23; BuechiProduct(specab2,machineab3,specab23); BuechiTrim(specab23);
+  Generator specab33; BuechiProduct(specab3,machineab3,specab33); BuechiTrim(specab33);
 
   // Report result to console
   std::cout << "################################\n";
@@ -78,15 +78,15 @@ int main() {
 
 
   // Test (relative closedness)
-  bool rcl1_1 = IsRelativelyOmegaClosed(machineab1,specab11);
-  bool rcl2_1 = IsRelativelyOmegaClosed(machineab1,specab21);
-  bool rcl3_1 = IsRelativelyOmegaClosed(machineab1,specab31);
-  bool rcl1_2 = IsRelativelyOmegaClosed(machineab2,specab12);
-  bool rcl2_2 = IsRelativelyOmegaClosed(machineab2,specab22);
-  bool rcl3_2 = IsRelativelyOmegaClosed(machineab2,specab32);
-  bool rcl1_3 = IsRelativelyOmegaClosed(machineab3,specab13);
-  bool rcl2_3 = IsRelativelyOmegaClosed(machineab3,specab23);
-  bool rcl3_3 = IsRelativelyOmegaClosed(machineab3,specab33);
+  bool rcl1_1 = IsBuechiRelativelyClosed(machineab1,specab11);
+  bool rcl2_1 = IsBuechiRelativelyClosed(machineab1,specab21);
+  bool rcl3_1 = IsBuechiRelativelyClosed(machineab1,specab31);
+  bool rcl1_2 = IsBuechiRelativelyClosed(machineab2,specab12);
+  bool rcl2_2 = IsBuechiRelativelyClosed(machineab2,specab22);
+  bool rcl3_2 = IsBuechiRelativelyClosed(machineab2,specab32);
+  bool rcl1_3 = IsBuechiRelativelyClosed(machineab3,specab13);
+  bool rcl2_3 = IsBuechiRelativelyClosed(machineab3,specab23);
+  bool rcl3_3 = IsBuechiRelativelyClosed(machineab3,specab33);
 
 
   // Report result to console
@@ -288,7 +288,7 @@ int main() {
 
   // verify
   bool cntr1 = IsControllable(ex1plant,ex1controller);
-  bool closed1 = IsRelativelyOmegaClosed(ex1plant,ex1controller);
+  bool closed1 = IsBuechiRelativelyClosed(ex1plant,ex1controller);
 
   // Prepare graphical output for documentation
   ex1plant.Write("tmp_syn_2_wplant1.gen");
@@ -321,7 +321,7 @@ int main() {
 
   // verify
   bool cntr2 = IsControllable(ex2plant,ex2controller);
-  bool closed2 = IsRelativelyOmegaClosed(ex2plant,ex2controller);
+  bool closed2 = IsBuechiRelativelyClosed(ex2plant,ex2controller);
 
   // Report result to console
   std::cout << "################################\n";
@@ -352,7 +352,7 @@ int main() {
 
   // verify
   bool cntr3 = IsControllable(ex3plant,ex3controller);
-  bool closed3 = IsRelativelyOmegaClosed(ex3plant,ex3controller);
+  bool closed3 = IsBuechiRelativelyClosed(ex3plant,ex3controller);
   Generator ex3plant_loc = ex3plant;
   Generator ex3contr_loc = ex3controller;
   MarkAllStates(ex3plant_loc);

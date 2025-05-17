@@ -80,7 +80,7 @@ J. E. R. Cury, IEEE Conference on Decision and Control, 2007.
 </i></p>
 
 
-@section MtcLicense License
+@subsection MtcLicense License
 
 <p>
 The implementation of the multitasking plug-in was part
@@ -89,8 +89,6 @@ The code is distributed with libFAUDES and under the terms of
 the LGPL.
 </p>
 
-<br>
-<br>
 <br>
 
 

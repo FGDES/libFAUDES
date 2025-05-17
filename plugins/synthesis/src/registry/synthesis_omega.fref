@@ -43,7 +43,7 @@ if the following conditions are satisfied:
 <p>
 <b>Note 1:</b> for omega-languages, the closure 
 operator <fimath>\Closure{\cdot}</fimath>  refers to the so called <i>topological closure</i>; 
-see also <ffnct>OmegaClosure</ffnct>. The prefix operator <fimath>\Prefix{\cdot}</fimath> gives the
+see also <ffnct>BuechiClosure</ffnct>. The prefix operator <fimath>\Prefix{\cdot}</fimath> gives the
 set of all finite length prefixes. 
 </p>
 
@@ -141,7 +141,7 @@ can be computed by <ffnct>OmegaSupConNB</ffnct>.
 
 
 <h2>
-Example
+<a id="Example">Example</a>
 </h2>
 
 <p>
@@ -193,7 +193,7 @@ Note that, technically, a specification language is required to be a
 subset of the plant language. The above realisations are "lazy" in the sense
 that they do not fulfil this requirement. For the following diccussion,
 we think of the above specifications to be intersected with the respective
-plant language; see also <ffnct>OmegaParallel</ffnct>.
+plant language; see also <ffnct>BuechiParallel</ffnct>.
 </p>
 
 <p>
@@ -313,7 +313,7 @@ specified as the complement of the parameter <i>ACntrl</i>.
 </p>
 <p>
 The current implementation performs the test by invoking
-<ffnct>IsControllable</ffnct> and <ffnct>IsRelativelyOmegaClosed</ffnct>.
+<ffnct>IsControllable</ffnct> and <ffnct>IsBuechiRelativelyClosed</ffnct>.
 It returns true, if both conditions are satisfied. 
 </p>
 
@@ -650,83 +650,6 @@ This implementation requires the alphabets of plant and specification
 to match. Furthermore, both generators must be deterministic.
 Effectively, the specification is intersected with the plant.
 The result will be deterministic and omega-trim.
-</p>
-
-
-</ffnct_reference>
-
-<!-- ================================================================ -->
-<!-- ================================================================ -->
-<!-- ================================================================ -->
-<!-- ================================================================ -->
-
-
-<ffnct_reference name="IsRelativelyOmegaClosed">
-<fdetails/>
-
-<p>
-An omega-language <fimath>K</fimath> is relatively closed w.r.t. the omega-language
-<fimath>L</fimath>, if <fimath>K</fimath> can be recovered from its closure and <fimath>L</fimath>.
-Formally:
-<br/>
-<br/>
-<fdmath>K= \Closure{K}\,\cap\,L</fdmath> .
-<br/>
-<br/>
-Note that, the closure operator refers to the so called
-topological closure; see also <ffnct>OmegaClosure</ffnct>.
-</p>
-<p>
-This function tests, whether
-<br/>
-<br/>
-<fdmath>Bm(GCand)= B(GCand) \,\cap\,Bm(GPlant)</fdmath> 
-<br/>
-<br/>
-by performing the product composition of the two generators in order to verify the
-following three conditions:
-</p>
-<ul class="l2">
-<li><p>
-<fimath>L(GCand) \subseteq  L(GPlant)</fimath>;
-</p></li>
-<li><p>
-no SCC of <fimath>GPlant \times GCand</fimath> without GCand-marking contains a state with GPlant-marking; and
-</p></li>
-<li><p>
-no SCC of <fimath>GPlant \times GCand</fimath> without GPlant-marking contains a state with GCond-marking.
-</p></li>
-</ul>
-<p>
-The function returns "true" if all conditions are satisfied.
-</p>
-
-
-<fexample/>
-
-<p>
-Consider the A-B-machine in the variant in which B exhausts the machine
-and the specification that persistently requires any sucessful operation.
-Then the product will generate strings <tt>b c (b d)^*</tt>. Consider the
-omega-limit w of this set of strings. The states attained when generating
-w eventually correspond to the plant states <tt>XB</tt> and <tt>FB</tt>
-and to the specification state <tt>B</tt>. 
-In the product generator, the states must be part of an SCC.
-Furthermore, since <tt>B</tt> is not marked there must exists an SCC 
-with no specification-marked state. However, this SCC also contains
-a state that coresponds to <tt>XB</tt>, which is marked by the plant. Thus,
-the procedure return "false".
-</p>
-
-
-
-
-<fconditions/>
-
-<p>
-This implementation requires the alphabets of both generators to match. 
-Furthermore, both specified generators must be deterministic
-and omega-trim.
 </p>
 
 </ffnct_reference>

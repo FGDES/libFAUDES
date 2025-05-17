@@ -60,6 +60,7 @@
 ifeq ($(FAUDES_PLUGINS),)
 FAUDES_PLUGINS = 
 #FAUDES_PLUGINS += example      # docu only
+FAUDES_PLUGINS += omegaaut	
 FAUDES_PLUGINS += synthesis	
 FAUDES_PLUGINS += observer
 FAUDES_PLUGINS += multitasking
@@ -729,7 +730,7 @@ CPPFILES = $(CPPFILESMIN) \
   cfl_baseset.cpp cfl_indexset.cpp cfl_symbolset.cpp cfl_nameset.cpp cfl_transset.cpp \
   cfl_generator.cpp cfl_agenerator.cpp cfl_cgenerator.cpp cfl_localgen.cpp \
   cfl_graphfncts.cpp cfl_parallel.cpp cfl_determin.cpp cfl_project.cpp cfl_statemin.cpp\
-  cfl_regular.cpp cfl_conflequiv.cpp cfl_bisimulation.cpp cfl_bisimcta.cpp cfl_omega.cpp 
+  cfl_regular.cpp cfl_conflequiv.cpp cfl_bisimulation.cpp cfl_bisimcta.cpp
 
 
 RTIDEFS = cfl_definitions.rti

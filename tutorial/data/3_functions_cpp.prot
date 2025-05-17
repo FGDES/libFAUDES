@@ -43,7 +43,7 @@
 % 
 % 
 
-%%% test mark: parallel [at 3_functions.cpp:155]
+%%% test mark: parallel [at 3_functions.cpp:146]
 % 
 %  Statistics for G1||G2
 % 
@@ -58,22 +58,7 @@
 % 
 % 
 
-%%% test mark: wparallel [at 3_functions.cpp:156]
-% 
-%  Statistics for very simple machine 1|||very simple machine 2
-% 
-%  States:        10
-%  Init/Marked:   1/2
-%  Events:        4
-%  Transitions:   20
-%  StateSymbols:  10
-%  Attrib. E/S/T: 0/0/0
-% 
-% 
-% 
-% 
-
-%%% test mark: boolean union [at 3_functions.cpp:238]
+%%% test mark: boolean union [at 3_functions.cpp:228]
 % 
 %  Statistics for Union(g1,g2)
 % 
@@ -88,7 +73,7 @@
 % 
 % 
 
-%%% test mark: boolean inter [at 3_functions.cpp:239]
+%%% test mark: boolean inter [at 3_functions.cpp:229]
 % 
 %  Statistics for Intersection(g1,g2)
 % 
@@ -103,7 +88,7 @@
 % 
 % 
 
-%%% test mark: boolean compl [at 3_functions.cpp:240]
+%%% test mark: boolean compl [at 3_functions.cpp:230]
 % 
 %  Statistics for Complement(g1)
 % 
@@ -118,7 +103,7 @@
 % 
 % 
 
-%%% test mark: boolean equal [at 3_functions.cpp:241]
+%%% test mark: boolean equal [at 3_functions.cpp:231]
 <Boolean>
 false        
 </Boolean>
@@ -126,7 +111,7 @@ false
 % 
 % 
 
-%%% test mark: difference [at 3_functions.cpp:269]
+%%% test mark: difference [at 3_functions.cpp:259]
 % 
 %  Statistics for Intersection(languagedifference_g1,...nt(languagedifference_g2,Alphabet))
 % 
@@ -141,7 +126,7 @@ false
 % 
 % 
 
-%%% test mark: automaton [at 3_functions.cpp:292]
+%%% test mark: automaton [at 3_functions.cpp:282]
 % 
 %  Statistics for Automaton(g1)
 % 
@@ -156,7 +141,7 @@ false
 % 
 % 
 
-%%% test mark: concat  [at 3_functions.cpp:338]
+%%% test mark: concat  [at 3_functions.cpp:328]
 % 
 %  Statistics for Concatenate(g5,g6)
 % 
@@ -171,7 +156,7 @@ false
 % 
 % 
 
-%%% test mark: kleene closure  [at 3_functions.cpp:404]
+%%% test mark: kleene closure  [at 3_functions.cpp:394]
 % 
 %  Statistics for KleeneClosure(g1)
 % 
@@ -186,7 +171,7 @@ false
 % 
 % 
 
-%%% test mark: kleene closure  [at 3_functions.cpp:423]
+%%% test mark: kleene closure  [at 3_functions.cpp:413]
 % 
 %  Statistics for KleeneClosureNonDet(g2)
 % 
@@ -201,7 +186,7 @@ false
 % 
 % 
 
-%%% test mark: prefix closure [at 3_functions.cpp:459]
+%%% test mark: prefix closure [at 3_functions.cpp:449]
 % 
 %  Statistics for PrefixClosure(g)
 % 
@@ -216,22 +201,7 @@ false
 % 
 % 
 
-%%% test mark: omega closure [at 3_functions.cpp:496]
-% 
-%  Statistics for OmegaClosure(g)
-% 
-%  States:        5
-%  Init/Marked:   1/5
-%  Events:        4
-%  Transitions:   7
-%  StateSymbols:  5
-%  Attrib. E/S/T: 0/0/0
-% 
-% 
-% 
-% 
-
-%%% test mark: nonblocking 0 [at 3_functions.cpp:559]
+%%% test mark: nonblocking 0 [at 3_functions.cpp:512]
 % 
 %  Statistics for noblo_ae
 % 
@@ -246,7 +216,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 1 [at 3_functions.cpp:580]
+%%% test mark: nonblocking 1 [at 3_functions.cpp:533]
 <Boolean>
 true         
 </Boolean>
@@ -254,7 +224,7 @@ true
 % 
 % 
 
-%%% test mark: nonblocking 2 [at 3_functions.cpp:598]
+%%% test mark: nonblocking 2 [at 3_functions.cpp:551]
 <Boolean>
 true         
 </Boolean>
@@ -262,7 +232,7 @@ true
 % 
 % 
 
-%%% test mark: nonblocking 3 [at 3_functions.cpp:616]
+%%% test mark: nonblocking 3 [at 3_functions.cpp:569]
 <Boolean>
 false        
 </Boolean>
@@ -270,7 +240,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 4 [at 3_functions.cpp:633]
+%%% test mark: nonblocking 4 [at 3_functions.cpp:586]
 <Boolean>
 false        
 </Boolean>
@@ -278,7 +248,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 9a [at 3_functions.cpp:718]
+%%% test mark: nonblocking 9a [at 3_functions.cpp:671]
 <Boolean>
 false        
 </Boolean>
@@ -286,7 +256,7 @@ false
 % 
 % 
 
-%%% test mark: nonblocking 9b [at 3_functions.cpp:728]
+%%% test mark: nonblocking 9b [at 3_functions.cpp:681]
 <Boolean>
 false        
 </Boolean>

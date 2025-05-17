@@ -75,7 +75,7 @@ by the following components:
 - documentation class faudes::FunctionDefinition to accompany faudes-functions;
 - container class faudes::FunctionRegistry to hold FunctionDefintiion objects.
 
-@section RunTimeInterfaceSec2 Faudes-Types
+@subsection RunTimeInterfaceSec2 Faudes-Types
 
 Classes that participate in the run-time interface are referred to
 as faudes-types, instances are so called faudes-objects. Any faudes-type must
@@ -87,7 +87,7 @@ faudes-type, also an appropriate assignment operator and a copy constructor
 are required.
 
 
-@section RunTimeInterfaceSec3 Faudes-Type Definitions
+@subsection RunTimeInterfaceSec3 Faudes-Type Definitions
 
 A faudes-type is accompanied by an instance of faudes::TypeDefinition. It holds
 a name (std::string) to identify the faudes-type,
@@ -100,7 +100,7 @@ TypeDefinition, you are meant to provide the faudes-type name, the protototype
 and a file from which to read the documentation.
 
 
-@section RunTimeInterfaceSec4 Faudes-Functions and Faudes-Function Definitions
+@subsection RunTimeInterfaceSec4 Faudes-Functions and Faudes-Function Definitions
 
 Functions that participate in the run-time interface are organized similar
 to faudes-types. There is a base class faudes::Function from which to derive 
@@ -114,7 +114,7 @@ C++ API. Each Function class is accompanied by a faudes::FunctionDefinition inst
 which holds a prototype, basic documentation and a list of valid signatures. Each signature
 represents a valid parameter type configurations in terms of faudes-types. 
 
-@section RunTimeInterfaceSec5 Type- and Function-Registry 
+@subsection RunTimeInterfaceSec5 Type- and Function-Registry 
 
 The faudes::TypeRegistry and the faudes::FunctionRegistry are containers for TypeDefinition
 and FunctionDefinition instances, respectively. Applications access the registries via
@@ -130,7 +130,7 @@ set-up by the build system to gather all relevant prototypes, insert them in the
 registries and to subsequently read further documentation from a configuration 
 file.
 
-@section RunTimeInterfaceSec6 RTI and the Build System
+@subsection RunTimeInterfaceSec6 RTI and the Build System
 
 At stage <tt>make configure</tt>, the build system sets up the function LoadRegistry()
 by  

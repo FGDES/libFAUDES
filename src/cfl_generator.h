@@ -46,7 +46,7 @@ namespace faudes {
 /**
  * Base class of all FAUDES generators.
  * 
- * \section GeneratorMembers Overview
+ * @subsection GeneratorMembers Overview
  *
  * The faudes::vGenerator models the plain five-tupel G = (X, Sigma, Delta, X_0, X_m) to represent
  * the marked language L(G) and closed language L_m(G), respectively. It provides read and write
@@ -67,7 +67,7 @@ namespace faudes {
  * is not in the alphabet. 
  *
  *
- * \section SecEventsVersusStates Events Versus States
+ * @subsection SecEventsVersusStates Events Versus States
  *
  * While both, events and states, are represented by the integer type faudes::Idx, there
  * is a fundamental distinction between both, which stems from the design choice to use generators
@@ -91,7 +91,7 @@ namespace faudes {
  * of the respective arguments. Turning of this feature and avoiding state names alltogether
  * considerably increases libFAUDES performance.
  *
- * \section GeneratorFileFormat File I/O (default format)
+ * @subsection GeneratorFileFormat File I/O (default format)
  *
  * Generators inherit the standard token IO interface from the libFAUDES general purpose base Type, 
  * so you may use Read and Write functions for generators. The file-format consists of a generator 
@@ -154,7 +154,7 @@ namespace faudes {
  * </Generator>
  * @endcode
  * 
- * \section GeneratorFileFormatXML File I/O (XML file-format)
+ * @subsection GeneratorFileFormatXML File I/O (XML file-format)
  *
  * The alternative file file format prodiced by XWrite() is meant to accomodate
  * for additional attributes attached to states, events and transitions, including e.g.
@@ -190,7 +190,7 @@ namespace faudes {
  * @endcode
  *
  *
- * \section GeneratorAttributes Attributes
+ * @subsection GeneratorAttributes Attributes
  *
  * libFAUDES generators provide an interface to access so called attributes, ie data that 
  * is optionally attached to individual states, events, transitions, or globally to the generator.
@@ -2368,35 +2368,6 @@ class FAUDES_API vGenerator : public Type  {
   bool IsTrim(void) const;
 
 
-  /**
-   * Make generator omega-trim
-   *
-   * This function removes states such that the generator becomes
-   * omega trim while not affecting the induced omega language. 
-   *
-   * The implementation first makes the generator accessible
-   * and then iteratively removes state that either 
-   * never reach a marked state or that are guaranteed to eventually
-   * reach a terminal state. There might be a more efficient 
-   * approach.
-   *
-   * @return 
-   *   True if resulting generator contains at least one initial state and at least one marked state.
-   */
-  bool OmegaTrim(void);
-
-
-  /**
-   * Check if generator is omega-trim.
-   *
-   * Returns true if all states are accessible, coacessible, and
-   * have a successor state.
-   *
-   * @return
-   *   True if generator is omega-trim
-   */
-  bool IsOmegaTrim(void) const;
-
 
 
   /** @} doxygen group */
@@ -3265,12 +3236,6 @@ extern FAUDES_API bool IsCoaccessible(const vGenerator& rGen);
 extern FAUDES_API bool IsTrim(const vGenerator& rGen);
 
 /** 
- * RTI wrapper function. See also vGenerator::IsOmegaTrim().
- * \ingroup GeneratorFunctions
- */
-extern FAUDES_API bool IsOmegaTrim(const vGenerator& rGen);
-
-/** 
  * RTI wrapper function. See also vGenerator::IsComplete().
  * \ingroup GeneratorFunctions
  */
@@ -3349,17 +3314,6 @@ extern FAUDES_API void Trim(vGenerator& rGen);
  */
 extern FAUDES_API void Trim(const vGenerator& rGen, vGenerator& rRes);
 
-/** 
- * RTI wrapper function. See also vGenerator::OmegaTrim().
- * \ingroup GeneratorFunctions
- */
-extern FAUDES_API void OmegaTrim(vGenerator& rGen);
-
-/** 
- * RTI wrapper function. See also vGenerator::OmegaTrim().
- * \ingroup GeneratorFunctions
- */
-extern FAUDES_API void OmegaTrim(const vGenerator& rGen, vGenerator& rRes);
 
 /** 
  * RTI wrapper function. 

@@ -2330,37 +2330,6 @@ StateSet vGenerator::TerminalStates(void) const {
 }
 
 
-// OmegaTrim
-bool vGenerator::OmegaTrim(void) {
-
-  // note: this really is inefficient; at least we should
-  // record the inverse transition relation for the coaccessile
-  // iteration
-
-  // first we make the generator accessible
-  Accessible();
-  // iterate coaccessible and complete until convergence in oserved
-  while(1) {
-    Idx osize=States().Size();
-    Coaccessible();
-    Complete();
-    if(States().Size()==osize) break;
-  }    
-  // done
-  return !InitStates().Empty() && !MarkedStates().Empty();
-}
-
-
-// IsOmegaTrim()
-bool vGenerator::IsOmegaTrim(void) const {
-  bool res=true;
-  if(!IsAccessible()) res=false;
-  else if(!IsCoaccessible()) res=false;
-  else if(!IsComplete()) res=false;
-  FD_DF("vGenerator::IsOmegaTrim(): result " << res);
-  return res;
-}
-
 
 
 // IsDeterministic()
@@ -3890,10 +3859,6 @@ bool IsTrim(const vGenerator& rGen) {
   return rGen.IsTrim();
 }
 
-// rti wrapper
-bool IsOmegaTrim(const vGenerator& rGen) {
-  return rGen.IsOmegaTrim();
-}
 
 // rti wrapper
 bool IsComplete(const vGenerator& rGen) {
@@ -3971,22 +3936,11 @@ void Trim(const vGenerator& rGen, vGenerator& rRes) {
   rRes.Trim();
 }  
 
-// rti wrapper
-void OmegaTrim(vGenerator& rGen) {
-  rGen.OmegaTrim();
-}
-
-// rti wrapper
-void OmegaTrim(const vGenerator& rGen, vGenerator& rRes) {
-  rRes=rGen;
-  rRes.OmegaTrim();
-}  
 
 // rti wrapper
 void MarkAllStates(vGenerator& rGen) {
   rGen.InjectMarkedStates(rGen.States());
 }
-
 
 // rti wrapper
 void AlphabetExtract(const vGenerator& rGen, EventSet& rRes) {

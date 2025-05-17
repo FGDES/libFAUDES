@@ -38,7 +38,8 @@ Examples are provided in the user reference,
 section <a href="../reference/synthesis_index.html">Synthesis</a>.
 </p>
 
-@section SynthesisLicense License
+@subsection SynthesisLicense License
+
 This plug-in is distributed with libFAUDES and under the terms of the LGPL.
 <br>
 <br>

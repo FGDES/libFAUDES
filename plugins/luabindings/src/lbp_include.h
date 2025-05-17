@@ -40,7 +40,7 @@ is Linux, you really want to re-compile with LBP_LUAGOAL=linux in the Makefile.p
 in order to enable advanced readline support (tab key completion, command history etc).
 </p>
 
-@section SecLuabindingsIntro1 Example Script
+@subsection SecLuabindingsIntro1 Example Script
 
 The following script runs a simple synthesis procedure to
 synthesise a supervisor - sic - for our two simple machines.
@@ -76,7 +76,7 @@ spec:Write();
 super:Write();
 @endcode
 
-@section SecLuabindingsIntro2 Extending Luabindings
+@subsection SecLuabindingsIntro2 Extending Luabindings
 
 
 When you use the libFAUDES plug-in mechanism to implement your algorithms,
@@ -121,7 +121,7 @@ bool IsGoodTest(Generator& rGen, rEventSet& rAlph);
 
 
 
-@section SecLuabindingsIntro3 Build System
+@subsection SecLuabindingsIntro3 Build System
 
 Since not every libFAUDES based application requires luabindings,
 the luabindings plug-in does not add code to libFAUDES itself but compiles
@@ -138,7 +138,7 @@ The build system organises the compilation of the luabindings plug-in in two sta
   are imposed. This stage is processed by the std build procedure, eg <tt>make clean</tt> and <tt>make</tt>.
 
 
-@section SecLuabindingsIntro4 Advanced Topic: RTI extensions by Lua functions
+@subsection SecLuabindingsIntro4 Advanced Topic: RTI extensions by Lua functions
 
 The Lua environment is designed to support both calling C code from a Lua script
 as well as calling Lua code from a C application. The latter direction is used
@@ -147,7 +147,7 @@ by Lua scripts that register with the libFAUDES run-time interface. Thus, libFAU
 that interface to libFAUDES via the RTI can be transparently extended by Lua scripts. 
 
 
-@section LbpLicense License
+@subsection LbpLicense License
 
 The luabindings plug-in is distributed with libFAUDES. 
 All code except Lua sources are provided under terms of the LGPL. 

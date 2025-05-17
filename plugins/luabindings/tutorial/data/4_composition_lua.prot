@@ -52,21 +52,6 @@
 % 
 % 
 
-%%% test mark: omegaparallel incl. attr. [at 4_composition.lua]
-% 
-%  Statistics for very simple machine_1|||very simple machine_2
-% 
-%  States:        10
-%  Init/Marked:   1/2
-%  Events:        4
-%  Transitions:   20
-%  StateSymbols:  10
-%  Attrib. E/S/T: 2/0/0
-% 
-% 
-% 
-% 
-
 %%% test mark: parallel empty alphabet a [at 4_composition.lua]
 % 
 %  Statistics for very simple machine_1||very simple machine_2

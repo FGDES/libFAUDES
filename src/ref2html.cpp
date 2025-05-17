@@ -511,6 +511,7 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"\\epsilon","epsilon");
   buff=StringSubstitute(buff,"\\omega","w");
   buff=StringSubstitute(buff,"\\Upsilon","Upsilon");
+  buff=StringSubstitute(buff,"\\pi","pi");
   // one-arg macros
   buff=TexMacroSubstitute1(buff,"\\ProInv","Pinv#1");
   buff=TexMacroSubstitute1(buff,"\\Pro","P#1");
@@ -548,9 +549,10 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"\\cdots","...");
   buff=StringSubstitute(buff,"\\cdot",".");
   buff=StringSubstitute(buff,"\\infty","&infin;");
+  buff=StringSubstitute(buff,"\\inf","inf");
+  buff=StringSubstitute(buff,"\\in","&nbsp;&isin;&nbsp;");
   buff=StringSubstitute(buff,"\\nin","&nbsp;&notin;&nbsp;");
   buff=StringSubstitute(buff,"\\not\\in","&nbsp;&notin;&nbsp;");
-  buff=StringSubstitute(buff,"\\in","&nbsp;&isin;&nbsp;");
   buff=StringSubstitute(buff,"\\subseteq","&nbsp;&sube;&nbsp;");
   buff=StringSubstitute(buff,"\\subset","&nbsp;&sub;&nbsp;");
   buff=StringSubstitute(buff,"\\supseteq","&nbsp;&supe;&nbsp;");
@@ -559,7 +561,6 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"\\dcup","&cup;"); // should be "&cup;&#775;" for "dot above"
   buff=StringSubstitute(buff,"\\cap","&cap;");
   buff=StringSubstitute(buff,"\\sup","sup");
-  buff=StringSubstitute(buff,"\\inf","inf");
   buff=StringSubstitute(buff,"\\max","max");
   buff=StringSubstitute(buff,"\\min","min");
   buff=StringSubstitute(buff,"\\parallel","||");
@@ -576,6 +577,7 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"\\Uparrow","&#x21e7;");
   buff=StringSubstitute(buff,"\\Downarrow","&#x21e9;");
   // ie7 fallback symbols
+  /*
   buff=StringSubstitute(buff,"&isin;","<span class=\"faudes_fmath\">&isin;</span>"); 
   buff=StringSubstitute(buff,"&notin;","<span class=\"faudes_fmath\">&notin;</span>"); 
   buff=StringSubstitute(buff,"&exist;","<span class=\"faudes_fmath\">&exist;</span>"); 
@@ -592,7 +594,8 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=StringSubstitute(buff,"&sub;","<span class=\"faudes_fmath\">&sub;</span>"); 
   buff=StringSubstitute(buff,"&sube;","<span class=\"faudes_fmath\">&sube;</span>"); 
   buff=StringSubstitute(buff,"&sup;","<span class=\"faudes_fmath\">&sup;</span>"); 
-  buff=StringSubstitute(buff,"&supe;","<span class=\"faudes_fmath\">&supe;</span>"); 
+  buff=StringSubstitute(buff,"&supe;","<span class=\"faudes_fmath\">&supe;</span>");
+  */
   // done
   *pStream << buff;
 }

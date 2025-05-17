@@ -49,7 +49,7 @@ Restrictions:
   
 </p>
 
-@section SecPybindingsIntro1 Example Script
+@subsection SecPybindingsIntro1 Example Script
 
 <p>
 In large, libFAUDES Python bindings follow the same conventions as the Lua bindingins.
@@ -134,7 +134,7 @@ If <tt>dot</tt> is not in the systems path, you may direct libfaudes via
 
 
 
-@section SecLuabindingsIntro3 Build System
+@subsection SecLuabindingsIntro3 Build System
 
 <p>
 To use python bindings, you will need to configure and recompile libFAUDES;
@@ -171,7 +171,7 @@ Notes:
 </p>
 
 
-@section PyLicense License
+@subsection PyLicense License
 
 The Python bindings plug-in is distributed with libFAUDES. 
 All code is  provided under terms of the LGPL. 
