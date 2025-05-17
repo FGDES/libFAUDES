@@ -1,0 +1,41 @@
+<Generator>
+"G"           
+
+<Alphabet>
+"a"           "b"  
+"c"           "d"
+</Alphabet>
+
+<States>
+"s1"          "s2"          "s3"           "s4"           "s5"           
+"s6"          "s7"          "s8"           "s9"           "s10"           
+"s11"
+</States>
+
+<TransRel>
+"s1"     "a"     "s2"
+"s2"     "b"     "s1"
+"s2"     "a"     "s3"
+"s3"     "c"     "s4"
+"s4"     "d"     "s3"
+"s4"     "b"     "s5"
+"s5"     "a"     "s6"
+"s5"     "b"     "s9"
+"s6"     "b"     "s7"
+"s7"     "a"     "s6"
+"s7"     "a"     "s8"
+"s9"     "a"     "s10"
+"s9"     "b"     "s11"             
+</TransRel>
+
+<InitStates>
+"s1"           
+</InitStates>
+
+<MarkedStates>
+"s2" "s9"   
+</MarkedStates>
+
+</Generator>
+
+

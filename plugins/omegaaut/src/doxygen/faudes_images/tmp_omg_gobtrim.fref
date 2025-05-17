@@ -1,0 +1,64 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_gobtrim.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_gobtrim.svg">
+<a class="faudes_image" href="tmp_omg_gobtrim.svg">
+<img src="tmp_omg_gobtrim.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="G"&gt;
+
+% 
+%  Statistics for G
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   2
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+s1            s2           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+s1            a             s2           
+s2            b             s1           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+s1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+s2           
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

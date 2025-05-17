@@ -1,0 +1,21 @@
+libFAUDES plug-in to provide some generic support for omega automata
+
+As of 2025, we started to collect support for omega languages in this separate
+plug-in. The rational is to prevent cluttering support for omega languages all
+over other plug-ins. Thus, the collection of data structures and algorithms is
+not restricted to libFAUDES use cases. Feel free to contribute.
+
+
+
+Contents
+
+Makefile.plugin        plugin to extend main makefile
+Makefile.tutorial      plugin to extend the tutorial targets of main makefile
+
+src/omg_*.cpp          c++ sources 
+src/omg_*.h            c++ headers
+src/omg_include.h      convenience header to include all other headers
+
+tutorial/omg_.*cpp     tutorial c++ sources, compile to executable
+tutorial/data/*        input data for tutorials
+

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="OmegaAut" page="2_BuechiFncts" title="OmegaAut - Buechi">
+<h1>
+Functions on Buechi Automata
+</h1>
+
+<p>
+The omega-automata plug-in provides a set of general purpose operations on Buechi Automata.
+</p>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="IsBuechiTrim">
+<fdetails/>
+<p>
+A Buechi automaton <i>G</i> is <i>trim</i> if it is accessible, co-accessible,
+and complete;
+i.e. if all states contribute to the accepted language <fimath>Bm(G)</fimath>.
+This function returns "true" if <i>G</i> is omega-trim.
+Else it returns "false".
+</p>
+
+<fexample/>
+
+<table class="plain"> <tr> <td> 
+<table>
+<tr> <td> G </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_notbtrim"/> </td> 
+</tr>
+</table> 
+</td> </tr> </table>
+
+<p>
+The example generator fails to be trim since it is
+co-accessible nor complete. Clearly, any state that is not 
+does contribute to <fimath>Bm(G)</fimath>,
+neither does a state that is guaranteed to evolve into a state with no successor.
+Note, however, the states <tt>s3</tt> and <tt>s4</tt> do not fall
+into any of the latter cathegories but still don't conribute to <fimath>Bm(G)</fimath>.
+This is because <tt>s3</tt> and <tt>s4</tt> can evolve into a marked state and 
+they can be extended infinitely, but they can not be extended infinitely while 
+passing marked states infinitely often.
+</p>
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="BuechiTrim">
+<fdetails/>
+
+<p>
+Trim a given Buechi automaton <i>G</i> by 
+repeatedly removing states that are not accessible, not co-accessible, or have no successor state.
+The accepted language <fimath>Bm(G)</fimath> is not affected.
+</p>
+
+<p>
+When applied on the above example, <ffnct>BuechiTrim</ffnct> returns 
+the result:
+<br />
+<br />
+<fimage fsrc="tmp_omg_gobtrim"/> 
+<br />
+<br />
+</p>
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="IsBuechiClosed">
+<fdetails/>
+<p>
+A omega-language <fimath>L\subseteq \Sigma^\omega</fimath> 
+is <i>topologically closed</i> if any strictly
+increasing sequence of prefixes from <fimath>L</fimath> converges to an 
+omega-string in <fimath>L</fimath>, i.e. if
+<br/>
+<br/>
+<fimath>L=B(\Prefix{L})</fimath>,
+<br/>
+<br/>
+where <fimath>\Prefix{L}\subseteq\Sigma^*</fimath> denotes the set 
+of all finite prefixes from <fimath>L</fimath> and
+<fimath>B(\cdot)</fimath> is the adherence operator.
+</p>
+<p>
+The function <ffnct>IsBuechiClosed</ffnct> tests for the specified Buechi automaton
+<fimath>G</fimath> whether <fimath>Bm(G)</fimath> is topologically closed. The implementation
+first computes the omega-trim state set. If within this
+set there exists an SCC with no marked states the function returns false.
+Else it returns true.
+</p>
+
+<fexample/>
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> G </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_bclosure_g"/> </td> 
+</tr>
+</table> 
+</td> </tr> </table>
+<p>
+The language <fimath>B_m(G)</fimath> realized by the above Buechi automaton is not
+topolgically closed.
+The states <tt>6</tt> and <tt>7</tt> constitute 
+an SCC when restricting G to the buechi-trim state set <tt>{1,2,4,6,7}</tt>. Thus,
+the limit of the sequence  <tt> a d (a b)^i</tt> is in 
+<fimath>B(\Prefix{L})</fimath> but not in <fimath>B(L)</fimath>.
+The function <ffnct>IsBuechiClosed</ffnct> returns false.
+</p>
+
+<fconditions/>
+<p>
+The argument must be deterministic.
+</p>
+
+</ffnct_reference>
+
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="BuechiClosure">
+<fdetails/>
+<p>
+For any omega-language <fimath>L\subseteq \Sigma^\omega</fimath> 
+there exists a smallest omega-closed
+superset, the so-called <i>topological closure</i>
+of <fimath>L</fimath>:
+<br/>
+<br/>
+<fimath>\Closure{L}=B(\Prefix{L})\subseteq \Sigma^\omega</fimath>, 
+<br/>
+<br/>
+where <fimath>\Prefix{H}\subseteq\Sigma^*</fimath> denotes the set 
+of all finite prefixes from <fimath>H</fimath> and
+<fimath>B(\cdot)</fimath> is the limit operator
+; see also <ffnct>IsBuechiClosed</ffnct>.
+</p>
+<p>
+The function <ffnct>BuechiClosure</ffnct> computes a realisation of the
+the topological closure for the specified omega language <fimath>B_m(GArg)</fimath>.
+It first invokes <ffnct>BuechiTrim</ffnct> and then markes all states.
+Thus,
+<fimath>\Closure{Bm(GArg)}=B(GRes)=Bm(GRes)</fimath> and
+<fimath>\Prefix{Bm(GArg)}=L(GRes)=Lm(GRes)</fimath>.
+</p>
+
+<fexample/>
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> G </td> <td> GRes  </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_bclosure_g"/> </td> 
+<td> <fimage fsrc="tmp_omg_bclosure_gRes"/> </td> 
+</tr>
+</table> 
+</td> </tr> </table>
+
+</ffnct_reference>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="IsBuechiRelativelyClosed">
+<fdetails/>
+
+<p>
+An omega-language <fimath>K</fimath> is relatively closed w.r.t. the omega-language
+<fimath>L</fimath>, if <fimath>K</fimath> can be recovered from its closure and <fimath>L</fimath>.
+Formally:
+<br/>
+<br/>
+<fdmath>K= \Closure{K}\,\cap\,L</fdmath> .
+<br/>
+<br/>
+Note that, the closure operator refers to the so called
+topological closure; see also <ffnct>BuechiClosure</ffnct>.
+</p>
+<p>
+This function tests, whether
+<br/>
+<br/>
+<fdmath>Bm(GCand)= B(GCand) \,\cap\,Bm(GPlant)</fdmath> 
+<br/>
+<br/>
+by performing the product composition of the two generators in order to verify the
+following three conditions:
+</p>
+<ul class="l2">
+<li><p>
+<fimath>L(GCand) \subseteq  L(GPlant)</fimath>;
+</p></li>
+<li><p>
+no SCC of <fimath>GPlant \times GCand</fimath> without GCand-marking contains a state with GPlant-marking; and
+</p></li>
+<li><p>
+no SCC of <fimath>GPlant \times GCand</fimath> without GPlant-marking contains a state with GCond-marking.
+</p></li>
+</ul>
+<p>
+The function returns "true" if all conditions are satisfied.
+</p>
+
+
+<fexample/>
+
+<p>
+Consider the A-B-machine in the variant in which B exhausts the machine
+with the  specification that persistently requires any sucessful operation;
+see <a href="synthesis_omega.html#Example">Omega Synthesiss Example</a>.
+Then the product will generate strings <tt>b c (b d)^*</tt>. Consider the
+omega-limit w of this set of strings. The states attained when generating
+w eventually correspond to the plant states <tt>XB</tt> and <tt>FB</tt>
+and to the specification state <tt>B</tt>. 
+In the product generator, the states must be part of an SCC.
+Furthermore, since <tt>B</tt> is not marked there must exists an SCC 
+with no specification-marked state. However, this SCC also contains
+a state that coresponds to <tt>XB</tt>, which is marked by the plant. Thus,
+the procedures return "false".
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of both generators to match. 
+Furthermore, both specified generators must be deterministic
+and trim (w.r.t. Buechi acceptance).
+</p>
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="BuechiProduct">
+
+<fdetails/>
+
+<p>
+Given two Buechi automata <fimath>G_1</fimath>  and <fimath>G_2</fimath>,
+this function computes an automaton <fimath>GRes</fimath> such that
+<br/>
+<br/>
+<fdmath>L(GRes) = L(G1) \,\cap\ L(G2)</fdmath><br/>
+<fdmath>B_m(GRes) = B_m(G1) \,\cap\, B_m(G2) </fdmath>
+<br/>
+<br/>
+</p>
+<p>
+The implementation is similar to that of <ffnct>Parallel</ffnct>, except that
+we augment the state set to hold an extra flag to track when 
+<i>G1</i> attains a marking after <i>G2</i> did so. This enables the construction of a
+a set of marked states for <i>GRes</i> that when passed infinitely often implies that this
+also was the case for <i>G1</i> and <i>G2</i>.
+</p>
+
+<fconditions/>
+
+<p>
+The alphabets of both arguents must match.
+Arguments are required to be deterministic, and so will be the result.
+In this implementation, only accessible states are generated. 
+It is considered
+an error if the controllability flags in the arguments don't match.
+</p>
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="BuechiParallel">
+
+<fdetails/>
+
+<p>
+The marking introduced by the ordinary <ffnct>Parallel</ffnct> composition requires that
+each component attains a marked state <i>simultaneously</i>. 
+This condition may turn out too restrictive when 
+focus is on the infinite time behaviour.
+</p>
+<p>
+The function <ffnct>BuechiParallel</ffnct> relaxes the acceptance condition, in that it 
+requires each component always to eventually accept the generated prefix,
+but not necessarily simultaneously with the other component: 
+</p>
+<p>
+<br/>
+<fdmath>L(GRes) = L(G1) \,\parallel\, L(G2)</fdmath>
+<br/>
+<fdmath>B_m(GRes) = B_m(G1) \,\parallel\, B_m(G2) </fdmath>
+<br/>
+<fdmath>\quad:=\{w \in \Sigma^w |\ \Pro{1}(w) \in B_m(G1) \text{ and } \Pro{2}(w) \in B_m(G2)\ \}</fdmath>
+<br/>
+<br/>
+where <fimath>\Pro{1}</fimath> and <fimath>\Pro{2}</fimath> denote the natural projections
+on the respective alphabet.
+</p>
+
+<p>
+Technically,  <ffnct>BuechiParallel</ffnct> constructs its result on the product
+of the state spaces of <i>G1</i> and <i>G2</i> with an additional boolean flag.
+The flag is used to mark those states in <i>GRes</i> that correspond to
+a <i>G2</i>-marking with most recent marking in <i>G1</i>. Thus, a trajectory that
+passes a <i>GRes</i>-marking infinitely often, also passes infinitely many marked states in
+<i>G1</i> and <i>G2</i>.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table>
+<tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_bparallel_g1"/> </td> 
+<td> <fimage fsrc="tmp_omg_bparallel_g2"/> </td> 
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table width="100%">
+<tr> <td> Composition G=G1 ||| G2 </td> </tr>
+<tr> <td> <fimage fsrc="tmp_omg_bparallel_g1g2"/> </td> </tr>
+</table> </td> </tr> 
+</table>
+
+<fconditions/>
+
+<p>
+In this implementation, only accessible states are generated. 
+Arguments are required to be deterministic, and so will be the result.
+It is considered
+an error if the controllability flags in the arguments don't match.
+</p>
+
+</ffnct_reference>
+
+
+</ReferencePage>
+
+  

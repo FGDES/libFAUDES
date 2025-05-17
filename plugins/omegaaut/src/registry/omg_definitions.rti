@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE Registry SYSTEM "registry.dtd">
+<Registry> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsBuechiClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::IsBuechiClosed" ctype="faudes::IsBuechiClosed"> 
+
+<Documentation ref="omegaaut_buechifnct.html#IsBuechiClosed"> 
+Tests a language for being topolicigally closed.
+</Documentation> 
+<Keywords> 
+OmegaAut    Functions     "language misc"  "omega closed"  closed        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsBuechiClosed(G)"> 
+<Parameter name="G" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsBuechiRelativelyClosed -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::IsBuechiRelativelyClosed" ctype="faudes::IsBuechiRelativelyClosed"> 
+
+<Documentation ref="omegaaut_buechifnct.html#IsBuechiRelativelyClosed"> 
+Test for relative closedness of Buechi accepted language
+</Documentation> 
+<Keywords> 
+OmegaAut     controllability  "relative closed"  "relative marked"  nonblocking   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsBuechiRelativelyClosed(GPlant,GCand)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsBuechiTrim -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::IsBuechiTrim" ctype="faudes::IsBuechiTrim"> 
+
+<Documentation ref="omegaaut_buechifnct.html#IsBuechiTrim"> 
+Tests a Buechi automaton for trimness.
+</Documentation> 
+<Keywords> 
+OmegaAut    Functions     reachability  generator     trim          reachable     
+"omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="Default"> 
+<Parameter name="G" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiClosure -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiClosure" ctype="faudes::BuechiClosure"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiClosure"> 
+Realise topological closure for given language.
+</Documentation> 
+<Keywords> 
+OmegaAut    Functions     "language misc"  generator     language      omega         
+closure       
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="BuechiClosure(GArg)"> 
+<Parameter name="GArg" ftype="Generator" access="InOut"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiParallel -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiParallel" ctype="faudes::aBuechiParallel"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiParallel"> 
+Parallel composition with relaxed acceptance condition.
+</Documentation> 
+<Keywords> 
+OmegaAut    Functions     "generator misc"  "parallel composition"  "synchronous product"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="GRes = G1 || G2"> 
+<Parameter name="G1" ftype="Generator" access="In"/> 
+<Parameter name="G2" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiProduct -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiProduct" ctype="faudes::aBuechiProduct"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiProduct"> 
+Product composition for Buechi acceptance condition.
+</Documentation> 
+<Keywords> 
+OmegaAut    Functions     "generator misc"  "parallel composition"  "synchronous product"  
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="GRes = G1 xx G2"> 
+<Parameter name="G1" ftype="Generator" access="In"/> 
+<Parameter name="G2" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiTrim -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiTrim" ctype="faudes::BuechiTrim"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiTrim"> 
+Delete states to achieve omega-trimness.
+</Documentation> 
+<Keywords> 
+OmegaAut    Functions     reachability  generator     trim          reachable     
+"omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="G:=BuechiTrim(G)"> 
+<Parameter name="G" ftype="Generator" access="InOut"/> 
+</Signature> 
+
+<Signature name="GRes=BuechiTrim(GArg)"> 
+<Parameter name="GArg" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+</Registry>

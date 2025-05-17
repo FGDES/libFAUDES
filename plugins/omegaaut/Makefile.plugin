@@ -1,0 +1,66 @@
+#
+# makefile for libfaudes omegaaut plugin
+#
+# included by faudes Makefile
+#
+# insert the following line in main Makefile to activate plugin
+#
+# FAUDES_PLUGINS += omegaaut
+#
+
+OMG_NAME   = omegaaut
+OMG_BASE   = ./plugins/$(OMG_NAME)
+OMG_SRCDIR = $(OMG_BASE)/src
+
+#
+# list source files
+
+OMG_CPPFILES = omg_buechifnct.cpp  # omg_rabinacc.cpp omg_rabinaut.cpp
+OMG_INCLUDE = omg_include.h
+OMG_RTIDEFS = omg_definitions.rti
+OMG_RTIFREF = omegaaut_index.fref omegaaut_buechifnct.fref 
+
+#
+# fix directories
+
+OMG_HEADERS := $(OMG_CPPFILES:.cpp=.h) $(OMG_INCLUDE) 
+OMG_SOURCES := $(OMG_CPPFILES:%=$(OMG_SRCDIR)/%)
+OMG_OBJECTS := $(OMG_CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O))
+OMG_RTIDEFS := $(OMG_RTIDEFS:%=$(OMG_SRCDIR)/registry/%)
+OMG_RTIFREF := $(OMG_RTIFREF:%=$(OMG_SRCDIR)/registry/%)
+
+
+#
+# append my overall include file to libfaudes.h
+$(INCLUDEDIR)/$(OMG_INCLUDE): $(OMG_SRCDIR)/$(OMG_INCLUDE)  
+	cp -pR $< $@
+	echo "#include \"$(OMG_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+	echo "/* omegaaut plugin configuration */" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_PLUGIN_OMEGAAUT" >> $(INCLUDEDIR)/configuration.h
+	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# advertise plugin: c sources and friends
+
+SOURCES += $(OMG_SOURCES)
+OBJECTS += $(OMG_OBJECTS)
+HEADERS += $(OMG_HEADERS)
+VPATH   += $(OMG_SRCDIR)
+
+#
+# advertise plugin: runtime interface
+
+RTIPLUGINS += $(OMG_NAME)
+RTIDEFS += $(OMG_RTIDEFS)
+RTIFREF += $(OMG_RTIFREF)
+
+#
+# advertise plugin: bindings
+
+SWGINTERFACES += $(OMG_SRCDIR)/registry/omg_interface.i 
+SWGMODULES += $(OMG_NAME)
+
+#
+# include tutorial 
+
+include $(OMG_BASE)/Makefile.tutorial
