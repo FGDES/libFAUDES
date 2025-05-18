@@ -229,8 +229,8 @@ AttributeD3ripURTEvent::AttributeD3ripURTEvent(const AttributeD3ripURTEvent& rOt
 // autoregister event configuration (required for XML token format)
 AutoRegisterType< TaNameSet<AttributeD3ripURTEvent> > 
   gRti1RegisterD3ripURTDeviceEventSet("D3ripURTDeviceEventSet");
-AutoRegisterXElementTag< TaNameSet<AttributeD3ripURTEvent> > 
-  gRti1XElementTagD3ripURTDeviceEventSet("D3ripURTDeviceEventSet", "Event");
+AutoRegisterElementTag< TaNameSet<AttributeD3ripURTEvent> > 
+  gRti1ElementTagD3ripURTDeviceEventSet("D3ripURTDeviceEventSet", "Event");
 
 // pseudo statics
 const AttributeD3ripURTOutput* AttributeD3ripURTEvent::OutputPrototypep(void){

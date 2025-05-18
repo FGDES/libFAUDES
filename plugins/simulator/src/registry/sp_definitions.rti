@@ -11,7 +11,7 @@
 <!-- =================================================== -->
 
 <TypeDefinition name="Simulator::SimulationConditions" ctype="faudes::SimConditionSet" autoregister="true"> 
-<XElementTag value="Condition"/>
+<ElementTag value="Condition"/>
 </TypeDefinition> 
 
 
@@ -22,7 +22,7 @@
 <!-- =================================================== -->
 
 <TypeDefinition name="Simulator::SimulationAlphabet" ctype="faudes::sEventSet" autoregister="true"> 
-<XElementTag value="Event"/>
+<ElementTag value="Event"/>
 </TypeDefinition> 
 
 

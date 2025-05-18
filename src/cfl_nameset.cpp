@@ -47,7 +47,7 @@ FAUDES_TYPE_IMPLEMENTATION_EQUAL(EventSet,NameSet,TBaseSet<Idx>)
 // empty constructor
 NameSet::NameSet(void) : TBaseSet<Idx>(){
   mpSymbolTable = SymbolTable::GlobalEventSymbolTablep();
-  mXElementTagDef="Event";
+  mElementTagDef="Event";
   Name("NameSet");
   FD_DC("NameSet("<<this<<")::NameSet() with symtab "<< mpSymbolTable); 
 }
@@ -56,7 +56,7 @@ NameSet::NameSet(void) : TBaseSet<Idx>(){
 NameSet::NameSet(const NameSet& rOtherSet) : TBaseSet<Idx>() {
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << ")");
   mpSymbolTable = rOtherSet.mpSymbolTable;
-  mXElementTagDef="Event";
+  mElementTagDef="Event";
   Assign(rOtherSet);
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << "): done");
 }
@@ -65,7 +65,7 @@ NameSet::NameSet(const NameSet& rOtherSet) : TBaseSet<Idx>() {
 NameSet::NameSet(const std::string& rFilename, const std::string& rLabel) : TBaseSet<Idx>() {
   FD_DC("NameSet(" << this << ")::NameSet(" << rFilename << ")");
   mpSymbolTable = SymbolTable::GlobalEventSymbolTablep();
-  mXElementTagDef="Event";
+  mElementTagDef="Event";
   Read(rFilename, rLabel);
 }
 
@@ -164,7 +164,7 @@ void NameSet::DoXWrite(TokenWriter& tw, const std::string& rLabel, const Type* p
   tw.Write(btag);
   FD_DC("NameSet(" << this << ")::DoXWrite(..): section " << btag.StringValue() << " #" << Size());
   // loop elements
-  std::string etstr=XElementTag();
+  std::string etstr=ElementTag();
   for (Iterator it = Begin(); it != End(); ++it) {
     Token etoken;
     const AttributeVoid& attr=Attribute(*it);
@@ -192,7 +192,7 @@ void NameSet::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pC
   // set up defaults
   std::string label=rLabel;
   std::string ftype=TypeName();
-  std::string etstr=XElementTag();
+  std::string etstr=ElementTag();
   // figure section
   Token token;
   if(label=="") {

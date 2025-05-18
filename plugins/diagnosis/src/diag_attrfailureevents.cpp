@@ -16,10 +16,10 @@ AttributeFailureEvents::AttributeFailureEvents(void) {
   // configure unregistered set type
   mFailureEvents.Name("FailureEvents");
   mFailureEvents.TypeName("FailureEvents");
-  mFailureEvents.XElementTag("Event");
+  mFailureEvents.ElementTag("Event");
   mIndicatorEvents.Name("IndicatorEvents");
   mIndicatorEvents.TypeName("IndicatorEvents");
-  mIndicatorEvents.XElementTag("Event");
+  mIndicatorEvents.ElementTag("Event");
 }
 
 

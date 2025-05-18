@@ -14,7 +14,7 @@ FAUDES_TYPE_IMPLEMENTATION(Void,AttributeDiagnoserState,AttributeFlags)
 // consruct
 AttributeDiagnoserState::AttributeDiagnoserState(void) {
   // our map type is not in the registry, so we need to configure manually
-  mDiagnoserStateMap.XElementTag("TargetState"); 
+  mDiagnoserStateMap.ElementTag("TargetState"); 
   mDiagnoserStateMap.Name("TargetStateEstimates"); 
   mDiagnoserStateMap.TypeName("TargetStateEstimates"); 
 }

@@ -9,7 +9,7 @@
 <!-- =================================================== -->
 
 <TypeDefinition name="Hybrid::LhaTransSet" ctype="faudes::LhaTransSet" autoregister="true"> 
-<XElementTag value="Tr"/>
+<ElementTag value="Tr"/>
 </TypeDefinition> 
 
 <!-- =================================================== -->
@@ -19,7 +19,7 @@
 <!-- =================================================== -->
 
 <TypeDefinition name="Hybrid::LhaStateSet" ctype="faudes::LhaStateSet" autoregister="true"> 
-<XElementTag value="State"/>
+<ElementTag value="State"/>
 </TypeDefinition> 
 
 <!-- =================================================== -->

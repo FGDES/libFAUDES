@@ -19,6 +19,9 @@ Relative to 2.32*
 Refactored to collect all Buechi-related utilities in a separate plug-in.
 This includes renaming for some functions from "AbcOmegaXyz" to "AbcBuechiXyz".
 
+***
+
+Refactored "XElementType" of TypeDefinition to "ElementType"
 
 ***
 

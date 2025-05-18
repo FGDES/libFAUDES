@@ -131,10 +131,10 @@ int main(int argc, char *argv[]) {
     rticode << "AutoRegisterType<" << ctype << "> " << rtiname << "(\"" << ftype <<"\");";
     rticode << std::endl;
     // Extra data set: element tag
-    if(tit->second->XElementTag()!="") {
-      rtiname = std::string("gRti") + ToStringInteger(tcnt) + "XElementTag" + ftype;
-      rticode << "AutoRegisterXElementTag<" << ctype << "> " << rtiname << "(\"" << ftype << 
-        "\", \"" << tit->second->XElementTag() << "\");";
+    if(tit->second->ElementTag()!="") {
+      rtiname = std::string("gRti") + ToStringInteger(tcnt) + "ElementTag" + ftype;
+      rticode << "AutoRegisterElementTag<" << ctype << "> " << rtiname << "(\"" << ftype << 
+        "\", \"" << tit->second->ElementTag() << "\");";
       rticode << std::endl;
     }
   }

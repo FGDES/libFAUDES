@@ -1474,23 +1474,42 @@ class FAUDES_API TypeDefinition : public Documentation {
 
 
   /** 
-   * Parameter access: Xml Element Tag
+   * Parameter access: Element Tag
    *
-   * This parameter is used for Xml IO of sets and vectors. It determines
+   * This parameter is used for IO of sets and vectors. It determines
    * the tag to used for individual elments.
    *
    * @return
    *   Tag parameter.
    */
-  const std::string& XElementTag(void) const; 
+  const std::string& ElementTag(void) const; 
 
   /** 
-   * Parameter access: Xml Element Tag
+   * Parameter access: Element Tag
    *
    * @param rTag
    *   New tag parameter
    */
-  void XElementTag(const std::string& rTag); 
+  void ElementTag(const std::string& rTag); 
+
+  /** 
+   * Parameter access: Element Tag
+   *
+   * This parameter is used for IO of sets and vectors. It determines
+   * the type to used for individual elments.
+   *
+   * @return
+   *   Tag parameter.
+   */
+  const std::string& ElementType(void) const; 
+
+  /** 
+   * Parameter access: Element Tag
+   *
+   * @param rTag
+   *   New tag parameter
+   */
+  void ElementType(const std::string& rTag); 
 
 protected:
 
@@ -1602,7 +1621,10 @@ protected:
   Type* mpType;
 
   /** Extra documentation/parameter: Xml Element Tag */
-  std::string mXElementTag;
+  std::string mElementTag;
+
+  /** Extra documentation/parameter: Element Type */
+  std::string mElementType;
 
 }; //TypeDefinition
 
@@ -1624,7 +1646,12 @@ Implemention of template members functions
 template<class T>
 TypeDefinition* TypeDefinition::Constructor(const std::string& rTypeName){
   FD_DRTI("TypeDefinition::Construct<" << typeid(T).name() << ">(" << rTypeName << ")");
-  return Constructor(new T, rTypeName);
+  TypeDefinition* ftd=Constructor(new T, rTypeName);
+  /*
+  cproto= *(ftd->Prototype());
+  FD_WARN("TypeDefinition::Construct<>: fprototype " << typeid(cproto).name());    
+  */
+  return ftd;
 }
 
 

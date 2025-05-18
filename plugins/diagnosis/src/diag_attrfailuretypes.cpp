@@ -16,7 +16,7 @@ AttributeFailureTypeMap::AttributeFailureTypeMap(void) : AttributeFlags() {
   // configure unregistered type
   // note: its just my member which is not registered, the attribute is registered
   mFailureTypeMap.TypeName("FailureTypes");
-  mFailureTypeMap.XElementTag("FailureType");
+  mFailureTypeMap.ElementTag("FailureType");
   mFailureTypeMap.Name("FailureTypes");
   // always use static symbol table
   mFailureTypeMap.SymbolTablep(DiagLabelSet::StaticLabelSymbolTablep());
@@ -27,7 +27,7 @@ AttributeFailureTypeMap::AttributeFailureTypeMap(const std::string& rFilename)  
   // configure unregistered type
   // note: its just my member which is not registered, the attribute is registered
   mFailureTypeMap.TypeName("FailureTypes");
-  mFailureTypeMap.XElementTag("FailureType");
+  mFailureTypeMap.ElementTag("FailureType");
   mFailureTypeMap.Name("FailureTypes");
   // always use static symbol table
   mFailureTypeMap.SymbolTablep(DiagLabelSet::StaticLabelSymbolTablep());
@@ -40,7 +40,7 @@ AttributeFailureTypeMap::AttributeFailureTypeMap(const AttributeFailureTypeMap& 
   // configure unregistered type
   // note: its just my member which is not registered, the attribute is registered
   mFailureTypeMap.TypeName("FailureTypes");
-  mFailureTypeMap.XElementTag("FailureType");
+  mFailureTypeMap.ElementTag("FailureType");
   mFailureTypeMap.Name("FailureTypes");
   // always use static symbol table
   mFailureTypeMap.SymbolTablep(DiagLabelSet::StaticLabelSymbolTablep());

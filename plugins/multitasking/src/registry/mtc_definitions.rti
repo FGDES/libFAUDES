@@ -16,7 +16,7 @@ Set of colors for marking the state of a colored generator
 Multitasking  generator     "colored marking"  colors        
 </Keywords> 
 
-<XElementTag value="Color"/>
+<ElementTag value="Color"/>
 
 </TypeDefinition> 
 

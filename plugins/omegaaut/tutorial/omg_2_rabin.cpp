@@ -1,127 +1,121 @@
-/** @file pev_1_priorities.cpp 
+/** @file omg_2_rabin.cpp 
 
-Tutorial, events stes and generators with priorities
+Tutorial ond  Rabin automata
 
 @ingroup Tutorials 
 
-@include pev_1_priorities.cpp
+@include omg_2_rabin.cpp
 
 */
 
 #include "libfaudes.h"
 
-
 using namespace faudes;
-
-
 
 int main() {
 
   ////////////////////////////////////////////////////
-  // TaEventSet with Attribute AttributePriority
+  // Have some state sets to play with
   ////////////////////////////////////////////////////
 
-  // set up some alphabet with prioritised events
-  TaEventSet<AttributePriority> prios1;
-  Idx alpha= prios1.Insert("alpha");
-  Idx beta=  prios1.Insert("beta");
-  Idx gamma= prios1.Insert("gamma");
-  AttributePriority prio;
-  prio.Priority(10);
-  prios1.Attribute(alpha,prio);
-  prio.Priority(20);
-  prios1.Attribute(beta,prio);
-  prio.Priority(30);
-  prios1.Attribute(gamma,prio);
+  StateSet statesa, statesb, statesc;
+  statesa.FromString("<S> 1 2 3 </S>");
+  statesb.FromString("<S> 4 5 6 </S>");
+  statesc.FromString("<S> 7 8 9 </S>");
+
+  ////////////////////////////////////////////////////
+  // RabinPair
+  ////////////////////////////////////////////////////
+
+  // say hello
+  std::cout << "======== a Rabin pair" << std::endl;
+
+  // set up a Rabin pair programatically
+  RabinPair rpair;
+  rpair.RSet().InsertSet(statesa);
+  rpair.ISet().InsertSet(statesa + statesb);
+
+  // further inspect/manipulate as any state set; e.g.
+  rpair.ISet().Erase(5);
+  
+  // report result
+  rpair.Write();
+  std::cout << std::endl;
+
+  ////////////////////////////////////////////////////
+  // RabinAceptance
+  ////////////////////////////////////////////////////
+
+  // say hello
+  std::cout << "======== a Rabin acceptance condition" << std::endl;
+
+  // set up a Rabin acceptance condition programatically
+  RabinAcceptance raccept;
+  raccept.Insert(rpair);
+  rpair.Clear();
+  rpair.RSet().InsertSet(statesc);
+  rpair.ISet().InsertSet(statesc + statesb);
+  raccept.Insert(rpair);
+  
   // report
-  std::cout << "alphabet of priorisied events (using vanilla attributed event set)" << std::endl;
-  prios1.XWrite();
+  raccept.Write();
+  std::cout << std::endl;
+  raccept.SWrite();
+  std::cout << std::endl;
+
+  // test file io
+  std::cout << "======== serialisation " << std::endl;
+  raccept.Write("tmp_raccept.txt");
+  RabinAcceptance rareadback;
+  rareadback.Read("tmp_raccept.txt");
+  if(rareadback==raccept) {
+    std::cout << "== readback ok" << std::endl;
+  } else {
+    std::cout << "== readback test case FAIL" << std::endl;
+  } 
+  std::cout << std::endl;
+      
+
+  // manipulate/inspect with the BaseSet interface, e.g. iterate over Rabin pairs
+  RabinAcceptance::Iterator rit;
+  rit=raccept.Begin();
+  for(;rit!=raccept.End();++rit) {
+    rpair=*rit;
+    std::cout << "found a Robin pair with RSet " << rpair.RSet().ToString() << std::endl;   
+  }
+  std::cout << std::endl;
+
+  // manipulate/inspect with the BaseSet interface, e.g. edit Rabin pair bhy iterator
+  rit=raccept.Begin();
+  // rit->ISet().Erase(6); // cant do this as it would mess up the ordered set
+  RabinPair rpedit=*raccept.Erase(rit); // take a Rabin Pair
+  rpedit.ISet().Erase(6);               // edit that Rabin pair
+  raccept.Insert(rpedit);               // ort it back in		       
+
+  // check euality operator 
+  if(rareadback==raccept) {
+    std::cout << "== still wqual? FAIL" << std::endl;
+  } else {
+    std::cout << "== sensed mismatch: ok" << std::endl;
+  } 
+  std::cout << std::endl;
 
 
-  ////////////////////////////////////////////////////
-  // Convenienceclass EventPriorities (fully registered faudes type)
-  ////////////////////////////////////////////////////
-
-  // set up some alphabet with prioritised events
-  EventPriorities prios2;
-  alpha= prios2.Insert("alpha");
-  beta=  prios2.Insert("beta");
-  gamma= prios2.Insert("gamma");
-  prios2.Priority(alpha,0);     // access by index
-  prios2.Priority("beta",10);   // access by symbolic name (convenience, performance penalty)
-  prios2.Priority("gamma",20);  // access by symbolic name (convenience, performance penalty)  
-  // report
-  std::cout << "alphabet of priorisied events (using convenience class)" << std::endl;
-  prios2.Write();
-
-  // normalise to a consecutive range starting with 1
-  prios2.NormalisePriorities();
-  std::cout << "normalised priosities" << std::endl;
-  prios2.Write();
-  
-  // stress test copy/casting/equality
-  EventSet events(prios2);
-  bool ok= events == prios2;
-  if(ok)
-    std::cout << "copy to plain alphabet: events match (PASS)" << std::endl;
-  else	      
-    std::cout << "copy to plain alphabet: events mismatch (FAIL)" << std::endl;
-  EventPriorities prios3(prios2);
-  ok= prios3 == prios2;
-  if(ok)
-    std::cout << "copy to prio alphabet: events match (PASS)" << std::endl;
-  else	      
-    std::cout << "copy to prio alphabet: events mismatch (FAIL)" << std::endl;
-  ok= prios2.EqualAttributes(prios3);
-  if(ok)
-    std::cout << "copy to prio alphabet: priorities match (PASS)" << std::endl;
-  else	      
-    std::cout << "copy to prio alphabet: priorities mismatch (FAIL)" << std::endl;
-  prios3.Priority("alpha",50);
-  prios3.Write();
-  ok=prios2.EqualAttributes(prios3);
-  if(ok)
-    std::cout << "manipulate priorities: still match (FAIL)" << std::endl;
-  else	      
-    std::cout << "manipulate priorities: mismatch (PASS)" << std::endl;
-
-
-  ////////////////////////////////////////////////////
-  // Fairness
-  ////////////////////////////////////////////////////
-
-  FairnessConstraints fconstr;
-  EventSet falph1, falph2;
-  falph1.FromString("<EventSet> alpha beta </EventSet>");
-  falph2.FromString("<EventSet> beta gamma </EventSet>");
-  fconstr.Append(falph1);
-  fconstr.Append(falph2);
-  fconstr.Write();
-  FairnessConstraints::Position pos=fconstr.Find(falph2);
-  if(pos==1) 
-    std::cout << "found alph2 at " << pos << " (PASS)" << std::endl;
-  else
-    std::cout << "found alph2 at " << pos << " (FAIL)" << std::endl;
+  // report as 
+  raccept.Write();
+  std::cout << std::endl;
 
   
-
   ////////////////////////////////////////////////////
-  // pGenerator
+  // Testing strict XML and file IO
   ////////////////////////////////////////////////////
 
-  pGenerator pgen;
-  pgen.FromString(R"(
-    <Generator>
-      <T>
-        1 alpha 2
-        2 beta  3
-        3 gamma 1
-      </T>
-    </Generator>
-  )");
-  pgen.Priorities(prios3);
-  pgen.Fairness(fconstr);
-  pgen.XWrite();
-  
+  // show
+  std::cout << "======== strict XML serialisation" << std::endl;
+  raccept.XWrite();
 
-}
+  // record test case
+  FAUDES_TEST_DUMP("raccept stats",raccept);
+
+}  
+

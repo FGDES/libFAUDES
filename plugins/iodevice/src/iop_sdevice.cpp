@@ -347,8 +347,8 @@ AttributeSignalEvent::AttributeSignalEvent(const AttributeSignalEvent& rOtherAtt
 // autoregister event confiration (required for XML token format)
 AutoRegisterType< TaNameSet<AttributeSignalEvent> > 
   gRti1RegisterSignalDeviceEventSet("SignalDeviceEventSet");
-AutoRegisterXElementTag< TaNameSet<AttributeSignalEvent> > 
-  gRti1XElementTagSignalDeviceEventSet("SignalDeviceEventSet", "Event");
+AutoRegisterElementTag< TaNameSet<AttributeSignalEvent> > 
+  gRti1ElementTagSignalDeviceEventSet("SignalDeviceEventSet", "Event");
 
 // pseudo statics
 const AttributeSignalOutput* AttributeSignalEvent::OutputPrototypep(void){

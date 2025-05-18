@@ -212,9 +212,37 @@ public:
 
 
   /**
-   * Set Xml element tag for given faudes-type.
+   * Set element type for given faudes-type.
    *
-   * Access to the XElementTag of a type definition. The latter is
+   * For sets and vectors, the elment tpye is used 
+   * to factory elments for token IO.
+   * Unregistered types are silently ignored.
+   *
+   * @param rTypeName
+   * 	Name of faudes-type
+   * @param rElementTat
+   *    New value of element type
+   */
+  void ElementType(const std::string& rTypeName, const std::string& rElementType);
+
+  /**
+   * Get element type for given faudes-type.
+   *
+   * For sets and vectors, the elment type is used 
+   * to factory elments for token IO
+   * Unregistered types are silently ignored.
+   *
+   * @param rTypeName
+   * 	Name of faudes-type
+   * @return
+   *    Xml element tag
+   */
+  const std::string& ElementType(const std::string& rTypeName) const;
+
+  /**
+   * Set element tag for given faudes-type.
+   *
+   * Access to the ElementTag of a type definition. The latter is
    * used for Xml token IO of sets and vectors.
    * Unregistered types are silently ignored.
    *
@@ -223,12 +251,12 @@ public:
    * @param rTag
    *    New value of tag
    */
-  void XElementTag(const std::string& rTypeName, const std::string& rTag);
+  void ElementTag(const std::string& rTypeName, const std::string& rTag);
 
   /**
-   * Get Xml element tag for given faudes-type.
+   * Get lement tag for given faudes-type.
    *
-   * Access to the XElementTag of a type definition. The latter is
+   * Access to the ElementTag of a type definition. The latter is
    * used for Xml token IO of sets and vectors.
    * Unregistered types return the empty string.
    *
@@ -237,7 +265,7 @@ public:
    * @return
    *    Xml element tag
    */
-  const std::string& XElementTag(const std::string& rTypeName) const;
+  const std::string& ElementTag(const std::string& rTypeName) const;
 
   /**
    * Get AutoRegister flag for given faudes-type.
@@ -469,11 +497,20 @@ class AutoRegisterType {
 };
 
 template<class T>
-class AutoRegisterXElementTag {
+class AutoRegisterElementTag {
  public:
-  AutoRegisterXElementTag(const std::string& rTypeName, const std::string& rTag) {
+  AutoRegisterElementTag(const std::string& rTypeName, const std::string& rTag) {
     static AutoRegisterType<T> srego(rTypeName);
-    TypeRegistry::G()->XElementTag(rTypeName,rTag);
+    TypeRegistry::G()->ElementTag(rTypeName,rTag);
+  };
+};
+
+template<class T>
+class AutoRegisterElementType {
+ public:
+  AutoRegisterElementType(const std::string& rTypeName, const std::string& rTag) {
+    static AutoRegisterType<T> srego(rTypeName);
+    TypeRegistry::G()->ElementType(rTypeName,rTag);
   };
 };
 

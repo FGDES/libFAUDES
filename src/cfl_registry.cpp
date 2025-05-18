@@ -41,8 +41,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 namespace faudes{
 
-
-
+//  local debuging
+/*
+#undef FD_DREG
+#define FD_DREG(a) FD_WARN(a)  
+#undef FD_DRTI
+#define FD_DRTI(a) FD_WARN(a)  
+*/
+  
 /*
 ********************************************************************
 ********************************************************************
@@ -135,13 +141,8 @@ TypeRegistry::Iterator TypeRegistry::End(void) const{
 
 // insert new entry
 void TypeRegistry::Insert(TypeDefinition* pTypeDef){
-#ifdef FAUDES_DEBUG_REGISTRY
-  if(pTypeDef->Prototype()) {
-    FD_DREG("TypeRegistry::Insert(): definition for " << pTypeDef->Name());
-  } else {
-    FD_DREG("TypeRegistry::Insert(): dummy prototype for " << pTypeDef->Name());
-  }
-#endif
+  FD_DREG("TypeRegistry::Insert(): type name " << pTypeDef->Name());
+  FD_DREG("TypeRegistry::Insert(): prototype " << pTypeDef->Prototype()); 
   // test existence that match: ignore
   const Type* pt=pTypeDef->Prototype();
   if(Exists(pTypeDef->Name())){
@@ -209,21 +210,37 @@ void TypeRegistry::MergeDocumentation(const std::string& rFileName) {
 }
 
 
-// set XML element tag
-void TypeRegistry::XElementTag(const std::string& rTypeName, const std::string& rTag) {
+// set  element tag
+void TypeRegistry::ElementTag(const std::string& rTypeName, const std::string& rTag) {
+  FD_DREG("TypeRegistry::ElementTag("<<rTypeName<<","<<rTag<<")");
   Iterator mit=mNameToTypeDef.find(rTypeName);
   if(mit == End()) return;
-  mit->second->XElementTag(rTag);
+  mit->second->ElementTag(rTag);
+  FD_DREG("TypeRegistry::ElementTag: ok: " << ElementTag(rTypeName));
 }
 
-// get XML element tag
-const std::string& TypeRegistry::XElementTag(const std::string& rTypeName) const {
+// get element tag
+const std::string& TypeRegistry::ElementTag(const std::string& rTypeName) const {
   Iterator mit=mNameToTypeDef.find(rTypeName);
   static std::string estr="";
   if(mit == End()) return estr;
-  return mit->second->XElementTag();
+  return mit->second->ElementTag();
 }
 
+// set element type
+void TypeRegistry::ElementType(const std::string& rTypeName, const std::string& rType) {
+  Iterator mit=mNameToTypeDef.find(rTypeName);
+  if(mit == End()) return;
+  mit->second->ElementType(rType);
+}
+
+// get element type
+const std::string& TypeRegistry::ElementType(const std::string& rTypeName) const {
+  Iterator mit=mNameToTypeDef.find(rTypeName);
+  static std::string estr="";
+  if(mit == End()) return estr;
+  return mit->second->ElementType();
+}
 
 // set auto-register flag
 void TypeRegistry::AutoRegistered(const std::string& rTypeName, bool flag) {
@@ -307,11 +324,16 @@ const TypeDefinition* TypeRegistry::Definitionp(const std::string& rName) const{
 
 // access type definition by typed reference
 const TypeDefinition* TypeRegistry::Definitionp(const Type& rType) const{
-  FD_DRTI("TypeRegistry::Definitionp(): typeid " << typeid(rType).name());
+  FD_DRTI("TypeRegistry::Definitionp(): for typeid " << typeid(rType).name());
   Iterator mit;
   mit=mIdToTypeDef.find(typeid(rType).name());
-  if(mit==mIdToTypeDef.end()) return NULL;
-  return(mit->second);
+  if(mit==mIdToTypeDef.end()) {
+    FD_DRTI("TypeRegistry::Definitionp(): not found");
+    return NULL;
+  }
+  TypeDefinition* fdp=mit->second;
+  FD_DRTI("TypeRegistry::Definitionp(): found faudes type " << fdp->Name());
+  return fdp;
 }
 
 // access prototype by type name
@@ -651,13 +673,13 @@ void LoadRegistry(const std::string& rPath) {
     // should have prototype
     if(tit->second->PlugIn()!="IODevice") 
     if(tit->second->Prototype()==NULL) 
-      FD_WARN("TypeRegistry: " << tit->second->Name() << " has no prototype");
+      FD_DREG("TypeRegistry: " << tit->second->Name() << " has no prototype");
   }
   FunctionRegistry::Iterator fit;
   for(fit=FunctionRegistry::G()->Begin(); fit!=FunctionRegistry::G()->End(); fit++) {
     // should have prototype
     if(fit->second->Prototype()==NULL) 
-      FD_WARN("FunctionRegistry: " << fit->second->Name() << " has no prototype");
+      FD_DREG("FunctionRegistry: " << fit->second->Name() << " has no prototype");
   }
 #endif
 #endif

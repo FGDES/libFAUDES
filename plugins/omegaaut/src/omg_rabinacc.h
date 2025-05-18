@@ -1,9 +1,9 @@
-/** @file pev_priorities.h Classes EventPriorities */
+/** @file omg_rabinacc.h Rabin acceptance condition */
 
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2025 Yiheng Tang, Thomas Moor
+   Copyright (C) 2025 Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -20,101 +20,151 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-#ifndef FAUDES_PEV_PRIORITIES_H
-#define FAUDES_PEV_PRIORITIES_H
+#ifndef FAUDES_OMG_RABINACC_H
+#define FAUDES_OMG_RABINACC_H
 
 #include "corefaudes.h"
 
 namespace faudes {
 
 /**
- * The class AttributePriority is intendened to be used as an event
- * attribute. the class is derived from AttributeCFlags 
- * and accommedates an additional non-negative integer to represent
- * an event priority. See also the template TpEventSet<Attr> for a convenience
- * wrapper of an alphabet with attributes of type AttributePriority per event..
+ * The class RabinPair models a pair of state sets. 
+ * We use faudes Type as base class to faciltate serialisation
+ * of sets of RabinPairs aka RabinAcceptance.
  *
- * @ingroup PrioritiesPlugin
+ * @ingroup OmegaautPlugin
  */
-class FAUDES_API AttributePriority : public AttributeCFlags {
+class FAUDES_API RabinPair : public Type {
 
-FAUDES_TYPE_DECLARATION(Void,AttributePriority,AttribiteCFlags)
-
+FAUDES_TYPE_DECLARATION(Void,RabinPair,Type)
+  
 public:
-  /**
-   * Default constructor, sets priority to 0
-   */
-  AttributePriority(void) : AttributeCFlags() {mPriority=0;}
+ /**
+  * Default constructor, all empty
+  */
+  RabinPair(void);
+
+ /** 
+  * Copy constructor.
+  */
+  RabinPair(const RabinPair& rRP);
+ 
+ /** 
+  * Destructor 
+  */
+  virtual ~RabinPair(void) {};
+
+ /**
+  * Clear to default (all empty)
+  */
+  virtual void Clear(void);
 
   /** 
-   * Copy constructor.
-   */
-  AttributePriority(const AttributePriority& rSrc) : AttributeCFlags() { 
-    DoAssign(rSrc); } 
-
-  /** Destructor */
-  virtual ~AttributePriority(void) {}
-
-  /**
-   * Clear to default (mandatory for serialisation)
-   */
-  void Clear(void) { mPriority = 0; }
-
-  /** 
-   * Test for default value 
-   * 
+   * Return name of RabinPair
+   * (need to implement this because Type is the direct base) 
+   *
    * @return
-   *   True, if this attribute has its default value
+   *   Name to get
    */
-  virtual bool IsDefault(void) const {
-    return (mPriority==0) && AttributeCFlags::IsDefault(); };
+  const std::string& Name(void) const {return mName;};
+        
+  /**
+   * Set name of RabinPair
+   * (need to implement this because Type is the direct base) 
+   *
+   * @param rName
+   *   Name to set
+   */
+  void Name(const std::string& rName) {mName=rName;};
 
-  /** set priority */
-  void Priority (Idx prio) {mPriority = prio;}
 
-  /** get priority */
-  Idx Priority(void) const { return mPriority;}
+  /*
+   * Member access R
+   *
+   * @return
+   *   writable ref to Set of states type R
+   */
+  StateSet& RSet(void) {return mRSet;};
 
-  /** compare priority (a>b iff a preempts b)*/
-  bool operator>(const AttributePriority& rOther) const {
-    if(mPriority > rOther.mPriority ) return true;
-    return false;
-  }
+  /*
+   * Member access R
+   *
+   * @return
+   *   const ref to Set of states type R
+   */
+  const StateSet& RSet(void) const {return mRSet;};
+
+  /**
+   * Member access I
+   *
+   * @return
+   *   writable ref to Set of states type I
+   */
+  StateSet& ISet(void) {return mISet;};
+
+  /**
+   * Member access I
+   *
+   * @return
+   *   const ref to Set of states type I
+   */
+  const StateSet& ISet(void) const {return mISet;};
+
+  /**
+   * Compare for set-ordering
+   *
+   * @param rOther
+   *   other Rabin pair to compare with
+   * @return
+   *   true if "this>other"
+   */
+  bool operator<(const RabinPair& rOther) const;
 
 protected:
+
   /**
-   * priority value. 0 is highest.
+   * cosmetic name (not provided by plain base faudes Type);
    */
-  Idx mPriority = 0;
+  std::string mName;
+
+  /**
+   * set of states type R
+   */
+  StateSet mRSet;
+
+  /**
+   * set of states type I
+   */
+  StateSet  mISet;
 
   /**
    * Assignment method.
    *
-   * @param rSrcAttr
+   * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const AttributePriority& rSrcAttr);
+  void DoAssign(const RabinPair& rSrc);
   
   /**
    * Test equality of configuration data.
    *
    * @param rOther
-   *    Other attribute to compare with.
+   *   RabinPair to compare with
    * @return
    *   True on match.
    */
-  bool DoEqual(const AttributePriority& rOther) const;
+  bool DoEqual(const RabinPair& rOther) const;
   
   /**
-   * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
-   * Label and Context argument are ignored.
+   * Read configuratioj from TokenReader, see Type for public wrappers.
+   * Use am optional Generator context for symbolic state names.
    *
    * @param rTr
    *   TokenReader to read from
    * @param rLabel
    *   Section to read
    * @param pContext
-   *   Read context to provide contextual information
+   *   Provide contextual information
    *
    * @exception Exception
    *   - IO error (id 1)
@@ -122,16 +172,15 @@ protected:
   virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=nullptr);
 
   /**
-    * Writes attribute to TokenWriter, see AttributeVoid for public wrappers.
-    * Note: this class always wrtites in XML.
-    * Note: Label and Context argument are ignored.
+    * Writes configuration to TokenWriter, see Type for public wrappers.
+    * Use am optional Generator context for symbolic state names.
     *
     * @param rTw
     *   TokenWriter to write to
     * @param rLabel
     *   Section to write
     * @param pContext
-    *   Write context to provide contextual information
+    *   Provide contextual information
     *
     * @exception Exception
     *   - IO error (id 2)
@@ -139,322 +188,105 @@ protected:
   virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const;
 
   /**
-    * Writes attribute to TokenWriter, see AttributeVoid for public wrappers.
-    * Note: this class always wrtites in XML.
-    * Note: Label and Context argument are ignored.
+    * Writes configuration to TokenWriter, see Type for public wrappers.
+    * Use am optional Generator context for symbolic state names.
     *
     * @param rTw
     *   TokenWriter to write to
     * @param rLabel
     *   Section to write
     * @param pContext
-    *   Write context to provide contextual information
+    *   Provide contextual information
     *
     * @exception Exception
     *   - IO error (id 2)
     */
-  virtual void DoXWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const; 
-
+  
+  virtual void DoXWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const;
 
 };
 
-/*
-******************************************************** 
-******************************************************** 
-******************************************************** 
-
-TpEventSet
-
-convenience class to declare universal event priorities
-
-******************************************************** 
-******************************************************** 
-******************************************************** 
-*/
 
 /**
- * The template TpEventSet<Attr> provides access members for event priorities.
- * The template parameter is expected to be a descendant of AttributePriority.
- * There also is the convenience typedef faudes::EventPriorities for this intended usecase.
+ * The class RabinAcceptance is a set of RabinPairs.
+ * We use faudes::vBaseSet as the base class and perhaps
+ * add some convenience accessors in due course.
  *
- * Token IO is proper XML with default priority 0. Example:
- * <PRE>
- * &lt;Alphabet&gt;
- * &lt;!-- avent alpha with priority 10 --&gt;
- * &lt;Event name="alpha"&gt;
- * &lt;Priority value="10"/&gt;
- * &lt;/Event&gt;
- * &lt;!-- avent beta with default priority 0 --&gt;
- * &lt;Event name="beta"/&gt;
- * &lt;Priority value="20"/&gt;
- * &lt;/Event&gt;
- * &lt;/Alphabet&gt;  
- * </PRE>
- *
- * @ingroup PrioritiesPlugin
+ * @ingroup OmegaautPlugin
  */
-template <class Attr>
-class FAUDES_TAPI TpEventSet : public TaEventSet<Attr> {
+class FAUDES_API RabinAcceptance : public TBaseSet<RabinPair> {
 
-  /** std faudes type declarations */
-  FAUDES_TYPE_TDECLARATION(Void,TpEventSet,TaEventSet<Attr>)
+FAUDES_TYPE_DECLARATION(Void,RabinAcceptance,vBaseSet<RabinPair>)
+  
+public:
+ /**
+  * Default constructor (all empty)
+  */
+  RabinAcceptance(void);
 
-  /**
-   * Default constructor
-   */
-   TpEventSet(void) : TaEventSet<Attr>(){};
+ /** 
+  * Copy constructor.
+  */
+  RabinAcceptance(const RabinAcceptance& rRA);
+ 
+ /** 
+  * Destructor 
+  */
+  virtual ~RabinAcceptance(void) {};
+
+
+protected:
 
   /** 
-   * Copy constructor
-   *
-   * @param rOther
-   */
-  TpEventSet(const EventSet& rOther) : TaEventSet<Attr>(rOther){};
-        
-  /** 
-   * Copy constructor
-   *
-   * @param rOther
-   */
-  TpEventSet(const TpEventSet& rOther) : TaEventSet<Attr>(rOther) {};
-        
-  /**
-   * Construct from file
-   * 
-   * @param rFileName
-   *   Filename
-   * @param rLabel
-   *   Label to read from 
-   *
-   * @exception Exception
-   *   If opening/reading fails an Exception object is thrown (id 1, 50, 51)
-   */
-   TpEventSet(const std::string& rFileName, const std::string& rLabel="") : TaEventSet<Attr>(rFileName,rLabel) {};
-
-
-  /** recycle Iterator from nameset */
-  using NameSet::Iterator;
-      
-
-  /**
-   * Get priority by symbolic name
-   *
-   * @param rName
-   *   specify element
-   *
-   * @exception Exception
-   *   Base class with throw if synbol does not exist
-   *
-   * @return priority of specified event
-   */
-  Idx Priority(const std::string& rName) const { return this->Attribute(rName).Priority(); }
-
-  /**
-   * Get Priority by index
-   *
-   * @param rIdx
-   *   specify element
-   *
-   * @exception Exception
-   *   Base class with throw if specified element does not exist
-   *
-   * @return priority of specified event
-   */
-  Idx Priority(const Idx idx) const { return this->Attribute(idx).Priority(); }
-
-   /**
-   * Set priority by symbolic name
-   *
-   * @param rName
-   *   specify element
-   *
-   * @param prio
-   *   specify priority
-   *
-   * @exception Exception
-   *   Base class with throw if synbol does not exist
-   *
-   */
-  void Priority(const std::string& rName, const Idx prio) { this->Attributep(rName)->Priority(prio); }
-
-  /**
-   * Set Priority by index
-   *
-   * @param idx
-   *   spcify element
-   *
-   * @param prio
-   *   specify priority
-   *
-   * @exception Exception
-   *   Base class with throw if specified element does not exist
-   *
-   */
-  void Priority(const Idx idx, const Idx prio) { this->Attributep(idx)->Priority(prio); }
-  
-  /**
-   * Insert with priority by index
-   *
-   * @param idx
-   *   spcify element
-   *
-   * @param prio
-   *   specify priority
-   *
-   */
-  void InsPriority(const Idx idx, const Idx prio) {
-    this->Insert(idx); Priority(idx,prio);
-  }
-  
-  /**
-   * Insert with priority by name
-   *
-   * @param rName
-   *   spcify element
-   *
-   * @param prio
-   *   specify priority
-   *
-   */
-  void InsPriority(const std::string& rName, const Idx prio) {
-    Idx idx=this->Insert(rName);
-    Priority(idx,prio);
-  }
-  
-  /**
-   * Set Priorities from other prioritised event set
-   *
-   * @param rOtherSet
-   *   set to get priorities from
-   *
-   */
-  void Priorities(const TpEventSet& rOtherSet) {
-    NameSet::Iterator eit=this->Begin();  
-    NameSet::Iterator eit_end=this->End();
-    for(;eit!=eit_end;++eit) {
-      if(rOtherSet.Exists(*eit))
-	Priority(*eit,rOtherSet.Priority(*eit));
-    }
-  }
-    
-
-  /**
-   * Get lowest priority
-   *
-   * @return lowest priority
-   */
-  Idx LowestPriority(void) const {
-    Idx low=FAUDES_IDX_MAX;
-    NameSet::Iterator eit = this->Begin();
-    NameSet::Iterator eit_end = this->End();
-    for(;eit!=eit_end;eit++){
-      Idx prio=Priority(*eit);
-      if(prio<low) low =prio;
-    }
-    return low;
-  }
-  
-  /**
-   * Get highest priority
-   *
-   * @return highest priority
-   */
-  Idx HighestPriority(void) const {
-    Idx high=0;
-    NameSet::Iterator eit = this->Begin();
-    NameSet::Iterator eit_end = this->End();
-    for(;eit!=eit_end;eit++){
-      Idx prio=Priority(*eit);
-      if(prio>high) high =prio;
-    }
-    return high;
-  }
-  
-  /**
-   * Normalise priorities
-   *
-   * Rearrange priorities to be consecutive intergers ranging from 1 to the highest priority.
-   *
-   */
-  void NormalisePriorities(void) {
-    std::map<Idx,Idx> priomap;
-    NameSet::Iterator eit = this->Begin();
-    NameSet::Iterator eit_end = this->End();
-    for(;eit!=eit_end;++eit) 
-      priomap[this->Priority(*eit)]=0;
-    std::map<Idx,Idx>::iterator pit;
-    Idx prio=1;
-    for(pit=priomap.begin();pit!=priomap.end();++pit)
-      pit->second=prio++;
-    eit = this->Begin();
-    eit_end = this->End();
-    for(;eit!=eit_end;++eit) 
-      this->Priority(*eit,priomap[this->Priority(*eit)]);
-  }
-
-  protected:
-
-  /**
-   * Reimplement DoWrite to enforce XML token-io
+   * Overwrite base TBaseSet to write individial RobinPairs
    *
    * @param rTw
-   *   TokenWriter to write to
+   *   Reference to TokenWriter
+   * @param rElem
+   *   The element to write
    * @param rLabel
-   *   Section to write
+   *   Label of section to write, defaults to XElemenTag
    * @param pContext
    *   Write context to provide contextual information
-   *
-   * @exception Exception
-   *   - IO error (id 2)
    */
-  virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const {
-    NameSet::DoXWrite(rTw,rLabel,pContext);
-  }
+  virtual void DoWriteElement(TokenWriter& rTw, const RabinPair& rElem, const std::string &rLabel="", const Type* pContext=0) const;
+
+  /** 
+   * Overwrite base TBaseSet to write individial RobinPairs
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rElem
+   *   The element to write
+   * @param rLabel
+   *   Label of section to write, defaults to XElemenTag
+   * @param pContext
+   *   Write context to provide contextual information
+   */
+  virtual void DoXWriteElement(TokenWriter& rTw, const RabinPair& rElem, const std::string &rLabel="", const Type* pContext=0) const;
+
+  /** 
+   * Token output, see Type::SWrite for public wrappers.
+   * Statistics include sizes of members and is meant to record test cases
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   */
+  virtual void DoSWrite(TokenWriter& rTw) const;
+
+  /**
+   * Token input for individual RobinPair, incl. factoru and insertion
+   *
+   * @param rTr
+   *   Reference to TokenReader
+   * @param rLabel
+   *   Label of section to read, defaults to name of set
+   * @param pContext
+   *   Read context to provide contextual information
+   */
+  virtual void DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext);
+
 };
-
-
-
- 
-
-/** 
- * Convenience typedef for std alphabet with priorities
- *
- * @ingroup PrioritiesPlugin
- */
-typedef TpEventSet<AttributePriority> EventPriorities;
-
-/** 
- * Convenience typedef for fairness constraints (one EventSet per constraint)
- *
- * @ingroup PrioritiesPlugin
- */
-typedef TBaseVector<EventSet> FairnessConstraints;
-
-
- 
-/*
-******************************************************** 
-******************************************************** 
-******************************************************** 
-
-TpEventSet: implementation
-
-******************************************************** 
-******************************************************** 
-******************************************************** 
-*/
- 
-/* convenience access to relevant scopes */
-#define THIS TpEventSet<Attr>
-#define BASE TaEventSet<Attr>
-
-FAUDES_TYPE_TIMPLEMENTATION(Void,TpEventSet<Attr>,TaEventSet<Attr>,template <class Attr>)
- 
-#undef BASE
-#undef THIS
-
-
-
 
 }//namespace
 #endif//.H

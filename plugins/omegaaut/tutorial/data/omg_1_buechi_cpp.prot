@@ -1,0 +1,53 @@
+%%% test mark: buechi trim [at omg_1_buechi.cpp:46]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: bparallel [at omg_1_buechi.cpp:67]
+% 
+%  Statistics for very simple machine 1|||very simple machine 2
+% 
+%  States:        10
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   20
+%  StateSymbols:  10
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: buechi parallel [at omg_1_buechi.cpp:68]
+% 
+%  Statistics for very simple machine 1|||very simple machine 2
+% 
+%  States:        10
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   20
+%  StateSymbols:  10
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: buechi closure [at omg_1_buechi.cpp:106]
+% 
+%  Statistics for BuechiClosure(g)
+% 
+%  States:        5
+%  Init/Marked:   1/5
+%  Events:        4
+%  Transitions:   7
+%  StateSymbols:  5
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+

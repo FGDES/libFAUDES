@@ -16,7 +16,7 @@ Basic alphabet with controllability attributes.
 CoreFaudes    events        "controllability alphabet"  
 </Keywords> 
 
-<XElementTag value="Event"/>
+<ElementTag value="Event"/>
 
 </TypeDefinition> 
 
@@ -54,7 +54,7 @@ Basic alphabet.
 CoreFaudes    events        alphabet      
 </Keywords> 
 
-<XElementTag value="Event"/>
+<ElementTag value="Event"/>
 
 </TypeDefinition> 
 
@@ -156,7 +156,7 @@ CoreFaudes    "elementary type"  vector        integer
 <!-- =================================================== -->
 
 <TypeDefinition name="CoreFaudes::StateSet" ctype="faudes::StateSet" autoregister="true"> 
-<XElementTag value="State"/>
+<ElementTag value="State"/>
 </TypeDefinition> 
 
 
@@ -223,7 +223,7 @@ CoreFaudes    vector        generator     system
 <!-- =================================================== -->
 
 <TypeDefinition name="CoreFaudes::TransSet" ctype="faudes::TransSet" autoregister="true"> 
-<XElementTag value="Tr"/>
+<ElementTag value="Tr"/>
 </TypeDefinition> 
 
 

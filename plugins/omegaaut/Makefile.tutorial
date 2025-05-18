@@ -11,7 +11,8 @@ OMG_TUTORIAL_DIR = ./plugins/omegaaut/tutorial
 #
 # source files
 OMG_TUTORIAL_CPPFILES = \
-	omg_1_buechi.cpp # omg_2_rabin.cpp
+	omg_1_buechi.cpp \
+	omg_2_rabin.cpp
  
 # executables
 OMG_TUTORIAL_EXECUTABLES = $(OMG_TUTORIAL_CPPFILES:%.cpp=$(OMG_TUTORIAL_DIR)/%$(DOT_EXE))

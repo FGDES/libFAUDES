@@ -158,7 +158,7 @@ void IndexSet::DoXWrite(TokenWriter& rTw, const std::string& rLabel,const Type* 
   */
   // Loop elements
   Iterator it, conit;
-  std::string etstr=XElementTag();
+  std::string etstr=ElementTag();
   for(it = Begin(); it != End(); ++it) {
     // identify consecutive block
     Idx start = *it;
@@ -199,7 +199,7 @@ void IndexSet::DoRead(TokenReader& rTr, const std::string& rLabel,const Type* pC
    // set up defaults
   std::string label=rLabel;
   std::string ftype=TypeName();
-  std::string etstr=XElementTag();
+  std::string etstr=ElementTag();
   // figure section from current token
   Token token;
   if(label=="") {

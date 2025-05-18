@@ -1,4 +1,4 @@
-/** @file pev_priorities.cpp Classes AttributePriority, EventPriorities*/
+/** @file omg_rabinacc.cpp Rabin acceptance condition */
 
 
 /* FAU Discrete Event Systems Library (libfaudes)
@@ -22,96 +22,179 @@
 
 
       
-#include "pev_priorities.h" 
+#include "omg_rabinacc.h" 
 
 namespace faudes {
 
   
+
 /*
 ********************************
 Autoregister 
 ********************************
 */
 
-AutoRegisterType<EventPriorities> gRtiEventPriorities("EventPriorities");
-AutoRegisterType<FairnessConstraints> gRtiFairnessConstraints("FairnessConstraints");
+AutoRegisterType<RabinPair> gRtiRabinPair("RabinPair");
+AutoRegisterType<RabinAcceptance> gRtiRabinAcceptance("RabinAcceptance");
+AutoRegisterElementType<RabinAcceptance> gRtiRabinAcceptanceEType("RabinAcceptance","RabinPair");
+AutoRegisterElementTag<RabinAcceptance> gRtiRabinAcceptanceETag("RabinAcceptance","RabinPair");
   
-
 /*
 ********************************
-implementation AttributePriority
+implementation RabinPair
 ********************************
 */
 
-// faudes type std
-FAUDES_TYPE_IMPLEMENTATION(Void,AttributePriority,AttributeCFlags)
+// faudes Type std
+FAUDES_TYPE_IMPLEMENTATION(Void,RabinPair,Type)
 
+// Construct
+RabinPair::RabinPair(void) {
+  mName="RabinPair";
+  mRSet.Name("R");
+  mISet.Name("I");
+}
+
+// Copy construct
+RabinPair::RabinPair(const RabinPair& rRP) {
+  mName="RabinPair";
+  mRSet.Name("R");
+  mISet.Name("I");
+  DoAssign(rRP);
+}
 
 // Assign my members
-void AttributePriority::DoAssign(const AttributePriority& rSrcAttr) { 
-  // call base (incl. virtual clear)
-  AttributeCFlags::DoAssign(rSrcAttr);
-  // my additional members
-  mPriority = rSrcAttr.mPriority;
+void RabinPair::DoAssign(const RabinPair& rSrc) {
+  mRSet=rSrc.mRSet;
+  mISet=rSrc.mISet;
 }
 
+// Clear configuration
+void RabinPair::Clear(void) {
+  mRSet.Clear();
+  mISet.Clear();
+}
 
+// Ordering  
+bool RabinPair::operator<(const RabinPair& rOther) const {
+  if(mRSet<rOther.mRSet) return true;
+  if(mRSet!=rOther.mRSet) return false;
+  if(mRSet<rOther.mRSet) return false;
+  return mISet<rOther.mISet;
+}
+  
 // Test equality
-bool AttributePriority::DoEqual(const AttributePriority& rOther) const {
-  FD_DC("AttributePriority::DoEqual() A");
-  // call base 
-  if(!AttributeCFlags::DoEqual(rOther)) return false;
-  // my additional members
-  FD_DC("AttributePriority::DoEqual() B "  << mPriority << " vs " << rOther.mPriority);
-  return mPriority == rOther.mPriority;
+bool RabinPair::DoEqual(const RabinPair& rOther) const {
+  if(mRSet != rOther.mRSet) return false;
+  if(mISet != rOther.mISet) return false;
+  return true;
 }
 
-// Write XML only
-void AttributePriority::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const{
-  (void) pContext;
-  if(IsDefault()) return;
-  FD_DC("AttributeCFlags(" << this << ")::DoXWrite(tw)");
-  // let base calls do their job
-  AttributeCFlags::DoXWrite(rTw,rLabel,pContext);
-  // add mine
-  Token token;
-  if(mPriority!=0) {
-    token.SetEmpty("Priority");
-    token.InsAttributeInteger("value",mPriority);
-    rTw.Write(token);
-  }
+// Write 
+void RabinPair::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
+  FD_DC("RabinPair(" << this << ")::DoXWrite(tw)");
+  // insist in label
+  std::string label="RabinPair";
+  // begin tag
+  rTw.WriteBegin(label);
+  // write my mambers
+  mRSet.Write(rTw, "R", pContext);
+  mISet.Write(rTw, "I", pContext);
+  // close tag
+  rTw.WriteEnd(label);
 }
 
-// Write (XML only)
-void AttributePriority::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
-  DoXWrite(rTw,rLabel,pContext);
+
+// Write XML
+void RabinPair::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const{
+  FD_DC("RabinPair(" << this << ")::DoXWrite(tw)");
+  // default label
+  std::string label=rLabel;
+  if(label=="") label="RabinPair";
+  // Set up outer tag
+  Token btag=XBeginTag(label,"RabinPair");
+  rTw.Write(btag);
+  // write my mambers
+  mRSet.XWrite(rTw, "R", pContext);
+  mISet.XWrite(rTw, "I", pContext);
+  // close tag
+  rTw.WriteEnd(btag.StringValue());
 }
 
 //DoRead(rTr)
-void AttributePriority::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
-  // let base do their job
-  AttributeCFlags::DoRead(rTr,rLabel,pContext);
-  // read my XML
-  Token token;
-  while(true) {
-    rTr.Peek(token);
-    // explicit integer
-    if(token.IsBegin("Priority")) {
-      rTr.ReadBegin("Priority",token);
-      mPriority=0;
-      if(token.ExistsAttributeInteger("value"))
-	mPriority=token.AttributeIntegerValue("value");
-      rTr.ReadEnd("Priority");
-      continue;
-    }
-    // stop at unknown tag
-    break;
-  }
+void RabinPair::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  // default label
+  std::string label=rLabel;
+  if(label=="") label="RabinPair";
+  // figure name from begin tag
+  Name("");
+  Token btag;
+  rTr.Peek(btag);
+  if(btag.ExistsAttributeString("name"))
+    Name(btag.AttributeStringValue("name"));
+  // read begin
+  rTr.ReadBegin(label); 
+  // read my members
+  mRSet.Read(rTr,"R",pContext);
+  mISet.Read(rTr,"I",pContext);
+  // end tag
+  rTr.ReadEnd(label);
 }
 
 
 
+/*
+********************************
+implementation RabinAcceptance
+********************************
+*/
+
+// faudes Type std
+FAUDES_TYPE_IMPLEMENTATION(Void,RabinAcceptance,TBaseSet<RabinPair>)
+
+// Consttruct
+RabinAcceptance::RabinAcceptance(void) {
+  Name("RabinAcceptance");
+}
+  
+// Copy consttruct
+RabinAcceptance::RabinAcceptance(const RabinAcceptance& rRA) {
+  Name("RabinAcceptance");
+  DoAssign(rRA);
+}
+
+// DoWriteElement(tw,cpntext)
+void RabinAcceptance::DoWriteElement(TokenWriter& rTw,const RabinPair& rElem, const std::string& rLabel, const Type* pContext) const {
+  rElem.Write(rTw,"RabinPair",pContext);
+}
+
+// DoXWriteElement(tw,cpntext)
+void RabinAcceptance::DoXWriteElement(TokenWriter& rTw,const RabinPair& rElem, const std::string& rLabel, const Type* pContext) const {
+  rElem.XWrite(rTw,"RabinPair",pContext);
+}
+
+// DoInsertElement(rTr, rLabel, pContext)
+void RabinAcceptance::DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  RabinPair rpair;
+  rpair.Read(rTr, rLabel, pContext);
+  Insert(rpair); ///hmm ... insert should return an Iterator
+}
+
+// DoSWrite()
+void RabinAcceptance::DoSWrite(TokenWriter& rTw) const {
+  //TBaseSet::DoSWrite(rTw);
+  Type::DoSWrite(rTw);
+  rTw.WriteComment(" RabinPairs: " + ToStringInteger(Size()));
+  Iterator rit;
+  for(rit=Begin();rit!=End();++rit)
+    rTw.WriteComment(" R/I-States: " + ToStringInteger(rit->RSet().Size()) +
+       "/" + ToStringInteger(rit->ISet().Size()));
+  rTw.WriteComment(" ");
+}
   
 
+
+
 }// namespace
-// 
+
+

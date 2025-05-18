@@ -39,7 +39,7 @@ IoSystem
 
 <TypeDefinition name="IoSystem::IosAlphabet" ctype="faudes::IosEventSet" autoregister="true"> 
 
-<XElementTag value="Event"/>
+<ElementTag value="Event"/>
 
 </TypeDefinition> 
 

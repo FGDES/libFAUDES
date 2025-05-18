@@ -17,7 +17,7 @@ Alphabet with per event priority attribute.
 Priorities    events        "prioritiesed events"  
 </Keywords> 
 
-<XElementTag value="Event"/>
+<ElementTag value="Event"/>
 
 </TypeDefinition>
 

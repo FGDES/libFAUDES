@@ -1,6 +1,6 @@
 <!ELEMENT Registry  (TypeDefinition|FunctionDefinition)*>
 
-<!ELEMENT TypeDefinition   (Documentation?,Keywords?,XElementTag?)>
+<!ELEMENT TypeDefinition   (Documentation?,Keywords?,ElementTag?)>
 <!ATTLIST TypeDefinition name CDATA #REQUIRED>
 <!ATTLIST TypeDefinition ctype CDATA #IMPLIED>
 <!ATTLIST TypeDefinition autoregister (true|false) #IMPLIED>
@@ -10,8 +10,8 @@
 
 <!ELEMENT Keywords (#PCDATA)>
 
-<!ELEMENT XElementTag EMPTY>
-<!ATTLIST XElementTag value CDATA #REQUIRED>
+<!ELEMENT ElementTag EMPTY>
+<!ATTLIST ElementTag value CDATA #REQUIRED>
 
 
 <!ELEMENT FunctionDefinition   (Documentation?,Keywords?,VariantSignatures?)>

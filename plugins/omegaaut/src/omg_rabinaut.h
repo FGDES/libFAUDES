@@ -1,4 +1,4 @@
-/** @file pev_pgenerator.h Classes pGenerator */
+/** @file omg_rabinaut.h Class RabinAutomaton */
 
 
 /* FAU Discrete Event Systems Library (libfaudes)
@@ -20,117 +20,16 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-#ifndef FAUDES_PEV_PGENERATOR_H
-#define FAUDES_PEV_PGENERATOR_H
+#ifndef FAUDES_OMG_RABINAUT_H
+#define FAUDES_OMG_RABINAUT_H
 
 #include "corefaudes.h"
-#include "pev_priorities.h"
+#include "omg_rabinacc.h"
 
 namespace faudes {
 
-
-/*!
- * \brief The AttributePGenGl class
- * Class wraping various global attributes of a FPGen including
- * Fairness and lowest event priority.
- * Note: this is not yet a propper faudes Attribute, it misses out on
- * serialisation.
- */
-
-class FAUDES_API AttributePGenGl : public AttributeVoid {
-
-FAUDES_TYPE_DECLARATION(Void,AttributePGenGl,AttributeVoid)
-
-public:
-    /**
-    * Default constructor
-    */
-    AttributePGenGl(void) : AttributeVoid() {}
-
-    /** Destructor */
-    virtual ~AttributePGenGl(void) {}
-
-    /** Access members */
-    void LowestPriority(const Idx rPriority) { mPLowest = rPriority; }
-    Idx LowestPriority(void) const { return mPLowest;  }
-    void HighestPriority(const Idx rPriority) { mPHighest = rPriority; }
-    Idx HighestPriority(void) const { return mPHighest;  }
-    void Fairness(const FairnessConstraints& rFair) { mFairConsts = rFair; }
-    const FairnessConstraints& Fairness(void) const { return mFairConsts; }
-
-    /**
-    * Clear (mandatory for serialisation)
-    */
-    void Clear(void) { mPLowest = 0; mPHighest=0; mFairConsts.Clear();}
-
-protected:
-    /**
-    * Assignment method.
-    *
-    * @param rSrcAttr
-    *    Source to assign from
-    */
-    void DoAssign(const AttributePGenGl& rSrcAttr){mPLowest = rSrcAttr.mPLowest; mPHighest = rSrcAttr.mPHighest; mFairConsts = rSrcAttr.mFairConsts;}
-
-    /**
-    * Test equality of configuration data.
-    *
-    * @param rOther
-    *    Other attribute to compare with.
-    * @return
-    *   True on match.
-    */
-    bool DoEqual(const AttributePGenGl& rOther) const {return (mPLowest == rOther.mPLowest && mPHighest == rOther.mPHighest && mFairConsts == rOther.mFairConsts);}
-
-    /**
-    * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
-    * Label and Context argument are ignored.
-    *
-    * @param rTr
-    *   TokenReader to read from
-    * @param rLabel
-    *   Section to read
-    * @param pContext
-    *   Read context to provide contextual information
-    *
-    * @exception Exception
-    *   - IO error (id 1)
-    */
-    virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=nullptr){}
-
-    /**
-    * Writes attribute to TokenWriter, see AttributeVoid for public wrappers.
-    * Label and Context argument are ignored.
-    *
-    * @param rTw
-    *   TokenWriter to write to
-    * @param rLabel
-    *   Section to write
-    * @param pContext
-    *   Write context to provide contextual information
-    *
-    * @exception Exception
-    *   - IO error (id 2)
-    */
-    virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const {}
-
-    /*!
-     * \brief mFairConst
-     * fairness constraints
-     */
-    FairnessConstraints mFairConsts;
-
-    /**
-    * lowest priority value of globally all events (not only my alphabet).
-    */
-    Idx mPLowest = 0;
-
-    /**
-    * highest priority value of globally all events (not only my alphabet).
-    */
-    Idx mPHighest = 0;
-};
-
+FOR INSPIRATON === THE PGENERATOR
+  
 
 /**
  * Generator with priositised events. 
@@ -548,4 +447,4 @@ TEMP void THIS::Fairness(const FairnessConstraints& rFair) {
 
 
 } // namespace faudes
-#endif // PEV_GENERATOR_H
+#endif // _H

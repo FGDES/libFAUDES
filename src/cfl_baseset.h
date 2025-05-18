@@ -500,8 +500,8 @@ public:
        pBaseSet->DValid("Iterator");
      }; 
 
-    /** Reimplement dereference */
-     const T* operator-> (void) const {
+     /** Reimplement dereference */ 
+      const T* operator-> (void) const {
 #ifdef FAUDES_DEBUG_CODE
        if(pBaseSet==NULL) {
          FD_ERR("TBaseSet<T,Cmp>::Iterator(" << this << "):operator->: invalid iterator: no baseset");
@@ -804,7 +804,7 @@ public:
    * @param rTag
    *   Name to set
    */
-  virtual void XElementTag(const std::string& rTag);
+  virtual void ElementTag(const std::string& rTag);
 
   /** 
    * Get objects's type name. 
@@ -834,13 +834,66 @@ protected:
 
 
   /** 
-   * Token output, see Type::DWrite for public wrappers.
+   * Token output for an individual element of the set. This is a dummy which
+   * you may reimplement in devireved classes to make the default implementations
+   * of DoWrite meaninfull. This is meant for "small sets of large elements". For
+   * a more tailored ourput on "large sets of small elements", you will most
+   * likely directly re-implement DoWrite.
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rElem
+   *   The element to write
+   * @param rLabel
+   *   Label of section to write, defaults to ElemenTag
+   * @param pContext
+   *   Write context to provide contextual information
+   */
+  virtual void DoWriteElement(TokenWriter& rTw, const T& rElem, const std::string &rLabel="", const Type* pContext=0) const;
+
+  /** 
+   * Token output for an individual element of the set, strict XML variant. See also
+   * DoWriteElement
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rElem
+   *   The element to write
+   * @param rLabel
+   *   Label of section to write, defaults to ElemenTag
+   * @param pContext
+   *   Write context to provide contextual information
+   */
+  virtual void DoXWriteElement(TokenWriter& rTw, const T& rElem, const std::string &rLabel="", const Type* pContext=0) const;
+
+  /**
+   * Token input for individual elemet, incl. factoru and insertion
    * Reimplement this function in derived classes for specific
-   * specific template parameters. By convention, the default label ""
-   * should be translated to a) the name of the set or b) some meaningful default, 
-   * eg "IndexSet" for a set of indices. The pContext pointer can de type-checked
-   * and interpreted, ie as a symboltable to provide symbolic names. It is also
+   * specific template parameters.
+   * The pContext pointer can de type-checked and interpreted, ie 
+   * as a symboltable to provide symbolic names. It is also
    * passed on to attributes.
+   *
+   * @param rTr
+   *   Reference to TokenReader
+   * @param rLabel
+   *   Label of section to read, defaults to name of set
+   * @param pContext
+   *   Read context to provide contextual information
+   */
+  virtual void DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext);
+
+  /** 
+   * Token output, see Type::WWrite for public wrappers.
+   * The default implementation iterates over the individual elements and writes
+   * them by DoWriteElement. Reimplement this function in derived classes for a
+   * taylored output format.
+   *
+   * By convention, the default label "" should be translated to a) the name of the
+   * set or b) some meaningful default, eg "IndexSet" for a set of indices.
+   *
+   * The pContext pointer can de type-checked and interpreted, ie as a symboltable
+   * to provide symbolic names. It is also passed on to attributes.
    *
    * @param rTw
    *   Reference to TokenWriter
@@ -850,6 +903,19 @@ protected:
    *   Write context to provide contextual information
    */
   virtual void DoWrite(TokenWriter& rTw, const std::string& rLabel="", const Type* pContext=0) const;
+
+  /** 
+   * Token output, strict XML version
+   * Reimplement this function in derived classes for specific
+   * specific template parameters.
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rLabel
+   *   Label of section to write, defaults to name of set
+   * @param pContext
+   *   Write context to provide contextual information
+   */
+  virtual void DoXWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=0) const;
 
   /** 
    * Token output, debugging see Type::DWrite for public wrappers.
@@ -986,7 +1052,7 @@ protected:
   virtual const TypeDefinition* TypeDefinitionp(void) const;
 
   /** Get name of elements (used for XML IO) */
-  virtual const std::string& XElementTag(void) const;
+  virtual const std::string& ElementTag(void) const;
 
   /** static empty STL set for default constructor */
   static std::set<T,Cmp> msEmptySet;
@@ -1006,12 +1072,12 @@ private:
   std::string  mFaudesTypeName;
 
   /** Current/cached name of elements (use protected accessor methods for caching) */
-  std::string  mXElementTag;
+  std::string  mElementTag;
 
 protected:  
 
   /** Defauft name of elements (if not over written by registry) */
-  std::string  mXElementTagDef;
+  std::string  mElementTagDef;
 
 
 };
@@ -1197,7 +1263,7 @@ TEMP THIS::TBaseSet(void) :
   mDetached(false), 
   mLocked(false),
   pTypeDefinition(NULL),
-  mXElementTagDef("Element")
+  mElementTagDef("Element")
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet()");
@@ -1217,7 +1283,7 @@ TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
   mDetached(false), 
   mLocked(false), 
   pTypeDefinition(NULL),
-  mXElementTagDef("Element")
+  mElementTagDef("Element")
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet()");
@@ -1239,7 +1305,7 @@ TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) :
   mDetached(false), 
   mLocked(false),
   pTypeDefinition(NULL),
-  mXElementTagDef("Element")
+  mElementTagDef("Element")
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet(rOtherSet " << &rOtherSet << "): fake copy construct");
@@ -1791,20 +1857,25 @@ TEMP const TypeDefinition* THIS::TypeDefinitionp(void) const {
 }
 
 // ElementTag
-TEMP const std::string& THIS::XElementTag(void) const {
-  if(mXElementTag.empty()) {
+TEMP const std::string& THIS::ElementTag(void) const {
+  FD_DRTI("BaseSet::ElementTag(" << typeid(*this).name() <<")");  
+  if(mElementTag.empty()) {
     // provide fake const
     THIS* fake_const = const_cast< THIS* >(this);
-    fake_const->mXElementTag=mXElementTagDef;
+    fake_const->mElementTag=mElementTagDef;
     const TypeDefinition* fdp=TypeDefinitionp();
-    if(fdp) if(!fdp->XElementTag().empty()) fake_const->mXElementTag=fdp->XElementTag();
+    if(fdp) {
+      FD_DRTI("BaseSet::ElementTag: type " << fdp->TypeName() << "etag " << fdp->ElementTag());
+      if(!fdp->ElementTag().empty()) fake_const->mElementTag=fdp->ElementTag();
+    }
   }
-  return mXElementTag;
+  FD_DRTI("BaseSet::ElementTag(" << typeid(*this).name() <<"): using tag: " << mElementTag);  
+  return mElementTag;
 }
 
 // ElementTag
-TEMP void THIS::XElementTag(const std::string& rTag) {
-  mXElementTag=rTag;
+TEMP void THIS::ElementTag(const std::string& rTag) {
+  mElementTag=rTag;
 }
 
 
@@ -1842,18 +1913,51 @@ TEMP bool THIS::Empty(void) const {
   return pSet->empty();
 }
 
+// DoWriteElement(tw,cpntext)
+TEMP void THIS::DoWriteElement(TokenWriter& rTw,const T& rElem, const std::string& rLabel, const Type* pContext) const {
+  (void) pContext; (void) rTw; (void) rLabel; (void) rElem;
+  std::stringstream errstr;
+  errstr << "used but not reimplemented" << typeid(this).name() << std::endl;
+  throw Exception("BaseSet::DoWriteElement", errstr.str(), 61);
+}
+
+// DoXWriteElement(tw,cpntext)
+TEMP void THIS::DoXWriteElement(TokenWriter& rTw,const T& rElem, const std::string& rLabel, const Type* pContext) const {
+  (void) pContext; (void) rTw; (void) rLabel; (void) rElem;
+  std::stringstream errstr;
+  errstr << "used but not reimplemented" << typeid(this).name() << std::endl;
+  throw Exception("BaseSet::DoXWriteElement", errstr.str(), 61);
+}
 
 // DoWrite(tw,rLabel,cpntext)
 TEMP void THIS::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
-  (void) pContext;
   std::string label=rLabel;
   if(label=="") label=Name(); 
   if(label=="") label="BaseSet"; 
   FD_DC("TBaseSet(" << this << ")::DoWrite(..): section " << label << " #" << Size());
   rTw.WriteBegin(label);
+  // iterate entries to write
+  Iterator it;
+  for (it = Begin(); it != End(); ++it) {
+    DoWriteElement(rTw, *it, rLabel, pContext);
+  }
   rTw.WriteEnd(label);
 }
 
+
+// DoWrite(tw,rLabel,cpntext)
+TEMP void THIS::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
+  // Set up outer tag
+  Token btag=XBeginTag(rLabel,"BaseSet");
+  rTw.Write(btag);
+  FD_DC("BaseSet(" << this << ")::DoXWrite(..): section " << btag.StringValue() << " #" << Size());
+  // iterate entries to write
+  Iterator it;
+  for (it = Begin(); it != End(); ++it) {
+    DoXWriteElement(rTw, *it, rLabel, pContext);
+  }
+  rTw.WriteEnd(btag.StringValue());
+}
 
 // DoDWrite(tw, label, context)
 TEMP void THIS::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
@@ -1888,15 +1992,70 @@ TEMP void THIS::DoSWrite(TokenWriter& rTw) const {
   } 
 }
 
+
+// DoInsertElement(rTr, rLabel, pContext)
+TEMP void THIS::DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  (void) pContext; (void) rTr; (void) rLabel;
+  std::stringstream errstr;
+  errstr << "used but not reimplemented" << typeid(this).name() << std::endl;
+  throw Exception("BaseSet::DoInsertElement", errstr.str(), 61);
+
+  /*
+  Type* elemp=nullptr;
+  if(TypeRegistry::G()->Exists(TypeName())) {
+    elemp=NewFaudesObject(TypeRegistry::G()->ElementType(TypeName()));
+  };
+  if(elemp==nullptr) {  
+    std::stringstream errstr;
+    errstr << "failed to factor element in " << typeid(this).name() << std::endl;
+    throw Exception("BaseSet::DoInsertElement", errstr.str(), 61);
+  }
+  elemp->Read(rTr, rLabel, pContext);
+  // Insert(*elemp)   <<<< cannot do this fir non-faudes elements :-(
+  */
+}
+
 // DoRead(rTr, rLabel, pContext)
 TEMP void THIS::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
-  (void) pContext;
+  // set up defaults
   std::string label=rLabel;
-  if(label=="") label=Name(); 
-  if(label=="") label="BaseSet"; 
+  std::string ftype=TypeName();
+  std::string etstr=ElementTag();
+  // figure element type
+  std::string etype="";
+  if(TypeRegistry::G()->Exists(ftype)) {
+    etype= TypeRegistry::G()->ElementType(ftype);
+  }
+  // figure section
+  Token token;
+  if(label=="") {
+    rTr.Peek(token);
+    if(token.Type()==Token::Begin) label=token.StringValue();
+  }
+  if(label=="") label=ftype; 
   Name(label);
-  rTr.ReadBegin(label); 
-  rTr.ReadEnd(label); 
+  // read begin
+  rTr.ReadBegin(label,token); 
+  if(token.ExistsAttributeString("name"))
+    Name(token.AttributeStringValue("name"));
+  FD_DC("BaseSet(" << typeid(*this).name() << ")::DoRead(..): section " << label << " elements " << etstr);
+  // loop tokens
+  while(!rTr.Eos(label)) {
+    rTr.Peek(token);
+    // read element section
+    if(token.IsBegin(etstr)) {
+      FD_DC("TBaseSet(" << typeid(*this).name()  << ")::DoRead(..): inserting element");
+      DoInsertElement(rTr,etstr,pContext);
+      FD_DC("TBaseSet(" << typeid(*this).name()  << ")::DoRead(..): inserting element: ok");
+      continue;
+    }
+    // cannot process token
+    std::stringstream errstr;
+    errstr << "Invalid token of type " << token.Type() << " at " << rTr.FileLine();
+    throw Exception("BaseSet::DoRead", errstr.str(), 50);
+  }
+  rTr.ReadEnd(label);
+  FD_DC("BaseSet(" << this << ")::DoRead(tr," << label << ", " << pContext << "): done");
 }
 
 // ThisIterator (tmoor 201308: this is by default an attached iterator)

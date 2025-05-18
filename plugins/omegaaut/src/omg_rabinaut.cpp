@@ -1,4 +1,4 @@
-/** @file pev_pgenerator.cpp Classes pGenerator */
+/** @file omg_rabinaut.cpp Classes RabinAutomaton */
 
 
 /* FAU Discrete Event Systems Library (libfaudes)
@@ -22,25 +22,18 @@
 
 
       
-#include "pev_pgenerator.h" 
+#include "omg_rabinaut.h" 
 
 namespace faudes {
 
-/*
-********************************
-AttributePGenGl implementation 
-********************************
-*/
-
-FAUDES_TYPE_IMPLEMENTATION(Void,AttributePGenGl,AttributeVoid)
-  
 /*
 ********************************
 Autoregister pGenerator
 ********************************
 */
 
-AutoRegisterType<pGenerator> gRtiRegisterPGenerator("pGenerator");
+// EDIT -=== TEMPLATE  
+//AutoRegisterType<pGenerator> gRtiRegisterPGenerator("pGenerator");
   
 
 }// namespace

@@ -28,7 +28,7 @@ DiagLabelSet::DiagLabelSet(void) {
   // configure unregistered type 
   mDiagLabels.Name("DiagLabels");
   mDiagLabels.TypeName("DiagLabels");
-  mDiagLabels.XElementTag("Label");
+  mDiagLabels.ElementTag("Label");
 }
 
 // construct and set symbol table
@@ -39,7 +39,7 @@ DiagLabelSet::DiagLabelSet(SymbolTable *pSymTab) {
   // configure unregistered type 
   mDiagLabels.Name("DiagLabels");
   mDiagLabels.TypeName("DiagLabels");
-  mDiagLabels.XElementTag("Label");
+  mDiagLabels.ElementTag("Label");
 }
 
 

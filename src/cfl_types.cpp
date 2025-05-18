@@ -725,7 +725,7 @@ void TypeDefinition::Clear(){
   // call base
   Documentation::Clear();
   // my members
-  mXElementTag="";
+  mElementTag="";
 }
 
 
@@ -734,7 +734,7 @@ void TypeDefinition::DoAssign(const TypeDefinition& rSrc) {
   // assign base members
   Documentation::DoAssign(rSrc);
   // assign my members
-  mXElementTag=rSrc.mXElementTag;
+  mElementTag=rSrc.mElementTag;
   // special member
   if(mpType) delete mpType;
   mpType=0;
@@ -747,7 +747,7 @@ bool TypeDefinition::DoEqual(const TypeDefinition& rOther) const {
   // test base members
   if(!Documentation::DoEqual(rOther)) return false;
   // test my members
-  if(mXElementTag!=rOther.mXElementTag) return false;
+  if(mElementTag!=rOther.mElementTag) return false;
   return true;
 }
 
@@ -776,11 +776,11 @@ void TypeDefinition::DoReadCore(TokenReader& rTr) {
     rTr.Peek(token);
     // element tag
     if(token.IsBegin())
-    if(token.StringValue()=="XElementTag") {
-      rTr.ReadBegin("XElementTag",token);
+    if(token.StringValue()=="ElementTag") {
+      rTr.ReadBegin("ElementTag",token);
       if(token.ExistsAttributeString("value"))
-        mXElementTag=token.AttributeStringValue("value");
-      rTr.ReadEnd("XElementTag");
+        mElementTag=token.AttributeStringValue("value");
+      rTr.ReadEnd("ElementTag");
       continue;
     }
     // break un unknown
@@ -803,10 +803,10 @@ void TypeDefinition::DoWriteCore(TokenWriter& rTw) const {
   // call base core
   Documentation::DoWriteCore(rTw);  
   // my data
-  if(mXElementTag!="") {
+  if(mElementTag!="") {
     Token etag;
-    etag.SetEmpty("XElementTag");
-    etag.InsAttributeString("value", mXElementTag);
+    etag.SetEmpty("ElementTag");
+    etag.InsAttributeString("value", mElementTag);
     rTw << etag;
   }
 }
@@ -843,15 +843,24 @@ Type* TypeDefinition::NewObject() const{
 }
 
 
-
 // parameter access
-const std::string& TypeDefinition::XElementTag(void) const {
-  return mXElementTag;
+const std::string& TypeDefinition::ElementTag(void) const {
+  return mElementTag;
 }
 
 // parameter access
-void TypeDefinition::XElementTag(const std::string& rTag)  {
-  mXElementTag=rTag;
+void TypeDefinition::ElementTag(const std::string& rTag)  {
+  mElementTag=rTag;
+}
+
+// parameter access
+const std::string& TypeDefinition::ElementType(void) const {
+  return mElementType;
+}
+
+// parameter access
+void TypeDefinition::ElementType(const std::string& rType)  {
+  mElementType=rType;
 }
 
 
