@@ -30,7 +30,7 @@ namespace faudes {
 
 
 /**
- * Generator with Rabin Acceptance conditiom. 
+ * Generator with Rabin acceptance conditiom. 
  * 
  * @section SecRabinAut Overview
  * 
@@ -89,6 +89,14 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TrGenerator* New(void) const;
 
     /**
+     * Construct on stack
+     *
+     * @return 
+     *   new Generator 
+     */
+     TrGenerator NewRGen(void) const;
+
+    /**
      * Construct copy on heap
      *
      * @return 
@@ -98,6 +106,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 
     /**
      * Type test.
+     *
      * Uses C++ dynamic cast to test whether the specified object
      * casts to a RabinAutomaton.
      *
@@ -112,14 +121,6 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      virtual const Type* Cast(const Type* pOther) const {
        return dynamic_cast< const TrGenerator* > (pOther); };
 
-
-    /**
-     * Construct on stack
-     *
-     * @return 
-     *   new Generator 
-     */
-     TrGenerator NewRGen(void) const;
 
     /**
      * Assignment operator (uses Assign)
@@ -152,15 +153,23 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      *   set to get priorities from
      *
      */
-    void RabinAcceptance(const RabinAcepptance& rOther);
+     void RabinAcceptance(const faudes::RabinAcceptance& rOther);
 
     /**
      * Get Rabin acceotance condition
      *
-     * NOT IMPLEMENTED
+     * proposal NOT IMPLEMENTED
      *
      */
-    RabinAcceptance RabinAcceptance(void) const;
+     const faudes::RabinAcceptance&  RabinAcceptance(void) const;
+
+    /**
+     * Get Rabin acceotance condition
+     *
+     * proposal NOT IMPLEMENTED
+     *
+     */
+     faudes::RabinAcceptance&  RabinAcceptance(void);
 
 
 
@@ -171,7 +180,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 /** 
  * Convenience typedef for std prioritised generator 
  */
-typedef TrGenerator<AttributeVoid, AttributeVoid, AttributCFlags, RabinAcceptance> RabinAutomaton;
+  typedef TrGenerator<AttributeVoid, AttributeVoid, AttributeCFlags, faudes::RabinAcceptance> RabinAutomaton;
 
 
 
@@ -250,7 +259,7 @@ TEMP THIS* THIS::Copy(void) const {
 }
 
 // NewPGen
-TEMP THIS THIS::NewPGen(void) const {
+TEMP THIS THIS::NewRGen(void) const {
   // call base (fixes by assignment constructor)
   THIS res= BASE::NewCGen();
   return res;

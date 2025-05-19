@@ -183,13 +183,13 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
   virtual TaGenerator& Assign(const Type& rSrc); 
 
   /**
-   * Assignment operator (uses Assign(Generator&) )
+   * Assignment operator (uses DoAssign(Generator&) )
    *
    * @param rOtherGen
    *   Other generator
    */
-  /*virtual*/ TaGenerator& operator= (const TaGenerator& rOtherGen);
-  //using vGenerator::operator=;
+  TaGenerator& operator= (const TaGenerator& rOtherGen);
+  
 
   /**
    * Destructive copy to other TaGenerator 
@@ -1026,8 +1026,6 @@ TEMP THIS THIS::NewAGen(void) const {
   THIS res;
   // fix base data
   res.EventSymbolTablep(BASE::mpEventSymbolTable);
-  //res.mStateNamesEnabled=BASE::mStateNamesEnabled;
-  //res.ReindexOnWrite=BASE::mReindexOnWrite;  
   res.StateNamesEnabled(BASE::mStateNamesEnabled);  
   res.ReindexOnWrite(BASE::mReindexOnWrite);  
   return res;

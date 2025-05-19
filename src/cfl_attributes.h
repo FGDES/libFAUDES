@@ -71,20 +71,10 @@ public:
   /** 
    * Test for default value.
    *
-   * Note: perhaps refactor to use IsCleared?
+   * The void attribute has no data and is hence always in default configuration.
+   * For derived classes, you most likeliy need to reimplement.
    */
-  virtual bool IsDefault(void) const {return true; /*IsCleared();*/};
-
-  /**
-   * Set to default value.
-   * Derived classes must reimplement this function for Clear to operate properly.
-   */
-  virtual void SetDefault(void) { };
-
-  /**
-   *   Synonym for SetDefault to match std interface
-   */
-  virtual void Clear(void) { SetDefault(); };
+  virtual bool IsDefault(void) const {return true;};
 
   /**
    * Skip attribute tokens.

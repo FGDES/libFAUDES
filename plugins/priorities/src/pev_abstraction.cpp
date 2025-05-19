@@ -27,6 +27,9 @@
 #include "pev_sparallel.h"
 #include "pev_abstraction.h"
 
+// local debug
+#undef FD_DF
+#define FD_DF(a) FD_WARN(a)
 
 namespace faudes {
 
@@ -816,7 +819,7 @@ void AppendOmegaTermination(pGenerator& rPGen, EventPriorities& rPrios){
   Idx omega_terminal = rPGen.InsEvent("_OMEGA_TERMINAL_");
 
   // Handle event prioriy
-  const Idx lowest = rPGen.GlobalAttribute().LowestPriority() + 1; // YT-2025-04
+  const Idx lowest = rPGen.LowestPriority() + 1; // YT-2025-04
   rPGen.EventAttributep(omega)->Priority(lowest);
   rPGen.EventAttributep(omega_terminal)->Priority(lowest);
   rPrios.InsPriority("_OMEGA_",lowest);
@@ -2071,7 +2074,7 @@ bool IsPFNonblocking(const GeneratorVector& rGvec,
       AppendOmegaTermination(pgen,prios);
     }
     else{ // install predefined fairness
-      pgen.GlobalAttributep()->Fairness(rFairVec.at(git));
+      pgen.Fairness(rFairVec.at(git));
     }
     pgenvec.push_back(pgen);
   }

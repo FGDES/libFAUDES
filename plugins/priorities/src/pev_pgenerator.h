@@ -31,8 +31,7 @@ namespace faudes {
 
 /*!
  * \brief The AttributePGenGl class
- * Class wraping various global attributes of a FPGen including
- * Fairness and lowest event priority.
+ * Class wraping various global attributes of a FPGen
  * Note: this is not yet a propper faudes Attribute, it misses out on
  * serialisation.
  */
@@ -51,17 +50,13 @@ public:
     virtual ~AttributePGenGl(void) {}
 
     /** Access members */
-    void LowestPriority(const Idx rPriority) { mPLowest = rPriority; }
-    Idx LowestPriority(void) const { return mPLowest;  }
-    void HighestPriority(const Idx rPriority) { mPHighest = rPriority; }
-    Idx HighestPriority(void) const { return mPHighest;  }
     void Fairness(const FairnessConstraints& rFair) { mFairConsts = rFair; }
     const FairnessConstraints& Fairness(void) const { return mFairConsts; }
 
     /**
     * Clear (mandatory for serialisation)
     */
-    void Clear(void) { mPLowest = 0; mPHighest=0; mFairConsts.Clear();}
+    void Clear(void) { mFairConsts.Clear();}
 
 protected:
     /**
@@ -70,7 +65,7 @@ protected:
     * @param rSrcAttr
     *    Source to assign from
     */
-    void DoAssign(const AttributePGenGl& rSrcAttr){mPLowest = rSrcAttr.mPLowest; mPHighest = rSrcAttr.mPHighest; mFairConsts = rSrcAttr.mFairConsts;}
+    void DoAssign(const AttributePGenGl& rSrcAttr) {mFairConsts = rSrcAttr.mFairConsts;}
 
     /**
     * Test equality of configuration data.
@@ -80,7 +75,7 @@ protected:
     * @return
     *   True on match.
     */
-    bool DoEqual(const AttributePGenGl& rOther) const {return (mPLowest == rOther.mPLowest && mPHighest == rOther.mPHighest && mFairConsts == rOther.mFairConsts);}
+    bool DoEqual(const AttributePGenGl& rOther) const {return (mFairConsts == rOther.mFairConsts);}
 
     /**
     * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -120,15 +115,6 @@ protected:
      */
     FairnessConstraints mFairConsts;
 
-    /**
-    * lowest priority value of globally all events (not only my alphabet).
-    */
-    Idx mPLowest = 0;
-
-    /**
-    * highest priority value of globally all events (not only my alphabet).
-    */
-    Idx mPHighest = 0;
 };
 
 
@@ -244,6 +230,10 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      virtual TpGenerator& Assign(const Type& rSource);
    
     /**
+    * Clear (mandatory for serialisation)
+    */
+     void Clear(void);
+    /**
      * Get priority by event index
      *
      * @param index
@@ -295,7 +285,6 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     /**
      * Get Priorities 
      *
-     *
      */
      EventPriorities Priorities(void) const;
 
@@ -304,11 +293,11 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * Note: this is a dumb member -- you need to set it programatically
      *
      * @return
-     *  lowest priority
+     *   lowest priority
      *
      */
-    Idx LowestPriority(void) const;
-
+     Idx LowestPriority(void) const;
+ 
     /**
      * Set lowest priority
      * Note: this is a dumb member -- you need to set it programatically
@@ -317,7 +306,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      *  lowest priority
      *
      */
-    void LowestPriority(Idx prio);
+    void LowestPriority(const Idx rPriority);
 
     /**
      * Get highest  priority
@@ -327,7 +316,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      *  highest priority
      *
      */
-    Idx HighestPriority(void) const;
+    void HighestPriority(const Idx rPriority);
 
     /**
      * Set highest priority
@@ -337,7 +326,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      *  highest priority
      *
      */
-    void HighestPriority(Idx prio);
+    Idx HighestPriority(void) const;
 
     /**
      * Get fairness constraints
@@ -358,6 +347,24 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     void Fairness(const FairnessConstraints& rFair);
 
 
+protected:
+
+    /** need to reimplement to care about additional members */
+    void DoAssign(const TpGenerator& rSrc);
+ 
+    /** need to reimplement to care about additional members */
+    bool DoEqual(const TpGenerator& rOther) const;
+    
+    /**
+    * lowest priority value of globally all events (not only my alphabet).
+    */
+    Idx mPLowest = 0;
+
+    /**
+    * highest priority value of globally all events (not only my alphabet).
+    */
+    Idx mPHighest = 0;
+
 
 }; // end class TpGenerator
 
@@ -370,14 +377,13 @@ typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, Attribute
 
 // Tyoedef for compatibility with YT's original code / internal use
 typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, AttributeVoid> pGenerator;
-  
+
+
 /** 
  * Convenience typedef for vectors of priositised systems
  * \ingroup GeneratorClasses
  */
  //typedef  TBaseVector<PriositisedSystem> PrioritisedSystemVector;  
-
-
 
 
 /*
@@ -401,34 +407,69 @@ Implementation pGenerator
 // TpGenerator(void)
 TEMP THIS::TpGenerator(void) : BASE() {
   FD_DG("TpGenerator(" << this << ")::TpGenerator()");
+  // my members
+  mPLowest = 0;
+  mPHighest = 0;
 }
 
 // TpGenerator(rOtherGen)
-TEMP THIS::TpGenerator(const TpGenerator& rOtherGen) : BASE(rOtherGen) {
+TEMP THIS::TpGenerator(const TpGenerator& rOtherGen) : BASE() {
   FD_DG("TpGenerator(" << this << ")::TpGenerator(rOtherGen)");
+  // my members
+  mPLowest = 0;
+  mPHighest = 0;
+  // full assign
+  DoAssign(rOtherGen);
 }
 
 // TpGenerator(rOtherGen)
-TEMP THIS::TpGenerator(const vGenerator& rOtherGen) : BASE(rOtherGen) {
+TEMP THIS::TpGenerator(const vGenerator& rOtherGen) : BASE() {
   FD_DG("TpGenerator(" << this << ")::TpGenerator(rOtherGen)");
+  // my members
+  mPLowest = 0;
+  mPHighest = 0;
+  // try best
+  Assign(rOtherGen);
 }
 
 // TpGenerator(rFilename)
-TEMP THIS::TpGenerator(const std::string& rFileName) : BASE(rFileName) {
-  FD_DG("TpGenerator(" << this << ")::TpGenerator(rFilename) : done");
+TEMP THIS::TpGenerator(const std::string& rFileName) : BASE() {
+  FD_DG("TpGenerator(" << this << ")::TpGenerator(rFilename)");
+  this->Read(rFileName);
+  // my members
+  mPLowest = 0;
+  mPHighest = 0;
 }
 
-// operator=
+// full assign of matching type (not virtual)
+TEMP void THIS::DoAssign(const TpGenerator& rSrc) {
+  FD_DG("TpGenerator(" << this << ")::operator = [v]" << &rOtherGen);
+  // recursive call base, incl virtual clear  
+  BASE::DoAssign(rSrc);
+  // my members
+  mPLowest = rSrc.mPLowest;
+  mPHighest = rSrc.mPHighest; 
+}
+  
+// operator= 
 TEMP THIS& THIS::operator= (const TpGenerator& rOtherGen) {
   FD_DG("TpGenerator(" << this << ")::operator = [v]" << &rOtherGen);
-  return Assign(rOtherGen);
+  DoAssign(rOtherGen);
+  return *this;
 }
 
 // copy from other faudes type
 TEMP THIS& THIS::Assign(const Type& rSrc) {
   FD_DG("TpGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
   // bail out on match
-  if(&rSrc==static_cast<const Type*>(this)) return *this;
+  if(&rSrc==static_cast<const Type*>(this))
+    return *this;
+  // dot if we can
+  const THIS* pgen=dynamic_cast<const THIS*>(&rSrc);
+  if(pgen!=nullptr) {
+    DoAssign(*pgen);
+    return *this;
+  }
   // pass on to base
   FD_DG("TpGenerator(" << this << ")::Assign([type] " << &rSrc << "): call base");
   BASE::Assign(rSrc);  
@@ -454,13 +495,15 @@ TEMP THIS* THIS::Copy(void) const {
   return res;
 }
 
-// NewPGen
-TEMP THIS THIS::NewPGen(void) const {
-  // call base (fixes by assignment constructor)
-  THIS res= BASE::NewCGen();
-  return res;
+// virtual
+TEMP void THIS::Clear(void) {
+  // base mmbers
+  BASE::Clear();
+  // my menbers
+  mPLowest = 0;
+  mPHighest = 0;
 }
-
+  
 
 // CAST
 //TEMP const Type* THIS::Cast(const Type* pOther) const {
@@ -490,42 +533,46 @@ TEMP void THIS::Priority(const std::string& rName, Idx prio) {
 	
 // Priorities(otherset)
 TEMP void THIS::Priorities(const TpEventSet<EventAttr>& rOtherSet) {
+  FD_DG("TpGenerator(" << this << ")::Priorities(src)");
   NameSet::Iterator eit=this->AlphabetBegin();  
   NameSet::Iterator eit_end=this->AlphabetEnd();
   for(;eit!=eit_end;++eit) {
     if(rOtherSet.Exists(*eit))
       Priority(*eit,rOtherSet.Priority(*eit));
   }
+  FD_DG("TpGenerator(" << this << ")::Priorities(src): done");
 }
 
 // Priorities()
 TEMP EventPriorities THIS::Priorities(void) const {
+  FD_DG("TpGenerator(" << this << ")::Priorities()");
   EventPriorities res;
   NameSet::Iterator eit=this->AlphabetBegin();  
   NameSet::Iterator eit_end=this->AlphabetEnd();
   for(;eit!=eit_end;++eit) {
     res.InsPriority(*eit,this->Priority(*eit));
   }
+  FD_DG("TpGenerator(" << this << ")::Priorities():done");
   return res;    
 }
 // LowestPriority
 TEMP Idx THIS::LowestPriority(void) const {
-  return this->GlobalAttribute().LowestPriority();
+  return mPLowest;
 }
 
 // LowestPriority
 TEMP void THIS::LowestPriority(Idx prio) {
-  this->GlobalAttributep()->LowestPriority(prio);
+  mPLowest=prio;
 }
 
 // HighestPriority
 TEMP Idx THIS::HighestPriority(void) const {
-  return this->GlobalAttribute().HighestPriority();
+  return mPHighest;
 }
 
 // HighestPriority
 TEMP void THIS::HighestPriority(Idx prio) {
-  this->GlobalAttributep()->HighestPriority(prio);
+  mPHighest=prio;
 }
 
 // Fairness
@@ -538,6 +585,8 @@ TEMP void THIS::Fairness(const FairnessConstraints& rFair) {
   this->GlobalAttributep()->Fairness(rFair);
 }
   
+//todo
+//bool DoEqual(const AttributePGenGl& rOther) const {return (mFairConsts == rOther.mFairConsts);}
 
 
   

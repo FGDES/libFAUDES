@@ -49,7 +49,6 @@ class AttributeVoid {
   }
   // basic maintenance
   virtual bool IsDefault(void);
-  virtual void SetDefault(void);
   virtual void Clear(void);
 }; 
 

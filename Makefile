@@ -52,6 +52,9 @@
 #
 ###############################################################################
 
+# allow user local configuration
+#-include Makefile.user
+
 # manualy enable plug-ins (uncomment corresponding lines)
 
 # note: only enable those plug-ins you need/know
@@ -892,7 +895,7 @@ export FAUDES_OPTIONS
 # User Targets
 ####################################
 
-all: dist-clean configure default tutorial tutorial test
+all: default tutorial 
 
 includes: $(HEADERS:%=$(INCLUDEDIR)/%) 
 
@@ -1572,7 +1575,7 @@ else
 endif
 
 # all tests
-test: tutorial $(TESTTARGETS) 
+test: binaries tutorial $(TESTTARGETS) 
 	@echo " ============================== " 
 	@echo "libFAUDES-make: test cases: done" 
 	@echo " ============================== " 

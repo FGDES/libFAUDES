@@ -1499,8 +1499,7 @@ TEMP THIS THIS::NewCGen(void) const {
   }
   
   //LowlevelEvents()
-  TEMP
-    EventSet THIS::LowlevelEvents(void) const {
+  TEMP EventSet THIS::LowlevelEvents(void) const {
     FD_DG("TcGenerator(" << this << ")::LowlevelEvents()");
     EventSet res;
     EventSet::Iterator it;

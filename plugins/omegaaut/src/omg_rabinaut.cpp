@@ -32,7 +32,7 @@ Autoregister
 ********************************
 */
 
-AutoRegisterType<pGenerator> gRtiRegisterRGenerator("RabinAutomaton");
+AutoRegisterType<RabinAutomaton> gRtiRegisterRGenerator("RabinAutomaton");
   
 
 }// namespace

@@ -212,7 +212,7 @@ class TypeDefinition;
  *
  * - Name() to get/set the name of an optional (and purely cosmetic) object name
  * - Clear() to reset all configuration data default,
- * - IsCleared() to reset all configuration data,
+ * - IsDefault() test for default configuration data,
  * - New() to construct an object of identical type on heap (factory method),
  * - Copy() to construct an object of identical type and configuration on heap (factory method),
  * - Cast() to dynamically cast another object to this type (type check method)
@@ -301,7 +301,9 @@ class FAUDES_API Type {
 
   /**
    * Test for default configuration data.  Derived classes may reimplement this
-   * conservatively, i.e., false negative is OK
+   * conservatively, i.e., false negatives should be acceptable. 
+   ^
+   * Note may refactor to IsClear[ed]()? 
    */
   virtual bool IsDefault(void) const;
 

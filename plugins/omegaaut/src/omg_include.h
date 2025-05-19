@@ -16,6 +16,7 @@
 
 #include "omg_buechifnct.h"
 #include "omg_rabinacc.h"
+#include "omg_rabinaut.h"
 //#include "omg_rabinfnct.h"
 
 #endif

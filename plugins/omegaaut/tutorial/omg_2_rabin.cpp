@@ -117,5 +117,15 @@ int main() {
   // record test case
   FAUDES_TEST_DUMP("raccept stats",raccept);
 
+
+  ////////////////////////////////////////////////////
+  // Rabin automaton
+  ////////////////////////////////////////////////////
+
+
+  RabinAutomaton ar;
+  ar.Write();
+  
+
 }  
 

@@ -53,7 +53,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFailureTypeMap,AttributeFlags)
    *  @return
    *    True for default value
    */
-  bool IsDefault(void) const;
+  virtual bool IsDefault(void) const;
   
   /**
    * Test if mFailureTypeMap is empty.
@@ -161,7 +161,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFailureTypeMap,AttributeFlags)
    *  @param rAttr 
    *    Other attribute to compare with
    */
-   bool  DoEqual(const AttributeFailureTypeMap& rAttr) const;   
+   bool DoEqual(const AttributeFailureTypeMap& rAttr) const;   
 
   
 }; // class AttributeFailureTypeMap

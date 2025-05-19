@@ -33,7 +33,7 @@ AttributePGenGl implementation
 */
 
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributePGenGl,AttributeVoid)
-  
+
 /*
 ********************************
 Autoregister pGenerator
