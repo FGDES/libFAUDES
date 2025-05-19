@@ -211,7 +211,8 @@ class TypeDefinition;
  * - DoSWrite() and DoDWrite for alternative output formats (statistical summary and debugging)
  *
  * - Name() to get/set the name of an optional (and purely cosmetic) object name
- * - Clear() to reset all configuration data,
+ * - Clear() to reset all configuration data default,
+ * - IsCleared() to reset all configuration data,
  * - New() to construct an object of identical type on heap (factory method),
  * - Copy() to construct an object of identical type and configuration on heap (factory method),
  * - Cast() to dynamically cast another object to this type (type check method)
@@ -293,10 +294,16 @@ class FAUDES_API Type {
   virtual const Type* Cast(const Type* pOther) const;
 
   /**
-   * Clear configuration data.  Derived classes should re-implement this
+   * Clear configuration data to default.  Derived classes should re-implement this
    * method to ensure some consistent configuration data.
    */
   virtual void Clear(void);
+
+  /**
+   * Test for default configuration data.  Derived classes may reimplement this
+   * conservatively, i.e., false negative is OK
+   */
+  virtual bool IsDefault(void) const;
 
   /**
    * Assign configuration data from other object. 

@@ -73,6 +73,11 @@ void Type::Clear(void) {
   FD_DC("Type::Clear(): not re-implemented in " << typeid(*this).name());
 }
 
+// Clear()
+bool Type::IsDefault(void) const {
+  return false;
+}
+
 // assign
 Type& Type::Assign(const Type& rSource) {
   FD_DC("Type(" << this << ")::Assign(" << &rSource << ")");

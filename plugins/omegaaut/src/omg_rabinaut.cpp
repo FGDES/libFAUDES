@@ -3,7 +3,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2025 Yiheng Tang, Thomas Moor
+   Copyright (C) 2025 Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -28,12 +28,11 @@ namespace faudes {
 
 /*
 ********************************
-Autoregister pGenerator
+Autoregister 
 ********************************
 */
 
-// EDIT -=== TEMPLATE  
-//AutoRegisterType<pGenerator> gRtiRegisterPGenerator("pGenerator");
+AutoRegisterType<pGenerator> gRtiRegisterRGenerator("RabinAutomaton");
   
 
 }// namespace

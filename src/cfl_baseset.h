@@ -95,7 +95,7 @@ template<class T, class Attr, class Cmp> class TAttrMap;
  */
 
 template<class T, class Cmp=std::less<T> >
-class FAUDES_TAPI TBaseSet : public Type {       
+class FAUDES_TAPI TBaseSet : public AttributeVoid {       
 
   FAUDES_TYPE_TDECLARATION(Void,TBaseSet,Type)
 
@@ -157,9 +157,14 @@ public:
 
 
   /** 
-   * Clear all set
+   * Clear all set to default aka empty
    */
   virtual void Clear(void);
+      
+  /** 
+   * Test fo default aka empty
+   */
+  virtual bool IsDefault(void) const;
       
   /**
    * Get Size of TBaseSet
@@ -1253,7 +1258,7 @@ TEMP std::map<T,AttributeVoid*> THIS::msEmptyAttributes=std::map<T,AttributeVoid
 
 // TBaseSet()
 TEMP THIS::TBaseSet(void) :
-  Type(),
+  AttributeVoid(),
   pSet(&msEmptySet),  
   mpSet(NULL),
   pAttributes(&msEmptyAttributes),
@@ -1273,7 +1278,7 @@ TEMP THIS::TBaseSet(void) :
 
 // TBaseSet(filename)
 TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
-  Type(),
+  AttributeVoid(),
   pSet(&msEmptySet),  
   mpSet(NULL),
   pAttributes(&msEmptyAttributes),
@@ -1295,7 +1300,7 @@ TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
 
 // TBaseSet(rOtherSet)
 TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) : 
-  Type(rOtherSet),
+  AttributeVoid(rOtherSet),
   pSet(&msEmptySet),  
   mpSet(NULL),  
   pAttributes(&msEmptyAttributes),
@@ -2125,6 +2130,11 @@ TEMP void THIS::Clear(void) {
   FD_DC("TBaseSet(" << this << ")::Clear(): done");
 }
 
+
+//test for default configuration
+TEMP bool THIS::IsDefault(void) const {
+  return pSet->empty();
+}
 
 //Valid(elem)
 TEMP inline bool  THIS::Valid(const T& rElem) const {

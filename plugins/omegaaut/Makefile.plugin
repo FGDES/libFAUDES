@@ -17,7 +17,7 @@ OMG_SRCDIR = $(OMG_BASE)/src
 
 OMG_CPPFILES = \
   omg_buechifnct.cpp  \
-  omg_rabinacc.cpp   # \
+  omg_rabinacc.cpp # \
 #  omg_rabinaut.cpp
 
 OMG_INCLUDE = omg_include.h

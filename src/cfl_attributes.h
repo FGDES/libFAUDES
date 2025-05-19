@@ -70,14 +70,16 @@ public:
 
   /** 
    * Test for default value.
+   *
+   * Note: perhaps refactor to use IsCleared?
    */
-  virtual bool IsDefault(void) const {return true;};
+  virtual bool IsDefault(void) const {return true; /*IsCleared();*/};
 
   /**
    * Set to default value.
    * Derived classes must reimplement this function for Clear to operate properly.
    */
-  virtual void SetDefault(void) {};
+  virtual void SetDefault(void) { };
 
   /**
    *   Synonym for SetDefault to match std interface
