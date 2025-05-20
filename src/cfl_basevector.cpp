@@ -44,7 +44,7 @@ FAUDES_TYPE_IMPLEMENTATION(Void,vBaseVector,Type)
 
 // vBaseVector()
 vBaseVector::vBaseVector(void) :
-  Type()
+  AttributeVoid()
 {
   FD_DC("vBaseVector(" << this << ")::vBaseVector()");
   // my members
@@ -54,7 +54,7 @@ vBaseVector::vBaseVector(void) :
   
 // vBaseVector(filename)
 vBaseVector::vBaseVector(const std::string& rFileName, const std::string& rLabel)  :
-  Type()
+  AttributeVoid()
 {
   FD_DC("vBaseVector(" << this << ")::vBaseVector()");
   // other members
@@ -66,7 +66,7 @@ vBaseVector::vBaseVector(const std::string& rFileName, const std::string& rLabel
 
 // vBaseVector(rOtherSet)
 vBaseVector::vBaseVector(const vBaseVector& rOtherVector) : 
-  Type(rOtherVector)
+  AttributeVoid()
 {
   FD_DC("vBaseVector(" << this << ")::vBaseVector(rOtherVector " << &rOtherVector << "): copy construct");
   DoAssign(rOtherVector);
@@ -170,11 +170,15 @@ void vBaseVector::Size(Idx len) {
 }
 
 
+// Default config
+bool vBaseVector::IsDefault(void) const {
+  return mVector.empty();
+}
+
 // Empty()
 bool vBaseVector::Empty(void) const {
   return mVector.empty();
 }
-
 
 // At()
 const Type& vBaseVector::At(const Position& pos) const {

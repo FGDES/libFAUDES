@@ -72,7 +72,7 @@ namespace faudes {
  *
  */
 
-class FAUDES_API vBaseVector : public Type {
+class FAUDES_API vBaseVector : public AttributeVoid {
 
 FAUDES_TYPE_DECLARATION(Void,vBaseVector,Type)
 
@@ -193,7 +193,16 @@ public:
   void Size(Idx len);
 
   /** 
-   * Check if the vBaseVector ist Empty 
+   * Check for default configuration aka empty
+   *
+   * @return 
+   *   True if empty
+   */
+  bool IsDefault(void) const;
+
+  /** 
+   * Check if the vBaseVector is Empty
+   * (amounts to the default configuration)
    *
    * @return 
    *   True if empty

@@ -1,0 +1,35 @@
+<Generator name="buffer">
+
+<Alphabet>
+alpha beta
+</Alphabet>
+
+<States>
+empty s1t s2t full
+</States>
+
+<TransRel>
+empty alpha s1t
+s1t   alpha s2t
+s2t   alpha full
+full  beta  s2t
+s2t   beta  s1t
+s1t   beta  empty
+</TransRel>
+
+<InitStates>
+empty
+</InitStates>
+
+<MarkedStates>
+empty 
+</MarkedStates>
+
+<RabinAcceptance>
+<RabinPair>
+<R> full </R>
+<I> s1t s2t full </I>
+</RabinPair>
+</RabinAcceptance>
+
+</Generator>

@@ -230,6 +230,11 @@ public:
   RabinAcceptance(const RabinAcceptance& rRA);
  
  /** 
+  * Construct from file.
+  */
+  RabinAcceptance(const std::string& rFileName);
+
+  /** 
   * Destructor 
   */
   virtual ~RabinAcceptance(void) {};

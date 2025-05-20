@@ -53,7 +53,7 @@
 ###############################################################################
 
 # allow user local configuration
-#-include Makefile.user
+-include Makefile.user
 
 # manualy enable plug-ins (uncomment corresponding lines)
 
@@ -726,7 +726,7 @@ VPATH = $(SRCDIR)  $(SRCDIR)/registry
 
 CPPFILESMIN= \
   cfl_platform.cpp cfl_utils.cpp cfl_exception.cpp cfl_token.cpp cfl_tokenreader.cpp cfl_tokenwriter.cpp \
-  cfl_types.cpp cfl_functions.cpp cfl_registry.cpp cfl_elementary.cpp cfl_basevector.cpp  
+  cfl_types.cpp cfl_functions.cpp cfl_registry.cpp cfl_elementary.cpp cfl_basevector.cpp  cfl_attributes.cpp
 
 CPPFILES = $(CPPFILESMIN) \
   cfl_symboltable.cpp cfl_attributes.cpp cfl_attrmap.cpp \

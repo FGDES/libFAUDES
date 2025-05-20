@@ -26,8 +26,10 @@
 
 namespace faudes {
 
+// local debugging
+#undef FD_DC
+#define FD_DC(m) FD_WARN(m)
   
-
 /*
 ********************************
 Autoregister 
@@ -97,9 +99,17 @@ void RabinPair::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* 
   std::string label="RabinPair";
   // begin tag
   rTw.WriteBegin(label);
-  // write my mambers
-  mRSet.Write(rTw, "R", pContext);
-  mISet.Write(rTw, "I", pContext);
+  // use context if its a generator (todo:xml)
+  const vGenerator* vg = dynamic_cast<const vGenerator*>(pContext);
+  if(vg!=nullptr) {
+    FD_DC("RabinPair(" << this << ")::DoWrite(tw): using context");
+    vg->WriteStateSet(rTw, mRSet,"R");
+    vg->WriteStateSet(rTw, mISet, "I");
+  } else {
+    FD_DC("RabinPair(" << this << ")::DoWrite(tw): no context");
+    mRSet.Write(rTw, "R", pContext);
+    mISet.Write(rTw, "I", pContext);
+  }
   // close tag
   rTw.WriteEnd(label);
 }
@@ -111,12 +121,20 @@ void RabinPair::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type*
   // default label
   std::string label=rLabel;
   if(label=="") label="RabinPair";
-  // Set up outer tag
+  // set up outer tag
   Token btag=XBeginTag(label,"RabinPair");
   rTw.Write(btag);
-  // write my mambers
-  mRSet.XWrite(rTw, "R", pContext);
-  mISet.XWrite(rTw, "I", pContext);
+  // use context if its a generator (todo:xml)
+  const vGenerator* vg = dynamic_cast<const vGenerator*>(pContext);
+  if(vg!=nullptr) {
+    FD_DC("RabinPair(" << this << ")::DoXWrite(tw): using context");
+    vg->XWriteStateSet(rTw, mRSet, "R");
+    vg->XWriteStateSet(rTw, mISet, "I");
+  } else {
+    FD_DC("RabinPair(" << this << ")::DoXWrite(tw): no context");
+    mRSet.XWrite(rTw, "R", pContext);
+    mISet.XWrite(rTw, "I", pContext);
+  }
   // close tag
   rTw.WriteEnd(btag.StringValue());
 }
@@ -133,10 +151,16 @@ void RabinPair::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* 
   if(btag.ExistsAttributeString("name"))
     Name(btag.AttributeStringValue("name"));
   // read begin
-  rTr.ReadBegin(label); 
-  // read my members
-  mRSet.Read(rTr,"R",pContext);
-  mISet.Read(rTr,"I",pContext);
+  rTr.ReadBegin(label);
+  // use context if its a generator (todo:xml)
+  const vGenerator* vg = dynamic_cast<const vGenerator*>(pContext);
+  if(vg!=nullptr) {
+    vg->ReadStateSet(rTr, "R", mRSet);
+    vg->ReadStateSet(rTr, "I", mISet);
+  } else {
+    mRSet.Read(rTr,"R",pContext);
+    mISet.Read(rTr,"I",pContext);
+  }
   // end tag
   rTr.ReadEnd(label);
 }
@@ -153,14 +177,20 @@ implementation RabinAcceptance
 FAUDES_TYPE_IMPLEMENTATION(Void,RabinAcceptance,TBaseSet<RabinPair>)
 
 // Consttruct
-RabinAcceptance::RabinAcceptance(void) {
+RabinAcceptance::RabinAcceptance(void) : TBaseSet<RabinPair>()  {
   Name("RabinAcceptance");
 }
   
-// Copy consttruct
-RabinAcceptance::RabinAcceptance(const RabinAcceptance& rRA) {
+// Copy construct
+RabinAcceptance::RabinAcceptance(const RabinAcceptance& rRA) : TBaseSet<RabinPair>() {
   Name("RabinAcceptance");
   DoAssign(rRA);
+}
+
+// Condtruct from file
+RabinAcceptance::RabinAcceptance(const std::string& rFileName) : TBaseSet<RabinPair>() {
+  Name("RabinAcceptance");
+  Read(rFileName);
 }
 
 // DoWriteElement(tw,cpntext)

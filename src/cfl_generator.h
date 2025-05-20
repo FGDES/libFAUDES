@@ -2460,11 +2460,33 @@ class FAUDES_API vGenerator : public Type  {
    *   Reference to TokenWriter
    * @param rStateSet
    *   Reference to stateset
+   * @param rLabel
+   *   Optional outer tag, defaults to name of the set
    *
    * @exception Exception
    *   - IO errors (id 2)
    */
-  void WriteStateSet(TokenWriter& rTw, const StateSet& rStateSet) const;
+  void WriteStateSet(TokenWriter& rTw, const StateSet& rStateSet, const std::string& rLabel="") const;
+
+  /**
+   * Write a stateset to TokenWriter in XML format.
+   *
+   * This version for file IO supports the XML format introduced with libFAUDES 2.20.
+   * Note that for Generators and derived classes, the native libFAUDES token
+   * format is considered the default. To obtain XML fromated output of a Generator,
+   * use the XWrite() interface.
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rStateSet
+   *   Reference to stateset
+   * @param rLabel
+   *   Section name, defaults to name of set
+   *
+   * @exception Exception
+   *   - IO errors (id 2)
+   */
+  void XWriteStateSet(TokenWriter& rTw, const StateSet& rStateSet, const std::string& rLabel="") const;
 
   /**
    * Write a stateset to TokenWriter (debug version, no re-indexing)
@@ -2616,7 +2638,6 @@ class FAUDES_API vGenerator : public Type  {
    *   - token mismatch (id 50, 51, 52, 80, 85)
    */
   void ReadStateSet(TokenReader& rTr, const std::string& rLabel, StateSet& rStateSet) const;
-
 
   /**
    * Test whether file-i/o uses minimal state indicees.
@@ -3164,25 +3185,6 @@ class FAUDES_API vGenerator : public Type  {
    */
   void XReadTransRel(TokenReader& rTr);
 
-  /**
-   * Write a stateset to TokenWriter in XML format.
-   *
-   * This version for file IO supports the XML format introduced with libFAUDES 2.20.
-   * Note that for Generators and derived classes, the native libFAUDES token
-   * format is considered the default. To obtain XML fromated output of a Generator,
-   * use the XWrite() interface.
-   *
-   * @param rTw
-   *   Reference to TokenWriter
-   * @param rStateSet
-   *   Reference to stateset
-   * @param rLabel
-   *   Section name, defaults to name of set
-   *
-   * @exception Exception
-   *   - IO errors (id 2)
-   */
-  void XWriteStateSet(TokenWriter& rTw, const StateSet& rStateSet, const std::string& rLabel="") const;
 
   /**
    * Write transition relation to tokenwriter in XML format.

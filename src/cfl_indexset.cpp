@@ -22,6 +22,10 @@
 
 #include "cfl_indexset.h"
 
+//local debug
+//#undef FD_DC
+//#define FD_DC(m) FD_WARN(m)
+
 
 namespace faudes {
 

@@ -24,6 +24,9 @@
 #include "cfl_generator.h"
 #include <stack>
 
+//locval debug
+//#undef FD_DG
+//#define FD_DG(m) FD_WARN(m)
 
 namespace faudes {
 
@@ -2411,7 +2414,7 @@ void vGenerator::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type
   rTw << "\n";
   WriteStateSet(rTw, mMarkedStates);
   rTw << "\n";
-  mpGlobalAttribute->Write(rTw);
+  mpGlobalAttribute->Write(rTw,"",this);
   rTw << "\n";
   rTw.WriteEnd(label);
   // end of reindex
@@ -2442,7 +2445,7 @@ void vGenerator::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Typ
   rTw << "\n";
   DWriteStateSet(rTw, mMarkedStates);
   rTw << "\n";
-  mpGlobalAttribute->Write(rTw);
+  mpGlobalAttribute->DWrite(rTw,"",this);
   rTw << "\n";
   rTw.WriteEnd(label);
   rTw << "\n";
@@ -2473,7 +2476,7 @@ void vGenerator::DoXWrite(TokenWriter& rTw, const std::string& rLabel, const Typ
   rTw << "\n";
   XWriteTransRel(rTw);
   rTw << "\n";
-  mpGlobalAttribute->XWrite(rTw);
+  mpGlobalAttribute->XWrite(rTw,"",this);
   if(!mpGlobalAttribute->IsDefault())
     rTw << "\n";
   // Write end
@@ -2616,8 +2619,11 @@ void vGenerator::WriteStates(TokenWriter& rTw) const {
 
 
 // WriteStateSet(rTw&, rStateSet&) 
-void vGenerator::WriteStateSet(TokenWriter& rTw, const StateSet&  rStateSet) const {
-  rTw.WriteBegin(rStateSet.Name());
+void vGenerator::WriteStateSet(TokenWriter& rTw, const StateSet&  rStateSet, const std::string& rLabel) const {
+  // begin tag
+  std::string label=rLabel;
+  if(label.empty()) label=rStateSet.Name();
+  rTw.WriteBegin(label);
   // test whether we reindex
   bool reindex=mMinStateIndexMap.size()>0;
   // if we reindex, setup reverse map to write in strategic order;
@@ -2697,7 +2703,7 @@ void vGenerator::WriteStateSet(TokenWriter& rTw, const StateSet&  rStateSet) con
     }
   }
   // write end tag
-  rTw.WriteEnd(rStateSet.Name());
+  rTw.WriteEnd(label);
 }
 
 
@@ -3137,7 +3143,7 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
   if(btag.ExistsAttributeString("ftype")) { native=false;}
   // try name by relaxed native 2.24e
   if(native) {
-    // get name (optional)
+    FD_DG("vGenerator(" << this << ")::DoRead(): relaxed native header")
     std::string name="generator";
     // figure name: as attribute
     if(btag.ExistsAttributeString("name")) 
@@ -3150,6 +3156,7 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
   }
   // try core sets by relaxed native 2.24e
   if(native) {
+    FD_DG("vGenerator(" << this << ")::DoRead(): relaxed native core")
     // read alphabet (optional)
     ReadAlphabet(rTr);
     // read stateset (optional)
@@ -3167,6 +3174,7 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
   }
   // try extra sets by relaxed native 2.24e
   if(native) {
+    FD_DG("vGenerator(" << this << ")::DoRead(): native extra items")
     // read istates (optional)
     Token token;
     rTr.Peek(token); 
@@ -3181,12 +3189,13 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
     if(token.IsBegin("M"))
       {ReadStateSet(rTr, "M", mMarkedStates); xml=false;}
     // read attribute
-    mpGlobalAttribute->Read(rTr);
+    mpGlobalAttribute->Read(rTr,"",this);
   }
   // if we survived, its not xml
   if(native) xml=false;
   // read strict xml format
   if(xml) {
+    FD_DG("vGenerator(" << this << ")::DoRead(): xml")
     // figure generator name
     std::string name="generator";
     if(btag.ExistsAttributeString("name")) 
@@ -3200,7 +3209,7 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
     // read trans rel
     XReadTransRel(rTr);
     // read attribute
-    mpGlobalAttribute->Read(rTr);
+    mpGlobalAttribute->Read(rTr,"",this);
     // fix labels
     mInitStates.Name("InitStates");
     mMarkedStates.Name("MarkedStates");
@@ -3682,7 +3691,7 @@ void vGenerator::ReadTransRel(TokenReader& rTr) {
   catch (faudes::Exception& oex) {
     delete attrp;
     std::stringstream errstr;
-    errstr << "Reading TransRel failed in " << rTr.FileLine() << oex.What();
+    errstr << "Reading TransRel failed in " << rTr.FileLine() << " " << oex.What();
     throw Exception("vGenerator::ReadTransRel", errstr.str(), 50); 
   }
 

@@ -122,8 +122,9 @@ int main() {
   // Rabin automaton
   ////////////////////////////////////////////////////
 
-
+  
   RabinAutomaton ar;
+  ar.Read("data/omg_rabinaut.gen");
   ar.Write();
   
 

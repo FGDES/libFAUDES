@@ -171,6 +171,10 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      */
      faudes::RabinAcceptance&  RabinAcceptance(void);
 
+ protected:
+
+    /** need to reimplement to care about Additional members */
+    void DoAssign(const TrGenerator& rSrc);
 
 
 
@@ -180,7 +184,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 /** 
  * Convenience typedef for std prioritised generator 
  */
-  typedef TrGenerator<AttributeVoid, AttributeVoid, AttributeCFlags, faudes::RabinAcceptance> RabinAutomaton;
+  typedef TrGenerator<RabinAcceptance, AttributeVoid, AttributeCFlags, AttributeVoid> RabinAutomaton;
 
 
 
@@ -222,17 +226,30 @@ TEMP THIS::TrGenerator(const std::string& rFileName) : BASE(rFileName) {
   FD_DG("TrGenerator(" << this << ")::TrGenerator(rFilename) : done");
 }
 
+// full assign of matching type (not virtual)
+TEMP void THIS::DoAssign(const TrGenerator& rSrc) {
+  FD_DG("TrGenerator(" << this << ")::operator = " << &rOtherGen);
+  // recursive call base, incl virtual clear  
+  BASE::DoAssign(rSrc);
+}
+
 // operator=
 TEMP THIS& THIS::operator= (const TrGenerator& rOtherGen) {
-  FD_DG("TrGenerator(" << this << ")::operator = [v]" << &rOtherGen);
-  return Assign(rOtherGen);
+  FD_DG("TrGenerator(" << this << ")::operator = " << &rOtherGen);
+  return DoAssign(rOtherGen);
 }
 
 // copy from other faudes type
 TEMP THIS& THIS::Assign(const Type& rSrc) {
-  FD_DG("TrGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
   // bail out on match
-  if(&rSrc==static_cast<const Type*>(this)) return *this;
+  if(&rSrc==static_cast<const Type*>(this))
+    return *this;
+  // dot if we can
+  const THIS* pgen=dynamic_cast<const THIS*>(&rSrc);
+  if(pgen!=nullptr) {
+    DoAssign(*pgen);
+    return *this;
+  }
   // pass on to base
   FD_DG("TrGenerator(" << this << ")::Assign([type] " << &rSrc << "): call base");
   BASE::Assign(rSrc);  
@@ -266,10 +283,6 @@ TEMP THIS THIS::NewRGen(void) const {
 }
 
 
-// CAST
-//TEMP const Type* THIS::Cast(const Type* pOther) const {
-//  return dynamic_cast< const THIS* > (pOther);
-//}
 
   
 #undef TEMP
