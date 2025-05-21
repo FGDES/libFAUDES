@@ -26,79 +26,6 @@
 
 namespace faudes {
 
-/***********************************************************************************
- *
- * implementation of AttributeVoid 
- *
- */
-
-// faudes type
-FAUDES_TYPE_IMPLEMENTATION(Void,AttributeVoid,Type)
-
-// constructor
-AttributeVoid::AttributeVoid(void) {
-  FAUDES_OBJCOUNT_INC("Attribute");
-}
-
-// constructor
-AttributeVoid::AttributeVoid(const AttributeVoid& rOther) {
-  FAUDES_OBJCOUNT_INC("Attribute");
-  DoAssign(rOther);  
-}
-
-  // destructor
-AttributeVoid::~AttributeVoid(void) {
-  FAUDES_OBJCOUNT_DEC("Attribute");
-}
-
-//DoWrite(rTr,rLabel,pContext)
-void AttributeVoid::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
-  (void) rTw; (void) rLabel; (void) pContext;
-  FD_DC("AttributeVoid::DoWrite()");
-}
-
-//DoWrite(rTr,rLabel,pContext)
-void AttributeVoid::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
-  (void) rTw; (void) rLabel; (void) pContext;
-  FD_WARN("AttributeVoid::DoWrite()");
-  rTw.WriteComment(std::string("Attr Type ") + typeid(*this).name());
-  DoWrite(rTw,rLabel,pContext);
-}
-
-//DoRead(rTr,rLabel,pContext)
-void AttributeVoid::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
-  (void) rLabel; (void) pContext; (void) rTr;
-  FD_DC("AttributeVoid::DoRead()");
-}
-
-//Skip(rTr)
-void AttributeVoid::Skip(TokenReader& rTr) {
-  FD_DC("AttributeVoid::Skip()");
-  Token token;
-  while(rTr.Peek(token)) {
-    // break on index or name, since this is the next element
-    if((token.Type()==Token::String) || (token.Type()==Token::Integer)) {
-      break;
-    }
-    // break on end, since this is the end of the set
-    if(token.Type()==Token::End) {
-      break;
-    }
-    // break on Consecutive section, since this belongs to the set
-    if((token.Type()==Token::Begin) && (token.StringValue() == "Consecutive")) {
-      break;
-    }
-    // skip any attribute section from other file format
-    if(token.Type()==Token::Begin){
-      rTr.ReadBegin(token.StringValue());
-      rTr.ReadEnd(token.StringValue());
-      continue;
-    }  
-    // skip any other token from other file format
-    rTr.Get(token);
-  }
-}
-
 
 
 /***********************************************************************************
@@ -173,6 +100,186 @@ void AttributeFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const T
   }
   // default
   mFlags=mDefFlags;
+}
+
+/***********************************************************************************
+ *
+ * implementation of AttributeCFlags 
+ *
+ */
+
+
+// faudes type std
+FAUDES_TYPE_IMPLEMENTATION(Void,AttributeCFlags,AttributeFlags)
+
+// Assign my members
+void AttributeCFlags::DoAssign(const AttributeCFlags& rSrcAttr) { 
+  // call base
+  AttributeFlags::DoAssign(rSrcAttr);
+}
+
+// Test my members
+bool AttributeCFlags::DoEqual(const AttributeCFlags& rOther) const { 
+  // call base
+  if(!AttributeFlags::DoEqual(rOther)) return false;
+  // no additional members
+  return true;
+}
+
+//Write(rTw)
+// Note: you should write attributes in a section, so that
+// the AttributeVoid read method can detect and skip them.
+// Here, we make an execption of the rule ...
+void AttributeCFlags::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
+  (void) rLabel; (void) pContext;
+  if(IsDefault()) return;
+  FD_DC("AttributeCFlags(" << this << ")::DoWrite(tr)");
+  Token token;
+  // if no other flags used, write option string
+  if( (mFlags & ~mAllCFlags) == 0 ) {
+    std::string option;
+    if((mDefCFlags & mControllableFlag) != (mFlags & mControllableFlag)) {
+      if(Controllable()) option = option+"C";
+      else option = option+"c";
+    }
+    if((mDefCFlags & mObservableFlag) != (mFlags & mObservableFlag)) {
+      if(Observable()) option = option+"O";
+      else option = option+"o";
+    }
+    if((mDefCFlags & mForcibleFlag) != (mFlags & mForcibleFlag)) {
+      if(Forcible()) option = option+"F";
+      else option = option+"f";
+    }
+    if((mDefCFlags & mAbstractionFlag) != (mFlags & mAbstractionFlag)) {
+      if(Highlevel()) option = option+"A";
+      else option = option+"a";
+    }
+    if(option!="") {
+      token.SetOption(option);
+      rTw << token;
+    }
+  } 
+  // if other flags used, write hex
+  else { 
+    token.SetInteger16(mFlags);
+    rTw << token;
+  }
+}
+
+//XWrite(rTw)
+void AttributeCFlags::DoXWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
+  (void) rLabel; (void) pContext;
+  if(IsDefault()) return;
+  FD_DC("AttributeCFlags(" << this << ")::DoXWrite(tw)");
+  Token token;
+  // if further flags are used, let base class write with base 16 
+  if( (mFlags & ~mAllCFlags) != 0 ) {
+    AttributeFlags::DoXWrite(rTw,rLabel,pContext);
+  }
+  // write friendly tags anyway
+  std::string option;
+  if((mDefCFlags & mControllableFlag) != (mFlags & mControllableFlag)) {
+    token.SetEmpty("Controllable");
+    if(!Controllable()) token.InsAttributeBoolean("value",0);
+    rTw.Write(token);
+  }
+  if((mDefCFlags & mObservableFlag) != (mFlags & mObservableFlag)) {
+    token.SetEmpty("Observable");
+    if(!Observable()) token.InsAttributeBoolean("value",0);
+    rTw.Write(token);
+  }
+  if((mDefCFlags & mForcibleFlag) != (mFlags & mForcibleFlag)) {
+    token.SetEmpty("Forcible");
+    if(!Forcible()) token.InsAttributeBoolean("value",0);
+    rTw.Write(token);
+  }
+  if((mDefCFlags & mAbstractionFlag) != (mFlags & mAbstractionFlag)) {
+    token.SetEmpty("HighLevel");
+    if(!Highlevel()) token.SetEmpty("LowLevel");
+    rTw.Write(token);
+  } 
+}
+
+//DoRead(rTr)
+void AttributeCFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  (void) rLabel; (void) pContext;
+  mFlags=mDefCFlags;
+  Token token;
+  rTr.Peek(token);
+  // faudes format, flags as integer
+  if(token.IsInteger16()) { 
+    AttributeFlags::DoRead(rTr,rLabel,pContext);
+    return;
+  } 
+  // faudes format, flags as option string
+  if(token.IsOption()) {
+    rTr.Get(token);
+    std::string option=token.OptionValue();
+    if(option.find( 'C', 0) != std::string::npos) SetControllable();
+    if(option.find( 'c', 0) != std::string::npos) ClrControllable();
+    if(option.find( 'O', 0) != std::string::npos) SetObservable();
+    if(option.find( 'o', 0) != std::string::npos) ClrObservable();
+    if(option.find( 'F', 0) != std::string::npos) SetForcible();
+    if(option.find( 'f', 0) != std::string::npos) ClrForcible();
+    if(option.find( 'A', 0) != std::string::npos) SetHighlevel();
+    if(option.find( 'a', 0) != std::string::npos) SetLowlevel();
+    return;
+  }
+  // xml format 
+  while(true) {
+    rTr.Peek(token);
+    // explicit integer
+    if(token.IsBegin("Flags")) {
+      AttributeFlags::DoRead(rTr,rLabel,pContext);
+      continue;
+    }
+    // known bits
+    if(token.IsBegin("Controllable")) {
+      rTr.ReadBegin("Controllable",token);
+      SetControllable();
+      if(token.ExistsAttributeInteger("value"))
+	if(token.AttributeIntegerValue("value")==false)
+          ClrControllable();
+      rTr.ReadEnd("Controllable");
+      continue;
+    }
+    if(token.IsBegin("Observable")) {
+      rTr.ReadBegin("Observable",token);
+      SetObservable();
+      if(token.ExistsAttributeInteger("value"))
+	if(token.AttributeIntegerValue("value")==false)
+          ClrObservable();
+      rTr.ReadEnd("Observable");
+      continue;
+    }
+    if(token.IsBegin("Forcible")) {
+      rTr.ReadBegin("Forcible",token);
+      SetForcible();
+      if(token.ExistsAttributeInteger("value"))
+	if(token.AttributeIntegerValue("value")==false)
+          ClrForcible();
+      rTr.ReadEnd("Forcible");
+      continue;
+    }
+    if(token.IsBegin("HighLevel")) {
+      rTr.ReadBegin("HighLevel",token);
+      SetHighlevel();
+      if(token.ExistsAttributeInteger("value"))
+	if(token.AttributeIntegerValue("value")==false)
+          SetLowlevel();
+      continue;
+    }
+    if(token.IsBegin("LowLevel")) {
+      rTr.ReadBegin("LowLevel",token);
+      SetLowlevel();
+      if(token.ExistsAttributeInteger("value"))
+	if(token.AttributeIntegerValue("value")==false)
+          SetHighlevel();
+      continue;
+    }
+    // stop at unknown tag
+    break;
+  }
 }
 
 

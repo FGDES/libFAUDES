@@ -214,9 +214,9 @@ protected:
  *
  * @ingroup OmegaautPlugin
  */
-class FAUDES_API RabinAcceptance : public TBaseSet<RabinPair> {
+class FAUDES_API RabinAcceptance : public TBaseVector<RabinPair> {
 
-FAUDES_TYPE_DECLARATION(Void,RabinAcceptance,vBaseSet<RabinPair>)
+FAUDES_TYPE_DECLARATION(Void,RabinAcceptance,vBaseVector<RabinPair>)
   
 public:
  /**

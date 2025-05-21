@@ -516,7 +516,6 @@ class AutoRegisterElementType {
 
 
 
-
 /**
  * The FunctionRegistry registers faudes-functions. A faudes-functions
  * operates on faudes objects, eg the parallel composition of two 

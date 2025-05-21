@@ -72,15 +72,15 @@ namespace faudes {
  *
  */
 
-class FAUDES_API vBaseVector : public AttributeVoid {
+class FAUDES_API vBaseVector : public ExtType {
 
-FAUDES_TYPE_DECLARATION(Void,vBaseVector,Type)
+FAUDES_TYPE_DECLARATION(Void,vBaseVector,ExtType)
 
 public:
 
-  using Type::operator=;
-  using Type::operator==;
-  using Type::operator!=;
+  using ExtType::operator=;
+  using ExtType::operator==;
+  using ExtType::operator!=;
 
   /**
    * Constructor. 
@@ -103,7 +103,7 @@ public:
    * @param rLabel
    *   Section for the set in the file; 
    */
-  vBaseVector(const std::string& rFilename, const std::string& rLabel = "BaseVector");
+  vBaseVector(const std::string& rFilename, const std::string& rLabel = "Vector");
 
   /**
    * Virtual destructor
@@ -120,7 +120,6 @@ public:
    */
   virtual const Type* Elementp(void) const;
 
-
   /**
    * Prototype for vector entries.
    * This is a convenience wrapper for Elementp.
@@ -129,7 +128,6 @@ public:
    *    Element protoype
    */
   virtual const Type& Element(void) const;
-
 
   /**
    * Factory method for vector entries.
@@ -150,23 +148,6 @@ public:
    *   True, if provided element is accepted by this vector.
    */
   virtual bool ElementTry(const Type& rElement) const;
-
-
-  /** 
-   * Return name of vBaseVector 
-   * 
-   * @return
-   *   Name of vBaseVector
-   */
-  const std::string& Name(void) const;
-        
-  /**
-   * Set name of vBaseVector
-   *
-   * @param rName
-   *   Name to set
-   */
-  void Name(const std::string& rName);
 
   /** 
    * Clear all vector
@@ -294,7 +275,7 @@ public:
 
   /** 
    * Insert specified entry.
-   * This method takes a copy of the entry to replace and the
+   * This method takes a copy of the entry to be inserted and the
    * vector becomes the owner of the copy.
    *
    * @param pos
@@ -307,12 +288,10 @@ public:
    */
   virtual void Insert(const Position& pos, const Type& rElem);
 
-  /** 
+  /**
    * Insert specified entry.
-   * This method avoids to copy the entry to replace and only records the reference.
-   * The vector does not take ownership of the new entry. I.e., when the vector is destroyed, or the
-   * entry is deleted from the vector, the entry itself remains allocated.
-   *
+   * This method avoids to make a copy and inserts only a reference. The caller
+   * remains the owner and is responsable for destruction.
    *
    * @param pos
    *    Position at which to insert
@@ -322,8 +301,8 @@ public:
    *   - Position out of range (id 69)
    *   - Cannot cast element type (63)
    */
-  virtual void Insert(const Position& pos, Type* rElem);
-
+  virtual void Insert(const Position& pos, Type* pElem);
+  
   /** 
    * Insert specified entry.
    * This method reads the sepcified entry from file and the
@@ -415,8 +394,8 @@ public:
 
   /** 
    * Find element.
-   * This method iterates through the vector to find a matching element. This is generally inefficient,
-   * consider to use an STL set instead.
+   * This method iterates through the vector to find a matching element. This is
+   * generally inefficient, consider to use an ordered set instead.
    *
    * @param rElem
    *    Element to serach for
@@ -427,10 +406,18 @@ public:
    */
   virtual Position  Find(const Type& rElem);
 
+  /**
+   * Cnsolidate by removing doublets.
+   * This method iterates through the vector to find ad eliminate semantical doublets; i.e., it
+   * refers to equality as implementyed by the faudes type method DoEqual. This is
+   * generally inefficient, consider to use an ordered set instead.
+   */
+  virtual void EraseDoublets(void);
+
   /** 
    * Specify a filename.
    * When each entry has a filename specified,
-   * file io of the vector will be to indiviudual files.
+   * file io of the vector will be to individual files.
    *
    * @param pos
    *    Position of entry
@@ -516,6 +503,21 @@ protected:
    */
   virtual void DoWrite(TokenWriter& rTw, const std::string& rLabel="", const Type* pContext=0) const;
 
+  /** 
+   * Token output strict XML, see Type::XWrite for public wrappers.
+   * The method assumes that the type parameter is a faudes type and uses
+   * the provide writed method per entry. Reimplement this function in derived 
+   * classes for non-faudes type vectors.
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rLabel
+   *   Label of section to write, defaults to name of set
+   * @param pContext
+   *   Write context to provide contextual information
+   */
+  virtual void DoXWrite(TokenWriter& rTw, const std::string& rLabel="", const Type* pContext=0) const;
+
   /**
    * Token input, see Type::Read for public wrappers.
    * The method assumes that the type parameter is a faudes type and uses
@@ -538,6 +540,19 @@ protected:
   /** Assignment method  */
   void DoAssign(const vBaseVector& rSourceVector);
 
+  /**
+   * Test equality of configuration data.
+   *
+   * To be equal, all elements must match.
+   * 
+   * @param rOther 
+   *    Other object to compare with.
+   * @return 
+   *   True on match.
+   */
+  bool DoEqual(const vBaseVector& rOther) const;
+
+
   /** Internal entry data type */
   class ElementRecord {
   public:
@@ -551,6 +566,19 @@ protected:
 
   /** convenience typedef */
   typedef std::vector<ElementRecord>::iterator iterator;
+
+private:
+
+  /** Current/cached faudes type-name */
+  std::string  mFaudesTypeName;
+
+  /** Current/cached name of elements (use protected accessor methods for caching) */
+  std::string  mElementTag;
+
+protected:  
+
+  /** Defauft name of elements (if not over written by registry) */
+  std::string  mElementTagDef;
 
 private:
 
@@ -592,6 +620,8 @@ public:
   using vBaseVector::operator=;
   using vBaseVector::operator==;
   using vBaseVector::operator!=;
+  using vBaseVector::Insert;
+  using vBaseVector::Erase;
 
   /**
    * Constructor. 
@@ -678,11 +708,121 @@ public:
    */
   virtual T& At(const Position& pos); 
 
-protected:
+  /** 
+   * Iterator class for high-level API similar to TBaseSet.
+   *
+   */
+  class Iterator;
+  class CIterator;
+
+  /** 
+   * Iterator to the begin of set
+   *
+   * @return 
+   *   Iterator
+   */
+  Iterator Begin(void);
+        
+  /** 
+   * Iterator to the begin of set, const variant
+   *
+   * @return 
+   *   Iterator
+   */
+  CIterator Begin(void) const;
+        
+  /** 
+   * Iterator to the end of set
+   *
+   * @return 
+   *   Iterator
+   */
+  Iterator End(void);
+
+  /** 
+   * Iterator to the end of set, const variant
+   *
+   * @return 
+   *   Iterator
+   */
+  CIterator End(void) const;
+
+  /** 
+   * Insert specified entry.
+   *
+   * Insert with no position defaults to Append/PushBack
+   *
+   *
+   * @param pos
+   *    Position at which to insert
+   * @param rElem
+   *    Element to insert
+   * @exception Exception
+   *   - Position out of range (id 69)
+   *   - Cannot cast element type (63)
+   */
+  virtual void Insert(const T& rElem);
+
+  /** 
+   * Erase specified entry.
+   *
+   * @param vit
+   *    Iterator to element to erase
+   */
+  virtual Iterator Erase(const Iterator& vit);
+ 
+   /** 
+   * Iterator class, e add one layer of dereferencing.
+   */
+   class Iterator : public std::vector<ElementRecord>::iterator {
+     public:
+     /** Default contructor */
+     Iterator(void) : std::vector<ElementRecord>::iterator() {}; 
+     /** Copy constructor  */
+     Iterator(const Iterator& fit) : std::vector<ElementRecord>::iterator(fit) {};
+     /** Copy constructor from STL itertor */
+     Iterator(const typename std::vector<ElementRecord>::iterator& sit) : std::vector<ElementRecord>::iterator(sit) {};
+     /** Get as STL iterator */
+     const typename std::vector<ElementRecord>::iterator& StlIterator(void) const {return *this;};
+     /** Reimplement dereference */ 
+     T* operator-> (void) const {
+       return dynamic_cast<T*>(std::vector<ElementRecord>::iterator::operator*().pElement);
+     };
+     /** Reimplement derefernce */
+     T& operator* (void) const {
+       return *( dynamic_cast<T*>(std::vector<ElementRecord>::iterator::operator*().pElement) );
+     };
+   };
+
+  /** 
+   * Iterator class, const variant
+   */
+   class CIterator : public std::vector<ElementRecord>::const_iterator {
+     public:
+     /** Default contructor */
+     CIterator(void) : std::vector<ElementRecord>::const_iterator() {}; 
+     /** Copy constructor  */
+     CIterator(const Iterator& fit) : std::vector<ElementRecord>::const_iterator(fit) {};
+     /** Copy constructor from STL itertor */
+     CIterator(const typename std::vector<ElementRecord>::const_iterator& sit) : std::vector<ElementRecord>::const_iterator(sit) {};
+     /** Reimplement dereference */ 
+     const T* operator-> (void) const {
+       return dynamic_cast<const T*>(std::vector<ElementRecord>::const_iterator::operator*().pElement);
+     };
+     /** Reimplement derefernce */
+     const T& operator* (void) const {
+       return *( dynamic_cast<const T*>(std::vector<ElementRecord>::const_iterator::operator*().pElement) );
+     };
+   };
+
+
+ protected:
 
   /** Assignment method  */
   void DoAssign(const TBaseVector<T>& rSourceVector);
 
+  /** Test equality  */
+  bool DoEqual(const TBaseVector<T>& rOther) const;
 
 };
 
@@ -774,6 +914,18 @@ TEMP void THIS::DoAssign(const THIS& rSourceVector) {
   FD_DC("TBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << "): done");
 }
 
+  // test equality
+TEMP bool THIS::DoEqual(const THIS& rOther) const {
+  FD_DC("TBaseVector(" << this << ")::DoEqual()");
+  if(Size()!=rOther.Size()) return false;
+  Position p=0;
+  for(;p<Size();++p) {
+    if(At(p)!=rOther.At(p))
+      return false;
+  }
+  return true;
+}
+
 // At()
 TEMP const T& THIS::At(const Position& pos) const {
 #ifdef FAUDES_CHECKED
@@ -813,7 +965,21 @@ TEMP T& THIS::At(const Position& pos) {
 }
 
 
+// iterators
+TEMP typename THIS::Iterator THIS::Begin(void) { return Iterator(mVector.begin());}
+TEMP typename THIS::CIterator THIS::Begin(void) const { return CIterator(mVector.begin());}
+TEMP typename THIS::Iterator THIS::End(void) { return Iterator(mVector.end());}
+TEMP typename THIS::CIterator THIS::End(void) const { return CIterator(mVector.end());}
 
+// set style element access
+TEMP void THIS::Insert(const T& rElem) { Append(rElem); };
+TEMP typename THIS::Iterator THIS::Erase(const Iterator& pit) {
+  std::vector<ElementRecord>::iterator sit=pit.StlIterator();
+  if(sit->mMine) delete sit->pElement;
+  mVector.erase(sit++);
+  Iterator rit(sit);
+  return rit; 
+};
 
 
 /* undefine local shortcuts */

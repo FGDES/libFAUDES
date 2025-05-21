@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2009 Ruediger Berndt
-Copyright (C) 2010 Thomas Moor
+Copyright (C) 2010-2025 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -332,6 +332,169 @@ Token Type::XBeginTag(const std::string& rLabel,const std::string& rFallbackLabe
   // done
   return btag;
 }
+
+
+
+/*
+********************************************************************
+********************************************************************
+********************************************************************
+
+Implementation of class ExtType
+
+********************************************************************
+********************************************************************
+********************************************************************
+*/
+
+// faudes type
+FAUDES_TYPE_IMPLEMENTATION(Void,AttrType,Type)
+
+// constructor
+AttrType::AttrType(void) : Type() {
+  FAUDES_OBJCOUNT_INC("AttrType");
+}
+
+// constructor
+AttrType::AttrType(const AttrType& rOther) : Type(rOther) {
+  FAUDES_OBJCOUNT_INC("AttrType");
+}
+
+// destructor
+AttrType::~AttrType(void) {
+  FAUDES_OBJCOUNT_DEC("AttrType");
+}
+
+//Skip(rTr)
+void AttrType::Skip(TokenReader& rTr) {
+  FD_DC("AttrType::Skip()");
+  Token token;
+  while(rTr.Peek(token)) {
+    // break on index or name, since this is the next element
+    if((token.Type()==Token::String) || (token.Type()==Token::Integer)) {
+      break;
+    }
+    // break on end, since this is the end of the container
+    if(token.Type()==Token::End) {
+      break;
+    }
+    // break on Consecutive section, since this belongs to the container
+    if((token.Type()==Token::Begin) && (token.StringValue() == "Consecutive")) {
+      break;
+    }
+    // skip any attribute section from other file format
+    if(token.Type()==Token::Begin){
+      rTr.ReadBegin(token.StringValue());
+      rTr.ReadEnd(token.StringValue());
+      continue;
+    }  
+    // skip any other token from other file format
+    rTr.Get(token);
+  }
+}
+
+
+/*
+********************************************************************
+********************************************************************
+********************************************************************
+
+Implementation of class ExtType
+
+********************************************************************
+********************************************************************
+********************************************************************
+*/
+
+// std faudes type methods
+FAUDES_TYPE_IMPLEMENTATION(Void,ExtType,AttrType)
+
+// constructor
+ExtType::ExtType(void) : AttrType(), pTypeDefinition(nullptr) {}
+
+// copy constructor
+ExtType::ExtType(const ExtType& rType) : AttrType(), pTypeDefinition(nullptr)  {(void) rType;}
+
+// destructor
+ExtType::~ExtType(void) {}
+
+// Name
+const std::string& ExtType::Name(void) const {
+  return mObjectName;
+}
+		
+// Name
+void ExtType::Name(const std::string& rName) {
+  mObjectName = rName;
+}
+  
+// TypeDefinitionp()
+// Note: fake const construct
+const TypeDefinition* ExtType::TypeDefinitionp(void) const {
+  if(!pTypeDefinition) {
+    // provide fake const
+    ExtType* fake_const = const_cast< ExtType* >(this);
+    fake_const->pTypeDefinition=TypeRegistry::G()->Definitionp(*this);
+  }
+  return pTypeDefinition;
+}
+  
+// Faudes Type
+const std::string& ExtType::TypeName(void) const {
+  if(mFaudesTypeName.empty()) {
+    // provide fake const
+    ExtType* fake_const = const_cast< ExtType* >(this);
+    const TypeDefinition* fdp=TypeDefinitionp();
+    if(fdp) fake_const->mFaudesTypeName=fdp->Name();
+  }
+  return mFaudesTypeName;
+}
+
+// Faudes Type
+void ExtType::TypeName(const std::string& rType) {
+  mFaudesTypeName=rType;
+}
+
+// ElementTag
+const std::string& ExtType::ElementTag(void) const {
+  FD_DRTI("ExtType::ElementTag(" << typeid(*this).name() <<")");  
+  if(mElementTag.empty()) {
+    // provide fake const
+    ExtType* fake_const = const_cast< ExtType* >(this);
+    fake_const->mElementTag=mElementTagDef;
+    const TypeDefinition* fdp=TypeDefinitionp();
+    if(fdp) {
+      FD_DRTI("Type::ElementTag: type " << fdp->TypeName() << "etag " << fdp->ElementTag());
+      if(!fdp->ElementTag().empty()) fake_const->mElementTag=fdp->ElementTag();
+    }
+  }
+  FD_DRTI("Type::ElementTag(" << typeid(*this).name() <<"): using tag: " << mElementTag);  
+  return mElementTag;
+}
+
+// ElementTag
+void ExtType::ElementTag(const std::string& rTag) {
+  mElementTag=rTag;
+}
+
+
+// figure element type
+const std::string& ExtType::ElementType(void) const {
+  FD_DRTI("ExtType::ElementType(" << typeid(*this).name() <<")");  
+  if(mElementType.empty()) {
+    // provide fake const
+    ExtType* fake_const = const_cast< ExtType* >(this);
+    const TypeDefinition* fdp=TypeDefinitionp();
+    if(fdp) {
+      FD_DRTI("Type::ElementType: type " << fdp->TypeName() << "etag " << fdp->ElementType());
+      if(!fdp->ElementType().empty()) fake_const->mElementType=fdp->ElementType();
+    }
+  }
+  FD_DRTI("Type::ElementType(" << typeid(*this).name() <<"): using tag: " << mElementType);  
+  return mElementType;
+}
+
+  
 
 
 

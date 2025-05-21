@@ -95,15 +95,15 @@ template<class T, class Attr, class Cmp> class TAttrMap;
  */
 
 template<class T, class Cmp=std::less<T> >
-class FAUDES_TAPI TBaseSet : public AttributeVoid {       
+class FAUDES_TAPI TBaseSet : public ExtType {       
 
-  FAUDES_TYPE_TDECLARATION(Void,TBaseSet,Type)
+  FAUDES_TYPE_TDECLARATION(Void,TBaseSet,ExtType)
 
 public:
 
-  using Type::operator=;
-  using Type::operator==;
-  using Type::operator!=;
+  using ExtType::operator=;
+  using ExtType::operator==;
+  using ExtType::operator!=;
 
   /** allow access to attribute interface class */
   template<class TP, class AP, class CP> friend class TAttrMap;
@@ -138,23 +138,6 @@ public:
    * Virtual destructor
    */
   virtual ~TBaseSet(void);
-
-  /** 
-   * Return name of TBaseSet 
-   * 
-   * @return
-   *   Name of TBaseSet
-   */
-  const std::string& Name(void) const;
-        
-  /**
-   * Set name of TBaseSet
-   *
-   * @param rName
-   *   Name to set
-   */
-  void Name(const std::string& rName);
-
 
   /** 
    * Clear all set to default aka empty
@@ -385,7 +368,7 @@ public:
   void Lock(void) const;
 
   /** 
-   * Iterator class for high-level api to TBaseSet.
+   * Iterator class for high-level API to TBaseSet.
    * This class is derived from STL iterators to additionally provide
    * a reference of the container to iterate on. This feature
    * is used to adjust iterators when the actual set gets reallocated due to a Detach()
@@ -800,40 +783,6 @@ public:
    */
    virtual void ClrAttribute(const T& rElem);
 
-  /**
-   * Configure the element name tag.
-   * This method allows to overwrite the tag used for elements
-   * in XML IO. For usual, you will register derived class with
-   * the run-time-interface and set the elemen tag for XML IO.
-   *
-   * @param rTag
-   *   Name to set
-   */
-  virtual void ElementTag(const std::string& rTag);
-
-  /** 
-   * Get objects's type name. 
-   *
-   * Retrieve the faudes-type name from the type registry.
-   * Sets allow to overwrite the faudes-type identifier. This is allows
-   * for light-weight derived classes that do not need to be registered.
-   *
-   * @return 
-   *   Faudes-type name or empty string.
-   */
-  virtual const std::string& TypeName(void) const;
-
-  /**
-   * Overwrite faudes-type name.
-   * This method is used to overwrite the faudes-type identifyer.
-   *
-   * @param rType
-   *   Faudes-type name to set
-   */
-  virtual void TypeName(const std::string& rType);
-
-
-
 
 protected:
 
@@ -983,9 +932,6 @@ protected:
 protected:
 
 
-  /** Name of this BaseSet */
-  std::string mMyName;
-
   /** Pointer on STL set to operate on */
   std::set<T,Cmp>* pSet;
 
@@ -1051,14 +997,6 @@ protected:
   /** Record that an iterator stops to refer to this TBaseSet */
   void DetachIterator(Iterator* pFit) const;
 
-
-
-  /** Reimplment from type to use chache */
-  virtual const TypeDefinition* TypeDefinitionp(void) const;
-
-  /** Get name of elements (used for XML IO) */
-  virtual const std::string& ElementTag(void) const;
-
   /** static empty STL set for default constructor */
   static std::set<T,Cmp> msEmptySet;
 
@@ -1067,22 +1005,6 @@ protected:
 
   /** static empty STL client list */
   // std::list< TBaseSet<T,Cmp>* >* msEmptyClients;
-
-private:
-
-  /** TypeDefinition cache (should use guarded pointer here) */
-  const TypeDefinition* pTypeDefinition;
-
-  /** Current/cached faudes type-name */
-  std::string  mFaudesTypeName;
-
-  /** Current/cached name of elements (use protected accessor methods for caching) */
-  std::string  mElementTag;
-
-protected:  
-
-  /** Defauft name of elements (if not over written by registry) */
-  std::string  mElementTagDef;
 
 
 };
@@ -1239,17 +1161,17 @@ Implementation of TBaseSet
 
 
 // faudes type std: new and cast
-FAUDES_TYPE_TIMPLEMENTATION_NEW(Void,THIS,Type,TEMP)
-FAUDES_TYPE_TIMPLEMENTATION_COPY(Void,THIS,Type,TEMP)
-FAUDES_TYPE_TIMPLEMENTATION_CAST(Void,THIS,Type,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_NEW(Void,THIS,ExtType,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_COPY(Void,THIS,ExtType,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_CAST(Void,THIS,ExtType,TEMP)
 
 // faudes type std: assignemnt (break cast)
 //TEMP THIS& THIS::Assign(const Type& rSrc) { this->Clear(); return *this;};
 //TEMP THIS& THIS::Assign(const THIS& rSrc) { DoAssign(rSrc); return *this;};
 
 // faudes type std: assignemnt (keep cast)
-FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(Void,THIS,Type,TEMP)
-FAUDES_TYPE_TIMPLEMENTATION_EQUAL(Void,THIS,Type,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(Void,THIS,ExtType,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_EQUAL(Void,THIS,ExtType,TEMP)
 
 
 // template statics: empty set
@@ -1258,7 +1180,7 @@ TEMP std::map<T,AttributeVoid*> THIS::msEmptyAttributes=std::map<T,AttributeVoid
 
 // TBaseSet()
 TEMP THIS::TBaseSet(void) :
-  AttributeVoid(),
+  ExtType(),
   pSet(&msEmptySet),  
   mpSet(NULL),
   pAttributes(&msEmptyAttributes),
@@ -1266,19 +1188,18 @@ TEMP THIS::TBaseSet(void) :
   pHostSet(this),
   mpClients(new std::list< TBaseSet<T,Cmp>* >),
   mDetached(false), 
-  mLocked(false),
-  pTypeDefinition(NULL),
-  mElementTagDef("Element")
+  mLocked(false)
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet()");
-  // other members
-  mMyName="BaseSet";
+  // overwrite base defaults
+  mElementTagDef="Element";
+  mObjectName="BaseSet";
 }
 
 // TBaseSet(filename)
 TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
-  AttributeVoid(),
+  ExtType(),
   pSet(&msEmptySet),  
   mpSet(NULL),
   pAttributes(&msEmptyAttributes),
@@ -1286,21 +1207,20 @@ TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
   pHostSet(this),
   mpClients(new std::list< TBaseSet<T,Cmp>* >),
   mDetached(false), 
-  mLocked(false), 
-  pTypeDefinition(NULL),
-  mElementTagDef("Element")
+  mLocked(false)
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet()");
   // other members
-  mMyName="BaseSet";
+  mElementTagDef="Element";
+  mObjectName="BaseSet";
   // do read etc ... this is a dummy anyway
   Read(rFileName,rLabel);  
 }
 
 // TBaseSet(rOtherSet)
 TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) : 
-  AttributeVoid(rOtherSet),
+  ExtType(rOtherSet),
   pSet(&msEmptySet),  
   mpSet(NULL),  
   pAttributes(&msEmptyAttributes),
@@ -1308,12 +1228,13 @@ TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) :
   pHostSet(this),
   mpClients(new std::list< TBaseSet<T,Cmp>* >), // small detour ... for readability
   mDetached(false), 
-  mLocked(false),
-  pTypeDefinition(NULL),
-  mElementTagDef("Element")
+  mLocked(false)
 {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet(rOtherSet " << &rOtherSet << "): fake copy construct");
+  // overwrite base defaults
+  mElementTagDef="Element";
+  mObjectName="BaseSet";
   // run assignment
   DoAssign(rOtherSet);
 #ifdef FAUDES_DEBUG_CODE
@@ -1352,7 +1273,8 @@ TEMP void THIS::DoAssign(const THIS& rSourceSet) {
   // bail out on selfref
   if(this==&rSourceSet) return;
   // other members 
-  mMyName=rSourceSet.mMyName;
+  mObjectName=rSourceSet.mObjectName;
+  mElementTagDef=rSourceSet.mObjectName;
   // bail out on common shared data
   if(pHostSet==rSourceSet.pHostSet) return;
   // become independant
@@ -1373,7 +1295,6 @@ TEMP void THIS::DoAssign(const THIS& rSourceSet) {
     delete mpClients;
     mpClients=NULL;
   }
-
   // if attribute type matches, use source as host
   if(typeid(*rSourceSet.AttributeType())==typeid(*this->AttributeType())) {
     pHostSet=rSourceSet.pHostSet; 
@@ -1838,69 +1759,6 @@ TEMP void THIS::DValid(const std::string& rMessage) const {
 }
 
 
-
-// Name
-TEMP const std::string& THIS::Name(void) const {
-  return mMyName;
-}
-		
-// Name
-TEMP void THIS::Name(const std::string& rName) {
-  mMyName = rName;
-}
-  
-
-// TypeDefinitionp()
-// Note: fake const construct
-TEMP const TypeDefinition* THIS::TypeDefinitionp(void) const {
-  if(!pTypeDefinition) {
-    // provide fake const
-    THIS* fake_const = const_cast< THIS* >(this);
-    fake_const->pTypeDefinition=TypeRegistry::G()->Definitionp(*this);
-  }
-  return pTypeDefinition;
-}
-
-// ElementTag
-TEMP const std::string& THIS::ElementTag(void) const {
-  FD_DRTI("BaseSet::ElementTag(" << typeid(*this).name() <<")");  
-  if(mElementTag.empty()) {
-    // provide fake const
-    THIS* fake_const = const_cast< THIS* >(this);
-    fake_const->mElementTag=mElementTagDef;
-    const TypeDefinition* fdp=TypeDefinitionp();
-    if(fdp) {
-      FD_DRTI("BaseSet::ElementTag: type " << fdp->TypeName() << "etag " << fdp->ElementTag());
-      if(!fdp->ElementTag().empty()) fake_const->mElementTag=fdp->ElementTag();
-    }
-  }
-  FD_DRTI("BaseSet::ElementTag(" << typeid(*this).name() <<"): using tag: " << mElementTag);  
-  return mElementTag;
-}
-
-// ElementTag
-TEMP void THIS::ElementTag(const std::string& rTag) {
-  mElementTag=rTag;
-}
-
-
-// Faudes Type
-TEMP const std::string& THIS::TypeName(void) const {
-  if(mFaudesTypeName.empty()) {
-    // provide fake const
-    THIS* fake_const = const_cast< THIS* >(this);
-    const TypeDefinition* fdp=TypeDefinitionp();
-    if(fdp) fake_const->mFaudesTypeName=fdp->Name();
-  }
-  return mFaudesTypeName;
-}
-
-// ElementTag
-TEMP void THIS::TypeName(const std::string& rType) {
-  mFaudesTypeName=rType;
-}
-
-
 // Str
 TEMP std::string THIS::Str(const T& rElem) const { 
   (void) rElem;
@@ -1939,12 +1797,13 @@ TEMP void THIS::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* 
   std::string label=rLabel;
   if(label=="") label=Name(); 
   if(label=="") label="BaseSet"; 
+  std::string etstr=ElementTag();
   FD_DC("TBaseSet(" << this << ")::DoWrite(..): section " << label << " #" << Size());
   rTw.WriteBegin(label);
   // iterate entries to write
   Iterator it;
   for (it = Begin(); it != End(); ++it) {
-    DoWriteElement(rTw, *it, rLabel, pContext);
+    DoWriteElement(rTw, *it, etstr, pContext);
   }
   rTw.WriteEnd(label);
 }
@@ -1957,9 +1816,10 @@ TEMP void THIS::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type*
   rTw.Write(btag);
   FD_DC("BaseSet(" << this << ")::DoXWrite(..): section " << btag.StringValue() << " #" << Size());
   // iterate entries to write
+  std::string etstr=ElementTag();
   Iterator it;
   for (it = Begin(); it != End(); ++it) {
-    DoXWriteElement(rTw, *it, rLabel, pContext);
+    DoXWriteElement(rTw, *it, etstr, pContext);
   }
   rTw.WriteEnd(btag.StringValue());
 }
@@ -2465,7 +2325,7 @@ TEMP void THIS::Attributes(const TBaseSet<T,Cmp>& rOtherSet) {
 TEMP AttributeVoid* THIS::Attributep(const T& rElem) { 
   (void) rElem;
   std::stringstream errstr;
-  errstr << "cannot get attribute for TBaseSet \"" << mMyName  << "\" type " << typeid(*this).name();
+  errstr << "cannot get attribute for TBaseSet \"" << mObjectName  << "\" type " << typeid(*this).name();
   throw Exception("TBaseSet::Attributep(rElem)", errstr.str(), 63);  
   // dummy: will through exception before
   static AttributeVoid attr; 

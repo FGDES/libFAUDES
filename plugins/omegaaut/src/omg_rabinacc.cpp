@@ -27,8 +27,8 @@
 namespace faudes {
 
 // local debugging
-#undef FD_DC
-#define FD_DC(m) FD_WARN(m)
+//#undef FD_DC
+//#define FD_DC(m) FD_WARN(m)
   
 /*
 ********************************
@@ -80,8 +80,7 @@ void RabinPair::Clear(void) {
 // Ordering  
 bool RabinPair::operator<(const RabinPair& rOther) const {
   if(mRSet<rOther.mRSet) return true;
-  if(mRSet!=rOther.mRSet) return false;
-  if(mRSet<rOther.mRSet) return false;
+  if(rOther.mRSet<mRSet) return false;
   return mISet<rOther.mISet;
 }
   
@@ -174,21 +173,21 @@ implementation RabinAcceptance
 */
 
 // faudes Type std
-FAUDES_TYPE_IMPLEMENTATION(Void,RabinAcceptance,TBaseSet<RabinPair>)
+FAUDES_TYPE_IMPLEMENTATION(Void,RabinAcceptance,TBaseVector<RabinPair>)
 
 // Consttruct
-RabinAcceptance::RabinAcceptance(void) : TBaseSet<RabinPair>()  {
+RabinAcceptance::RabinAcceptance(void) : TBaseVector<RabinPair>()  {
   Name("RabinAcceptance");
 }
   
 // Copy construct
-RabinAcceptance::RabinAcceptance(const RabinAcceptance& rRA) : TBaseSet<RabinPair>() {
+RabinAcceptance::RabinAcceptance(const RabinAcceptance& rRA) : TBaseVector<RabinPair>() {
   Name("RabinAcceptance");
   DoAssign(rRA);
 }
 
 // Condtruct from file
-RabinAcceptance::RabinAcceptance(const std::string& rFileName) : TBaseSet<RabinPair>() {
+RabinAcceptance::RabinAcceptance(const std::string& rFileName) : TBaseVector<RabinPair>() {
   Name("RabinAcceptance");
   Read(rFileName);
 }
@@ -215,7 +214,7 @@ void RabinAcceptance::DoSWrite(TokenWriter& rTw) const {
   //TBaseSet::DoSWrite(rTw);
   Type::DoSWrite(rTw);
   rTw.WriteComment(" RabinPairs: " + ToStringInteger(Size()));
-  Iterator rit;
+  CIterator rit;
   for(rit=Begin();rit!=End();++rit)
     rTw.WriteComment(" R/I-States: " + ToStringInteger(rit->RSet().Size()) +
        "/" + ToStringInteger(rit->ISet().Size()));

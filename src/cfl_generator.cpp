@@ -64,9 +64,7 @@ const AttributeVoid& vGenerator::GlobalVoid(void) {
 // constructor
 vGenerator::vGenerator(void) : 
   // base
-  Type(),
-  // my name
-  mMyName("Generator"),
+  ExtType(),
   // have std symboltables
   mpStateSymbolTable(&mStateSymbolTable),
   mpEventSymbolTable(GlobalEventSymbolTablep()),
@@ -89,6 +87,8 @@ vGenerator::vGenerator(void) :
   // track generator objects
   msObjectCount++; 
   mId = msObjectCount;
+  // overwrite base defaults
+  mObjectName="Generator",
   // allocate core members
   NewCore();
   // fix std names
@@ -98,8 +98,8 @@ vGenerator::vGenerator(void) :
 
 // copy constructor
 vGenerator::vGenerator(const vGenerator& rOtherGen) :
-  // my name
-  mMyName("Generator"),
+  // base
+  ExtType(),
   // have std symboltables
   mpStateSymbolTable(&mStateSymbolTable),
   mpEventSymbolTable(GlobalEventSymbolTablep()),
@@ -122,6 +122,8 @@ vGenerator::vGenerator(const vGenerator& rOtherGen) :
   // track generator objects
   msObjectCount++; 
   mId = msObjectCount;
+  // overwrite base defaults
+  mObjectName="Generator",
   // allocate core members
   NewCore();
   // perform copy
@@ -130,8 +132,8 @@ vGenerator::vGenerator(const vGenerator& rOtherGen) :
 
 // construct from file
 vGenerator::vGenerator(const std::string& rFileName) : 
-  // my name
-  mMyName("Generator"),
+  // base
+  ExtType(),
   // have std symboltables
   mpStateSymbolTable(&mStateSymbolTable),
   mpEventSymbolTable(GlobalEventSymbolTablep()),
@@ -154,6 +156,8 @@ vGenerator::vGenerator(const std::string& rFileName) :
   // track generator objects
   msObjectCount++; 
   mId = msObjectCount;
+  // overwrite base defaults
+  mObjectName="Generator",
   // allocate core members
   NewCore();
   // fix std names
@@ -524,17 +528,6 @@ void vGenerator::Version(const std::string& rPattern, const std::string& rReplac
   rResGen.mReindexOnWrite = mReindexOnWrite;
 }
 
-
-// Name(rName)
-void vGenerator::Name(const std::string& rName) {
-  FD_DV("vGenerator(" << this << ")::Name(\"" << rName << "\")");
-  mMyName = rName;
-}
-
-// Name()
-const std::string& vGenerator::Name(void) const {
-  return mMyName;
-}
 
 // Valid()
 bool vGenerator::Valid(void) const {
@@ -2399,7 +2392,7 @@ void vGenerator::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type
   // write generator
   Token btag;
   btag.SetBegin(label);
-  if(mMyName!=label) btag.InsAttributeString("name",mMyName);
+  if(mObjectName!=label) btag.InsAttributeString("name",mObjectName);
   rTw.Write(btag);
   rTw << "\n";
   SWrite(rTw);
@@ -2430,7 +2423,7 @@ void vGenerator::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Typ
   FD_DG("vGenerator(" << this << ")::DoDWrite(): section " << label);
   // write generator
   rTw.WriteBegin(label);
-  rTw << mMyName;
+  rTw << mObjectName;
   rTw << "\n";
   rTw << "\n";
   SWrite(rTw);

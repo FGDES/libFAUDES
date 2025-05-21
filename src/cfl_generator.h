@@ -210,7 +210,7 @@ namespace faudes {
  */
 
 
-class FAUDES_API vGenerator : public Type  {
+class FAUDES_API vGenerator : public ExtType  {
 
  public:
 
@@ -398,22 +398,6 @@ class FAUDES_API vGenerator : public Type  {
   /** @name Basic Maintenance */
   /** @{ doxygen group */
 
-
-  /** 
-   * Set the generator's name 
-   *
-   * @param rName
-   *   Generator name
-   */
-  void Name(const std::string& rName);
-
-  /** 
-   * Get generator's name 
-   *
-   * @return 
-   *   Name of generator
-   */
-  const std::string& Name(void) const;
 
  /** 
    * Check if generator is valid. 
@@ -2904,9 +2888,6 @@ class FAUDES_API vGenerator : public Type  {
 
 
  protected:
-
-  /** Name of generator */
-  std::string mMyName;
 
   /** Number of generator */
   Idx mId;

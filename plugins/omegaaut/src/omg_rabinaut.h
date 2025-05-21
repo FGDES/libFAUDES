@@ -184,7 +184,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 /** 
  * Convenience typedef for std prioritised generator 
  */
-  typedef TrGenerator<RabinAcceptance, AttributeVoid, AttributeCFlags, AttributeVoid> RabinAutomaton;
+typedef TrGenerator<RabinAcceptance, AttributeVoid, AttributeCFlags, AttributeVoid> RabinAutomaton;
 
 
 

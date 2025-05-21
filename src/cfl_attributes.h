@@ -31,151 +31,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 namespace faudes {
 
-
-/**
- * Minimal Attribute. Attributes are used as template parameters for
- * faudes containers and generators and facilitate the modelling of customized  
- * properties of events, states and transitions.  The AttributeVoid class defines
- * the minimal interface of faudes attributes and therefore is the designated
- * base class for all attribute implementations. The AttributeVoid class does
- * not define any actual properties. See AttributeFlags for a non-trivial example.
- *
- * To derive a class from AttributeVoid you should reimplement the virtual
- * interface
- * - virtual methody DoRead and DoWrite for token io (as in faudes::Type)
- * - virtual methods for DoAssign() (as in faudes::Type) 
- * - the factory method New() (use provided macro from faudes::Type)
- * - the rti typecast method Cast() (use provided macro from faudes::Type)
- * - user level Assign() method (use provided macro from faudes::Type)
- */
-
-class FAUDES_API AttributeVoid : public Type {
- 
-FAUDES_TYPE_DECLARATION(Void,AttributeVoid,Type)
-
-public:
-
-  using Type::operator=;
-  using Type::operator==;
-  using Type::operator!=;
-
-  /** Constructor */
-  AttributeVoid(void);
-
-  /** Copy Constructor */
-  AttributeVoid(const AttributeVoid& rSrcAttr);
-
-  /** Destructor */
-  virtual ~AttributeVoid(void);
-
-  /** 
-   * Test for default value.
-   *
-   * The void attribute has no data and is hence always in default configuration.
-   * For derived classes, you most likeliy need to reimplement.
-   */
-  virtual bool IsDefault(void) const {return true;};
-
-  /**
-   * Skip attribute tokens.
-   *
-   * Helper method to be called after all sttribute derived classes had their
-   * chance to read their data. It skips all tokens and sections until it reaches a 
-   * String or decimal Integer.
-   *
-   * @param rTr
-   *   TokenReader to read from
-   * @exception Exception
-   *   - IO error (id 1)
-   */
-  static void Skip(TokenReader& rTr);
-
-protected:
-
-  /**
-   * Assign attribute members. 
-   * Since AttributeVoid has no members, this method does nothing.
-   * Derived classes are meant to reimplement DoAssign by first calling
-   * their base and then assigning additional member variables.
-   *
-   * @param rSrcAttr
-   *    Source to assign from
-   */
-  void DoAssign(const AttributeVoid& rSrcAttr) { (void) rSrcAttr; };
-
-  /**
-   * Test equality of configuration data.
-   * Derived attributes should reimplement this class to compare
-   * configuration data. The base AttributeVoid returns true as a default.
-   * @param rOther 
-   *    Other object to compare with.
-   * @return 
-   *   True on match.
-   */
-  bool DoEqual(const AttributeVoid& rOther) const { (void) rOther; return true; }
-
-  /**
-   * Actual read method to read attribute from tokenreader.
-   *
-   * For derived attributue classes, this method must either read all tokens that
-   * belong to the respective attribute, or none. It may throw exceptions on token
-   * mismatch within the relevant attribute, but it may not throw exceptions when
-   * it encounters tokens that possibly belong to another attribute. The latter are
-   * to be skipped by the provided Skip method. See Type::Read
-   * for public wrappers.
-   *
-   * @param rTr
-   *   TokenReader to read from
-   * @param rLabel
-   *   Section to read
-   * @param pContext
-   *   Read context to provide contextual information
-   *
-   * @exception Exception
-   *   - IO error (id 1)
-   */
-  virtual void DoRead(TokenReader& rTr,  const std::string& rLabel = "", const Type* pContext=0);
- 
-  /**
-   * Actual write method to write the attribute to a TokenWriter.
-   *
-   * Reimplement this method for derived attribute classes to define the token io 
-   * format. See Type::Write for public wrappers.
-   *
-   * @param rTw
-   *   Reference to TokenWriter
-   * @param rLabel
-   *   Label of section to write
-   * @param pContext
-   *   Write context to provide contextual information
-   *
-   * @exception Exception 
-   *   - IO errors (id 2)
-   */
-  virtual void DoDWrite(TokenWriter& rTw, const std::string& rLabel="",const Type* pContext=0) const;
-
-  /**
-   * Actual write method to write the attribute to a TokenWriter.
-   *
-   * Reimplement this method for derived attribute classes to define the token io 
-   * format. See Type::Write for public wrappers.
-   *
-   * @param rTw
-   *   Reference to TokenWriter
-   * @param rLabel
-   *   Label of section to write
-   * @param pContext
-   *   Write context to provide contextual information
-   *
-   * @exception Exception 
-   *   - IO errors (id 2)
-   */
-  virtual void DoWrite(TokenWriter& rTw, const std::string& rLabel="",const Type* pContext=0) const;
-
-
-
-}; // class AttributeVoid
-
+// v2.33 transitioning: select minimal attribute to be AttrType
+typedef AttrType AttributeVoid;  
+  
 
 /** Convenience typdef flag data */
 typedef unsigned long int fType;
@@ -185,15 +43,13 @@ typedef unsigned long int fType;
  * boolean values. The current implementation uses a long int type and hence handles
  * up to 32 flags. Each flag is accessed by the according bit mask. 
  *
- * The current version
- * of libFAUDES uses bits 0,1,2 of event attributes for controllability properties 
- * (see AttributeCFlags) and the bits 31 and 32 of state attributes for the Qt based
+ * The current version of libFAUDES uses bits 0,1,2 of event attributes for controllability
+ * properties (see AttributeCFlags) and the bits 31 and 32 of state attributes for the Qt based
  * GUI project. Further versions may use the lower 8 bits of the event aflags and the higher 8
  * bits of state flags. You are free to use any flags for your application, but if possible try
  * to avoid the above mentioned. For extensive use of flags, you may also consider to
  * define a separate attribute class, perhaps with a different fType.
  */
-
 
 
 class FAUDES_API AttributeFlags : public AttributeVoid {
@@ -202,6 +58,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFlags,AttributeVoid)
 
 public:
 
+  /** modern compilers seem to insist in explicit using */
   using AttributeVoid::operator=;
   using AttributeVoid::operator==;
   using AttributeVoid::operator!=;
@@ -336,6 +193,208 @@ protected:
 
 }; // class AttributeFlags
 
+
+/**
+ * Attribute class to model event controllability properties.
+ *
+ * This attribute is meant to be an event attribute and can distinguish between
+ * controllable, observable, forcible and abstraction events. It is based on faudes::AttributeFlags
+ * and uses the lower four bits in the flag word to store the respective boolean values.
+ * The AttributeCFlags class adds convenience functions to access these bits and a default-value 
+ * that corresponds to observable and neiter controllable nor forcible.
+ *
+ * Presuming that only controllability flags are uses (different from default), the
+ * token representation is by an Option String consisting of the initials <tt>c</tt>,<tt>o</tt>,<tt>f</tt> 
+ * and <tt>a</tt>, where initials are capitatised for set flags and default values 
+ * are not written; eg <tt>+C+</tt> 
+ * for a controllable event that is observable (default),  not forcible (default) and  
+ * an abstraction event (default).
+ * If other than the four controllability bits are used, std. hex format is used.
+ * 
+ */
+
+
+class FAUDES_API AttributeCFlags : public AttributeFlags {
+
+FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
+
+ public:
+
+  using AttributeFlags::operator=;
+  using AttributeFlags::operator==;
+  using AttributeFlags::operator!=;
+
+  /**
+   * Default constructor 
+   */
+  AttributeCFlags(void) : AttributeFlags() { mFlags=mDefCFlags; };
+
+  /** Destructor */
+  virtual ~AttributeCFlags(void) {};
+
+  /**
+   * Set controllable flag 
+   */
+  void SetControllable(void) { mFlags |= mControllableFlag; }
+
+  /**
+   * Clear controllable flag 
+   */
+
+  void ClrControllable(void) { mFlags &= ~mControllableFlag; };
+     
+  /**
+   * Query controllablility 
+   */
+  bool Controllable(void) const {return ( (mFlags & mControllableFlag) != 0 ); }
+
+
+  /**
+   * Set observable flag 
+   */
+  void SetObservable(void) { mFlags |= mObservableFlag; }
+
+  /**
+   * Clear observable flag 
+   */
+  void ClrObservable(void) { mFlags &= ~mObservableFlag; };
+     
+  /**
+   * Query observablility 
+   */
+  bool Observable(void) const {return ( (mFlags & mObservableFlag) != 0 ); }
+
+
+  /**
+   * Set forcible flag 
+   */
+  void SetForcible(void) { mFlags |= mForcibleFlag; }
+
+  /**
+   * Clear forcible flag 
+   */
+
+  void ClrForcible(void) { mFlags &= ~mForcibleFlag; };
+     
+  /**
+   * Query forcibility 
+   */
+  bool Forcible(void) const {return ( (mFlags & mForcibleFlag) != 0 ); }
+
+
+  /**
+   * Set abstraction flag 
+   */
+  void SetHighlevel(void) { mFlags |= mAbstractionFlag; }
+
+  /**
+   * Clear abstraction flag 
+   */
+  void SetLowlevel(void) { mFlags &= ~mAbstractionFlag; };
+     
+  /**
+   * Query abstaction flag
+   */
+  bool Highlevel(void) const {return ( (mFlags & mAbstractionFlag) != 0 ); }
+
+  /**
+   * Query abstaction flag
+   */
+  bool Lowlevel(void) const {return ( (mFlags & mAbstractionFlag) == 0 ); }
+
+
+  /** 
+   * Test for default value
+   */
+  virtual bool  IsDefault(void) const {return mFlags==mDefCFlags;};
+
+  // flag masks for the three properties
+  const static fType mControllableFlag =0x01;
+  const static fType mObservableFlag   =0x02;
+  const static fType mForcibleFlag     =0x04;
+  const static fType mAbstractionFlag  =0x08;
+
+ private:
+  /** Overall default value */
+  const static fType mDefCFlags         =0x0a;
+
+  /** All flags used by CFlags */
+  const static fType mAllCFlags         =0x0f;
+
+ protected:
+
+  /**
+   * Assignment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoAssign(const AttributeCFlags& rSrcAttr);
+
+  /**
+   * Test equality of configuration data.
+   *
+   * @param rOther 
+   *    Other attribute to compare with.
+   * @return 
+   *   True on match.
+   */
+  bool DoEqual(const AttributeCFlags& rOther) const;
+
+  /**
+   * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
+   * Reads a single token if it can be interpreted as AttributeCFlag, that is, if
+   * it is a respective option string or hex number. Label and Context
+   * argument are ignored. No token mismatch exceptions are thrown on error.
+   *
+   * @param rTr
+   *   TokenReader to read from
+   * @param rLabel
+   *   Section to read
+   * @param pContext
+   *   Read context to provide contextual information
+   *
+   * @exception Exception
+   *   - IO error (id 1)
+   */
+  virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=0);
+ 
+  /**
+   * Writes attribute to TokenWriter, see AttributeVoid for public wrappers.
+   * Label and Context argument are ignored.  
+   *
+   * @param rTw
+   *   TokenWriter to write to
+   * @param rLabel
+   *   Section to write
+   * @param pContext
+   *   Write context to provide contextual information
+   *
+   * @exception Exception
+   *   - IO error (id 2)
+   */
+  virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=0) const;
+
+
+  /**
+   * Writes attribute to TokenWriter (XML format), see AttributeVoid for public wrappers.
+   * Label and Context argument are ignored.  
+   *
+   * @param rTw
+   *   TokenWriter to write to
+   * @param rLabel
+   *   Section to write
+   * @param pContext
+   *   Write context to provide contextual information
+   *
+   * @exception Exception
+   *   - IO error (id 2)
+   */
+  virtual void DoXWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=0) const;
+
+
+
+}; // class AttributeCFlags
 
 } // namespace faudes
 

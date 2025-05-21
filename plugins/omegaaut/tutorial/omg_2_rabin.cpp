@@ -76,7 +76,7 @@ int main() {
   std::cout << std::endl;
       
 
-  // manipulate/inspect with the BaseSet interface, e.g. iterate over Rabin pairs
+  // manipulate/inspect with the BaseVector interface, e.g. iterate over Rabin pairs
   RabinAcceptance::Iterator rit;
   rit=raccept.Begin();
   for(;rit!=raccept.End();++rit) {
@@ -85,21 +85,21 @@ int main() {
   }
   std::cout << std::endl;
 
-  // manipulate/inspect with the BaseSet interface, e.g. edit Rabin pair bhy iterator
+  // manipulate/inspect with the BaseVector interface, e.g. edit Rabin pair bhy iterator
   rit=raccept.Begin();
-  // rit->ISet().Erase(6); // cant do this as it would mess up the ordered set
-  RabinPair rpedit=*raccept.Erase(rit); // take a Rabin Pair
-  rpedit.ISet().Erase(6);               // edit that Rabin pair
-  raccept.Insert(rpedit);               // ort it back in		       
-
-  // check euality operator 
+  rit->ISet().Erase(6); // this is why we use a vector and not a set ...
+ 
+  // check euality operator // ... with sorting this would make much more sense
   if(rareadback==raccept) {
-    std::cout << "== still wqual? FAIL" << std::endl;
+    std::cout << "== still equal? FAIL" << std::endl;
   } else {
     std::cout << "== sensed mismatch: ok" << std::endl;
   } 
   std::cout << std::endl;
 
+  std::cout << "== eq " << (rareadback.At(0)!=raccept.At(0)) << std::endl;
+  std::cout << "== eq " << (rareadback.At(1)!=raccept.At(1)) << std::endl;
+  
 
   // report as 
   raccept.Write();

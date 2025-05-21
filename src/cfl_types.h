@@ -179,6 +179,9 @@ class TypeDefinition;
  * The class is designed to impose as little overhead as possible, and
  * hence, does not hold any data. It does, however, provide a
  * uniform interface for assignment, factory functions, and token IO.
+ * There is a tread-off in designing a common base class regarding features
+ * vs. overhead. We provide a comparatively light faudes::Type with minimal
+ * overhead and a more featured version faudes::FullType. 
  *
  * We think of a faudes-typed object to be configured by defining
  * data and, in due course, manipulated via its public interface 
@@ -226,6 +229,7 @@ class TypeDefinition;
  * FAUDES_TYPE_DELARATION and FAUDES_TYPE_IMPLEMENTATION, respectively. The various
  * attribute classes illustrate their ussage; see e.g. AttributeFlags.
  *
+ * 
  *
  * Note on token IO: In libFAUDES 2.16e, implementation of a new file format is prepared 
  * by the virtual function interface DoXWrite(). The intention is to better support advanced 
@@ -403,8 +407,8 @@ class FAUDES_API Type {
   /** 
    * Set the objects's name.
    *
-   * The base class Type does not implement an object name,
-   * derivatives usually do so, except for attributes. 
+   * faudes::Type does not implement an object name,
+   * derivatives usually do so. See also faudes::Type.
    *
    * @param rName
    *   Name
@@ -414,10 +418,11 @@ class FAUDES_API Type {
   /** 
    * Get objects's name.
    *
-   * The base class Type does not implement an object name,
-   * derivatives usually do so, except for attributes. 
+   * faudes::Type does not implement an object name,
+   * derivatives usually do so. See also faudes::Type.
+   *
    * @return 
-   *   Name of generator
+   *   Name of object
    */
   virtual const std::string& Name(void) const;
 
@@ -426,7 +431,8 @@ class FAUDES_API Type {
    *
    * Retrieve the faudes-type name from the type registry.
    * This method silently returns the empty string if the type is 
-   * not (yet) registered.
+   * not (yet) registered. The derived class faudes::Type implements
+   * a cache to avoid repeating the log-n lookup.
    *
    * @return 
    *   Faudes-type name or empty string.
@@ -835,10 +841,7 @@ class FAUDES_API Type {
    *
    * Technical note: for minimal memory requirement, the type definition
    * is not cached but retrieved on every invokation of this method.
-   * Derived classes may reimplement this method for performance 
-   * reasons. Options include a look-up cache or a static member 
-   * for the actual type definition. The latter variant will make the
-   * type independant from the type registry.
+   * The derived class faudes::Type introduces a cache.
    *
    * @return 
    *   Type definition reference.
@@ -863,18 +866,12 @@ class FAUDES_API Type {
 
 private:
 
-  // static string constant
+  // static string constant.
   static std::string msStringVoid;
   static std::string msStringEmpty;
 
 };
 
-
-/**
-YS in 2023:
-operators =/==/!= use virtual DoAssign/DoEqual; so the operators themself do
-not need to be virtual
-*/ 
 
 
 /** faudes type declaration macro */
@@ -1009,7 +1006,212 @@ not need to be virtual
 
 
 
+/**
+ * Minimal Attribute. Attributes are used as template parameters for
+ * faudes containers and generators and facilitate the modelling of customized  
+ * properties of events, states and transitions. See the class faudes::AttributeFlags
+ * for a non-trivial example.
+ *
+ * To derive a class from faudes::AttrType you should reimplement the virtual
+ * interface
+ * - virtual methods DoRead and DoWrite for token io (as in faudes::Type)
+ * - virtual methods for DoAssign() (as in faudes::Type) 
+ * - the factory method New() (use provided macro from faudes::Type)
+ * - the rti typecast method Cast() (use provided macro from faudes::Type)
+ * - user level Assign() method (use provided macro from faudes::Type)
+ * Use the FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION macros to generate
+ * the API methods. 
+ *
+ * The class faudes::AttrType extends the base Type marginally to distinguish void attributes
+ * from plain type objects; i.e., we introduce a marker in the type hierarchy. There is (almost)
+ * nothing functional about this class and we should find ways to go without.
+ *
+ * @ingroup RunTimeInterface
+ */
 
+
+class FAUDES_API AttrType : public Type {
+ 
+FAUDES_TYPE_DECLARATION(Void,AttrType,Type)
+
+public:
+
+  using Type::operator=;
+  using Type::operator==;
+  using Type::operator!=;
+
+  /** Constructor */
+  AttrType(void);
+
+  /** Copy Constructor */
+  AttrType(const AttrType& rSrc);
+
+  /** Destructor */
+  virtual ~AttrType(void);
+
+  /** Test for default value. */
+  virtual bool IsDefault(void) const {return true;};
+
+  /**
+   * Skip attribute tokens.
+   *
+   * Helper method to be called after all sttribute derived classes had their
+   * chance to read their data. It skips all tokens and sections until it reaches a 
+   * String or decimal Integer. This should go to BaseSet.
+   *
+   * @param rTr
+   *   TokenReader to read from
+   * @exception Exception
+   *   - IO error (id 1)
+   */
+  static void Skip(TokenReader& rTr);
+
+protected:
+
+  /** Assign (no members, dummy) */
+  void DoAssign(const AttrType& rSrc) { (void) rSrc; };
+
+  /** Test (no members, dummy) */
+  bool DoEqual(const AttrType& rOther) const { (void) rOther; return true; }
+  
+};
+
+  
+/**
+ * This class extends the base Type by common features worthwhile for "large objects",
+ * e.g., object name, a cache for the regsitry record and convenience access wrappers.
+ *
+ * @ingroup RunTimeInterface
+ */
+
+class FAUDES_API ExtType : public AttrType {
+
+public:
+
+  using AttrType::operator=;
+  using AttrType::operator==;
+  using AttrType::operator!=;
+
+
+  // std faudes type interface
+  FAUDES_TYPE_DECLARATION(Void,ExtType,AttrType)
+
+  /** Constructor */
+  ExtType(void);
+
+  /** Copy constructor */
+  ExtType(const ExtType& rType);
+
+  /** Destructor */
+  virtual ~ExtType(void);
+
+  /** 
+   * Get objects name
+   * 
+   * @return
+   *   Name 
+   */
+  const std::string& Name(void) const;
+        
+  /**
+   * Set objects name
+   *
+   * @param rName
+   *   Name to set
+   */
+  void Name(const std::string& rName);
+
+
+  /** 
+   * Get objects's type name. 
+   *
+   * Retrieve the faudes-type name from the type registry.
+   *
+   * @return 
+   *   Faudes-type name or empty string.
+   */
+  virtual const std::string& TypeName(void) const;
+
+  /**
+   * Overwrite faudes-type name.
+   *
+   * This method is used to overwrite the faudes-type identifyer to account for
+   * unregistered classe/
+   *
+   * @param rType
+   *   Faudes-type name to set
+   */
+  virtual void TypeName(const std::string& rType);
+
+  /**
+   * Get the element name tag.
+   *
+   * Tags used for XML IO when eriting elements of a container class.
+   * This is either the deribeved class default of found in the registry.
+   *
+   * @return
+   *   Tag
+   */
+  virtual const std::string&  ElementTag(void) const;
+
+  /**
+   * Configure the element name tag.
+   *
+   * This method allows to overwrite the tag used for elements
+   * in XML IO. For usual, you will register derived classes with
+   * the run-time-interface and set the elemen tag for XML IO.
+   *
+   * @param rTag
+   *   Tag to set
+   */
+  virtual void ElementTag(const std::string& rTag);
+
+  /**
+   * Get the element type.
+   *
+   * This should be found in the registry. 
+   *
+   * @return
+   *   Tag
+   */
+  virtual const std::string&  ElementType(void) const;
+
+  /**
+   * Get registry record
+   *
+   * Returns nullptr if not registered
+   *
+   * @return
+   *   Pointer to registry entry
+   */
+  virtual const TypeDefinition* TypeDefinitionp(void) const;
+
+
+private:  
+
+  /** TypeDefinition cache (should use guarded pointer here) */
+  const TypeDefinition* pTypeDefinition;
+
+  /** Current/cached faudes type-name */
+  std::string  mFaudesTypeName;
+
+  /** Current/cached name of elements (use protected accessor methods for caching) */
+  std::string  mElementTag;
+
+protected:  
+
+  /** Current/cached name of elements (use protected accessor methods for caching) */
+  std::string  mElementType;
+
+  /** Defauft name of elements (if not over written manually or by registry) */
+  std::string  mElementTagDef;
+
+  /** object name */
+  std::string mObjectName;
+};
+  
+
+ 
 
 /**
  * Structure to hold documentation data relating to a faudes-type or -function. 
@@ -1062,7 +1264,7 @@ public:
   void Clear(void);
 
   /**
-   * Get name of the entety to document (aka faudes-type or faudes-function).
+   * Get name of the entity to document (aka faudes-type or faudes-function).
    *
    * @return
    * 	Name
@@ -1629,11 +1831,11 @@ protected:
   /** Type-pointer tp prototype instance */
   Type* mpType;
 
-  /** Extra documentation/parameter: Xml Element Tag */
-  std::string mElementTag;
-
   /** Extra documentation/parameter: Element Type */
   std::string mElementType;
+
+  /** Extra documentation/parameter: Element Tag */
+  std::string mElementTag;
 
 }; //TypeDefinition
 
