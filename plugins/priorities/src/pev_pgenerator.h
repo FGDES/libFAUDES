@@ -31,7 +31,7 @@ namespace faudes {
 
 /*!
  * \brief The AttributePGenGl class
- * Class wraping various global attributes of a FPGen
+ * Class wrapping various global attributes of a FPGen
  * Note: this is not yet a propper faudes Attribute, it misses out on
  * serialisation.
  */

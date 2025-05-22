@@ -209,7 +209,7 @@ protected:
 
 /**
  * The class RabinAcceptance is a set of RabinPairs.
- * We use faudes::vBaseSet as the base class and perhaps
+ * We use faudes::vVectorSet as the base class and perhaps
  * add some convenience accessors in due course.
  *
  * @ingroup OmegaautPlugin
@@ -243,34 +243,6 @@ public:
 protected:
 
   /** 
-   * Overwrite base TBaseSet to write individial RobinPairs
-   *
-   * @param rTw
-   *   Reference to TokenWriter
-   * @param rElem
-   *   The element to write
-   * @param rLabel
-   *   Label of section to write, defaults to XElemenTag
-   * @param pContext
-   *   Write context to provide contextual information
-   */
-  virtual void DoWriteElement(TokenWriter& rTw, const RabinPair& rElem, const std::string &rLabel="", const Type* pContext=0) const;
-
-  /** 
-   * Overwrite base TBaseSet to write individial RobinPairs
-   *
-   * @param rTw
-   *   Reference to TokenWriter
-   * @param rElem
-   *   The element to write
-   * @param rLabel
-   *   Label of section to write, defaults to XElemenTag
-   * @param pContext
-   *   Write context to provide contextual information
-   */
-  virtual void DoXWriteElement(TokenWriter& rTw, const RabinPair& rElem, const std::string &rLabel="", const Type* pContext=0) const;
-
-  /** 
    * Token output, see Type::SWrite for public wrappers.
    * Statistics include sizes of members and is meant to record test cases
    *
@@ -278,18 +250,6 @@ protected:
    *   Reference to TokenWriter
    */
   virtual void DoSWrite(TokenWriter& rTw) const;
-
-  /**
-   * Token input for individual RobinPair, incl. factoru and insertion
-   *
-   * @param rTr
-   *   Reference to TokenReader
-   * @param rLabel
-   *   Label of section to read, defaults to name of set
-   * @param pContext
-   *   Read context to provide contextual information
-   */
-  virtual void DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext);
 
 };
 

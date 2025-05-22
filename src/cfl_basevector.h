@@ -821,8 +821,6 @@ public:
   /** Assignment method  */
   void DoAssign(const TBaseVector<T>& rSourceVector);
 
-  /** Test equality  */
-  bool DoEqual(const TBaseVector<T>& rOther) const;
 
 };
 
@@ -912,18 +910,6 @@ TEMP void THIS::DoAssign(const THIS& rSourceVector) {
   BASE::DoAssign(rSourceVector);
   // done
   FD_DC("TBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << "): done");
-}
-
-  // test equality
-TEMP bool THIS::DoEqual(const THIS& rOther) const {
-  FD_DC("TBaseVector(" << this << ")::DoEqual()");
-  if(Size()!=rOther.Size()) return false;
-  Position p=0;
-  for(;p<Size();++p) {
-    if(At(p)!=rOther.At(p))
-      return false;
-  }
-  return true;
 }
 
 // At()

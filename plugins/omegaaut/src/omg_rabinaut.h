@@ -35,12 +35,15 @@ namespace faudes {
  * @section SecRabinAut Overview
  * 
  * The TrGenerator is a variant of the TcGenerator to add an interface for a Rabin acceptance condition.
+ * For convenience, the configuration with the minimum attributes is been typedef-ed as RabinAutomaton.
  *
  * Technically, the construct is based on the global attribute class faudes::RabinAcceptance
  * derived from faudes::AttributeVoid. Hence TrGenerator expects an event attribute template parameter
  * with the minimum interface defined in RabinAcceptance.
  *
- * For convenience, the configuration with the minimum attributes is been typedef-ed as RabinAutomaton.
+ * The current implementation provides the absolute minimum member access, i.e., methods to get and
+ * the acceptance condition. A future implementation may be more elaborate at this end.
+ *
  *
  * @ingroup GeneratorClasses
  */
@@ -147,18 +150,15 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     /**
      * Set Rabin acceptance Condition
      *
-     * NOT IMPLEMENTED
-     *
-     * @param rOtherSet
-     *   set to get priorities from
+     * @param rRabAcc
+     *   Acceptance conditiomn to set
      *
      */
-     void RabinAcceptance(const faudes::RabinAcceptance& rOther);
+     void RabinAcceptance(const faudes::RabinAcceptance& rRabAcc);
 
     /**
-     * Get Rabin acceotance condition
+     * Get Rabin acceptance condition
      *
-     * proposal NOT IMPLEMENTED
      *
      */
      const faudes::RabinAcceptance&  RabinAcceptance(void) const;
@@ -166,7 +166,6 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     /**
      * Get Rabin acceotance condition
      *
-     * proposal NOT IMPLEMENTED
      *
      */
      faudes::RabinAcceptance&  RabinAcceptance(void);
@@ -282,7 +281,20 @@ TEMP THIS THIS::NewRGen(void) const {
   return res;
 }
 
+// Member access, set
+TEMP void THIS::RabinAcceptance(const faudes::RabinAcceptance& rRabAcc) {
+  BASE::GlobalAttribute(rRabAcc);
+}
 
+// Member access, get by ref
+TEMP RabinAcceptance& THIS::RabinAcceptance(void) {
+  return *BASE::GlobalAttributep();
+}
+
+// Member access, get by const ref
+TEMP const RabinAcceptance& THIS::RabinAcceptance(void) const {
+  return BASE::GlobalAttribute();
+}
 
   
 #undef TEMP

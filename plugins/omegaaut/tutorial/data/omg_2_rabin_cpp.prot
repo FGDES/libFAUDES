@@ -1,4 +1,20 @@
-%%% test mark: raccept stats [at omg_2_rabin.cpp:118]
+%%% test mark: readback from file (expecy true) [at omg_2_rabin.cpp:83]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: readback from file (expecy true) [at omg_2_rabin.cpp:109]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: raccept stats [at omg_2_rabin.cpp:125]
 % 
 %  Statistics for RabinAcceptance
 % 

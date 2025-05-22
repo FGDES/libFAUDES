@@ -12,7 +12,10 @@ Tutorial ond  Rabin automata
 
 using namespace faudes;
 
-int main() {
+#include <type_traits>
+
+
+int main(void) {
 
   ////////////////////////////////////////////////////
   // Have some state sets to play with
@@ -68,12 +71,16 @@ int main() {
   raccept.Write("tmp_raccept.txt");
   RabinAcceptance rareadback;
   rareadback.Read("tmp_raccept.txt");
-  if(rareadback==raccept) {
+  bool eq1= rareadback==raccept;
+  if(eq1) {
     std::cout << "== readback ok" << std::endl;
   } else {
     std::cout << "== readback test case FAIL" << std::endl;
   } 
   std::cout << std::endl;
+
+  // record test case
+  FAUDES_TEST_DUMP("readback from file (expecy true)", eq1);
       
 
   // manipulate/inspect with the BaseVector interface, e.g. iterate over Rabin pairs
@@ -90,16 +97,16 @@ int main() {
   rit->ISet().Erase(6); // this is why we use a vector and not a set ...
  
   // check euality operator // ... with sorting this would make much more sense
-  if(rareadback==raccept) {
+  bool eq2= rareadback==raccept;
+  if(eq2) {
     std::cout << "== still equal? FAIL" << std::endl;
   } else {
     std::cout << "== sensed mismatch: ok" << std::endl;
   } 
   std::cout << std::endl;
 
-  std::cout << "== eq " << (rareadback.At(0)!=raccept.At(0)) << std::endl;
-  std::cout << "== eq " << (rareadback.At(1)!=raccept.At(1)) << std::endl;
-  
+  // record test case
+  FAUDES_TEST_DUMP("readback from file (expecy true)", eq2);
 
   // report as 
   raccept.Write();
@@ -113,6 +120,7 @@ int main() {
   // show
   std::cout << "======== strict XML serialisation" << std::endl;
   raccept.XWrite();
+  std::cout << std::endl;
 
   // record test case
   FAUDES_TEST_DUMP("raccept stats",raccept);
@@ -122,10 +130,21 @@ int main() {
   // Rabin automaton
   ////////////////////////////////////////////////////
 
-  
+  // raed from file
+  std::cout << "======== Rabin automaton from file" << std::endl;  
   RabinAutomaton ar;
   ar.Read("data/omg_rabinaut.gen");
-  ar.Write();
+
+  // show
+  std::cout << "=== autoamton" << std::endl;
+  ar.XWrite();
+  std::cout << "=== acceptance condition only" << std::endl;
+  ar.RabinAcceptance().XWrite();
+  std::cout << std::endl;
+  std::cout << "=== edit in automaton" << std::endl;
+  ar.RabinAcceptance().Begin()->RSet().Insert(11);
+  ar.RabinAcceptance().XWrite();
+  std::cout << std::endl;
   
 
 }  

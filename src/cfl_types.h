@@ -1005,12 +1005,33 @@ private:
   ctemp bool ctype::operator!=(const ctype& rOther) const { return !this->DoEqual(rOther); }
 
 
+/**
+ * Wrapper for dynamivc_cast<Type*>() that returns a nullptr when the argument is not a
+ * polymorphic class (instead of a compile-time error). See TBaseSet::DoWrite() for the
+ * use case that triggered this wrapper.
+ */
+template<class  T, bool = std::is_polymorphic<T>::value>
+class CastToType {
+};
+template<class T>
+class CastToType<T, true> {
+public:
+  static Type* Pointer(T* ptr) {return dynamic_cast<Type*>(ptr);};
+  static const Type* ConstPointer(const T* ptr) {return dynamic_cast<const Type*>(ptr);};
+};
+template<class T>
+ class CastToType<T,false>  {
+public:
+  static Type* Pointer(T* ptr) {return nullptr;};
+  static const Type* ConstPointer(const T* ptr) {return nullptr;};
+};
+  
+  
 
 /**
- * Minimal Attribute. Attributes are used as template parameters for
- * faudes containers and generators and facilitate the modelling of customized  
- * properties of events, states and transitions. See the class faudes::AttributeFlags
- * for a non-trivial example.
+ * Extended Type to base Attributes. Attributes are used as template parameters for
+ * faudes containers and facilitate the modelling of customized properties of events,
+ * states and transitions. See the class faudes::AttributeFlags for a non-trivial example.
  *
  * To derive a class from faudes::AttrType you should reimplement the virtual
  * interface

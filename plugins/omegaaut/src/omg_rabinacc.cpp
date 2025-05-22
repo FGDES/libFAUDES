@@ -3,7 +3,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2025 Yiheng Tang, Thomas Moor
+   Copyright (C) 2025 Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -192,26 +192,9 @@ RabinAcceptance::RabinAcceptance(const std::string& rFileName) : TBaseVector<Rab
   Read(rFileName);
 }
 
-// DoWriteElement(tw,cpntext)
-void RabinAcceptance::DoWriteElement(TokenWriter& rTw,const RabinPair& rElem, const std::string& rLabel, const Type* pContext) const {
-  rElem.Write(rTw,"RabinPair",pContext);
-}
-
-// DoXWriteElement(tw,cpntext)
-void RabinAcceptance::DoXWriteElement(TokenWriter& rTw,const RabinPair& rElem, const std::string& rLabel, const Type* pContext) const {
-  rElem.XWrite(rTw,"RabinPair",pContext);
-}
-
-// DoInsertElement(rTr, rLabel, pContext)
-void RabinAcceptance::DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
-  RabinPair rpair;
-  rpair.Read(rTr, rLabel, pContext);
-  Insert(rpair); ///hmm ... insert should return an Iterator
-}
-
 // DoSWrite()
 void RabinAcceptance::DoSWrite(TokenWriter& rTw) const {
-  //TBaseSet::DoSWrite(rTw);
+  //TBaseVector::DoSWrite(rTw); // also use base?
   Type::DoSWrite(rTw);
   rTw.WriteComment(" RabinPairs: " + ToStringInteger(Size()));
   CIterator rit;

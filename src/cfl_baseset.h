@@ -184,6 +184,16 @@ public:
   class Iterator;
 
   /** 
+   * Iterator class for high-level api to TBaseSet.
+   *
+   * This is a convenoience typedef --- faudes set iterators are const anyway.
+   *
+   */
+   typedef Iterator CIterator;
+
+
+
+  /** 
    * Iterator to the begin of set
    *
    * @return 
@@ -788,11 +798,10 @@ protected:
 
 
   /** 
-   * Token output for an individual element of the set. This is a dummy which
-   * you may reimplement in devireved classes to make the default implementations
-   * of DoWrite meaninfull. This is meant for "small sets of large elements". For
-   * a more tailored ourput on "large sets of small elements", you will most
-   * likely directly re-implement DoWrite.
+   * Token output for an individual element of the set. The default implementation
+   * casts the element to faudes::Type and uses the API thereof. This is meant for
+   * "small sets of large elements". For a more tailored ourput on "large sets of
+   * small elements", you most likely want to  re-implement DoWrite.
    *
    * @param rTw
    *   Reference to TokenWriter
@@ -821,7 +830,7 @@ protected:
   virtual void DoXWriteElement(TokenWriter& rTw, const T& rElem, const std::string &rLabel="", const Type* pContext=0) const;
 
   /**
-   * Token input for individual elemet, incl. factoru and insertion
+   * Token input for individual elemets.
    * Reimplement this function in derived classes for specific
    * specific template parameters.
    * The pContext pointer can de type-checked and interpreted, ie 
@@ -835,7 +844,7 @@ protected:
    * @param pContext
    *   Read context to provide contextual information
    */
-  virtual void DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext);
+  virtual void DoReadElement(TokenReader& rTr, T& rElem, const std::string& rLabel, const Type* pContext);
 
   /** 
    * Token output, see Type::WWrite for public wrappers.
@@ -1776,9 +1785,15 @@ TEMP bool THIS::Empty(void) const {
   return pSet->empty();
 }
 
-// DoWriteElement(tw,cpntext)
+// DoWriteElement(tw,cpontext)
 TEMP void THIS::DoWriteElement(TokenWriter& rTw,const T& rElem, const std::string& rLabel, const Type* pContext) const {
-  (void) pContext; (void) rTw; (void) rLabel; (void) rElem;
+  // test whether we can cast to faudes Type
+  const Type* ep= CastToType<T>::ConstPointer(&rElem);
+  if(ep!=nullptr) {
+    ep->Write(rTw,rLabel,pContext);
+    return;
+  }
+  // fail if not reimplemented
   std::stringstream errstr;
   errstr << "used but not reimplemented" << typeid(this).name() << std::endl;
   throw Exception("BaseSet::DoWriteElement", errstr.str(), 61);
@@ -1786,7 +1801,13 @@ TEMP void THIS::DoWriteElement(TokenWriter& rTw,const T& rElem, const std::strin
 
 // DoXWriteElement(tw,cpntext)
 TEMP void THIS::DoXWriteElement(TokenWriter& rTw,const T& rElem, const std::string& rLabel, const Type* pContext) const {
-  (void) pContext; (void) rTw; (void) rLabel; (void) rElem;
+  // test whether we can cast to faudes Type
+  const Type* ep= CastToType<T>::ConstPointer(&rElem);
+  if(ep!=nullptr) {
+    ep->XWrite(rTw,rLabel,pContext);
+    return;
+  }
+  // fail if not reimplemented
   std::stringstream errstr;
   errstr << "used but not reimplemented" << typeid(this).name() << std::endl;
   throw Exception("BaseSet::DoXWriteElement", errstr.str(), 61);
@@ -1858,26 +1879,18 @@ TEMP void THIS::DoSWrite(TokenWriter& rTw) const {
 }
 
 
-// DoInsertElement(rTr, rLabel, pContext)
-TEMP void THIS::DoInsertElement(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
-  (void) pContext; (void) rTr; (void) rLabel;
+// DoInsertElement(rTr, rElem, rLabel, pContext)
+TEMP void THIS::DoReadElement(TokenReader& rTr, T& rElem, const std::string& rLabel, const Type* pContext) {
+  // test whether we can cast to faudes Type
+  Type* ep= CastToType<T>::Pointer(&rElem);
+  if(ep!=nullptr) {
+    ep->Read(rTr,rLabel,pContext);
+    return;
+  }
+  // fail if not reimplemented
   std::stringstream errstr;
   errstr << "used but not reimplemented" << typeid(this).name() << std::endl;
-  throw Exception("BaseSet::DoInsertElement", errstr.str(), 61);
-
-  /*
-  Type* elemp=nullptr;
-  if(TypeRegistry::G()->Exists(TypeName())) {
-    elemp=NewFaudesObject(TypeRegistry::G()->ElementType(TypeName()));
-  };
-  if(elemp==nullptr) {  
-    std::stringstream errstr;
-    errstr << "failed to factor element in " << typeid(this).name() << std::endl;
-    throw Exception("BaseSet::DoInsertElement", errstr.str(), 61);
-  }
-  elemp->Read(rTr, rLabel, pContext);
-  // Insert(*elemp)   <<<< cannot do this fir non-faudes elements :-(
-  */
+  throw Exception("BaseSet::DoReadElement", errstr.str(), 61);
 }
 
 // DoRead(rTr, rLabel, pContext)
@@ -1910,7 +1923,10 @@ TEMP void THIS::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* 
     // read element section
     if(token.IsBegin(etstr)) {
       FD_DC("TBaseSet(" << typeid(*this).name()  << ")::DoRead(..): inserting element");
-      DoInsertElement(rTr,etstr,pContext);
+      // prepare new element
+      T elem;
+      DoReadElement(rTr,elem,etstr,pContext);
+      Insert(elem);
       FD_DC("TBaseSet(" << typeid(*this).name()  << ")::DoRead(..): inserting element: ok");
       continue;
     }
@@ -2452,3 +2468,4 @@ TEMP void THIS::DoAttribute(const T& rElem, const Type* pAttr) {
 } // namespace faudes
 
 #endif 
+

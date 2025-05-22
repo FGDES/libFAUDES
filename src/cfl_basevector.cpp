@@ -141,15 +141,15 @@ void vBaseVector::Clear(void) {
   mVector.resize(0);
 }
 
-// Test equality // not functional, need to reimplement with known type
+// Test equality
 bool vBaseVector::DoEqual(const vBaseVector& rOther) const {
   FD_DC("vBaseVector(" << this << ")::DoEqual()");
   if(Size()!=rOther.Size()) return false;
   Position p=0;
   for(;p<Size();++p) {
-    bool neq= At(p)!=rOther.At(p);
-    FD_DC("vBaseVector(" << this << ")::DoEqual(): " << p << ": " << neq);
-    if(neq) return false;
+    bool eq= At(p).Equal(rOther.At(p));
+    FD_DF("vBaseVector(" << this << ")::DoEqual(): " << p << ": " << eq);
+    if(!eq) return false;
   }
   return true;
 }
