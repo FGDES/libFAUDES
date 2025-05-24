@@ -14,8 +14,15 @@ jobs:
       run: |
           sudo apt-get install doxygen swig
           sudo apt-get install libreadline-dev
+    - name: Figure Version
+      run: |
+          . ./VERSION
+          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
+          echo "VMINOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
     - name: Configure libFAUDES
-      run: make -j configure
+      run: |
+          echo libfaudes-$VMAJOR_$VMINOR.tar.gz
+          make -j configure      
     - name: Build libFAUDES
       run: make -j
     - name: Build Tutorials
@@ -26,7 +33,7 @@ jobs:
       run: make package
     - uses: actions/upload-artifact@v4
       with:
-        name: libFAUDES.tgz
+        name: libfaudes-$VMAJOR_$VMINOR.tar.gz
         path: ./libfaudes-*.tar.gz
         compression-level: 0
         if-no-files-found: error
