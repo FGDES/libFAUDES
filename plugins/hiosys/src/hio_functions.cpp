@@ -226,7 +226,7 @@ bool NormalCompleteClosedSynth(
 }
 
 
-// NormalCompleteSynthNB(rPlant,rCAlph,rOAlph,rSpec,rClosedLoop)
+// NormalCompleteSynth(rPlant,rCAlph,rOAlph,rSpec,rClosedLoop)
 bool NormalCompleteSynth(
   Generator& rPlant, 
   const EventSet& rCAlph, 

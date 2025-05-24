@@ -45,7 +45,7 @@
 
 %%% test mark: suprpc 1 [at syn_4_validate.lua]
 % 
-%  Statistics for SupRpcNB((L),(E))
+%  Statistics for SupRpc((L),(E))
 % 
 %  States:        2
 %  Init/Marked:   1/1

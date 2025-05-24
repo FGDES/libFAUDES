@@ -132,7 +132,7 @@ extern FAUDES_API void SupConCmplClosed(
  * reach a marking can survive the above procedure. From an omega-languages perspective, 
  * this is of limited use. However, in the special situation that the specification
  * is relatively closed w.r.t. the plant, we can replace the specification by its
- * prefix closure befor invoking SupConComplNB. In this situation we claim that
+ * prefix closure befor invoking SupConCompl. In this situation we claim that
  * the procedure returns a realisation of the the least restrictive closed loop behaviour 
  * of the corresponding omega language control problem. 
  *

@@ -304,7 +304,7 @@ void SupRelativelyPrefixClosedUnchecked(
     pResGen= rResGen.New();
   }
   pResGen->Clear();
-  pResGen->Name(CollapsString("SupRpcNB(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))"));
+  pResGen->Name(CollapsString("SupRpc(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))"));
   pResGen->InjectAlphabet(rPlantGen.Alphabet());
 
   // ALGORITHM:

@@ -21,6 +21,7 @@ include/*
 doc/*
 Makefile.configuration
 Makefile.depend
+Makefile.user
 tools/msvc/VERSION.bat
 
 # ignore distribution
