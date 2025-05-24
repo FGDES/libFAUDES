@@ -19,7 +19,7 @@ jobs:
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV" 
-    - name: Configure libFAUDES
+    - name: Configure libFAUDES v${{ env.VMAJOR }}_${{ env.VMINOR }}
       run: make -j configure      
     - name: Build libFAUDES
       run: make -j
@@ -31,7 +31,7 @@ jobs:
       run: make package
     - uses: actions/upload-artifact@v4
       with:
-        name: libfaudes-${VMAJOR}_${VMINOR}.tar.gz
+        name: libfaudes-${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
         path: ./libfaudes-*.tar.gz
         compression-level: 0
         if-no-files-found: error
