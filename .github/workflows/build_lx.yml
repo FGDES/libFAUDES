@@ -19,7 +19,6 @@ jobs:
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV" 
-          echo libFAUDES version ${VMAJOR}.${VMINOR}
     - name: Configure libFAUDES
       run: make -j configure      
     - name: Build libFAUDES
