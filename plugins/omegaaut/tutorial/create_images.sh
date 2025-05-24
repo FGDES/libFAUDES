@@ -28,6 +28,7 @@ echo ======================================================
 rm tmp_*
 
 ./omg_1_buechi
+./omg_2_buechictrl
 
 
 # advertise

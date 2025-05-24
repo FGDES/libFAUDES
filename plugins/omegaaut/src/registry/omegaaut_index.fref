@@ -14,7 +14,7 @@ supervisory control of non-termination processes.
 <p>
 This plug-in provides data structures and functions to represent
 automata that process infinite-length words. For a general overview on
-the topic see <fcite name="INF1"/>. For the purpose of libFAUDES, we
+the topic see <fcite name="W1"/>. For the purpose of libFAUDES, we
 restrict the scope to support for synthises of supervisiors for non-termiating processes.
 </p>
 
@@ -24,6 +24,9 @@ Further details are organized as follows:
 <ul  class="l2">
 <li><p>
 <a href="omegaaut_buechifnct.html">Operations on Buechi automata</a>
+</p></li>
+<li><p>
+<a href="omegaaut_buechictrl.html">Supervisory Control for Buechi automata</a>
 </p></li>
 <li><p>
 <a href="omegaaut_rabinfnct.html">Operations on Rabin automata</a>
@@ -71,9 +74,9 @@ We recall two well established acceptance conditions.
 </p>  
 
 
-<h3>
-Buechi Automata
-</h3>
+<h4>
+<a id="buechi_acceptance">Buechi Automata</a>
+</h4>
 
 <p>
 A Buechi automaton technically matches the plain finite automaton; i.e., has the form
@@ -117,21 +120,80 @@ In particular, for deterministic generators <fimath>G_1</fimath> and <fimath>G_2
 with <fimath>Lm(G_1)=Lm(G_2)</fimath> we have <fimath>Bm(G_1)=Bm(G_2)</fimath>.
 </p>
 
-<h3>
-Buechi Automata
-</h3>
-To be added in due course ....
+<h4>
+<a id="rabin_acceptance">Rabin Automata</a>
+</h4>
+
+<p>
+A Rabin automaton is a tuple
+<fimath>G = (Q,\ \Sigma,\ \delta,\ Q_o,\ A)</fimath>,
+where the first entries are as for common automata and 
+<fimath>A</fimath> is a set of pairs if state sets to encode a <i>Rabin acceptance condition</i>.
+Technically we have
+<br />
+<br />
+<fdmath> A := \{\ (R_p,\ I_p)\ |\ p\in P\ \} \text{ with }
+R_p,\ I_p \subseteq Q \text{ for all } p\in P\ .
+</fdmath>
+<br />
+<br />
+An an infinite-length run  <fimath>\pi</fimath> on <fimath>G</fimath> is accepted
+w.r.t. the pair <fimath>(R_p,\ I_p),\ p\in P.</fimath> if
+it eventually stays within <fimath>I_p</fimath> and visits <fimath>R_p</fimath>
+infinitely often, i.e.,
+<br />
+<br />
+<fdmath>\inf\[\pi\]\subseteq I_p \text{ and } \inf\[\pi\]\cap R_p\neq\emptyset</fdmath> .
+<br />
+<br />
+The run is accepted by the Rabin automaton if it is accepted by at least one pair (so called
+<i>existential</i> Rabin acceptace condition). Thus we have the associated omega-language
+<br />
+<br />
+<fdmath>Rm(G)\ :=\ \{
+v \in \Sigma^w \ |\ 
+\text{there ex. a run } \pi \text{ of } G \text{ and } p\in P \text{ s.t. }
+v=w\[\pi\],\ 
+\inf\[\pi\]\subseteq I_p \text{ and } \inf\[\pi\]\cap R_p\neq\emptyset\ 
+\}
+</fdmath>
+</p>
+
 
 <h2>
 <a id="literature">Literature</a>
 </h2>
 
-<fliterature name="INF1">
+<fliterature name="W1">
 <fauthors>W.&nbsp;Thomas</fauthors>
 <ftitle>Automata on infinite objects</ftitle>
 <fjournal>Handbook of Theoretical Computer</fjournal>
 <fyear>1990</fyear>.
 </fliterature>
+
+<fliterature name="W2">
+<fauthors>P.J. Ramadge</fauthors>
+<ftitle>Some tractable supervisory control problems for discrete-event systems modeled by Buchi automata</ftitle>
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   
+vol 34, no 1, pp. 10-19</fjournal>
+<fyear>1989</fyear>
+</fliterature>
+
+<fliterature name="W3">
+<fauthors>R. Kumar, V. Garg, S.I. Marcus</fauthors>
+<ftitle>On supervisory control of sequential behaviors</ftitle>
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   vol 37, no 12, pp. 1978-1985</fjournal>
+<fyear>1992</fyear>
+</fliterature>
+
+
+<fliterature name="W4">
+<fauthors>J.G. Thistle, W.M. Wonham</fauthors>
+<ftitle>Supervision of Infinite Behavior of Discrete-Event Systems</ftitle>
+<fjournal>SIAM Journal on Control and Optimization,   vol 32, no, 4, pp. 1098 - 1113</fjournal>
+<fyear>1994</fyear>
+</fliterature>
+
 
 
 </ReferencePage>

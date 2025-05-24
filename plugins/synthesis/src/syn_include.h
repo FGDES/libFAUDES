@@ -16,7 +16,7 @@ Includes all header files of the synthesis plug-in.
 
 #include "syn_supcon.h"
 #include "syn_supnorm.h"
-#include "syn_wsupcon.h"
+#include "syn_supcmpl.h"
 #include "syn_tsupcon.h"
 #include "syn_functions.h"
 #include "syn_sscon.h"

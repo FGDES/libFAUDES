@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="Synthesis" page="3_Completeness" title="Synthesis - Completeness">
+
+<h1>
+Complete and Controllable Sublanguages
+</h1>
+
+<fsummary>
+Synthesis of complete and controllable sublangueges.
+</fsummary>
+
+<p>
+A language <fimath>L</fimath> is <i>complete</i> if everey word <fimath>s \in L</fimath>
+can be extended to <fimath>s t \in L</fimath> with <fimath>t\neq\epsilon</fimath>;
+see also <ffnct>IsComplete</ffnct>. Under the additional modelling hypothesis that a
+process will only terminate if no more events are eligible, a process with complete behaviour
+will never termininate. Such processes are more adequatly modelled by languages of infinite-length
+words, also referred to as <i>omega-languages</i>.
+</p>
+
+<p>
+When <fimath>L</fimath> is realised by an automaton <fimath>G</fimath>, the a realisation of the
+supremal complete sublanguage is obtained by removing states wih no co-reachable successor.
+This is implemented by the function <ffnct>Complete</ffnct> in the core library.
+In the context of controller synthesis, the requirement of a complete closed-loop behaviour is
+combined with the requirement of controllability and/or normality.
+The respective computational procedures are descussed on this page.
+A more detailed discussion including examples is given in the OmegaAut Plug-In.
+</p>
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupConCmplClosed">
+<fdetails/>
+
+<p>
+Given a plant <fimath>L=L(GPlant)</fimath> and a 
+specification <fimath>E=L(GSpec)</fimath>, this function
+computes a realisation of the  supremal controllable and complete sublanguage 
+<br/>
+<br/>
+<fimath> K^\uparrow  = \sup \{ \ K \subseteq E\cap L\ |\ K \text{ is controllable w.r.t. } (L,\Sigma_{uc})\ \text{ and complete }\}</fimath> .
+<br/>
+<br/>
+It can be observed that <fimath>K^\uparrow</fimath> is prefix closed. 
+<br/>
+<br/>
+The set of uncontrollable events <fimath>\Sigma_{uc}</fimath> is
+either taken from the plant generator's event attributes or
+specified as the complement of the parameter <i>ACntrl</i>.
+The result <i>GSupervisor</i> is returned to generate <fimath>K^\uparrow</fimath>;
+see e.g. <fcite name="W3"/> for the base algorithm 
+used in the implementation of this function.
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of plant and specification
+to match. Furthermore, both generators must be deterministic. 
+Effectively, the specification is intersected with the plant
+language. 
+The result will be deterministic and accessible.
+</p>
+
+</ffnct_reference>
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupConCmplNB">
+
+<fdetails/>
+
+<p>
+Given a plant <fimath>L=Lm(GPlant)</fimath> and a 
+specification <fimath>E=Lm(GSpec)</fimath>, this function
+computes the supremal controllable and complete sublanguage 
+<br/>
+<br/>
+<fimath> K^\uparrow = \sup \{ \ K \subseteq E\cap L\ |\ K \text{ is controllable w.r.t. } (L,\Sigma_{uc})\ \text{ and complete }\}</fimath> .
+<br/>
+<br/>
+The set of uncontrollable events <fimath>\Sigma_{uc}</fimath> is
+either taken from the plant generator's event attributes or
+specified as the complement of the parameter <i>ACntrl</i>.
+The result GSupervisor is returned to mark <fimath>K^\uparrow</fimath>.
+The algorithm used in this implementation is similar to the
+one presented in <fcite name="W3"/>.
+</p>
+
+
+<fconditions/>
+<p>
+This implementation requires the alphabets of plant and specification
+to match. Furthermore, both generators must be deterministic and omega-trim. 
+The result will be deterministic and omega-trim.
+</p>
+</ffnct_reference>
+				   
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="SupConNormCmplNB">
+
+<fdetails/>  
+<p>
+The function <ffnct>SupConNormCmplNB</ffnct> computes a realisation GRes of the supremal controllable, normal
+and complete sublanguage <fimath>K^\uparrow</fimath> of the specification <fimath>E</fimath> 
+(marked by argument E or GSpec) w.r.t. 
+the plant L (marked by argument L or GPlant):
+<br/>
+<br/>
+<fimath>K^\uparrow\ =\ \sup\{\ K \subseteq E\ | </fimath>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<fimath>\ K \text{ is controllable w.r.t. } (L,\Sigma_uc)\ \text{and}\ \Closure{K} \text{ is normal w.r.t. } (L,\Sigma_o)\ \text{and}\ K \text{ is complete}\ \}</fimath>.
+<br/>
+<br/>
+The set of controllable events <fimath>\Sigma_c</fimath> 
+and the set of observable events <fimath>\Sigma_o</fimath> 
+may be given explicitely or are extracted from the argument GPlant.
+The implemention performs the iteration proposed
+in <fcite name="S7"/>:
+<br/>
+<br/>
+1.&nbsp;&nbsp; 
+<fimath>K_{0} = L\ \cap\ E</fimath>, <fimath>0\rightarrow i</fimath>
+<br/> 
+2.&nbsp;&nbsp; 
+<fimath>K_{i+1} = \sup\{\ K \subseteq\Closure{K_{i}}\ | </fimath>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<fimath>K \text{ is controllable w.r.t. } (L,\Sigma_uc)\ \text{and}</fimath>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<fimath> \Closure{K} \text{ is normal w.r.t. } (\Closure{L},\Sigma_o)\ \} </fimath>
+<br/> 
+3.&nbsp;&nbsp; 
+<fimath>K_{i+2} = 
+\sup\{\ K \subseteq \Closure{K_{i+1}}\ | \ K \text{ is complete }\ \} </fimath>
+<br/> 
+4.&nbsp;&nbsp; 
+<fimath>K_{i+3} = K_{0} \ \cap \  K_{i+2}</fimath>
+<br/> 
+5.&nbsp;&nbsp; 
+if <fimath>K_{i+3}=K_{i}</fimath>, terminate the iteration and return the fixpoint as result <fimath>K</fimath>;
+else continue at step 2. <fimath>i\rightarrow i+3</fimath>
+<br/>
+<br/>
+In step 2., controllability w.r.t. <fimath>L</fimath> can be equivalenty replaced
+by controllability w.r.t. <fimath>\Closure{L}</fimath>. Thus, computation of the supremal sublanguage
+can be performed by <ffnct>SupConNormClosed</ffnct>.
+In step 3., the supremal complete sublanguage is obtained by subsequently removing states
+that have no successor state; see also <ffnct>Complete</ffnct>.
+By <fcite name="S7"/>, the above iteration terminates after a finite number of steps and
+the fixpoint <fimath>K</fimath> equals the supremum <fimath>K^\uparrow</fimath>.
+Furthermore, if <fimath>E</fimath> is relatively marked w.r.t. <fimath>L</fimath>,
+then  the result <fimath>K</fimath> is relatively closed w.r.t. the plant <fdmath>L</fdmath>.
+</p>
+
+<h4>Relevance to omega-languages:</h4>
+
+<p>
+<ffnct>SupConNormCmplNB</ffnct> can be used to solve
+a particular problem of <i>controller synthesis under partial observation</i>.
+Consider the omega-languages <fimath>B(L)</fimath> and <fimath>B(E)</fimath> 
+as plant and specification, respectively, where
+<fimath>B(E)</fimath> is assumed to be relatively closed w.r.t. <fimath>B(E)</fimath>. 
+We require a controller <fimath>H_o\subseteq\Sigma_o^\omega</fimath>,
+<fimath>Sigma_o\subseteq\Sigma</fimath>, 
+to satisfy the following conditions:
+</p>
+
+<p>
+(1) &nbsp; &nbsp;
+<fimath>B(L)</fimath> and <fimath>H_o</fimath> are non-blocking, i.e., 
+<fimath>\Prefix{\,B(L) \,\cap\, \ProInv{0}(H_o)\,} = \Prefix{B(L)}\; \cap \; \Prefix{\ProInv{0}(H_o)}}</fimath> ;
+<br/>
+(2) &nbsp; &nbsp;
+the closed-loop behaviour <fimath>B(L) \,\cap\, \ProInv{0}(H_o)</fimath> exhibits
+a prefix which is controllable w.r.t. <fimath>(\Prefix{B(L)},\Sigma_{uc})</fimath> ; and,
+<br/>
+(3) &nbsp; &nbsp;
+the closed-loop behaviour satisfies the specification, i.e., <fimath> B(L) \,\cap\, \ProInv{0}(H_o) \subseteq E</fimath>.
+</p>
+
+<p>
+When <fimath>B(E)</fimath> is assumed to be relatively closed w.r.t. <fimath>B(L)</fimath>,
+we may also assume without further loss of generality that <fimath>L</fimath> is complete 
+and that <fimath>E</fimath> is relatively prefix-closed w.r.t. <fimath>L</fimath>.
+If, in addition, in every infinite string <fimath>w\in B(L)</fimath>  there are infinitely many occurences
+of observable events, then the topologically closed controller <fimath>H_o^\uparrow= B(\Pro{0}(L(GRes)))</fimath> 
+satisfies the above conditions.
+Moreover, the resulting closed-loop behaviour is supremal in the sense that
+<br/>
+<br/>
+<fimath> Bm(GRes)\ =\  L\,\cap\, \ProInv{0}(H_o^\uparrow) = </fimath>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<fimath>\sup \{ \ L\,\cap\, \ProInv{0}(H_o) \ |\ 
+H_o \text{ is topoligically closed and satisfies conditions (1)-(3)}\ \}
+</fimath> .
+<br/>
+<br/>
+</p>  
+
+<fconditions/>
+<p>
+Parameters have to be deterministic, result is deterministic.  
+</p>
+
+</ffnct_reference>
+
+
+
+</ReferencePage>
+
+  

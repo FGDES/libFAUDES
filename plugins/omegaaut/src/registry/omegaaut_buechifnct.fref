@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
-<ReferencePage chapter="Reference" section="OmegaAut" page="2_BuechiFncts" title="OmegaAut - Buechi">
+<ReferencePage chapter="Reference" section="OmegaAut" page="2_Buechi-Functions" title="Functions on Buechi Automata">
 <h1>
 Functions on Buechi Automata
 </h1>

@@ -1,5 +1,6 @@
 #include "ios_algorithms.h"
-#include "syn_wsupcon.h"
+#include "syn_include.h"
+#include "omg_include.h"
 
 namespace faudes {
 
@@ -409,7 +410,7 @@ void IoSynthesisNB(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSu
   // synthesis
   EventSet ualph = rPlant.InputEvents();
   EventSet yalph = rPlant.OutputEvents();
-  OmegaSupConNB(rPlant,ualph,rSpec,rSup) ;   
+  SupBuechiCon(rPlant,ualph,rSpec,rSup) ;   
 
   // fix event attributes
   rSup.InputEvents(yalph);

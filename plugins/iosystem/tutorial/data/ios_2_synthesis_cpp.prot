@@ -15,7 +15,7 @@
 
 %%% test mark: supB [at ios_2_synthesis.cpp:72]
 % 
-%  Statistics for OmegaSupConNB((AbstractionB2),(SpecificationB)) [minstate]
+%  Statistics for SupBuechiCon((AbstractionB2),(SpecificationB)) [minstate]
 % 
 %  States:        16
 %  Init/Marked:   1/3

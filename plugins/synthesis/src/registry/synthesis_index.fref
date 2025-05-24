@@ -28,7 +28,7 @@ Further details are organized as follows:
 <a href="synthesis_normality.html">Normality</a>
 </p></li>
 <li><p>
-<a href="synthesis_omega.html">Omega-Controllability</a>
+<a href="synthesis_completeness.html">Completeness</a>
 </p></li>
 <li><p>
 <a href="synthesis_misc.html">Other Synthesis-Related Functions</a>
@@ -206,30 +206,6 @@ Literature
 <fjournal><a href="http://www.sciencedirect.com/">System &amp; Control Letters</a>,   vol 15, no 2, pp. 111-117</fjournal>
 <fyear>1990</fyear>
 </fliterature>
-
-<fliterature name="S3">
-<fauthors>P.J. Ramadge</fauthors>
-<ftitle>Some tractable supervisory control problems for discrete-event systems modeled by Buchi automata</ftitle>
-<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   
-vol 34, no 1, pp. 10-19</fjournal>
-<fyear>1989</fyear>
-</fliterature>
-
-<fliterature name="S4">
-<fauthors>R. Kumar, V. Garg, S.I. Marcus</fauthors>
-<ftitle>On supervisory control of sequential behaviors</ftitle>
-<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   vol 37, no 12, pp. 1978-1985</fjournal>
-<fyear>1992</fyear>
-</fliterature>
-
-
-<fliterature name="S5">
-<fauthors>J.G. Thistle, W.M. Wonham</fauthors>
-<ftitle>Supervision of Infinite Behavior of Discrete-Event Systems</ftitle>
-<fjournal>SIAM Journal on Control and Optimization,   vol 32, no, 4, pp. 1098 - 1113</fjournal>
-<fyear>1994</fyear>
-</fliterature>
-
 
 <fliterature name="S6">
 <fauthors>R.&nbsp;Su, W.M.&nbsp;Wonham</fauthors>

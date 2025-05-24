@@ -188,4 +188,180 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 </FunctionDefinition> 
 
 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsBuechiControllable -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::IsBuechiControllable" ctype="faudes::IsBuechiControllable"> 
+
+<Documentation ref="omegaaut_buechictrl.html#IsBuechiControllable"> 
+Test controllablity condition.
+</Documentation> 
+<Keywords> 
+OmegaAut     controllability  generator     controllable  supervisor    "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="IsBuechiControllabel(G,Sigma,K)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACntrl" ftype="EventSet" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+<Signature name="IsBuechiControllabel(G,K)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GCand" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupBuechiCon -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::SupBuechiCon" ctype="faudes::SupBuechiCon"> 
+
+<Documentation ref="omegaaut_buechictrl.html#SupBuechiCon"> 
+OmegaAut for omega-languages.
+</Documentation> 
+<Keywords> 
+OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupBuechiCon(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupBuechiCon(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function OmegaCon -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiCon" ctype="faudes::BuechiCon"> 
+
+<Documentation ref="omegaaut_buechictrl.html#BuechiCon"> 
+OmegaAut for omega-languages.
+</Documentation> 
+<Keywords> 
+OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="BuechiCon(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="BuechiCon(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupBuechiConNorm -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::SupBuechiConNorm" ctype="faudes::SupBuechiConNorm"> 
+
+<Documentation ref="omegaaut_buechictrl.html#SupBuechiCon"> 
+OmegaAut for omega-languages (experimental!).
+</Documentation> 
+<Keywords> 
+OmegaAut     "supremal sublanguage" controllability  controllable  normality "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupBuechiConNorm(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupBuechiConNorm(GPlant,AContr,AObs,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiConNorm -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiConNorm" ctype="faudes::BuechiConNorm"> 
+
+<Documentation ref="omegaaut_buechictrl.html#BuechiConNorm"> 
+OmegaAut for omega-languages (experimental!).
+</Documentation> 
+<Keywords> 
+OmegaAut   "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="BuechiConNorm(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="BuechiConNorm(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
 </Registry>
