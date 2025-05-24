@@ -1,0 +1,70 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_2_specab1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_2_specab1.svg">
+<a class="faudes_image" href="tmp_omg_2_specab1.svg">
+<img src="tmp_omg_2_specab1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="A-B-Spec-Alternate"&gt;
+
+% 
+%  Statistics for A-B-Spec-Alternate
+% 
+%  States:        4
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   8
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+A1            A2            B1            B2           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+A1            a             A2           
+A2            a             A2           
+A2            c             B1           
+A2            d             A2           
+B1            b             B2           
+B2            b             B2           
+B2            c             A1           
+B2            d             B2           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+A1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+A1           
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

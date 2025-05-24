@@ -1,0 +1,40 @@
+<Generator>
+"A-B-Machine-B-Breaks"
+
+
+<Alphabet>
+"a" +C+       "b" +C+         
+"c"           "d"          
+</Alphabet>
+
+<States>
+"I" "A" "B" "FA" "FB" "XB" 
+</States>
+
+<TransRel>
+"I"  "a" "A"
+"A"  "c" "I"
+"A"  "d" "FA"
+"FA" "a" "A"
+"FA" "b" "B"
+
+"I"  "b" "B"
+"B"  "c" "XB"
+"XB"  "a" "FB"
+"XB"  "b" "FB"
+"FB" "d" "XB"
+
+</TransRel>
+
+<InitStates>
+"I"        
+</InitStates>
+
+<MarkedStates>
+"I" "XB" 
+</MarkedStates>
+
+</Generator>
+
+
+

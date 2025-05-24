@@ -1,0 +1,34 @@
+<Generator>
+"wSpec1"
+
+<Alphabet>
+"a"           "b"          
+"c"           "d"          
+</Alphabet>
+
+<States>
+"S1" "S2" 
+</States>
+
+<TransRel>
+"S1" "a" "S1"
+"S1" "b" "S1"
+"S1" "d" "S1"
+"S1" "c" "S2"
+
+
+"S2" "d" "S2"
+"S2" "c" "S2"
+"S2" "b" "S2"
+
+</TransRel>
+
+<InitStates>
+"S1"        
+</InitStates>
+
+<MarkedStates>
+"S2" 
+</MarkedStates>
+
+</Generator>

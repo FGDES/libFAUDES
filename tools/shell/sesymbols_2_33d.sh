@@ -20,8 +20,6 @@ processfile() {
   sed -i "" -e s/SupConNormNB/SupConNorm/g  $f
   sed -i "" -e s/SupConNormCmplNB/SupConNormCmpl/g  $f
   sed -i "" -e s/SupTconNB/SupTcon/g  $f
-  sed -i "" -e s/IoSynthesis/IoSynthesisClosed/g  $f
-  sed -i "" -e s/IoSynthesisNB/IoSynthesis/g  $f
 }
 
 # recursion over all files incl subdirectories

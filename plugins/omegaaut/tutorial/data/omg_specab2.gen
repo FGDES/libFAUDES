@@ -1,0 +1,34 @@
+<Generator>
+"A-B-Spec-Keep-Running"
+
+
+<Alphabet>
+"a"           "b"          
+"c"           "d"          
+</Alphabet>
+
+<States>
+"I" "B" 
+</States>
+
+<TransRel>
+"I"  "a" "B"
+"I"  "b" "B"
+"B"  "a" "B"
+"B"  "b" "B"
+"B"  "d" "B"
+"B"  "c" "I"
+</TransRel>
+
+<InitStates>
+"I"        
+</InitStates>
+
+<MarkedStates>
+"I" 
+</MarkedStates>
+
+</Generator>
+
+
+

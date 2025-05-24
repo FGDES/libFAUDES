@@ -1,0 +1,72 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_2_wspec3.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_2_wspec3.svg">
+<a class="faudes_image" href="tmp_omg_2_wspec3.svg">
+<img src="tmp_omg_2_wspec3.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="wSpec3"&gt;
+
+% 
+%  Statistics for wSpec3
+% 
+%  States:        2
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   10
+%  StateSymbols:  2
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             f             e            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+N             F            
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+N             a             N            
+N             b             N            
+N             c             N            
+N             f             F            
+N             e             N            
+F             a             F            
+F             b             F            
+F             c             F            
+F             f             F            
+F             e             N            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+N            
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+N            
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -1,0 +1,43 @@
+<Generator>
+"wSpec2"
+
+<Alphabet>
+"c"   "d"  "f"
+</Alphabet>
+
+<States>
+"N" "C1" "C2" "C3" "D1" "D2" "D3"
+</States>
+
+<TransRel>
+"N" "c" "C1"
+"N" "d" "D1"
+
+"C1" "c" "C1"
+"C1" "f" "C1"
+"C1" "d" "C2"
+"C2" "f" "C3"
+"C2" "d" "D1"
+"C3" "d" "D1"
+"C3" "c" "D2"
+
+"D1" "d" "D1"
+"D1" "f" "D1"
+"D1" "c" "D2"
+"D2" "f" "D3"
+"D2" "c" "C1"
+"D3" "c" "C1"
+"D3" "d" "C2"
+
+
+</TransRel>
+
+<InitStates>
+"N"        
+</InitStates>
+
+<MarkedStates>
+"C2" "D2"         
+</MarkedStates>
+
+</Generator>

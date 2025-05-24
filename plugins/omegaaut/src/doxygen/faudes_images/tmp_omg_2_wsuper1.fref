@@ -1,0 +1,82 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_2_wsuper1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_2_wsuper1.svg">
+<a class="faudes_image" href="tmp_omg_2_wsuper1.svg">
+<img src="tmp_omg_2_wsuper1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="SupBuechiCon((wPlant1),(wSpec1))"&gt;
+
+% 
+%  Statistics for SupBuechiCon((wPlant1),(wSpec1))
+% 
+%  States:        12
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   18
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              12            
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              b             2             
+1              d             3             
+2              d             9             
+3              a             4             
+3              d             1             
+4              c             5             
+5              b             6             
+5              d             7             
+6              d             5             
+7              d             8             
+8              b             6             
+8              d             7             
+9              b             10            
+9              d             11            
+10             d             9             
+11             a             12            
+11             d             9             
+12             c             5             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+5             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

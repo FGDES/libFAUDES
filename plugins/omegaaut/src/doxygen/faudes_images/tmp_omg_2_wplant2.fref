@@ -1,0 +1,71 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_2_wplant2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_2_wplant2.svg">
+<a class="faudes_image" href="tmp_omg_2_wplant2.svg">
+<img src="tmp_omg_2_wplant2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="wPlant2"&gt;
+
+% 
+%  Statistics for wPlant2
+% 
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   8
+%  StateSymbols:  5
+%  Attrib. E/S/T: 2/0/0
+% 
+
+&lt;Alphabet&gt;
+a             +C+           b             +C+           c             d            
+f            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+I             A1            A2            B1            B2           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+I             a             A1           
+I             b             B1           
+A1            c             A2           
+A2            c             A2           
+A2            f             I            
+B1            d             B2           
+B2            d             B2           
+B2            f             I            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+I            
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+I            
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

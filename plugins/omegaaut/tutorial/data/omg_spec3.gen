@@ -1,0 +1,36 @@
+<Generator>
+wSpec3
+
+<Alphabet>
+a  b c  
+f  e  
+</Alphabet>
+
+<States>
+N F 
+</States>
+
+<TransRel>
+N f F
+N a N
+N b N
+N c N
+N e N
+
+F e N
+F a F
+F b F
+F c F
+F f F
+
+</TransRel>
+
+<InitStates>
+N        
+</InitStates>
+
+<MarkedStates>
+N
+</MarkedStates>
+
+</Generator>

@@ -1,0 +1,35 @@
+<Generator>
+"A-B-Spec-Eventually-B"
+
+
+<Alphabet>
+"a"           "b"          
+"c"           "d"          
+</Alphabet>
+
+<States>
+"A" "B" 
+</States>
+
+<TransRel>
+"A"  "a" "A"
+"A"  "c" "A"
+"A"  "d" "A"
+"A"  "b" "B"
+"B"  "b" "B"
+"B"  "d" "B"
+"B"  "c" "A"
+</TransRel>
+
+<InitStates>
+"A"        
+</InitStates>
+
+<MarkedStates>
+"B" 
+</MarkedStates>
+
+</Generator>
+
+
+

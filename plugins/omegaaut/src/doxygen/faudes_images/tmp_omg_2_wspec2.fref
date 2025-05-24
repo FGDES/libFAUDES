@@ -1,0 +1,93 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_2_wspec2.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_2_wspec2.svg">
+<a class="faudes_image" href="tmp_omg_2_wspec2.svg">
+<img src="tmp_omg_2_wspec2.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="wSpec2"&gt;
+
+% 
+%  Statistics for wSpec2
+% 
+%  States:        7
+%  Init/Marked:   1/2
+%  Events:        5
+%  Transitions:   30
+%  StateSymbols:  7
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d             f            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+N             C1            C2            C3            D1            D2           
+D3           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+N             a             N            
+N             b             N            
+N             c             C1           
+N             d             D1           
+C1            a             C1           
+C1            b             C1           
+C1            c             C1           
+C1            d             C2           
+C1            f             C1           
+C2            a             C2           
+C2            b             C2           
+C2            d             D1           
+C2            f             C3           
+C3            a             C3           
+C3            b             C3           
+C3            c             D2           
+C3            d             D1           
+D1            a             D1           
+D1            b             D1           
+D1            c             D2           
+D1            d             D1           
+D1            f             D1           
+D2            a             D2           
+D2            b             D2           
+D2            c             C1           
+D2            f             D3           
+D3            a             D3           
+D3            b             D3           
+D3            c             C1           
+D3            d             C2           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+N            
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+C2            D2           
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

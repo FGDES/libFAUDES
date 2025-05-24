@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="OmegaAut" page="3_Buechi-Control" title="Synthesis w.r.t. Buechi Acceptance">
+
+<h1>
+Synthesis w.r.t. Buechi Acceptance
+</h1>
+
+<fsummary>
+Synthesis and verification procedures for the control of omega-languages relised by Buechi automata.
+</fsummary>
+
+<p>
+Functions related to controllability and controller synthesis for non-terminating processes realised by
+Buechi automata.
+</p>
+
+<h2>
+Definition of Omega-Controllability
+</h2>
+
+<p>
+Addressing the control of discrete-event systems on the infinite time axis,
+<fcite name="W2"/> develops the following notion of omega-controllability. 
+</p>
+
+<p>
+Consider two omega languages <fimath>L</fimath> and <fimath>K</fimath>
+over a common alphabet <fimath>\Sigma</fimath>,
+and a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+Then <fimath>K</fimath> is said to be <i>omega-controllable w.r.t <fimath>(L,\Sigma_{uc})</fimath></i> 
+if the following conditions are satisfied:
+<br/>
+<br/>
+(i)&nbsp;&nbsp;<fimath>\Prefix{K}</fimath> is controllable w.r.t <fimath>(\Prefix{L},\Sigma_{uc})</fimath>, i.e.,
+<fimath>\Prefix{K} \Sigma_{uc} \, \cap\, \Prefix{L} \ \subseteq \ \Prefix{K}</fimath> ; and
+<br/>
+(ii)&nbsp;&nbsp;<fimath>K</fimath> is relatively topological closed w.r.t. <fimath>L</fimath>, i.e.,
+<fimath>K\ = \ \Closure{K} \, \cap\, L </fimath> .
+</p>
+
+<p>
+<b>Note 1:</b> for omega-languages, the closure 
+operator <fimath>\Closure{\cdot}</fimath>  refers to the so called <i>topological closure</i>; 
+see also <ffnct>BuechiClosure</ffnct>. The prefix operator <fimath>\Prefix{\cdot}</fimath> gives the
+set of all finite length prefixes. 
+</p>
+
+<p>
+<b>Note 2:</b>
+The above definition of omega-controllability conforms to
+<fcite name="W2"/> and <fcite name="W3"/>. It must not be confused with the
+more general approach taken in <fcite name="W4"/>; see also <ffnct>SupBuechiCon</ffnct>.
+</p>
+
+<p>
+<b>Note 3:</b> all omega-languages in the following discussion are assumed
+to be representable by finite deterministic automata with  Buechi acceptance
+condition. Given a finite deterministic generator <fimath>G</fimath>,
+we write <fimath>Bm(G)</fimath> for the associated omega-language
+and obtain <fimath>Bm(G)=B(Lm(G))</fimath> by determinism of <fimath>G</fimath>; 
+see also <a href="omegaaut_index.html#buechi_acceptance">Buechi acceptance condition</a>.
+</p>
+
+<h2>
+Controller Synthesis for Omega-Languages
+</h2>
+
+
+<p>
+Consider two omega languages <fimath>L</fimath> and <fimath>E</fimath>
+over a common alphabet <fimath>\Sigma</fimath> to represent the plant and the
+specification, respectively. Let <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>
+denote the set of uncontrollable events.
+The task then is to find a topologically closed controller <fimath>H\subseteq \Sigma^\omega</fimath>, 
+such that
+</p>
+
+<p>
+(1) &nbsp; &nbsp;
+<fimath>L</fimath> and <fimath>H</fimath> are non-blocking, i.e., 
+<fimath>\Prefix{L \,\cap\, H } = \Prefix{L}\; \cap \; \Prefix{H}</fimath> ;
+<br/>
+(2) &nbsp; &nbsp;
+the controller <fimath>H</fimath> exhibits
+a prefix which is controllable w.r.t. <fimath>(\Prefix{L},\Sigma_{uc})</fimath> ; and,
+<br/>
+(3) &nbsp; &nbsp;
+the closed-loop behaviour satisfies the specification, i.e., <fimath>L\, \cap \, H \subseteq E</fimath>.
+</p>
+<p>
+For any topologically closed controller <fimath>H</fimath> which satisfies the above conditions, 
+the closed loop <fimath>K = L\, \cap \, H</fimath> exhibits the following properties:
+</p>
+
+<p>
+(a) &nbsp; &nbsp;
+<fimath>K</fimath> is relatively topological closed w.r.t. <fimath>L</fimath>; and,
+<br/>
+(b) &nbsp; &nbsp;
+<fimath>\Prefix{K}</fimath> is controllable w.r.t. <fimath>(\Prefix{L},\Sigma_{uc})</fimath>; and,
+<br/>
+(c) &nbsp; &nbsp;
+<fimath>K\subseteq E</fimath>.
+</p>
+
+<p>
+Note that (a) and (b) amount to omega-controllability.
+Moreover, if a language <fimath>K</fimath> satisfies
+(a)-(c), the controller <fimath>H = \Closure{K}</fimath> solves
+the synthesis problem. 
+</p>
+
+<p>
+In contrast to the situation of star-languages, property (a) is in general
+not retained under arbitrary union. Thus, the supremum 
+<br/>
+<br/>
+<fimath>K^\uparrow := \sup \{ \ K \subseteq E\ |\ K \text{ is omega-controllable w.r.t } (L,\Sigma_{uc})\ \}</fimath> 
+<br/>
+<br/>
+may fail to be an achievable closed-loop behaviour and the controller
+<fimath>H^\uparrow=\Closure{K^\uparrow}</fimath> may fail to enforce the specification.
+As a consequence of this observation, the synthesis problem disintegrates in two
+distinct  cases.
+</p>
+
+<h4>
+Relatively closed specifications
+</h4>  
+    
+<p>
+Under the additional hypothesis, that <fimath>E</fimath> is relatively topological closed w.r.t. <fimath>L</fimath>,
+<fcite name="W2"/> establishes that the supremum 
+<fimath>K^\uparrow</fimath> is indeed also
+relatively topological closed w.r.t. <fimath>L</fimath>, and, hence, is omega-controllable. 
+For this case, <fcite name="W3"/> discusses computational procedures which are very similar to
+the situation of star languages.
+</p>
+
+<p>
+For a practical solution of the control problem under the given hypothesis the Synthesis Plug-In
+provides the function <ffnct>SupConCmpl</ffnct>.
+Given realisations GSpec' and Gplant with
+<fimath>Bm(GSpec')=\Closure{E}</fimath> and <fimath>Bm(Gplant)=L</fimath>, respectively,
+<ffnct>SupConCmpl</ffnct> constructs a realisation
+GSup of <fimath>K^\uparrow</fimath>, i.e., <fimath>K^\uparrow =B(GSup)</fimath>.
+</p>
+  
+<p>
+When all parameters are closed, the situation further simplifies.
+Given realisationsn GSpec and Gplant with
+<fimath>B(GSpec)=E</fimath> and <fimath>B(Gplant)=L</fimath>, respectively,
+<ffnct>SupConCmplClosed</ffnct> constructs a realisation
+GSup of <fimath>K^\uparrow</fimath>, i.e.,<fimath>K^\uparrow =Bm(GSup)</fimath>.
+</p>
+
+
+<h4>
+Not-necessarily relatively closed specifications
+</h4>  
+
+<p>
+A more general approach, that drops the requirement of the specification 
+<fimath>E</fimath> to be relatively closed w.r.t. the plant <fimath>L</fimath>
+is presented in <fcite name="W4"/>. 
+In this situation, <fimath>K^\uparrow</fimath> will fail to be relatively closed,
+and a controller <fimath>H^\uparrow=\Closure{K^\uparrow}</fimath> will
+fail to enforce the specification.
+However, one could then use <fimath>K^\uparrow</fimath> itself as a supervisor,
+provided that a technical realisation implements a mechanism that 
+ensures that closed-loop trajectories fulfill the acceptance condition of <fimath>K^\uparrow</fimath>.
+Alternatively, one can extract a non-minimal restrictive supervisor 
+that can be implemented by a closed behaviour. 
+A generator that realises <fimath>K^\uparrow</fimath> 
+can be computed by <ffnct>SupBuechiCon</ffnct>, see also the example discussed below.
+</p>
+
+
+<h2>
+<a id="Example">Example</a>
+</h2>
+
+<p>
+For illustration of omega-controllability, consider the below veriants
+of a machine that may run one of two processes A and B. The processes are
+initiated by the controllable events <tt>a</tt> and <tt>b</tt>, respectively.
+Once started, a process may terminate with success <tt>c</tt> or failure <tt>d</tt>.
+In the first variant, each process is guaranteed to eventually succeed.
+In the second variant, process B exhausts the machine and can subsequently only
+succeed after running process A. In the third variant, process B breaks the machine.
+Each variant exhibits an eventuality property and, hence, neither
+of the induced omega-languages are topologically closed.
+</p>
+
+<table class="plain"> 
+<tr> <td> A-B-machine, std. variant </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_machineab1"/> </td></tr>
+<tr> <td> A-B-machine, B exhausts the machine </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_machineab2"/> </td></tr>
+<tr> <td> A-B-machine, B breaks the machine </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_machineab3"/> </td></tr>
+</table> 
+
+<p>
+In our discussion, we consider three alternative specifications,
+that require the closed loop to
+</p>
+<ul  class="l2">
+<li><p>
+persistenly alternate successful operation of processes A and B, or to
+<br/>
+<fimage fsrc="tmp_omg_2_specab1"/>
+</p></li>
+<li><p>
+persistently run some operation successfully, or to
+<br/>
+<fimage fsrc="tmp_omg_2_specab2"/>
+</p></li>
+<li><p>
+start with process A, eventually switch to B, and, on success 
+turn back to A.
+<br/>
+<fimage fsrc="tmp_omg_2_specab3"/>
+</p></li>
+</ul>
+
+<p>
+Note that, technically, a specification language is required to be a
+subset of the plant language. The above realisations are "lazy" in the sense
+that they do not fulfil this requirement. For the following diccussion,
+we think of the above specifications to be intersected with the respective
+plant language; see also <ffnct>BuechiParallel</ffnct>.
+</p>
+
+<p>
+For a minimal restrictive supervisor to exist, the specification is
+required to be relatively closed w.r.t. the plant. Intuitively,
+this is true whenever any eventuality property required by the specification
+is implied by the plant. The following table comments on relative closedness
+of indivual combinations of plant and specification.
+</p>
+
+
+<table class="plain">
+<tr>
+<td>
+<table class="small_table"> 
+<tr> 
+<td> </td>
+<th> A-B-machine, std. variant </th>
+<th> A-B-machine, B exhausts the machine </th>
+<th> A-B-machine, B breaks the machine </th>
+</tr>
+<tr>
+<th> alternate eventual success in running A and B </th>
+<td> 
+eventual success is guaranteed by the plant;
+relative closedness is satisfied
+</td>
+<td>
+the specification requires immediatly to process A after success in B;
+hence, the closed-loop will not suffer from an exhausted machine;
+relative closedness is satisfied
+</td>
+<td>
+the specification requires the machine to eventually process B, and, hence,
+the closed-loop will block with a broken machine; however,
+the intersection of plant and specification is empty; so, technically,
+relative closedness is satisfied
+</td>
+</tr>
+<tr>
+<th> persistently run any process with eventual success </th>
+<td>
+the specification is a superset of the plant;
+relative closedness is satisfied
+</td>
+<td>
+a minimal restrictive supervisor cannot exist, since such a supervisor
+would need to eventually decide to process A once the machine is exhausted;
+relative closedness is not satisfied
+</td>
+<td>
+since B breaks the machine, persistent success implies not to run process B;
+relative closedness is satisfied
+</td>
+</tr>
+<tr>
+<th> eventually switch to B </th>
+<td>
+plant does not imply the eventuality property to process B; 
+relative closedness is not satisfied.
+</td>
+<td>
+plant does not imply the eventuality property to process B; 
+relative closedness is not satisfied.
+</td>
+<td>
+plant does not imply the eventuality property to process B; 
+relative closedness is not satisfied.
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<p>
+The third row of the above table points out that there are 
+relevant applications that do not fulfil the requirement of a
+relatively closed specification. This has been addressed in
+<fcite name="W4"/>; see also below the documentation of
+<ffnct>SupBuechiCon</ffnct>.
+</p>
+
+<p>
+For the cases where relative closedness is satisfied, 
+the minimal restrictive closed-loop behaviour has been 
+computed using <ffnct>SupConCmpl</ffnct>
+from the Syntheis Plug-In. 
+</p>
+
+<table class="plain"> 
+<tr> <td> A-B-machine, std. variant, with alternate-A-and-B-success specification  </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_supab11"/> </td></tr>
+<tr> <td> A-B-machine, std. variant, with persistently-any-success specification  </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_supab21"/> </td></tr>
+<tr> <td> A-B-machine, B exhausts the machine, with alternate-A-and-B-success specification</td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_supab12"/> </td></tr>
+
+
+<tr> <td> A-B-machine, B breaks the machine, with persistenly-any-success specification</td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_supab23"/> </td></tr>
+</table> 
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="IsBuechiControllable">
+
+<fdetails/>
+<p>
+This function tests omega-controllability of <fimath>Bm(GCand)</fimath> w.r.t.
+<fimath>(Bm(GPlant),\Sigma_{uc})</fimath>, 
+where the set of controllable events <fimath>\Sigma_{uc}</fimath> is
+specified as the complement of the parameter <i>ACntrl</i>.
+</p>
+<p>
+The current implementation performs the test by invoking
+<ffnct>IsControllable</ffnct> and <ffnct>IsBuechiRelativelyClosed</ffnct>.
+It returns true, if both conditions are satisfied. 
+</p>
+
+
+
+<fconditions/>
+<p>
+This implementation requires the alphabets of plant and specification
+to match. Furthermore, both generators must be deterministic and omega-trim. 
+</p>
+
+</ffnct_reference>
+
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupBuechiCon">
+<fdetails/>
+<p>
+The function <ffnct>SupBuechiCon</ffnct> addresss the
+situation where the specification fails to be relatively closed w.r.t. the plant.
+We formaly model the closed-loop interconnection
+of a plant <fimath>L\subseteq\Sigma^\omega</fimath>
+and supervisor <fimath>K\subseteq L</fimath> by the intersection
+<fimath>L\cap K</fimath>. Since we dropped the requirement of relative closedness,
+we obtain
+<br/>
+<br/>
+<fdmath>L\ \cap\ K \ = \ K \ \subseteq\ L \ \cap\ \Closure{K}</fdmath>. 
+<br/>
+<br/>
+We require the closed-loop to be nonblocking and the supervisor not to disable 
+uncontrollable events, i.e.
+for all <fimath>s\in \Prefix{L} \ \cap\ \Prefix{K}</fimath> we must have
+<br/>
+<br/>
+(a)&nbsp;&nbsp; <fdmath>s\in \Prefix{ L\cap K}</fdmath> and
+<br/>
+(b)&nbsp;&nbsp; <fdmath>\sigma\in\Sigma_{uc}, \ s\sigma\in\Prefix{L} \ \ \ \ \Rightarrow \ \ \ \ s\sigma\in\Prefix{K}</fdmath> .
+<br/>
+<br/>
+The nonblockng condition (a) is trivially fulfilled, while (b) amounts to
+controllabiliy for the prefix of K w.r.t. the prefix of L.
+Neither for the plant nor for the supervisor we ask how 
+a technical realization actually manages to satisfy their respective 
+acceptance condition. However, while <fimath>K\subseteq L</fimath> ensures 
+that the supervisor will support the plant in this regard, the plant could 
+permanently prevent the supervisor from running into a marked state. 
+Thus, we introcude as 
+condition (c) that while the closed-loop evolves, the supervisor must allways
+have the chance to apply a control strategy such that the acceptance condition
+of the plant implies that the trajectory eventually passes a maked state. 
+Technically, we require for all <fimath>s\in \Prefix{L} \ \cap\ \Prefix{K}</fimath>
+<br/>
+<br/>
+(c) &nbsp;&nbsp; <fdmath>\exists V\subseteq K:\  s\in \Prefix{V}, \text{ and } 
+V \text{ is omega-controllable w.r.t. }L</fdmath>.
+<br/>
+<br/>
+</p>
+<p>
+It is readily verified that condition (c) implies condition (b). Furthermore,
+all three conditions are preserved under arbitrary union.
+Thus, given a specification <fimath>E\subseteq L</fimath>, there exists a supremal
+closed-loop behaviour <fimath>K\subseteq E</fimath> that satisfies conditions (a), (b) and (c).
+Moreover, supremal closed-loop behaviour equals the union over all omega-controllable 
+sublanguages of E. 
+</p>
+<p>
+Note.
+A more general approach to the control of omega-languages has been 
+developed in <fcite name="W4"/>. When applied to the specific case of determinitsic Buchi 
+automata addressed here -- and despite some minor differences in the perspective 
+we take -- the above condition (c) is equivalent to the notion 
+of omega-controllability proposed in <fcite name="W4"/>. 
+There, it has been shown that the supremal controllable sublanguage 
+can be represented in terms of the so called <i>controllability prefix</i>  
+and the marking of the specification.
+The current of implementation <ffnct>SupBuechiCon</ffnct> is derived 
+as an adaption of the methods proposed in  <fcite name="W4"/> (and companion papers) 
+to the specific case at hand.
+</p>
+
+<fexample/>
+<p>
+The following results have been obtained for the three variants of 
+A-B-machine and the eventually-switch-to-B specification.
+</p>
+<table class="plain"> 
+<tr> <td> A-B-machine, std. variant, with eventually-switch-to-B specification  </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_msupab31"/> </td></tr>
+<tr> <td> A-B-machine, B exhausts the machine, with eventually-switch-to-B specification</td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_2_msupab32"/> </td></tr>
+<tr> <td> A-B-machine, B breaks the machine, eventually-switch-to-B specification</td></tr>
+ <tr> <td> <fimage fsrc="tmp_omg_2_msupab33"/> </td></tr>
+</table> 
+
+<fconditions/>
+<p>
+This implementation requires the alphabets of plant and specification
+to match. Furthermore, both generators must be deterministic.
+Effectively, the specification is intersected with the plant.
+The result will be deterministic and omega-trim.
+</p>
+
+</ffnct_reference>
+
+
+</ReferencePage>
+
+  

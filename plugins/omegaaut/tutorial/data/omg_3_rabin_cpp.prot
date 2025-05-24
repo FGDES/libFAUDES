@@ -1,0 +1,28 @@
+%%% test mark: readback from file (expecy true) [at omg_3_rabin.cpp:83]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: readback from file (expecy true) [at omg_3_rabin.cpp:109]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: raccept stats [at omg_3_rabin.cpp:126]
+% 
+%  Statistics for RabinAcceptance
+% 
+%  RabinPairs: 2
+%  R/I-States: 3/4
+%  R/I-States: 3/6
+%  
+% 
+% 
+% 
+
