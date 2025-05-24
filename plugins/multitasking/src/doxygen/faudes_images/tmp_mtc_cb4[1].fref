@@ -19,10 +19,10 @@ Token IO
 </h3>
 <pre>
 &lt;Generator&gt;
-"Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject" 
+"Det(MtcPro(mtcSupCon((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject" 
 
 % 
-%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject
+%  Statistics for Det(MtcPro(mtcSupCon((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject
 % 
 %  States:        6
 %  Init/Marked:   1/0

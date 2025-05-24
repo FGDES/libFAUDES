@@ -1,6 +1,6 @@
 <cGenerator>
 <Generator>
-"Det(Pro(SupConNB((Det(Pro(SupConNB((cb4[0]),(cb4[0]_spec)))) [minstate]||Det(Pro(SupConNB((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]),(cb4mh1d1[1]_spec)))) [minstate]||Det(Pro(SupConNB((Det(Pro(SupConNB((rt1[0]),(rt1[0]||rt1[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb11[0]),(cb11[0]_spec)))) [minstate]),(rt1cb11[1]_spec)))) [minstate]||Det(Pro(SupConNB((cb7[0]),(cb7[0]_spec)))) [minstate]" 
+"Det(Pro(SupCon((Det(Pro(SupCon((cb4[0]),(cb4[0]_spec)))) [minstate]||Det(Pro(SupCon((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]),(cb4mh1d1[1]_spec)))) [minstate]||Det(Pro(SupCon((Det(Pro(SupCon((rt1[0]),(rt1[0]||rt1[0]_spec)))) [minstate]||Det(Pro(SupCon((cb11[0]),(cb11[0]_spec)))) [minstate]),(rt1cb11[1]_spec)))) [minstate]||Det(Pro(SupCon((cb7[0]),(cb7[0]_spec)))) [minstate]" 
 <Alphabet>
 "cb12-4"      "cb4-11"      "wp12-4"      "wp4-11"      "cb11-7"      "wp11-7"      
 "cb7-15"      "wp7-15"      

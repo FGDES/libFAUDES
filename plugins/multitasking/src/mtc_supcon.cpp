@@ -37,24 +37,24 @@ namespace faudes {
 */
 
 
-// mtcSupConNB(rPlantGen, rSpecGen, rResGen)
-void mtcSupConNB(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen, MtcSystem& rResGen) {
+// mtcSupCon(rPlantGen, rSpecGen, rResGen)
+void mtcSupCon(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen, MtcSystem& rResGen) {
   // HELPERS:
   std::map< std::pair<Idx,Idx>, Idx> rcmap;
   // ALGORITHM:
-  mtcSupConNB(rPlantGen, rSpecGen, rcmap, rResGen);
+  mtcSupCon(rPlantGen, rSpecGen, rcmap, rResGen);
 }
 
 
-// mtcSupConNB(rPlantGen, rSpecGen, rReverseCompositionMap, rResGen)
-void mtcSupConNB(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen,
+// mtcSupCon(rPlantGen, rSpecGen, rReverseCompositionMap, rResGen)
+void mtcSupCon(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen,
   std::map< std::pair<Idx,Idx>, Idx>& rCompositionMap,  MtcSystem& rResGen) {
-  FD_DF("mtcSupConNB(" << &rPlantGen << "," << &rSpecGen << ")");
+  FD_DF("mtcSupCon(" << &rPlantGen << "," << &rSpecGen << ")");
 
   // PREPARE RESULT:
 
   rResGen.Clear();
-  rResGen.Name("mtcSupConNB(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))");
+  rResGen.Name("mtcSupCon(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))");
   rResGen.InjectAlphabet(rPlantGen.Alphabet());
 
   rResGen.SetControllable(rPlantGen.ControllableEvents());
@@ -65,8 +65,8 @@ void mtcSupConNB(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen,
 
   // controllable events
   const EventSet ualph = rPlantGen.UncontrollableEvents();
-  FD_DF("mtcSupConNB: controllable events: " << rPlantGen.ControllableEvents().ToString());
-  FD_DF("mtcSupConNB: uncontrollable events: " << ualph.ToString());
+  FD_DF("mtcSupCon: controllable events: " << rPlantGen.ControllableEvents().ToString());
+  FD_DF("mtcSupCon: uncontrollable events: " << ualph.ToString());
 
   // CONSISTENCY CHECK:
 
@@ -77,7 +77,7 @@ void mtcSupConNB(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen,
     std::stringstream errstr;
     errstr << "Alphabets of generators do not match. Only in plant: " << only_in_plant.ToString()
       << ". Only in spec: " << only_in_spec.ToString() << ".";
-    throw Exception("mtcSupConNB", errstr.str(), 500);
+    throw Exception("mtcSupCon", errstr.str(), 500);
   }
 
   // plant and spec must be deterministic
@@ -88,25 +88,25 @@ void mtcSupConNB(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen,
     std::stringstream errstr;
     errstr << "Plant generator must be deterministic, "
                     << "but is nondeterministic";
-    throw Exception("mtcSupConNB", errstr.str(), 501);
+    throw Exception("mtcSupCon", errstr.str(), 501);
   }
   else if ((plant_det == true) && (spec_det == false)) {
     std::stringstream errstr;
     errstr << "Spec generator must be deterministic, "
                     << "but is nondeterministic";
-    throw Exception("mtcSupConNB", errstr.str(), 503);
+    throw Exception("mtcSupCon", errstr.str(), 503);
   }
   else if ((plant_det == false) && (spec_det == false)) {
     std::stringstream errstr;
     errstr << "Plant and spec generator must be deterministic, "
                     << "but both are nondeterministic";
-    throw Exception("mtcSupConNB", errstr.str(), 504);
+    throw Exception("mtcSupCon", errstr.str(), 504);
   }
 
   // ALGORITHM:
 
   mtcSupConParallel(rPlantGen, rSpecGen, ualph, rCompositionMap, rResGen);
-  FD_DF("mtcSupConNB: mtcSupConParallel passed...");
+  FD_DF("mtcSupCon: mtcSupConParallel passed...");
 
   // make resulting generator trim until it's fully controllable
   while (1) {
@@ -115,7 +115,7 @@ void mtcSupConNB(const  MtcSystem& rPlantGen, const MtcSystem& rSpecGen,
     mtcSupConUnchecked(rPlantGen, rPlantGen.ControllableEvents(), rResGen);
     rResGen.StronglyTrim();
     if(rResGen.Size() == state_num) break;
-    FD_DF("mtcSupConNB: rResGen.Size() = " << ToStringInteger(rResGen.Size()) << ", state_num = " << ToStringInteger(state_num));
+    FD_DF("mtcSupCon: rResGen.Size() = " << ToStringInteger(rResGen.Size()) << ", state_num = " << ToStringInteger(state_num));
   }
 
   // restrict composition map

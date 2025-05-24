@@ -16,6 +16,12 @@ Relative to 2.32*
 
 ***
 
+Refactored to drop the suffix "NB" for sythesis methods. E.g.
+"SupConNB" synthesises the supremal controllable sublanguage and
+is now called "SupCon". This was announced to happen 2.22*.
+
+***
+
 Refactored to collect all Buechi-related utilities in a separate plug-in.
 This includes renaming for some functions from "AbcOmegaXyz" to "AbcBuechiXyz".
 

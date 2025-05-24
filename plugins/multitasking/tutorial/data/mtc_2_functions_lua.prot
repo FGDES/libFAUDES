@@ -122,7 +122,7 @@ true
 
 %%% test mark: supconnb [at mtc_2_functions.lua]
 % 
-%  Statistics for mtcSupConNB((Generator),(Generator))
+%  Statistics for mtcSupCon((Generator),(Generator))
 % 
 %  States:        4
 %  Init/Marked:   1/0

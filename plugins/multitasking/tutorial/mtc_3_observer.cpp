@@ -71,8 +71,8 @@ int main() {
     cb4_0_spec.Write("tmp_mtc_cb4[0]_spec.gen");
     cb4_0_spec.GraphWrite("tmp_mtc_cb4[0]_spec.png");
 
-    std::cout << "MtcSupConNB(cb4[0], cb4[0]_spec) => cb4[0]_sup" << std::endl << std::endl;
-    mtcSupConNB(cb4_0, cb4_0_spec, cb4_0_sup);
+    std::cout << "MtcSupCon(cb4[0], cb4[0]_spec) => cb4[0]_sup" << std::endl << std::endl;
+    mtcSupCon(cb4_0, cb4_0_spec, cb4_0_sup);
 
     cb4_0_sup.Write("tmp_mtc_cb4[0]_sup.gen");
     cb4_0_sup.GraphWrite("tmp_mtc_cb4[0]_sup.png");
@@ -123,10 +123,10 @@ int main() {
     mtcParallel(cb4_1, mh1d1_1, cb4mh1d1_1);
     cb4mh1d1_1.Write("tmp_mtc_cb4mh1d1_1.gen");
     cb4mh1d1_1.GraphWrite("tmp_mtc_cb4mh1d_1.png");
-    std::cout << "MtcSupConNB(cb4mh1d1[1], cb4mh1d1[1]_spec) => cb4mh1d1[1]_sup" << std::endl << std::endl;
+    std::cout << "MtcSupCon(cb4mh1d1[1], cb4mh1d1[1]_spec) => cb4mh1d1[1]_sup" << std::endl << std::endl;
     mtcInvProject(mh1d1_1_spec, cb4mh1d1_1.Alphabet() );
     //MtcInvProject(cb4mh1d1_1, cb4mh1d1_1.Alphabet()+cb4mh1d1_1_spec.Alphabet());
-    mtcSupConNB(cb4mh1d1_1, mh1d1_1_spec, cb4mh1d1_1_sup);
+    mtcSupCon(cb4mh1d1_1, mh1d1_1_spec, cb4mh1d1_1_sup);
 
     cb4mh1d1_1_sup.Write("tmp_mtc_cb4mh1d1_1_sup.gen");
     cb4mh1d1_1_sup.GraphWrite("tmp_mtc_cb4mh1d1_1_sup.png");

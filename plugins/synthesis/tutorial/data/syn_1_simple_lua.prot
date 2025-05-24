@@ -169,7 +169,7 @@ true
 
 %%% test mark: supervisor partial obs, nb [at syn_1_simple.lua]
 % 
-%  Statistics for SupConNormNB(very simple machine_1||very simple machine_2, PrefixClosure(buffer))
+%  Statistics for SupConNorm(very simple machine_1||very simple machine_2, PrefixClosure(buffer))
 % 
 %  States:        3
 %  Init/Marked:   1/2
@@ -184,7 +184,7 @@ true
 
 %%% test mark: supervisor partial obs, nb buffer2 [at syn_1_simple.lua]
 % 
-%  Statistics for SupConNormNB(very simple machine_1||very simple machine_2, two place buffer)
+%  Statistics for SupConNorm(very simple machine_1||very simple machine_2, two place buffer)
 % 
 %  States:        9
 %  Init/Marked:   1/3

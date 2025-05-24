@@ -152,13 +152,13 @@ Synthesis   "supremal sublanguage" controllability   "relatively prefix closed" 
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function SupConNormCmplNB -->
+<!-- Faudes Function SupConNormCmpl -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="Synthesis::SupConNormCmplNB" ctype="faudes::SupConNormCmplNB"> 
+<FunctionDefinition name="Synthesis::SupConNormCmpl" ctype="faudes::SupConNormCmpl"> 
 
-<Documentation ref="synthesis_omega.html#SupConNormCmplNB"> 
+<Documentation ref="synthesis_omega.html#SupConNormCmpl"> 
 Computes the supremal controllable normal and complete sublanguage.
 </Documentation> 
 <Keywords> 
@@ -261,13 +261,13 @@ Synthesis  "supremal sublanguage"  controllability  controllable  "controller sy
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function SupConCmplNB -->
+<!-- Faudes Function SupConCmpl -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="Synthesis::SupConCmplNB" ctype="faudes::SupConCmplNB"> 
+<FunctionDefinition name="Synthesis::SupConCmpl" ctype="faudes::SupConCmpl"> 
 
-<Documentation ref="synthesis_omega.html#SupConCmplNB"> 
+<Documentation ref="synthesis_omega.html#SupConCmpl"> 
 Computes the supremal controllable and complete sublanguage.
 </Documentation> 
 <Keywords> 
@@ -294,15 +294,44 @@ Synthesis  "supremal sublanguage"  controllability  controllable  "controller sy
 </FunctionDefinition> 
 
 
+
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function SupConNB -->
+<!-- Faudes Function SupConNB (lagacy interface)         -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="Synthesis::SupConNB" ctype="faudes::SupConNB"> 
+<FunctionDefinition name="Synthesis::SupConNB" ctype="faudes::SupCon"> 
 
-<Documentation ref="synthesis_controllability.html#SupConNB"> 
+<VariantSignatures> 
+
+<Signature name="SupC(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupC(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+}
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupCon -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="Synthesis::SupCon" ctype="faudes::SupCon"> 
+
+<Documentation ref="synthesis_controllability.html#SupCon"> 
 Computes the supremal controllable sublanguage.
 </Documentation> 
 <Keywords> 
@@ -327,7 +356,6 @@ Synthesis   "supremal sublanguage"  controllability  controllable  "controller s
 </VariantSignatures> 
 
 </FunctionDefinition> 
-
 
 <!-- =================================================== -->
 <!-- =================================================== -->
@@ -439,13 +467,13 @@ Synthesis    "supremal sublanguage" normality     supremal    controllable obser
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function SupConNormNB -->
+<!-- Faudes Function SupConNorm -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="Synthesis::SupConNormNB" ctype="faudes::SupConNormNB"> 
+<FunctionDefinition name="Synthesis::SupConNorm" ctype="faudes::SupConNorm"> 
 
-<Documentation ref="synthesis_normality.html#SupConNormNB"> 
+<Documentation ref="synthesis_normality.html#SupConNorm"> 
 Computes the supremal controllable and normal sublanguage.
 </Documentation> 
 <Keywords> 

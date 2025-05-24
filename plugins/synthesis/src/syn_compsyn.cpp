@@ -299,7 +299,7 @@ void SelectSubsystem_V2(GeneratorVector& rGenVec,
  * @param rHSupGen
  *   the resulting generator after halbway-synthesis
  */
-void ComputeHSupConNB(const Generator& rOrigGen,
+void ComputeHSupCon(const Generator& rOrigGen,
 		   const EventSet& rConAlph,
 		   const EventSet& rLocAlph,
 		   Generator& rHSupGen);
@@ -497,7 +497,7 @@ void ComSyn::Synthesis()
     
     // Step 3: abstraction rule -> halbway synthesis
     
-    ComputeHSupConNB(OrigGen, ConAlph, LocAlph, HSupGen);
+    ComputeHSupCon(OrigGen, ConAlph, LocAlph, HSupGen);
     // test
     //HSupGen.Write();
     ////////////////////////////////////////////////////////////////
@@ -1174,13 +1174,13 @@ void SelectSubsystem_V2(GeneratorVector& rGenVec,
 ////////////////////////////////////////////////////////////////
 
 
-// for function "ComputeHSupConNB()"
+// for function "ComputeHSupCon()"
 
 //this is a internal function that aiding to collecting states 
 //which lead to blockingstates via local uncontrollable events
 //and collecting transition relation which is further to redirecting
 
-// internal function for HSupConNB()
+// internal function for HSupCon()
 void H_tocollect(StateSet& rBlockingstates, 
 		 const TransSetX2EvX1& rRtrel,
 		 const EventSet& rLouc, 
@@ -1221,8 +1221,8 @@ void H_tocollect(StateSet& rBlockingstates,
 
 }
 
-// ComputeHSupConNB(OrigGen, ConAlph, LocAlph, rHSupGen)
-void ComputeHSupConNB(const Generator& rOrigGen,
+// ComputeHSupCon(OrigGen, ConAlph, LocAlph, rHSupGen)
+void ComputeHSupCon(const Generator& rOrigGen,
 		   const EventSet& rConAlph,
 		   const EventSet& rLocAlph,
 		   Generator& rHSupGen) {

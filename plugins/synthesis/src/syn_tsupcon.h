@@ -61,7 +61,7 @@ namespace faudes {
  * @ingroup SynthesisPlugIn
  *
  */
-extern FAUDES_API void SupTconNB(
+extern FAUDES_API void SupTcon(
   const Generator& rPlantGen, 
   const EventSet&  rCAlph,
   const EventSet&  rFAlph,
@@ -75,7 +75,7 @@ extern FAUDES_API void SupTconNB(
  * Nonblocking Supremal TDES-Controllable Sublanguage 
  *
  * This is the RTI wrapper for   
- * SupTconNB(const Generator&, const EventSet&, const Generator&, Generator&).
+ * SupTcon(const Generator&, const EventSet&, const Generator&, Generator&).
  * Controllability attributes are taken from the plant argument and
  * tick is the only preemptable event.
  * If the result is specified as a System, attributes will be copied
@@ -100,7 +100,7 @@ extern FAUDES_API void SupTconNB(
  *
  * @ingroup SynthesisPlugIn
  */
-extern FAUDES_API void SupTconNB(
+extern FAUDES_API void SupTcon(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen);

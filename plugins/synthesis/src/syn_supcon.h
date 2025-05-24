@@ -169,7 +169,7 @@ extern FAUDES_API bool IsControllable(
  * @ingroup SynthesisPlugIn
  *
  */
-extern FAUDES_API void SupConNB(
+extern FAUDES_API void SupCon(
   const Generator& rPlantGen, 
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
@@ -181,7 +181,7 @@ extern FAUDES_API void SupConNB(
  * Nonblocking Supremal Controllable Sublanguage 
  *
  * This is the RTI wrapper for   
- * SupConNB(const Generator&, const EventSet&, const Generator&, Generator&).
+ * SupCon(const Generator&, const EventSet&, const Generator&, Generator&).
  * Controllability attributes are taken from the plant argument.
  * If the result is specified as a System, attributes will be copied
  * from the plant argument.
@@ -203,7 +203,7 @@ extern FAUDES_API void SupConNB(
  *
  * @ingroup SynthesisPlugIn
  */
-extern FAUDES_API void SupConNB(
+extern FAUDES_API void SupCon(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen);
@@ -318,7 +318,7 @@ extern FAUDES_API void SupConClosed(
 /** 
  * Nonblocking Supremal Controllable Sublanguage (internal function)
  * 
- * This version of SupConNB performs no consistency test of the given parameter.
+ * This version of SupCon performs no consistency test of the given parameter.
  * It set's up a "composition map" as in the parallel composition, however,
  * the map may still contain states that have been removed from the result
  * to obtain controllability.
@@ -341,7 +341,7 @@ extern FAUDES_API void SupConClosed(
  *   - spec nondeterministic (id 203)
  *   - plant and spec nondeterministic (id 204)
  */
-extern FAUDES_API void SupConNBUnchecked(
+extern FAUDES_API void SupConUnchecked(
   const Generator& rPlantGen, 
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
@@ -512,8 +512,16 @@ extern FAUDES_API void ControlProblemConsistencyCheck(
 
 
 
-
-
+// legacy interface (pre v2.33d) 
+extern FAUDES_API void SupCon(
+  const Generator& rPlantGen, 
+  const EventSet&  rCAlph,
+  const Generator& rSpecGen, 
+  Generator& rResGen);
+extern FAUDES_API void SupCon(
+  const System& rPlantGen, 
+  const Generator& rSpecGen, 
+  Generator& rResGen);
 
 
 } // namespace faudes

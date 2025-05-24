@@ -19,7 +19,7 @@ or simply did not fit into another section.
 <!-- ================================================================ -->
 <!-- ================================================================ -->
 
-<ffnct_reference name="SupTconNB">
+<ffnct_reference name="SupTcon">
 
 <fdetails/>
 
@@ -60,7 +60,7 @@ controllability for TDES.
 
 
 <p>
-The function <ffnct>SupTconNB</ffnct> seeks to compute the supremal controllable subset 
+The function <ffnct>SupTcon</ffnct> seeks to compute the supremal controllable subset 
 of <fimath>K \cap L</fimath> with <fimath>K=Lm(GCand)</fimath> and <fimath>L=Lm(GPlant)</fimath>,
 referring to the above deefinition. The current implementation inspects the transitions in
 the product composition <fimath>GPlant \times GCand</fimath> and removes those which conflict

@@ -100,13 +100,13 @@ bool SupNormSP(
 
 
 
-// CompleteSynth(rPlant,rCAlph,rSpec,rClosedLoop)
-bool CompleteSynth(
+// CompleteClosedSynth(rPlant,rCAlph,rSpec,rClosedLoop)
+bool CompleteClosedSynth(
   const Generator& rPlant,
   const EventSet rCAlph, 
   const Generator& rSpec, 
   Generator& rClosedLoop) { 
-  FD_DF("CompleteSynth(" << rPlant.Name() << "," << rSpec.Name()<< ")");
+  FD_DF("CompleteClosedSynth(" << rPlant.Name() << "," << rSpec.Name()<< ")");
 
   // prepare result
   rClosedLoop.Clear();
@@ -174,15 +174,15 @@ bool CompleteSynth(
 	}
 }
 
-// NormalCompleteSynth(rPlant,rCAlph,rOAlph,rSpec,rClosedLoop)
-bool NormalCompleteSynth(
+// NormalCompleteClosedSynth(rPlant,rCAlph,rOAlph,rSpec,rClosedLoop)
+bool NormalCompleteClosedSynth(
   Generator& rPlant, 
   const EventSet& rCAlph, 
   const EventSet& rOAlph,
   const Generator& rSpec,
   Generator& rClosedLoop) 
 { 
-  FD_DF("NormalCompleteSynth(" << rPlant.Name() << "," << rSpec.Name()<< ")");
+  FD_DF("NormalCompleteClosedSynth(" << rPlant.Name() << "," << rSpec.Name()<< ")");
   
   // prepare result
   rClosedLoop.Clear();
@@ -193,7 +193,7 @@ bool NormalCompleteSynth(
   while(true) {
 	  
 	  // try CompleteSynth and check for empty result:
-	  if(!CompleteSynth(rPlant,rCAlph,Spec,rClosedLoop)) {
+	  if(!CompleteClosedSynth(rPlant,rCAlph,Spec,rClosedLoop)) {
 		FD_DF("NormalCompleteSynth:: failed: empty result after CompleteSynth().");
 	    std::cout<<std::endl<<"NormalCompleteSynth:: failed: empty result after CompleteSynth().";
 		rClosedLoop.Name("NormalCompleteSynth(" + rPlant.Name() + "," + rSpec.Name()+ ")");
@@ -227,7 +227,7 @@ bool NormalCompleteSynth(
 
 
 // NormalCompleteSynthNB(rPlant,rCAlph,rOAlph,rSpec,rClosedLoop)
-bool NormalCompleteSynthNB(
+bool NormalCompleteSynth(
   Generator& rPlant, 
   const EventSet& rCAlph, 
   const EventSet& rOAlph,
@@ -243,35 +243,35 @@ bool NormalCompleteSynthNB(
   Generator Spec=rSpec;
   while(true) {
 	  
-	  // try NormalCompleteSynth and check for empty result:
-	  if(!NormalCompleteSynth(rPlant,rCAlph,rOAlph,Spec,rClosedLoop)) {
-	    FD_DF("NormalCompleteSynthNB:: failed: empty result after NormalCompleteSynth().");
-	    std::cout<<std::endl<<"NormalCompleteSynthNB:: failed: empty result after NormalCompleteSynth().";
-		rClosedLoop.Name("NormalCompleteSynthNB(" + rPlant.Name() + "," + rSpec.Name()+ ")");
+	  // try NormalCompleteClosedSynth and check for empty result:
+	  if(!NormalCompleteClosedSynth(rPlant,rCAlph,rOAlph,Spec,rClosedLoop)) {
+	    FD_DF("NormalCompleteClosedSynth:: failed: empty result after NormalCompleteSynth().");
+	    std::cout<<std::endl<<"NormalCompleteSynth:: failed: empty result after NormalCompleteSynth().";
+		rClosedLoop.Name("NormalCompleteSynth(" + rPlant.Name() + "," + rSpec.Name()+ ")");
 	    return false;
 	  }
 	  
-		// check for coaccessibility and return on success
+	  // check for coaccessibility and return on success
 	  if(rClosedLoop.IsTrim()) {
-	    FD_DF("NormalCompleteSynthNB:: candidate supervisor is trim. success.");
-		rClosedLoop.Name("NormalCompleteSynthNB(" + rPlant.Name() + "," + rSpec.Name()+ ")");
+	    FD_DF("NormalCompleteSynth:: candidate supervisor is trim. success.");
+		rClosedLoop.Name("NormalCompleteSynth(" + rPlant.Name() + "," + rSpec.Name()+ ")");
 	    return true;
 	  }
 	  
 	  // supremal nonblocking sublanguage of rClosedLoop as new Spec
 	  // return false on empty result
-	  FD_DF("NormalCompleteSynthNB:: candidate supervisor not Trim. running Trim()");
+	  FD_DF("NormalCompleteSynth:: candidate supervisor not Trim. running Trim()");
 	  Spec=rClosedLoop; 
 	  if(!Spec.Trim()) {
-			FD_DF("NormalCompleteSynthNB:: failed: empty result after Trim().");
-			std::cout<<std::endl<<"NormalCompleteSynthNB:: failed: empty result after Trim().";
+			FD_DF("NormalCompleteSynth:: failed: empty result after Trim().");
+			std::cout<<std::endl<<"NormalCompleteSynth:: failed: empty result after Trim().";
 			rClosedLoop.Clear(); 
-			rClosedLoop.Name("NormalCompleteSynthNB(" + rPlant.Name() + "," + rSpec.Name()+ ")");
+			rClosedLoop.Name("NormalCompleteSynth(" + rPlant.Name() + "," + rSpec.Name()+ ")");
 			return false;
 	    }
-	  //std::cout<<std::endl<<"NormalCompleteSynthNB:: current result after Trim():";
+	  //std::cout<<std::endl<<"NormalCompleteSynth:: current result after Trim():";
 	  //std::cout<<" Size: "<<Spec.Size()<<".";
-	  FD_DF("NormalCompleteSynthNB:: size of result after Trim():"<<Spec.Size());
+	  FD_DF("NormalCompleteSynth:: size of result after Trim():"<<Spec.Size());
     }
 }
 
@@ -2304,7 +2304,7 @@ void ConstrSynth_Beta(
 	
 	// compute normal, complete, controllable and nonblocking sublanguage
 	// note: tmpGen has role of spec
-	NormalCompleteSynthNB(rPlant,rUp,sigmap,tmpGen,rOpConstraint);
+	NormalCompleteSynth(rPlant,rUp,sigmap,tmpGen,rOpConstraint);
 	tmpGen.Clear();
 	
 	// project to P-Alphabet
@@ -2416,7 +2416,7 @@ void HioSynthUnchecked(
 	
 	// compute normal, complete and controllable sublangugae of actualspec w.r.t. plant under constraints (cplant):
 	Generator loop;
-	NormalCompleteSynthNB(plant,controllable,sigmacp,plantspec,loop);
+	NormalCompleteSynth(plant,controllable,sigmacp,plantspec,loop);
 	plantspec.Clear();
 	//loop.Write("tmp_closedloop.gen");
 	
@@ -3065,5 +3065,6 @@ rController = minIOcontroller;
 
  FD_DF("IO controller synthesis done. ******************** " );
 }
+
 
 }//namespace faudes

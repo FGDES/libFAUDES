@@ -67,7 +67,7 @@ spec = faudes.Generator("data/buffer12.gen");
 
 -- run synthesis
 super = faudes.Generator();
-faudes.SupConNB(plant,spec,super);
+faudes.SupCon(plant,spec,super);
 
 
 -- report result

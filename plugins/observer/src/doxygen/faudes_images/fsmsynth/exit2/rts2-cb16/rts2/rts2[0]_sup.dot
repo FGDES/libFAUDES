@@ -1,4 +1,4 @@
-digraph "SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec))" {
+digraph "SupCon((rts2[0]),(rts2[0]||rts2[0]_spec))" {
   rankdir=LR
   node [shape=circle];
 

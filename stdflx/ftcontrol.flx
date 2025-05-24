@@ -321,7 +321,7 @@ holds for the <a href="#fa_behaviour">fault-accommodating behaviour</a>.
 
 <p>
 The problem of fault-accommodating control reconfiguration effectively is a 
-<a href="synthesis_normality.html#SupConNormNB"> standard control problem under
+<a href="synthesis_normality.html#SupConNorm"> standard control problem under
 partial observation</a>. Formally, it is a tuple 
 <fimath>(\Sigma_f,L_f,E_f)</fimath> with a fault-accommodating plant <fimath>L_n</fimath>
 and a fault-accommodating specification <fimath>E_f</fimath>. We aim for a prefix-closed 
@@ -818,7 +818,7 @@ Synthesis of fault-hiding reconfigurators.
 
 <p>
 Our nominal control problem effectively is a 
-<a href="synthesis_normality.html#SupConNormNB">standard control problem under
+<a href="synthesis_normality.html#SupConNorm">standard control problem under
 partial observation</a>.
  Formally, the nominal control problem is a tuple 
 <fimath>(\Sigma_n,L_n,E_n)</fimath> with the nominal plant <fimath>L_n</fimath>
@@ -2926,7 +2926,7 @@ function faudes.FtcFaController_gLfa_gEfa_aCON_aUCON_aHI_gC(gLfa,gEfa,alpCON,alp
    faudes.InvProject(gEfa,gLfa:Alphabet()+gEfa:Alphabet(),gEfa)
    -- compute supremal controllable, normal and complete sublanguage
    gK = faudes.Generator()
-   faudes.SupConNormCmplNB(gLfa,alpCON+alpHI,alpCON+alpUCON+alpHI,gEfa,gK)
+   faudes.SupConNormCmpl(gLfa,alpCON+alpHI,alpCON+alpUCON+alpHI,gEfa,gK)
    -- extract controller
    faudes.PrefixClosure(gK)
    faudes.Project(gK,alpCON+alpUCON+alpHI,gK)
@@ -3515,7 +3515,7 @@ function faudes.FtcNomController_gLn_gEn_aCON_aUCON_aHI_gC(gLn,gEn,alpCON,alpUCO
    faudes.InvProject(gEn,gLn:Alphabet()+gEn:Alphabet(),gEn)
    -- compute supremal controllable, normal and complete sublanguage
    gK = faudes.Generator()
-   faudes.SupConNormCmplNB(gLn,alpCON+alpHI,alpCON+alpUCON+alpHI,gEn,gK)
+   faudes.SupConNormCmpl(gLn,alpCON+alpHI,alpCON+alpUCON+alpHI,gEn,gK)
    -- extract controller
    faudes.PrefixClosure(gK)
    faudes.Project(gK,alpCON+alpUCON+alpHI,gK)
@@ -4068,7 +4068,7 @@ function faudes.FtcReconfigurator_gLn_gLf_gEr_gEf_gHn_aCON_aUCON_aHI_aLO_gR(gLn,
       gK_recent = gK:Copy()
       -- compute closure
       faudes.PrefixClosure(gK)
-      faudes.SupConNormNB(gPlant,aCON+aVUCON,aCON+aUCON+aVUCON+aVCON,gK,gK)
+      faudes.SupConNorm(gPlant,aCON+aVUCON,aCON+aUCON+aVUCON+aVCON,gK,gK)
       faudes.FtcSupComplete(gK,aPart,gK)   
       faudes.FtcSupWeakSensorConsistent(gK,gLv,aVUCON,aVC,gK)
       faudes.Parallel(gK,gSpec,gK)

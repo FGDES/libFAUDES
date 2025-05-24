@@ -84,7 +84,7 @@ The supremal closed-loop behaviour is denoted
 
 
 
-<ffnct_reference name="IoSynthesisNB">
+<ffnct_reference name="IoSynthesis">
 
 <fdetails/>
 <p>
@@ -97,7 +97,7 @@ under omega-admissible control, i.e.,
 </p>
 
 <p>
-This implementation invokes <ffnct>OmegaSupConNB</ffnct> for
+This implementation invokes <ffnct>OmegaSupCon</ffnct> for
 the actual synthesis where Y are considered the uncontrollable
 events. 
 The event attributes of the result are configured accordingly.
@@ -148,7 +148,7 @@ The result will be deterministic and omega-trim.
 </ffnct_reference>
 
 
-<ffnct_reference name="IoSynthesis">
+<ffnct_reference name="IoSynthesisClosed">
 
 <fdetails/>
 <p>
@@ -156,7 +156,7 @@ Given a plant <fimath>L=B(GPlant)</fimath> and a
 specification <fimath>E=B(GSpec)</fimath>, this procedure
 computes a realisation of the supremal closed-loop behaviour
 under omega-admissible control, i.e., <fimath>K^\uparrow=B(GSupervisor)</fimath>.
-In contrast to <ffnct>IoSynthesisNB</ffnct>, this procedure operates
+In contrast to <ffnct>IoSynthesis</ffnct>, this procedure operates
 on the generated languages and
 ignores any marking.
 </p>
@@ -183,7 +183,7 @@ actual synthesis procedure.
 <fexample/>
 <p>
 The <a href="iosystem_index.html#example">vehicle example</a> has been
-synthesized with <ffnct>IoSynthesis</ffnct>. 
+synthesized with <ffnct>IoSynthesisClosed</ffnct>. 
 Since the actual plant is an I/O system with
 an omega-free input 
 the resulting controller is also omega-admissible to the actual plant;

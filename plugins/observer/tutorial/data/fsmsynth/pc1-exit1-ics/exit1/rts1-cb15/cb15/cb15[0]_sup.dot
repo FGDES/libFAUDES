@@ -1,4 +1,4 @@
-digraph "SupConNB((cb15[0]),(cb15[0]_spec))" {
+digraph "SupCon((cb15[0]),(cb15[0]_spec))" {
   rankdir=LR
   node [shape=circle];
 

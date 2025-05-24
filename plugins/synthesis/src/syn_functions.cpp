@@ -256,7 +256,7 @@ void SupRelativelyPrefixClosed(
       errstr << " " << only_in_plant.ToString() << ".";
     if(!only_in_spec.Empty())
       errstr << " " << only_in_spec.ToString() << ".";
-    throw Exception("SupCon/SupConNB", errstr.str(), 100);
+    throw Exception("SupCon/SupCon", errstr.str(), 100);
   }
 	
   // CONSISTENCY CHECK: plant and spec must be deterministic

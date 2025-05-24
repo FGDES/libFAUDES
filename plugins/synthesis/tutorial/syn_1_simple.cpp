@@ -71,7 +71,7 @@ int main() {
 
   // Run synthesis algorithm
   System supervisor;
-  SupConNB(cplant,specification,supervisor);
+  SupCon(cplant,specification,supervisor);
   supervisor.Name("simple machines supervisor");
   supervisor.Write("tmp_supervisor12.gen");
 

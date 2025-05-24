@@ -116,7 +116,7 @@ faudes.InvProject(gE,sAll)
 
 # supremal closed loop
 gK=faudes.Generator()
-faudes.SupConNB(gL,sCtrl,gE,gK)
+faudes.SupCon(gL,sCtrl,gE,gK)
 
 # show result on console
 gK.Write()

@@ -113,7 +113,7 @@ extern FAUDES_API bool IsRelativelyPrefixClosed(const Generator& rGenPlant, cons
  *
  * Computes the supremal sublanguage of the specification E that is relatively closed 
  * w.r.t. the plant G. The result is given as a trim deterministic generator that 
- * may be used as a specification for a subsequent controller design via SupConNB.
+ * may be used as a specification for a subsequent controller design via SupCon.
  *
  * The implementation removes states from the product GxE that conflict with
  * relative closedness. From the known formula supR(E)= (L^E) - (L-E)Sigma*, we know that 

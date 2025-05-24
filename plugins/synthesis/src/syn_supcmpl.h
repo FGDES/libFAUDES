@@ -155,7 +155,7 @@ extern FAUDES_API void SupConCmplClosed(
  * @ingroup SynthesisPlugIn
  *
  */
-extern FAUDES_API void SupConCmplNB(
+extern FAUDES_API void SupConCmpl(
   const Generator& rPlantGen, 
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
@@ -167,7 +167,7 @@ extern FAUDES_API void SupConCmplNB(
  * Supremal controllable and complete sublanguage.
  *
  * This is the RTI wrapper for   
- * SupConCmplNB(const Generator&, const EventSet&, const Generator&, Generator&).
+ * SupConCmpl(const Generator&, const EventSet&, const Generator&, Generator&).
  * Controllability attributes are taken from the plant argument.
  * If the result is specified as a System, attributes will be copied
  * from the plant argument.
@@ -188,7 +188,7 @@ extern FAUDES_API void SupConCmplNB(
  *
  * @ingroup SynthesisPlugIn
  */
-extern FAUDES_API void SupConCmplNB(
+extern FAUDES_API void SupConCmpl(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen);
@@ -198,7 +198,7 @@ extern FAUDES_API void SupConCmplNB(
  * Supremal controllable, normal and complete sublanguage.
  *
  *
- * SupConNormCmplNB computes the supremal sublanguage
+ * SupConNormCmpl computes the supremal sublanguage
  * of language K (marked by rSpecGen) that 
  * - is controllable w.r.t. the language L (marked by rPlantGen);
  * - has a prefix closure that is normal w.r.t. the closure of L
@@ -235,7 +235,7 @@ extern FAUDES_API void SupConCmplNB(
  * @ingroup SynthesisPlugIn
  *
  */
-extern FAUDES_API void SupConNormCmplNB(
+extern FAUDES_API void SupConNormCmpl(
   const Generator& rPlantGen, 
   const EventSet&  rCAlph,
   const EventSet&  rOAlph,
@@ -247,7 +247,7 @@ extern FAUDES_API void SupConNormCmplNB(
  * Supremal controllable, normal and complete sublanguage.
  *
  * This is the RTI wrapper for   
- * SupConNormCmplNB(const Generator&, const EventSet&, const EventSet&, const Generator&, Generator&).
+ * SupConNormCmpl(const Generator&, const EventSet&, const EventSet&, const Generator&, Generator&).
  * Event attributes are taken from the plant argument.
  * If the result is specified as a System, attributes will be copied
  * from the plant argument.
@@ -267,7 +267,7 @@ extern FAUDES_API void SupConNormCmplNB(
  *
  * @ingroup SynthesisPlugIn
  */
-extern FAUDES_API void SupConNormCmplNB(
+extern FAUDES_API void SupConNormCmpl(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen);

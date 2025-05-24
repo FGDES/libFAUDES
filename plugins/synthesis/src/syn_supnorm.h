@@ -295,9 +295,9 @@ extern FAUDES_API void SupConNormClosedUnchecked(
 
 
 /**
- * SupConNormNB: compute supremal controllable and normal sublanguage
+ * SupConNorm: compute supremal controllable and normal sublanguage
  *
- * SupConNormNB computes the supremal sublanguage
+ * SupConNorm computes the supremal sublanguage
  * of language K (marked by rK) that 
  * - is controllable w.r.t. the language L (marked by rL);
  * - has a prefix closure that is normal w.r.t. the closure of L
@@ -332,7 +332,7 @@ extern FAUDES_API void SupConNormClosedUnchecked(
  * 
  *
  */
-extern FAUDES_API void SupConNormNB(
+extern FAUDES_API void SupConNorm(
   const Generator& rL,
   const EventSet& rCAlph,
   const EventSet& rOAlph,
@@ -385,7 +385,7 @@ extern FAUDES_API void SupConNormClosed(
   Generator& rResGen);
 
 /** rti wrapper */
-extern FAUDES_API void SupConNormNB(
+extern FAUDES_API void SupConNorm(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen);

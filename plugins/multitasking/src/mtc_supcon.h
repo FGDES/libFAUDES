@@ -84,7 +84,7 @@ namespace faudes {
  *
  * @ingroup MultitaskingPlugin
  */
-extern FAUDES_API void mtcSupConNB(const MtcSystem& rPlantGen, const MtcSystem& rSpecGen, 
+extern FAUDES_API void mtcSupCon(const MtcSystem& rPlantGen, const MtcSystem& rSpecGen, 
     MtcSystem& rResGen);
 
 
@@ -94,7 +94,7 @@ extern FAUDES_API void mtcSupConNB(const MtcSystem& rPlantGen, const MtcSystem& 
  * Only for deterministic plant + spec. Throws exception if plant or
  * spec is nondeterministic.
  *
- * Real mtcSupConNB function
+ * Real mtcSupCon function
  *
  * Finds the "largest" sublanguage of h for that language of g is
  * controllable with respect to h. Differing from theory the marked
@@ -123,7 +123,7 @@ extern FAUDES_API void mtcSupConNB(const MtcSystem& rPlantGen, const MtcSystem& 
  *   - spec nondeterministic (id 503)
  *   - plant and spec nondeterministic (id 504)
  */
-extern FAUDES_API void mtcSupConNB(const MtcSystem& rPlantGen, const MtcSystem& rSpecGen, 
+extern FAUDES_API void mtcSupCon(const MtcSystem& rPlantGen, const MtcSystem& rSpecGen, 
     std::map< std::pair<Idx,Idx>,Idx >& rReverseCompositionMap, MtcSystem& rResGen);
 
 
@@ -214,7 +214,7 @@ extern FAUDES_API void mtcSupConClosed(const MtcSystem& rPlantGen, const MtcSyst
     std::map< std::pair<Idx,Idx>,Idx >& rReverseCompositionMap, MtcSystem& rResGen);
 
 /** 
- * Fast parallel composition for computation for the mtcSupConNB. 
+ * Fast parallel composition for computation for the mtcSupCon. 
  * Composition stops at transition paths that leave the specification
  * by uncontrollable events in plant.
  * 

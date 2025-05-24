@@ -1,6 +1,6 @@
 <cGenerator>
 <Generator>
-"Det(Pro(SupConNB((Det(Pro(SupConNB((rt1[0]),(rt1[0]||rt1[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb11[0]),(cb11[0]_spec)))) [minstate]),(rt1cb11[1]_spec)))) [minstate]" 
+"Det(Pro(SupCon((Det(Pro(SupCon((rt1[0]),(rt1[0]||rt1[0]_spec)))) [minstate]||Det(Pro(SupCon((cb11[0]),(cb11[0]_spec)))) [minstate]),(rt1cb11[1]_spec)))) [minstate]" 
 <Alphabet>
 "cb11-7"      "cb4-11"      "wp11-7"      "wp4-11"      
 </Alphabet>

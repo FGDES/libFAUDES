@@ -1,7 +1,7 @@
-<Generator name="Project(SupConNB((Project(SupConNB((pu1[0]|...sf[0]),(sf[0]_spec))) [minstate]))) [minstate]">
+<Generator name="Project(SupCon((Project(SupCon((pu1[0]||cb1...sf[0]),(sf[0]_spec))) [minstate]))) [minstate]">
 
 % 
-%  Statistics for Project(SupConNB((Project(SupConNB((pu1[0]|...sf[0]),(sf[0]_spec))) [minstate]))) [minstate]
+%  Statistics for Project(SupCon((Project(SupCon((pu1[0]||cb1...sf[0]),(sf[0]_spec))) [minstate]))) [minstate]
 % 
 %  States:        3
 %  Init/Marked:   1/1

@@ -35,7 +35,7 @@ plantGen = System("data/fsmsynth/exit2/rts2-cb16/cb16/cb16[0].gen");
 plantGen:GraphWrite("data/fsmsynth/exit2/rts2-cb16/cb16/cb16[0].png");
 specGen = System("data/fsmsynth/exit2/rts2-cb16/cb16/cb16[0]_spec.gen");
 InvProject(specGen,plantGen:Alphabet() )
-SupConNB(plantGen,specGen,supGen);
+SupCon(plantGen,specGen,supGen);
 supSize = supGen:Size()
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/exit2/rts2-cb16/cb16/cb16[0]_sup.gen");
@@ -66,7 +66,7 @@ plantGen:Write("data/fsmsynth/exit2/rts2-cb16/rts2/rts2[0].gen");
 plantGen:GraphWrite("data/fsmsynth/exit2/rts2-cb16/rts2/rts2[0].png");
 specGen = System("data/fsmsynth/exit2/rts2-cb16/rts2/rts2[0]_spec.gen");
 InvProject(specGen,plantGen:Alphabet() )
-SupConNB(plantGen,specGen,supGen);
+SupCon(plantGen,specGen,supGen);
 supSize = supSize + supGen:Size()
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/exit2/rts2-cb16/rts2/rts2[0]_sup.gen");
@@ -95,7 +95,7 @@ plantGen:StateNamesEnabled(false);
 plantGen:Write("data/fsmsynth/exit2/rts2-cb16/rts2cb16[1]_msalcc.gen");
 plantGen:GraphWrite("data/fsmsynth/exit2/rts2-cb16/rts2cb16[1]_msalcc.png");
 InvProject(specGen,plantGen:Alphabet() );
-SupConNB(plantGen,specGen,supGen);
+SupCon(plantGen,specGen,supGen);
 supSize = supSize + supGen:Size()
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/exit2/rts2-cb16/rts2cb16[1]_msalcc_sup.gen");
@@ -131,7 +131,7 @@ highGen:GraphWrite("data/fsmsynth/exit2/rc2/rc2[1].png");
 cGen1:Read("data/fsmsynth/exit2/rts2-cb16/rts2cb16[2]_msalcc.gen");
 cGen2:Read("data/fsmsynth/exit2/rc2/rc2[1].gen");
 Parallel(cGen1,cGen2,plantGen);
-SupConNB(plantGen,plantGen,supGen);
+SupCon(plantGen,plantGen,supGen);
 supSize = supSize + supGen:Size()
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/exit2/exit2[2]_msalcc_sup.gen");

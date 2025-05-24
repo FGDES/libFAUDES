@@ -1,4 +1,4 @@
-digraph "Det(Pro(SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb16[0]),(cb16[0]_spec)))) [minstate]" {
+digraph "Det(Pro(SupCon((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]||Det(Pro(SupCon((cb16[0]),(cb16[0]_spec)))) [minstate]" {
   rankdir=LR
   node [shape=circle];
 

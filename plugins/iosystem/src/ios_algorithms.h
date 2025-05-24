@@ -232,13 +232,13 @@ extern FAUDES_API bool IsInputOmegaFree(IoSystem& rIoSystem);
 /**
  * IO system synthesis. 
  * 
- * This method esentially is a wrapper for SupConComplete(), which implements
+ * This method esentially is a wrapper for SupConComplClosed(), which implements
  * a synthesis procedure to compute the supremal controllable and complete
  * sublanguage for a given plant and specification. Input events are regarded
  * controllable. marking is ignored, i.e., synthesis refers to the generated
  * langugaes rather than the the marked languages. For a version
  * thet refers to Buchi acceptance condition, see 
- * IoSynthesisNB(const IoSystem&, const Generator&, IoSystem&).
+ * IoSynthesis(const IoSystem&, const Generator&, IoSystem&).
  *
  * The resulting supervisor is an IO System with
  * the plant input events as outputs and vice versa. 
@@ -258,15 +258,15 @@ extern FAUDES_API bool IsInputOmegaFree(IoSystem& rIoSystem);
  *   - Any exceptions passed on from SupConComplete
  *
  */
-extern FAUDES_API void IoSynthesis(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup);
+extern FAUDES_API void IoSynthesisClosed(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup);
 
 /**
  * IO system synthesis. 
  * 
- * This method esentially is a wrapper for SupConOmegaNB(), which implements
+ * This method esentially is a wrapper for SupBuechiCon(), which implements
  * a synthesis procedure to compute the supremal omega-controllable.
  * sublanguage for a given plant and specification. Input events are regarded
- * controllable. In contrast to IoSynthesis(const IoSystem&, const Generator&, IoSystem&),
+ * controllable. In contrast to IoSynthesisClosed(const IoSystem&, const Generator&, IoSystem&),
  * this procedure refers to the Bucji acceptance condition and ensures
  * a omega-nonblocking closed-loop behaviour.
  *
@@ -285,10 +285,10 @@ extern FAUDES_API void IoSynthesis(const IoSystem& rPlant, const Generator& rSpe
  *   IO-System - supervisor
  *
  * @exception Exception
- *   - Any exceptions passed on from SupConOmegaNB
+ *   - Any exceptions passed on from SupBuechiCon
  *
  */
-extern FAUDES_API void IoSynthesisNB(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup);
+extern FAUDES_API void IoSynthesis(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup);
 
 }
 #endif

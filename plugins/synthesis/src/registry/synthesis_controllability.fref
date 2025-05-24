@@ -137,7 +137,7 @@ For the situation, where the plant is more adequatly modelled by a generator
 that fails to be nonblocking, i.e. <fimath>L(G)\neq \Closure{Lm(G)}</fimath>, one may  
 proceed with <fimath>L=L(G)</fimath> and employ a specification
 <fimath>E\subseteq Lm(G)</fimath> to design a marking controller that avoids 
-blocking; see also <ffnct>SupConNB</ffnct>.
+blocking; see also <ffnct>SupCon</ffnct>.
 </p>
 
 
@@ -254,7 +254,7 @@ solves the synthesis problem.
 <p>
 For <a href="synthesis_index.html#example">very-simple machine example</a>, 
 it happens that <ffnct>SupConClosed</ffnct> returns the same generator as
-<ffnct>SupConNB</ffnct> does. However, for
+<ffnct>SupCon</ffnct> does. However, for
 <ffnct>SupConClosed</ffnct> the result is interpreted as the generated language.
 </p>
 
@@ -276,7 +276,7 @@ language.
 <!-- ================================================================ -->
 <!-- ================================================================ -->
 
-<ffnct_reference name="SupConNB">
+<ffnct_reference name="SupCon">
 <fdetails/>
 
 <p>
@@ -321,7 +321,7 @@ the synthesis problem.
 <p>
 If the specification <fimath>E</fimath> fails to be relatively marked w.r.t. the plant <fimath>L</fimath>, 
 one may replace <fimath>E</fimath> with the supremal sublanguage that is relatively closed
-(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupConNB</ffnct>,
+(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupCon</ffnct>,
 to obtain
 <br/>
 <br/>
@@ -351,7 +351,7 @@ which, by <fimath>H\subseteq L</fimath>, is trivially satisfied.
 
 <p>
 The supervisor given for the <a href="synthesis_index.html#example">very-simple machine example</a> 
-has been obtained by <ffnct>SupConNB</ffnct>. It failes to be relatively-closed
+has been obtained by <ffnct>SupCon</ffnct>. It failes to be relatively-closed
 and thus is interpreted as a marking supervisor.
 </p>
 

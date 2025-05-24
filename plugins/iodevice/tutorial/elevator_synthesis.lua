@@ -83,7 +83,7 @@ print("elevator: synthesis")
 -- compute supervisor for core elevator setup
 super_core = faudes.System();
 super_core_min = faudes.System();
-faudes.SupConNB(plant_core,spec_core,super_core)
+faudes.SupCon(plant_core,spec_core,super_core)
 super_core:Name("elevator supervisor (core)")
 faudes.StateMin(super_core,super_core_min)
 
@@ -175,7 +175,7 @@ print("elevator: synthesis")
 -- compute supervisor for full elevator setup
 super_full = faudes.System();
 super_full_min = faudes.System();
-faudes.SupConNB(plant_full_min,spec_full_min,super_full)
+faudes.SupCon(plant_full_min,spec_full_min,super_full)
 super_full:Name("elevator supervisor (full)")
 faudes.StateMin(super_full,super_full_min)
 

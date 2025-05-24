@@ -1,7 +1,7 @@
-<Generator name="Project(SupConNB((rts1[0]||rts2[0]),(rts2[0]_spec))) [minstate]">
+<Generator name="Project(SupCon((rts1[0]||rts2[0]),(rts2[0]_spec))) [minstate]">
 
 % 
-%  Statistics for Project(SupConNB((rts1[0]||rts2[0]),(rts2[0]_spec))) [minstate]
+%  Statistics for Project(SupCon((rts1[0]||rts2[0]),(rts2[0]_spec))) [minstate]
 % 
 %  States:        6
 %  Init/Marked:   1/1

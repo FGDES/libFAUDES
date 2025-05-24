@@ -167,7 +167,7 @@ while imposing as little restriction to the plant behaviour as possible.
 </p>
 
 <p>
-A realisation of the least restrictive supervisor can be computed by the function <ffnct>SupConNB</ffnct>
+A realisation of the least restrictive supervisor can be computed by the function <ffnct>SupCon</ffnct>
 (or <ffnct>SupCon</ffnct> when only the generated languages are to be considered and 
 the marking is to be ignored). In our example, we obtain the below supervisor
 K.

@@ -337,13 +337,13 @@ Multitasking  Synthesis     controllability  controllable  "controller synthesis
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function MtcSupConNB -->
+<!-- Faudes Function MtcSupCon -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="Multitasking::MtcSupConNB" ctype="faudes::mtcSupConNB"> 
+<FunctionDefinition name="Multitasking::MtcSupCon" ctype="faudes::mtcSupCon"> 
 
-<Documentation ref="multitasking_synthesis.html#MtcSupConNB"> 
+<Documentation ref="multitasking_synthesis.html#MtcSupCon"> 
 Supremal controllable sublanguage with colored marking nonblocking condition.
 </Documentation> 
 <Keywords> 
@@ -351,7 +351,7 @@ Multitasking  Synthesis     controllability  controllable  "controller synthesis
 </Keywords> 
 
 <VariantSignatures> 
-<Signature name="MtcSupConNB(GPlant,GSpec,GSupervisor)"> 
+<Signature name="MtcSupCon(GPlant,GSpec,GSupervisor)"> 
 <Parameter name="GPlant" ftype="MtcSystem" access="In"/> 
 <Parameter name="GSpec" ftype="MtcSystem" access="In"/> 
 <Parameter name="GSupervisor" ftype="MtcSystem" access="Out"/> 

@@ -38,7 +38,7 @@ int main() {
   // Run synthesis algorithm
   IoSystem supera;
   supera.StateNamesEnabled(false);
-  IoSynthesis(planta,speca,supera);
+  IoSynthesisClosed(planta,speca,supera);
   aStateMin(supera,supera);
 
   // Report to console
@@ -58,7 +58,7 @@ int main() {
   // Run synthesis algorithm
   IoSystem superb;
   superb.StateNamesEnabled(false);
-  IoSynthesisNB(plantb,specb,superb);
+  IoSynthesis(plantb,specb,superb);
   aStateMin(superb,superb);
 
   // Report to console

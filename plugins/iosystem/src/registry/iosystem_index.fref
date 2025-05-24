@@ -111,7 +111,7 @@ to regularly visit east and west positions.
 For sake of simplicity, we circumvent eventuality properties 
 and use the more restrictive language inclusion specification
 <fimath>E</fimath> depicted below.
-We apply the synthesis procedure <ffnct>IoSynthesis</ffnct>
+We apply the synthesis procedure <ffnct>IoSynthesisClosed</ffnct>
 on the plant abstraction to obtain a controller such that
 <fdmath>K' := L'\cap H\subseteq E</fdmath>. The procedure is
 essentially a wrapper for <ffnct>SupConComplete</ffnct>, i.e.
@@ -174,7 +174,7 @@ a <i>omega-free input</i>, which implies an <i>omega-nonblocking</i> closed loop
 <br/>
 see also <ffnct>IsInputOmegaFree</ffnct>.  A variation of this example
 that includes eventuality properties expressed 
-via Buchi's acceptance condition is presented at <ffnct>IoSynthesisNB</ffnct>.
+via Buchi's acceptance condition is presented at <ffnct>IoSynthesis</ffnct>.
 </p>
 
 <h2>

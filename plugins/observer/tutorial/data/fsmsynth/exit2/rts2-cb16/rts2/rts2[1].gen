@@ -1,6 +1,6 @@
 <cGenerator>
 <Generator>
-"Det(Pro(SupConNB((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]" 
+"Det(Pro(SupCon((rts2[0]),(rts2[0]||rts2[0]_spec)))) [minstate]" 
 <Alphabet>
 "rts2_5"      "rts2_5-6"    "rts2_6"      "rts2_6-5"    
 </Alphabet>

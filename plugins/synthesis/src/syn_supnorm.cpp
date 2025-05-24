@@ -372,15 +372,15 @@ void SupConNormClosed(
 }  
 
 
-//  SupConNormNB(rL,rCAlph,rOAlph,rK,rResult)
-void SupConNormNB(
+//  SupConNorm(rL,rCAlph,rOAlph,rK,rResult)
+void SupConNorm(
   const Generator& rL,
   const EventSet& rCAlph,
   const EventSet& rOAlph,
   const Generator& rK, 
   Generator& rResult)
 {
-  FD_DF("SupConNormNB(" << rL.Name() << "," << rK.Name() << ")");
+  FD_DF("SupConNorm(" << rL.Name() << "," << rK.Name() << ")");
   // determinism required
   ControlProblemConsistencyCheck(rL,rCAlph,rOAlph,rK);
   // initialize: K0
@@ -397,7 +397,7 @@ void SupConNormNB(
   Generator Ki=K0;
   Ki.StateNamesEnabled(false);
   while(1) {
-    FD_DF("SupConNormNB(" << rL.Name() << "," << rK.Name() << "): #" << Ki.Size() << " m#" << Ki.MarkedStatesSize());
+    FD_DF("SupConNorm(" << rL.Name() << "," << rK.Name() << "): #" << Ki.Size() << " m#" << Ki.MarkedStatesSize());
     // keep copy of recent
     rResult=Ki;
     // cheep closure (for coreachable generator)
@@ -410,8 +410,8 @@ void SupConNormNB(
     // test (sequence is decreasing anyway)
     if(LanguageInclusion(rResult,Ki)) break;
   }  
-  rResult.Name("SupConNormNB("+rL.Name()+", "+rK.Name()+")"); 
-  FD_DF("SupConNormNB(" << rL.Name() << "," << rK.Name() << "): done");
+  rResult.Name("SupConNorm("+rL.Name()+", "+rK.Name()+")"); 
+  FD_DF("SupConNorm(" << rL.Name() << "," << rK.Name() << "): done");
 }  
 
 
@@ -703,19 +703,19 @@ void SupConNormClosed(
 }
 
 /** rti wrapper */
-void SupConNormNB(
+void SupConNorm(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen) 
 {
-  FD_DF("SupConNormNB(" << rPlantGen.Name() << "," << rSpecGen.Name() << "): rti wrapper");
+  FD_DF("SupConNorm(" << rPlantGen.Name() << "," << rSpecGen.Name() << "): rti wrapper");
   // prepare result
   Generator* pResGen = &rResGen;
   if(&rResGen== &rPlantGen || &rResGen== &rSpecGen) {
     pResGen= rResGen.New();
   }
   // execute
-  SupConNormNB(rPlantGen,rPlantGen.ControllableEvents(),rPlantGen.ObservableEvents(),rSpecGen,*pResGen);
+  SupConNorm(rPlantGen,rPlantGen.ControllableEvents(),rPlantGen.ObservableEvents(),rSpecGen,*pResGen);
   // copy all attributes of input alphabet
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result

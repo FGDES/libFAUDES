@@ -404,8 +404,8 @@ void RemoveIoDummyStates(IoSystem& rIoSystem) {
 }
 
 // IoSynthesis(rPlant,rSpec,rSup,rErrorStates)
-void IoSynthesisNB(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup) {
-  FD_DIO("IosSynthesisNB");
+void IoSynthesis(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup) {
+  FD_DIO("IoSynthesis");
    
   // synthesis
   EventSet ualph = rPlant.InputEvents();
@@ -417,9 +417,9 @@ void IoSynthesisNB(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSu
   rSup.OutputEvents(ualph);
 }
 
-// IoSynthesis(rPlant,rSpec,rSup,rErrorStates)
-void IoSynthesis(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup) {
-  FD_DIO("IosSynthesis");
+// IoSynthesisClosed(rPlant,rSpec,rSup,rErrorStates)
+void IoSynthesisClosed(const IoSystem& rPlant, const Generator& rSpec, IoSystem& rSup) {
+  FD_DIO("IoSynthesisClosed");
    
   // synthesis
   EventSet ualph = rPlant.InputEvents();

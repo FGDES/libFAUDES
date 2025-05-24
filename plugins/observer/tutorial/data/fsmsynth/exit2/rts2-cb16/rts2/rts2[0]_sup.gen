@@ -1,7 +1,7 @@
-<Generator name="SupConNB((rts1[0]||rts2[0]),(rts2[0]_spec))">
+<Generator name="SupCon((rts1[0]||rts2[0]),(rts2[0]_spec))">
 
 % 
-%  Statistics for SupConNB((rts1[0]||rts2[0]),(rts2[0]_spec))
+%  Statistics for SupCon((rts1[0]||rts2[0]),(rts2[0]_spec))
 % 
 %  States:        12
 %  Init/Marked:   1/1

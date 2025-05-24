@@ -1,8 +1,8 @@
 <Generator>
-"SupConNB((pu1[0]||cb1b[0]),(pu1[0]_...ec||cb1b[0]_spec||cb1bpu1[0]_spec))" 
+"SupCon((pu1[0]||cb1b[0]),(pu1[0]_...ec||cb1b[0]_spec||cb1bpu1[0]_spec))" 
 
 % 
-%  Statistics for SupConNB((pu1[0]||cb1b[0]),(pu1[0]_...ec||cb1b[0]_spec||cb1bpu1[0]_spec))
+%  Statistics for SupCon((pu1[0]||cb1b[0]),(pu1[0]_...ec||cb1b[0]_spec||cb1bpu1[0]_spec))
 % 
 %  States:        25
 %  Init/Marked:   1/1

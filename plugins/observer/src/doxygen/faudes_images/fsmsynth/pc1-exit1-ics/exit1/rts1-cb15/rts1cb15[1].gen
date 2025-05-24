@@ -1,6 +1,6 @@
 <cGenerator>
 <Generator>
-"Det(Pro(SupConNB((rts1[0]),(rts1[0]||rts1[0]_spec)))) [minstate]||Det(Pro(SupConNB((cb15[0]),(cb15[0]_spec)))) [minstate]" 
+"Det(Pro(SupCon((rts1[0]),(rts1[0]||rts1[0]_spec)))) [minstate]||Det(Pro(SupCon((cb15[0]),(cb15[0]_spec)))) [minstate]" 
 <Alphabet>
 "rts1_1"      "rts1_1-2"    "rts1_2"      "rts1_2-1"    "rts1_2-3"    "rts1_4"      
 "rts1_4-3"    "cb15-9"      "cb15-rc1"    "cb7-15"      "wp15-9"      "wp15-rc1"    

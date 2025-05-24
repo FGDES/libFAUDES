@@ -84,7 +84,7 @@ super_cl:Name("supervisor")
 
 -- Run synthesis incl marking
 super = faudes.System()
-faudes.SupConNB(plant,spec,super)
+faudes.SupCon(plant,spec,super)
 super:Name("supervisor")
 
 -- Record test case
@@ -228,7 +228,7 @@ faudes.SupConNormClosed(plant_po,spec_po,super_poc)
 
 -- Synthesise controllable and normal supervisor 
 super_po = faudes.Generator()
-faudes.SupConNormNB(plant_po,spec_po,super_po)
+faudes.SupConNorm(plant_po,spec_po,super_po)
 
 -- Load/prepare specification (2-place buffer)
 buffer2  = faudes.Generator("data/buffer2.gen")
@@ -237,7 +237,7 @@ faudes.InvProject(spec_po2,plant:Alphabet())
 
 -- Synthesise controllable and normal supervisor
 super_po2 = faudes.Generator()
-faudes.SupConNormNB(plant_po,spec_po2,super_po2)
+faudes.SupConNorm(plant_po,spec_po2,super_po2)
 
 -- Record test case
 FAUDES_TEST_DUMP("supervisor partial obs, closed",super_poc)

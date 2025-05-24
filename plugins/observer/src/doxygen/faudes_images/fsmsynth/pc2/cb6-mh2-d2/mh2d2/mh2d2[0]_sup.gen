@@ -1,8 +1,8 @@
 <Generator>
-"SupConNB((mh2[0]||d2[0]),(mh2d2[0]_spec))" 
+"SupCon((mh2[0]||d2[0]),(mh2d2[0]_spec))" 
 
 % 
-%  Statistics for SupConNB((mh2[0]||d2[0]),(mh2d2[0]_spec))
+%  Statistics for SupCon((mh2[0]||d2[0]),(mh2d2[0]_spec))
 % 
 %  States:        16
 %  Init/Marked:   1/1

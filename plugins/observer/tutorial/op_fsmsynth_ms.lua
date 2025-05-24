@@ -54,7 +54,7 @@ plantGen:StateNamesEnabled(false);
 plantGen:Write("data/fsmsynth/ms[4]_msalcc.gen");
 
 -- perform synthesis
-SupConNB(plantGen,plantGen,supGen);
+SupCon(plantGen,plantGen,supGen);
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/ms[4]_sup_msalcc.gen");
 print("State count of the MS supervisor: ", supGen:Size() )

@@ -228,18 +228,18 @@ may extend to multiple return values.
 <p><strong>Example:</strong></p>
 
 <p>
-The <ffnct>SupConNB</ffnct> supports the following signature
+The <ffnct>SupCon</ffnct> supports the following signature
 </p>
 <div class="registry_signature">
 <p>
-SupConNB(
+SupCon(
 +In+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#System">System</a> <i>GPlant</i>, 
 +In+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#Generator">Generator</a> <i>GSpec</i>, 
 +Out+ <a fhref="FAUDES_REFERENCE/corefaudes_generator.html#Generator">Generator</a> <i>GSupervisor</i>)<br/>
 </p>
 </div>
 <p>
-In order to invoke <ffnct>SupConNB</ffnct> from Lua, you can use exactly the same signature
+In order to invoke <ffnct>SupCon</ffnct> from Lua, you can use exactly the same signature
 since all parameters are of non-elementary faudes-type. 
 As third parameter <i>GSupervisor</i> you must pass a 
 <ftype>Generator</ftype> or any derived type. If you actually pass a
@@ -250,7 +250,7 @@ result according to the parameter <i>GPlant</i>.
 plant=faudes.System("myplant.gen")             -- load argument from file
 spec=faudes.Generator("myspec.gen")            -- load argument from file
 sup=faudes.System()                            -- instantiate result
-SupConNB(plant,spec,sup)                       -- invoke function
+SupCon(plant,spec,sup)                         -- invoke function
 </pre>
 
 <p><strong>Example:</strong></p>

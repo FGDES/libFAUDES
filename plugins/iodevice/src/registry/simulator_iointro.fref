@@ -264,7 +264,7 @@ whereas condition 3 is represented as
 </table> 
 
 <p>
-A supervisor can be synthesised by calling the function <ffnct>SupConNB</ffnct>, where
+A supervisor can be synthesised by calling the function <ffnct>SupCon</ffnct>, where
 the plant and the specification are given as arguments. For the cabin and the
 above basic shuttle behaviour, 
 the result is shown below. 

@@ -113,13 +113,13 @@ IoSystem
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function IoSynthesis -->
+<!-- Faudes Function IoSynthesisClosed -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="IoSystem::IoSynthesis" ctype="faudes::IoSynthesis"> 
+<FunctionDefinition name="IoSystem::IoSynthesisClosed" ctype="faudes::IoSynthesisClosed"> 
 
-<Documentation ref="iosystem_synth.html#IoSynthesis"> 
+<Documentation ref="iosystem_synth.html#IoSynthesisClosed"> 
 Controller synthesis for I/O systems.
 </Documentation> 
 <Keywords> 
@@ -127,7 +127,7 @@ IoSystem      "io form"     "io system"   generator     synthesis
 </Keywords> 
 
 <VariantSignatures> 
-<Signature name="IoSynthesis(GPlant,GSpec,GSupervisor)"> 
+<Signature name="IoSynthesisClosed(GPlant,GSpec,GSupervisor)"> 
 <Parameter name="GPlant" ftype="IoSystem" access="In"/> 
 <Parameter name="GSpec" ftype="Generator" access="In"/> 
 <Parameter name="GSupervisor" ftype="IoSystem" access="Out"/> 
@@ -139,13 +139,13 @@ IoSystem      "io form"     "io system"   generator     synthesis
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function IoSynthesisNB -->
+<!-- Faudes Function IoSynthesis                         -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="IoSystem::IoSynthesisNB" ctype="faudes::IoSynthesisNB"> 
+<FunctionDefinition name="IoSystem::IoSynthesis" ctype="faudes::IoSynthesis"> 
 
-<Documentation ref="iosystem_synth.html#IoSynthesisNB"> 
+<Documentation ref="iosystem_synth.html#IoSynthesis"> 
 Controller synthesis for I/O systems (marked languages).
 </Documentation> 
 <Keywords> 
@@ -153,7 +153,7 @@ IoSystem      "io form"     "io system"   generator     synthesis
 </Keywords> 
 
 <VariantSignatures> 
-<Signature name="IoSynthesisNB(GPlant,GSpec,GSupervisor)"> 
+<Signature name="IoSynthesis(GPlant,GSpec,GSupervisor)"> 
 <Parameter name="GPlant" ftype="IoSystem" access="In"/> 
 <Parameter name="GSpec" ftype="Generator" access="In"/> 
 <Parameter name="GSupervisor" ftype="IoSystem" access="Out"/> 

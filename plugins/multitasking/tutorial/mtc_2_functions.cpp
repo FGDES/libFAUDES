@@ -318,7 +318,7 @@ int main() {
     /////////////////////////////////////////////
     // Nonblocking supervisor computation
     /////////////////////////////////////////////
-    mtcSupConNB(model, spec, sup_nb);
+    mtcSupCon(model, spec, sup_nb);
 
     sup_nb.Write("tmp_mtc_functions_5_supernb.gen");
     sup_nb.GraphWrite("tmp_mtc_functions_5_supernb.png");

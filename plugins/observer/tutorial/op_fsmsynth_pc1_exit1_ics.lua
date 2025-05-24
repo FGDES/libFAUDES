@@ -44,7 +44,7 @@ specGen:GraphWrite("data/fsmsynth/pc1-exit1-ics/pc1exit1ics[3]_spec.png");
 InvProject(specGen,plantGen:Alphabet() );
 
 -- supervisor computation
-SupConNB(plantGen,specGen,supGen);
+SupCon(plantGen,specGen,supGen);
 supSize = supSize + supGen:Size()
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/pc1-exit1-ics/pc1exit1ics[3]_sup.gen");

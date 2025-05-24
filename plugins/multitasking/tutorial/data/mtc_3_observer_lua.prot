@@ -18,7 +18,7 @@
 
 %%% test mark: cb4[0]_sup [at mtc_3_observer.lua]
 % 
-%  Statistics for mtcSupConNB((Generator),(Generator||Generator))
+%  Statistics for mtcSupCon((Generator),(Generator||Generator))
 % 
 %  States:        18
 %  Init/Marked:   1/0
@@ -36,7 +36,7 @@
 
 %%% test mark: cb4mh1d1_1 [at mtc_3_observer.lua]
 % 
-%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+%  Statistics for Det(MtcPro(mtcSupCon((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
 % 
 %  States:        12
 %  Init/Marked:   1/0
@@ -54,7 +54,7 @@
 
 %%% test mark: cb4mh1d1_1_sup [at mtc_3_observer.lua]
 % 
-%  Statistics for mtcSupConNB((Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject),(Generator))
+%  Statistics for mtcSupCon((Det(MtcPro(mtcSupCon((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject),(Generator))
 % 
 %  States:        10
 %  Init/Marked:   1/0
@@ -72,7 +72,7 @@
 
 %%% test mark: cb4mh1d1_2 [at mtc_3_observer.lua]
 % 
-%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+%  Statistics for Det(MtcPro(mtcSupCon((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
 % 
 %  States:        12
 %  Init/Marked:   1/0
@@ -90,7 +90,7 @@
 
 %%% test mark: cb4mh1d1_2 [at mtc_3_observer.lua]
 % 
-%  Statistics for Det(MtcPro(mtcSupConNB((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
+%  Statistics for Det(MtcPro(mtcSupCon((Generator),(Generator||Generator)))) [mtc minstate]: mtcProject||Det(MtcPro(Generator)) [mtc minstate]: mtcProject
 % 
 %  States:        12
 %  Init/Marked:   1/0

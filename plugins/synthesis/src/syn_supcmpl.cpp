@@ -120,20 +120,20 @@ void SupConCmplClosed(
 /*
 ***************************************************************************************
 ***************************************************************************************
- Implementation SupConCmplNB
+ Implementation SupConCmpl
 ***************************************************************************************
 ***************************************************************************************
 */
 
 
 // supcon complete
-void SupConCmplNB(
+void SupConCmpl(
   const Generator& rPlantGen, 
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
   Generator& rResGen)
 { 
-  FD_DF("SupConCmplNB(" << rPlantGen.Name() << "," << rSpecGen.Name()<< ")");
+  FD_DF("SupConCmpl(" << rPlantGen.Name() << "," << rSpecGen.Name()<< ")");
   
   // exceptions on invalid parameters, same as std synthesis
   ControlProblemConsistencyCheck(rPlantGen,rCAlph,rSpecGen);  
@@ -144,12 +144,12 @@ void SupConCmplNB(
     pResGen= rResGen.New();
   }
   pResGen->Clear();
-  pResGen->Name("SupConCmplNB("+rPlantGen.Name()+", "+rSpecGen.Name()+")");
+  pResGen->Name("SupConCmpl("+rPlantGen.Name()+", "+rSpecGen.Name()+")");
   pResGen->InjectAlphabet(rPlantGen.Alphabet());
   
   //check for trivial result
   if(rSpecGen.InitStatesEmpty()){
-    FD_DF("SupConCmplNB: empty language specification - empty result.");
+    FD_DF("SupConCmpl: empty language specification - empty result.");
   }  
     
 
@@ -187,14 +187,14 @@ void SupConCmplNB(
 
 
 // user wrapper
-void SupConCmplNB(
+void SupConCmpl(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen) 
 {
 
   // execute 
-  SupConCmplNB(rPlantGen, rPlantGen.ControllableEvents(),rSpecGen,rResGen);
+  SupConCmpl(rPlantGen, rPlantGen.ControllableEvents(),rSpecGen,rResGen);
 
   // copy all attributes of input alphabet
   rResGen.EventAttributes(rPlantGen.Alphabet());
@@ -206,21 +206,21 @@ void SupConCmplNB(
 /*
 ***************************************************************************************
 ***************************************************************************************
- Implementation SupConNormCmplNB
+ Implementation SupConNormCmpl
 ***************************************************************************************
 ***************************************************************************************
 */
 
 
-//  SupConNormCmplNB(rL,rCAlph,rOAlph,rK,rResult)
-void SupConNormCmplNB(
+//  SupConNormCmpl(rL,rCAlph,rOAlph,rK,rResult)
+void SupConNormCmpl(
   const Generator& rL,
   const EventSet& rCAlph,
   const EventSet& rOAlph,
   const Generator& rK, 
   Generator& rResult)
 {
-  FD_DF("SupConNormCmplNB(" << rL.Name() << "," << rK.Name() << ")");
+  FD_DF("SupConNormCmpl(" << rL.Name() << "," << rK.Name() << ")");
   // initialize: K0
   Generator K0;
   K0.StateNamesEnabled(false);
@@ -235,7 +235,7 @@ void SupConNormCmplNB(
   Generator Ki=K0;
   Ki.StateNamesEnabled(false);
   while(1) {
-    FD_DF("SupConNormCmplNB(" << rL.Name() << "," << rK.Name() << "): #" << Ki.Size() << " m#" << Ki.MarkedStatesSize());
+    FD_DF("SupConNormCmpl(" << rL.Name() << "," << rK.Name() << "): #" << Ki.Size() << " m#" << Ki.MarkedStatesSize());
     // keep copy of recent
     rResult=Ki;
     // cheep closure (for coreachable generator)
@@ -249,24 +249,24 @@ void SupConNormCmplNB(
     // test (sequence is decreasing anyway)
     if(LanguageInclusion(rResult,Ki)) break;
   }  
-  FD_DF("SupConNormCmplNB(" << rL.Name() << "," << rK.Name() << "): done");
+  FD_DF("SupConNormCmpl(" << rL.Name() << "," << rK.Name() << "): done");
 }  
 
 
 /** rti wrapper */
-void SupConNormCmplNB(
+void SupConNormCmpl(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen) 
 {
-  FD_DF("SupConNormCmplNB(" << rPlantGen.Name() << "," << rSpecGen.Name() << "): rti wrapper");
+  FD_DF("SupConNormCmpl(" << rPlantGen.Name() << "," << rSpecGen.Name() << "): rti wrapper");
   // prepare result
   Generator* pResGen = &rResGen;
   if(&rResGen== &rPlantGen || &rResGen== &rSpecGen) {
     pResGen= rResGen.New();
   }
   // execute
-  SupConNormCmplNB(rPlantGen,rPlantGen.ControllableEvents(),rPlantGen.ObservableEvents(),rSpecGen,*pResGen);
+  SupConNormCmpl(rPlantGen,rPlantGen.ControllableEvents(),rPlantGen.ObservableEvents(),rSpecGen,*pResGen);
   // copy all attributes of input alphabet
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result

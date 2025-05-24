@@ -207,8 +207,8 @@ void SupTconUnchecked(
 
 
 
-// SupTconNBUnchecked(rPlantGen, rCAlph, rFAlph, rPAlph, rSpecGen, rCompositionMap, rResGen)
-void SupTconNBUnchecked(
+// SupTconUnchecked(rPlantGen, rCAlph, rFAlph, rPAlph, rSpecGen, rCompositionMap, rResGen)
+void SupTconUnchecked(
   const Generator& rPlantGen,
   const EventSet& rCAlph,  
   const EventSet& rFAlph,  
@@ -217,7 +217,7 @@ void SupTconNBUnchecked(
   std::map< std::pair<Idx,Idx>, Idx>& rCompositionMap, 
   Generator& rResGen) 
 {
-  FD_DF("SupTconNB(" << &rPlantGen << "," << &rSpecGen << ")");
+  FD_DF("SupTcon(" << &rPlantGen << "," << &rSpecGen << ")");
 
   // PREPARE RESULT:	
   Generator* pResGen = &rResGen;
@@ -225,19 +225,19 @@ void SupTconNBUnchecked(
     pResGen= rResGen.New();
   }
   pResGen->Clear();
-  pResGen->Name(CollapsString("SupTconNB(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))"));
+  pResGen->Name(CollapsString("SupTcon(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))"));
   pResGen->InjectAlphabet(rPlantGen.Alphabet());
 
   // controllable events
-  FD_DF("SupTconNB: controllable events: "   << rCAlph.ToString());
-  FD_DF("SupTconNB: forcible events: "       << rFAlph.ToString());
-  FD_DF("SupTconNB: preemptyble events: "    << rPAlph.ToString());
+  FD_DF("SupTcon: controllable events: "   << rCAlph.ToString());
+  FD_DF("SupTcon: forcible events: "       << rFAlph.ToString());
+  FD_DF("SupTcon: preemptyble events: "    << rPAlph.ToString());
 
   // weackly controllable
   EventSet cpalph = rCAlph + rPAlph;
 
   // ALGORITHM:
-  FD_DF("SupTconNB(): SupConProduct on #" <<  rPlantGen.Size() << "/ #" << rSpecGen.Size());
+  FD_DF("SupTcon(): SupConProduct on #" <<  rPlantGen.Size() << "/ #" << rSpecGen.Size());
   SupConProduct(rPlantGen, cpalph, rSpecGen, rCompositionMap, *pResGen);
 
 
@@ -245,11 +245,11 @@ void SupTconNBUnchecked(
   while(true) {
     if(pResGen->Empty()) break;
     Idx state_num = pResGen->Size();
-    FD_DF("SupTconNB(): SupConClosed on #" <<  rPlantGen.Size() << "/ #" << pResGen->Size());
+    FD_DF("SupTcon(): SupConClosed on #" <<  rPlantGen.Size() << "/ #" << pResGen->Size());
     SupConClosedUnchecked(rPlantGen, cpalph, *pResGen);
-    FD_DF("SupTconNB(): SupTcon on #" <<  rPlantGen.Size() << "/ #" << pResGen->Size());
+    FD_DF("SupTcon(): SupTcon on #" <<  rPlantGen.Size() << "/ #" << pResGen->Size());
     SupTconUnchecked(rPlantGen, rCAlph, rFAlph, rPAlph, cpalph, *pResGen);
-    FD_DF("SupTconNB(): Trim on #" << pResGen->Size());
+    FD_DF("SupTcon(): Trim on #" << pResGen->Size());
     pResGen->Trim();
     if(pResGen->Size() == state_num) break;
   }
@@ -270,8 +270,8 @@ void SupTconNBUnchecked(
 
 
 
-// SupTconNB(rPlantGen, rCAlph, rFAlph, rSpecGen, rResGen)
-void SupTconNB(
+// SupTcon(rPlantGen, rCAlph, rFAlph, rSpecGen, rResGen)
+void SupTcon(
   const Generator& rPlantGen, 
   const EventSet& rCAlph, 
   const EventSet& rFAlph, 
@@ -287,14 +287,14 @@ void SupTconNB(
   std::map< std::pair<Idx,Idx>, Idx> rcmap;
 
   // ALGORITHM:
-  SupTconNBUnchecked(rPlantGen, rCAlph, rFAlph, rPAlph, rSpecGen, rcmap, rResGen);
+  SupTconUnchecked(rPlantGen, rCAlph, rFAlph, rPAlph, rSpecGen, rcmap, rResGen);
 }
 
 
 
 // supcon for Systems
 // uses and maintains controllablity from plant 
-void SupTconNB(
+void SupTcon(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen) {
@@ -312,7 +312,7 @@ void SupTconNB(
   calph=calph - palph;
 
   // execute
-  SupTconNB(rPlantGen, calph, rPlantGen.ForcibleEvents(), palph, rSpecGen,*pResGen);
+  SupTcon(rPlantGen, calph, rPlantGen.ForcibleEvents(), palph, rSpecGen,*pResGen);
 
   // copy all attributes of input alphabet
   pResGen->EventAttributes(rPlantGen.Alphabet());

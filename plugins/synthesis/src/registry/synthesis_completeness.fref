@@ -74,7 +74,7 @@ The result will be deterministic and accessible.
 <!-- ================================================================ -->
 <!-- ================================================================ -->
 
-<ffnct_reference name="SupConCmplNB">
+<ffnct_reference name="SupConCmpl">
 
 <fdetails/>
 
@@ -111,11 +111,11 @@ The result will be deterministic and omega-trim.
 <!-- ================================================================ -->
 
 
-<ffnct_reference name="SupConNormCmplNB">
+<ffnct_reference name="SupConNormCmpl">
 
 <fdetails/>  
 <p>
-The function <ffnct>SupConNormCmplNB</ffnct> computes a realisation GRes of the supremal controllable, normal
+The function <ffnct>SupConNormCmpl</ffnct> computes a realisation GRes of the supremal controllable, normal
 and complete sublanguage <fimath>K^\uparrow</fimath> of the specification <fimath>E</fimath> 
 (marked by argument E or GSpec) w.r.t. 
 the plant L (marked by argument L or GPlant):
@@ -172,7 +172,7 @@ then  the result <fimath>K</fimath> is relatively closed w.r.t. the plant <fdmat
 <h4>Relevance to omega-languages:</h4>
 
 <p>
-<ffnct>SupConNormCmplNB</ffnct> can be used to solve
+<ffnct>SupConNormCmpl</ffnct> can be used to solve
 a particular problem of <i>controller synthesis under partial observation</i>.
 Consider the omega-languages <fimath>B(L)</fimath> and <fimath>B(E)</fimath> 
 as plant and specification, respectively, where

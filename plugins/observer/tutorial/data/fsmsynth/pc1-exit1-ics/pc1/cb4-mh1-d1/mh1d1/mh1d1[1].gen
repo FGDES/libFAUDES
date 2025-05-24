@@ -1,6 +1,6 @@
 <cGenerator>
 <Generator>
-"Det(Pro(SupConNB((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]" 
+"Det(Pro(SupCon((mh1d1[0]),(mh1d1[0]||mh1d1[0]_spec)))) [minstate]" 
 <Alphabet>
 "mh1end"      "mh1start"    
 </Alphabet>

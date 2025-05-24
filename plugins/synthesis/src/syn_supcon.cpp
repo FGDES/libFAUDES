@@ -582,15 +582,15 @@ void SupConProduct(
 
 
 
-// SupConNBUnchecked(rPlantGen, rCAlph, rSpecGen, rCompositionMap, rResGen)
-void SupConNBUnchecked(
+// SupConUnchecked(rPlantGen, rCAlph, rSpecGen, rCompositionMap, rResGen)
+void SupConUnchecked(
   const Generator& rPlantGen,
   const EventSet& rCAlph,  
   const Generator& rSpecGen,
   std::map< std::pair<Idx,Idx>, Idx>& rCompositionMap, 
   Generator& rResGen) 
 {
-  FD_DF("SupConNB(" << &rPlantGen << "," << &rSpecGen << ")");
+  FD_DF("SupCon(" << &rPlantGen << "," << &rSpecGen << ")");
 
   // PREPARE RESULT:	
   Generator* pResGen = &rResGen;
@@ -598,11 +598,11 @@ void SupConNBUnchecked(
     pResGen= rResGen.New();
   }
   pResGen->Clear();
-  pResGen->Name(CollapsString("SupConNB(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))"));
+  pResGen->Name(CollapsString("SupCon(("+rPlantGen.Name()+"),("+rSpecGen.Name()+"))"));
   pResGen->InjectAlphabet(rPlantGen.Alphabet());
 
   // controllable events
-  FD_DF("SupConNB: controllable events: "   << rCAlph.ToString());
+  FD_DF("SupCon: controllable events: "   << rCAlph.ToString());
 
   // ALGORITHM:
   SupConProduct(rPlantGen, rCAlph, rSpecGen, rCompositionMap, *pResGen);
@@ -649,7 +649,7 @@ void ControlProblemConsistencyCheck(
       errstr << " " << only_in_plant.ToString() << ".";
     if(!only_in_spec.Empty())
       errstr << " " << only_in_spec.ToString() << ".";
-    throw Exception("SupCon/SupConNB", errstr.str(), 100);
+    throw Exception("SupCon/SupCon", errstr.str(), 100);
   }
 	
   // controllable events have to be subset of Sigma
@@ -753,8 +753,8 @@ bool IsControllable(
 }
 
 
-// SupConNB(rPlantGen, rCAlph, rSpecGen, rResGen)
-void SupConNB(
+// SupCon(rPlantGen, rCAlph, rSpecGen, rResGen)
+void SupCon(
   const Generator& rPlantGen, 
   const EventSet& rCAlph, 
   const Generator& rSpecGen, 
@@ -768,7 +768,7 @@ void SupConNB(
   std::map< std::pair<Idx,Idx>, Idx> rcmap;
 
   // ALGORITHM:
-  SupConNBUnchecked(rPlantGen, rCAlph, rSpecGen, rcmap, rResGen);
+  SupConUnchecked(rPlantGen, rCAlph, rSpecGen, rcmap, rResGen);
 }
 
 
@@ -892,7 +892,7 @@ bool IsControllable(
 
 // supcon for Systems:
 // uses and maintains controllablity from plant 
-void SupConNB(
+void SupCon(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen) {
@@ -904,7 +904,7 @@ void SupConNB(
   }
 
   // execute 
-  SupConNB(rPlantGen, rPlantGen.ControllableEvents(),rSpecGen,*pResGen);
+  SupCon(rPlantGen, rPlantGen.ControllableEvents(),rSpecGen,*pResGen);
 
   // copy all attributes of input alphabet
   pResGen->EventAttributes(rPlantGen.Alphabet());
@@ -943,5 +943,21 @@ void SupConClosed(
   }
 
 }
+
+// legacy interface (pre v2.33d, will be discontinued) 
+void SupConNB(
+  const Generator& rPlantGen, 
+  const EventSet&  rCAlph,
+  const Generator& rSpecGen, 
+  Generator& rResGen) {
+  SupCon(rPlantGen,rCAlph,rSpecGen,rResGen);
+}
+void SupConNB(
+  const System& rPlantGen, 
+  const Generator& rSpecGen, 
+  Generator& rResGen) {
+  SupCon(rPlantGen,rSpecGen,rResGen);
+}
+
 
 } // name space 

@@ -19,10 +19,10 @@ Token IO
 </h3>
 <pre>
 &lt;Generator&gt;
-mtcSupConNB((Generator),(Generator)) 
+mtcSupCon((Generator),(Generator)) 
 
 % 
-%  Statistics for mtcSupConNB((Generator),(Generator))
+%  Statistics for mtcSupCon((Generator),(Generator))
 % 
 %  States:        4
 %  Init/Marked:   1/0

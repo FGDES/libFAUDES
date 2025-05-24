@@ -36,7 +36,7 @@ plantGen = System("data/fsmsynth/ds/sfcb1pu/sf/sf[0].gen")
 plantGen:GraphWrite("data/fsmsynth/ds/sfcb1pu/sf/sf[0].png")
 specGen = Generator("data/fsmsynth/ds/sfcb1pu/sf/sf[0]_spec.gen")
 specGen:GraphWrite("data/fsmsynth/ds/sfcb1pu/sf/sf[0]_spec.png")
-SupConNB(plantGen, specGen, supGen)
+SupCon(plantGen, specGen, supGen)
 supGen:StateNamesEnabled(false)
 supGen:Write("data/fsmsynth/ds/sfcb1pu/sf/sf[0]_sup.gen")
 supGen:GraphWrite("data/fsmsynth/ds/sfcb1pu/sf/sf[0]_sup.png")
@@ -62,7 +62,7 @@ plantGen = System("data/fsmsynth/ds/cb2/cb2[0].gen");
 plantGen:GraphWrite("data/fsmsynth/ds/cb2/cb2[0].png");
 specGen = Generator("data/fsmsynth/ds/cb2/cb2[0]_spec.gen");
 specGen:GraphWrite("data/fsmsynth/ds/cb2/cb2[0]_spec.png");
-SupConNB(plantGen, specGen, supGen);
+SupCon(plantGen, specGen, supGen);
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/ds/cb2/cb2[0]_sup.gen");
 supGen:GraphWrite("data/fsmsynth/ds/cb2/cb2[0]_sup.png");
@@ -87,7 +87,7 @@ plantGen = System("data/fsmsynth/ds/cb3/cb3[0].gen");
 plantGen:GraphWrite("data/fsmsynth/ds/cb3/cb3[0].png");
 specGen = Generator("data/fsmsynth/ds/cb3/cb3[0]_spec.gen");
 specGen:GraphWrite("data/fsmsynth/ds/cb3/cb3[0]_spec.png");
-SupConNB(plantGen, specGen, supGen);
+SupCon(plantGen, specGen, supGen);
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/ds/cb3/cb3[0]_sup.gen");
 supGen:GraphWrite("data/fsmsynth/ds/cb3/cb3[0]_sup.png");
@@ -145,7 +145,7 @@ Parallel(spec3Gen,spec7Gen,specGen);
 specGen:StateNamesEnabled(false);
 specGen:Write("data/fsmsynth/ds/sfcb1pu/cb1pu/cb1pu[0]_spec.gen");
 InvProject(specGen,plantGen:Alphabet() );
-SupConNB(plantGen,specGen,supGen);
+SupCon(plantGen,specGen,supGen);
 supGen:Write("data/fsmsynth/ds/sfcb1pu/cb1pu/cb1pu[0]_sup.gen");
 supGen:GraphWrite("data/fsmsynth/ds/sfcb1pu/cb1pu/cb1pu[0]_sup.png");  
 supSize = supSize + supGen:Size();
@@ -172,7 +172,7 @@ high2Gen = System("data/fsmsynth/ds/sfcb1pu/sf/sf[1]_msalcc.gen");
 Parallel(high1Gen,high2Gen,plantGen);
 plantGen:StateNamesEnabled(false);
 plantGen:Write("data/fsmsynth/ds/sfcb1pu/sfcb1pu[1]_msalcc.gen");
-SupConNB(plantGen,plantGen,supGen); -- nonblocking supervisor
+SupCon(plantGen,plantGen,supGen); -- nonblocking supervisor
 supGen:StateNamesEnabled(false);
 supGen:Write("data/fsmsynth/ds/sfcb1pu/sfcb1pu[1]_sup_msalcc.gen");
 supGen:GraphWrite("data/fsmsynth/ds/sfcb1pu/sfcb1pu[1]_sup_msalcc.png");
@@ -211,7 +211,7 @@ spec1Gen = Generator("data/fsmsynth/ds/ds[1]_spec1.gen");
 spec2Gen = Generator("data/fsmsynth/ds/ds[1]_spec2.gen");
 Parallel(spec1Gen,spec2Gen,specGen);
 InvProject(specGen,plantGen:Alphabet() );
-SupConNB(plantGen,specGen,supGen);
+SupCon(plantGen,specGen,supGen);
 supGen:Write("data/fsmsynth/ds/ds[1]_sup_msalcc.gen");
 supGen:GraphWrite("data/fsmsynth/ds/ds[1]_sup_msalcc.png");
 supSize = supSize + supGen:Size();

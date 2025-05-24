@@ -625,7 +625,7 @@ plant_full_min:SetControllable(alphabet_plant_extra);
 -- compute supervisor for full elevator setup
 super_full = faudes.Generator();
 super_full_min = faudes.Generator();
-faudes.SupConNB(plant_full_min,spec_full_min,super_full)
+faudes.SupCon(plant_full_min,spec_full_min,super_full)
 super_full:Name("elevator supervisor (full)")
 faudes.StateMin(super_full,super_full_min)
 

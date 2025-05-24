@@ -175,7 +175,7 @@ super=faudes.MtcSystem()
 supernb=faudes.MtcSystem()
 faudes.InvProject(spec,plant:Alphabet())
 faudes.MtcSupConClosed(plant,spec,super)
-faudes.MtcSupConNB(plant,spec,supernb)
+faudes.MtcSupCon(plant,spec,supernb)
 
 --  Write result
 super:Write("tmp_mtc_functions_5_super.gen")

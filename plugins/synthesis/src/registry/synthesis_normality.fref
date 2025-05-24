@@ -128,7 +128,7 @@ which itself satisfies conditions (a)-(d). The associated minimally restrictive
 controller is denoted <fimath>H_o^\uparrow = \Pro{0}(\Closure{K^\uparrow})</fimath>.
 </p>
 <p>
-The synthesis plug-in provides the function <ffnct>SupConNormNB</ffnct> to compute
+The synthesis plug-in provides the function <ffnct>SupConNorm</ffnct> to compute
 the supremal closed-loop behaviour. When the plant <fimath>L</fimath> and
 the specification <fimath>E</fimath> are prefix closed, condition (a) simplifies to
 <fimath>K</fimath> being closed. Then, <ffnct>SupConNormClosed</ffnct>
@@ -403,11 +403,11 @@ as marked and generated language.
 <!-- ================================================================ -->
 
 
-<ffnct_reference name="SupConNormNB">
+<ffnct_reference name="SupConNorm">
 
 <fdetails/>  
 <p>
-The function <ffnct>SupConNormNB</ffnct> computes a realisation of the supremal controllable and normal
+The function <ffnct>SupConNorm</ffnct> computes a realisation of the supremal controllable and normal
 sublanguage <fimath>K^\uparrow</fimath> of the specification <fimath>E</fimath> 
 (marked by argument E or GSpec) w.r.t. 
 the plant L (marked by argument L or GPlant):
@@ -469,7 +469,7 @@ conditions (a)-(d) and
 <p>
 If the specification <fimath>E</fimath> fails to be relatively marked w.r.t. the plant <fimath>L</fimath>, 
 one may replace <fimath>E</fimath> with the supremal sublanguage that is relatively closed
-(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupConNormNB</ffnct>,
+(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupConNorm</ffnct>,
 to obtain
 <br/>
 <br/>
@@ -517,7 +517,7 @@ consists of the empty string.
 To obtain a non-trivial result, one may relax the specification
 by taking its closure and thus don't insist in eventually 
 ending up with an empty buffer. 
-<ffnct>SupConNormNB</ffnct> then returns the
+<ffnct>SupConNorm</ffnct> then returns the
 below
 </p>
 <table class="plain"> 

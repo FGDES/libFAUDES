@@ -28,7 +28,7 @@ faudes.MtcParallel(cb4_0_spec1, cb4_0_spec2, cb4_0_spec)
 -- Supervisor Synthesis
 print("################# cb4_0: synthesis")
 cb4_0_sup=faudes.MtcSystem()
-faudes.MtcSupConNB(cb4_0, cb4_0_spec, cb4_0_sup)
+faudes.MtcSupCon(cb4_0, cb4_0_spec, cb4_0_sup)
 
 -- Report
 print("################# write graphs")
@@ -89,7 +89,7 @@ cb4mh1d1_1=faudes.MtcSystem()
 cb4mh1d1_1_sup=faudes.MtcSystem()
 faudes.MtcParallel(cb4_1, mh1d1_1, cb4mh1d1_1);
 faudes.MtcInvProject(mh1d1_1_spec, cb4mh1d1_1:Alphabet());
-faudes.MtcSupConNB(cb4mh1d1_1, mh1d1_1_spec, cb4mh1d1_1_sup);
+faudes.MtcSupCon(cb4mh1d1_1, mh1d1_1_spec, cb4mh1d1_1_sup);
 
 -- Report
 print("################# write graphs")

@@ -1,8 +1,8 @@
 <Generator>
-"Project(SupConNB((pu1[0]||cb1b[0]),(pu1[0]_...c||cb1b[0]_spec||cb1bpu1[0]_spec)))" 
+"Project(SupCon((pu1[0]||cb1b[0]),(pu1[0]_...c||cb1b[0]_spec||cb1bpu1[0]_spec)))" 
 
 % 
-%  Statistics for Project(SupConNB((pu1[0]||cb1b[0]),(pu1[0]_...c||cb1b[0]_spec||cb1bpu1[0]_spec)))
+%  Statistics for Project(SupCon((pu1[0]||cb1b[0]),(pu1[0]_...c||cb1b[0]_spec||cb1bpu1[0]_spec)))
 % 
 %  States:        5
 %  Init/Marked:   1/1

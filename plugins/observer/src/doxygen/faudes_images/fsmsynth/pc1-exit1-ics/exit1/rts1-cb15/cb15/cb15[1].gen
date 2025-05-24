@@ -1,6 +1,6 @@
 <cGenerator>
 <Generator>
-"Det(Pro(SupConNB((cb15[0]),(cb15[0]_spec)))) [minstate]" 
+"Det(Pro(SupCon((cb15[0]),(cb15[0]_spec)))) [minstate]" 
 <Alphabet>
 "cb15-9"      "cb15-rc1"    "cb7-15"      "wp15-9"      "wp15-rc1"    "wp7-15"      
 </Alphabet>
