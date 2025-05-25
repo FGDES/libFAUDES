@@ -26,7 +26,7 @@ empty
 </MarkedStates>
 
 <RabinAcceptance>
-<RabinPair>
+<RabinPair name="safe">
 <R> full </R>
 <I> s1t s2t full </I>
 </RabinPair>

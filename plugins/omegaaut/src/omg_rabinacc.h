@@ -34,9 +34,9 @@ namespace faudes {
  *
  * @ingroup OmegaautPlugin
  */
-class FAUDES_API RabinPair : public Type {
+class FAUDES_API RabinPair : public ExtType {
 
-FAUDES_TYPE_DECLARATION(Void,RabinPair,Type)
+FAUDES_TYPE_DECLARATION(Void,RabinPair,ExtType)
   
 public:
  /**
@@ -58,25 +58,6 @@ public:
   * Clear to default (all empty)
   */
   virtual void Clear(void);
-
-  /** 
-   * Return name of RabinPair
-   * (need to implement this because Type is the direct base) 
-   *
-   * @return
-   *   Name to get
-   */
-  const std::string& Name(void) const {return mName;};
-        
-  /**
-   * Set name of RabinPair
-   * (need to implement this because Type is the direct base) 
-   *
-   * @param rName
-   *   Name to set
-   */
-  void Name(const std::string& rName) {mName=rName;};
-
 
   /*
    * Member access R
@@ -111,6 +92,14 @@ public:
   const StateSet& ISet(void) const {return mISet;};
 
   /**
+   * Restrict to specified State set
+   *
+   * @param rDomain
+   *  State set to restrict to
+   */
+  void RestrictStates(const StateSet& rDomain);
+
+  /**
    * Compare for set-ordering
    *
    * @param rOther
@@ -121,11 +110,6 @@ public:
   bool operator<(const RabinPair& rOther) const;
 
 protected:
-
-  /**
-   * cosmetic name (not provided by plain base faudes Type);
-   */
-  std::string mName;
 
   /**
    * set of states type R
@@ -209,7 +193,7 @@ protected:
 
 /**
  * The class RabinAcceptance is a set of RabinPairs.
- * We use faudes::vVectorSet as the base class and perhaps
+ * We use faudes::TBaseVector as the base class and perhaps
  * add some convenience accessors in due course.
  *
  * @ingroup OmegaautPlugin
@@ -238,6 +222,14 @@ public:
   * Destructor 
   */
   virtual ~RabinAcceptance(void) {};
+
+  /**
+   * Restrict to specified State set
+   *
+   * @param rDomain
+   *  State set to restrict to
+   */
+  void RestrictStates(const StateSet& rDomain);
 
 
 protected:

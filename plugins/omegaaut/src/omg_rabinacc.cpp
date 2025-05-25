@@ -48,18 +48,20 @@ implementation RabinPair
 */
 
 // faudes Type std
-FAUDES_TYPE_IMPLEMENTATION(Void,RabinPair,Type)
+FAUDES_TYPE_IMPLEMENTATION(Void,RabinPair,ExtType)
 
 // Construct
-RabinPair::RabinPair(void) {
-  mName="RabinPair";
+RabinPair::RabinPair(void) : ExtType() {
+  FD_DC("RabinPair(" << this << ")::RabinPair()");
+  Name("RabinPair");
   mRSet.Name("R");
   mISet.Name("I");
 }
 
 // Copy construct
-RabinPair::RabinPair(const RabinPair& rRP) {
-  mName="RabinPair";
+RabinPair::RabinPair(const RabinPair& rRP) : ExtType()  {
+  FD_DC("RabinPair(" << this << ")::RabinPair(other): " << rRP.Name());
+  Name("RabinPair");
   mRSet.Name("R");
   mISet.Name("I");
   DoAssign(rRP);
@@ -93,11 +95,15 @@ bool RabinPair::DoEqual(const RabinPair& rOther) const {
 
 // Write 
 void RabinPair::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
-  FD_DC("RabinPair(" << this << ")::DoXWrite(tw)");
+  FD_DC("RabinPair(" << this << ")::DoWrite(tw)");
   // insist in label
   std::string label="RabinPair";
+  // set up outer tag with name
+  Token btag;
+  btag.SetBegin(label);
+  btag.InsAttributeString("name",Name());
   // begin tag
-  rTw.WriteBegin(label);
+  rTw.Write(btag);
   // use context if its a generator (todo:xml)
   const vGenerator* vg = dynamic_cast<const vGenerator*>(pContext);
   if(vg!=nullptr) {
@@ -140,17 +146,19 @@ void RabinPair::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type*
 
 //DoRead(rTr)
 void RabinPair::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  FD_DC("RabinPair(" << this << ")::DoRead(tr)");
   // default label
   std::string label=rLabel;
   if(label=="") label="RabinPair";
+  // read begin
+  Token btag;
+  rTr.ReadBegin(label,btag);
+  FD_DC("RabinPair(" << this << ")::DoRead(tr): found " << btag.Str()); 
   // figure name from begin tag
   Name("");
-  Token btag;
-  rTr.Peek(btag);
   if(btag.ExistsAttributeString("name"))
     Name(btag.AttributeStringValue("name"));
-  // read begin
-  rTr.ReadBegin(label);
+  FD_DC("RabinPair(" << this << ")::DoRead(tr): object name " << Name()); 
   // use context if its a generator (todo:xml)
   const vGenerator* vg = dynamic_cast<const vGenerator*>(pContext);
   if(vg!=nullptr) {
@@ -164,6 +172,12 @@ void RabinPair::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* 
   rTr.ReadEnd(label);
 }
 
+  
+// restrict domain
+void RabinPair::RestrictStates(const StateSet& rDomain) {
+  mRSet.RestrictSet(rDomain);
+  mISet.RestrictSet(rDomain);
+}
 
 
 /*
@@ -177,11 +191,13 @@ FAUDES_TYPE_IMPLEMENTATION(Void,RabinAcceptance,TBaseVector<RabinPair>)
 
 // Consttruct
 RabinAcceptance::RabinAcceptance(void) : TBaseVector<RabinPair>()  {
+  FD_DC("RabinAcceptance(" << this << ")::RabinAcceptance()");
   Name("RabinAcceptance");
 }
   
 // Copy construct
 RabinAcceptance::RabinAcceptance(const RabinAcceptance& rRA) : TBaseVector<RabinPair>() {
+  FD_DC("RabinAcceptance(" << this << ")::RabinAcceptance(other): " << rRA.Name());
   Name("RabinAcceptance");
   DoAssign(rRA);
 }
@@ -191,6 +207,8 @@ RabinAcceptance::RabinAcceptance(const std::string& rFileName) : TBaseVector<Rab
   Name("RabinAcceptance");
   Read(rFileName);
 }
+
+  
 
 // DoSWrite()
 void RabinAcceptance::DoSWrite(TokenWriter& rTw) const {
@@ -204,7 +222,12 @@ void RabinAcceptance::DoSWrite(TokenWriter& rTw) const {
   rTw.WriteComment(" ");
 }
   
-
+// restrict domain
+void RabinAcceptance::RestrictStates(const StateSet& rDomain) {
+  Iterator rit;
+  for(rit=Begin();rit!=End();++rit)
+    rit->RestrictStates(rDomain);
+}
 
 
 }// namespace

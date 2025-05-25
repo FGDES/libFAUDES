@@ -1,10 +1,10 @@
 # elementary scripts to search and replace symbolic names
 #
-# this variant was used to rename classes in libFAUDES 2.33c
+# this variant was used to rename synthesis functions in libFAUDES 2.33c
 #
 # note: this is recursive batch editing (!!!)
 # - have a dry run before
-# - check which files would be affected grep -r -l -I SupTconNB plugins/*/src/* ./src/*
+# - check which files would be affected "grep -r -l -I SupTconNB plugins/*/src/* ./src/*"
 # - make sure, that you are in a libFAUDES source tree 
 # - no warranties, double check befor usage
 

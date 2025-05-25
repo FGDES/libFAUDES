@@ -1,0 +1,57 @@
+<Generator name="G">           
+
+<Alphabet>
+a
+</Alphabet>
+
+<States>
+N0 N1 N2 N3
+A1 A2_R A3 AB4 A5 A6
+B2_R B3 B4
+</States>
+
+<TransRel>
+%
+N0 a N1
+N1 a N2
+N2 a N2
+N2 a N3
+%
+N0    a A1
+A1   a A2_R
+A2_R a A1
+A2_R a A3
+A3   a N2
+A3   a AB4
+AB4  a A5
+A5   a A6
+A6   a A5
+%
+AB4  a B2_R
+B2_R a AB4
+B2_R a B3
+B3   a B4
+B4   a AB4
+</TransRel>
+
+<InitStates>
+N0           
+</InitStates>
+
+<MarkedStates>
+</MarkedStates>
+
+<RabinAcceptance>
+<RabinPair name="A">
+<R> A2_R </R>
+<I> A1 A2_R A3 AB4 A5 A6 </I>
+</RabinPair>
+<RabinPair name="B">
+<R> B2_R </R>
+<I> AB4 B2_R B3 B4 </I>
+</RabinPair>
+</RabinAcceptance>
+
+</Generator>
+
+

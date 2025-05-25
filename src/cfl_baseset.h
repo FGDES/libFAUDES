@@ -1323,6 +1323,7 @@ TEMP void THIS::DoAssign(const THIS& rSourceSet) {
         (*mpAttributes)[ait->first]=attr;
       }
     }
+    // todo: if element is of faudes type, copy object names
     pAttributes = mpAttributes;
     pHostSet = this;
   }

@@ -121,9 +121,10 @@ void vBaseVector::DoAssign(const vBaseVector& rSourceVector) {
   mElementTagDef=rSourceVector.mObjectName;
   // allocate
   mVector.resize(rSourceVector.Size());
-  // copy entries
+  // copy entries (incl name)
   for(Position pos=0; pos<mVector.size(); pos++) {
     mVector[pos].pElement = rSourceVector.mVector[pos].pElement->Copy();
+    mVector[pos].pElement->Name(rSourceVector.mVector[pos].pElement->Name());
     mVector[pos].mMine=true;
     mVector[pos].mFileName="";
   }
@@ -429,7 +430,7 @@ void vBaseVector::EraseDoublets(void) {
   while(i<Size()) {
     j=i+1;
     while(j<Size()) {
-     if(*mVector[i].pElement == *mVector[j].pElement)
+     if(mVector[i].pElement->Equal(*mVector[j].pElement))
        Erase(j);
      else
        ++j;

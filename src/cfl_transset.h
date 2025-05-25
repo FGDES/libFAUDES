@@ -891,6 +891,19 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
 
 
   /**
+   * Get set of predecessor states for specified current state
+   * This function requires sorting TransSort::X2EvX1 or TransSort::X2X1Ev  
+   * 
+   * @param x2
+   *   Current state
+   *
+   * @return
+   *   Set of state indices
+   */
+  StateSet PredecessorStates(Idx x2) const;
+
+  
+  /**
    * Get set of events that are active for a specified current state
    * Since a transition set does not refer to a SymbolTable, this function
    * returns a set of plain indices. In order to interpret the set as an EventSet, 
@@ -1819,6 +1832,23 @@ TEMP StateSet THIS::SuccessorStates(const StateSet&  rX1Set, const EventSet& rEv
       ++eit;
       if(eit==eit_end) break;
     }
+  }
+  return states;
+}
+
+// PredecessorStates(x2)
+TEMP StateSet THIS::PredecessorStates(Idx x2) const {
+#ifdef FAUDES_CHECKED
+  if(typeid(Cmp)!=typeid(TransSort::X2EvX1)) 
+    if(typeid(Cmp)!=typeid(TransSort::X2X1Ev)) 
+      SORT_EXCEPTION;
+#endif
+  StateSet states;
+  Iterator it = BeginByX2(x2);
+  Iterator it_end = EndByX2(x2);
+  while (it != it_end) {
+    states.Insert(it->X1);
+    ++it;
   }
   return states;
 }

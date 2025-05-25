@@ -1,18 +1,16 @@
-/** @file omg_2_rabin.cpp 
+/** @file omg_3_rabin.cpp 
 
-Tutorial ond  Rabin automata
+Tutorial on  Rabin automata
 
 @ingroup Tutorials 
 
-@include omg_2_rabin.cpp
+@include omg_3_rabin.cpp
 
 */
 
 #include "libfaudes.h"
 
 using namespace faudes;
-
-#include <type_traits>
 
 
 int main(void) {
@@ -127,7 +125,7 @@ int main(void) {
 
 
   ////////////////////////////////////////////////////
-  // Rabin automaton
+  // Rabin automata basics
   ////////////////////////////////////////////////////
 
   // raed from file
@@ -136,7 +134,7 @@ int main(void) {
   ar.Read("data/omg_rabinaut.gen");
 
   // show
-  std::cout << "=== autoamton" << std::endl;
+  std::cout << "=== automaton" << std::endl;
   ar.XWrite();
   std::cout << "=== acceptance condition only" << std::endl;
   ar.RabinAcceptance().XWrite();
@@ -144,8 +142,41 @@ int main(void) {
   std::cout << "=== edit in automaton" << std::endl;
   ar.RabinAcceptance().Begin()->RSet().Insert(11);
   ar.RabinAcceptance().XWrite();
+  std::cout << "=== statistics" << std::endl;
+  ar.SWrite();
   std::cout << std::endl;
   
+
+  ////////////////////////////////////////////////////
+  // Rabin automaton trim
+  ////////////////////////////////////////////////////
+
+  // read from file
+  ar.Read("data/omg_rnottrim.gen");
+
+  // copy for docs
+  ar.Write("tmp_omg_rnottrim.gen");
+  ar.GraphWrite("tmp_omg_rnottrim.png");
+
+  // show live states per Rabin pair
+  raccept=ar.RabinAcceptance();  
+  rit=raccept.Begin();
+  for(;rit!=raccept.End();++rit) {
+    StateSet inv;
+    RabinLiveStates(ar,*rit,inv);    
+    std::cout << "=== live states for Rabin pair " << rit->Name() << std::endl;
+    ar.WriteStateSet(inv);
+  }
+  std::cout << std::endl;
+  
+  std::cout << "=== trim Rabin automaton" << std::endl;
+  RabinTrim(ar);
+  ar.Write();
+  std::cout << std::endl;
+
+  // copy for docs
+  ar.Write("tmp_omg_rtrim.gen");
+  ar.GraphWrite("tmp_omg_rtrim.png");
 
 }  
 

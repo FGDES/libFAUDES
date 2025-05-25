@@ -233,9 +233,10 @@ TEMP void THIS::DoAssign(const TrGenerator& rSrc) {
 }
 
 // operator=
-TEMP THIS& THIS::operator= (const TrGenerator& rOtherGen) {
-  FD_DG("TrGenerator(" << this << ")::operator = " << &rOtherGen);
-  return DoAssign(rOtherGen);
+TEMP THIS& THIS::operator= (const TrGenerator& rSrc) {
+  FD_DG("TrGenerator(" << this << ")::operator = " << &rSrc);
+  DoAssign(rSrc);
+  return *this;
 }
 
 // copy from other faudes type

@@ -3137,11 +3137,11 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
   // try name by relaxed native 2.24e
   if(native) {
     FD_DG("vGenerator(" << this << ")::DoRead(): relaxed native header")
-    std::string name="generator";
+    std::string name="Generator";
     // figure name: as attribute
     if(btag.ExistsAttributeString("name")) 
       name=btag.AttributeStringValue("name");
-    // firgure name: as string token
+    // figure name: as string token
     Token token;
     rTr.Peek(token);
     if(token.IsString()) { name=rTr.ReadString(); xml=false; }
@@ -3157,6 +3157,7 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
     // read transrel (required --- if not present, we might have mis-sensed pre 2.24e xml)
     Token token;
     rTr.Peek(token);
+    FD_DG("vGenerator(" << this << ")::DoRead(): " << token.Str());
     if(token.IsBegin("TransRel") || token.IsBegin("T")) {
       ReadTransRel(rTr);
     } else {
