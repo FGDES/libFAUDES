@@ -156,7 +156,11 @@ int main(void) {
 
   // copy for docs
   ar.Write("tmp_omg_rnottrim.gen");
-  ar.GraphWrite("tmp_omg_rnottrim.png");
+  try {
+    ar.GraphWrite("tmp_omg_rnottrim.png");
+  } catch(faudes::Exception& exception) {
+    std::cout << "omg_3_rabin: cannot execute graphviz' dot. " << std::endl;
+  } 
 
   // show live states per Rabin pair
   raccept=ar.RabinAcceptance();  
@@ -176,7 +180,11 @@ int main(void) {
 
   // copy for docs
   ar.Write("tmp_omg_rtrim.gen");
-  ar.GraphWrite("tmp_omg_rtrim.png");
+  try {
+    ar.GraphWrite("tmp_omg_rtrim.png");
+  } catch(faudes::Exception& exception) {
+    std::cout << "omg_3_rabin: cannot execute graphviz' dot. " << std::endl;
+  } 
 
 }  
 
