@@ -1506,7 +1506,7 @@ FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 
 # platform dependant script 
 ifeq (posix,$(FAUDES_MSHELL))
-FNCT_RUNCPPBIN = cd $(call FNCT_WORKDIR,$@) ; ./$(call FNCT_CPPBIN,$@) # &> /dev/null
+FNCT_RUNCPPBIN = cd $(call FNCT_WORKDIR,$@) ; ./$(call FNCT_CPPBIN,$@) &> /dev/null
 FNCT_RUNLUASCRIPT = cd $(call FNCT_WORKDIR,$@) ; $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) &> /dev/null
 FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,$@) &> /dev/null
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
