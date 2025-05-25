@@ -1485,9 +1485,9 @@ $(BINDIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
 
 # Protocols incl path
 PROTODIRS = ./tutorial/data $(patsubst %,%/data,$(pluginstringT))
-PROTOCOLS = $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_cpp.prot)) 
-PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_lua.prot)) 
-PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot)) 
+PROTOCOLS = $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_cpp)) 
+PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_lua)) 
+PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py)) 
 
 # Formal targets
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
@@ -1498,15 +1498,15 @@ ABSFLXINSTALL = $(CURDIR)/bin/flxinstall
 
 # Conversion functions
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
-FNCT_LUASCRIPT = $(patsubst %_lua.prot,%.lua,$(notdir $(call FNCT_PROTOCOL,$(1))))
-FNCT_PYSCRIPT = $(patsubst %_py.prot,%.py,$(notdir $(call FNCT_PROTOCOL,$(1))))
-FNCT_CPPBIN = $(patsubst %_cpp.prot,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
+FNCT_LUASCRIPT = $(patsubst %_lua,%.lua,$(notdir $(call FNCT_PROTOCOL,$(1))))
+FNCT_PYSCRIPT = $(patsubst %_py,%.py,$(notdir $(call FNCT_PROTOCOL,$(1))))
+FNCT_CPPBIN = $(patsubst %_cpp,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 FNCT_WORKDIR = $(patsubst %/data/,%,$(dir $(call FNCT_PROTOCOL,$(1))))
 FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 
 # platform dependant script 
 ifeq (posix,$(FAUDES_MSHELL))
-FNCT_RUNCPPBIN = cd $(call FNCT_WORKDIR,$@) ; ./$(call FNCT_CPPBIN,$@) &> /dev/null
+FNCT_RUNCPPBIN = cd $(call FNCT_WORKDIR,$@) ; ./$(call FNCT_CPPBIN,$@) # &> /dev/null
 FNCT_RUNLUASCRIPT = cd $(call FNCT_WORKDIR,$@) ; $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) &> /dev/null
 FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,$@) &> /dev/null
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
@@ -1531,7 +1531,7 @@ TESTTARGETS += $(TESTTARGETSX)
 
 
 # lua test cases
-%_lua.prot: 
+%_lua: 
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 	@echo running test case $(call FNCT_LUASCRIPT,$@)
 	@- $(call FNCT_RUNLUASCRIPT,$@)
@@ -1541,7 +1541,7 @@ else
 endif
 
 # python test cases
-%_py.prot: 
+%_py: 
 ifeq (pybindings,$(findstring pybindings,$(FAUDES_PLUGINS)))
 	@echo running test case $(call FNCT_PYSCRIPT,$@)
 	@- $(call FNCT_RUNPYSCRIPT,$@)
@@ -1551,9 +1551,9 @@ else
 endif
 
 # cpp test cases
-%_cpp.prot: 
+%_cpp: 
 	@echo running test case $(call FNCT_CPPBIN,$@)
-	@- $(call FNCT_RUNCPPBIN,$@)
+	@- $(call FNCT_BIN,$@)
 	@ $(call FNCT_DIFFPROT,$@)
 
 # have temp dir
