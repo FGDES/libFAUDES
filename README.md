@@ -35,13 +35,18 @@ https://fgdes.tf.fau.de/faudes/faudes_build.html
 
 ## Versioning/Branching
 
-The main branch of this repository is used for our dayly development process. In modern 
-terminology this translates to <i>testing</i> and we would not even bother to update the
-version number (as specified in the file `VERSION`). Thus, if you are looking for a stable
-code base for a libFAUDES based application, clone one of the tagged releases. If on the 
-other hand you plan to contribute to libFAUDES via GitHub, you will most definitely want to 
-instantiate you personal branch. And: please let us know, so we can focus our efforts.
+The <i>main</i> branch of this repository is at least in a state to compile all default 
+plug-ins and pass the test cases. It should be suitable for the devlopment of libFAUDES 
+based applications. We add tags to <i>main</i> whenever the version (as specified in the 
+file `VERSION`) number is incremented. In this event we typically validate in Linux,
+Mac OS amd Windows environments.
 
+The <i>dev</i> branch is used for our ongoing development process. We typically only commit
+when test cases pass, but there may be temporally exceptions and we rarely validate in a 
+Windows environment. We wont bother to increment version numbers or to set tages either. The 
+<i>dev</i> branch is only of interest, if you plant to contribute to libFAUDES and want to 
+inspect latest features. In that case you most likely want to have your personal branch/fork 
+based on the <i>dev</i> branch.
 
 
 
