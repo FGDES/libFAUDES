@@ -173,9 +173,6 @@ bool RabinTrim(RabinAutomaton& rRAut) {
   // figure result
   bool res=true;
   if(!rRAut.InitStates().Empty()) res =false;
-  // TOODO ... require non-trivail Rabin Pair
-  // ,,,   
-  // done
   return res;
 }
 

@@ -1,0 +1,52 @@
+<Generator name="CtrlPfxIfac2020">
+
+% this is the IFAC2020 example in Fig. 2
+
+<Alphabet> c +C+ uc +c+ </Alphabet>
+
+% state names are from left to right, top to bottom
+<TransRel>
+% initial state
+s1 c   s2
+s1 uc  s4
+
+% column 2,3,4
+s2 uc  s5
+s3 uc  s6
+s4 c   s3
+
+% column 5,6,7
+s5 uc  s8
+s5 c   s6
+s6 c   s9
+s6 uc  s7
+s7 uc  s4
+s7 c   s10
+
+% column 8,9,10
+s8 c   s11
+s8 uc  s9
+s9 c   s12
+s9 uc  s10
+s10 uc s13
+
+% column 11,12,13
+s11 uc s14
+s12 uc s11
+s13 c s12
+s13 uc s16
+
+% column 14,15,16
+s14 c s17
+s14 uc 15
+s15 uc s12
+s15 c s16
+s16 uc s17
+
+% right most state
+s17 uc s17
+</TransRel>
+
+<InitStates> s1 </InitStates>
+<MarkedStates> s5 s6 s11 </MarkedStates>
+</Generator>

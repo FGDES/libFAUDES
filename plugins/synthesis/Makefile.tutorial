@@ -14,7 +14,7 @@ SYN_TUTORIAL_DIR = ./plugins/synthesis/tutorial
 # source files
 
 SYN_TUTORIAL_CPPFILES = \
-	syn_1_simple.cpp syn_3_reduction.cpp syn_6_compsynth.cpp syn_7_compsynth.cpp
+	syn_1_simple.cpp syn_2_ctrlpfx.cpp syn_3_reduction.cpp syn_6_compsynth.cpp syn_7_compsynth.cpp
 
 #
 # executables

@@ -123,8 +123,7 @@ extern FAUDES_API void RabinTrimSet(const RabinAutomaton& rRAut, StateSet& rTrim
  * @param rRAut
  *   Automaton to trim
  * @return 
- *   True if resulting generator contains at least one initial state and one non-trivial
- *   Rabin pair.
+ *   True if resulting generator contains at least one initial state.
  *
  * @ingroup OmgPlugin
  */
@@ -140,8 +139,7 @@ extern FAUDES_API bool RabinTrim(RabinAutomaton& rRAut);
  * @param rRes
  *   Resulting trimmed automaton
  * @return 
- *   True if resulting generator contains at least one initial state and one non-trivial
- *   Rabin pair.
+ *   True if resulting generator contains at least one initial state.
  *
  * @ingroup OmgPlugin
  */

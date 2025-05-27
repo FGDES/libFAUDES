@@ -3,7 +3,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2009  Thomas Moor
+   Copyright (C) 2009, 2025  Thomas Moor
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -90,8 +90,12 @@ public:
   /**
    * Copy-constructor. 
    *
+   * This will copy the actual elements and we will take ownership of
+   * the copies. If the elements are fauddes sets, the performance penalty
+   * will only show oncle we write to an element.
+   *
    * @param rOtherVector 
-   *    Source to copy from
+   *    Source to copy from.
    */
   vBaseVector(const vBaseVector& rOtherVector);
 
@@ -109,6 +113,16 @@ public:
    * Virtual destructor
    */
   virtual ~vBaseVector(void);
+
+  /**
+   * Assign by reference
+   *
+   * This method will take references from the source entry, i.e., it will not take
+   * copies and will not attain ownership. The caller is hence responsible for the
+   * livetime of the elements. To obtain a full copy, use the copy constror or Assign()
+   * instead.
+   */
+  void AssignByReference(vBaseVector& rSourceVector);
 
   /**
    * Prototype for vector entries.
@@ -154,7 +168,7 @@ public:
    */
   virtual void Clear(void);
       
-    /**
+  /**
    * Get size of vector.
    *
    * @return 
@@ -537,7 +551,7 @@ protected:
    */
   virtual void DoRead(TokenReader& rTr, const std::string& rLabel = "", const Type* pContext=0);
 
-  /** Assignment method  */
+  /** Assignment method  (we will take copies and own all those thereafter) */
   void DoAssign(const vBaseVector& rSourceVector);
 
   /**

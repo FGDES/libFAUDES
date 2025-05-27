@@ -891,11 +891,11 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
 
 
   /**
-   * Get set of predecessor states for specified current state
+   * Get set of predecessor states for specified target state
    * This function requires sorting TransSort::X2EvX1 or TransSort::X2X1Ev  
    * 
    * @param x2
-   *   Current state
+   *   Target state
    *
    * @return
    *   Set of state indices
@@ -903,6 +903,47 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
   StateSet PredecessorStates(Idx x2) const;
 
   
+  /**
+   * Get set of predecessor states for specified target states
+   * This function requires sorting TransSort::X2EvX1 or TransSort::X2X1Ev  
+   * 
+   * @param rX2Set
+   *   Sarget states
+   *
+   * @return
+   *   Set of state indices
+   */
+  StateSet PredecessorStates(const StateSet& rX2Set) const;
+
+  /**
+   * Get set of predecessor states for specified targetstate and event
+   * This function requires sorting TransSort::X2EvX1 or TransSort::X2X1Ev  
+   * 
+   * @param x2
+   *   Target state
+   * @param ev
+   *   Event
+   *
+   * @return
+   *   Set of state indices
+   */
+  StateSet PredecessorStates(Idx x2, Idx ev) const;
+
+  /**
+   * Get set of predecessor states for specified target states and events
+   * This function requires sorting TransSort::X2EvX1 or TransSort::X2X1Ev  
+   * 
+   * @param rX2Set
+   *   Target states
+   * @param rEvSet
+   *   Events
+   *
+   * @return
+   *   Set of state indices
+   */
+  StateSet PredecessorStates(const StateSet& rX2Set, const EventSet&  rEvSet) const;
+
+
   /**
    * Get set of events that are active for a specified current state
    * Since a transition set does not refer to a SymbolTable, this function
@@ -1852,6 +1893,80 @@ TEMP StateSet THIS::PredecessorStates(Idx x2) const {
   }
   return states;
 }
+
+
+// PredecessorStates(x2set)
+TEMP StateSet THIS::PredecessorStates(const StateSet&  rX2Set) const {
+#ifdef FAUDES_CHECKED
+  if(typeid(Cmp)!=typeid(TransSort::X2EvX1)) 
+    if(typeid(Cmp)!=typeid(TransSort::X2X1Ev)) 
+      SORT_EXCEPTION;
+#endif
+  StateSet states;
+  StateSet::Iterator sit= rX2Set.Begin();
+  StateSet::Iterator sit_end= rX2Set.End();
+  for(;sit!=sit_end; ++sit) {
+    Iterator tit = BeginByX2(*sit);
+    Iterator tit_end = EndByX2(*sit);
+    while(tit!=tit_end) {
+      states.Insert(tit->X1);
+      ++tit;
+    }
+  }
+  return states;
+}
+
+// PredecessorStates(x2, ev)
+TEMP StateSet THIS::PredecessorStates(Idx x2, Idx ev) const {
+#ifdef FAUDES_CHECKED
+  if(typeid(Cmp)!=typeid(TransSort::X2EvX1)) 
+      SORT_EXCEPTION;
+#endif
+  StateSet states;
+  Iterator it = BeginByX2Ev(x2, ev);
+  Iterator it_end = EndByX2Ev(x2, ev);
+  while (it != it_end) {
+    states.Insert(it->X1);
+    ++it;
+  }
+  return states;
+}
+
+// PredecessorStates(x2set, evset)
+TEMP StateSet THIS::PredecessorStates(const StateSet&  rX2Set, const EventSet& rEvSet) const {
+#ifdef FAUDES_CHECKED
+  if(typeid(Cmp)!=typeid(TransSort::X2EvX1)) 
+      SORT_EXCEPTION;
+#endif
+  StateSet states;
+  if(rEvSet.Empty()) return states;
+  StateSet::Iterator sit= rX2Set.Begin();
+  StateSet::Iterator sit_end= rX2Set.End();
+  for(;sit!=sit_end; ++sit) {
+    EventSet::Iterator eit= rEvSet.Begin();
+    EventSet::Iterator eit_end= rEvSet.End();
+    Iterator tit = BeginByX2Ev(*sit,*eit);
+    Iterator tit_end = EndByX2(*sit);
+    while(tit!=tit_end) {
+      // match
+      if(tit->Ev == *eit) {
+        states.Insert(tit->X1);
+        ++tit;
+        continue;
+      }
+      // tit behind
+      if(tit->Ev < *eit) {
+        ++tit;
+        continue;
+      }
+      // tit upfront
+      ++eit;
+      if(eit==eit_end) break;
+    }
+  }
+  return states;
+}
+
 
 // ActiveEvents(x1,pSymTab)
 TEMP EventSet THIS::ActiveEvents(Idx x1, SymbolTable* pSymTab) const {
