@@ -182,6 +182,9 @@ void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   FD_WARN("MuIteration::DoEvaluate(): " << Name());
   // prepare result
   rRes.Clear();
+  // prepare progress message
+  std::string prog="MuIteration::DoEvaluate(): " +  Name() + ": " + ArgStatistics(rArgs);
+  FD_WARN(prog);
   // actual implementation comes here
   StateSetVector xargs;
   xargs.AssignByReference(rArgs);  
@@ -190,9 +193,10 @@ void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   while(true) {
     Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
-    FD_WARN("MuIteration::DoEvaluate(): " << ArgStatistics(xargs) << " -> #" << R.Size());
+    FD_WARN("NuIteration::DoEvaluate(): " << xsz << "# -> #" << R.Size());
     rRes.InsertSet(R);
     if(rRes.Size()==xsz) break;  
+    FD_WPC(1,2,prog);
   }
   
 };
@@ -233,6 +237,9 @@ void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   FD_WARN("NuIteration::DoEvaluate(): " << Name());
   // prepare result
   rRes.Clear();
+  // prepare progress message
+  std::string prog="NuIteration::DoEvaluate(): " +  Name() + ": " + ArgStatistics(rArgs);
+  FD_WARN(prog);
   // actual implementation comes here
   StateSetVector xargs;
   xargs.AssignByReference(rArgs);  
@@ -242,9 +249,10 @@ void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   while(true) {
     Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
-    FD_WARN("NuIteration::DoEvaluate(): " << ArgStatistics(xargs) << " -> #" << R.Size());
+    FD_WARN("NuIteration::DoEvaluate(): " << xsz << "# -> #" << R.Size());
     rRes.RestrictSet(R);
     if(rRes.Size()==xsz) break;  
+    FD_WPC(1,2,prog);
   }
   
 };

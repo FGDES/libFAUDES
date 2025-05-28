@@ -465,6 +465,13 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
     rGen.DelState(dump);
 }
 
+// API warpper Automaton(rGen,rRes)
+void Automaton(const Generator& rGen, Generator& rRes) {
+  FD_DF("Automaton("<< rGen.Name() << ", ...)");
+  rRes=rGen;
+  Automaton(rRes);
+}
+  
 // Automaton(rGen)
 void Automaton(Generator& rGen) {
   FD_DF("Automaton("<< rGen.Name() << ")");

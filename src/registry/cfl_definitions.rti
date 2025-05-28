@@ -1319,11 +1319,11 @@ CoreFaudes    Functions     "generator misc"  "parallel composition"  "synchrono
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function ParallelNB -->
+<!-- Faudes Function ParallelLive -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="CoreFaudes::ParallelNB" ctype="faudes::ParallelNB"> 
+<FunctionDefinition name="CoreFaudes::ParallelLive" ctype="faudes::ParallelLive"> 
 
 <Documentation ref="corefaudes_parallel.html#Parallel"> 
 Computes the parallel composition of multiple generators.
@@ -1333,6 +1333,12 @@ CoreFaudes    Functions     "generator misc"  "parallel composition"  "synchrono
 </Keywords> 
 
 <VariantSignatures> 
+
+<Signature name="GRes = G1 || G2"> 
+<Parameter name="G1" ftype="Generator" access="In"/> 
+<Parameter name="G2" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
+</Signature> 
 
 <Signature name="GRes = || G_i"> 
 <Parameter name="GVec" ftype="GeneratorVector" access="In"/> 

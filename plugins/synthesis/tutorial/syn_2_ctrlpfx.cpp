@@ -25,7 +25,8 @@ using namespace faudes;
 int main() {
 
   /////////////////////////////////////////////
-  // Demo of mu/nu fixpoint ieterations
+  // Demo of mu/nu fixpoint iterations
+  // (this is the example used in out IFAC2020 contribution)
   /////////////////////////////////////////////
   
 
@@ -61,8 +62,39 @@ int main() {
   cfx.Write();
   std::cout << "################################\n";
   std::cout << std::endl;
-  
 
+  
+  /////////////////////////////////////////////
+  // Demo of implementing SupCon as nu-mu iteration
+  // (also along the line of our IFAC 2020 contribution)
+  /////////////////////////////////////////////
+
+  // read problem data L and E
+  System plant("./data/syn_eleplant.gen");
+  Generator spec("./data/syn_elespec.gen");
+
+  // first closded-loop candidate: mark L cap E
+  Generator sup;
+  Automaton(spec,sup);
+  ParallelLive(plant,sup,sup);
+
+  // take controllability prefix
+  std::cout << "################################\n";
+  CtrlPfxOperator xcfxop_Y_X(sup,plant.UncontrollableEvents());
+  MuIteration xcfxop_Y_muX(xcfxop_Y_X);
+  NuIteration xcfxop_nuY_muX(dynamic_cast<StateSetOperator&>(xcfxop_Y_muX));
+  StateSet xcfx;
+  xcfxop_nuY_muX.Evaluate(cfx);
+  std::cout << "# resulting fixpoint: " << std::endl;
+  xcfx.Write();
+  std::cout << "################################\n";
+  std::cout << std::endl;
+
+  sup.RestrictStates(cfx);
+  sup.GraphWrite("tmp_elesup.png");
+  sup.SWrite();
+
+  
   return 0;
 }
 

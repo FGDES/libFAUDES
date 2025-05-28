@@ -37,7 +37,7 @@ FAUDES_TEST_DUMP("prio comp ver",isnc)
 if tonumber(N) <6 then
   print('pev_2_verify.lua: monolitic verification')
   gall=faudes.Generator()
-  faudes.ParallelNB(gvec,gall)
+  faudes.ParallelLive(gvec,gall)
   print('pev_2_verify: overall statecount:',gall:Size())
   faudes.ShapePriorities(gall,prios)
   isnc = faudes.IsNonblocking(gall)
