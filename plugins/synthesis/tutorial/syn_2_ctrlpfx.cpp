@@ -41,6 +41,7 @@ int main() {
   sys.DWrite();
   siguc.DWrite();
   std::cout << "################################\n";
+  std::cout << std::endl;
 
   //Instantiate my operator
   CtrlPfxOperator cfxop_Y_X(sys,siguc);
@@ -52,10 +53,15 @@ int main() {
   NuIteration cfxop_nuY_muX(dynamic_cast<StateSetOperator&>(cfxop_Y_muX));
   
   // run
-  std::cout << "nu-mu nested fixpoint operator: " << cfxop_Y_muX.Name() << std::endl;
+  std::cout << "################################\n";
+  std::cout << "# running nu-mu nested fixpoint iteration: " << cfxop_Y_muX.Name() << std::endl;
   StateSet cfx;
-  StateSetVector args;
-  cfxop_nuY_muX.Evaluate(args,cfx);
+  cfxop_nuY_muX.Evaluate(cfx);
+  std::cout << "# resulting fixpoint: " << std::endl;
+  cfx.Write();
+  std::cout << "################################\n";
+  std::cout << std::endl;
+  
 
   return 0;
 }

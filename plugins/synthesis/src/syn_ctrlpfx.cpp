@@ -28,7 +28,78 @@ namespace faudes {
 /*  
 *********************************************************************
 
-Implementation of operator on state sets
+Implementation of operator on state sets: virtual base
+
+*********************************************************************    
+*/
+
+// ge dummy domain  
+const StateSet&  StateSetOperator::Domain(void) const {
+  static StateSet empty;
+  return empty;
+}
+
+// API wrapper, multiple arguments  
+void StateSetOperator::Evaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  if(rArgs.Size()!=mArgCount) {
+    std::stringstream errstr;
+    errstr << "signature mismatch: expected arguments #" << mArgCount <<
+      " provided argumenst #" << rArgs.Size();
+    throw Exception("StateSetOperator::Evaluate", errstr.str(), 80);
+  }
+  DoEvaluate(rArgs,rRes); 
+}
+
+// API wrapper, single argument  
+void StateSetOperator::Evaluate(StateSet& rArg, StateSet& rRes) const {
+  if(mArgCount!=1) {
+    std::stringstream errstr;
+    errstr << "signature mismatch: expected arguments #" << mArgCount <<
+      " provided argumenst #1";
+    throw Exception("StateSetOperator::Evaluate", errstr.str(), 80);
+  }
+  StateSetVector args;
+  args.PushBack(&rArg);
+  DoEvaluate(args,rRes); 
+}
+
+// API wrapper, no arguments 
+void StateSetOperator::Evaluate(StateSet& rRes) const {
+  if(mArgCount!=0) {
+    std::stringstream errstr;
+    errstr << "signature mismatch: expected arguments #" << mArgCount <<
+      " provided argumenst #0";
+    throw Exception("StateSetOperator::Evaluate", errstr.str(), 80);
+  }
+  static StateSetVector args;
+  DoEvaluate(args,rRes); 
+}
+
+// signature, i.e., the number of arguments */
+StateSetVector::Position StateSetOperator::ArgCount(void) const {
+  return mArgCount;
+};
+
+// signature, i.e., argument names (cosmetic) */
+const std::string& StateSetOperator::ArgName(StateSetVector::Position pos) const {
+  static std::string range="?";
+  if(pos>= mArgNames.size()) return range;
+  return mArgNames.at(pos);
+}
+
+// stats  
+std::string StateSetOperator::ArgStatistics(const StateSetVector& rArgs) const {
+  std::stringstream res;
+  for(StateSetVector::Position pos=0; pos< rArgs.Size(); ++pos) {
+    res << " " << ArgName(pos) << " #" << rArgs.At(pos).Size();
+  }
+  return res.str();
+}
+
+/*  
+*********************************************************************
+
+Implementation of operator on state sets: controllability prefix
 
 *********************************************************************    
 */
@@ -54,11 +125,8 @@ const StateSet& CtrlPfxOperator::Domain(void) const {
 }  
 
 // evaluation
-void CtrlPfxOperator::Evaluate(StateSetVector& rArgs, StateSet& rRes) const {
-  FD_WARN("CtrlPfxOperator::Evaluate(): " << Name());
-  if(rArgs.Size()!=mArgCount) {
-    // throw
-  }
+void CtrlPfxOperator::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  //FD_WARN("CtrlPfxOperator::DoEvaluate(): " << Name());
   // prepare result
   rRes.Clear();
   // actual implementation comes here, aka
@@ -66,8 +134,8 @@ void CtrlPfxOperator::Evaluate(StateSetVector& rArgs, StateSet& rRes) const {
   //   (pre_exisential(X) union marked_states) intersectted with  pre_universal(Y)
   StateSet& Y=rArgs.At(0);
   StateSet& X=rArgs.At(1);
-  FD_WARN("CtrlPfxOperator::Evaluate(): Y " << Y.ToString());
-  FD_WARN("CtrlPfxOperator::Evaluate(): X " << X.ToString());
+  //FD_WARN("CtrlPfxOperator::DoEvaluate(): Y " << mrGen.StateSetToString(Y));
+  //FD_WARN("CtrlPfxOperator::DoEvaluate(): X " << mrGen.StateSetToString(X));
   StateSet lhs;
   lhs.Assign(mRevTransRel.PredecessorStates(X));
   lhs.InsertSet(mrGen.MarkedStates());
@@ -76,7 +144,7 @@ void CtrlPfxOperator::Evaluate(StateSetVector& rArgs, StateSet& rRes) const {
   rhs.Assign(mrGen.States());
   rhs.EraseSet(mRevTransRel.PredecessorStates(Ycmp,mrSigmaUc) );
   rRes=lhs * rhs;
-  FD_WARN("CtrlPfxOperator::Evaluate(): R " << rRes.ToString());
+  //FD_WARN("CtrlPfxOperator::DoEvaluate(): R " << mrGen.StateSetToString(rRes));
 };
   
 
@@ -98,7 +166,7 @@ MuIteration::MuIteration(const StateSetOperator& rOp) :
   }
   Name("mu " + rOp.ArgName(rOp.ArgCount()-1) + " . " + rOp.Name());
   mArgCount=rOp.ArgCount()-1;
-  for(StateSetVector::Position pos=0; pos<mArgCount; ++pos)
+  for(StateSetVector::Position pos=0; pos<rOp.ArgCount(); ++pos)
     mArgNames.push_back(rOp.ArgName(pos));
   FD_WARN("MuIteration(): name " << Name());
 };
@@ -110,23 +178,21 @@ const StateSet& MuIteration::Domain(void) const {
 }  
 
 // evaluation
-void MuIteration::Evaluate(StateSetVector& rArgs, StateSet& rRes) const {
-  FD_WARN("MuIteration::Evaluate(): " << Name());
+void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  FD_WARN("MuIteration::DoEvaluate(): " << Name());
   // prepare result
   rRes.Clear();
   // actual implementation comes here
   StateSetVector xargs;
   xargs.AssignByReference(rArgs);  
-  StateSet X;
-  xargs.PushBack(&X);
-  FD_WARN("MuIterationEvaluste(): args: " << xargs.ToString());
+  xargs.PushBack(&rRes);
   StateSet R;
   while(true) {
-    Idx xsz=X.Size();
+    Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
-    X.InsertSet(R);
-    FD_WARN("MuIteration::Evaluate(): iterate: " << X.ToString());
-    if(X.Size()==xsz) break;  
+    FD_WARN("MuIteration::DoEvaluate(): " << ArgStatistics(xargs) << " -> #" << R.Size());
+    rRes.InsertSet(R);
+    if(rRes.Size()==xsz) break;  
   }
   
 };
@@ -151,7 +217,7 @@ NuIteration::NuIteration(const StateSetOperator& rOp) :
   }
   Name("nu " + rOp.ArgName(rOp.ArgCount()-1) + " . " + rOp.Name());
   mArgCount=rOp.ArgCount()-1;
-  for(StateSetVector::Position pos=0; pos<mArgCount; ++pos)
+  for(StateSetVector::Position pos=0; pos<rOp.ArgCount(); ++pos)
     mArgNames.push_back(rOp.ArgName(pos));
   FD_WARN("NuIteration(): name " << Name());
 };
@@ -163,24 +229,22 @@ const StateSet& NuIteration::Domain(void) const {
 }  
 
 // evaluation
-void NuIteration::Evaluate(StateSetVector& rArgs, StateSet& rRes) const {
-  FD_WARN("NuIteration::Evaluate(): " << Name());
+void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  FD_WARN("NuIteration::DoEvaluate(): " << Name());
   // prepare result
   rRes.Clear();
   // actual implementation comes here
   StateSetVector xargs;
   xargs.AssignByReference(rArgs);  
-  StateSet X;
-  xargs.PushBack(&X);
-  X=Domain();
-  FD_WARN("NuIterationEvaluste(): args: " << xargs.ToString());
+  xargs.PushBack(&rRes);
+  rRes=Domain();
   StateSet R;
   while(true) {
-    Idx xsz=X.Size();
+    Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
-    X.RestrictSet(R);
-    FD_WARN("NuIteration::Evaluate(): iterate: " << X.ToString());
-    if(X.Size()==xsz) break;  
+    FD_WARN("NuIteration::DoEvaluate(): " << ArgStatistics(xargs) << " -> #" << R.Size());
+    rRes.RestrictSet(R);
+    if(rRes.Size()==xsz) break;  
   }
   
 };

@@ -41,9 +41,7 @@ class FAUDES_API StateSetOperator : public ExtType {
 public:
 
   /** construct */
-  StateSetOperator(void) : ExtType() {
-    FD_WARN("StateSetOperator()");
-  };
+  StateSetOperator(void) : ExtType(){};
 
   /** disable copy construct */
   StateSetOperator(const StateSetOperator&)= delete;
@@ -55,19 +53,70 @@ public:
    * Domain
    *
    * Some operations need to take complements and thus refer to the full state set.
-   * Reimplement this function if you need that extra functionality. See
-   * faudes::CtrlPfxOperator for a derived class.
+   * The base class returns the empty set as a dummy. Reimplement this function
+   * if you need that extra functionality. See faudes::CtrlPfxOperator for a derived class. 
    *
    * @return
    *   Full state set.
    **/
-  virtual const StateSet&  Domain(void) const {
-    static StateSet empty;
-    return empty;
-  }
+  virtual const StateSet&  Domain(void) const;
 
   /**
    * Evaluate opertor on arguments
+   *
+   * This is a wrapper for the protected method DoEvaluate. The latter
+   * should be re-implemented by derived classes to encode the actual operator.
+   *
+   * @param rAggs
+   *   State-set valued arguments the operator performs on
+   * @parem rRes
+   *   Resulting state set
+   **/
+  void Evaluate(StateSetVector& rArgs, StateSet& rRes) const;
+
+  /**
+   * Evaluate opertor on arguments
+   *
+   * This is a convenience wrapper for the protected method DoEvaluate for
+   * operator with orny one argument.
+   *
+   * @param rArg
+   *   State-set valued argument
+   * @parem rRes
+   *   Resulting state set
+   **/
+  void Evaluate(StateSet& rArg, StateSet& rRes) const;
+
+  /**
+   * Evaluate opertor on arguments
+   *
+   * This is a convenience wrapper for the protected method DoEvaluate for
+   * operators with no arguments.
+   *
+   * @parem rRes
+   *   Resulting state set
+   **/
+  void Evaluate(StateSet& rRes) const;
+
+  /** signature, i.e., the number of arguments we expect */
+  StateSetVector::Position ArgCount(void) const;
+
+  /** signature, i.e., argument names (cosmetic) */
+  const std::string& ArgName(StateSetVector::Position pos) const;
+  
+  /** argument stats (debugging/development) */
+  std::string ArgStatistics(const StateSetVector& rArgs) const;
+
+protected:
+
+ /** signature */
+ StateSetVector::Position mArgCount;
+  
+ /** support cosmetic  siganture */
+ std::vector<std::string> mArgNames;
+
+  /**
+   * Evaluate opertor on arguments (protected virtual)
    *
    * The arguments are given as a vector of state sets. For fixpoint iterations, the last
    * entry in the vector becomes the iteration variable, while the remaining entries are constant
@@ -79,26 +128,7 @@ public:
    * @parem rRes
    *   Resulting state set
    **/
-  virtual void Evaluate(StateSetVector& rArgs, StateSet& rRes) const =0;
-
-  /** signature, i.e., the number of arguments we expect */
-  StateSetVector::Position ArgCount(void) const { return mArgCount;};
-
-  /** signature, i.e., argument names (cosmetic) */
-  const std::string& ArgName(StateSetVector::Position pos) const {
-    static std::string range="?";
-    if(pos>= mArgNames.size()) return range;
-    return mArgNames.at(pos);
-  }
-  
-
-protected:
-
- /** signature */
- StateSetVector::Position mArgCount;
-  
- /** support cosmetic  siganture */
- std::vector<std::string> mArgNames;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const =0;
 
 };
 
@@ -127,6 +157,8 @@ public:
    **/
   virtual const StateSet&  Domain(void) const;
 
+protected:
+
   /**
    * Evaluate opertor on arguments
    *
@@ -143,9 +175,8 @@ public:
    * @parem rRes
    *   Resulting state set
    **/
-  virtual void Evaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
   
-private:
 
   /** set up context references */
   const vGenerator& mrGen;
@@ -201,6 +232,8 @@ class FAUDES_API MuIteration : public StateSetOperator {
    **/
   virtual const StateSet&  Domain(void) const;
 
+protected:
+
   /**
    * Implement the mu-iteration to find the smallest fixpoint.
    *
@@ -217,10 +250,9 @@ class FAUDES_API MuIteration : public StateSetOperator {
    * @parem rRes
    *   Resulting state set
    **/
-  virtual void Evaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
   
-private:
-  //* the base operator to iteret on
+  /** the base operator to iterate with */
   const StateSetOperator& mrOp;
 };
 
@@ -265,6 +297,9 @@ class FAUDES_API NuIteration : public StateSetOperator {
    **/
   virtual const StateSet&  Domain(void) const;
 
+  
+protected:
+
   /**
    * Implement the nu-iteration to find the smallest fixpoint.
    *
@@ -281,10 +316,9 @@ class FAUDES_API NuIteration : public StateSetOperator {
    * @parem rRes
    *   Resulting state set
    **/
-  virtual void Evaluate(StateSetVector& rArgs, StateSet& rRes) const;
-  
-private:
-  //* the base operator to iteret on
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
+
+  /** the base operator to iterate on */
   const StateSetOperator& mrOp;
 };
 
