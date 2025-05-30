@@ -36,13 +36,13 @@ bool SupConditionalControllable(
 	Idx i;
 
 	// the generators must be deterministic and prefix-closed
-	if (gen.IsDeterministic() == false || IsPrefixClosed(gen) == false) {
+	if (gen.IsDeterministic() == false || IsClosed(gen) == false) {
 	  std::stringstream errstr;
 	  errstr << "Generators must be deterministic and prefix-closed";
 	  throw Exception("ConditionalControllability", errstr.str(), 201);
 	}	
 	for (i = 0; i < genVector.Size(); i++) {
-	  if (genVector.At(i).IsDeterministic() == false || IsPrefixClosed(genVector.At(i)) == false) {
+	  if (genVector.At(i).IsDeterministic() == false || IsClosed(genVector.At(i)) == false) {
 	    std::stringstream errstr;
 	    errstr << "Generators of genVector must be deterministic and prefix-closed";
 	    throw Exception("ConditionalControllability", errstr.str(), 201);

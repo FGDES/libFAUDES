@@ -107,6 +107,9 @@ public:
   /** argument stats (debugging/development) */
   std::string ArgStatistics(const StateSetVector& rArgs) const;
 
+  /** indent (cosmetic) */
+  const std::string& Indent(void) const;
+
 protected:
 
  /** signature */
@@ -114,6 +117,9 @@ protected:
   
  /** support cosmetic  siganture */
  std::vector<std::string> mArgNames;
+
+ /** support cosmetic */
+ std::string mIndent;
 
   /**
    * Evaluate opertor on arguments (protected virtual)
@@ -182,7 +188,7 @@ protected:
   const vGenerator& mrGen;
 
   /** set up conbtext references */
-  const EventSet& mrSigmaUc;
+  EventSet mSigmaUc;
 
   /** set up context references */
   const TransSet& mrTransRel;

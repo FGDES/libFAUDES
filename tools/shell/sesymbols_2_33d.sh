@@ -15,11 +15,12 @@ export here=$(pwd)
 processfile() {
   f=$(pwd)/$1
   echo ============= $f
-  sed -i "" -e s/SupConNB/SupCon/g  $f
-  sed -i "" -e s/SupConCmplNB/SupConCmpl/g  $f
-  sed -i "" -e s/SupConNormNB/SupConNorm/g  $f
-  sed -i "" -e s/SupConNormCmplNB/SupConNormCmpl/g  $f
-  sed -i "" -e s/SupTconNB/SupTcon/g  $f
+  #sed -i "" -e s/SupConNB/SupCon/g  $f
+  #sed -i "" -e s/SupConCmplNB/SupConCmpl/g  $f
+  #sed -i "" -e s/SupConNormNB/SupConNorm/g  $f
+  #sed -i "" -e s/SupConNormCmplNB/SupConNormCmpl/g  $f
+  #sed -i "" -e s/SupTconNB/SupTcon/g  $f
+  sed -i "" -e s/PrefixClosed/Closed/g  $f
 }
 
 # recursion over all files incl subdirectories
@@ -65,7 +66,9 @@ processall() {
     if [ $ext != "lua" ]; then
     if [ $ext != "gen" ]; then
     if [ $ext != "dot" ]; then
+    if [ $ext != "flx" ]; then
       continue
+    fi
     fi
     fi
     fi

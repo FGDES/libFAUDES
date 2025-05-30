@@ -1585,7 +1585,7 @@ class FAUDES_API vGenerator : public ExtType  {
   Idx InsMarkedState(const std::string& rName);
 
   /** 
-   * Add (perhaps new) anonymous initial states to generator  
+   * Add (perhaps new/anonymous) marked states to generator  
    * 
    * @param rStates
    *   Set of states to add

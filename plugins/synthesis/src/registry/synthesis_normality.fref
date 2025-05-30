@@ -469,7 +469,7 @@ conditions (a)-(d) and
 <p>
 If the specification <fimath>E</fimath> fails to be relatively marked w.r.t. the plant <fimath>L</fimath>, 
 one may replace <fimath>E</fimath> with the supremal sublanguage that is relatively closed
-(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupConNorm</ffnct>,
+(see also <ffnct>SupRelativelyClosed</ffnct>) before invoking <ffnct>SupConNorm</ffnct>,
 to obtain
 <br/>
 <br/>

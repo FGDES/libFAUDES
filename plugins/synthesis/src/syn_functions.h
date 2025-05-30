@@ -106,7 +106,7 @@ extern FAUDES_API bool IsRelativelyMarked(const Generator& rGenPlant, const Gene
  *
  * @ingroup SynthesisPlugIn
  */
-extern FAUDES_API bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenCand);
+extern FAUDES_API bool IsRelativelyClosed(const Generator& rGenPlant, const Generator& rGenCand);
 
 /**
  * Supremal Relatively Closed Sublanguage
@@ -140,7 +140,7 @@ extern FAUDES_API bool IsRelativelyPrefixClosed(const Generator& rGenPlant, cons
  * @ingroup SynthesisPlugIn
  *
  */
-extern FAUDES_API void SupRelativelyPrefixClosed(
+extern FAUDES_API void SupRelativelyClosed(
   const Generator& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen);
@@ -150,7 +150,7 @@ extern FAUDES_API void SupRelativelyPrefixClosed(
  * Supremal Relatively Closed Sublanguage (internal function)
  *
  * 
- * This version of SupRelativelyPrefixClosed performs no consistency test of the given parameter.
+ * This version of SupRelativelyClosed performs no consistency test of the given parameter.
  * It set's up a "composition map" as in the parallel composition, however,
  * the map may still contain states that have been removed from the result
  * to obtain controllability.
@@ -169,13 +169,17 @@ extern FAUDES_API void SupRelativelyPrefixClosed(
  *   Reference to resulting Generator, 
  *
  */
-extern FAUDES_API void SupRelativelyPrefixClosedUnchecked(
+extern FAUDES_API void SupRelativelyClosedUnchecked(
   const Generator& rPlantGen, 
   const Generator& rSpecGen, 
   std::map< std::pair<Idx,Idx>,Idx >& rCompositionMap, 
   Generator& rResGen);
 
 
+// legacy wrapper (pre 2.33d)  
+extern FAUDES_API bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenCand);
+extern FAUDES_API void SupRelativelyPrefixClosed(const Generator& rPlantGen, const Generator& rSpecGen, 
+  Generator& rResGen);
 
 
 

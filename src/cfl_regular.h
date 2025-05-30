@@ -866,7 +866,7 @@ extern FAUDES_API void PrefixClosure(Generator& rGen);
  *
  * @ingroup GeneratorFunctions
  */
-extern FAUDES_API bool IsPrefixClosed(const Generator& rGen);
+extern FAUDES_API bool IsClosed(const Generator& rGen);
 
 
 /**
@@ -1019,6 +1019,8 @@ extern FAUDES_API void SelfLoopMarkedStates(Generator& rGen,const EventSet& rAlp
 extern FAUDES_API void SelfLoop(Generator& rGen,const EventSet& rAlphabet,const StateSet& rStates);
 
 
+/** lagacy wrappet (pre 2.33) */
+extern FAUDES_API bool IsPrefixClosed(const Generator& rGen);
 
 
 } // namespace faudes

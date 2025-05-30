@@ -1,0 +1,48 @@
+%%% test mark: ifac2020 example [at syn_2_ctrlpfx.cpp:66]
+% 
+%  Statistics for States
+% 
+%  Size: 9
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: elesup [at syn_2_ctrlpfx.cpp:124]
+% 
+%  Statistics for SupClosed(elevator full plant (cabi...ant (cabin plus buttons) [minstate]
+% 
+%  States:        100
+%  Init/Marked:   1/2
+%  Events:        27
+%  Transitions:   388
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: elessup [at syn_2_ctrlpfx.cpp:125]
+% 
+%  Statistics for SupCon((elevator full plant (cabin ...]),(full elevator spec [minstate])) [minstate]
+% 
+%  States:        100
+%  Init/Marked:   1/2
+%  Events:        27
+%  Transitions:   388
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: validate [at syn_2_ctrlpfx.cpp:126]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

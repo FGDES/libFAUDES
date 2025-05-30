@@ -33,14 +33,13 @@ int main() {
   // Read example data from file
   System sys("data/syn_2_ctrlpfx.gen");
 
-  // Have unconllabe events
+  // Have uncontrollabe events
   EventSet siguc=sys.UncontrollableEvents();
 
   // Report to console
   std::cout << "################################\n";
   std::cout << "# generator  \n";
   sys.DWrite();
-  siguc.DWrite();
   std::cout << "################################\n";
   std::cout << std::endl;
 
@@ -63,7 +62,9 @@ int main() {
   std::cout << "################################\n";
   std::cout << std::endl;
 
-  
+  // record result
+  FAUDES_TEST_DUMP("ifac2020 example",cfx);
+    
   /////////////////////////////////////////////
   // Demo of implementing SupCon as nu-mu iteration
   // (also along the line of our IFAC 2020 contribution)
@@ -72,29 +73,59 @@ int main() {
   // read problem data L and E
   System plant("./data/syn_eleplant.gen");
   Generator spec("./data/syn_elespec.gen");
-
-  // first closded-loop candidate: mark L cap E
+  Alphabet sigall =  plant.Alphabet() + spec.Alphabet();
+  Alphabet sigctrl = plant.ControllableEvents() + (spec.Alphabet()-plant.Alphabet());
+  
+  // closded-loop candidate: mark L cap E
   Generator sup;
   Automaton(spec,sup);
+  sup.StateNamesEnabled(false);
   ParallelLive(plant,sup,sup);
 
   // take controllability prefix
   std::cout << "################################\n";
-  CtrlPfxOperator xcfxop_Y_X(sup,plant.UncontrollableEvents());
+  std::cout << "# computing controllability prefix\n"; 
+  std::cout << "# state count: " << sup.Size() << std::endl;
+  CtrlPfxOperator xcfxop_Y_X(sup,sigall-sigctrl);
   MuIteration xcfxop_Y_muX(xcfxop_Y_X);
   NuIteration xcfxop_nuY_muX(dynamic_cast<StateSetOperator&>(xcfxop_Y_muX));
   StateSet xcfx;
-  xcfxop_nuY_muX.Evaluate(cfx);
-  std::cout << "# resulting fixpoint: " << std::endl;
-  xcfx.Write();
+  xcfxop_nuY_muX.Evaluate(xcfx);
+  std::cout << "# state count of fixpoint: " << xcfx.Size() << std::endl;
+
+  // derive supremal closed-loop behaviour
+  sup.InjectMarkedStates(xcfx);
+  SupClosed(sup,sup);
+  Trim(sup);
+  Parallel(sup,spec,sup);
+  Parallel(sup,plant,sup);
+  std::cout << "# closed-loop statistics" << std::endl;
+  sup.SWrite();
+
+  // validate against std SupCon
+  std::cout << "# validate w.r.t. std implementation of SupCon\n";
+  Generator ssup;
+  InvProject(plant,sigall);
+  plant.SetControllable(sigctrl);
+  InvProject(spec,sigall);
+  ssup.StateNamesEnabled(false);
+  SupCon(plant,spec,ssup);
+  StateMin(ssup,ssup);
+  ssup.SWrite();
+  bool eql=LanguageEquality(ssup,sup);
+  if(eql)
+    std::cout << "# closed-loop behaviours match (tast case pass)\n";
+  else    
+    std::cout << "# closed-loop behaviours do not match (test case FAIL)\n";
   std::cout << "################################\n";
   std::cout << std::endl;
 
-  sup.RestrictStates(cfx);
-  sup.GraphWrite("tmp_elesup.png");
-  sup.SWrite();
+  // record result
+  FAUDES_TEST_DUMP("elesup",sup);
+  FAUDES_TEST_DUMP("elessup",ssup);
+  FAUDES_TEST_DUMP("validate",eql);
 
-  
-  return 0;
+  // validate
+  FAUDES_TEST_DIFF();
 }
 

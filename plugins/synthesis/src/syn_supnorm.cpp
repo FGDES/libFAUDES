@@ -415,16 +415,16 @@ void SupConNorm(
 }  
 
 
-// SupPrefixClosed(rK,rResult)
-bool SupPrefixClosed(
+// SupClosed(rK,rResult)
+bool SupClosed(
   const Generator& rK,
 	Generator& rResult) 
 {
   
-  FD_DF("SupPrefixClosed("<<rK.Name()<<")");
+  FD_DF("SupClosed("<<rK.Name()<<")");
   
   // prepare Result:
-  rResult.Name("SupPrefixClosed("+rK.Name()+")");
+  rResult.Name("SupClosed("+rK.Name()+")");
   
   // check for marked initial state, empty result if not
   if( (rK.InitStates() * rK.MarkedStates()).Empty() ) {
@@ -724,5 +724,12 @@ void SupConNorm(
     delete pResGen;
   }
 }
+
+// legacy wrapper
+void SupPrefixClosed(const Generator& rK, Generator& rResult) {
+  FD_WARN("SupPrefixClosed(): API depreciated; use SupClosed()");
+  SupClosed(rK,rResult);
+}
+
 
 } // end namespace

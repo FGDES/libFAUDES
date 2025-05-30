@@ -338,7 +338,7 @@ bool IsStdSynthesisConsistentUnchecked(
 
         // apply test E: use the supremal evil supervisor to test whether reachability of X1 complies with E0s
         Generator K0s;
-        SupRelativelyPrefixClosed(rPlant0Gen,E0s,E0s); 
+        SupRelativelyClosed(rPlant0Gen,E0s,E0s); 
         SupCon(rPlant0Gen,sigco,E0s,K0s); 
 	// test whether X1 is reachable under evil supervision
         Generator Ks=K0s;

@@ -950,12 +950,14 @@ void SupConNB(
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
   Generator& rResGen) {
+  FD_WARN("SupConNB(): API depreciated; use SupCon()");
   SupCon(rPlantGen,rCAlph,rSpecGen,rResGen);
 }
 void SupConNB(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen) {
+  FD_WARN("SupConNB(): API depreciated; use SupCon()");
   SupCon(rPlantGen,rSpecGen,rResGen);
 }
 

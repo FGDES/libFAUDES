@@ -947,13 +947,13 @@ CoreFaudes    Functions     composition   generator     nonblocking
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function IsPrefixClosed -->
+<!-- Faudes Function IsClosed -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="CoreFaudes::IsPrefixClosed" ctype="faudes::IsPrefixClosed"> 
+<FunctionDefinition name="CoreFaudes::IsClosed" ctype="faudes::IsClosed"> 
 
-<Documentation ref="corefaudes_genmisc.html#IsPrefixClosed"> 
+<Documentation ref="corefaudes_genmisc.html#IsClosed"> 
 Tests a language for being prefix-closed.
 </Documentation> 
 <Keywords> 
@@ -961,7 +961,7 @@ CoreFaudes    Functions     "language misc"  "prefix closed"  closed
 </Keywords> 
 
 <VariantSignatures> 
-<Signature name="IsPrefixClosed(G)"> 
+<Signature name="IsClosed(G)"> 
 <Parameter name="G" ftype="Generator" access="In"/> 
 <Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
 </Signature> 

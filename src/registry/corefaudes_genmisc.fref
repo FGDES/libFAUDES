@@ -81,7 +81,7 @@ is guaranteed to be deterministic.
 <!-- ===================================================== -->
 <!-- ===================================================== -->
 
-<ffnct_reference name="IsPrefixClosed">
+<ffnct_reference name="IsClosed">
 <fdetails/>
 <p>
 A language <fimath>L</fimath> is <i>prefix-closed</i>
@@ -92,7 +92,7 @@ are also element of <fimath>L</fimath>:
 <fdmath>s\in L \text{ and } r\le s \quad \Rightarrow\quad r\in L</fdmath>.
 <br/>
 <br/>
-The function <ffnct>IsPrefixClosed</ffnct> tests whether the language
+The function <ffnct>IsClosed</ffnct> tests whether the language
 <fimath>L_m(G)</fimath> marked by the specified generator <i>G</i> is
 prefix-closed. It does so by testing whether any state that
 is accessible and co-accessible also is marked. 
@@ -158,107 +158,6 @@ and then marking the remaining states.
 </ffnct_reference>
 
 
-
-<!-- ===================================================== -->
-<!-- ===================================================== -->
-<!-- ===================================================== -->
-
-<ffnct_reference name="IsOmegaClosed">
-<fdetails/>
-<p>
-A omega-language <fimath>L\subseteq \Sigma^\omega</fimath> 
-is <i>omega-closed</i> if any strictly
-increasing sequence of prefixes from <fimath>L</fimath> converges to an 
-omega-string in <fimath>L</fimath>, i.e. if
-<br/>
-<br/>
-<fimath>L=B(\Prefix{L})</fimath>,
-<br/>
-<br/>
-where <fimath>\Prefix{L}\subseteq\Sigma^*</fimath> denotes the set 
-of all finite prefixes from <fimath>L</fimath> and
-<fimath>B(\cdot)</fimath> is the adherence operator.
-</p>
-<p>
-The function <ffnct>IsOmegaClosed</ffnct> tests for the specified generator
-<fimath>G</fimath> whether <fimath>Bm(G)</fimath> is omega-closed. The implementation
-first computes the omega-trim state set. If within this
-set there exists an SCC with no marked states the function returns false.
-Else it returns true.
-</p>
-
-<fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
-<tr> <td> G </td> </tr>
-<tr>
-<td> <fimage fsrc="tmp_omegaclosure_g"/> </td> 
-</tr>
-</table> 
-</td> </tr> </table>
-<p>
-The language <fimath>B_m(G)</fimath> realized by the above generator is not
-omega-closed.
-The states <tt>6</tt> and <tt>7</tt> constitute 
-an SCC when restricting G to the omega-trim state set <tt>{1,2,4,6,7}</tt>. Thus,
-the limit of the sequence  <tt> a d (a b)^i</tt> is in 
-<fimath>B(\Prefix{L})</fimath> but not in <fimath>B(L)</fimath>.
-The function <ffnct>IsOmegaClosed</ffnct> returns false.
-</p>
-
-<fconditions/>
-<p>
-The argument must be deterministic.
-</p>
-
-</ffnct_reference>
-
-
-
-<!-- ===================================================== -->
-<!-- ===================================================== -->
-<!-- ===================================================== -->
-
-<ffnct_reference name="OmegaClosure">
-<fdetails/>
-<p>
-For any omega-language <fimath>L\subseteq \Sigma^\omega</fimath> 
-there exists a smallest omega-closed
-superset, the so-called <i>omega-closure</i> or <i>topological closure</i>
-of <fimath>L</fimath>:
-<br/>
-<br/>
-<fimath>\Closure{L}=B(\Prefix{L})\subseteq \Sigma^\omega</fimath>, 
-<br/>
-<br/>
-where <fimath>\Prefix{H}\subseteq\Sigma^*</fimath> denotes the set 
-of all finite prefixes from <fimath>H</fimath> and
-<fimath>B(\cdot)</fimath> is the limit operator
-; see also <ffnct>IsOmegaClosed</ffnct>.
-</p>
-<p>
-The function <ffnct>OmegaClosure</ffnct> computes a realisation of the
-the omega-closure for the specified omega language <fimath>B_m(GArg)</fimath>.
-It first invokes <ffnct>OmegaTrim</ffnct> and then markes all states.
-Thus,
-<fimath>\Closure{Bm(GArg)}=B(GRes)=Bm(GRes)</fimath> and
-<fimath>\Prefix{Bm(GArg)}=L(GRes)=Lm(GRes)</fimath>.
-</p>
-
-<fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
-<tr> <td> G </td> <td> GRes  </td> </tr>
-<tr>
-<td> <fimage fsrc="tmp_omegaclosure_g"/> </td> 
-<td> <fimage fsrc="tmp_omegaclosure_gRes"/> </td> 
-</tr>
-</table> 
-</td> </tr> </table>
-
-</ffnct_reference>
 
 
 
