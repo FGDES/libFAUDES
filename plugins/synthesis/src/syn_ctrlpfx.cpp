@@ -117,15 +117,15 @@ Implementation of operator on state sets: controllability prefix
 */
 
 // constructor  
-CtrlPfxOperator::CtrlPfxOperator(const vGenerator& rGen, const EventSet& rSigmaUc) :
+CtrlPfxOperator::CtrlPfxOperator(const vGenerator& rGenerator, const EventSet& rSigmaCtrl) :
   StateSetOperator(),
-  mrGen(rGen),
-  mSigmaUc(rSigmaUc),
-  mrTransRel(rGen.TransRel()),
+  rGen(rGenerator),
+  mSigmaCtrl(rSigmaCtrl),
+  rTransRel(rGen.TransRel()),
   mRevTransRel(rGen.TransRel())
 {
   FD_DF("CtrlPfxOperator(): instantiated from " << mrGen.Name());
-  mrGen.SWrite();
+  rGen.SWrite();
   Name("cpx_op([Y,X])");
   mArgNames= std::vector<std::string>{"Y","X"};
   mArgCount=2;
@@ -133,7 +133,7 @@ CtrlPfxOperator::CtrlPfxOperator(const vGenerator& rGen, const EventSet& rSigmaU
 
 // domain
 const StateSet& CtrlPfxOperator::Domain(void) const {
-  return mrGen.States();
+  return rGen.States();
 }  
 
 // evaluation
@@ -144,41 +144,43 @@ void CtrlPfxOperator::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   // have neat accessors
   StateSet& Y=rArgs.At(0);
   StateSet& X=rArgs.At(1);
-  //FD_DF("CtrlPfxOperator::DoEvaluate(): Y " << mrGen.StateSetToString(Y));
-  //FD_DF("CtrlPfxOperator::DoEvaluate(): X " << mrGen.StateSetToString(X));
+  //FD_DF("CtrlPfxOperator::DoEvaluate(): Y " << rGen.StateSetToString(Y));
+  //FD_DF("CtrlPfxOperator::DoEvaluate(): X " << rGen.StateSetToString(X));
+
   // actual implementation comes here, aka
   // eval([Y,X]) =
   //   (pre_exisntial(X) union marked_states) intersectted with  pre_universal(Y)
+
   /*
   // variant 1: by the book  
   StateSet lhs;
   lhs.Assign(mRevTransRel.PredecessorStates(X));
-  lhs.InsertSet(mrGen.MarkedStates());
+  lhs.InsertSet(rGen.MarkedStates());
   StateSet rhs;
-  StateSet Ycmp= mrGen.States() - Y;
-  rhs.Assign(mrGen.States());
+  StateSet Ycmp= rGen.States() - Y;
+  rhs.Assign(rGen.States());
   rhs.EraseSet(mRevTransRel.PredecessorStates(Ycmp,mSigmaUc) );
   rRes=lhs * rhs;
   */
+  
   // variant 2: perhaps gain some performance
   rRes.Assign(mRevTransRel.PredecessorStates(X));
-  rRes.InsertSet(mrGen.MarkedStates());
+  rRes.InsertSet(rGen.MarkedStates());
   StateSet::Iterator sit=rRes.Begin();
   StateSet::Iterator sit_end=rRes.End();
   while(sit!=sit_end){
-    TransSet::Iterator tit=mrTransRel.Begin(*sit);
-    TransSet::Iterator tit_end=mrTransRel.End(*sit);
+    TransSet::Iterator tit=rTransRel.Begin(*sit);
+    TransSet::Iterator tit_end=rTransRel.End(*sit);
     for(;tit!=tit_end;++tit){
-      if(!mSigmaUc.Exists(tit->Ev)) continue;
+      if(mSigmaCtrl.Exists(tit->Ev)) continue;
       if(Y.Exists(tit->X2)) continue;
       break;
     }  
-    if(tit!=tit_end)
-      rRes.Erase(sit++);
-    else
-      ++sit;
+    if(tit!=tit_end) rRes.Erase(sit++);
+    else++sit;
   }
-  //FD_DF("CtrlPfxOperator::DoEvaluate(): R " << mrGen.StateSetToString(rRes));
+  
+  //FD_DF("CtrlPfxOperator::DoEvaluate(): R " << rGen.StateSetToString(rRes));
 };
   
 

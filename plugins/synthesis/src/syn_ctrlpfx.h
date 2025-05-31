@@ -148,7 +148,7 @@ class FAUDES_API CtrlPfxOperator : public StateSetOperator {
 public:
 
   /** construct */
-  CtrlPfxOperator(const vGenerator& rGen, const EventSet& rSigmaUc);
+  CtrlPfxOperator(const vGenerator& rGenerator, const EventSet& rSigmaCtrl);
 
   /** destruct */
   ~CtrlPfxOperator() {};
@@ -185,13 +185,13 @@ protected:
   
 
   /** set up context references */
-  const vGenerator& mrGen;
+  const vGenerator& rGen;
 
   /** set up conbtext references */
-  EventSet mSigmaUc;
+  EventSet mSigmaCtrl;
 
   /** set up context references */
-  const TransSet& mrTransRel;
+  const TransSet& rTransRel;
 
   /** have a reverse transition relation*/
   TransSetX2EvX1  mRevTransRel;

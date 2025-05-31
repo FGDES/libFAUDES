@@ -33,8 +33,8 @@ int main() {
   // Read example data from file
   System sys("data/syn_2_ctrlpfx.gen");
 
-  // Have uncontrollabe events
-  EventSet siguc=sys.UncontrollableEvents();
+  // Have controllabe events
+  EventSet sigctrl=sys.ControllableEvents();
 
   // Report to console
   std::cout << "################################\n";
@@ -44,7 +44,7 @@ int main() {
   std::cout << std::endl;
 
   //Instantiate my operator
-  CtrlPfxOperator cfxop_Y_X(sys,siguc);
+  CtrlPfxOperator cfxop_Y_X(sys,sigctrl);
 
   // Have the inner mu-iteration
   MuIteration cfxop_Y_muX(cfxop_Y_X);
@@ -73,8 +73,8 @@ int main() {
   // read problem data L and E
   System plant("./data/syn_eleplant.gen");
   Generator spec("./data/syn_elespec.gen");
-  Alphabet sigall =  plant.Alphabet() + spec.Alphabet();
-  Alphabet sigctrl = plant.ControllableEvents() + (spec.Alphabet()-plant.Alphabet());
+  EventSet sigall =  plant.Alphabet() + spec.Alphabet();
+  sigctrl = plant.ControllableEvents() + (spec.Alphabet()-plant.Alphabet());
   
   // closded-loop candidate: mark L cap E
   Generator sup;
@@ -86,7 +86,7 @@ int main() {
   std::cout << "################################\n";
   std::cout << "# computing controllability prefix\n"; 
   std::cout << "# state count: " << sup.Size() << std::endl;
-  CtrlPfxOperator xcfxop_Y_X(sup,sigall-sigctrl);
+  CtrlPfxOperator xcfxop_Y_X(sup,sigctrl);
   MuIteration xcfxop_Y_muX(xcfxop_Y_X);
   NuIteration xcfxop_nuY_muX(dynamic_cast<StateSetOperator&>(xcfxop_Y_muX));
   StateSet xcfx;

@@ -3,7 +3,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2025 Yiheng Tang, Thomas Moor
+   Copyright (C) 2025 Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -170,6 +170,14 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      */
      faudes::RabinAcceptance&  RabinAcceptance(void);
 
+    /**
+     * Set Rabin acceptance condition from marked states
+     *
+     * This methods interprets the specified states as Buechi acceptance
+     * condition and constructs an equivalient Rabin avvecptance condition.
+     */
+     void RabinAcceptance(const StateSet& rMarking);
+
  protected:
 
     /** need to reimplement to care about Additional members */
@@ -297,6 +305,14 @@ TEMP const RabinAcceptance& THIS::RabinAcceptance(void) const {
   return BASE::GlobalAttribute();
 }
 
+// Member access, set
+TEMP void THIS::RabinAcceptance(const StateSet& rMarking) {
+  RabinAcceptance().Clear();
+  RabinPair rpair;
+  rpair.ISet()=StateSet();
+  rpair.RSet()=rMarking;
+  RabinAcceptance().Insert(rpair);
+}
   
 #undef TEMP
 #undef BASE
