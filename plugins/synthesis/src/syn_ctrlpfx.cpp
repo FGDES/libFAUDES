@@ -33,7 +33,10 @@ Implementation of operator on state sets: virtual base
 *********************************************************************    
 */
 
-// ge dummy domain  
+// static member
+bool StateSetOperator::mLogMuNu;  
+  
+// get dummy domain  
 const StateSet&  StateSetOperator::Domain(void) const {
   static StateSet empty;
   return empty;
@@ -98,15 +101,19 @@ std::string StateSetOperator::ArgStatistics(const StateSetVector& rArgs) const {
 
 // indentation for nested iterations
 const std::string& StateSetOperator::Indent(void) const {
-  if(mIndent.empty() && ArgCount()>0) {
-    StateSetOperator* rwp = const_cast<StateSetOperator*>(this);
-    for(StateSetVector::Position pos=0; pos< ArgCount(); ++pos) 
-      rwp->mIndent = rwp->mIndent + "  ";
-  }
   return mIndent;
 }
 
+// indentation for nested iterations (fake const)
+void StateSetOperator::Indent(const std::string& indent) const {
+  StateSetOperator* rwp = const_cast<StateSetOperator*>(this);
+  rwp->mIndent = indent;
+}
 
+// logging  
+void StateSetOperator::LogMuNu(bool logon) {
+  mLogMuNu=logon;
+}
 
 /*  
 *********************************************************************
@@ -205,10 +212,19 @@ MuIteration::MuIteration(const StateSetOperator& rOp) :
   mArgCount=rOp.ArgCount()-1;
   for(StateSetVector::Position pos=0; pos<rOp.ArgCount(); ++pos)
     mArgNames.push_back(rOp.ArgName(pos));
+  mIndent=mrOp.Indent();
+  mrOp.Indent(mIndent+"  ");
   FD_DF("MuIteration(): instantiated to evaluate " << Name());
 };
-    
 
+
+// pass on indent to inner loops
+void MuIteration::Indent(const std::string& indent) const {
+  StateSetOperator::Indent(indent);
+  mrOp.Indent(indent+"  ");
+}
+
+    
 // inherit domain
 const StateSet& MuIteration::Domain(void) const {
   return mrOp.Domain();
@@ -218,7 +234,11 @@ const StateSet& MuIteration::Domain(void) const {
 void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   // prepare progress message
   std::string prog="MuIteration::DoEvaluate(): " + Indent() + Name() + ": " + ArgStatistics(rArgs);
-  FD_DF(prog);
+  if(mLogMuNu) {
+    FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
+  } else {
+    FD_DF(prog);
+  }
   // prepare result
   rRes.Clear();
   // actual implementation comes here
@@ -230,13 +250,17 @@ void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
     Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
     FD_DF("MuIteration::DoEvaluate(): " << Indent() << xsz << "# -> #" << R.Size());
-    rRes.InsertSet(R);
+    rRes.Assign(R);
     if(rRes.Size()==xsz) break;  
     FD_WPC(1,2,prog);
   }
   // say goodby
   prog=prog + " -> " + mrOp.ArgName(mrOp.ArgCount()-1) + " #" + faudes::ToStringInteger(rRes.Size());
-  FD_DF(prog);  
+  if(mLogMuNu) {
+    FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
+  } else {
+    FD_DF(prog);
+  }
 };
 
 
@@ -262,9 +286,16 @@ NuIteration::NuIteration(const StateSetOperator& rOp) :
   mArgCount=rOp.ArgCount()-1;
   for(StateSetVector::Position pos=0; pos<rOp.ArgCount(); ++pos)
     mArgNames.push_back(rOp.ArgName(pos));
+  mIndent=mrOp.Indent();
+  mrOp.Indent(mIndent+"  ");
   FD_DF("NuIteration(): instantiated to evaluate " << Name());
-};
-    
+}
+
+// pass on indent to inner loops
+void NuIteration::Indent(const std::string& indent) const {
+  StateSetOperator::Indent(indent);
+  mrOp.Indent(indent+"  ");
+}
 
 // inherit domain
 const StateSet& NuIteration::Domain(void) const {
@@ -275,7 +306,11 @@ const StateSet& NuIteration::Domain(void) const {
 void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   // prepare progress message
   std::string prog="NuIteration::DoEvaluate(): " + Indent() + Name() + ": " + ArgStatistics(rArgs);
-  FD_DF(prog);
+  if(mLogMuNu) {
+    FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
+  } else {
+    FD_DF(prog);
+  }
   // prepare result
   rRes.Clear();
   // actual implementation comes here
@@ -288,13 +323,17 @@ void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
     Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
     FD_DF("NuIteration::DoEvaluate(): " << Indent() << xsz << "# -> #" << R.Size());
-    rRes.RestrictSet(R);
+    rRes.Assign(R);
     if(rRes.Size()==xsz) break;  
     FD_WPC(1,2,prog);
   }
   // say goodby
   prog=prog + " -> " + mrOp.ArgName(mrOp.ArgCount()-1) + " #" + faudes::ToStringInteger(rRes.Size());
-  FD_DF(prog);  
+  if(mLogMuNu) {
+    FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
+  } else {
+    FD_DF(prog);
+  }
 };
 
 } // namespace faudes

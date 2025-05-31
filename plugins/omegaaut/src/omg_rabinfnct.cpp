@@ -182,7 +182,57 @@ bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rRes) {
   return RabinTrim(rRes);
 }  
 
-
-
+// Rabin-Buechi product
+void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  RabinAutomaton& rRes) {
+  // prepare result
+  RabinAutomaton* pRes = &rRes;
+  if(&rRes== &rRAut || &rRes== &rBAut) {
+    pRes= rRes.New();
+  }
+  // utils
+  StateSet::Iterator sit;
+  StateSet::Iterator sit_end;
+  std::map< std::pair<Idx,Idx>, Idx>::iterator cit;
+  std::map< std::pair<Idx,Idx>, Idx> cmap;
+  // transition product
+  Product(rRAut,rBAut,cmap,*pRes);
+  // set conversion rRAut-state to set of new states
+  std::map< Idx , StateSet > rmap;
+  cit=cmap.begin();;
+  for(;cit!=cmap.end();++cit)
+    rmap[cit->first.first].Insert(cit->second);
+  // copy and fix Rabin acceptance
+  pRes->RabinAcceptance().Clear();
+  RabinAcceptance::CIterator rit=rRAut.RabinAcceptance().Begin();;
+  RabinAcceptance::CIterator rit_end=rRAut.RabinAcceptance().End();;
+  for(;rit!=rit_end;++rit) {
+    RabinPair rpair;
+    sit=rit->RSet().Begin();
+    sit_end=rit->RSet().End();
+    for(;sit!=sit_end;++sit) 
+      rpair.RSet().InsertSet(rmap[*sit]);          
+    sit=rit->ISet().Begin();
+    sit_end=rit->ISet().End();
+    for(;sit!=sit_end;++sit) 
+      rpair.ISet().InsertSet(rmap[*sit]);
+    pRes->RabinAcceptance().Insert(rpair);
+  }
+  // set conversion rBAut-state to set of new states
+  std::map< Idx , StateSet > bmap;
+  cit=cmap.begin();;
+  for(;cit!=cmap.end();++cit)
+    bmap[cit->first.second].Insert(cit->second);
+  // set buechi marking
+  sit=rBAut.MarkedStatesBegin();
+  sit_end=rBAut.MarkedStatesEnd();
+  for(;sit!=sit_end;++sit) 
+    pRes->InsMarkedStates(bmap[*sit]);  
+  // copy result
+  if(pRes != &rRes) {
+    pRes->Move(rRes);
+    delete pRes;
+  }
+}
+  
 } // namespace faudes
 

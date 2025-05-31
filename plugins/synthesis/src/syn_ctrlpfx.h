@@ -108,7 +108,14 @@ public:
   std::string ArgStatistics(const StateSetVector& rArgs) const;
 
   /** indent (cosmetic) */
-  const std::string& Indent(void) const;
+  virtual const std::string& Indent(void) const;
+
+  /** indent (cosmetic) */
+  virtual void Indent(const std::string& indent) const;
+
+  /** logging progress (cosmetic) */
+  static void LogMuNu(bool on);
+
 
 protected:
 
@@ -120,6 +127,10 @@ protected:
 
  /** support cosmetic */
  std::string mIndent;
+
+ /** support cosmetic */
+ static bool mLogMuNu;
+ 
 
   /**
    * Evaluate opertor on arguments (protected virtual)
@@ -238,6 +249,10 @@ class FAUDES_API MuIteration : public StateSetOperator {
    **/
   virtual const StateSet&  Domain(void) const;
 
+  /** indent (cosmetic) */
+  using StateSetOperator::Indent;
+  virtual void Indent(const std::string& indent) const;
+
 protected:
 
   /**
@@ -304,6 +319,10 @@ class FAUDES_API NuIteration : public StateSetOperator {
   virtual const StateSet&  Domain(void) const;
 
   
+  /** reimplemengt indent */
+  using StateSetOperator::Indent;
+  virtual void Indent(const std::string& indent) const;
+
 protected:
 
   /**

@@ -43,7 +43,10 @@ int main() {
   std::cout << "################################\n";
   std::cout << std::endl;
 
-  //Instantiate my operator
+  // Turn on logging
+  StateSetOperator::LogMuNu(true);
+
+  // Instantiate my operator
   CtrlPfxOperator cfxop_Y_X(sys,sigctrl);
 
   // Have the inner mu-iteration
@@ -54,7 +57,7 @@ int main() {
   
   // run
   std::cout << "################################\n";
-  std::cout << "# running nu-mu nested fixpoint iteration: " << cfxop_Y_muX.Name() << std::endl;
+  std::cout << "# running nu-mu nested fixpoint iteration: " << cfxop_nuY_muX.Name() << std::endl;
   StateSet cfx;
   cfxop_nuY_muX.Evaluate(cfx);
   std::cout << "# resulting fixpoint: " << std::endl;

@@ -145,6 +145,30 @@ extern FAUDES_API bool RabinTrim(RabinAutomaton& rRAut);
  */
 extern FAUDES_API bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rRes);
 
+/**
+ * Construct Rabin-Buechi automata.
+ *
+ * Given two automata rRAut and rBAut, This function constructs the accessible product state set
+ * and corresponding syncronizsed transitions. For the generated languages, this is exactly the same
+ * as the common Product. It then lifts the two individual acceptance conditions to the product state set.
+ * If both rRAut and rBAut are full, so is the result. In that case, the result accepts by its
+ * Rabin acceptance condition rund that are accepted by rRAut and by its Buechi acceptance condition
+ * those path thet are accepted by rBAut.
+ *
+ * The intended use case is when rRAut is a liveness specification and rBAut is a plant with liveness
+ * guarantees.
+ *
+ * @param rRAut
+ *   Rabin automaton
+ * @param rBAut
+ *   Buechi automaton
+ * @param rRes
+ *   Resulting product automaton
+ *
+ * @ingroup OmgPlugin
+ */
+extern FAUDES_API void  RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  RabinAutomaton& rRes);
+
 
 
 } // namespace faudes

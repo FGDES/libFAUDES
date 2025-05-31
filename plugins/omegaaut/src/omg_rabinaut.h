@@ -309,7 +309,7 @@ TEMP const RabinAcceptance& THIS::RabinAcceptance(void) const {
 TEMP void THIS::RabinAcceptance(const StateSet& rMarking) {
   RabinAcceptance().Clear();
   RabinPair rpair;
-  rpair.ISet()=StateSet();
+  rpair.ISet()=THIS::States();
   rpair.RSet()=rMarking;
   RabinAcceptance().Insert(rpair);
 }
