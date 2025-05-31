@@ -182,7 +182,9 @@ bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rRes) {
   return RabinTrim(rRes);
 }  
 
-// Rabin-Buechi product
+
+// Rabin-Buechi product (lifting individual acceptence conditions, languages not affaected
+// if arguments are full))
 void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  RabinAutomaton& rRes) {
   // prepare result
   RabinAutomaton* pRes = &rRes;
@@ -233,6 +235,184 @@ void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  
     delete pRes;
   }
 }
+
+
+// helper class for omega compositions
+class RPState {
+public:
+  // minimal interface
+  RPState() {};
+  RPState(const Idx& rq1, const Idx& rq2, const bool& rf) :
+    q1(rq1), q2(rq2), m1required(rf), mresolved(false) {};
+  std::string Str(void) { return ToStringInteger(q1)+"|"+
+      ToStringInteger(q2)+"|"+ToStringInteger(m1required); };
+  // order
+  bool operator < (const RPState& other) const {
+    if (q1 < other.q1) return(true);
+    if (q1 > other.q1) return(false);
+    if (q2 < other.q2) return(true);
+    if (q2 > other.q2) return(false);
+    if (!m1required && other.m1required)  return(true);
+    if (m1required &&  !other.m1required) return(false);
+    if (!mresolved &&  other.mresolved)  return(true);
+    return(false);
+  }
+  // member variables
+  Idx q1;
+  Idx q2;
+  bool m1required;
+  bool mresolved;
+};
+
+
+// product of rabin and buechi automata, langugae intersection (only one rabin pair) 
+void RabinBuechiProduct(const RabinAutomaton& rRAut, const Generator& rBAut, RabinAutomaton& rRes) {
+  // we can only handle one Rabin pair
+  if(rRAut.RabinAcceptance().Size()!=1){
+    std::stringstream errstr;
+    errstr << "the current implementation requires exactly one Rabin pair";
+    throw Exception("RabinBuechiProduct", errstr.str(), 80);
+  }
+
+  // prepare result
+  RabinAutomaton* pRes = &rRes;
+  if(&rRes== &rRAut || &rRes== &rBAut) {
+    pRes= rRes.New();
+  }
+  pRes->Clear();
+  pRes->Name(CollapsString(rRAut.Name()+".x."+rBAut.Name()));
+
+  // create res alphabet
+  pRes->InsEvents(rRAut.Alphabet());
+  pRes->InsEvents(rBAut.Alphabet());
+
+  // pick the one Rabin pair we care and prepare result
+  RabinPair rpair= *(rRAut.RabinAcceptance().Begin());
+  rpair.RSet().RestrictSet(rpair.ISet());
+  pRes->RabinAcceptance().Size(1);
+  RabinPair& resrpair= *(pRes->RabinAcceptance().Begin());
+  resrpair.Clear();
   
+  // reverse composition map
+  std::map< RPState, Idx> reverseCompositionMap;
+  // todo stack
+  std::stack< RPState > todo;
+  // current pair, new pair
+  RPState currentstates, newstates;
+  // state
+  Idx tmpstate;  
+  StateSet::Iterator lit1, lit2;
+  TransSet::Iterator tit1, tit1_end, tit2, tit2_end;
+  std::map< RPState, Idx>::iterator rcit;
+  // push all combinations of initial states on todo stack
+  FD_DF("RabinBuechiProduct: push initial states to todo:");
+  for(lit1 = rRAut.InitStatesBegin(); lit1 != rRAut.InitStatesEnd(); ++lit1) {
+    for(lit2 = rBAut.InitStatesBegin(); lit2 != rBAut.InitStatesEnd(); ++lit2) {
+      currentstates = RPState(*lit1, *lit2, true);
+      todo.push(currentstates);
+      Idx tmpstate=pRes->InsInitState();
+      reverseCompositionMap[currentstates] = tmpstate;
+      FD_DF("RabinRabinBuechiProduct:   " << currentstates.Str() << " -> " << tmpstate);
+      // figure, whether this state should be in the invariant
+      if(rpair.ISet().Exists(currentstates.q1))
+        resrpair.ISet().Insert(tmpstate);
+      // copy buechi marking
+      if(rBAut.ExistsMarkedState(currentstates.q2))
+	 pRes->SetMarkedState(tmpstate);
+    }
+  }
+
+  // start algorithm
+  FD_DF("RabinBuechiProduct: processing reachable states:");
+  while (! todo.empty()) {
+    // allow for user interrupt
+    LoopCallback();
+    // get next reachable state from todo stack
+    currentstates = todo.top();
+    todo.pop();
+    FD_DF("RabinBuechiProduct: processing (" << currentstates.Str() << " -> " << reverseCompositionMap[currentstates]);
+    // iterate over all rRAut transitions  
+    tit1 = rRAut.TransRelBegin(currentstates.q1);
+    tit1_end = rRAut.TransRelEnd(currentstates.q1);
+    for(; tit1 != tit1_end; ++tit1) {
+      // find transition in rBAut
+      tit2 = rBAut.TransRelBegin(currentstates.q2, tit1->Ev);
+      tit2_end = rBAut.TransRelEnd(currentstates.q2, tit1->Ev);
+      for (; tit2 != tit2_end; ++tit2) {
+        newstates = RPState(tit1->X2, tit2->X2,currentstates.m1required);
+        // figure whether marking was resolved
+        if(currentstates.m1required) {
+  	  if(rpair.RSet().Exists(currentstates.q1))
+	    newstates.m1required=false;
+        } else {
+  	  if(rpair.ISet().Exists(currentstates.q1))
+  	  if(rBAut.ExistsMarkedState(currentstates.q2))
+	    newstates.m1required=true;
+        }
+        // add to result and todo list if composition state is new
+        rcit = reverseCompositionMap.find(newstates);
+        if(rcit == reverseCompositionMap.end()) {
+          todo.push(newstates);
+          tmpstate = pRes->InsState();
+	  // figure, whether this state should be recurrent
+          if(!newstates.m1required)
+	    if(rBAut.ExistsMarkedState(newstates.q2))
+              resrpair.RSet().Insert(tmpstate);
+	  // figure, whether this state should be invariant
+	  if(rpair.ISet().Exists(newstates.q1))
+              resrpair.ISet().Insert(tmpstate);
+	  // copy buechi marking
+  	  if(rBAut.ExistsMarkedState(newstates.q2))
+	    pRes->SetMarkedState(tmpstate);
+	  // record new state
+          reverseCompositionMap[newstates] = tmpstate;
+          FD_DF("RabinBuechiProduct:   todo push: (" << newstates.Str() << ") -> " << reverseCompositionMap[newstates]);
+        }
+        else {
+          tmpstate = rcit->second;
+        }
+        pRes->SetTransition(reverseCompositionMap[currentstates], 
+            tit1->Ev, tmpstate);
+        FD_DF("RabinBuechiProduct:  add transition to new generator: " << 
+	      pRes->TStr(Transition(reverseCompositionMap[currentstates], tit1->Ev, tmpstate)));
+      }
+    }
+  }
+
+  FD_DF("RabinBuechiProduct: recurrent states: "  << pRes->StatesToString(resrpair.RSet()));
+
+
+  // fix statenames ...
+  if(rRAut.StateNamesEnabled() && rBAut.StateNamesEnabled() && pRes->StateNamesEnabled()) 
+  for(rcit=reverseCompositionMap.begin(); rcit!=reverseCompositionMap.end(); rcit++) {
+    Idx x1=rcit->first.q1;
+    Idx x2=rcit->first.q2;
+    bool m1requ=rcit->first.m1required;
+    Idx x12=rcit->second;
+    if(!pRes->ExistsState(x12)) continue;
+    std::string name1= rRAut.StateName(x1);
+    if(name1=="") name1=ToStringInteger(x1);
+    std::string name2= rBAut.StateName(x2);
+    if(name2=="") name1=ToStringInteger(x2);
+    std::string name12 = name1 + "|" + name2;
+    if(m1requ) name12 += "|r1m";
+    else name12 +="|r2m";
+    name12=pRes->UniqueStateName(name12);
+    pRes->StateName(x12,name12);
+  }
+
+  // .. or clear them (?)
+  if(!(rRAut.StateNamesEnabled() && rBAut.StateNamesEnabled() && pRes->StateNamesEnabled())) 
+    pRes->StateNamesEnabled(false);
+
+  // copy result
+  if(pRes != &rRes) {
+    pRes->Move(rRes);
+    delete pRes;
+  }
+}
+
+
+
 } // namespace faudes
 

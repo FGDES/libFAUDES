@@ -148,12 +148,12 @@ extern FAUDES_API bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rR
 /**
  * Construct Rabin-Buechi automata.
  *
- * Given two automata rRAut and rBAut, This function constructs the accessible product state set
+ * Given two automata rRAut and rBAut, this function constructs the accessible product state set
  * and corresponding syncronizsed transitions. For the generated languages, this is exactly the same
- * as the common Product. It then lifts the two individual acceptance conditions to the product state set.
- * If both rRAut and rBAut are full, so is the result. In that case, the result accepts by its
- * Rabin acceptance condition rund that are accepted by rRAut and by its Buechi acceptance condition
- * those path thet are accepted by rBAut.
+ * as the common product operation. It then lifts the two individual acceptance conditions to the
+ * product state set. If both rRAut and rBAut are full, so is the result. In that case, the
+ * result accepts by its Rabin acceptance condition runs that are accepted by rRAut and by
+ * its Buechi acceptance condition those path thet are accepted by rBAut.
  *
  * The intended use case is when rRAut is a liveness specification and rBAut is a plant with liveness
  * guarantees.
@@ -168,6 +168,31 @@ extern FAUDES_API bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rR
  * @ingroup OmgPlugin
  */
 extern FAUDES_API void  RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  RabinAutomaton& rRes);
+
+/**
+ * Product composition for a Rabin automaton with a Buechi automaton
+ *
+ * Referring to each acceptance condition specified by rRAut and rBAut, the resulting
+ * Rabin automaton accepts all those runs, that are accepted by both rRAut and rBAut.
+ * To support supervisory control, this function sets the marking of the result as a lifted
+ * variant of rBAut.
+ *
+ * This implementation extends the usual product state space by a flag to indentify executions
+ * with alternating marking. This restricts the applicability to one Rabin pair only. Future
+ * revisions may drop this restriction.
+ *
+ * @param rRAut
+ *   First automaton
+ * @param rBAut
+ *   Second automaton
+ * @param rResGen
+ *   Reference to resulting product composition
+ *
+ *
+ * @ingroup OmgPlugin
+ *
+ */
+extern FAUDES_API void RabinBuechiProduct(const RabinAutomaton& rRAut, const Generator& rBAut, RabinAutomaton& rRes);
 
 
 

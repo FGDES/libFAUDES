@@ -166,7 +166,6 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
     /**
      * Get Rabin acceotance condition
      *
-     *
      */
      faudes::RabinAcceptance&  RabinAcceptance(void);
 
@@ -178,6 +177,26 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      */
      void RabinAcceptance(const StateSet& rMarking);
 
+    /**
+     * Pretty print  Rabin acceotance condition
+     *
+     * not yet implemanted
+     *
+     */
+     void RabinAcceptanceWrite(void) const;
+
+    /**
+     * Restrict states
+     *
+     * Cleans mpStates, mInitStates, mMarkedStates, mpTransrel, and mpStateSymboltable.
+     * We reimplement this method to also care about the acceptance condition.
+     *
+     * @param rStates
+     *   StateSet containing valid states
+     */
+    virtual void RestrictStates(const StateSet& rStates);
+
+    
  protected:
 
     /** need to reimplement to care about Additional members */
@@ -312,6 +331,17 @@ TEMP void THIS::RabinAcceptance(const StateSet& rMarking) {
   rpair.ISet()=THIS::States();
   rpair.RSet()=rMarking;
   RabinAcceptance().Insert(rpair);
+}
+
+// pretty print
+TEMP void THIS::RabinAcceptanceWrite(void) const {
+  this->RabinAcceptance().Write(this);  
+}
+
+// reimplememt
+TEMP  void THIS::RestrictStates(const StateSet& rStates) {
+  BASE::RestrictStates(rStates);
+  this->RabinAcceptance().RestrictStates(rStates);
 }
   
 #undef TEMP

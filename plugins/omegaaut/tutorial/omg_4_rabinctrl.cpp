@@ -11,27 +11,22 @@ Supervision of omega-languages w.r.t. Rabin acceptance
 #include "libfaudes.h"
 
 
-// WORK IN PROGRESS
-
 // we make the faudes namespace available to our program
 using namespace faudes;
 
 
-/////////////////
-// main program
-/////////////////
-
-
 int main() {
 
+  // Early stage of development ... see whether we can recover
+  // the test cases from Buechi supervisory control. 
 
   /////////////////////////////////////////////
   // Control w.r.t Rabin specifications
   //
-  // 
   // The A-B-Machine is a machine that can run process A (event a) or process B (event b). 
   // Per operation, the machine may succeed (event c) of fail (event d). However, it is 
-  // guaranteed to eventually suceed. We have three variations:
+  // guaranteed to eventually suceed when running the same process over and over again.
+  // We have three variations:
   //
   // 1: the std case 
   // 2: process B exhausts the machine: it will succeed in process B once and then
@@ -43,7 +38,7 @@ int main() {
   //
   // 1. Alternate in successfully processing A and B
   // 2. Keep on eventually succeeding in some process
-  // 3. Start with process A, eventually switch to B, repeat
+  // 3. Run optionally process A, eventually turn to B until success, repeat
   //
   /////////////////////////////////////////////
 
@@ -63,47 +58,26 @@ int main() {
   EventSet sigctrl = plant.ControllableEvents();
   RabinAutomaton cand=spec;
   cand.RabinAcceptance(cand.MarkedStates());
-  cand.InsEvents(sigall);
+  InvProject(cand,sigall);
   Automaton(cand);
-  cand.Write();
-  RabinBuechiAutomaton(cand,plant,cand);
+  RabinBuechiProduct(cand,plant,cand);
+  //RabinBuechiAutomaton(cand,plant,cand);
   cand.Write();
   StateSet ctrlpfx;
   RabinCtrlPfx(cand,sigctrl,ctrlpfx);
   cand.WriteStateSet(ctrlpfx);
   cand.RestrictStates(ctrlpfx);
+  // SupClosed(cand)
+  cand.RabinAcceptanceWrite();
   cand.GraphWrite("tmp_omg_rabinctrl13.png");
+  Generator test=cand;
+  test.StateNamesEnabled(false);
+  test.InjectMarkedStates(cand.RabinAcceptance().Begin()->RSet());
+  StateMin(test,test);
+  test.GraphWrite("tmp_omg_rabinctrl13_test.png");
   
   
 
-  // Report statistics
-  /*
-  std::cout << "################################\n";
-  std::cout << "# omega synthesis statistics\n";
-  msupab11.SWrite();
-  msupab21.SWrite();
-  msupab31.SWrite();
-  msupab12.SWrite();
-  msupab22.SWrite();
-  msupab32.SWrite();
-  msupab13.SWrite();
-  msupab23.SWrite();
-  msupab33.SWrite();
-  std::cout << "################################\n";
-  */
-
-  // Record test case
-  /*
-  FAUDES_TEST_DUMP("OSup1_1",msupab11);
-  FAUDES_TEST_DUMP("OSup2_1",msupab21);
-  FAUDES_TEST_DUMP("OSup3_1",msupab31);
-  FAUDES_TEST_DUMP("OSup1_2",msupab12);
-  FAUDES_TEST_DUMP("OSup2_2",msupab22);
-  FAUDES_TEST_DUMP("OSup3_2",msupab32);
-  FAUDES_TEST_DUMP("OSup1_3",msupab13);
-  FAUDES_TEST_DUMP("OSup2_3",msupab23);
-  FAUDES_TEST_DUMP("OSup3_3",msupab33);
-  */
 
 
   return 0;
