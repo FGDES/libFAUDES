@@ -3176,12 +3176,14 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
       {ReadStateSet(rTr, "InitStates", mInitStates); xml=false;}
     if(token.IsBegin("I"))
       {ReadStateSet(rTr, "I", mInitStates); xml=false;}
+    mInitStates.Name("InitStates");
     // read mstates (optional)
     rTr.Peek(token); 
     if(token.IsBegin("MarkedStates"))
-      {ReadStateSet(rTr, "MarkedStates", mMarkedStates); xml=false;}
+      {ReadStateSet(rTr, "MarkedStates", mMarkedStates); xml=false; }
     if(token.IsBegin("M"))
       {ReadStateSet(rTr, "M", mMarkedStates); xml=false;}
+    mMarkedStates.Name("MarkedStates");
     // read attribute
     mpGlobalAttribute->Read(rTr,"",this);
   }
@@ -3223,6 +3225,7 @@ void vGenerator::ReadAlphabet(TokenReader& rTr) {
     mpAlphabet->Read(rTr,"Alphabet");
   if(token.IsBegin("A"))
     mpAlphabet->Read(rTr,"A");
+  mpAlphabet->Name("Alphabet");
 }
 
 // ReadStates(tr) 

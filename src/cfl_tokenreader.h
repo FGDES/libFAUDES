@@ -65,9 +65,9 @@ class FAUDES_API TokenReader {
 public:
 
   /**
-   * Mode of operation: read from file, stdin or string
+   * Mode of operation: read from file, stdin, string or stream
    */
-  enum Mode {File, Stdin, String};
+enum Mode {File, Stdin, String, Stream};
 
   /**
    * TokenReader constructor
@@ -96,6 +96,17 @@ public:
    */
   TokenReader(const std::string& rFilename);
 
+
+  /**
+   * TokenReader constructor from anonymous stream
+   *
+   * @param rStream
+   *   stream to read from
+   *
+   * @exception Exception
+   *   - faudes::Exception ios error stream is bad (id 1)
+   */
+  TokenReader(std::istream& rStream);
 
   /**
    * Destruct

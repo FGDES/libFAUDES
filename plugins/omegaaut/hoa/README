@@ -1,0 +1,25 @@
+======================================================================
+HOA style serialisation for libFAUDES generators
+
+(c) Thomas Moor 2025
+
+======================================================================
+
+To use a wide range of third party omega-automata tools, we implement
+serialisation from and to the HOA file format.
+
+Regarding output in HOA format, we somewhat adhoc iterte over states
+and transition to write them to a std::ostream.
+
+Reading input in HAO format is more involved. To this end, we use the
+cpphoafparser library, authored/copyrighted by
+
+oachim Klein <klein@tcs.inf.tu-dresden.de>
+David Mueller <david.mueller@tcs.inf.tu-dresden.de>
+
+We have found the original sources at
+
+http://automata.tools/hoa/cpphoafparser
+
+They are distributed under LGPL v2.1 conditions and we include
+them with libFAUDES under the same license terms.
