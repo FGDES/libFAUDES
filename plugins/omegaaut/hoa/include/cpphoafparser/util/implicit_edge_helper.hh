@@ -45,7 +45,7 @@ namespace cpphoafparser {
  * In `addState()`, call:<br>
  *   `helper.startOfState(stateId);`
  *
-  * In `addEdgeImplicit()`, call:<br>
+ * In `addEdgeImplicit()`, call:<br>
  *   edgeIndex = helper.nextImplicitEdge();`
  *
  * In `notifyEndOfState()`, call:<br>

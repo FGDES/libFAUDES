@@ -39,6 +39,8 @@ and we include them with libFAUDES.
 
 #include "cpphoafparser/consumer/hoa_consumer.hh"
 #include "cpphoafparser/parser/hoa_parser_helper.hh"
+#include "cpphoafparser/parser/hoa_parser_exception.hh"
+#include "cpphoafparser/util/implicit_edge_helper.hh"
 #include "libfaudes.h"
 
 namespace cpphoafparser {
@@ -54,33 +56,29 @@ class HOAConsumerFaudes : public HOAConsumer {
 public:
 
   /** Constructor, providing a reference to the output stream */
-  HOAConsumerFaudes(faudes::TokenWriter& tw) : rTw(tw) {}
+  HOAConsumerFaudes(faudes::TokenWriter& tw) : rTw(tw), mImplicitEdgleHelper(new ImplicitEdgeHelper(0)) {}
+
+  /** Constructs a HOAParserExeption to indicate an unsupported but presumably relevent feature */
+  HOAParserException error(const std::string& msg) {
+    std::stringstream ss;
+    ss << "HOAConsumerFaudes: unsupported feature: " << msg;
+    return HOAParserException(ss.str());
+  }
 
   virtual bool parserResolvesAliases() override {
     return false;
   }
 
   virtual void notifyHeaderStart(const std::string& version) override {
-    // should check version?
-    // std::cerr << "HOA: " << version << std::endl;
+    // should we the check version?
     mRAut.Clear();
   }
 
   virtual void setNumberOfStates(unsigned int numberOfStates) override {
-    //std::cerr << "States: " << numberOfStates << std::endl;
     for(int i=0;i<numberOfStates;++i) mRAut.InsState(i+1);
   }
 
   virtual void addStartStates(const int_list& stateConjunction) override {
-    /*
-    std::cerr << "% Start: ";
-    bool first = true;
-    for (unsigned int state : stateConjunction) {
-      if (!first) std::cerr << " & ";
-      first=false;
-      std::cerr << state;
-    }
-    */
     std::cerr << std::endl;
     for(unsigned int state : stateConjunction) 
        mRAut.InsInitState(state+1);
@@ -88,15 +86,15 @@ public:
 
   virtual void addAlias(const std::string& name, label_expr::ptr labelExpr) override {
     std::cerr << "% Alias: @" << name << " " << *labelExpr << std::endl;
-    // cannot deal with aliases yet
-    //mRAut.InsEvent(name);
+    throw error("aliases");
   }
 
   // faudes event label from bits
+  // (alt: use decimals, or hexadezimals)
   std::string bits2label(uint32_t bits) {
     std::string res="ev";;
     int i;
-    for(i=mApc-1;i>=0;--i) {
+    for(i=mApCnt-1;i>=0;--i) {
       if(bits & (1L << i)) res+="1";
       else res+= "0";
     }
@@ -104,40 +102,32 @@ public:
   }
 
   virtual void setAPs(const std::vector<std::string>& aps) override {
-    /*
-    std::cerr << "% AP: " << aps.size();
-    for (const std::string& ap : aps) {
-      std::cerr << " ";
-      HOAParserHelper::print_quoted(std::cerr, ap);
-    }
-    std::cerr << std::endl;
-    */
-    // should perhaps record?
+    // record the names
+    int i=0;
+    for (const std::string& ap : aps) 
+      mApSymbols[i++]=aps;
     // set up alphabet
-    mApc=aps.size();
+    mApCnt=aps.size();
     int evcnt= 1L << mApc;
     for(uint32_t i=0;i<evcnt;++i)
       mRAut.InsEvent(bits2label(i));    
   }
 
   virtual void setAcceptanceCondition(unsigned int numberOfSets, acceptance_expr::ptr accExpr) override {
-    //std::cerr << "Acceptance: " << numberOfSets << " " << *accExpr << std::endl;
-    mRAut.RabinAcceptance().Size((numberOfSets+1)/2);
-    // error on odd?
+    if(mRabin) {
+      mRAut.RabinAcceptance().Size((numberOfSets+1)/2);
+      return
+    }
+    throw error("Acc befor acc-name");
   }
 
   virtual void provideAcceptanceName(const std::string& name, const std::vector<IntOrString>& extraInfo) override {
-    /*
-    std::cerr << "acc-name: " << name;
-    for (const IntOrString& extra : extraInfo) {
-      std::cerr << " " << extra;
-    }
-    std::cerr << std::endl;
-    */
-    // can on ly deal with Rabin
     if(name=="Rabin") {
       mRabin=true;
+      return;
     }
+    // can only deal with Rabin
+    throw error("acc-name must be Rabin");
   }
 
   virtual void setName(const std::string& name) override {
@@ -177,35 +167,16 @@ public:
   }
 
   virtual void notifyBodyStart() override {
-    //std::cerr << "--BODY--" << std::endl;
+    mImplicitEdgeHelper = new ImplicitEdgeHelper(mApCnt);
   }
 
   virtual void addState(unsigned int id,
                         std::shared_ptr<std::string> info,
                         label_expr::ptr labelExpr,
                         std::shared_ptr<int_list> accSignature) override {
-    /*
-    std::cerr << "State: ";
     if (labelExpr) {
-      std::cerr << "[" << *labelExpr << "] ";
+      throw error("state label expression")
     }
-    std::cerr << id;
-    if (info) {
-      std::cerr << " ";
-      HOAParserHelper::print_quoted(std::cerr, *info);
-    }
-    if (accSignature) {
-      std::cerr << " {";
-      bool first = true;
-      for (unsigned int acc : *accSignature) {
-        if (!first) std::cerr << " ";
-        first = false;
-        std::cerr << acc;
-      }
-      std::cerr << "}";
-    }
-    std::cerr << std::endl;
-    */
     // have the state (redundant)
     mRAut.InsState(id+1);
     // record to acceptance condition
@@ -217,33 +188,18 @@ public:
 	else rpair.ISet().Insert(id+1);
       }
     }
-    // reset event index
-    mImplicitLabel=0;
+    // reset event index for implicit edges to come
+    mpImplicitEdgeHelper.startOfState(id);
   }
 
   virtual void addEdgeImplicit(unsigned int stateId,
                                const int_list& conjSuccessors,
                                std::shared_ptr<int_list> accSignature) override {
-    /*
-    bool first = true;
-    for (unsigned int succ : conjSuccessors) {
-      if (!first) std::cerr << "&";
-      first = false;
-      std::cerr << succ;
-    }
     if (accSignature) {
-      std::cerr << " {";
-      first = true;
-      for (unsigned int acc : *accSignature) {
-        if (!first) std::cerr << " ";
-        first = false;
-        std::cerr << acc;
-      }
-      std::cerr << "}";
+      throw error("transition marking");
     }
-    std::cerr << std::endl;
-    */
-    faudes::Idx ev=mRAut.EventIndex(bits2label(mImplicitLabel));
+    uing32_t edgeIndex = mImplicitEdgeHelper.nextImplicitEdge();`
+    faudes::Idx ev=mRAut.EventIndex(bits2label(edgeIndex));
     for (unsigned int succ : conjSuccessors) 
       mRAut.SetTransition(stateId+1,ev,succ+1);
     mImplicitLabel++;;
@@ -253,32 +209,17 @@ public:
                                 label_expr::ptr labelExpr,
                                 const int_list& conjSuccessors,
                                 std::shared_ptr<int_list> accSignature) override {
+    throw error("explicit edge lable");
+    /*
     if (labelExpr) {
       std::cerr << "[" << *labelExpr << "] ";
     }
+    */
 
-    bool first = true;
-    for (unsigned int succ : conjSuccessors) {
-      if (!first) std::cerr << "&";
-      first = false;
-      std::cerr << "consuc" << succ;
-    }
-
-    if (accSignature) {
-      std::cerr << " {";
-      first = true;
-      for (unsigned int acc : *accSignature) {
-        if (!first) std::cerr << " ";
-        first = false;
-        std::cerr << acc;
-      }
-      std::cerr << "}";
-    }
-    std::cerr << std::endl;
   }
 
   virtual void notifyEndOfState(unsigned int stateId) override {
-    // nothing to do
+    mImplicitEdgeHelper.endOfState();
   }
 
   virtual void notifyEnd() override {
@@ -308,12 +249,12 @@ private:
   /** Payload: faudestype objects */
   faudes::RabinAutomaton mRAut;
 
-  /** Payload: track my requirements */
-  bool mRabin=false;
-
   /** Payload: parsing results */
-  int mApc=0;
-  uint32_t mImplicitLabel=0;
+  bool mRabin=false;
+  bool mBuechi=false;
+  int mApCount=0;
+  std::map<int,std::string> mApNames;
+  ImplicitEdgeHelper& mImplicitEdgeHelper; // = nullptr;
     
 };
 
