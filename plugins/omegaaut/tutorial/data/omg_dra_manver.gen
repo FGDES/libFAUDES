@@ -1,0 +1,41 @@
+<Generator name="eventually always alternating a and b" ftype="RabinAutomaton">
+
+<Alphabet>
+<Event name="ev0"/>
+<Event name="ev1"/>
+</Alphabet>
+
+<StateSet>
+<State id="1"/>
+<State id="2"/>
+<State id="3"/>
+<State id="4">
+<Initial/>
+</State>
+</StateSet>
+
+<TransitionRelation>
+<Transition x1="1" event="ev0" x2="2"/>
+<Transition x1="1" event="ev1" x2="4"/>
+<Transition x1="2" event="ev0" x2="3"/>
+<Transition x1="2" event="ev1" x2="1"/>
+<Transition x1="3" event="ev0" x2="3"/>
+<Transition x1="3" event="ev1" x2="1"/>
+<Transition x1="4" event="ev0" x2="3"/>
+<Transition x1="4" event="ev1" x2="4"/>
+</TransitionRelation>
+
+<RabinAcceptance>
+<RabinPair>
+<R>
+<State id="1"/>
+<State id="2"/>
+</R>
+<I>
+<State id="1"/>
+<State id="2"/>
+</I>
+</RabinPair>
+</RabinAcceptance>
+
+</Generator>

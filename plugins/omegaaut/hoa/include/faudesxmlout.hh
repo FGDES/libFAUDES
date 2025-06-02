@@ -79,7 +79,6 @@ public:
   }
 
   virtual void addStartStates(const int_list& stateConjunction) override {
-    std::cerr << std::endl;
     for(unsigned int state : stateConjunction) 
        mRAut.InsInitState(state+1);
   }
@@ -227,7 +226,7 @@ public:
     for(;rit!=mRAut.RabinAcceptance().End();++rit) 
       rit->ISet()=mRAut.States() - rit->ISet();
     // done  
-    mRAut.Write(rTw);
+    mRAut.XWrite(rTw);
     rTw.Flush();
   }
 

@@ -1,0 +1,17 @@
+/* original NBA from ltl2dstar examples */
+HOA: v1
+name: "eventually always alternating a and !a"
+AP: 1 "a"
+Start: 0
+States: 3
+Acceptance: 1 Inf(0)
+acc-name: Buchi
+--BODY--
+State: 0
+[ t] 0         /* true -> 0 */
+[!0] 1         /* !a -> 1 */
+State: 1 {0}   /* accepting state */
+[ 0] 2         /* a -> 2 */
+State: 2 {0}   /* accepting state */
+[!0] 1         /* !a -> 1 */
+--END--

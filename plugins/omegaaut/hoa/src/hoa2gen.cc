@@ -1,4 +1,4 @@
-/** hao2gen.cpp  Utility to convert HAO files to .gen files  */
+/** hao2gen.cpp  Utility to convert HAO files to generator files  */
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
@@ -63,11 +63,12 @@ void usage(std::string msg="") {
   std::cerr << "hoa2gen uses the cpphoafparser library, see  http://automata.tools/hoa" << std::endl;
   std::cerr << std::endl;
   std::cerr << "usage:"<< std::endl;
-  std::cerr << "  hoa2gen [flags*] [-o <gen-out>] [-s <sym-in>] [<hoa-in>]" << std::endl;
+  std::cerr << "  hoa2gen [flags*] [-s <sym-in>] [<hoa-in> [<gen-out>]]" << std::endl;
   std::cerr << std::endl;
-  std::cerr << "  -o <gen-out>  main output file (defaults to std out)" << std::endl;
-  std::cerr << "  -s <sym-in>   symbol table file (defaults to no such)" << std::endl;
-  std::cerr << "  <hoa-out>     main input file (defaults to std in)" << std::endl;
+  std::cerr << "with:"<< std::endl;
+  std::cerr << "  <hoa-in>   main input file (defaults to std in)" << std::endl;
+  std::cerr << "  <gen-out>  main output file (defaults to std out)" << std::endl;
+  std::cerr << "  <sym-in>   symbol table file (defaults to no such)" << std::endl;
   std::cerr << std::endl;
   std::cerr << "valid flags:" << std::endl;
   std::cerr << "  --resolve-aliases  resolve aliases" << std::endl;
@@ -89,13 +90,6 @@ int main(int argc, char* argv[]) {
   // primitive command line parser 
   for(int i=1; i<argc; i++) {
     std::string option(argv[i]);
-    // option: output file
-    if(option=="-o") {
-      i++;
-      if(i>=argc) usage("output file not specified");
-      genout=argv[i];
-      continue;
-    }
     // option: symbol table
     if(option=="-s") {
       i++;
@@ -123,13 +117,18 @@ int main(int argc, char* argv[]) {
       usage("unknown option "+ option);
       continue;
     }
-    // main input file
-    if(i==argc-1) {
+    // argument #1 main input file
+    if(hoain.empty()) {
       hoain=argv[i];
       continue;
     }
+    // argument #2 main output file
+    if(genout.empty()) {
+      genout=argv[i];
+      continue;
+    }
     // fail
-    usage("exactly one input file must be specified last" );
+    usage("at most two arguments must be specified" );
   }
 
   // set main input stream
@@ -164,8 +163,15 @@ int main(int argc, char* argv[]) {
   } catch (HOAConsumerException& e) {
     std::cerr << "Exception: " << e.what() << std::endl;
   }
+
+  // tidy up
+  delete tgenout;
+  if(!hoain.empty()) {
+    delete shoain;
+    fhoain.close();
+  }
   return 1;
 }
 
 
-1
+

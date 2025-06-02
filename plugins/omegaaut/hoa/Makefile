@@ -3,8 +3,8 @@ LIBFAUDES=../../..
 
 # link to libFAUDES DSO
 LNKLIBS += -lfaudes -L $(LIBFAUDES)
-#LDFLAGS += -Wl,-rpath,@executable_path/.,-rpath,@executable_path/$(LIBFAUDES)
-LDFLAGS += -Wl,-rpath='$$ORIGIN:$$ORIGIN/../lib:$$ORIGIN/../:$$ORIGIN/../../../'
+LDFLAGS += -Wl,-rpath,@executable_path/.,-rpath,@executable_path/$(LIBFAUDES)
+#LDFLAGS += -Wl,-rpath='$$ORIGIN:$$ORIGIN/../lib:$$ORIGIN/../:$$ORIGIN/../../../'
 
 # CXXFLAGS
 CXXFLAGS=-O3 -std=gnu++11 -Wall -Wno-unused-private-field -Wno-inconsistent-missing-override
