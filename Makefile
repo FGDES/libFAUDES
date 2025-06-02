@@ -339,7 +339,7 @@ endif
 #
 # Targeting Linux systems
 # - g++, tested with 4.x, 5.x, 7.x and 11.x series 
-# - we moved to CXX11 ABI and C++11 default with Uduntu 16.04 LTS
+# - we moved to CXX11 ABI and C++11 default as of Ubuntu 16.04 LTS
 # - we stopped specifying ABI/C++-dialect explicitly to let the system choose
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux)

@@ -53,7 +53,7 @@ using namespace cpphoafparser;
 
 // mini help
 void usage(std::string msg="") {
-  std::cerr << "hoa2gen " << faudes::VersionString() << ": convert libFAUDES generators to HOA format" << std::endl;
+  std::cerr << "hoa2gen --- convert HOA format to generators (" << faudes::VersionString() << ")" << std::endl;
   if (msg != "") {
     std::cerr << "error: " << msg << std::endl;
     std::cerr << std::endl;
@@ -62,15 +62,17 @@ void usage(std::string msg="") {
   std::cerr << std::endl;
   std::cerr << "hoa2gen uses the cpphoafparser library, see  http://automata.tools/hoa" << std::endl;
   std::cerr << std::endl;
-  std::cerr << "usage: hoa2gen [flags*] [-o <genout>] [-sym <symin>] [<hoafile>]" << std::endl;
+  std::cerr << "usage:"<< std::endl;
+  std::cerr << "  hoa2gen [flags*] [-o <gen-out>] [-s <sym-in>] [<hoa-in>]" << std::endl;
   std::cerr << std::endl;
-  std::cerr << "  -o <genout>   specify main output file (defaults to std out)" << std::endl;
-  std::cerr << "  -s <symin>    specify symbol table file (defaults to no such)" << std::endl;
-  std::cerr << "  <hoafile>     specify main input file (defaults to std in)" << std::endl;
+  std::cerr << "  -o <gen-out>  main output file (defaults to std out)" << std::endl;
+  std::cerr << "  -s <sym-in>   symbol table file (defaults to no such)" << std::endl;
+  std::cerr << "  <hoa-out>     main input file (defaults to std in)" << std::endl;
   std::cerr << std::endl;
   std::cerr << "valid flags:" << std::endl;
   std::cerr << "  --resolve-aliases  resolve aliases" << std::endl;
-  std::cerr << "  --trace            trace the function calls to HOAConsumer" << std::endl;
+  std::cerr << "  --trace            trace the function calls (debug/devel)" << std::endl;
+  std::cerr << std::endl;
   exit(0);
 }
 
@@ -166,3 +168,4 @@ int main(int argc, char* argv[]) {
 }
 
 
+1

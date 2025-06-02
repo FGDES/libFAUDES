@@ -56,7 +56,7 @@ class HOAConsumerFaudes : public HOAConsumer {
 public:
 
   /** Constructor, providing a reference to the output stream */
-  HOAConsumerFaudes(faudes::TokenWriter& tw) : rTw(tw), mImplicitEdgleHelper(new ImplicitEdgeHelper(0)) {}
+  HOAConsumerFaudes(faudes::TokenWriter& tw) : rTw(tw), mpImplEdgeHlp(new ImplicitEdgeHelper(0)) {}
 
   /** Constructs a HOAParserExeption to indicate an unsupported but presumably relevent feature */
   HOAParserException error(const std::string& msg) {
@@ -75,7 +75,7 @@ public:
   }
 
   virtual void setNumberOfStates(unsigned int numberOfStates) override {
-    for(int i=0;i<numberOfStates;++i) mRAut.InsState(i+1);
+    for(unsigned int i=0;i<numberOfStates;++i) mRAut.InsState(i+1);
   }
 
   virtual void addStartStates(const int_list& stateConjunction) override {
@@ -94,7 +94,7 @@ public:
   std::string bits2label(uint32_t bits) {
     std::string res="ev";;
     int i;
-    for(i=mApCnt-1;i>=0;--i) {
+    for(i=mApCount-1;i>=0;--i) {
       if(bits & (1L << i)) res+="1";
       else res+= "0";
     }
@@ -105,10 +105,10 @@ public:
     // record the names
     int i=0;
     for (const std::string& ap : aps) 
-      mApSymbols[i++]=aps;
+      mApSymbols[i++]=ap;
     // set up alphabet
-    mApCnt=aps.size();
-    int evcnt= 1L << mApc;
+    mApCount=aps.size();
+    unsigned int evcnt= 1L << mApCount;
     for(uint32_t i=0;i<evcnt;++i)
       mRAut.InsEvent(bits2label(i));    
   }
@@ -116,7 +116,7 @@ public:
   virtual void setAcceptanceCondition(unsigned int numberOfSets, acceptance_expr::ptr accExpr) override {
     if(mRabin) {
       mRAut.RabinAcceptance().Size((numberOfSets+1)/2);
-      return
+      return;
     }
     throw error("Acc befor acc-name");
   }
@@ -167,7 +167,7 @@ public:
   }
 
   virtual void notifyBodyStart() override {
-    mImplicitEdgeHelper = new ImplicitEdgeHelper(mApCnt);
+    mpImplEdgeHlp.reset(new ImplicitEdgeHelper(mApCount));
   }
 
   virtual void addState(unsigned int id,
@@ -175,7 +175,7 @@ public:
                         label_expr::ptr labelExpr,
                         std::shared_ptr<int_list> accSignature) override {
     if (labelExpr) {
-      throw error("state label expression")
+      throw error("state label expression");
     }
     // have the state (redundant)
     mRAut.InsState(id+1);
@@ -189,7 +189,7 @@ public:
       }
     }
     // reset event index for implicit edges to come
-    mpImplicitEdgeHelper.startOfState(id);
+    mpImplEdgeHlp->startOfState(id);
   }
 
   virtual void addEdgeImplicit(unsigned int stateId,
@@ -198,11 +198,10 @@ public:
     if (accSignature) {
       throw error("transition marking");
     }
-    uing32_t edgeIndex = mImplicitEdgeHelper.nextImplicitEdge();`
+    uint32_t edgeIndex = mpImplEdgeHlp->nextImplicitEdge();
     faudes::Idx ev=mRAut.EventIndex(bits2label(edgeIndex));
     for (unsigned int succ : conjSuccessors) 
       mRAut.SetTransition(stateId+1,ev,succ+1);
-    mImplicitLabel++;;
   }
   
   virtual void addEdgeWithLabel(unsigned int stateId,
@@ -219,7 +218,7 @@ public:
   }
 
   virtual void notifyEndOfState(unsigned int stateId) override {
-    mImplicitEdgeHelper.endOfState();
+    mpImplEdgeHlp->endOfState();
   }
 
   virtual void notifyEnd() override {
@@ -253,8 +252,8 @@ private:
   bool mRabin=false;
   bool mBuechi=false;
   int mApCount=0;
-  std::map<int,std::string> mApNames;
-  ImplicitEdgeHelper& mImplicitEdgeHelper; // = nullptr;
+  std::map<int,std::string> mApSymbols;
+  std::shared_ptr<ImplicitEdgeHelper> mpImplEdgeHlp;
     
 };
 
