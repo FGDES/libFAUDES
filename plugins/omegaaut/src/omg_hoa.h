@@ -46,10 +46,15 @@ namespace faudes {
  *   Stream to write to
  * @param rAut
  *   Automaton to write
+ * @param
+ *   Optional symbol table to record event mapping
  *
  * @ingroup OmgPlugin
  */
-extern FAUDES_API void ExportHoa(std::ostream& rOutStream, const Generator& rAut);
+extern FAUDES_API void ExportHoa(
+  std::ostream& rOutStream,
+  const Generator& rAut,
+  SymbolTable* pSymTab=nullptr);
 
 /**
  * Export Automaton as HOA formated stream
@@ -60,10 +65,15 @@ extern FAUDES_API void ExportHoa(std::ostream& rOutStream, const Generator& rAut
  *   File to write to
  * @param rAut
  *   Automaton to write
+ * @param
+ *   Optional symbol table to record event mapping
  *
  * @ingroup OmgPlugin
  */
-extern FAUDES_API void ExportHoa(const std::string& rFilename, const Generator& rAut);
+extern FAUDES_API void ExportHoa(
+  const std::string& rFilename,
+  const Generator& rAut,
+  SymbolTable* pSymTab=nullptr);
 
 
 /**
@@ -86,10 +96,12 @@ extern FAUDES_API void ExportHoa(const std::string& rFilename, const Generator& 
  * with implicit edges. This is not a restriction of cpphoafparser
  * and we extend for further use cases in future.
  *
-  * @param rInStream
+ * @param rInStream
  *   Stream to read from
  * @param rAut
  *   Resultimg automaton
+ * @param
+ *   Optional symbol table to provide event mapping
  * @param resolve
  *   Ask cpphoafparser to resolve aliase
  * @param trace
@@ -97,9 +109,12 @@ extern FAUDES_API void ExportHoa(const std::string& rFilename, const Generator& 
  *
  * @ingroup OmgPlugin
  */
-  extern FAUDES_API void ImportHoa(
-    std::istream& rInStream, RabinAutomaton& rAut,
-    bool resolve=false, bool trace=false);
+extern FAUDES_API void ImportHoa(
+  std::istream& rInStream,
+  RabinAutomaton& rAut,
+  const SymbolTable* pSymTab=nullptr,
+  bool resolve=false,
+  bool trace=false);
 
 
 /**
@@ -111,6 +126,8 @@ extern FAUDES_API void ExportHoa(const std::string& rFilename, const Generator& 
  *   File to read from
  * @param rAut
  *   Resultimg automaton
+ * @param
+ *   Optional symbol table to provide event mapping
  * @param resolve
  *   Ask cpphoafparser to resolve aliase
  * @param trace
@@ -119,8 +136,11 @@ extern FAUDES_API void ExportHoa(const std::string& rFilename, const Generator& 
  * @ingroup OmgPlugin
  */
 extern FAUDES_API void ImportHoa(
-  const std::string& rFilename, RabinAutomaton& rAut,
-  bool resolve=false, bool trace=false);
+  const std::string& rFilename,
+  RabinAutomaton& rAut,
+  const SymbolTable* pSymTab=nullptr,
+  bool resolve=false,
+  bool trace=false);
 
 } // namespace faudes
 

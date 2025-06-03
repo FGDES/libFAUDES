@@ -3,13 +3,13 @@
 # set my tools
 GEN2HOA=./gen2hoa
 HOA2GEN=./hoa2gen
-GEN2DOT=../../../bin/gen2dot
+GEN2DOT=./waut2dot
 LTL2DSTAR=~/opt/ltl2dstar 
 DOT=dot
 
 # read Buechi automata and convert to HOA format
 echo "== gen->hoa"
-${GEN2HOA} data/omg_nba.gen tmp_omg_nba.hoa 
+${GEN2HOA} -s tmp_omg_nba.sym data/omg_nba.gen tmp_omg_nba.hoa 
 
 # Safra determinisation by ltl2dstar, all using HOA format
 echo "== determinisation"
@@ -17,7 +17,7 @@ ${LTL2DSTAR} --input=nba --output-format=hoa --detailed-states=no tmp_omg_nba.ho
 
 # read Rabin automaton and convert to libFAUDES generator format
 echo "== hoa->gen"
-${HOA2GEN} tmp_omg_dra.hoa tmp_omg_dra.gen
+${HOA2GEN} -s tmp_omg_nba.sym tmp_omg_dra.hoa tmp_omg_dra.gen
 
 # docs
 echo "== dot processing"

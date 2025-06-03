@@ -50,7 +50,7 @@ std::string omg_hoa_bits2expr(uint32_t bits, int apc) {
 }
 
 // write in HOA format
-void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut){
+void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable* pSymTab){
   // inspectors
   EventSet::Iterator eit;
   EventSet::Iterator eit_end;
@@ -82,11 +82,14 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut){
     ev2expr[*eit]=omg_hoa_bits2expr(cnt,apc);
     cnt++;
   }
-  // write event aliases
+  // write event aliases and set up symbol table
+  if(pSymTab) pSymTab->Clear();
   eit=rAut.AlphabetBegin();
   eit_end=rAut.AlphabetEnd();
   for(;eit!=eit_end;++eit) {
     rOutStream << "Alias: @" << rAut.EventName(*eit) << " " << ev2expr[*eit] << std::endl;
+    if(pSymTab)
+      pSymTab->InsEntry(ev2bits[*eit]+1,rAut.EventName(*eit));
   }
   // write initial states
   rOutStream << "Start:";
@@ -123,7 +126,7 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut){
 }
 
 // API wrapper
-void ExportHoa(std::ostream& rOutStream, const Generator& rAut){
+void ExportHoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable* pSymTab){
   // refuse trivial
   if(rAut.States().Size() <1) {
     throw Exception("ExportHoa", "refusing to export generator with no states", 80);
@@ -133,14 +136,14 @@ void ExportHoa(std::ostream& rOutStream, const Generator& rAut){
   }
   // do export and catch ios errors
   try {
-    omg_export_hoa(rOutStream,rAut);
+    omg_export_hoa(rOutStream,rAut,pSymTab);
   } catch (std::ios::failure&) {
     throw Exception("ExportHoa", "Exception writing to anonymous stream", 2);
   }
 }
 
 // API wrapper  
-void ExportHoa(const std::string& rFilename, const Generator& rAut){
+void ExportHoa(const std::string& rFilename, const Generator& rAut, SymbolTable* pSymTab){
   // refuse trivial
   if(rAut.States().Size() <1) {
     throw Exception("ExportHoa", "refusing to export generator with no states", 80);
@@ -161,7 +164,7 @@ void ExportHoa(const std::string& rFilename, const Generator& rAut){
   }
   // do export and catch ios exceptions
   try {
-    omg_export_hoa(fout,rAut);
+    omg_export_hoa(fout,rAut,pSymTab);
   } catch (std::ios::failure&) {
     std::stringstream errstr;
     errstr << "Exception weriting to file \""<< rFilename << "\"";
@@ -185,7 +188,8 @@ using namespace cpphoafparser;
 class HOAConsumerFaudes : public cpphoafparser::HOAConsumer {
 public:
   /** Constructor, holding a reference to the generator to read to */
-  HOAConsumerFaudes(RabinAutomaton& aut) : rAut(aut), mImplEdgeHlp(0) {}
+  HOAConsumerFaudes(RabinAutomaton& aut, const SymbolTable& syms) :
+    rAut(aut), rSymTab(syms), mImplEdgeHlp(0) {}
   /** Constructs a HOAParserExeption to indicate an unsupported but presumably relevent feature */
   HOAParserException error(const std::string& msg) {
     std::stringstream ss;
@@ -223,8 +227,13 @@ public:
     // set up alphabet
     mApCount=aps.size();
     unsigned int evcnt= 1L << mApCount;
-    for(uint32_t i=0;i<evcnt;++i)
-      rAut.InsEvent(omg_hoa_bits2event(i,mApCount));    
+    for(uint32_t i=0;i<evcnt;++i) {
+      std::string evname=omg_hoa_bits2event(i,mApCount);
+      if(rSymTab.Exists(i+1)) // todo: consider  to mute unknown
+        evname=rSymTab.Symbol(i+1);
+      rAut.InsEvent(evname);
+      mEdgeBitsToEvIdx[i]=rAut.EventIndex(evname);
+    }
   }
   // consume "ACC: ..."
   virtual void setAcceptanceCondition(unsigned int numberOfSets, acceptance_expr::ptr accExpr) override {
@@ -290,10 +299,10 @@ public:
   {
     if (accSignature) 
       throw error("transition marking");
-    uint32_t edgeIndex = mImplEdgeHlp.nextImplicitEdge();
-    Idx ev=rAut.EventIndex(omg_hoa_bits2event(edgeIndex,mApCount));
+    uint32_t edgebits = mImplEdgeHlp.nextImplicitEdge();
+    Idx evindex=mEdgeBitsToEvIdx[edgebits]; // todo: guard this, e.g. mute unknown
     for (unsigned int succ : conjSuccessors) 
-      rAut.SetTransition(stateId+1,ev,succ+1);
+      rAut.SetTransition(stateId+1,evindex,succ+1);
   }
   // consume expilcit tarnsitio
   virtual void addEdgeWithLabel(unsigned int stateId,
@@ -334,20 +343,27 @@ private:
 
   /** Payload: automaton to parse to */
   RabinAutomaton& rAut;
+  const SymbolTable& rSymTab;
 
   /** Payload: intermediate parsing results */
   bool mRabin=false;
   bool mBuechi=false;
   int mApCount=0;
   std::map<int,std::string> mApSymbols;
-  ImplicitEdgeHelper mImplEdgeHlp;    
+  ImplicitEdgeHelper mImplEdgeHlp;
+  std::map<uint32_t,Idx> mEdgeBitsToEvIdx;
 };
 
 
 // read from HOA formated tream
-  void ImportHoa(std::istream& rInStream, RabinAutomaton& rAut, bool resolve, bool trace){
+  void ImportHoa(std::istream& rInStream, RabinAutomaton& rAut, const SymbolTable* pSymTab, bool resolve, bool trace){
+  // symboltable incl fallback
+  static SymbolTable syms;
+  const SymbolTable* psyms=&syms;
+  if(pSymTab)
+    psyms=pSymTab;  
   // configure parser
-  HOAConsumer::ptr consumer(new HOAConsumerFaudes(rAut));
+  HOAConsumer::ptr consumer(new HOAConsumerFaudes(rAut,*psyms));
   if(resolve)
     consumer.reset(new HOAIntermediateResolveAliases(consumer));
   if(trace)
@@ -363,7 +379,7 @@ private:
 };
 
 // API wrapper
-void ImportHoa(const std::string& rFilename, RabinAutomaton& rAut, bool resolve, bool trace) {
+void ImportHoa(const std::string& rFilename, RabinAutomaton& rAut, const SymbolTable* pSymTab, bool resolve, bool trace) {
   // open file
   std::ifstream fin;
   fin.exceptions(std::ios::badbit); // dont throw on failbit because the hoa patrser will provoke that
@@ -376,7 +392,7 @@ void ImportHoa(const std::string& rFilename, RabinAutomaton& rAut, bool resolve,
     throw Exception("ImportHoa", errstr.str(), 2);
   }
   // pass on
-  ImportHoa(fin,rAut,resolve,trace);
+  ImportHoa(fin,rAut,pSymTab,resolve,trace);
 }
 
 } // namespace faudes

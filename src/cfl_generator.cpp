@@ -24,7 +24,7 @@
 #include "cfl_generator.h"
 #include <stack>
 
-//locval debug
+//local debug
 //#undef FD_DG
 //#define FD_DG(m) FD_WARN(m)
 
@@ -3372,6 +3372,7 @@ void vGenerator::ReadStateSet(TokenReader& rTr, const std::string& rLabel, State
   while(!rTr.Eos(rLabel)) {
     // peek
     rTr.Peek(token);
+    
     // read state by index
     if(token.IsInteger()) {
       rTr.Get(token);
@@ -3379,7 +3380,7 @@ void vGenerator::ReadStateSet(TokenReader& rTr, const std::string& rLabel, State
       if(!ExistsState(index)) {
         delete attrp;
 	std::stringstream errstr;
-	errstr << "Token " << token.IntegerValue() << " not in stateset"
+	errstr << "Token " << token.IntegerValue() << " not in generator stateset"
 	       << rTr.FileLine();
 	throw Exception("vGenerator::ReadStateSet", errstr.str(), 80);
       }
@@ -3391,7 +3392,8 @@ void vGenerator::ReadStateSet(TokenReader& rTr, const std::string& rLabel, State
       rStateSet.Insert(index); 
       rStateSet.Attribute(index,*attrp);
       continue;
-    } 
+    }
+    
     // read state by name
     if(token.IsString()) {
       rTr.Get(token);
@@ -3421,24 +3423,96 @@ void vGenerator::ReadStateSet(TokenReader& rTr, const std::string& rLabel, State
       rStateSet.Insert(index); 
       rStateSet.Attribute(index,*attrp);
       continue;
-    } 
+    }
+    
+    // read state in XML style
+    if(token.IsBegin() && token.StringValue() == "State") {
+      rTr.Get(token);
+      std::string name="";
+      if(token.ExistsAttributeString("name"))
+        name=token.AttributeStringValue("name");
+      Idx index=0;
+      if(token.ExistsAttributeInteger("id"))
+        index=token.AttributeIntegerValue("id");
+      FD_DG("vGenerator::ReadStateSet(): got idx " << index << " " << name);
+      // reconstruct index from name if possible
+      if(index==0) {
+        index=StateIndex(name);
+      }
+      // failed to figure index
+      if(index==0) {
+        delete attrp;
+        std::stringstream errstr;
+        errstr << "Cannot figure index for state token " << token.Str() << rTr.FileLine();
+        throw Exception("vGenerator::ReadStateSet", errstr.str(), 80);
+      }
+      // dont allow doublets
+      if(rStateSet.Exists(index)) {
+        delete attrp;
+        std::stringstream errstr;
+        errstr << "Doublet state from token " << token.Str() << rTr.FileLine();
+        throw Exception("vGenerator::ReadStateSet", errstr.str(), 80);
+      }
+      // record state
+      rStateSet.Insert(index);
+      // record name if we read the core set
+      if(&rStateSet==mpStates) 
+      if(name!="") {
+         mpStateSymbolTable->SetEntry(index, name);
+      }
+      // test for attributes 
+      if(!rTr.Eos("State")) {	
+        FD_DG("vGenerator(" << this << ")::ReadStates(\"" << rTr.FileName() << "\"): attribute ?");
+        attrp->Read(rTr,"",this);
+        rStateSet.Attribute(index,*attrp);
+      } 
+      // read end
+      rTr.ReadEnd("State");
+      continue;
+    }
+
     // read consecutve block of anonymous states
     if(token.IsBegin() && token.StringValue() == "Consecutive") {
-      rTr.ReadBegin("Consecutive");
+      Token ctag;
+      rTr.ReadBegin("Consecutive",ctag);
+      Idx idx1=0;
+      Idx idx2=0;
       Token token1,token2;
-      rTr.Get(token1);
-      rTr.Get(token2);
-      if(!token1.IsInteger() || !token2.IsInteger()) {
+      rTr.Peek(token1);
+      // figure range a) XML    
+      if(token1.IsEnd() && token.StringValue() == "Consecutive") {
+        if(ctag.ExistsAttributeInteger("from"))
+          idx1= (Idx) ctag.AttributeIntegerValue("from");
+        if(ctag.ExistsAttributeInteger("to"))
+          idx2= (Idx) ctag.AttributeIntegerValue("to");
+      }
+      // figure range a) native
+      if(token1.IsInteger()) {
+        rTr.Get(token1);
+        rTr.Get(token2);
+        if(!token1.IsInteger() || !token2.IsInteger()) {
+          delete attrp;
+ 	  std::stringstream errstr;
+	  errstr << "Invalid range of consecutive states"  << rTr.FileLine();
+	  throw Exception("vGenerator::ReadStateSet", errstr.str(), 80);
+        }
+	idx1=token1.IntegerValue();
+	idx2=token2.IntegerValue();
+      }
+      // validate range
+      if(idx1==0 || idx2 < idx1) {
         delete attrp;
 	std::stringstream errstr;
 	errstr << "Invalid range of consecutive states"  << rTr.FileLine();
 	throw Exception("vGenerator::ReadStateSet", errstr.str(), 80);
       }
-      for(Idx index = (Idx) token1.IntegerValue(); index <= (Idx) token2.IntegerValue(); ++index) {
+      // perform range
+      FD_DG("vGenerator(" << this << ")::ReadStateSet(\"" << rTr.FileName() << "\"): consecutive range " << idx1 << " to " << idx2);    
+      for(Idx index = idx1; index <= idx2; ++index) {
 	if(!ExistsState(index)) {
+          delete attrp;
 	  std::stringstream errstr;
-	  errstr << "Token " << token.IntegerValue() << " not in stateset"
-		 << rTr.FileLine();
+	  errstr << "range not in generator stateset" << rTr.FileLine();
 	  throw Exception("vGenerator::ReadStateSet", errstr.str(), 80);
 	}
 	rStateSet.Insert(index);
@@ -3446,10 +3520,17 @@ void vGenerator::ReadStateSet(TokenReader& rTr, const std::string& rLabel, State
       rTr.ReadEnd("Consecutive");
       continue;
     }
+    
+    // Ignore other sections
+    if(token.IsBegin()) {
+      rTr.ReadEnd(token.StringValue());
+      continue;
+    }
+    
     // cannot process token
     delete attrp;
     std::stringstream errstr;
-    errstr << "Invalid token" << rTr.FileLine();
+    errstr << "Section " << rLabel << ": Invalid token" << rTr.FileLine() << ": " << token.Str();
     throw Exception("vGenerator::ReadStateSet", errstr.str(), 50);
   }
   rTr.ReadEnd(rLabel);

@@ -123,11 +123,20 @@ int main(int argc, char *argv[]) {
   gen.Read(*tgenin);
   gen.MinStateIndex();
 
+  // have a symbol table
+  SymbolTable syms;
+  syms.Name("HOA bits vs faudes event names");
+
   // output in HOA format
   if(hoaout.empty()) 
-    ExportHoa(std::cout,gen);
+    ExportHoa(std::cout,gen,&syms);
   else
-    ExportHoa(hoaout,gen);
+    ExportHoa(hoaout,gen,&syms);
+
+  // export symbol table
+  if(!symout.empty()) {
+    syms.XWrite(symout);
+  }
   
 
   // tidy up

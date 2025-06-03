@@ -123,14 +123,19 @@ int main(int argc, char* argv[]) {
     usage("at most two arguments must be specified" );
   }
 
-  // have faudes object
+  // have optional symboltable
+  SymbolTable mSymTab;
+  if(!symin.empty())
+    mSymTab.Read(symin);
+
+  // have target object
   RabinAutomaton mAut;
 
   // do import
   if(hoain.empty())
-    ImportHoa(std::cin,mAut,resolve,trace);
+    ImportHoa(std::cin,mAut,&mSymTab,resolve,trace);
   else
-    ImportHoa(hoain,mAut,resolve,trace);
+    ImportHoa(hoain,mAut,&mSymTab,resolve,trace);
     
   // do output
   if(genout.empty()) 

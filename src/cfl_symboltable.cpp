@@ -26,7 +26,12 @@
 
 namespace faudes {
 
+// faudes type std
+FAUDES_TYPE_IMPLEMENTATION(Void,SymbolTable,Type)
 
+// Autoregister  for xml output
+AutoRegisterType<SymbolTable> gRtiSymboltable("Symboltable");
+  
 // constructor
 SymbolTable:: SymbolTable(void) :
   mMyName("SymbolTable"),
