@@ -252,6 +252,10 @@ PREPARETARGETS += luabindings-prepare
 CONFIGURETARGETS += luabindings-configure
 
 
+
+
+
+
 # javascript based repl (used in main makefile)
 LBP_REPLDIR = $(LBP_BASE)/lib/repl
 
@@ -264,6 +268,7 @@ $(LBP_REPLDIR)/luafaudes.js: $(LBP_REPLDIR)/luafaudes_embind.cpp $(STATIC) $(LBP
 # overwrite javascript target
 DEFAULTTARGETS = $(LBP_REPLDIR)/luafaudes.js
 endif
+
 
 
 #
