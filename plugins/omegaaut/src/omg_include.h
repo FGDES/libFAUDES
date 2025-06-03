@@ -14,10 +14,11 @@
 #ifndef FAUDES_OMG_INCLUDE_H
 #define FAUDES_OMG_INCLUDE_H
 
-#include "omg_buechifnct.h"
-#include "omg_buechictrl.h"
 #include "omg_rabinacc.h"
 #include "omg_rabinaut.h"
+#include "omg_hoa.h"
+#include "omg_buechifnct.h"
+#include "omg_buechictrl.h"
 #include "omg_rabinfnct.h"
 #include "omg_rabinctrl.h"
 

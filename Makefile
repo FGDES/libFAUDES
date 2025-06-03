@@ -1608,6 +1608,7 @@ report-test:
 	@echo $(OBJECTSMIN)
 	@echo $(HEADERS)
 	@echo $(FAUDES_PLUGINS)
+	@echo $(EXECUTABLES)
 
 
 ### all phony targets

@@ -37,23 +37,15 @@ http://automata.tools/hoa/cpphoafparser
 
 */
 
-#include <queue>
-#include <iostream>
-#include <fstream>
-
-#include "cpphoafparser/consumer/hoa_intermediate_trace.hh"
-#include "cpphoafparser/consumer/hoa_intermediate_resolve_aliases.hh"
-#include "cpphoafparser/parser/hoa_parser.hh"
-#include "faudesxmlout.hh"
 
 #include "libfaudes.h"
 
-using namespace cpphoafparser;
+using namespace faudes;
 
 
 // mini help
 void usage(std::string msg="") {
-  std::cerr << "hoa2gen --- convert HOA format to generators (" << faudes::VersionString() << ")" << std::endl;
+  std::cerr << "hoa2gen --- convert HOA format to generators (" << VersionString() << ")" << std::endl;
   if (msg != "") {
     std::cerr << "error: " << msg << std::endl;
     std::cerr << std::endl;
@@ -85,7 +77,7 @@ int main(int argc, char* argv[]) {
   std::string hoain;
   std::string symin;
   std::string genout;
-  bool resolve_aliases = false;
+  bool resolve = false;
   bool trace = false;
   // primitive command line parser 
   for(int i=1; i<argc; i++) {
@@ -104,7 +96,7 @@ int main(int argc, char* argv[]) {
     }
     // option: resolve aliases
     if(option=="--resolve-aliases") {
-      resolve_aliases = true;
+      resolve = true;
       continue;
     }
     // option: trace
@@ -131,45 +123,21 @@ int main(int argc, char* argv[]) {
     usage("at most two arguments must be specified" );
   }
 
-  // set main input stream
-  std::istream* shoain= &std::cin;
-  std::filebuf fhoain;
-  if(!hoain.empty()) {
-    fhoain.open(hoain,std::ios::in);
-    shoain= new std::istream(&fhoain);
-  }
+  // have faudes object
+  RabinAutomaton mAut;
 
-  // set output stream
-  faudes::TokenWriter* tgenout=nullptr;  
-  if(!genout.empty()) 
-    tgenout=new faudes::TokenWriter(genout);
+  // do import
+  if(hoain.empty())
+    ImportHoa(std::cin,mAut,resolve,trace);
+  else
+    ImportHoa(hoain,mAut,resolve,trace);
+    
+  // do output
+  if(genout.empty()) 
+    mAut.XWrite();
   else 
-    tgenout=new faudes::TokenWriter(faudes::TokenWriter::Stdout);
-  
+    mAut.XWrite(genout);
 
-  // configure parser
-  HOAConsumer::ptr consumer(new HOAConsumerFaudes(*tgenout)); 
-  if (resolve_aliases) 
-    consumer.reset(new HOAIntermediateResolveAliases(consumer));
-  if (trace) 
-    consumer.reset(new HOAIntermediateTrace(consumer));
-
-  // run parser
-  try {
-    HOAParser::parse(*shoain, consumer, true);
-    return 0;
-  } catch (HOAParserException& e) {
-    std::cerr << e.what() << std::endl;
-  } catch (HOAConsumerException& e) {
-    std::cerr << "Exception: " << e.what() << std::endl;
-  }
-
-  // tidy up
-  delete tgenout;
-  if(!hoain.empty()) {
-    delete shoain;
-    fhoain.close();
-  }
   return 1;
 }
 

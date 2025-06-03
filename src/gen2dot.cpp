@@ -3,6 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Bernd Opitz
+   Copyright (C) 2025  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -23,27 +24,78 @@
 
 using namespace faudes;
 
-int main(int argc, char *argv[]) {
-
-  // simple command line
-  if (argc != 2) {
-    std::cerr << "gen2dot: " << VersionString()  << std::endl;
-    std::cerr << "usage: gen2dot <generator>" << std::endl;
+// mini help
+void usage(const std::string& msg="") {
+  std::cerr << "gen2dot --- convert generators to DOT format (" << faudes::VersionString() << ")" << std::endl;
+  if (msg != "") {
+    std::cerr << "error: " << msg << std::endl;
+    std::cerr << std::endl;
     exit(1);
   }
+  std::cerr << std::endl;
+  std::cerr << "usage:" << std::endl;
+  std::cerr << "  gen2dot [-?] <gen-in> [<dot-out>]" << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "with:" << std::endl;
+  std::cerr << "  <gen-in>   main input file" << std::endl;
+  std::cerr << "  <dot-out>  main output file" << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "note: <dot-out> defaults <gen-in> with suffix substituted to \"dot\"" << std::endl;
+  std::cerr << std::endl;
+  exit(0);
+}
 
-  // read gen file
-  Generator g(argv[1]);
+// runner
+int main(int argc, char *argv[]) {
+
+  // config
+  std::string genin;
+  std::string dotout;
+
+  // primitive command line parser 
+  for(int i=1; i<argc; i++) {
+    std::string option(argv[i]);
+    // option: help
+    if((option=="-?") || (option=="--help")) {
+      usage();
+      continue;
+    }
+    // option: unknown
+    if(option.c_str()[0]=='-') {
+      usage("unknown option "+ option);
+      continue;
+    }
+    // argument #1 input file
+    if(genin.empty()) {
+      genin=argv[i];
+      continue;
+    }
+    // argument #2 output file
+    if(dotout.empty()) {
+      dotout=argv[i];
+      continue;
+    }
+    // fail
+    usage("no more than two arguments must be specified" );
+  }
+
+  // fail on no input
+  if(genin.empty())
+    usage("no input file specified");
 
   // fix output file name
-  std::string basename = argv[1];
-  if (basename.rfind(".gen") < basename.size()) {
-    basename.resize(basename.rfind(".gen"));
-  }  
-  std::string dotfilename = basename+".dot";
+  if(dotout.empty()) {
+    std::string basename = genin;
+    if(basename.rfind(".gen") < basename.size()) 
+      basename.resize(basename.rfind(".gen"));
+    std::string dotout = basename+".dot";
+  }
+  
+  // read gen file
+  Generator g(genin);
 
   // write dot file
-  g.DotWrite(dotfilename);
+  g.DotWrite(dotout);
 
   return 0;
 }

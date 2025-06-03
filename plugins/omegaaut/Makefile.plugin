@@ -16,6 +16,7 @@ OMG_SRCDIR = $(OMG_BASE)/src
 # list source files
 
 OMG_CPPFILES = \
+  omg_hoa.cpp \
   omg_buechifnct.cpp  \
   omg_buechictrl.cpp \
   omg_rabinacc.cpp \
@@ -42,12 +43,35 @@ OMG_RTIFREF := $(OMG_RTIFREF:%=$(OMG_SRCDIR)/registry/%)
 
 #
 # append my overall include file to libfaudes.h
+
 $(INCLUDEDIR)/$(OMG_INCLUDE): $(OMG_SRCDIR)/$(OMG_INCLUDE)  
 	cp -pR $< $@
 	echo "#include \"$(OMG_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
 	echo "/* omegaaut plugin configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGIN_OMEGAAUT" >> $(INCLUDEDIR)/configuration.h
 	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# have special rule for omg_hao.o to include cpphoafparser
+
+OMG_CFLAGS = $(CFLAGS) -I$(OMG_BASE)/lib -Wno-unused-private-field -Wno-inconsistent-missing-override
+FNCT_OMG_COMP_LIB = $(CXX) -c $(OMG_CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$(1)) $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2))
+$(OBJDIR)/omg_hoa$(DOT_O): $(OMG_BASE)/src/omg_hoa.cpp 
+	$(call FNCT_OMG_COMP_LIB,$<,$@)
+
+#
+# have rule to unzip cpphoafparser
+
+OMG_CPPHOAF_SRC=cpphoafparser-0.99.2
+$(OMG_BASE)/lib/cpphoafparser: $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC).tgz
+	cd $(OMG_BASE)/lib ; tar -xzf cpphoafparser-0.99.2.tgz
+	mv $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)/include/cpphoafparser $(OMG_BASE)/lib/
+	rm -rf $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)
+
+#
+# advertise plugin: care about extra libraries
+DISTCLEANFILES += $(OMG_BASE)/lib/cpphoafparser
+PREPARETARGETS += $(OMG_BASE)/lib/cpphoafparser
 
 #
 # advertise plugin: c sources and friends
@@ -59,7 +83,6 @@ VPATH   += $(OMG_SRCDIR)
 
 #
 # advertise plugin: runtime interface
-
 RTIPLUGINS += $(OMG_NAME)
 RTIDEFS += $(OMG_RTIDEFS)
 RTIFREF += $(OMG_RTIFREF)

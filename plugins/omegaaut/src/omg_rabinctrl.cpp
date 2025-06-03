@@ -28,8 +28,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #include "syn_include.h"
 
 // local degug
-#undef FD_DF
-#define FD_DF FD_WARN
+//#undef FD_DF
+//#define FD_DF(m) FD_WARN(m)
 
 namespace faudes {
 

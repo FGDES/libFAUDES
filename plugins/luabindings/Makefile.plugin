@@ -13,7 +13,7 @@
 #
 # - luabindings-prepare    unzip Lua sources
 # - luabindings-configure  generate loader, run SWIG to generate wrapper code (SWIG required!)
-# - luabindings-compile    compile all lus and lbp sources 
+# - luabindings-compile    compile all lua and lbp sources 
 # - luabindings-clean      remove all SWG generated wrapper code
 #
 
@@ -252,10 +252,6 @@ PREPARETARGETS += luabindings-prepare
 CONFIGURETARGETS += luabindings-configure
 
 
-
-
-
-
 # javascript based repl (used in main makefile)
 LBP_REPLDIR = $(LBP_BASE)/lib/repl
 
@@ -268,7 +264,6 @@ $(LBP_REPLDIR)/luafaudes.js: $(LBP_REPLDIR)/luafaudes_embind.cpp $(STATIC) $(LBP
 # overwrite javascript target
 DEFAULTTARGETS = $(LBP_REPLDIR)/luafaudes.js
 endif
-
 
 
 #
