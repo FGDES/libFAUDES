@@ -376,7 +376,7 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
     stream << "  node [shape=circle];" << std::endl;
     stream << std::endl;
     stream << "  // initial states" << std::endl;
-    int i = 1;
+    int i=0;
     for (it = BASE::InitStatesBegin(); it != BASE::InitStatesEnd(); ++it) {
       std::string xname= BASE::StateName(*it);
       if(xname=="") xname=ToStringInteger(static_cast<long int>(BASE::MinStateIndex(*it)));
@@ -432,11 +432,11 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
       }
       // draw multiple colors as clusters 
       if(colvec.size()>1) {
-	for(int i=0; i<colvec.size(); ++i) {
+	for(size_t i=0; i<colvec.size(); ++i) {
            stream << "  subgraph cluster_" << clustNr++ << " {color=" << ColorVector.at(colvec.at(i)) << ";" << std::endl;
         }
         stream << "    \"" << xname << "\" " << std::endl << "  ";
-        for (int i=0; i<colvec.size(); i++) {
+        for (size_t i=0; i<colvec.size(); i++) {
           stream << "}";
         }
         stream << std::endl;
