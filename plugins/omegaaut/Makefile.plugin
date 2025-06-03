@@ -65,7 +65,7 @@ $(OBJDIR)/omg_hoa$(DOT_O): $(OMG_BASE)/src/omg_hoa.cpp
 OMG_CPPHOAF_SRC=cpphoafparser-0.99.2
 $(OMG_BASE)/lib/cpphoafparser: $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC).tgz
 	- rm -rf $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)
-	cd $(OMG_BASE)/lib ; tar -xzf (OMG_CPPHOAF_SRC).tgz
+	cd $(OMG_BASE)/lib ; tar -xzf $(OMG_CPPHOAF_SRC).tgz
 	mv $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)/include/cpphoafparser $(OMG_BASE)/lib/
 	rm -rf $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)
 
