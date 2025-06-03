@@ -358,7 +358,11 @@ TEMP  void THIS::RestrictStates(const StateSet& rStates) {
 // DotWrite(rFileName)
 TEMP void THIS::DotWrite(const std::string& rFileName) const {
   FD_DG("RabinAutomaton(" << this << ")::DotWrite(" << rFileName << ")");
-  TaIndexSet<StateAttr> coloredStates;
+  if(THIS::RabinAcceptance().Size()>5) {
+    FD_DG("RabinAutomaton(" << this << ")::DotWrite(...): to many Rabin pairs");
+    BASE::DotWrite(rFileName);
+    return;
+  }
   StateSet::Iterator it;
   BASE::SetMinStateIndexMap();
   typename TransSet::Iterator tit;
