@@ -492,12 +492,13 @@ endif
 ### platform "cl_win" ######################
 #
 # Targetting MS Windows
-# - validated with XP 32bit, Vista 32bit and MS Windows 7 64bit 
 # - using cl.exe from MS Visual C 
-# - validated to compile as of libFAUDES 2.27 with VC2012 as well 
-#   as VC2015 compilers in their 64bit variant.
+# - current build plattform is MS Windows 11 x64
 # - validated to compile as of libFAUDES 2.33 with VC2022 64bit.
-#
+# - previous confirmatiom with with VC2012 and VC2015 compilers
+#   in their 64bit variant (libFAUDES 2.27)
+# - early validations with XP 32bit and Vista 32bit
+# 
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
@@ -507,28 +508,28 @@ MKDIR = cmd /C echo MKDIR NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
 SWIG = cmd /C echo ERROR SWIG NOT CONFIGURED
 DIFF = fc /W
-CXX = cl.exe /nologo
-CC = cl.exe /nologo
-LXX = cl.exe /nologo
+CXX = cl.exe -nologo
+CC = cl.exe -nologo
+LXX = cl.exe -nologo
 AR = lib.exe 
 DOT_EXE = .exe
 DOT_O  = .obj
-MAINOPTS = /EHsc /O2 
-MAINOPTS += /DFAUDES_BUILDENV=\"cl_win\"
-COUTOPT = /Fo
-LOUTOPT = /Fe
-AOUTOPT = /OUT:
+MAINOPTS = -EHsc -O2 
+MAINOPTS += -DFAUDES_BUILDENV=\"cl_win\"
+COUTOPT = -Fo
+LOUTOPT = -Fe
+AOUTOPT = -OUT:
 WARNINGS =  
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 #
 ifeq ($(DEBUG),yes)
-MAINOPTS += /MDd  
+MAINOPTS += -MDd  
 LDFLAGS += 
 else
-MAINOPTS += /MD
+MAINOPTS += -MD
 LDFLAGS += 
 endif 
-DSOOPTS = /LD 
+DSOOPTS = -LD 
 LNKLIBS = winmm.lib wsock32.lib 
 #
 LIBFAUDES = faudes
