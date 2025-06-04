@@ -1,0 +1,35 @@
+name: Build libFAUDES with MSVC
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build::
+
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: UCRT64
+        install: >-
+          swig 
+          perl 
+          doxygen 
+          ncurses-devel 
+          libreadline-devel 
+    - name: Figure Version
+      run: |
+          . ./VERSION
+          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+          echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: make -j configure
+    - name: Build Default Targets
+      shell: cmd
+      run: ./tools/msvc/build.bat
