@@ -54,7 +54,8 @@ jobs:
       with:
         msystem: UCRT64
         install: >-
-          base-devel
+          make
+#base-devel
 #    - env:
 #      MSYS2_LOCATION: ${{ steps.msys2.outputs.msys2-location }}
     - uses: TheMrMilchmann/setup-msvc-dev@v3
@@ -70,7 +71,7 @@ jobs:
 #        cl.exe -nologo -c -EHsc -O2  -DFAUDES_BUILDENV=\"cl_win\" -MD  -Iinclude -I.\\plugins\\omegaaut\\lib  -DFAUDES_BUILD_DSO src\\cfl_platform.cpp -Foobj\\cfl_platform.obj
     - name: Build Default 3
       run: |
-       cmd.exe /c /s "cl.exe -nologo -c -EHsc -O2 -MD  -Iinclude  -DFAUDES_BUILD_DSO src\cfl_platform.cpp -Foobj\cfl_platform.obj"
+       cmd.exe /C "cl.exe -nologo -c -EHsc -O2 -MD  -Iinclude  -DFAUDES_BUILD_DSO src\cfl_platform.cpp -Foobj\cfl_platform.obj"
 #    - name: Build Default Targets
 #      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
     
