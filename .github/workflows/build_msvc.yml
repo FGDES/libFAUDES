@@ -38,7 +38,7 @@ jobs:
       run: make -j configure
     - name: Have Source Archive
       run: |
-         zip -x@src/TAR_EXCLUDES -9 -r source.zip ./
+        zip -x@src/TAR_EXCLUDES -9 -r source.zip ./
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -63,10 +63,8 @@ jobs:
         name: source.zip
         path: ./source.zip
     - name: Unpack
+      run: dir
       shell: cmd    
-      run: |
-        dir
-	unzip source.zip
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
