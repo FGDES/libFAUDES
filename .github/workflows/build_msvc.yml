@@ -10,36 +10,27 @@ jobs:
 
   configure:
 
-    runs-on: windows-latest
-
-    defaults:
-      run:
-        shell: msys2 {0}
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - uses: msys2/setup-msys2@v2
-      with:
-        msystem: UCRT64
-        install: >-
-          base-devel
-          gcc
-          swig 
-          perl 
-          doxygen 
-          ncurses-devel 
-          libreadline-devel 
     - name: Figure Version
       run: |
         . ./VERSION
         echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+    - name: Install Extra Libs
+      run: |
+          sudo apt-get install doxygen swig
+          sudo apt-get install libreadline-dev
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
-      run: make -j configure
+      run: |
+        make -j configure
+	make clean
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: source
+        name: sources
         path: ./
         compression-level: 0
         if-no-files-found: error
@@ -56,8 +47,8 @@ jobs:
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
-      with:
-        name: source
+      with:s
+        name: sources
         path: ./
     - uses: msys2/setup-msys2@v2
       id: msys2
@@ -74,7 +65,7 @@ jobs:
       run: echo %PATH%
     - name: Clean
       run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win clean
-    - name: Build
-      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win -j
+    - name: Build Default Targets
+      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
     
  
