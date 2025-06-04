@@ -2,9 +2,13 @@ name: Build libFAUDES with MSVC
 
 on:
   workflow_dispatch:
+  push:
+    tag:
+      - '**'
 
 jobs:
-  build:
+
+  configure:
 
     runs-on: windows-latest
 
@@ -32,6 +36,19 @@ jobs:
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: make -j configure
-    - name: Build Default Targets
-      shell: cmd
-      run: ./tools/msvc/build.bat
+
+  build:
+
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: cmd
+
+    steps:
+      - uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          arch: x64
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Build via batch
+        run: ./tools/msvc/build.bat
