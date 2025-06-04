@@ -499,14 +499,18 @@ endif
 #   in their 64bit variant (libFAUDES 2.27)
 # - early validations with XP 32bit and Vista 32bit
 # 
-# [for user targets only, no configuration tools available]
+# For user targets only, no configuration tools available. You can,
+# however, install MSYS2 for "make configure" and then use the
+# MSYS provided minge32-make from a windows command prompt to build
+# the configured libFAUDES by "mingw32-make FAUDES_PLATFROM=cl_win".
+#
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MKDIR = cmd /C echo MKDIR NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
-SWIG = cmd /C echo ERROR SWIG NOT CONFIGURED
+SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
 DIFF = fc /W
 CXX = cl.exe -nologo
 CC = cl.exe -nologo
