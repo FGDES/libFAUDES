@@ -73,7 +73,7 @@ jobs:
     - name: Hello ${{ steps.msys2.outputs.msys2-location }}
       run: echo %PATH%
     - name: Clean
-      run: mingw-make clean
+      run: ${{ steps.msys2.outputs.msys2-location }}\mingw32-make clean
     - name: Build
       run: mingw32-make -j
     
