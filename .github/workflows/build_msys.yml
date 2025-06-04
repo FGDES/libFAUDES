@@ -1,4 +1,4 @@
-name: Build libFAUDES on MSYS
+name: Build libFAUDES on MSYS2
 
 on:
   workflow_dispatch:

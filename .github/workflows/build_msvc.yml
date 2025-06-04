@@ -18,6 +18,8 @@ jobs:
       with:
         msystem: UCRT64
         install: >-
+          base-devel
+          gcc
           swig 
           perl 
           doxygen 
