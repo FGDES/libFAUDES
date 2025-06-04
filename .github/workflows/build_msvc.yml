@@ -75,10 +75,10 @@ jobs:
     - name: Hello2
       run: dir ${{ steps.msys2.outputs.msys2-location }}
     - name: Hello3
-      run: tree /F ${{ steps.msys2.outputs.msys2-location }}
+      run: tree /F ${{ steps.msys2.outputs.msys2-location }}\usr\bin
     - name: Clean
-      run: ${{ steps.msys2.outputs.msys2-location }}\mingw64\bin\mingw32-make.exe clean
+      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe clean
     - name: Build
-      run: ${{ steps.msys2.outputs.msys2-location }}\ucrt64\bin\mingw32-make.exe -j
+      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\mingw32-make.exe -j
     
  
