@@ -39,9 +39,9 @@ jobs:
     runs-on: windows-latest
     needs: [configure]
     
-    defaults:
-      run:
-        shell: cmd
+#    defaults:
+#      run:
+#        shell: cmd
 
     steps:	
     - name: Download Artifact
@@ -60,8 +60,8 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-    - name: Hello ${{ steps.msys2.outputs.msys2-location }}
-      run: echo %PATH%
+#    - name: Hello ${{ steps.msys2.outputs.msys2-location }}
+#      run: echo %PATH%
     - name: Build Default Targets
       run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
     
