@@ -62,6 +62,8 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
+    - name: Hello
+      run: echo %PATH%
     - name: Clean
       run: mingw-make clean
     - name: Build
