@@ -25,7 +25,7 @@ jobs:
         doxygen 
         ncurses-devel 
         libreadline-devel 
-    - name: Hello MSYS
+    - name: Hello MSYS2
       run: |
         uname -a
     - name: Figure Version
