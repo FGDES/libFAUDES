@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.*'
       
 jobs:
 
@@ -73,8 +73,8 @@ jobs:
     - name: Hello ${{ steps.msys2.outputs.msys2-location }}
       run: echo %PATH%
     - name: Clean
-      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe -DFAUDES_PLATFORM=cl_win clean
+      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win clean
     - name: Build
-      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe -DFAUDES_PLATFORM=cl_win -j
+      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win -j
     
  
