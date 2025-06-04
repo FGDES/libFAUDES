@@ -47,7 +47,7 @@ jobs:
         compression-level: 0
         if-no-files-found: error
 
-  build:  needs
+  build:  
 
     runs-on: windows-latest
     needs: [configure]
