@@ -33,6 +33,5 @@ jobs:
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: make -j configure
     - name: Build Default Targets
-      run: |
-        shell: cmd
-	run: ./tools/msvc/build.bat
+      shell: cmd
+      run: ./tools/msvc/build.bat
