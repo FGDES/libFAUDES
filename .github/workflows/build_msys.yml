@@ -18,8 +18,26 @@ jobs:
       with:
         msystem: UCRT64
       install: >-
-        git
-        curl
+        base-devel 
+        gcc 
+        swig 
+        perl 
+        doxygen 
+        ncurses-devel 
+        libreadline-devel 
     - name: Hello MSYS
       run: |
         uname -a
+    - name: Figure Version
+      run: |
+          . ./VERSION
+          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+          echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: make -j configure
+    - name: Build Default Targets
+      run: make -j
+    - name: Build Tutorials
+      run: make -j tutorial
+    - name: Run Test Cases
+      run: make test
