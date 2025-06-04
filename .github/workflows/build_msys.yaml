@@ -1,0 +1,46 @@
+name: Build libFAUDES on MSYS2
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+	
+    steps:
+    - uses: actions/checkout@v4
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: UCRT64
+      install: >-
+        git
+        curl
+    - shell: msys2 {0}
+      run: |
+        uname -a
+    - name: Figure Version
+      run: |
+          . ./VERSION
+          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
+          echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV" 
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: make -j configure      
+    - name: Build Default Targets
+      run: make -j
+    - name: Build Tutorials
+      run: make -j tutorial
+    - name: Run Test Cases
+      run: make test
+    - name: Build Package
+      run: make package
+    - uses: actions/upload-artifact@v4
+      with:
+        name: libfaudes-${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
+        path: ./libfaudes-*.tar.gz
+        compression-level: 0
+        if-no-files-found: error
