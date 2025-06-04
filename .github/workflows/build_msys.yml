@@ -18,13 +18,16 @@ jobs:
       with:
         msystem: UCRT64
       install: >-
-        base-devel 
-        gcc 
-        swig 
-        perl 
-        doxygen 
-        ncurses-devel 
-        libreadline-devel 
+        git
+        curl
+      pacboy: >-
+        base-devel:p 
+        gcc:p 
+        swig:p 
+        perl:p 
+        doxygen:p 
+        ncurses-devel:p 
+        libreadline-devel:p 
     - name: Hello MSYS2
       run: |
         uname -a
