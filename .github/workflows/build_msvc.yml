@@ -2,9 +2,9 @@ name: Build libFAUDES with MSVC
 
 on:
   workflow_dispatch:
-#  push:
-#    tag:
-#      - 'v[0-9]+.[0-9]+.[0-9]+'
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
       
 jobs:
 
@@ -62,12 +62,12 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-    - uses: egor-tensin/setup-mingw@v2
+    - uses: egor-tensin/setup-mingw@v2.2.0
       with:
         platform: x64
     - name: Clean
       run: mingw-make clean
     - name: Build
-      run: mingw-make -j
+      run: mingw64-make -j
     
  
