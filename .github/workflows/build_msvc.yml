@@ -58,15 +58,13 @@ jobs:
 
     steps:	
     - name: Download Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@vV
       with:
         name: source.zip
         path: ./source.zip
-    - name: Show
+    - name: Unpack
       run: |
-        dir
 	unzip source.zip
-      
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
