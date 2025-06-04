@@ -17,17 +17,17 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         msystem: UCRT64
-      install: >-
-        git
-        curl
-      pacboy: >-
-        base-devel:p 
-        gcc:p 
-        swig:p 
-        perl:p 
-        doxygen:p 
-        ncurses-devel:p 
-        libreadline-devel:p 
+        install: >-
+          git
+          curl
+        pacboy: >-
+          base-devel:p 
+          gcc:p 
+          swig:p 
+          perl:p 
+          doxygen:p 
+          ncurses-devel:p 
+          libreadline-devel:p 
     - name: Hello MSYS2
       run: |
         uname -a
