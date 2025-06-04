@@ -65,7 +65,7 @@ endif
 ifeq ($(FAUDES_PLUGINS),)
 FAUDES_PLUGINS = 
 #FAUDES_PLUGINS += example      # docu only
-#FAUDES_PLUGINS += omegaaut	
+FAUDES_PLUGINS += omegaaut	
 FAUDES_PLUGINS += synthesis	
 FAUDES_PLUGINS += observer
 FAUDES_PLUGINS += multitasking

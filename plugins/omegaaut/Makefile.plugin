@@ -52,12 +52,8 @@ $(INCLUDEDIR)/$(OMG_INCLUDE): $(OMG_SRCDIR)/$(OMG_INCLUDE)
 	echo " " >> $(INCLUDEDIR)/configuration.h
 
 #
-# have special rule for omg_hao.o to include cpphoafparser
-INCLUDES += -I$(OMG_BASE)/lib
-OMG_CFLAGS = $(CFLAGS)  -Wno-unused-private-field -Wno-inconsistent-missing-override
-FNCT_OMG_COMP_LIB = $(CXX) -c $(OMG_CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$(1)) $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2))
-$(OBJDIR)/omg_hoa$(DOT_O): $(OMG_BASE)/src/omg_hoa.cpp 
-	$(call FNCT_OMG_COMP_LIB,$<,$@)
+# extra include to access cpphoafparser headers
+INCLUDES += -I$(call FNCT_FIXDIRSEP,$(OMG_BASE)/lib) 
 
 #
 # have rule to unzip cpphoafparser

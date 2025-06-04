@@ -23,6 +23,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 #include "omg_hoa.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-private-field -Winconsistent-missing-override"
 #include "cpphoafparser/consumer/hoa_intermediate_trace.hh"
 #include "cpphoafparser/consumer/hoa_intermediate_resolve_aliases.hh"
 #include "cpphoafparser/parser/hoa_parser.hh"
@@ -30,6 +32,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #include "cpphoafparser/parser/hoa_parser_exception.hh"
 #include "cpphoafparser/util/implicit_edge_helper.hh"
 #include "cpphoafparser/consumer/hoa_consumer.hh"
+#pragma GCC diagnostic pop
 
 // local debug
 //#undef FD_DF
