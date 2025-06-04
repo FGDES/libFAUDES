@@ -65,8 +65,8 @@ jobs:
         msystem: UCRT64
         install: >-
           base-devel
-    - env:
-      MSYS2_LOCATION: ${{ steps.msys2.outputs.msys2-location }}
+#    - env:
+#      MSYS2_LOCATION: ${{ steps.msys2.outputs.msys2-location }}
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
@@ -75,6 +75,6 @@ jobs:
     - name: Clean
       run: mingw-make clean
     - name: Build
-      run: ucrt64\bin\mingw32-make -j
+      run: mingw32-make -j
     
  
