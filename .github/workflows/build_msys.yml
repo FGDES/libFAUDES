@@ -1,6 +1,6 @@
-name: Build libFAUDES on MSYS2
+name: Build libFAUDES on MSYS
 
-on: 
+on:
   workflow_dispatch:
 
 jobs:
@@ -20,6 +20,27 @@ jobs:
         install: >-
           git
           curl
-    - name: say hello
+        pacboy: >-
+          base-devel:p 
+          gcc:p 
+          swig:p 
+          perl:p 
+          doxygen:p 
+          ncurses-devel:p 
+          libreadline-devel:p 
+    - name: Hello MSYS2
       run: |
         uname -a
+    - name: Figure Version
+      run: |
+          . ./VERSION
+          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+          echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: make -j configure
+    - name: Build Default Targets
+      run: make -j
+    - name: Build Tutorials
+      run: make -j tutorial
+    - name: Run Test Cases
+      run: make test
