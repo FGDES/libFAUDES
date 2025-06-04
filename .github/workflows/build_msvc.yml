@@ -2,9 +2,9 @@ name: Build libFAUDES with MSVC
 
 on:
   workflow_dispatch:
-#  push:
-#    tags:
-#      - 'v[0-9]+.[0-9]+.[a-z]*'
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[a-z]*'
       
 jobs:
 
@@ -46,7 +46,7 @@ jobs:
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
-      with:s
+      with:
         name: sources
         path: ./
     - uses: msys2/setup-msys2@v2
