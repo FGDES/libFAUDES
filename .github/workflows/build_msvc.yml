@@ -72,6 +72,6 @@ jobs:
     - name: Clean
       run: mingw-make clean
     - name: Build
-      run: mingw64-make -j
+      run: ucrt64\bin\mingw32-make -j
     
  
