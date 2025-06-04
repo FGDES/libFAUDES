@@ -52,8 +52,10 @@
 #
 ###############################################################################
 
-# allow user local configuration
--include Makefile.user
+# allow user local configuration (unless building a distribution package)
+ifeq (,$(findstring package,$(MAKECMDGOALS)))
+-include $(DEPEND)
+endif
 
 # manualy enable plug-ins (uncomment corresponding lines)
 
@@ -920,29 +922,32 @@ tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) includes
 package: 
 	@echo " ============================== " 
 	@echo "libFAUDES pacakge: prepare"
-	$(RM) libfaudes-$(FAUDES_FILEVERSION) 
-	$(RM) $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) 
-	$(MKDIR) $(TEMP)/libfaudes-$(FAUDES_FILEVERSION)
-	$(CPR) ./ $(TEMP)/libfaudes-$(FAUDES_FILEVERSION)
-	$(MV) $(TEMP)/libfaudes-$(FAUDES_FILEVERSION) ./
-	$(RM) ./libfaudes-$(FAUDES_FILEVERSION)/plugins
-	$(MKDIR) .//libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  $(pluginstringC) ./libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/example ./libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/hybrid ./libfaudes-$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/pybindings ./libfaudes-$(FAUDES_FILEVERSION)/plugins
+	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
+	$(RM) $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION) 
+	$(MKDIR) $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION)
+	$(CPR) ./ $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION)
+	$(MV) $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION) ./
+	$(RM) ./libFAUDES-$(FAUDES_FILEVERSION)/libfaudes-*tar.gz
+	$(RM) ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
+	$(MKDIR) ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  $(pluginstringC) ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  plugins/example ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  plugins/hybrid ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
+	- $(CPR)  plugins/pybindings ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
 	@echo "#### libFAUDES package: dist-clean"
-	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
+	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
 	@echo "#### libFAUDES package: configure"
-	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  -j20 configure &> /dev/null
+	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  -j configure &> /dev/null
+	@echo "#### libFAUDES package: tar sources"  
+	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes-$(FAUDES_FILEVERSION)-source.tar.gz libFAUDES-$(FAUDES_FILEVERSION)
 	@echo "#### libFAUDES package: build"
-	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  -j20 &> /dev/null
+	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  -j &> /dev/null
 	@echo "#### libFAUDES  package: clean" 
-	$(MAKE) -s -C ./libfaudes-$(FAUDES_FILEVERSION)  clean &> /dev/null 
-	@echo "#### libFAUDES  package: tar"  
-	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes-$(FAUDES_FILEVERSION).tar.gz libfaudes-$(FAUDES_FILEVERSION)
-	@echo "#### package ok: ./libfaudes-$(FAUDES_FILEVERSION).tar.gz"
-	@echo "#### libFAUDES pacakge: done"
+	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  clean &> /dev/null 
+	@echo "#### libFAUDES package: tar build"  
+	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes-$(FAUDES_FILEVERSION).tar.gz libFAUDES-$(FAUDES_FILEVERSION)
+	@echo "#### libFAUDES package: clean"
+	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
 	@echo " ============================== " 
 
 
