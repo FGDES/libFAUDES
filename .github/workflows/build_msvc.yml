@@ -26,7 +26,7 @@ jobs:
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
         make -j configure
-	make clean
+        make clean
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
