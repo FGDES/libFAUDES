@@ -1,1 +1,25 @@
 name: Build libFAUDES on MSYS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: UCRT64
+      install: >-
+        git
+        curl
+    - name: Hello MSYS
+      run: |
+        uname -a
