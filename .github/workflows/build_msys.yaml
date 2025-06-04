@@ -23,24 +23,3 @@ jobs:
     - name: say hello
       run: |
         uname -a
-    - name: Figure Version
-      run: |
-          . ./VERSION
-          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
-          echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV" 
-    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
-      run: make -j configure      
-    - name: Build Default Targets
-      run: make -j
-    - name: Build Tutorials
-      run: make -j tutorial
-    - name: Run Test Cases
-      run: make test
-    - name: Build Package
-      run: make package
-    - uses: actions/upload-artifact@v4
-      with:
-        name: libfaudes-${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
-        path: ./libfaudes-*.tar.gz
-        compression-level: 0
-        if-no-files-found: error
