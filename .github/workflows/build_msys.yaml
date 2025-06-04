@@ -17,10 +17,10 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         msystem: UCRT64
-      install: >-
-        git
-        curl
-    - shell: msys2 {0}
+        install: >-
+          git
+          curl
+    - name: say hello
       run: |
         uname -a
     - name: Figure Version
