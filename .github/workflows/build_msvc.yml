@@ -2,9 +2,9 @@ name: Build libFAUDES with MSVC
 
 on:
   workflow_dispatch:
-#  push:
-#    tags:
-#      - 'v[0-9]+.[0-9]+.[a-z]*'
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[a-z]*'
       
 jobs:
 
@@ -14,15 +14,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install Extra Libs
+      run: |
+          sudo apt-get install doxygen swig
+          sudo apt-get install libreadline-dev
     - name: Figure Version
       run: |
         . ./VERSION
         echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
-    - name: Install Extra Libs
-      run: |
-          sudo apt-get install doxygen swig
-          sudo apt-get install libreadline-dev
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
         make -j configure
