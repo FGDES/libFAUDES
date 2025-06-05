@@ -526,6 +526,7 @@ COUTOPT = -Fo
 LOUTOPT = -Fe
 AOUTOPT = -OUT:
 WARNINGS =  
+FNCT_POST_APP = echo wont strip $(1)
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 #
 ifeq ($(DEBUG),yes)
