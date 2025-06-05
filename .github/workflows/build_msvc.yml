@@ -55,24 +55,14 @@ jobs:
         msystem: UCRT64
         install: >-
           make
-#base-devel
-#    - env:
-#      MSYS2_LOCATION: ${{ steps.msys2.outputs.msys2-location }}
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
 #    - name: Hello ${{ steps.msys2.outputs.msys2-location }}
 #      run: echo %PATH%
-#    - name: Build Default ONE
-#      run: |
-#        cl.exe -nologo -c -EHsc -O2  -DFAUDES_BUILDENV=\"cl_win\" -MD  -Iinclude -I./plugins/omegaaut/lib  -DFAUDES_BUILD_DSO src/cfl_platform.cpp -Foobj/cfl_platform.obj
-#    - name: Build Default TWO
-#      run: |
-#        cl.exe -nologo -c -EHsc -O2  -DFAUDES_BUILDENV=\"cl_win\" -MD  -Iinclude -I.\\plugins\\omegaaut\\lib  -DFAUDES_BUILD_DSO src\\cfl_platform.cpp -Foobj\\cfl_platform.obj
-    - name: Build Default 3
-      run: |
-       cmd.exe /C cl.exe -nologo -c -EHsc -O2 -MD  -Iinclude  -DFAUDES_BUILD_DSO src\cfl_platform.cpp -Foobj\cfl_platform.obj
-#    - name: Build Default Targets
-#      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
+    - name: Show Config
+      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win report-platform
+    - name: Build Default Targets
+      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
     
  
