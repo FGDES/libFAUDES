@@ -1025,10 +1025,10 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 # Configure source files
 ####################################
 
-$(INCLUDEDIR)/allplugins.h: | $(SRCDIR)/allplugins.h.template 
+$(INCLUDEDIR)/allplugins.h: | $(SRCDIR)/allplugins.h.template ##win
 	cp $(SRCDIR)/allplugins.h.template $(INCLUDEDIR)/allplugins.h
 
-$(INCLUDEDIR)/configuration.h: | $(SRCDIR)/configuration.h.template 
+$(INCLUDEDIR)/configuration.h: | $(SRCDIR)/configuration.h.template ##win
 	cp $(SRCDIR)/configuration.h.template $(INCLUDEDIR)/configuration.h
 	echo "/* faudes core configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_VERSION \"libFAUDES $(FAUDES_VERSION)\"" >> $(INCLUDEDIR)/configuration.h
