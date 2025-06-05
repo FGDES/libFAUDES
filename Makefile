@@ -506,6 +506,8 @@ endif
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
+SHELL = cmd.exe
+.SHELLFLAGS = ""
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MKDIR = cmd /C echo MKDIR NOT CONFIGURED
@@ -1120,12 +1122,12 @@ $(BINDIR)/rti2code$(DOT_EXE): $(OBJDIR)/rti2code_min$(DOT_O) $(MINFAUDES) | $(BI
 	$(call FNCT_LINK_MIN,$<,$@)
 
 # merge rti files
-$(INCLUDEDIR)/libfaudes.rti: $(BINDIR)/rti2code$(DOT_EXE)
+$(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)  # win
 	./bin/rti2code -merge $(RTIDEFS) $@
 
 # have my auto register tools and produce includes
 # note: we use .i as target since depend touches .h and .cpp
-$(INCLUDEDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti $(BINDIR)/rti2code$(DOT_EXE) 
+$(INCLUDEDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
 	./bin/rti2code $(PBP_RTIFLAT) $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload
 
 
