@@ -1607,7 +1607,7 @@ report-platform:
 	@echo "libFAUDES-make: shell:"    [$(FAUDES_MSHELL)]
 	@echo "libFAUDES-make: linking:"  [$(FAUDES_LINKING)]
 ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
-	@echo "libFAUDES-make: mingw shell:"  [$(SHELL)], [$(.SHELLFLAGS)]
+	@echo "libFAUDES-make: mingw shell:"  [$(SHELL)] [$(COMSPEC)] [$(.SHELLFLAGS)] 
 endif
 	@echo " ============================== " 
 
