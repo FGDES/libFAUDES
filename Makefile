@@ -318,7 +318,7 @@ endif
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
 .SHELLFLAGS = 
-CP  = cmd /C copy /Y
+CP  = cmd /C copy /Y /B /V
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MV = cmd /C echo ERROR MV NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
