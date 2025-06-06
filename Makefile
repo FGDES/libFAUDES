@@ -546,7 +546,7 @@ ifeq ($(FAUDES_PLATFORM),cl_win)
 CXX = cl.exe /nologo
 CC = cl.exe /nologo
 LXX = cl.exe /nologo
-AR = lib.exe /VERBOSE /NOLOGO 
+AR = lib.exe /LIST /VERBOSE  # /NOLOGO
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc -O2 
