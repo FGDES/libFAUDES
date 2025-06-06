@@ -14,10 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Install Extra Libs
+    - name: Install Extra Libs and Tools
       run: |
           sudo apt-get install doxygen swig
-          sudo apt-get install libreadline-dev
     - name: Figure Version
       run: |
         . ./VERSION
@@ -45,6 +44,9 @@ jobs:
       with:
         name: sources
         path: ./
+    - name: Install Extra Libs 
+      run: |
+          sudo apt-get install libreadline-dev
     - name: Build Default Targets
       run: |
         make --touch includes
@@ -70,6 +72,7 @@ jobs:
       run: |
         brew update
         brew install make
+        brew install swig
     - name: Build Default Targets
       run: |
         gmake --touch includes
