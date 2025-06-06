@@ -111,13 +111,13 @@ jobs:
       shell: msys2 {0}
       run: |
         make --touch includes
-        make 
+        make -j1
     - name: Build Tutorials
       shell: msys2 {0}
-      run: make  tutorial
+      run: make  -j1 tutorial
     - name: Run Test Cases
       shell: msys2 {0}
-      run: make test
+      run: make -j1 test
 
 
   build-msvc:  
