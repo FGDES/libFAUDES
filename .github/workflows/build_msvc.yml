@@ -54,7 +54,6 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
--platform
     - name: Fix Timestamps
       shell: msys2 {0}
       run: |
