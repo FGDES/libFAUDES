@@ -113,7 +113,7 @@ PBP_RTIFLAT = -flat
 #
 # run swig (incl. copy faudes.py to the tutorials)
 $(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i
-	$(SWIG) $(PBP_SWIGOPTIONS) -o $@ $< 
+	$(SWIG) $(PBP_SWIGOPTIONS) -o $(call FNCT_FIXDISEP,$@) $(call FNCT_FIXDISEP,$<)
 
 
 
