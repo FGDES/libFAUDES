@@ -72,7 +72,7 @@ jobs:
       run: |
         brew update
         brew install make
-        brew install swig
+        brew install swig  # why needed?
     - name: Build Default Targets
       run: |
         gmake --touch includes
