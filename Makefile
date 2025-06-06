@@ -322,7 +322,7 @@ CP  = copy /Y /B /V
 CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = del /F /S /Q 
-MKDIR = echo MKDIR NOT CONFIGURED
+MKDIR = cmd.exe /C mkdir 
 ECHO = @cmd /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
 DIFF = fc /W
@@ -1137,11 +1137,11 @@ rti-clean:
 	- rm -rf $(INCLUDEDIR)/rtiautoload*
 	- rm -rf $(INCLUDEDIR)/libfaudes.rti
 
-# have those dirs
+# have those dirs #verb
 $(OBJDIR): 
-	@$(MKDIR) $(OBJDIR) 
+	$(MKDIR) $(call FNCT_FIXDIRSEP,$(OBJDIR)) 
 $(BINDIR): 
-	@$(MKDIR) $(BINDIR) 
+	@$(MKDIR) $(call FNCT_FIXDIRSEP,$(BINDIR))
 
 # minimal objects implicit rule
 $(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp | $(OBJDIR)
