@@ -107,13 +107,17 @@ jobs:
           ncurses-devel 
           libreadline-devel 
     - name: Build Default Targets
+      shell: msys2 {0}
       run: |
         make --touch includes
         make 
     - name: Build Tutorials
+      shell: msys2 {0}
       run: make  tutorial
     - name: Run Test Cases
+      shell: msys2 {0}
       run: make test
+
 
   build-msvc:  
 
