@@ -543,17 +543,17 @@ endif
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cl.exe -nologo
-CC = cl.exe -nologo
-LXX = cl.exe -nologo
+CXX = cl.exe /nologo
+CC = cl.exe /nologo
+LXX = cl.exe /nologo
 AR = lib.exe /VERBOSE /NOLOGO 
 DOT_EXE = .exe
 DOT_O  = .obj
-MAINOPTS = -EHsc -O2 
-MAINOPTS += -DFAUDES_BUILDENV=\"cl_win\"
-COUTOPT = -Fo
-LOUTOPT = -Fe
-AOUTOPT = -OUT:
+MAINOPTS = /EHsc -O2 
+MAINOPTS += /DFAUDES_BUILDENV=\"cl_win\"
+COUTOPT = /Fo
+LOUTOPT = /Fe
+AOUTOPT = /OUT:
 WARNINGS =  
 #
 ifeq ($(DEBUG),yes)
