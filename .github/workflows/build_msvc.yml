@@ -58,9 +58,17 @@ jobs:
       shell: msys2 {0}
       run: |
         make configts
-    - name: Build Default Targets
+    - name: Build Default Targets A
       shell: cmd
       run: |
-        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
+        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win libfaudes
+    - name: Fix Timestamps
+      shell: msys2 {0}
+      run: |
+        make configts
+    - name: Build Default Targets B
+      shell: cmd
+      run: |
+        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win binaries
     
  
