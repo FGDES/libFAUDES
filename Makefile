@@ -1504,6 +1504,7 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
+	- cmd.exe /C dir obj\
 	- cmd.exe /C dir
 	$(ECHO) "linking full libfaudes: done"
 
