@@ -57,10 +57,11 @@ jobs:
     - name: Build Default Targets 
       shell: cmd
       run: |
-        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win --touch includes
-        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win libfaudes
-        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win --touch includes
-	${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win binaries
-        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win --touch includes
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
     
  
