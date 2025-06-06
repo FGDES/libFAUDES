@@ -1,4 +1,4 @@
-name: Build and Run libFAUDES Test Cases
+name: libFAUDES Test Cases
 
 on:
   workflow_dispatch:

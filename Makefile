@@ -1478,7 +1478,7 @@ $(DEPEND):
 ####################################
 
 # .cpp -> .o  (trust automatic dependencies)
-$(OBJDIR)/%$(DOT_O): %.cpp 
+$(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
 
 # .h -> include/.h
