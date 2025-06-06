@@ -171,7 +171,7 @@ LBP_SWIGOBJECTS = $(LBP_SWIGCPPFILES:%.cpp=%$(DOT_O))
 # Note: we use VPATH here to find the .i in any plugin src/regisry dir
 # Note: we miss dependencies if a plugin .i file includes others
 $(LBP_OBJDIR)/%_luawrapper.cpp: registry/%.i $(INCLUDEDIR)/rtiautoload.i
-	$(SWIG) $(LBP_SWIGOPTIONS) -o $@ $< 
+	$(SWIG) $(LBP_SWIGOPTIONS) -o $(call FNCT_FIXDISEP,$@ $<) 
 
 #
 # special case for corefaudes.i: it's directly in src/swig 
