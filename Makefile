@@ -284,7 +284,7 @@ CPR = /bin/cp -pR
 MV  = /bin/mv  
 RM = /bin/rm -rf
 MKDIR = /bin/mkdir -p
-ECHO = echo
+ECHO = @echo
 ECHOE = echo -e
 DOXYGEN = doxygen
 DIFF = diff -w --context=3 --show-function-line=mark 
@@ -303,6 +303,7 @@ CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MV = cmd /C echo ERROR MV NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
 MKDIR = cmd /C echo MKDIR NOT CONFIGURED
+ECHO = @cmd /C echo
 ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
 DIFF = fc /W
 SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
@@ -322,7 +323,7 @@ CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MV = cmd /C echo ERROR MV NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
 MKDIR = cmd /C echo MKDIR NOT CONFIGURED
-ECHO = cmd /C echo
+ECHO = @cmd /C echo
 ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
 DIFF = fc /W
 SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
@@ -491,7 +492,6 @@ MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS =  -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
 DSOOPTS  =  -dynamiclib  -single_module
 DSOOPTS  += -install_name @rpath/$@
-ECHOE = echo -e
 # 
 export MACOSX_DEPLOYMENT_TARGET = 10.9
 #
@@ -668,7 +668,6 @@ endif
 # [no debug build here, static linking only]
 #
 ifeq ($(FAUDES_PLATFORM),emcc_js)
-ECHOE = echo -e
 CXX = em++
 CC = emcc
 LXX = em++
@@ -927,29 +926,30 @@ export FAUDES_OPTIONS
 
 all: default tutorial 
 
-includes: $(HEADERS:%=$(INCLUDEDIR)/%) 
+includes: $(HEADERS:%=$(INCLUDEDIR)/%)
+	$(ECHO) $?
 
 prepare: $(PREPARETARGETS)
 
 configure: prepare $(CONFIGURETARGETS)
-	@echo " ============================== " 
-	@echo "libFAUDES-make: configure: done" 
-	@echo "libFAUDES-make: you may now compile the default targets by \"make -j\"" 
-	@echo " ============================== " 
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES-make: configure: done" 
+	$(ECHO) "libFAUDES-make: you may now compile the default targets by \"make -j\"" 
+	$(ECHO) " ============================== " 
 
 libfaudes: $(LIBFAUDES) includes
 
-binaries: $(EXECUTABLES) includes
+binaries: $(EXECUTABLES) libfaudes
 
-tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) includes
-	@echo " ============================== " 
-	@echo "libFAUDES-make: tutorial targets: done" 
-	@echo "libFAUDES-make: you may now run the provided test cases by \"make test\"" 
-	@echo " ============================== " 
+tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) libfaudes
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES-make: tutorial targets: done" 
+	$(ECHO) "libFAUDES-make: you may now run the provided test cases by \"make test\"" 
+	$(ECHO) " ============================== " 
 
 package: 
-	@echo " ============================== " 
-	@echo "libFAUDES pacakge: prepare"
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES pacakge: prepare"
 	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
 	$(RM) tmpdst/libFAUDES-$(FAUDES_FILEVERSION) 
 	$(MKDIR) tmpdst/libFAUDES-$(FAUDES_FILEVERSION)
@@ -962,21 +962,21 @@ package:
 	- $(CPR)  plugins/example ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
 	- $(CPR)  plugins/hybrid ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
 	- $(CPR)  plugins/pybindings ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
-	@echo "#### libFAUDES package: dist-clean"
+	$(ECHO) "#### libFAUDES package: dist-clean"
 	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
-	@echo "#### libFAUDES package: configure"
+	$(ECHO) "#### libFAUDES package: configure"
 	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  -j configure &> /dev/null
-	@echo "#### libFAUDES package: tar sources"  
+	$(ECHO) "#### libFAUDES package: tar sources"  
 	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes-$(FAUDES_FILEVERSION)-source.tar.gz libFAUDES-$(FAUDES_FILEVERSION)
-	@echo "#### libFAUDES package: build"
+	$(ECHO) "#### libFAUDES package: build"
 	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  -j &> /dev/null
-	@echo "#### libFAUDES  package: clean" 
+	$(ECHO) "#### libFAUDES  package: clean" 
 	$(MAKE) -s -C ./libFAUDES-$(FAUDES_FILEVERSION)  clean &> /dev/null 
-	@echo "#### libFAUDES package: tar build"  
+	$(ECHO) "#### libFAUDES package: tar build"  
 	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes-$(FAUDES_FILEVERSION).tar.gz libFAUDES-$(FAUDES_FILEVERSION)
-	@echo "#### libFAUDES package: clean"
+	$(ECHO) "#### libFAUDES package: clean"
 	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
-	@echo " ============================== " 
+	$(ECHO) " ============================== " 
 
 
 ####################################
@@ -1035,10 +1035,10 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -f */*/*/*/*/*~  
 	rm -f */*/*/*/*/._*  
 	rm -f */*/*/*/*/*.bak
-	@echo " ============================== " 
-	@echo "libFAUDES-make: dist-clean: done" 
-	@echo "libFAUDES-make: you may now edit the Makefile and configure the sources by \"make -j configure\"" 
-	@echo " ============================== " 
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES-make: dist-clean: done" 
+	$(ECHO) "libFAUDES-make: you may now edit the Makefile and configure the sources by \"make -j configure\"" 
+	$(ECHO) " ============================== " 
 
 
 
@@ -1219,7 +1219,7 @@ $(REFSRCDIR)/reference: $(REFSRCDIR)/reference/.tstamp
 # have fref source dir: copy frefs  
 $(REFSRCDIR)/reference/.tstamp: $(REFSRCDIR) $(RTIFREF) 
 	- mkdir -p $(REFSRCDIR)/reference
-	@echo copy frefs
+	$(ECHO) copy frefs
 	@ - cp -f $(RTIFREF) $(REFSRCDIR)/reference
 	touch $@
 
@@ -1266,14 +1266,14 @@ $(REFSRCDIR)/images: $(REFSRCDIR)/images/.tstamp
 # copy images and fref to DOCDIR
 $(REFSRCDIR)/images/.tstamp: $(REFSRCDIR) $(IMAGES_ALL) $(IMGDOCDIR)
 	- mkdir -p $(REFSRCDIR)/images
-	@echo copy images
+	$(ECHO) copy images
 	@ - cp -rf $(IMAGES_OTHER) $(IMGDOCDIR)
 	@ - cp -rf $(IMAGES_FREF) $(REFSRCDIR)/images
 	touch $@
 
 # trigger (en-block copy if needed)
 $(REFSRCDIR)/images/%.fref: $(REFSRCDIR)/images
-	@echo trigger image copy    # need a recipie, otherwise the rule wont be applied
+	$(ECHO) trigger image copy    # need a recipie, otherwise the rule wont be applied
 
 # target: make fref source files and copy images
 doc-images: $(REFSRCDIR)/images
@@ -1309,7 +1309,7 @@ $(REFSRCDIR)/luafaudes: $(REFSRCDIR)/luafaudes/.tstamp $(LUADOCDIR)
 # have luafaudes fref source dir: copy tutorials
 $(REFSRCDIR)/luafaudes/.tstamp: $(REFSRCDIR) $(LUATUTS) 
 	- mkdir -p $(REFSRCDIR)/luafaudes
-	@echo copy lua tutorials
+	$(ECHO) copy lua tutorials
 	@ - cp -f $(LUATUTS) $(REFSRCDIR)/luafaudes
 	touch $@
 
@@ -1362,7 +1362,7 @@ $(REFSRCDIR)/luafaudes: $(REFSRCDIR)/luafaudes/.tstamp $(LUADOCDIR)
 # have luafaudes fref source dir: copy tutorials
 $(REFSRCDIR)/luafaudes/.tstamp: $(LUATUTS) 
 	- mkdir -p $(REFSRCDIR)/luafaudes
-	@echo copy tutorial
+	$(ECHO) copy tutorial
 	@ - cp -f $(LUATUTS) $(REFSRCDIR)/luafaudes
 	touch $@
 
@@ -1438,7 +1438,7 @@ docs: reftools rtitools rticode doc-images doc-base doc-luafaudes doc-reference 
 	$(REF2HTMLCMD) -doxheader $(DOXDOCDIR)/doxygen_header.html
 	$(REF2HTMLCMD) -doxfooter $(DOXDOCDIR)/doxygen_footer.html
 	cp $(SRCDIR)/doxygen/doxygen.xml $(DOXDOCDIR)
-	@echo running doxygen
+	$(ECHO) running doxygen
 	( cat $(SRCDIR)/doxygen/doxygen_1110.conf ; \
               echo "INPUT += $(VPATH)" ; \
 	      echo "INPUT += $(SRCDIR)/doxygen/doxygen_groups.h" ; \
@@ -1451,7 +1451,7 @@ docs: reftools rtitools rticode doc-images doc-base doc-luafaudes doc-reference 
 	cat $(SRCDIR)/doxygen/doxygen_extra_1110.css >> $(DOXDOCDIR)/doxygen.css	
 	cat $(SRCDIR)/doxygen/faudes.css >> $(DOXDOCDIR)/doxygen.css	
 	- cp $(DOXDOCDIR)/main.html $(DOXDOCDIR)/index.html
-	@echo processing fref to html
+	$(ECHO) processing fref to html
 	make doc-fref
 
 
@@ -1463,10 +1463,10 @@ docs: reftools rtitools rticode doc-images doc-base doc-luafaudes doc-reference 
 depend: $(SOURCES) includes
 #	touch $(INCLUDEDIR)/rtiautoload.h
 #	touch $(INCLUDEDIR)/rtiautoload.cpp
-	@$(ECHO) update dependencies
-	@echo "# libFAUDES build dependencies" > $(DEPEND)
-	@echo "# - do not edit this file manually" >> $(DEPEND)
-	@echo "# - see main Makefile for documentation" >> $(DEPEND)
+	$(ECHO) update dependencies
+	$(ECHO) "# libFAUDES build dependencies" > $(DEPEND)
+	$(ECHO) "# - do not edit this file manually" >> $(DEPEND)
+	$(ECHO) "# - see main Makefile for documentation" >> $(DEPEND)
 	@ $(CXX) -MM $(CFLAGS) $(SOURCES) | sed 's/\(^.*:\)/$(OBJDIR)\/\1/' >> $(DEPEND)
 
 # dont do this automatically
@@ -1557,19 +1557,19 @@ else
 ifeq (cmdcom,$(FAUDES_MSHELL))
 FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
-FNCT_RUNPYSCRIPT = @$(ECHOE) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
 ifeq (pwrsh,$(FAUDES_MSHELL))
 FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
-FNCT_RUNPYSCRIPT = @$(ECHOE) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
-FNCT_RUNCPPBIN = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
-FNCT_RUNLUASCRIPT = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
-FNCT_RUNPYSCRIPT = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
-FNCT_DIFFPROT = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
+FNCT_RUNCPPBIN = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
+FNCT_RUNLUASCRIPT = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
+FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
+FNCT_DIFFPROT = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
 endif
 endif
 endif
@@ -1583,26 +1583,26 @@ TESTTARGETS += $(TESTTARGETSX)
 # lua test cases
 %_lua.prot: 
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
-	@echo running test case $(call FNCT_LUASCRIPT,$@)
+	$(ECHO) running test case $(call FNCT_LUASCRIPT,$@)
 	@- $(call FNCT_RUNLUASCRIPT,$@)
 	@ $(call FNCT_DIFFPROT,$@)
 else
-	@echo skipping test case $(call FNCT_LUASCRIPT,$@) [no Lua bindings configured]
+	$(ECHO) skipping test case $(call FNCT_LUASCRIPT,$@) [no Lua bindings configured]
 endif
 
 # python test cases
 %_py.prot: 
 ifeq (pybindings,$(findstring pybindings,$(FAUDES_PLUGINS)))
-	@echo running test case $(call FNCT_PYSCRIPT,$@)
+	$(ECHO) running test case $(call FNCT_PYSCRIPT,$@)
 	@- $(call FNCT_RUNPYSCRIPT,$@)
 	@ $(call FNCT_DIFFPROT,$@)
 else
-	@echo skipping test case $(call FNCT_PYSCRIPT,$@) [no Python bindings configured]
+	$(ECHO) skipping test case $(call FNCT_PYSCRIPT,$@) [no Python bindings configured]
 endif
 
 # cpp test cases
 %_cpp.prot: 
-	@echo running test case $(call FNCT_CPPBIN,$@)
+	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
 	@- $(call FNCT_RUNCPPBIN,$@)
 	@ $(call FNCT_DIFFPROT,$@)
 
@@ -1614,21 +1614,21 @@ tmp_valext:
 TESTFLX_%.flx: tmp_valext
 ifeq (posix,$(FAUDES_MSHELL))
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
-	@echo running test case $(patsubst TESTFLX_%,%,$@)
+	$(ECHO) running test case $(patsubst TESTFLX_%,%,$@)
 	@- rm -rf tmp_valext/data  ; rm -f tmp_valext/*
 	@cd tmp_valext; $(ABSFLXINSTALL) -tbin ../bin -t ../stdflx/$(patsubst TESTFLX_%,%,$@) . &> /dev/null
 else
-	@echo skipping test case [ $(patsubst TESTFLX_%,%,$@) ] [no Lua bindings configured]
+	$(ECHO) skipping test case [ $(patsubst TESTFLX_%,%,$@) ] [no Lua bindings configured]
 endif
 else
-	@echo skipping test case [ $(patsubst TESTFLX%,%,$@) ] [no posix shell]
+	$(ECHO) skipping test case [ $(patsubst TESTFLX%,%,$@) ] [no posix shell]
 endif
 
 # all tests
 test: binaries tutorial $(TESTTARGETS) 
-	@echo " ============================== " 
-	@echo "libFAUDES-make: test cases: done" 
-	@echo " ============================== " 
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES-make: test cases: done" 
+	$(ECHO) " ============================== " 
 
 
 # more test cases: extensions
@@ -1642,27 +1642,27 @@ test: binaries tutorial $(TESTTARGETS)
 ####################################
 
 report-platform:
-	@$(ECHO) " ============================== " 
-	@$(ECHO) "libFAUDES-make: platform: $(FAUDES_PLATFORM)"
-	@$(ECHO) "libFAUDES-make: shell:    $(FAUDES_MSHELL)"
-	@$(ECHO) "libFAUDES-make: linking:  $(FAUDES_LINKING)"
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES-make: platform: $(FAUDES_PLATFORM)"
+	$(ECHO) "libFAUDES-make: shell:    $(FAUDES_MSHELL)"
+	$(ECHO) "libFAUDES-make: linking:  $(FAUDES_LINKING)"
 ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
-	@$(ECHO) "libFAUDES-make: mingw shell: $(SHELL) $(.SHELLFLAGS)"
+	$(ECHO) "libFAUDES-make: mingw shell: $(SHELL) $(.SHELLFLAGS)"
 endif
-	@$(ECHO) " ============================== " 
+	$(ECHO) " ============================== " 
 
 report-stats:
-	@echo " ============================== " 
+	$(ECHO) " ============================== " 
 	- wc src/*.cpp src/*.h */*/src/*.cpp */*/src/*.h */*/tutorial/*.cpp
-	@echo "libFAUDES-make: statistics" 
-	@echo " ============================== "
+	$(ECHO) "libFAUDES-make: statistics" 
+	$(ECHO) " ============================== "
 
 report-test:
-	@echo $(OBJECTSMIN)
-	@echo $(HEADERS)
-	@echo $(FAUDES_PLUGINS)
-	@echo $(EXECUTABLES)
-	@echo $(CP)
+	$(ECHO) $(OBJECTSMIN)
+	$(ECHO) $(HEADERS)
+	$(ECHO) $(FAUDES_PLUGINS)
+	$(ECHO) $(EXECUTABLES)
+	$(ECHO) $(CP)
 
 
 ### all phony targets
