@@ -33,8 +33,8 @@ jobs:
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: make -j configure
     - name: Build Default Targets
-      run: make -j
+      run: make -j1
     - name: Build Tutorials
-      run: make -j tutorial
+      run: make -j1 tutorial
     - name: Run Test Cases
-      run: make test
+      run: make -j1 test
