@@ -311,7 +311,7 @@ FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = echo wont strip $(1)
 endif
 
-### sensible/cmdcom defaults: external tools #########################
+### sensible/pwrsh defaults: external tools #########################
 #
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
