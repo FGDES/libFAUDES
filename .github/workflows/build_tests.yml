@@ -48,9 +48,9 @@ jobs:
     - name: Build Default Targets
       run: |
         make --touch includes
-        make -j
+        make 
     - name: Build Tutorials
-      run: make -j tutorial
+      run: make  tutorial
     - name: Run Test Cases
       run: make test
 
@@ -73,9 +73,9 @@ jobs:
     - name: Build Default Targets
       run: |
         gmake --touch includes
-        gmake -j
+        gmake 
     - name: Build Tutorials
-      run: gmake -j tutorial
+      run: gmake  tutorial
     - name: Run Test Cases
       run: gmake test
 
@@ -105,9 +105,9 @@ jobs:
     - name: Build Default Targets
       run: |
         make --touch includes
-        make -j
+        make 
     - name: Build Tutorials
-      run: make -j tutorial
+      run: make  tutorial
     - name: Run Test Cases
       run: make test
 
@@ -136,13 +136,13 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"  libfaudes
     - name: Build Tutorial
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"  tutorial
     - name: Run Test Cases
       shell: cmd
       run: |
@@ -155,5 +155,5 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win clean
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
