@@ -1504,8 +1504,8 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
-	- cmd.exe /C dir obj\
-	- cmd.exe /C dir
+	- dir obj\
+	- dir
 	$(ECHO) "linking full libfaudes: done"
 
 $(MINFAUDES): $(OBJECTSMIN)
@@ -1523,7 +1523,7 @@ $(BINDIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES) | $(BINDIR)
 	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$(*)$(DOT_O))
 	$(call FNCT_LINK_APP,$(OBJDIR)/$(*)$(DOT_O),$@)
 	$(call FNCT_POST_APP,$@)
-	- cmd.exe /C dir $(call FNCT_FIXDIRSEP,$(BINDIR)) 
+	- dir $(call FNCT_FIXDIRSEP,$(BINDIR)) 
 
 
 
