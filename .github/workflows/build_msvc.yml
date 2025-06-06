@@ -58,8 +58,6 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-#    - name: Hello ${{ steps.msys2.outputs.msys2-location }}
-#      run: echo %PATH%
     - name: Show Config
       run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win report-platform
     - name: Build Default Targets

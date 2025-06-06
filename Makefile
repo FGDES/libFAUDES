@@ -284,6 +284,7 @@ CPR = /bin/cp -pR
 MV  = /bin/mv  
 RM = /bin/rm -rf
 MKDIR = /bin/mkdir -p
+ECHOE = echo
 ECHOE = echo -e
 DOXYGEN = doxygen
 DIFF = diff -w --context=3 --show-function-line=mark 
@@ -296,7 +297,7 @@ FNCT_POST_APP = strip $(1)
 #
 ifeq ($(FAUDES_MSHELL),cmdcom)
 SHELL = cmd.exe
-.SHELLFLAGS = ""
+.SHELLFLAGS = 
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MV = cmd /C echo ERROR MV NOT CONFIGURED
@@ -315,12 +316,13 @@ endif
 #
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
-.SHELLFLAGS = "/C"
+.SHELLFLAGS = 
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MV = cmd /C echo ERROR MV NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
 MKDIR = cmd /C echo MKDIR NOT CONFIGURED
+ECHO = cmd /C echo
 ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
 DIFF = fc /W
 SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
@@ -1636,14 +1638,14 @@ test: binaries tutorial $(TESTTARGETS)
 ####################################
 
 report-platform:
-	@echo " ============================== " 
-	@echo "libFAUDES-make: platform:"  [$(FAUDES_PLATFORM)]
-	@echo "libFAUDES-make: shell:"     [$(FAUDES_MSHELL)]
-	@echo "libFAUDES-make: linking:"   [$(FAUDES_LINKING)]
+	@$(ECHO) " ============================== " 
+	@$(ECHO) "libFAUDES-make: platform: $(FAUDES_PLATFORM)"
+	@$(ECHO) "libFAUDES-make: shell:    $(FAUDES_MSHELL)"
+	@$(ECHO) "libFAUDES-make: linking:  $(FAUDES_LINKING)"
 ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
-	@echo "libFAUDES-make: mingw shell:"  [$(SHELL)] [$(COMSPEC)] [$(.SHELLFLAGS)] 
+	@$(ECHO) "libFAUDES-make: mingw shell: $(SHELL) $(.SHELLFLAGS)"
 endif
-	@echo " ============================== " 
+	@$(ECHO) " ============================== " 
 
 report-stats:
 	@echo " ============================== " 
