@@ -1046,10 +1046,10 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 # Configure source files
 ####################################
 
-$(INCLUDEDIR)/allplugins.h: $(SRCDIR)/allplugins.h.template ##win
+$(INCLUDEDIR)/allplugins.h: $(SRCDIR)/allplugins.h.template 
 	cp $(SRCDIR)/allplugins.h.template $(INCLUDEDIR)/allplugins.h
 
-$(INCLUDEDIR)/configuration.h: $(SRCDIR)/configuration.h.template ##win
+$(INCLUDEDIR)/configuration.h: $(SRCDIR)/configuration.h.template 
 	cp $(SRCDIR)/configuration.h.template $(INCLUDEDIR)/configuration.h
 	echo "/* faudes core configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_VERSION \"libFAUDES $(FAUDES_VERSION)\"" >> $(INCLUDEDIR)/configuration.h
@@ -1147,13 +1147,13 @@ $(BINDIR)/rti2code$(DOT_EXE): $(OBJDIR)/rti2code_min$(DOT_O) $(MINFAUDES) | $(BI
 	$(call FNCT_LINK_MIN,$<,$@)
 
 # merge rti files
-$(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)  ##win
+$(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)  
 	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -merge $(RTIDEFS) $@
 
 # have my auto register tools and produce includes
 # note: we use .i as target since depend touches .h and .cpp
 $(INCLUDEDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
-	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) $(PBP_RTIFLAT) $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) $(PBP_RTIFLAT) $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload)
 
 
 ####################################
