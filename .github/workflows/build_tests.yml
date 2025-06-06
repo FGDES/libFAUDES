@@ -18,6 +18,7 @@ jobs:
       run: |
           sudo apt-get install doxygen swig
           sudo apt-get install libreadline-dev
+          sudo apt-get install ncurses-devel 
     - name: Figure Version
       run: |
         . ./VERSION

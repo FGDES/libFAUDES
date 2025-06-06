@@ -546,7 +546,7 @@ ifeq ($(FAUDES_PLATFORM),cl_win)
 CXX = cl.exe -nologo
 CC = cl.exe -nologo
 LXX = cl.exe -nologo
-AR = lib.exe 
+AR = lib.exe /VERBOSE /NOLOGO 
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = -EHsc -O2 
@@ -1504,6 +1504,7 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
+	- cmd.exe /C dir
 	$(ECHO) "linking full libfaudes: done"
 
 $(MINFAUDES): $(OBJECTSMIN)
