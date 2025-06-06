@@ -54,14 +54,21 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-    - name: Build Static incl Tests 
+    - name: Build Static Libray 
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j binaries
+    - name: Build Tutorials
+      shell: cmd
+      run: |
+        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorials
+    - name: Run Test Cases
+      shell: cmd
+      run: |
+        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
     - name: Build DSO incl Tools
       shell: cmd
