@@ -310,7 +310,7 @@ SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = echo wont strip $(1)
+FNCT_POST_APP = echo wont strip "$(1)"
 endif
 
 ### sensible/pwrsh defaults: external tools #########################
@@ -330,7 +330,7 @@ SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = echo wont strip $(1)
+FNCT_POST_APP = echo wont strip "$(1)"
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
@@ -816,10 +816,10 @@ CONFIGURETARGETS =  depend rtitools rticode reftools docs includes
 DEFAULTTARGETS = report-platform libfaudes binaries 
 
 default: default_after_include
-	@echo " ============================== " 
-	@echo "libFAUDES-make: default targets: done" 
-	@echo "libFAUDES-make: you may now compile the tutorials by \"make -j tutorial\"" 
-	@echo " ============================== "
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES-make: default targets: done" 
+	$(ECHO) "libFAUDES-make: you may now compile the tutorials by \"make -j tutorial\"" 
+	$(ECHO) " ============================== "
 
 ####################################
 # Get version from file
