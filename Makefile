@@ -1477,10 +1477,10 @@ $(DEPEND):
 # Implicit default rules 
 ####################################
 
-# .cpp -> .o  (trust automatic dependencies)
+# .cpp -> .o  (trust automatic dependencies) #verb
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
-
+	- dir obj\
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
 	$(call FNCT_COPY,$<,$@)
@@ -1496,7 +1496,7 @@ $(INCLUDEDIR)/%.h.gch: $(INCLUDEDIR)/%.h
 # Library targets
 ####################################
 
-
+#verb
 $(LIBFAUDES): $(OBJECTS) $(OBJECTSEXT)
 	$(ECHO) "linking full libfaudes" 
 ifeq ($(SHARED),yes)
@@ -1606,10 +1606,10 @@ else
 	$(ECHO) skipping test case $(call FNCT_PYSCRIPT,$@) [no Python bindings configured]
 endif
 
-# cpp test cases
+# cpp test cases #verb
 %_cpp.prot: 
 	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
-	@- $(call FNCT_RUNCPPBIN,$@)
+	- $(call FNCT_RUNCPPBIN,$@)
 	@ $(call FNCT_DIFFPROT,$@)
 
 # have temp dir
