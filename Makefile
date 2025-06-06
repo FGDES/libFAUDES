@@ -812,7 +812,8 @@ CONFIGURETARGETS =  depend rtitools rticode reftools docs includes
 # other makefiles 
 ####################################
 
-DEFAULTTARGETS = report-platform .WAIT libfaudes binaries 
+# would like to have .WAIT
+DEFAULTTARGETS = report-platform libfaudes binaries 
 
 default: default_after_include
 	@echo " ============================== " 
