@@ -927,8 +927,9 @@ export FAUDES_OPTIONS
 all: default tutorial 
 
 includes: $(HEADERS:%=$(INCLUDEDIR)/%)
-	$(ECHO) "setting up include files: done."
 ifeq (posix,$(FAUDES_MSHELL))
+	$(ECHO) "setting up include files: done."
+else
 	$(ECHO) "WARNING: refuse to copy include files in non-posix environment"
 endif
 
@@ -1115,10 +1116,6 @@ $(FILE_CONFIG):
 	echo FAUDES_DEBUG = $(FAUDES_DEBUG) >> $@
 	echo FAUDES_OPTIONS = $(FAUDES_OPTIONS) >> $@
 
-
-# mark all config as ok
-configts:
-	touch -r $(INCLUDEDIR)/*
 
 ####################################
 # Run time interface

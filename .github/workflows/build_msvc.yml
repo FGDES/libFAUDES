@@ -54,21 +54,13 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-    - name: Fix Timestamps
-      shell: msys2 {0}
-      run: |
-        make configts
-    - name: Build Default Targets A
+    - name: Build Default Targets 
       shell: cmd
       run: |
+        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win --touch includes
         ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win libfaudes
-    - name: Fix Timestamps
-      shell: msys2 {0}
-      run: |
-        make configts
-    - name: Build Default Targets B
-      shell: cmd
-      run: |
-        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win binaries
+        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win --touch includes
+	${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win binaries
+        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win --touch includes
     
  
