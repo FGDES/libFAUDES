@@ -17,6 +17,7 @@ jobs:
     - name: Install Extra Libs and Tools
       run: |
           sudo apt-get install doxygen swig
+          sudo apt-get install libreadline-dev
     - name: Figure Version
       run: |
         . ./VERSION
