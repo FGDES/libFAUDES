@@ -930,7 +930,7 @@ includes: $(HEADERS:%=$(INCLUDEDIR)/%)
 ifeq (posix,$(FAUDES_MSHELL))
 	$(ECHO) "setting up include files: done."
 else
-	$(ECHO) "WARNING: refuse to copy include files in non-posix environment"
+	$(ECHO) "WARNING: refuse to copy include files in non-posix shell"
 endif
 
 prepare: $(PREPARETARGETS)

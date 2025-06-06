@@ -39,13 +39,6 @@ jobs:
     runs-on: windows-latest
     needs: [configure]
     
-<<<<<<< HEAD
-=======
-#    defaults:
-#      run:
-#        shell: cmd
-
->>>>>>> a5dea0c (Revert "win")
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
@@ -61,10 +54,20 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-    - name: Build Default Targets 
+    - name: Build Static incl Tests 
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorials
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
+    - name: Build DSO incl Tools
+      shell: cmd
+      run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win clean
+        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j binaries
