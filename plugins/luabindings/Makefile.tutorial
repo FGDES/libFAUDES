@@ -40,6 +40,7 @@ $(BINDIR)/luafaudes$(DOT_EXE): $(LBP_TUTORIAL_DIR)/luafaudes$(DOT_EXE) | $(BINDI
 	- cmd.exe /C dir $(call FNCT_FIXDIRSEP,$(LBP_TUTORIAL_DIR))
 	- cmd.exe /C dir bin
 	$(call FNCT_COPY, $<, $@) 
+	- cmd.exe /C dir bin
 
 ###################################
 # advertise tutorial to main makefile
