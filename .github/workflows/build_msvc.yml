@@ -39,6 +39,13 @@ jobs:
     runs-on: windows-latest
     needs: [configure]
     
+<<<<<<< HEAD
+=======
+#    defaults:
+#      run:
+#        shell: cmd
+
+>>>>>>> a5dea0c (Revert "win")
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
