@@ -46,9 +46,9 @@ jobs:
         name: sources
         path: ./
     - name: Install Tools
-        run: |
-          brew update
-          brew install make
+      run: |
+        brew update
+        brew install make
     - name: Build Default Targets
       run: |
         gmake --touch includes
