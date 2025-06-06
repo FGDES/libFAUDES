@@ -234,7 +234,8 @@ endif
 # Derive compiler/linker options from FAUDES_PLATFORM
 #
 # If you dont trust the Makefile to autodetect your platform, invoke
-# make with "FAUDES_PLATFORM=xx_yyy" with "xx_yyy" specifying your platform.
+# make with "FAUDES_PLATFORM=xx_yyy" where "xx" specifies the compiler and
+# and "yyy" specifying the envorinment (shell)
 #
 ###############################################################################
 
@@ -265,16 +266,68 @@ endif
 
 # figure type of shell available for make
 FAUDES_MSHELL = posix
-ifeq ($(FAUDES_PLATFORM),cl_win)
-FAUDES_MSHELL = windows
-endif
-ifeq ($(FAUDES_PLATFORM),gcc_win)
-FAUDES_MSHELL = windows
+ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
+FAUDES_MSHELL = cmdcom
 endif
 
 # set timestamp
 ifeq ($(FAUDES_MSHELL),posix)
 MAKETIME=$(shell date "+%Y-%m-%dT%H:%M:%S")
+endif
+
+
+### sensible/posix defaults: external tools #########################
+#
+SHELL = /bin/bash
+CP  = /bin/cp -p 
+CPR = /bin/cp -pR
+MV  = /bin/mv  
+RM = /bin/rm -rf
+MKDIR = /bin/mkdir -p
+ECHOE = echo -e
+DOXYGEN = doxygen
+DIFF = diff -w --context=3 --show-function-line=mark 
+SWIG = swig
+PYTHON = python3
+FNCT_FIXDIRSEP = $(1)
+FNCT_POST_APP = strip $(1)
+
+### sensible/cmdcom defaults: external tools #########################
+#
+ifeq ($(FAUDES_MSHELL),cmdcom)
+SHELL = cmd.exe
+.SHELLFLAGS = ""
+CP  = cmd /C copy /Y
+CPR = cmd /C echo ERROR CPR NOT CONFIGURED
+MV = cmd /C echo ERROR MV NOT CONFIGURED
+RM = cmd /C del /F /S /Q 
+MKDIR = cmd /C echo MKDIR NOT CONFIGURED
+ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
+DIFF = fc /W
+SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
+PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
+DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
+FNCT_FIXDIRSEP = $(subst /,\,$(1))
+FNCT_POST_APP = $(1)
+endif
+
+### sensible/cmdcom defaults: external tools #########################
+#
+ifeq ($(FAUDES_MSHELL),pwrsh)
+SHELL = powershell
+.SHELLFLAGS = ""
+CP  = cmd /C copy /Y
+CPR = cmd /C echo ERROR CPR NOT CONFIGURED
+MV = cmd /C echo ERROR MV NOT CONFIGURED
+RM = cmd /C del /F /S /Q 
+MKDIR = cmd /C echo MKDIR NOT CONFIGURED
+ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
+DIFF = fc /W
+SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
+PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
+DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
+FNCT_FIXDIRSEP = $(subst /,\,$(1))
+FNCT_POST_APP = $(1)
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
@@ -296,24 +349,6 @@ ifeq ($(SHARED),yes)
 LIBOPTS = -DFAUDES_BUILD_DSO
 APPOPTS = -DFAUDES_BUILD_APP
 endif
-
-### sensible/posix defaults: external tools #########################
-#
-CP  = /bin/cp -p 
-CPR = /bin/cp -pR
-MV  = /bin/mv  
-RM = /bin/rm -rf
-MKDIR = /bin/mkdir -p
-ECHOE = echo -e
-TEMP = /tmp
-DOXYGEN = doxygen
-SHELL = /bin/bash
-DIFF = diff -w --context=3 --show-function-line=mark 
-SWIG = swig
-PYTHON = python3
-FNCT_FIXDIRSEP = $(1)
-FNCT_POST_APP = strip $(1)
-
 
 ### sensible/posix defaults: library target names  #################
 #
@@ -502,18 +537,10 @@ endif
 # For user targets only, no configuration tools available. You can,
 # however, install MSYS2 for "make configure" and then use the
 # MSYS provided minge32-make from a windows command prompt to build
-# the configured libFAUDES by "mingw32-make FAUDES_PLATFROM=cl_win".
+# the configured libFAUDES by "mingw32-make FAUDES_PLATFORM=cl_win".
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-SHELL = cmd.exe
-.SHELLFLAGS = ""
-CP  = cmd /C copy /Y
-CPR = cmd /C echo ERROR CPR NOT CONFIGURED
-MKDIR = cmd /C echo MKDIR NOT CONFIGURED
-RM = cmd /C del /F /S /Q 
-SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
-DIFF = fc /W
 CXX = cl.exe -nologo
 CC = cl.exe -nologo
 LXX = cl.exe -nologo
@@ -526,8 +553,6 @@ COUTOPT = -Fo
 LOUTOPT = -Fe
 AOUTOPT = -OUT:
 WARNINGS =  
-FNCT_POST_APP = echo wont strip $(1)
-FNCT_FIXDIRSEP = $(subst /,\,$(1))
 #
 ifeq ($(DEBUG),yes)
 MAINOPTS += -MDd  
@@ -570,13 +595,6 @@ endif
 # [for user targets only, no configuration tools available]
 #
 ifeq ($(FAUDES_PLATFORM),gcc_win)
-FNCT_FIXDIRSEP = $(subst /,\,$(1))
-CP  = cmd /C copy /Y
-CPR = cmd /C echo ERROR CPR NOT CONFIGURED
-RM = cmd /C del /F /S /Q
-MKDIR = cmd /C echo MKDIR NOT CONFIGURED
-SWIG = cmd /C echo ERROR SWIG NOT CONFIGURED
-DIFF = fc /W
 CXX = g++.exe
 CC = gcc.exe
 LXX = g++.exe
@@ -931,10 +949,10 @@ package:
 	@echo " ============================== " 
 	@echo "libFAUDES pacakge: prepare"
 	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
-	$(RM) $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION) 
-	$(MKDIR) $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION)
-	$(CPR) ./ $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION)
-	$(MV) $(TEMP)/libFAUDES-$(FAUDES_FILEVERSION) ./
+	$(RM) tmpdst/libFAUDES-$(FAUDES_FILEVERSION) 
+	$(MKDIR) tmpdst/libFAUDES-$(FAUDES_FILEVERSION)
+	$(CPR) ./ tmpdst/libFAUDES-$(FAUDES_FILEVERSION)
+	$(MV) tmpdst/libFAUDES-$(FAUDES_FILEVERSION) ./
 	$(RM) ./libFAUDES-$(FAUDES_FILEVERSION)/libfaudes-*tar.gz
 	$(RM) ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
 	$(MKDIR) ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
@@ -1524,7 +1542,7 @@ FNCT_RUNLUASCRIPT = cd $(call FNCT_WORKDIR,$@) ; $(ABSLUAFAUDES) $(call FNCT_LUA
 FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,$@) &> /dev/null
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
 else
-ifeq (windows,$(FAUDES_MSHELL))
+ifeq (cmdcom,$(FAUDES_MSHELL))
 FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
 FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
@@ -1606,9 +1624,9 @@ test: binaries tutorial $(TESTTARGETS)
 
 report-platform:
 	@echo " ============================== " 
-	@echo "libFAUDES-make: platform:" [$(FAUDES_PLATFORM)]
-	@echo "libFAUDES-make: shell:"    [$(FAUDES_MSHELL)]
-	@echo "libFAUDES-make: linking:"  [$(FAUDES_LINKING)]
+	@echo "libFAUDES-make: platform:"  [$(FAUDES_PLATFORM)]
+	@echo "libFAUDES-make: shell:"     [$(FAUDES_MSHELL)]
+	@echo "libFAUDES-make: linking:"   [$(FAUDES_LINKING)]
 ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
 	@echo "libFAUDES-make: mingw shell:"  [$(SHELL)] [$(COMSPEC)] [$(.SHELLFLAGS)] 
 endif
@@ -1625,6 +1643,7 @@ report-test:
 	@echo $(HEADERS)
 	@echo $(FAUDES_PLUGINS)
 	@echo $(EXECUTABLES)
+	@echo "sensed os:" [$(OS)]
 
 
 ### all phony targets
