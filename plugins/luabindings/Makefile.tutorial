@@ -36,8 +36,8 @@ $(LBP_TUTORIAL_DIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
 	$(call FNCT_POST_APP,$@)
 
 $(BINDIR)/luafaudes$(DOT_EXE): $(LBP_TUTORIAL_DIR)/luafaudes$(DOT_EXE) | $(BINDIR
-	- cmd.exe /C dir $< 
-	- cmd.exe /C dir $(LBP_TUTORIAL_DIR)
+	- cmd.exe /C dir $(call FNCT_FIXDIRPEP,$<) 
+	- cmd.exe /C dir $(call FNCT_FIXDIRPEP,$(LBP_TUTORIAL_DIR))
 	- cmd.exe /C dir bin
 	$(call FNCT_COPY, $<, $@) 
 
