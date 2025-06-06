@@ -1,4 +1,4 @@
-name: Build libFAUDES on OSX
+name: Build libFAUDES on OsX
 
 on:
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
 
   build:  
 
-    runs-on: macosx-latest
+    runs-on: macos-latest
     needs: [configure]
     
     steps:	
@@ -45,16 +45,15 @@ jobs:
       with:
         name: sources
         path: ./
-    - name: Figure Version
+    - name: Install Tools
       run: |
-          . ./VERSION
-          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
-          echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV" 
-    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
-      run: make -j configure      
+        brew update
+        brew install make
     - name: Build Default Targets
-      run: make -j
+      run: |
+        gmake --touch includes
+        gmake -j
     - name: Build Tutorials
-      run: make -j tutorial
+      run: gmake -j tutorial
     - name: Run Test Cases
-      run: make test
+      run: gmake test

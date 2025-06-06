@@ -60,14 +60,16 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j libfaudes
-    - name: Build Tutorials
+    - name: Build Tutorial
       shell: cmd
       run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorials
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorial
     - name: Run Test Cases
       shell: cmd
       run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
     - name: Build DSO incl Tools
