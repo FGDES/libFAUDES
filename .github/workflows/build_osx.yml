@@ -1,0 +1,60 @@
+name: Build libFAUDES on OSX
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[a-z]*'
+      
+jobs:
+
+  configure:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Extra Libs
+      run: |
+          sudo apt-get install doxygen swig
+          sudo apt-get install libreadline-dev
+    - name: Figure Version
+      run: |
+        . ./VERSION
+        echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+        echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: |
+        make -j configure
+        make clean
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: sources
+        path: ./
+        if-no-files-found: error
+
+  build:  
+
+    runs-on: macosx-latest
+    needs: [configure]
+    
+    steps:	
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: sources
+        path: ./
+    - name: Figure Version
+      run: |
+          . ./VERSION
+          echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV" 
+          echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV" 
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: make -j configure      
+    - name: Build Default Targets
+      run: make -j
+    - name: Build Tutorials
+      run: make -j tutorial
+    - name: Run Test Cases
+      run: make test
