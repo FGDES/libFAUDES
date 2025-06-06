@@ -314,7 +314,7 @@ endif
 ### sensible/cmdcom defaults: external tools #########################
 #
 ifeq ($(FAUDES_MSHELL),pwrsh)
-SHELL = powershell
+SHELL = cmd.exe
 .SHELLFLAGS = ""
 CP  = cmd /C copy /Y
 CPR = cmd /C echo ERROR CPR NOT CONFIGURED
