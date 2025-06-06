@@ -1016,7 +1016,7 @@ extern FAUDES_API void SccEntries(
  * Note: all added states are equivalent to some state in
  * the original generator, the behaviour is not changed.
  * The basic idea of this algorithm id taken from
- * [Jéron,Marchand,Rusu,Tschaen] "Ensuring the conformance
+ * [Jeron,Marchand,Rusu,Tschaen] "Ensuring the conformance
  * of reactive discrete-event systems using supervisory
  * control" (CDC'03)
  * todo: check const parameters
