@@ -1480,7 +1480,8 @@ $(DEPEND):
 # .cpp -> .o  (trust automatic dependencies) #verb
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
-	- dir obj\
+	- dir obj
+
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
 	$(call FNCT_COPY,$<,$@)
@@ -1504,7 +1505,7 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
-	- dir obj\
+	- dir obj
 	- dir
 	$(ECHO) "linking full libfaudes: done"
 
