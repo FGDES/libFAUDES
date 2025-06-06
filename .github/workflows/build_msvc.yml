@@ -39,9 +39,9 @@ jobs:
     runs-on: windows-latest
     needs: [configure]
     
-#    defaults:
-#      run:
-#        shell: cmd
+    defaults:
+      run:
+        shell: cmd
 
     steps:	
     - name: Download Artifact
