@@ -1482,6 +1482,7 @@ $(OBJDIR)/%$(DOT_O): %.cpp
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
+	$(ECHO) $?
 	$(call FNCT_COPY,$<,$@)
 
 
