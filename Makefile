@@ -805,7 +805,7 @@ DISTCLEANFILES = $(DEPEND) $(FILE_CONFIG)
 
 PREPARETARGETS = $(FILE_CONFIG) includes tools/msvc/VERSION.bat
 
-CONFIGURETARGETS =  depend rtitools rticode reftools docs
+CONFIGURETARGETS =  depend rtitools rticode reftools docs includes
 
 
 ####################################
