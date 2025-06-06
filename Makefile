@@ -927,7 +927,10 @@ export FAUDES_OPTIONS
 all: default tutorial 
 
 includes: $(HEADERS:%=$(INCLUDEDIR)/%)
-	$(ECHO) $?
+	$(ECHO) "setting up include files: done."
+ifeq (posix,$(FAUDES_MSHELL))
+	$(ECHO) "WARNING: refuse to copy include files in non-posix environment"
+endif
 
 prepare: $(PREPARETARGETS)
 
@@ -1482,7 +1485,6 @@ $(OBJDIR)/%$(DOT_O): %.cpp
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
-	$(ECHO) $?
 	$(call FNCT_COPY,$<,$@)
 
 
@@ -1498,11 +1500,13 @@ $(INCLUDEDIR)/%.h.gch: $(INCLUDEDIR)/%.h
 
 
 $(LIBFAUDES): $(OBJECTS) $(OBJECTSEXT)
+	$(ECHO) "linking full libfaudes" 
 ifeq ($(SHARED),yes)
 	$(LXX) $(DSOOPTS) $(call FNCT_FIXDIRSEP,$^) $(LDFLAGS) $(LNKLIBS) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$@)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
+	$(ECHO) "linking full libfaudes: done"
 
 $(MINFAUDES): $(OBJECTSMIN)
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
