@@ -1666,7 +1666,7 @@ report-test:
 
 
 ### all phony targets
-.PHONY : doc rti clean dist-clean package configure includes configts
+.PHONY : doc rti clean dist-clean package configure configts
 
 
 ###############################
