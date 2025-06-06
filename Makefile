@@ -1138,10 +1138,12 @@ rti-clean:
 	- rm -rf $(INCLUDEDIR)/libfaudes.rti
 
 # have those dirs #verb
-$(OBJDIR): 
+$(OBJDIR):
+	cmd.exe /C dir
 	$(MKDIR) $(call FNCT_FIXDIRSEP,$(OBJDIR)) 
 $(BINDIR): 
-	@$(MKDIR) $(call FNCT_FIXDIRSEP,$(BINDIR))
+	cmd.exe /C dir
+	$(MKDIR) $(call FNCT_FIXDIRSEP,$(BINDIR))
 
 # minimal objects implicit rule
 $(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp | $(OBJDIR)
