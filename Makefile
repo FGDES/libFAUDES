@@ -1480,7 +1480,7 @@ $(DEPEND):
 # .cpp -> .o  (trust automatic dependencies) #verb
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
-	- dir obj
+	- cmd.exe /C dir obj
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
@@ -1506,7 +1506,7 @@ else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
 	- cmd.exe /C dir obj
-	- dir
+	- cmd.exe /C dir
 	$(ECHO) "linking full libfaudes: done"
 
 $(MINFAUDES): $(OBJECTSMIN)
