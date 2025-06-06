@@ -267,7 +267,7 @@ endif
 # figure type of shell available for make
 FAUDES_MSHELL = posix
 ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
-FAUDES_MSHELL = cmdcom
+FAUDES_MSHELL = pwrsh
 endif
 
 # set timestamp
@@ -308,7 +308,7 @@ SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = $(1)
+FNCT_POST_APP = echo wont strip $(1)
 endif
 
 ### sensible/cmdcom defaults: external tools #########################
@@ -327,7 +327,7 @@ SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = $(1)
+FNCT_POST_APP = echo wont strip $(1)
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
@@ -803,7 +803,7 @@ DISTCLEANFILES = $(DEPEND) $(FILE_CONFIG)
 
 PREPARETARGETS = $(FILE_CONFIG) includes tools/msvc/VERSION.bat
 
-CONFIGURETARGETS =  depend rtitools reftools docs
+CONFIGURETARGETS =  depend rtitools rticode reftools docs
 
 
 ####################################
@@ -811,7 +811,7 @@ CONFIGURETARGETS =  depend rtitools reftools docs
 # other makefiles 
 ####################################
 
-DEFAULTTARGETS = report-platform libfaudes binaries 
+DEFAULTTARGETS = report-platform .WAIT libfaudes binaries 
 
 default: default_after_include
 	@echo " ============================== " 
@@ -981,10 +981,13 @@ package:
 # Clean 
 ####################################
 
+# cmd.exe funny 8K limit
+LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES))
+
 clean: $(CLEANTARGETS)
-	$(RM) $(call FNCT_FIXDIRSEP,$(CLEANFILES)) 
+	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) 
 	$(RM) $(call FNCT_FIXDIRSEP,obj/*)    # posix
-	$(RM) $(call FNCT_FIXDIRSEP,"obj/*")  # command.exe
+	$(RM) $(call FNCT_FIXDIRSEP,"obj/*")  # cmd.exe
 	$(RM) tmp_valext 
 
 dist-clean: doc-clean $(DISTCLEANTARGETS)
@@ -1043,10 +1046,10 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 # Configure source files
 ####################################
 
-$(INCLUDEDIR)/allplugins.h: | $(SRCDIR)/allplugins.h.template ##win
+$(INCLUDEDIR)/allplugins.h: $(SRCDIR)/allplugins.h.template ##win
 	cp $(SRCDIR)/allplugins.h.template $(INCLUDEDIR)/allplugins.h
 
-$(INCLUDEDIR)/configuration.h: | $(SRCDIR)/configuration.h.template ##win
+$(INCLUDEDIR)/configuration.h: $(SRCDIR)/configuration.h.template ##win
 	cp $(SRCDIR)/configuration.h.template $(INCLUDEDIR)/configuration.h
 	echo "/* faudes core configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_VERSION \"libFAUDES $(FAUDES_VERSION)\"" >> $(INCLUDEDIR)/configuration.h
@@ -1113,10 +1116,13 @@ $(FILE_CONFIG):
 ####################################
 
 # run time interface target
-rti: rtitools doc-reference doc-fref
+rti: rtitools rticode doc-reference doc-fref
 
-# tools only
-rtitools: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload.i $(BINDIR)/rti2code$(DOT_EXE) 
+# tools 
+rtitools: $(BINDIR)/rti2code$(DOT_EXE) 
+
+# generated code
+rticode: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload.i
 
 # clean
 rti-clean:
@@ -1141,13 +1147,13 @@ $(BINDIR)/rti2code$(DOT_EXE): $(OBJDIR)/rti2code_min$(DOT_O) $(MINFAUDES) | $(BI
 	$(call FNCT_LINK_MIN,$<,$@)
 
 # merge rti files
-$(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)  # win
-	./bin/rti2code -merge $(RTIDEFS) $@
+$(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)  ##win
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -merge $(RTIDEFS) $@
 
 # have my auto register tools and produce includes
 # note: we use .i as target since depend touches .h and .cpp
 $(INCLUDEDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
-	./bin/rti2code $(PBP_RTIFLAT) $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) $(PBP_RTIFLAT) $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload
 
 
 ####################################
@@ -1421,7 +1427,7 @@ doc-clean:
 REF2HTMLCMD = ./bin/ref2html -rti $(REFSRCDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(REFSRCDIR)/faudes_navigation.include_fref -rel ../ -css doxygen.css 
 
 # build doc: run as script
-docs: reftools rtitools doc-images doc-base doc-luafaudes doc-reference includes 
+docs: reftools rtitools rticode doc-images doc-base doc-luafaudes doc-reference includes 
 	- mkdir -p $(DOXDOCDIR)
 	$(REF2HTMLCMD) -doxheader $(DOXDOCDIR)/doxygen_header.html
 	$(REF2HTMLCMD) -doxfooter $(DOXDOCDIR)/doxygen_footer.html
@@ -1545,13 +1551,20 @@ else
 ifeq (cmdcom,$(FAUDES_MSHELL))
 FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
-FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+FNCT_RUNPYSCRIPT = @$(ECHOE) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
-FNCT_RUNCPPBIN = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
-FNCT_RUNLUASCRIPT = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
-FNCT_RUNPYSCRIPT = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
-FNCT_DIFFPROT = @$(ECHO) "skipping test case [" $@ "] [ no shell ]"
+ifeq (pwrsh,$(FAUDES_MSHELL))
+FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
+FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
+FNCT_RUNPYSCRIPT = @$(ECHOE) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
+else
+FNCT_RUNCPPBIN = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
+FNCT_RUNLUASCRIPT = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
+FNCT_RUNPYSCRIPT = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
+FNCT_DIFFPROT = @$(ECHOE) "skipping test case [" $@ "] [ no shell ]"
+endif
 endif
 endif
 
@@ -1643,11 +1656,11 @@ report-test:
 	@echo $(HEADERS)
 	@echo $(FAUDES_PLUGINS)
 	@echo $(EXECUTABLES)
-	@echo "sensed os:" [$(OS)]
+	@echo $(CP)
 
 
 ### all phony targets
-.PHONY : doc rti bin clean dist-clean package configure includes
+.PHONY : doc rti clean dist-clean package configure includes
 
 
 ###############################
