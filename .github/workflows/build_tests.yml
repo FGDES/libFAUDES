@@ -68,7 +68,7 @@ jobs:
         path: ./
     - name: Build Default Targets
       run: |
-	make --touch includes
+        make --touch includes
         make -j
     - name: Build Tutorials
       run: make -j tutorial
