@@ -1517,7 +1517,7 @@ $(MINFAUDES): $(OBJECTSMIN)
 
 # compile and link applications 
 
-$(BINDIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
+$(BINDIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES) | $(BINDIR)
 	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$*$(DOT_O))
 	$(call FNCT_LINK_APP,$(OBJDIR)/$*$(DOT_O),$@)
 	$(call FNCT_POST_APP,$@)
