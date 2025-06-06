@@ -1621,7 +1621,7 @@ ifeq (posix,$(FAUDES_MSHELL))
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 	$(ECHO) running test case $(patsubst TESTFLX_%,%,$@)
 	@- rm -rf tmp_valext/data  ; rm -f tmp_valext/*
-	cd tmp_valext; $(ABSFLXINSTALL) -tbin ../bin -t ../stdflx/$(patsubst TESTFLX_%,%,$@) .  # &> /dev/null
+	cd tmp_valext; $(ABSFLXINSTALL)$(DOT_EXE) -tbin ../bin -t ../stdflx/$(patsubst TESTFLX_%,%,$@) .  # &> /dev/null
 else
 	$(ECHO) skipping test case [ $(patsubst TESTFLX_%,%,$@) ] [no Lua bindings configured]
 endif
