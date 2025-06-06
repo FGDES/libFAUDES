@@ -1,4 +1,4 @@
-name: Build libFAUDES on OSX
+name: Build libFAUDES on OsX
 
 on:
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
 
   build:  
 
-    runs-on: macosx-latest
+    runs-on: macos-latest
     needs: [configure]
     
     steps:	
