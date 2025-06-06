@@ -46,7 +46,9 @@ jobs:
         name: sources
         path: ./
     - name: Build Default Targets
-      run: make -j
+      run: |
+        make --touch includes
+        make -j
     - name: Build Tutorials
       run: make -j tutorial
     - name: Run Test Cases
@@ -65,7 +67,9 @@ jobs:
         name: sources
         path: ./
     - name: Build Default Targets
-      run: make -j
+      run: |
+	make --touch includes
+        make -j
     - name: Build Tutorials
       run: make -j tutorial
     - name: Run Test Cases
@@ -95,7 +99,9 @@ jobs:
           ncurses-devel 
           libreadline-devel 
     - name: Build Default Targets
-      run: make -j
+      run: |
+	make --touch includes
+        make -j
     - name: Build Tutorials
       run: make -j tutorial
     - name: Run Test Cases
