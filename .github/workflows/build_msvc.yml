@@ -39,10 +39,6 @@ jobs:
     runs-on: windows-latest
     needs: [configure]
     
-    defaults:
-      run:
-        shell: cmd
-
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
@@ -58,9 +54,14 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-    - name: Show Config
-      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win report-platform
+-platform
+    - name: Fix Timestamps
+      shell: msys2 {0}
+      run: |
+        make configts
     - name: Build Default Targets
-      run: ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
+      shell: cmd
+      run: |
+        ${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe FAUDES_PLATFORM=cl_win 
     
  
