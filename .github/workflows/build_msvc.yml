@@ -63,5 +63,3 @@ jobs:
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-    
- 
