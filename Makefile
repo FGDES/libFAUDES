@@ -956,10 +956,10 @@ package:
 	$(ECHO) " ============================== " 
 	$(ECHO) "libFAUDES pacakge: prepare"
 	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
-	$(RM) tmpdst/libFAUDES-$(FAUDES_FILEVERSION) 
-	$(MKDIR) tmpdst/libFAUDES-$(FAUDES_FILEVERSION)
-	$(CPR) ./ tmpdst/libFAUDES-$(FAUDES_FILEVERSION)
-	$(MV) tmpdst/libFAUDES-$(FAUDES_FILEVERSION) ./
+	$(RM) ../tmp_dst_$(MAKETIME)/libFAUDES-$(FAUDES_FILEVERSION) 
+	$(MKDIR) ../tmp_dst_$(MAKETIME)/libFAUDES-$(FAUDES_FILEVERSION)
+	$(CPR) ./ tmp_dst_$(MAKETIME)/libFAUDES-$(FAUDES_FILEVERSION)
+	$(MV) tmp_dst_$(MAKETIME)/libFAUDES-$(FAUDES_FILEVERSION) ./
 	$(RM) ./libFAUDES-$(FAUDES_FILEVERSION)/libfaudes-*tar.gz
 	$(RM) ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
 	$(MKDIR) ./libFAUDES-$(FAUDES_FILEVERSION)/plugins
