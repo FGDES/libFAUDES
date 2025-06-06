@@ -1,5 +1,5 @@
 ###############################################################################
-# Makefile for libFAUDES, tmoor 20240301
+# Makefile for libFAUDES, tmoor 20250606
 #
 # Requires GNU make
 #
