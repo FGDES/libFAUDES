@@ -319,21 +319,21 @@ endif
 #
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
-.SHELLFLAGS = "/E:ON /S /C"
+.SHELLFLAGS = "/S /C"
 CP  = copy /Y /B /V
 CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /C del /F /S /Q 
 MKDIR = cmd.exe /S /C echo WARNING MKDIR NOT CONFIGURED
-LSL = cmd.exe /E:ON /S /C dir 
+LSL = cmd.exe /S /C dir 
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
-DIFF = cmd.exe /E:ON /S /C fc /W
+DIFF = cmd.exe /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = cmd.exe /E:ON /S /C echo wont strip 
+FNCT_POST_APP = cmd.exe /S /C echo wont strip 
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
