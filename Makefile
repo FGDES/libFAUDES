@@ -316,11 +316,12 @@ FNCT_POST_APP = echo wont strip
 endif
 
 ### sensible/pwrsh defaults: external tools #########################
-#
+# [this is finetuned to run as GitHub action; we run every exec
+# via cmd.exe and leave out he suffix ".exe"     
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
-.SHELLFLAGS = ""
-CP  = copy.exe /Y /B /V
+.SHELLFLAGS=
+CP  = copy /Y /B /V
 CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /C del /F /S /Q 
@@ -328,7 +329,7 @@ MKDIR = cmd.exe /S /C echo WARNING MKDIR NOT CONFIGURED
 LSL = cmd.exe /S /C dir
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
-DIFF = cmd.exe /S /C fc.exe /W
+DIFF = cmd.exe /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
@@ -546,10 +547,10 @@ endif
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cmd.exe /S /C cl.exe /nologo
-CC = cmd.exe /S /C cl.exe /nologo
-LXX = cmd.exe /S /C cl.exe /nologo
-AR = cmd.exe /S /C lib.exe /VERBOSE
+CXX = cmd.exe /S /C cl /nologo
+CC = cmd.exe /S /C cl /nologo
+LXX = cmd.exe /S /C cl /nologo
+AR = cmd.exe /S /C lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
@@ -702,7 +703,7 @@ CFLAGS = $(MAINOPTS) $(WARNINGS) -I$(INCLUDEDIR) $(INCLUDES)
 ### convenience functions to invoke compiler/linker (1)-->(2)
 FNCT_COMP_LIB = $(CXX) -c $(CFLAGS) $(LIBOPTS) $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(1))
 FNCT_COMP_APP = $(CXX) -c $(CFLAGS) $(APPOPTS) $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(1))
-FNCT_LINK_APP = $(LXX) $(call FNCT_FIXDIRSEP,$(1)) $(IMPFAUDES) $(LDFLAGS) $(LNKLIBS) $(LOUTOPT)"$(call FNCT_FIXDIRSEP,$(2)") 
+FNCT_LINK_APP = $(LXX) $(call FNCT_FIXDIRSEP,$(1)) $(IMPFAUDES) $(LDFLAGS) $(LNKLIBS) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) 
 FNCT_COMP_MIN = $(CXX) -c $(CFLAGS) -DFAUDES_MUTE_RTIAUTOLOAD $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(1))
 FNCT_LINK_MIN = $(LXX) $(call FNCT_FIXDIRSEP,$(1)) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(MINFAUDES)) $(LDFLAGS) $(LNKLIBS)  
 FNCT_BUILD_MIN = $(CXX) $(CFLAGS) $(call FNCT_FIXDIRSEP,$(1)) $(LNKLIBS) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(MINFAUDES)) $(LDFLAGS)
