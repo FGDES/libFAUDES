@@ -1576,8 +1576,8 @@ FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Py
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
 ifeq (pwrsh,$(FAUDES_MSHELL)) #verb
-FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(@)) ) #> NUL 2>&1 )
-FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@)  ) #> NUL 2>&1)
+FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_PROTOCOL,$@)
+FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_PROTOCOL,$@)
 FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
