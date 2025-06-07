@@ -319,8 +319,8 @@ endif
 #
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
-.SHELLFLAGS = "/S /C"
-CP  = copy /Y /B /V
+.SHELLFLAGS = ""
+CP  = copy.exe /Y /B /V
 CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /C del /F /S /Q 
@@ -546,7 +546,7 @@ endif
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cl.exe /nologo
+CXX = cmd.exe /S /C cl.exe /nologo
 CC = cl.exe /nologo
 LXX = cl.exe /nologo
 AR = lib.exe /VERBOSE
