@@ -284,6 +284,7 @@ CPR = /bin/cp -pR
 MV  = /bin/mv  
 RM = /bin/rm -rf
 MKDIR = /bin/mkdir -p
+LSL = /bin/ls -hl
 ECHO = @echo
 ECHOE = echo -e
 DOXYGEN = doxygen
@@ -303,6 +304,7 @@ CPR = cmd /C echo ERROR CPR NOT CONFIGURED
 MV = cmd /C echo ERROR MV NOT CONFIGURED
 RM = cmd /C del /F /S /Q 
 MKDIR = cmd /C echo MKDIR NOT CONFIGURED
+LSL = cmd.exe /C dir 
 ECHO = @cmd /C echo
 ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
 DIFF = fc /W
@@ -321,16 +323,17 @@ SHELL = cmd.exe
 CP  = copy /Y /B /V
 CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
-RM = del /F /S /Q 
+RM = cmd.exe /C del /F /S /Q 
 MKDIR = cmd.exe /S /E:ON /C mkdir 
-ECHO = @cmd /C echo
+LSL = cmd.exe /E:ON /C dir 
+ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
 DIFF = fc /W
-SWIG = echo WARNING SWIG NOT CONFIGURED
-PYTHON = = echo WARNING PYHTON NOT CONFIGURED
-DOXYGEN = echo WARNING DOXYGEN NOT CONFIGURED
+SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
+PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
+DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = echo wont strip 
+FNCT_POST_APP = cmd.exe /S /C echo wont strip 
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
@@ -544,9 +547,9 @@ endif
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
 CXX = cmd.exe /S /C cl.exe /nologo
-CC = cl.exe /nologo
-LXX = cl.exe /nologo
-AR = lib.exe /LIST /VERBOSE  # /NOLOGO
+CC = cmd.exe /S /C cl.exe /nologo
+LXX = cmd.exe /S /C cl.exe /nologo
+AR = cmd.exe /S /C lib.exe /LIST /VERBOSE  # /NOLOGO #verb
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc -O2 
@@ -1137,7 +1140,7 @@ rti-clean:
 	- rm -rf $(INCLUDEDIR)/rtiautoload*
 	- rm -rf $(INCLUDEDIR)/libfaudes.rti
 
-# have those dirs #verb
+# have those dirs 
 $(OBJDIR):
 	$(MKDIR) $(call FNCT_FIXDIRSEP,$(OBJDIR))
 	touch $(OBJDIR)/.notempty
@@ -1479,10 +1482,9 @@ $(DEPEND):
 # Implicit default rules 
 ####################################
 
-# .cpp -> .o  (trust automatic dependencies) #verb
+# .cpp -> .o  (trust automatic dependencies) 
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
-	- cmd.exe /C dir obj
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
@@ -1507,12 +1509,14 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
-	- cmd.exe /C dir obj
-	- cmd.exe /C dir
+	$(LSL) *faudes* 
 	$(ECHO) "linking full libfaudes: done"
 
 $(MINFAUDES): $(OBJECTSMIN)
+	$(ECHO) "linking minimal libfaudes" 
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
+	$(LSL) *faudes* 
+	$(ECHO) "linking minimal libfaudes: done"
 
 
 
@@ -1520,13 +1524,12 @@ $(MINFAUDES): $(OBJECTSMIN)
 # Executables
 ####################################
 
-# compile and link applications 
-
+# compile and link applications #verb
 $(BINDIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES) | $(BINDIR)
 	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$(*)$(DOT_O))
 	$(call FNCT_LINK_APP,$(OBJDIR)/$(*)$(DOT_O),$@)
 	$(call FNCT_POST_APP,$@)
-	- dir $(call FNCT_FIXDIRSEP,$(BINDIR)) 
+	$(LSL) (call FNCT_FIXDIRSEP,$@) 
 
 
 
