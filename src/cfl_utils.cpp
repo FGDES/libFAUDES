@@ -107,6 +107,16 @@ Idx ToIdx(const std::string& rString) {
   return (Idx) ul;
 }
 
+// ToLOwerCase(rString(  
+std::string ToLowerCase(const std::string& rString) {
+  std::string res=rString;
+  std::transform(res.begin(), res.end(), res.begin(),
+    [](unsigned char c){ return std::tolower(c); });
+  return res;
+}
+
+
+
 // String Substitution
 std::string StringSubstitute(const std::string& rString,const std::string& rFrom,const std::string& rTo) {
   // prep result

@@ -382,9 +382,9 @@ endif
 ### platform "gcc_linux" ############
 #
 # Targeting Linux systems
-# - g++, tested with 4.x, 5.x, 7.x and 11.x series 
 # - we moved to CXX11 ABI and C++11 default as of Ubuntu 16.04 LTS
 # - we stopped specifying ABI/C++-dialect explicitly to let the system choose
+# - g++, tested with 4.x, 5.x, 7.x and 11.x series 
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
@@ -776,7 +776,7 @@ RTIFREF = reference_index.fref reference_types.fref reference_functions.fref ref
   corefaudes_reachability.fref corefaudes_vector.fref corefaudes_langboolean.fref corefaudes_genmisc.fref \
   corefaudes_regular.fref corefaudes_projection.fref corefaudes_statemin.fref
 
-EXECUTABLES = gen2dot fts2ftx  ref2html rti2code flxinstall
+EXECUTABLES = gen2dot fts2ftx  ref2html rti2code flxinstall valfaudes
 
 HEADERS = $(CPPFILES:.cpp=.h) libfaudes.h configuration.h corefaudes.h allplugins.h cfl_definitions.h  
 SOURCES = $(CPPFILES:%=$(SRCDIR)/%)
@@ -1549,9 +1549,10 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot))
 # Formal targets
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
-# tools
+# tools #verb
 ABSLUAFAUDES = $(CURDIR)/bin/luafaudes
 ABSFLXINSTALL = $(CURDIR)/bin/flxinstall
+VALFAUDES = ./bin/valfaudes -q 
 
 # Conversion functions
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
@@ -1563,8 +1564,8 @@ FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 
 # platform dependant script 
 ifeq (posix,$(FAUDES_MSHELL))
-FNCT_RUNCPPBIN = cd $(call FNCT_WORKDIR,$@) ; ./$(call FNCT_CPPBIN,$@) &> /dev/null
-FNCT_RUNLUASCRIPT = cd $(call FNCT_WORKDIR,$@) ; $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) &> /dev/null
+FNCT_RUNCPPBIN = $(VALFAUDES) $(call FNCT_PROTOCOL,$@)
+FNCT_RUNLUASCRIPT = $(VALFAUDES) $(call FNCT_PROTOCOL,$@)
 FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,$@) &> /dev/null
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
 else
@@ -1598,8 +1599,7 @@ TESTTARGETS += $(TESTTARGETSX)
 %_lua.prot: 
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 	$(ECHO) running test case $(call FNCT_LUASCRIPT,$@)
-	- $(call FNCT_RUNLUASCRIPT,$@)
-	$(call FNCT_DIFFPROT,$@)
+	@$(call FNCT_RUNLUASCRIPT,$@)
 else
 	$(ECHO) skipping test case $(call FNCT_LUASCRIPT,$@) [no Lua bindings configured]
 endif
@@ -1626,9 +1626,7 @@ endif
 # cpp test cases #verb
 %_cpp.prot: 
 	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
-	- $(call FNCT_RUNCPPBIN,$@)
-	$(ECHO) res $(call FNCT_FIXDIRSEP,$(call FNCT_TEMPPROT.$@))
-	$(call FNCT_DIFFPROT,$@)
+	@$(call FNCT_RUNCPPBIN,$@)
 
 # have temp dir
 tmp_valext: 

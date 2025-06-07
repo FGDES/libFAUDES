@@ -184,6 +184,9 @@ extern FAUDES_API const std::string& faudes_pathseps(void);
 // Path-seperator (first char of above, see cfl_utils.cpp)
 extern FAUDES_API const std::string& faudes_pathsep(void);
 
+// uniform get/set dir (use posix style interface)
+extern FAUDES_API std::string faudes_getwd(void);
+extern FAUDES_API int faudes_chdir(const std::string& nwd);
 
 // Uniform exit-signalhandler for POSIX/Windows (see e.g. simfaudes.cpp)
 extern FAUDES_API void faudes_termsignal(void (*sighandler)(int));

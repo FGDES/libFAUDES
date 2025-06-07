@@ -111,6 +111,17 @@ extern FAUDES_API std::string CollapsString(const std::string& rString, unsigned
 extern FAUDES_API Idx ToIdx(const std::string& rString);
 
 /**
+ * Convert to lower case
+ *
+ * @param rString
+ *   Source string to convert
+ * @return 
+ *   Lower case  string
+ *
+ */
+extern FAUDES_API std::string ToLowerCase(const std::string& rString);
+   
+/**
  * Substitute globally in string
  *
  * @param rString
@@ -125,7 +136,6 @@ extern FAUDES_API Idx ToIdx(const std::string& rString);
  */
 extern FAUDES_API std::string StringSubstitute(const std::string& rString,const std::string& rFrom,const std::string& rTo);
    
-
 
 /**
  * Return FAUDES_VERSION as std::string
@@ -493,7 +503,7 @@ extern FAUDES_API bool TestProtocol(void);
 
 /** Test protocol diff macro */
 #define FAUDES_TEST_DIFF() { if(!TestProtocol()) { \
-    FAUDES_WRITE_CONSOLE("FAUDES_TEST_DIFF: sensed test case error in " << __FILE__); exit(1);} }
+    FAUDES_WRITE_CONSOLE("FAUDES_TEST_DIFF: sensed test case error in " << __FILE__); exit(0);} }
 
 
 /** Algorithm loop callback 

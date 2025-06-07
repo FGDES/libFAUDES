@@ -70,7 +70,43 @@ const std::string& faudes_pathsep(void) {
 }
 #endif
 
-
+// uniform get/set dir (use posix style interface)
+#ifdef FAUDES_POSIX
+std::string faudes_getwd(void) {
+  char buf[(PATH_MAX)+1];
+  std::string res;
+  char* wd =getwd(buf);
+  if(wd==nullptr) {
+    res.clear();
+  } else {
+    res=wd;
+  }
+  return res;
+}
+int faudes_chdir(const std::string& nwd) {
+  return (chdir(nwd.c_str())==0 ? 0 : -1);
+}
+#endif
+#ifdef FAUDES_WINDOWS
+std::string faudes_getwd(void) {
+  std::string res="todo ... see cfl_platform.cpp";
+  return res;
+}
+int faudes_chdir(const std::string& nwd) {
+  return (chdir(nwd.c_str())==0 ? 0 : -1);
+}
+#endif
+#ifdef FAUDES_GENERIC
+std::string faudes_getwd(void) {
+  faudes_invalid("faudes_getwd()");
+  std::string res;
+  return res;
+}
+int faudes_chdir(const std::string& nwd) {
+  faudes_invalid("faudes_chdir()");
+  return -1;
+}
+#endif
 
 // Uniform signalhandler on termination
 void faudes_termsignal(void (*sighandler)(int)) {
