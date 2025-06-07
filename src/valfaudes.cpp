@@ -76,6 +76,11 @@ int runsys(const std::string& command) {
   if(!mOptV)
     cmd = cmd + " &> /dev/null";
 #endif 
+#ifdef FAUDES_WINDOWS
+  cmd=faudes_extpath(cmd);
+  if(!mOptV)
+    cmd = cmd + " > NUL 2>&1";
+#endif 
   if(!mOptQ)
     std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
   return std::system(cmd.c_str());
@@ -85,7 +90,14 @@ int runsys(const std::string& command) {
 int rundiff(const std::string& file1, const std::string& file2) {
   std::string cmd;
 #ifdef FAUDES_POSIX
+  if(!mOptV)
+    cmd = cmd + " &> /dev/null";
   cmd= "diff -w --context=3 --show-function-line=mark " + file1 + " " + file2;
+#endif 
+#ifdef FAUDES_WINDOWS
+  cmd= "fc /W " + faudes_extpath(file1) + " " + faudes_extpath(file2);
+  if(!mOptV)
+    cmd = cmd + " > NUL 2>&1";
 #endif 
   if(!mOptQ)
     std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;

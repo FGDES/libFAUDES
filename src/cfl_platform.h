@@ -175,14 +175,30 @@
 
 // Path-seperators (see cfl_utils.cpp)
 //  * the first separator is the one used to prepend directories etc
-//  * all other separators are used to extract basenames
-//  * using gcc/make also on Windows, we occasionaly get Unix style files names
-//    in the build process ... thus we allways define the Unix "/" as a separator 
-//  * up to libFAUDES 2.31 we used "/" for POSIX and "\\:/" for Windows.
-//  * as of libFAUDES 2.32 we used "/" for POSIX and "/\\:" for Windows.
+//  * all other separators are used to extract filenames, i.e., to strip the path
+//  * as of libFAUDES 2.32 we internally treat "/" is our separator; we set
+//    path seperator to "/" for POSIX and "/\\:" for Windows.
+//  * up to libFAUDES 2.31 we used "/" for POSIX and "\\:/" for Windows; this was
+//    asking for trouble.
 extern FAUDES_API const std::string& faudes_pathseps(void); 
 // Path-seperator (first char of above, see cfl_utils.cpp)
 extern FAUDES_API const std::string& faudes_pathsep(void);
+
+
+// Extanal vs internal paths conversion -- we are so bored
+//
+// Internal is as of v2.32  posix style, i.e., '/' is the only separtor, no
+// drive letters whatsowever. Is need be, they are converted along the
+// pattern "C:\ ==> /c/". libFAUDES should not operate on absolute oaths anyway.
+// Occasionally (when a libFAUDES tool needs to invoke a shell), we need to
+// convery back to external representaion. Likewise, libFAUDES tools may be
+// invoked with posix style argumetns and may need to convert. Henve the following
+// two conversion functons (which should be identity on posix systems)
+extern FAUDES_API std::string faudes_normpath(const std::string& rExtPath);
+extern FAUDES_API std::string faudes_extpath(const std::string& rNormIntPath);
+
+
+
 
 // uniform get/set dir (use posix style interface)
 extern FAUDES_API std::string faudes_getwd(void);

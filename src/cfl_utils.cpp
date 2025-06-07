@@ -279,8 +279,6 @@ std::string CreateTempFile(void) {
   return(res);
 }
 
-
-
 // ExtractPath
 std::string ExtractDirectory(const std::string& rFullPath) {
   std::string res="";

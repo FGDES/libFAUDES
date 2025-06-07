@@ -200,17 +200,14 @@ extern FAUDES_API void ProcessDot(const std::string& rDotFile, const std::string
  */
 extern FAUDES_API std::string CreateTempFile(void);
 
-
-/**
- * Std dir-separator.
- * @return
- *   Separator as one-char string
- */
-extern FAUDES_API const std::string& PathSeparator(void);
-
+ 
 /**
  * Extract directory from (full) path; i.e., remove the last
  * separator and anything thereafer.
+ *
+ * This is a compatible left-over from pre-v2.32. As of v2.32. 
+ * We now take care that out internal representation is in
+ * posix style, i.e., case (2) should not happen. 
  *
  * @param rFullPath
  *   Full name of file eg (1) "/home/friend/data/generator.gen"
