@@ -2,7 +2,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-Copyright (C) 2011, 2024 Thomas Moor
+Copyright (C) 2011, 2024, 2025 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -133,7 +133,7 @@ void MakeDirectory(const std::string& rPath, const std::string& rDir="") {
   std::string dir = PrependPath(rPath,rDir);
   if(DirectoryExists(dir)) return;
   std::cerr << "flxinstall: creating dir \"" << dir << "\"" << std::endl;
-  int sysret=SysCall("mkdir",dir);
+  int sysret=SysCall("mkdir",faudes_extpath(dir));
   if(sysret!=0) {
     std::cerr << "flxinstall: error while creating directory \"" << dir << "\"" << std::endl;
     usage_exit();

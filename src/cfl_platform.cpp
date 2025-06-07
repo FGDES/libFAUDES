@@ -136,7 +136,13 @@ std::string faudes_getwd(void) {
   return res;
 }
 int faudes_chdir(const std::string& nwd) {
-  return (chdir(nwd.c_str())==0 ? 0 : -1);
+  TCHAR buf[MAX_PATH];
+  if(nwd.size()+1>MAX_PATH)
+    return -1;
+  strncp(buf,nwd.c_str(),MAX_PATH);
+  if(!SetCurrentDirectory(buf))
+    return -1;
+  return 0;
 }
 #endif
 #ifdef FAUDES_GENERIC

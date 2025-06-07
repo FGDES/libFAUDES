@@ -364,7 +364,7 @@ bool DirectoryExists(const std::string& rDirectory) {
   return thedir!= 0;
 #endif
 #ifdef FAUDES_WINDOWS
-  DWORD fattr = GetFileAttributesA(rDirectory.c_str());
+  DWORD fattr = GetFileAttributesA(faudes_extpath(rDirectory).c_str());
   return 
     (fattr!=INVALID_FILE_ATTRIBUTES) && (fattr & FILE_ATTRIBUTE_DIRECTORY); 
 #endif
