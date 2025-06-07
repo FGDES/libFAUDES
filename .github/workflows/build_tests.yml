@@ -27,8 +27,9 @@ jobs:
       run: |
         make -j configure
         make clean
-        echo "notempty" >  ./obj/notempty
-        echo "notempty" >  ./bin/notempty
+        rm -rf ./bin/*
+        echo "notempty" > ./obj/notempty
+        echo "notempty" > ./bin/notempty
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:

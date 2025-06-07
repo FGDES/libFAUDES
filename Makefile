@@ -567,25 +567,25 @@ else
 MAINOPTS += /MD
 LDFLAGS +=
 endif 
-DSOOPTS = /LD
-LNKLIBS = winmm.lib wsock32.lib 
+DSOOPTS =/LD
+LNKLIBS =winmm.lib wsock32.lib
 #
-LIBFAUDES = faudes
-IMPFAUDES = faudes
-MINFAUDES = minfaudes
+LIBFAUDES=faudes
+IMPFAUDES=faudes
+MINFAUDES=minfaudes
 ifeq ($(DEBUG),yes)
-LIBFAUDES := $(LIBFAUDES)d
-IMPFAUDES := $(IMPFAUDES)d
-MINFAUDES := $(MINFAUDES)d
+LIBFAUDES:=$(LIBFAUDES)d
+IMPFAUDES:=$(IMPFAUDES)d
+MINFAUDES:=$(MINFAUDES)d
 endif
 ifeq ($(SHARED),yes)
-LIBFAUDES := $(LIBFAUDES).dll
-IMPFAUDES := $(IMPFAUDES).lib
-MINFAUDES := $(MINFAUDES).lib
+LIBFAUDES:=$(LIBFAUDES).dll
+IMPFAUDES:=$(IMPFAUDES).lib
+MINFAUDES:=$(MINFAUDES).lib
 else
-LIBFAUDES := $(LIBFAUDES).lib
-IMPFAUDES := $(IMPFAUDES).lib
-MINFAUDES := $(MINFAUDES).lib
+LIBFAUDES:=$(LIBFAUDES).lib
+IMPFAUDES:=$(IMPFAUDES).lib
+MINFAUDES:=$(MINFAUDES).lib
 endif
 endif
 
@@ -1574,9 +1574,9 @@ FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAF
 FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
-ifeq (pwrsh,$(FAUDES_MSHELL))
-FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) > NUL 2>&1 )
-FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
+ifeq (pwrsh,$(FAUDES_MSHELL)) #verb
+FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(1)) ) #> NUL 2>&1 )
+FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@)  ) #> NUL 2>&1)
 FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
@@ -1594,12 +1594,12 @@ TESTTARGETSX = $(patsubst %,TESTFLX_%,$(notdir $(wildcard stdflx/*.flx)))
 TESTTARGETS += $(TESTTARGETSX)
 
 
-# lua test cases
+# lua test cases #verb
 %_lua.prot: 
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 	$(ECHO) running test case $(call FNCT_LUASCRIPT,$@)
-	@- $(call FNCT_RUNLUASCRIPT,$@)
-	@ $(call FNCT_DIFFPROT,$@)
+	- $(call FNCT_RUNLUASCRIPT,$@)
+	$(call FNCT_DIFFPROT,$@)
 else
 	$(ECHO) skipping test case $(call FNCT_LUASCRIPT,$@) [no Lua bindings configured]
 endif
@@ -1618,7 +1618,7 @@ endif
 %_cpp.prot: 
 	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
 	- $(call FNCT_RUNCPPBIN,$@)
-	@ $(call FNCT_DIFFPROT,$@)
+	$(call FNCT_DIFFPROT,$@)
 
 # have temp dir
 tmp_valext: 
