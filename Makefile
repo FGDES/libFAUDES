@@ -1139,10 +1139,10 @@ rti-clean:
 
 # have those dirs #verb
 $(OBJDIR):
-	cmd.exe /C dir
+	- cmd.exe /C dir
 	$(MKDIR) $(call FNCT_FIXDIRSEP,$(OBJDIR)) 
 $(BINDIR): 
-	cmd.exe /C dir
+	- cmd.exe /C dir
 	$(MKDIR) $(call FNCT_FIXDIRSEP,$(BINDIR))
 
 # minimal objects implicit rule
