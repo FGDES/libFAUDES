@@ -1139,11 +1139,11 @@ rti-clean:
 
 # have those dirs #verb
 $(OBJDIR):
-	- cmd.exe /C dir
-	$(MKDIR) $(call FNCT_FIXDIRSEP,$(OBJDIR)) 
+	$(MKDIR) $(call FNCT_FIXDIRSEP,$(OBJDIR))
+	touch $(OBJDIR)/.notempty
 $(BINDIR): 
-	- cmd.exe /C dir
 	$(MKDIR) $(call FNCT_FIXDIRSEP,$(BINDIR))
+	touch $(OBJDIR)/.notempty
 
 # minimal objects implicit rule
 $(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp | $(OBJDIR)
