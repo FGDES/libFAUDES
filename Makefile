@@ -325,10 +325,10 @@ CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /C del /F /S /Q 
 MKDIR = cmd.exe /S /C echo WARNING MKDIR NOT CONFIGURED
-LSL = dir.exe 
+LSL = cmd.exe /S /C dir.exe 
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
-DIFF = cmd.exe /S /C fc /W
+DIFF = cmd.exe /S /C fc.exe /W
 SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
@@ -547,9 +547,9 @@ endif
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
 CXX = cmd.exe /S /C cl.exe /nologo
-CC = cl.exe /nologo
-LXX = cl.exe /nologo
-AR = lib.exe /VERBOSE
+CC = cmd.exe /S /C cl.exe /nologo
+LXX = cmd.exe /S /C cl.exe /nologo
+AR = cmd.exe /S /C lib.exe /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
@@ -1480,10 +1480,10 @@ $(DEPEND):
 # Implicit default rules 
 ####################################
 
-# .cpp -> .o  (trust automatic dependencies) 
+# .cpp -> .o  (trust automatic dependencies) #verb
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
-	$(LSL) 
 	$(call FNCT_COMP_LIB,$<,$@)
+	$(LSL) obj
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
