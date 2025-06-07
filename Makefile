@@ -1483,7 +1483,7 @@ $(DEPEND):
 # .cpp -> .o  (trust automatic dependencies) #verb
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
-	$(LSL) $(call FNCT_FIXDIRSEP($@))j
+	$(LSL) $(call FNCT_FIXDIRSEP($@))
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
