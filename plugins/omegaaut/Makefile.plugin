@@ -53,7 +53,7 @@ $(INCLUDEDIR)/$(OMG_INCLUDE): $(OMG_SRCDIR)/$(OMG_INCLUDE)
 
 #
 # extra include to access cpphoafparser headers
-INCLUDES += -I$(call FNCT_FIXDIRSEP,$(OMG_BASE)/lib)
+INCLUDES+=-I$(call FNCT_FIXDIRSEP,$(OMG_BASE)/lib)
 
 #
 # have rule to unzip cpphoafparser
