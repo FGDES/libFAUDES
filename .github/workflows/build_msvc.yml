@@ -24,8 +24,7 @@ jobs:
       run: |
         make -j configure
         make clean
-        rm ./obj/*
-        rm ./bin/*
+        rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
     - name: Upload Artifact
