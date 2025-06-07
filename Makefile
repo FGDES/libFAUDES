@@ -1509,7 +1509,7 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
-	$(LSL) *faudes.* 
+	$(LSL) *faudes* 
 	$(LSL) obj
 	$(ECHO) "linking full libfaudes: done"
 
