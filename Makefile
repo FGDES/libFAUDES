@@ -1627,6 +1627,7 @@ endif
 %_cpp.prot: 
 	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
 	- $(call FNCT_RUNCPPBIN,$@)
+	$(ECHO) res $(call FNCT_FIXDIRSEP,$(call FNCT_TEMPPROT.$@))
 	$(call FNCT_DIFFPROT,$@)
 
 # have temp dir
