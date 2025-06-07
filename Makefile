@@ -1516,7 +1516,7 @@ endif
 $(MINFAUDES): $(OBJECTSMIN)
 	$(ECHO) "linking minimal libfaudes" 
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
-	$(LSL) *faudes.* 
+	$(LSL) *faudes* 
 	$(LSL) obj
 	$(ECHO) "linking minimal libfaudes: done"
 
