@@ -328,7 +328,7 @@ MKDIR = cmd.exe /S /E:ON /C mkdir
 LSL = cmd.exe /E:ON /C dir 
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
-DIFF = fc /W
+DIFF = cmd.exe /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
