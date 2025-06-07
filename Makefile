@@ -546,27 +546,27 @@ endif
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cmd.exe /S /C cl.exe /nologo
-CC = cmd.exe /S /C cl.exe /nologo
-LXX = cmd.exe /S /C cl.exe /nologo
-AR = cmd.exe /S /C lib.exe /VERBOSE
+CXX = cl.exe /nologo
+CC = cl.exe /nologo
+LXX = cl.exe /nologo
+AR = lib.exe /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
-MAINOPTS = /EHsc -O2 
+MAINOPTS = /EHsc /O2
 MAINOPTS += /DFAUDES_BUILDENV=cl_win
 COUTOPT = /Fo
 LOUTOPT = /Fe
 AOUTOPT = /OUT:
-WARNINGS =  
+WARNINGS =
 #
 ifeq ($(DEBUG),yes)
-MAINOPTS += -MDd  
-LDFLAGS += 
+MAINOPTS += /MDd
+LDFLAGS +=
 else
-MAINOPTS += -MD
-LDFLAGS += 
+MAINOPTS += /MD
+LDFLAGS +=
 endif 
-DSOOPTS = -LD 
+DSOOPTS = /LD
 LNKLIBS = winmm.lib wsock32.lib 
 #
 LIBFAUDES = faudes
@@ -676,7 +676,7 @@ CC = emcc
 LXX = em++
 AR = emar r
 MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0
-WARNINGS =  
+WARNINGS =
 DSOOPTS =
 DOT_O  = .o
 DOT_EXE = .js
