@@ -319,21 +319,21 @@ endif
 #
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
-.SHELLFLAGS = "/C"
+.SHELLFLAGS = "/E:ON /S /C"
 CP  = copy /Y /B /V
 CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /C del /F /S /Q 
 MKDIR = cmd.exe /S /E:ON /C mkdir 
-LSL = cmd.exe /E:ON /C dir 
+LSL = cmd.exe /E:ON /S /C dir 
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
-DIFF = cmd.exe /S /C fc /W
+DIFF = cmd.exe /E:ON /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = cmd.exe /S /C echo wont strip 
+FNCT_POST_APP = cmd.exe /E:ON /S /C echo wont strip 
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
@@ -1509,13 +1509,15 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
-	$(LSL) *faudes* 
+	$(LSL) *faudes.* 
+	$(LSL) obj
 	$(ECHO) "linking full libfaudes: done"
 
 $(MINFAUDES): $(OBJECTSMIN)
 	$(ECHO) "linking minimal libfaudes" 
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
-	$(LSL) *faudes* 
+	$(LSL) *faudes.* 
+	$(LSL) obj
 	$(ECHO) "linking minimal libfaudes: done"
 
 
@@ -1637,7 +1639,15 @@ else
 endif
 
 # all tests
-test: binaries tutorial $(TESTTARGETS) 
+show:
+	$(ECHO) " ============================== " 
+	$(ECHO) "libFAUDES-make: core results" 
+	$(LSL) obj
+	$(LSL) bin
+	$(LSL) *faudes.* 
+	$(ECHO) " ============================== " 
+
+test: binaries tutorial show $(TESTTARGETS) 
 	$(ECHO) " ============================== " 
 	$(ECHO) "libFAUDES-make: test cases: done" 
 	$(ECHO) " ============================== " 
