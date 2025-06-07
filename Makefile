@@ -1644,7 +1644,7 @@ show:
 	$(ECHO) "libFAUDES-make: core results" 
 	$(LSL) obj
 	$(LSL) bin
-	$(LSL) *faudes.* 
+	$(LSL) *faudes* 
 	$(ECHO) " ============================== " 
 
 test: binaries tutorial show $(TESTTARGETS) 
