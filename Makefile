@@ -1531,7 +1531,7 @@ $(BINDIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES) | $(BINDIR)
 	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$(*)$(DOT_O))
 	$(call FNCT_LINK_APP,$(OBJDIR)/$(*)$(DOT_O),$@)
 	$(call FNCT_POST_APP,$@)
-	$(LSL) (call FNCT_FIXDIRSEP,$@) 
+	$(LSL) $(call FNCT_FIXDIRSEP,$@) 
 
 
 
