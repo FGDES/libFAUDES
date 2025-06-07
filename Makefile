@@ -324,7 +324,7 @@ CP  = copy /Y /B /V
 CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /C del /F /S /Q 
-MKDIR = cmd.exe /S /E:ON /C mkdir 
+MKDIR = cmd.exe echo WARNING MKDIR NOT CONFIGURED
 LSL = cmd.exe /E:ON /S /C dir 
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
@@ -1143,10 +1143,10 @@ rti-clean:
 # have those dirs 
 $(OBJDIR):
 	$(MKDIR) $(call FNCT_FIXDIRSEP,$(OBJDIR))
-	touch $(OBJDIR)/.notempty
+	echo "notempty" >  $(OBJDIR)/.notempty
 $(BINDIR): 
 	$(MKDIR) $(call FNCT_FIXDIRSEP,$(BINDIR))
-	touch $(OBJDIR)/.notempty
+	echo "notempty" >  touch $(OBJDIR)/.notempty
 
 # minimal objects implicit rule
 $(OBJDIR)/cfl_%_min$(DOT_O): cfl_%.cpp | $(OBJDIR)
