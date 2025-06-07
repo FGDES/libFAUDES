@@ -325,7 +325,7 @@ CPR = echo ERROR CPR NOT CONFIGURED
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /C del /F /S /Q 
 MKDIR = cmd.exe /S /C echo WARNING MKDIR NOT CONFIGURED
-LSL = cmd.exe /S /C dir.exe 
+LSL = cmd.exe /S /C dir
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
 DIFF = cmd.exe /S /C fc.exe /W
@@ -1483,7 +1483,7 @@ $(DEPEND):
 # .cpp -> .o  (trust automatic dependencies) #verb
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
-	$(LSL) $(call FNCT_FIXDIRSEP($@))
+	$(LSL) $(call FNCT_FIXDIRSEP,$@)
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
