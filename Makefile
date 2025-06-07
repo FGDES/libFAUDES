@@ -543,7 +543,7 @@ endif
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cmd.exe /C cl.exe /nologo
+CXX = cmd.exe /S /C cl.exe /nologo
 CC = cl.exe /nologo
 LXX = cl.exe /nologo
 AR = lib.exe /LIST /VERBOSE  # /NOLOGO
