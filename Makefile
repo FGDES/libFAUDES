@@ -1000,7 +1000,7 @@ LSOBJ = $(wildcard $(OBJDIR)/*)
 clean: $(CLEANTARGETS)
 	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) never_nothing_markA
 	$(RM) $(call FNCT_FIXDIRSEP,$(LSOBJ)) never_nothing_markB
-	$(RM) tmp_valext 
+#	$(RM) tmp_valext
 
 dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(CLEANFILES) 
