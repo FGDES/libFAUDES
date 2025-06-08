@@ -994,11 +994,12 @@ package:
 
 # cmd.exe funny 8K limit
 LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES))
+# posix vs comd.exe, bont use shell wildcard
+LSOBJ = $(wildcard $(OBJDIR)/*)
 
 clean: $(CLEANTARGETS)
 	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) 
-	$(RM) $(call FNCT_FIXDIRSEP,obj/*)    # posix
-	$(RM) $(call FNCT_FIXDIRSEP,"obj/*")  # cmd.exe
+	$(RM) $(call FNCT_FIXDIRSEP,$(LSOBJ))   
 	$(RM) tmp_valext 
 
 dist-clean: doc-clean $(DISTCLEANTARGETS)
