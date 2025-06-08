@@ -33,12 +33,16 @@ void usage(const std::string& msg="") {
   std::cerr << "valfaudes --- run and validate testcases (" << faudes::VersionString() << ")" << std::endl;
   std::cerr << std::endl;
   std::cerr << "usage:" << std::endl;
-  std::cerr << "  valfaudes [-v|q] <prot-in>" << std::endl;
+  std::cerr << "  valfaudes [-v|q] [-t <tmp>] <main-in>" << std::endl;
   std::cerr << std::endl;
   std::cerr << "with:" << std::endl;
-  std::cerr << "  <prot-in>  main input file"  << std::endl;
+  std::cerr << "  <main-in>  specify '.prot' or a '.flx' input"  << std::endl;
   std::cerr << std::endl;
-  std::cerr << "note: this tool is meant for the build process adm relies on std libFAUDES folder layout" << std::endl;
+  std::cerr << "options:" << std::endl;
+  std::cerr << "  -t <tmp>  temp dir for extracting/validating flx packages"  << std::endl;
+  std::cerr << std::endl;  
+  std::cerr << "note: this tool is meant to facilitate the libFAUDES build process and" << std:endl;
+  std::cerr << "relies on std libFAUDES folder layout" << std::endl;
   std::cerr << std::endl;
   exit(0);
 }
@@ -46,14 +50,18 @@ void usage(const std::string& msg="") {
 // config
 bool mOptV=false;
 bool mOptQ=false;
+std::string mLibFaudes=".";
+std::string mLuaFaudes;
+std::string mArgFile;
 std::string mProtFile;
 std::string mTestCase;
 std::string mTestType;
 std::string mTestPath;
+std::string mFlxFile;
 std::string mBinFile;
 std::string mLuaFile;
-std::string mLuaFaudes;
 std::string mTmpProtFile;
+std::string mTmpDir;;
 
 
 // helper: exe suffix
@@ -68,16 +76,22 @@ std::string exesfx(void) { return "";}
 #endif  
 
 
-// helper: run command (o<>success)
-int runsys(const std::string& command) {
+// helper: run faudes executable (o<>success)
+int runfexec(const std::string& command, const std::string& arguments="") {
   std::string cmd=command;
-#ifdef FAUDES_POSIX  
-  cmd= "." + faudes_pathsep() + command;
+#ifdef FAUDES_POSIX
+  if(cmd.size()>0)
+    if((cmd.at(0)!='/') && (cmd.at(0)!='.'))
+     cmd= "." + faudes_pathsep() + cmd;
+  if(!arguments.empty())
+    cmd += " " + arguments;
   if(!mOptV)
     cmd = cmd + " &> /dev/null";
 #endif 
 #ifdef FAUDES_WINDOWS
   cmd=faudes_extpath(cmd);
+  if(!arguments.empty())
+    cmd += " " + argumants;
   if(!mOptV)
     cmd = cmd + " > NUL 2>&1";
 #endif 
@@ -153,14 +167,21 @@ int main(int argc, char *argv[]) {
       mOptQ=true;
       continue;
     }
+    // option: tmp dir
+    if((option=="-t") || (option=="--temp")) {
+      if(++i>argc)
+        usage("cannot read temp dir (-t)");	
+      mTmpDir=argv[i];
+      continue;
+    }
     // option: unknown
     if(option.c_str()[0]=='-') {
       usage("unknown option "+ option);
       continue;
     }
     // argument #1 input file
-    if(mProtFile.empty()) {
-      mProtFile=argv[i];
+    if(mArgFile.empty()) {
+      mArgFile=argv[i];
       continue;
     }
     // fail
@@ -168,38 +189,63 @@ int main(int argc, char *argv[]) {
   }
 
   // fail on no input
-  if(mProtFile.empty())
+  if(mArgFile.empty())
     usage("no input file specified");
   
   //report
   if(!mOptQ)
-    std::cout << "varfaudes: protocol: \"" << mProtFile <<"\"" << std::endl;
+    std::cout << "varfaudes: input file: \"" << mArgFile <<"\"" << std::endl;
 
-  // derive config: test case
-  mTestPath=ExtractDirectory(mProtFile);
-  mTestCase=ExtractBasename(mProtFile);
-  std::string sfx=ExtractSuffix(mProtFile);
-  if(sfx!="prot") {
-    usage("could not figure test type (no suffix '.prot')");
+  // derive config: test type
+  mTestPath=ExtractDirectory(mArgFile);
+  std::string sfx=ExtractSuffix(mArgFile);
+  // case a) its a .prot
+  if(sfx=="prot") {
+    mProtFile=mArgFile;
+    mTestCase=ExtractBasename(mArgFile);
+    size_t seppos=mTestCase.find_last_of('_');
+    if(seppos==std::string::npos) {
+      usage("could not figure test type (no seperator '_' in '.prot' file)");
+    }
+    mTestType=mTestCase.substr(seppos+1);
+    if(ToLowerCase(mTestType)=="cpp") {
+      mBinFile=mTestCase.substr(0,seppos);
+    }
+    if(ToLowerCase(mTestType)=="lua") {
+      mLuaFile=mTestCase;
+      mLuaFile.at(seppos)='.';
+    }
+    mTmpProtFile= "tmp_" + mTestCase + ".prot";
+    mTestCase = mTestCase.substr(0,seppos);
   }
-  size_t seppos=mTestCase.find_last_of('_');
-  if(seppos==std::string::npos) {
-    usage("could not figure test type (no seperator '_')");
+  // case b) its an .flx
+  if(sfx=="flx") {
+    mTestType="flx";
+    mFlxFile=ExtractFilename(mArgFile);
+    mTestCase=ExtractBasename(mArgFile);
+    mTestPath=mTmpDir;
   }
-  mTestType=mTestCase.substr(seppos+1);
-  if(ToLowerCase(mTestType)=="cpp") {
-    mBinFile=mTestCase.substr(0,seppos);
+  // failed test type
+  if(mTestType.empty()) {
+    usage("could not figure test type");
   }
-  if(ToLowerCase(mTestType)=="lua") {
-    mLuaFile=mTestCase;
-    mLuaFile.at(seppos)='.';
-  }
-  mTmpProtFile= "tmp_" + mTestCase + ".prot";
-  mTestCase.at(seppos)='.';
 
-  // result code (0 for ok)
-  int testok=-1;
-
+  // derive config: working dir (for .prot files)
+  if(sfx=="prot") {
+    size_t datapos=mTestPath.rfind("data"); 
+    if(datapos==std::string::npos) {
+      usage("could not figure working dir (path must end with 'data' [a])");
+    }
+    if(datapos!=mTestPath.size()-5) {
+      usage("could not figure working dir (path must end with 'data' [b])");
+    }
+    if(datapos==0) {
+      usage("could not figure working dir (layout mismatch)");
+    }
+    mTestPath=mTestPath.substr(0,datapos-1);
+    mTmpProtFile=PrependPath(mTestPath,mTmpProtFile);
+  }
+  
   //report
   if(!mOptQ) {
     std::cout << "varfaudes:" << std::endl;
@@ -209,27 +255,18 @@ int main(int argc, char *argv[]) {
       std::cout << "  exeutable: \"" << mBinFile <<"\"" << std::endl;
     if(!mLuaFile.empty())
       std::cout << "  lua script: \"" << mLuaFile <<"\"" << std::endl;
+    if(!mFlxFile.empty())
+      std::cout << "  flx file: \"" << mFlxFile <<"\"" << std::endl;
   }
 
+  // result code (0 for ok)
+  int testok=-1;
+
   // is there nothing to test?
-  if(mBinFile.empty() && mLuaFile.empty()) {
+  if(mBinFile.empty() && mLuaFile.empty() && mFlxFile.empty()) {
     std::cout << "varfaudes: error: nothing we can validate" << std::endl;
     return 1;
   }
-    
-  // derive config: working dir
-  size_t datapos=mTestPath.rfind("data");
-  if(datapos==std::string::npos) {
-    usage("could not figure working dir (path must end with 'data' [a])");
-  }
-  if(datapos!=mTestPath.size()-5) {
-    usage("could not figure working dir (path must end with 'data' [b])");
-  }
-  if(datapos==0) {
-    usage("could not figure working dir (layout mismatch)");
-  }
-  mTestPath=mTestPath.substr(0,datapos-1);
-  mTmpProtFile=PrependPath(mTestPath,mTmpProtFile);
 
   // change working dir
   std::string pwd=faudes_getwd();
@@ -240,10 +277,10 @@ int main(int argc, char *argv[]) {
   if(cdok!=0) {
     usage("could change to test working dir");
   }
-		 
+
   // cpp tutorials
   if(!mBinFile.empty()) {
-    testok=runsys(mBinFile);
+    testok=runfexec(mBinFile);
   }
 
   // lua tutorials
@@ -255,11 +292,20 @@ int main(int argc, char *argv[]) {
       std::cout << "valfaudes: silently skipping test case" << std::endl;
       testok=0;            
     } else {
-      std::string cmd=mLuaFaudes + " " + mLuaFile;
-      testok=runsys(cmd);
+      testok=runfexec(mLuaFaudes,mLuaFile);
     }
   }
 
+  // flx extensions
+  if(!mFlxFile.empty()) {
+    // alt: have absolut paths 
+    std::string args;
+    args+= "-tbin ../bin";
+    args+= " -t";
+    args+= " ../"+mArgFile+" .";
+    testok=runfexec("../bin/flxinstall",args);
+  }
+  		 
   // go back to original dir
   int pwdok=faudes_chdir(pwd);
   if(pwdok!=0) {
@@ -269,6 +315,11 @@ int main(int argc, char *argv[]) {
   // fail if no tests raun
   if(testok!=0) {
     usage("test failed to run");
+  }
+
+  // flx is done here
+  if(!mFlxFile.empty()) {
+    return testok;
   }
 
   // fail if no protocol found

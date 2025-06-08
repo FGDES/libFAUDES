@@ -1552,7 +1552,7 @@ TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 # tools #verb
 ABSLUAFAUDES = $(CURDIR)/bin/luafaudes
 ABSFLXINSTALL = $(CURDIR)/bin/flxinstall
-VALFAUDES = ./bin/valfaudes -q 
+VALFAUDES = ./bin/valfaudes  
 
 # Conversion functions
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
@@ -1576,8 +1576,8 @@ FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Py
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
 ifeq (pwrsh,$(FAUDES_MSHELL)) #verb
-FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_PROTOCOL,$@)
-FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_PROTOCOL,$@)
+FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
+FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
 else
@@ -1590,16 +1590,20 @@ endif
 endif
 
 
-# validate lua extensions (currently unix only)
+# validate lua extensions (currently posix only)
 TESTTARGETSX = $(patsubst %,TESTFLX_%,$(notdir $(wildcard stdflx/*.flx))) 
 TESTTARGETS += $(TESTTARGETSX)
 
+# cpp test cases #verb
+%_cpp.prot: 
+	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
+	$(call FNCT_RUNCPPBIN,$@)
 
 # lua test cases #verb
 %_lua.prot: 
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 	$(ECHO) running test case $(call FNCT_LUASCRIPT,$@)
-	@$(call FNCT_RUNLUASCRIPT,$@)
+	$(call FNCT_RUNLUASCRIPT,$@)
 else
 	$(ECHO) skipping test case $(call FNCT_LUASCRIPT,$@) [no Lua bindings configured]
 endif
@@ -1614,20 +1618,6 @@ else
 	$(ECHO) skipping test case $(call FNCT_PYSCRIPT,$@) [no Python bindings configured]
 endif
 
-#xxx
-#FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
-#FNCT_LUASCRIPT = $(patsubst %_lua.prot,%.lua,$(notdir $(call FNCT_PROTOCOL,$(1))))
-#FNCT_PYSCRIPT = $(patsubst %_py.prot,%.py,$(notdir $(call FNCT_PROTOCOL,$(1))))
-#FNCT_CPPBIN = $(patsubst %_cpp.prot,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
-#FNCT_WORKDIR = $(patsubst %/data/,%,$(dir $(call FNCT_PROTOCOL,$(1))))
-#FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
-#xxx
-
-# cpp test cases #verb
-%_cpp.prot: 
-	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
-	@$(call FNCT_RUNCPPBIN,$@)
-
 # have temp dir
 tmp_valext: 
 	@- mkdir tmp_valext
@@ -1638,7 +1628,7 @@ ifeq (posix,$(FAUDES_MSHELL))
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 	$(ECHO) running test case $(patsubst TESTFLX_%,%,$@)
 	@- rm -rf tmp_valext/data  ; rm -f tmp_valext/*
-	@- cd tmp_valext; $(ABSFLXINSTALL)$(DOT_EXE) -tbin ../bin -t ../stdflx/$(patsubst TESTFLX_%,%,$@) . &> /dev/null
+	@$(VALFAUDES) -t tmp_valext ./stdflx/$(patsubst TESTFLX_%,%,$@) 
 else
 	$(ECHO) skipping test case [ $(patsubst TESTFLX_%,%,$@) ] [no Lua bindings configured]
 endif

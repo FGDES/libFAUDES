@@ -1954,9 +1954,10 @@ int main(int argc, char *argv[]) {
     // test consistent args
     if((i<argc))
       usage_exit("too many arguments");
-    // insist in target to be the current directory and empty
+    // insist in target to be the current directory 
     if((mTarget != ".") && (mTarget != "./"))
       usage_exit("target must be \".\" or \"./\"");
+    // insist in target to be empty
     std::set< std::string > curdir = ReadDirectory(mTarget);
     if(curdir.size()!=0)
       usage_exit("target must be empty");
