@@ -1,10 +1,10 @@
-name: Build and Run libFAUDES Test Cases
+name: libFAUDES Test Cases
 
 on:
   workflow_dispatch:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[a-z]*'
+      - 'v[0-9]+.[0-9]+*'
       
 jobs:
 
@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Install Extra Libs
+    - name: Install Extra Libs and Tools
       run: |
           sudo apt-get install doxygen swig
           sudo apt-get install libreadline-dev
@@ -27,6 +27,9 @@ jobs:
       run: |
         make -j configure
         make clean
+        rm -rf ./bin/*
+        echo "notempty" > ./obj/notempty
+        echo "notempty" > ./bin/notempty
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -45,12 +48,15 @@ jobs:
       with:
         name: sources
         path: ./
+    - name: Install Extra Libs 
+      run: |
+          sudo apt-get install libreadline-dev
     - name: Build Default Targets
       run: |
         make --touch includes
-        make -j
+        make 
     - name: Build Tutorials
-      run: make -j tutorial
+      run: make  tutorial
     - name: Run Test Cases
       run: make test
 
@@ -66,14 +72,19 @@ jobs:
       with:
         name: sources
         path: ./
+    - name: Install Tools
+      run: |
+        brew update
+        brew install make
+        brew install swig  # why needed?
     - name: Build Default Targets
       run: |
-        make --touch includes
-        make -j
+        gmake --touch includes
+        gmake 
     - name: Build Tutorials
-      run: make -j tutorial
+      run: gmake  tutorial
     - name: Run Test Cases
-      run: make test
+      run: gmake test
 
 
   build-msys:
@@ -99,13 +110,17 @@ jobs:
           ncurses-devel 
           libreadline-devel 
     - name: Build Default Targets
+      shell: msys2 {0}
       run: |
         make --touch includes
-        make -j
+        make -j1
     - name: Build Tutorials
-      run: make -j tutorial
+      shell: msys2 {0}
+      run: make  -j1 tutorial
     - name: Run Test Cases
-      run: make test
+      shell: msys2 {0}
+      run: make -j1 test
+
 
   build-msvc:  
 
@@ -132,13 +147,19 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"  libfaudes
+    - name: Build Tools
+      shell: cmd
+      run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" binaries
     - name: Build Tutorial
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"  tutorial
     - name: Run Test Cases
       shell: cmd
       run: |
@@ -151,5 +172,5 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win clean
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
