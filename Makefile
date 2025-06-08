@@ -1065,7 +1065,7 @@ $(INCLUDEDIR)/configuration.h: $(SRCDIR)/configuration.h.template
 	cp $(SRCDIR)/configuration.h.template $(INCLUDEDIR)/configuration.h
 	echo "/* faudes core configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_VERSION \"libFAUDES $(FAUDES_VERSION)\"" >> $(INCLUDEDIR)/configuration.h
-	echo "#define  FAUDES_CONFIG_TIMESTAMP $(MAKETIME)" >> $(INCLUDEDIR)/configuration.h
+	echo "#define  FAUDES_CONFIG_TIMESTAMP \"$(MAKETIME)\"" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGINS \"$(pluginstringD)\"" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGINS_RTILOAD {$(FAUDES_PLUGINS_RTILOAD)}" >> $(INCLUDEDIR)/configuration.h
 ifeq (core_systime,$(findstring core_systime,$(FAUDES_OPTIONS)))

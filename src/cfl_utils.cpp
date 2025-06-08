@@ -167,7 +167,7 @@ std::string BuildString() {
 #ifdef FAUDES_BUILDTIME  
   res = res + std::string(" ") + std::string(XLITSTR(FAUDES_BUILDTIME));
 #else
-  res = res + std::string(" ") + std::string(XLITSTR(FAUDES_CONFIG_TIMESTAMP));
+  res = res + std::string(" ") + std::string(FAUDES_CONFIG_TIMESTAMP);
 #endif  
   return res;
 }
