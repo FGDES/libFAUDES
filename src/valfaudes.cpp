@@ -41,7 +41,7 @@ void usage(const std::string& msg="") {
   std::cerr << "options:" << std::endl;
   std::cerr << "  -t <tmp>  temp dir for extracting/validating flx packages"  << std::endl;
   std::cerr << std::endl;  
-  std::cerr << "note: this tool is meant to facilitate the libFAUDES build process and" << std:endl;
+  std::cerr << "note: this tool is meant to facilitate the libFAUDES build process and" << std::endl;
   std::cerr << "relies on std libFAUDES folder layout" << std::endl;
   std::cerr << std::endl;
   exit(0);
@@ -91,7 +91,7 @@ int runfexec(const std::string& command, const std::string& arguments="") {
 #ifdef FAUDES_WINDOWS
   cmd=faudes_extpath(cmd);
   if(!arguments.empty())
-    cmd += " " + argumants;
+    cmd += " " + arguments;
   if(!mOptV)
     cmd = cmd + " > NUL 2>&1";
 #endif 

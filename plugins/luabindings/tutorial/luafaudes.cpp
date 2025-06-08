@@ -7,7 +7,7 @@
    The Advanced-Readline patch has been applied, also with lua license,
    copyright see below. SWIG based Lua bindings and minor adjustments 
    (wellcome string) have been added (and signed "luafaudes").
-   Thomas Moor, 2008.
+   Thomas Moor, 2008, 2025.
 
 
 @ingroup Tutorials
