@@ -993,13 +993,13 @@ package:
 ####################################
 
 # cmd.exe funny 8K limit
-LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES))
+LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES)) 
 # posix vs comd.exe, bont use shell wildcard
-LSOBJ = $(wildcard $(OBJDIR)/*)
+LSOBJ = $(wildcard $(OBJDIR)/*) 
 
 clean: $(CLEANTARGETS)
-	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) 
-	$(RM) $(call FNCT_FIXDIRSEP,$(LSOBJ))   
+	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) never_nothing_markA
+	$(RM) $(call FNCT_FIXDIRSEP,$(LSOBJ)) never_nothing_markB
 	$(RM) tmp_valext 
 
 dist-clean: doc-clean $(DISTCLEANTARGETS)
