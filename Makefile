@@ -1482,10 +1482,11 @@ $(DEPEND):
 # Implicit default rules 
 ####################################
 
-# .cpp -> .o  (trust automatic dependencies) #verb
+# .cpp -> .o  (trust automatic dependencies) 
 $(OBJDIR)/%$(DOT_O): %.cpp | $(OBJDIR)
 	$(call FNCT_COMP_LIB,$<,$@)
-	$(LSL) $(call FNCT_FIXDIRSEP,$@)
+#	$(LSL) $(call FNCT_FIXDIRSEP,$@)
+#verb   ^^^
 
 # .h -> include/.h
 $(INCLUDEDIR)/%.h: %.h
@@ -1502,7 +1503,6 @@ $(INCLUDEDIR)/%.h.gch: $(INCLUDEDIR)/%.h
 # Library targets
 ####################################
 
-#verb
 $(LIBFAUDES): $(OBJECTS) $(OBJECTSEXT)
 	$(ECHO) "linking full libfaudes" 
 ifeq ($(SHARED),yes)
@@ -1510,9 +1510,10 @@ ifeq ($(SHARED),yes)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
-	$(LSL) *faudes* 
-	$(LSL) obj
-	$(ECHO) "linking full libfaudes: done"
+#	$(LSL) *faudes* 
+#	$(LSL) obj
+#	$(ECHO) "linking full libfaudes: done"
+#verb   ^^^^
 
 $(MINFAUDES): $(OBJECTSMIN)
 	$(ECHO) "linking minimal libfaudes" 
@@ -1527,13 +1528,13 @@ $(MINFAUDES): $(OBJECTSMIN)
 # Executables
 ####################################
 
-# compile and link applications #verb
+# compile and link applications 
 $(BINDIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES) | $(BINDIR)
 	$(call FNCT_COMP_APP,$<,$(OBJDIR)/$(*)$(DOT_O))
 	$(call FNCT_LINK_APP,$(OBJDIR)/$(*)$(DOT_O),$@)
 	$(call FNCT_POST_APP,$@)
-	$(LSL) $(call FNCT_FIXDIRSEP,$@) 
-
+#	$(LSL) $(call FNCT_FIXDIRSEP,$@) 
+#verb   ^^^
 
 
 
@@ -1550,9 +1551,7 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot))
 # Formal targets
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
-# tools #verb
-ABSLUAFAUDES = $(CURDIR)/bin/luafaudes
-ABSFLXINSTALL = $(CURDIR)/bin/flxinstall
+# tools 
 VALFAUDES = ./bin/valfaudes  
 
 # Conversion functions
@@ -1563,33 +1562,18 @@ FNCT_CPPBIN = $(patsubst %_cpp.prot,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 FNCT_WORKDIR = $(patsubst %/data/,%,$(dir $(call FNCT_PROTOCOL,$(1))))
 FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 
-# platform dependant script 
-ifeq (posix,$(FAUDES_MSHELL))
-FNCT_RUNCPPBIN = $(VALFAUDES) $(call FNCT_PROTOCOL,$@)
-FNCT_RUNLUASCRIPT = $(VALFAUDES) $(call FNCT_PROTOCOL,$@)
-FNCT_RUNPYSCRIPT  = cd $(call FNCT_WORKDIR,$@) ; $(PYTHON) $(call FNCT_PYSCRIPT,$@) &> /dev/null
-FNCT_DIFFPROT = $(DIFF) $(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@)
-else
-ifeq (cmdcom,$(FAUDES_MSHELL))
-FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$(@)) & ./$(call FNCT_CPPBIN,$(@)) > NUL 2>&1 )
-FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,cd $(call FNCT_WORKDIR,$@) & $(ABSLUAFAUDES) $(call FNCT_LUASCRIPT,$@) > NUL 2>&1)
-FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
-FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
-else
-ifeq (pwrsh,$(FAUDES_MSHELL)) #verb
-FNCT_RUNCPPBIN = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
+# default test runner
+FNCT_RUNCPPBIN = $(call    FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
-FNCT_DIFFPROT = $(DIFF) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@) $(call FNCT_WORKDIR,$@)/$(call FNCT_TMPPROT,$@))
-else
-FNCT_RUNCPPBIN = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
-FNCT_RUNLUASCRIPT = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
-FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
-FNCT_DIFFPROT = $(ECHO) "skipping test case [" $@ "] [ no shell ]"
-endif
-endif
-endif
 
+# overwrtie non functionl variants
+ifeq (pwrsh,$(FAUDES_MSHELL)) 
+FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+endif
+ifeq (cmdcom,$(FAUDES_MSHELL))
+FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+endif
 
 # validate lua extensions (currently posix only)
 TESTTARGETSX = $(patsubst %,TESTFLX_%,$(notdir $(wildcard stdflx/*.flx))) 
