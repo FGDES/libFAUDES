@@ -38,3 +38,4 @@ jobs:
       run: make -j1 tutorial
     - name: Run Test Cases
       run: make -j1 test
+

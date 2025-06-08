@@ -121,7 +121,6 @@ jobs:
       shell: msys2 {0}
       run: make -j1 test
 
-
   build-msvc:  
 
     runs-on: windows-latest
@@ -174,3 +173,5 @@ jobs:
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
         %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j binaries
