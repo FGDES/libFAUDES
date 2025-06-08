@@ -86,7 +86,7 @@ int runfexec(const std::string& command, const std::string& arguments="") {
   if(!arguments.empty())
     cmd += " " + arguments;
   if(!mOptV)
-    cmd = cmd + " &> /dev/null";
+    cmd = cmd + " > /dev/null 2>&1 ";
 #endif 
 #ifdef FAUDES_WINDOWS
   cmd=faudes_extpath(cmd);
@@ -105,7 +105,7 @@ int rundiff(const std::string& file1, const std::string& file2) {
   std::string cmd;
 #ifdef FAUDES_POSIX
   if(!mOptV)
-    cmd = cmd + " &> /dev/null";
+    cmd = cmd + " > /dev/null 2>&1 ";
   cmd= "diff -w --context=3 --show-function-line=mark " + file1 + " " + file2;
 #endif 
 #ifdef FAUDES_WINDOWS

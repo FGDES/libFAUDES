@@ -15,7 +15,7 @@
 --
 
 -- configure number of conveyor belts via command line, default to 5
-N=arg[1]
+N=tonumber(arg[1])
 if N == nil then N=5 end  
 print(string.format('pev_cbs_setup.lua: number of conveyor belts N=%d',N))
 

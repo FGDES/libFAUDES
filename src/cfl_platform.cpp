@@ -116,7 +116,7 @@ std::string faudes_extpath(const std::string& rPath){
 std::string faudes_getwd(void) {
   std::string res;
   char buf[(PATH_MAX)+1];
-  char* wd =getwd(buf);
+  char* wd =getcwd(buf,PATH_MAX);
   if(wd==nullptr) return res;
   res=wd;
   return res;
