@@ -5,7 +5,7 @@
  Convenience header file that includes all headers
  relevant to the pybindings plug-in. 
 
- (c) Thomas Moor 2023, 2024
+ (c) Thomas Moor 2023 - 2025
  ****************************************************
  */
 
@@ -145,12 +145,15 @@ an overview.
 <p>
 Notes:
 
-- You should configure libFAUDES to use no further plug-ins than Synthesis and Observer.
-  This is done in the main Makefile.
-  If you require Python bindings other plug-ins, please let us know.
+- You should configure libFAUDES to use no minimum number of plug-ins.
+  This is done in the main Makefile. The test cases for python cover
+  the synthesis plug-in. If you have used other pluhg-ins, please sumbit
+  your test cases.
 
 
-- The build system is best supported on Linux and OS X. For Windows we recommend to  MSYS2 or equivalents.
+- The build system is best supported on Linux and OS X. For Windows, we have
+  test pybindings within the MSYS2 enviroment and it works just fine. We did not
+  yest test with MSVC compilers and/or plain cmd.exe terminal.
 
 
 - The build process relies on the developer package of your Python distribution. It
@@ -161,9 +164,10 @@ Notes:
 
 
 - After building libFAUDES as a shared object, copy the files <tt>pybindings/tutorial/faudes.py</tt>
-  and <tt>pybindings/tutorial/_faudes.so</tt> to reside in the same
-  directory as your Python project. Test your settings by starting a Python command promt  within your
-  project directory and try, e.g. <tt>import faudes</tt> and <tt>faudes.Version()</tt>.
+  and <tt>pybindings/tutorial/_faudes.so</tt>  (<tt>.pyd</tt> on Windows) to reside in the same
+  directory as your Python project. Test your settings by starting a Python command promt  
+  within your project directory. Try , e.g., <tt>import faudes</tt> and print 
+  <tt>faudes.Version()</tt>.
 
 
 - After re-compiling libFAUDES and importing to Python, make shure to clear all caches;
@@ -177,7 +181,7 @@ The Python bindings plug-in is distributed with libFAUDES.
 All code is  provided under terms of the LGPL. 
 
 
-Copyright (c) 2023, 2024 Thomas Moor.
+Copyright (c) 2023 - 2025 Thomas Moor.
 
 
 

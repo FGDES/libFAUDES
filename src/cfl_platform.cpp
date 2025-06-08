@@ -139,7 +139,7 @@ int faudes_chdir(const std::string& nwd) {
   TCHAR buf[MAX_PATH];
   if(nwd.size()+1>MAX_PATH)
     return -1;
-  strncpy(buf,nwd.c_str(),MAX_PATH);
+  strncpy(buf,nwd.c_str(),MAX_PATH-1);
   if(!SetCurrentDirectory(buf))
     return -1;
   return 0;

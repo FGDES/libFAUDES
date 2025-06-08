@@ -12,9 +12,17 @@ PBP_TUTORIAL_DIR = ./plugins/pybindings/tutorial
 #
 # there is nothing to do except for copying the module
 
+LIBFAUDES_PYDSO= _faudes.so
+ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
+LIBFAUDES_PYDSO= _faudes.pyd
+endif
+ifeq ($(findstring msys,$(FAUDES_PLATFORM)),msys)
+LIBFAUDES_PYDSO= _faudes.pyd
+endif
+
 pybindings-copymodule: $(LIBFAUDES) $(PBP_OBJDIR)/faudes.py
 	$(CP) $(call FNCT_FIXDIRSEP,$(PBP_OBJDIR)/faudes.py) $(call FNCT_FIXDIRSEP,$(PBP_TUTORIAL_DIR)/faudes.py)
-	$(CP) $(call FNCT_FIXDIRSEP,$(LIBFAUDES)) $(call FNCT_FIXDIRSEP,$(PBP_TUTORIAL_DIR)/_faudes.so)
+	$(CP) $(call FNCT_FIXDIRSEP,$(LIBFAUDES)) $(call FNCT_FIXDIRSEP,$(PBP_TUTORIAL_DIR)/$(LIBFAUDES_PYDSO))
 
 
 ###################################

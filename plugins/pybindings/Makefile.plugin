@@ -39,6 +39,14 @@ PBP_PYTHON_LNK = $(shell python3 -c 'from distutils import sysconfig; print(sysc
 PBP_PYTHON_INC = -I $(shell python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
+# figure automatically via Python sysconfig (MSYS)
+ifeq ($(FAUDES_PLATFORM),gcc_msys)
+PBP_PYTHON_LNK = -L$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
+PBP_PYTHON_LNK += $(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
+PBP_PYTHON_INC += -I$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+endif
+
+
 
 # test: manual settings for OsX 11 Python 3.10 from macport 
 #PBP_PYTHON_LNK = /opt/local/Library/Frameworks/Python.framework/Versions/3.10/lib/libpython3.10.dylib
@@ -122,7 +130,7 @@ $(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i
 # compile section: compile to object files
 ########################################################
 
-# implicit rule .cpp -> .o for all std lbp-objects (aint any at the time)
+# implicit rule .cpp -> .o for all std pbp-objects (aint any at the time)
 $(PBP_OBJDIR)/%$(DOT_O): $(PBP_SRCDIR)/%.cpp 
 	$(CXX) -c -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
 
