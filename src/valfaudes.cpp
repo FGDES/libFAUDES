@@ -60,6 +60,7 @@ std::string mTestPath;
 std::string mFlxFile;
 std::string mBinFile;
 std::string mLuaFile;
+std::string mPyFile;
 std::string mTmpProtFile;
 std::string mTmpDir;;
 
@@ -83,6 +84,27 @@ int runfexec(const std::string& command, const std::string& arguments="") {
   if(cmd.size()>0)
     if((cmd.at(0)!='/') && (cmd.at(0)!='.'))
      cmd= "." + faudes_pathsep() + cmd;
+  if(!arguments.empty())
+    cmd += " " + arguments;
+  if(!mOptV)
+    cmd = cmd + " > /dev/null 2>&1 ";
+#endif 
+#ifdef FAUDES_WINDOWS
+  cmd=faudes_extpath(cmd);
+  if(!arguments.empty())
+    cmd += " " + arguments;
+  if(!mOptV)
+    cmd = cmd + " > NUL 2>&1";
+#endif 
+  if(!mOptQ)
+    std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
+  return std::system(cmd.c_str());
+}
+
+// helper: run system executable (o<>success)
+int runsexec(const std::string& command, const std::string& arguments="") {
+  std::string cmd=command;
+#ifdef FAUDES_POSIX
   if(!arguments.empty())
     cmd += " " + arguments;
   if(!mOptV)
@@ -215,6 +237,10 @@ int main(int argc, char *argv[]) {
       mLuaFile=mTestCase;
       mLuaFile.at(seppos)='.';
     }
+    if(ToLowerCase(mTestType)=="py") {
+      mPyFile=mTestCase;
+      mPyFile.at(seppos)='.';
+    }
     mTmpProtFile= "tmp_" + mTestCase + ".prot";
     mTestCase = mTestCase.substr(0,seppos);
   }
@@ -255,6 +281,8 @@ int main(int argc, char *argv[]) {
       std::cout << "  exeutable: \"" << mBinFile <<"\"" << std::endl;
     if(!mLuaFile.empty())
       std::cout << "  lua script: \"" << mLuaFile <<"\"" << std::endl;
+    if(!mPyFile.empty())
+      std::cout << "  python script: \"" << mPyFile <<"\"" << std::endl;
     if(!mFlxFile.empty())
       std::cout << "  flx file: \"" << mFlxFile <<"\"" << std::endl;
   }
@@ -263,7 +291,7 @@ int main(int argc, char *argv[]) {
   int testok=-1;
 
   // is there nothing to test?
-  if(mBinFile.empty() && mLuaFile.empty() && mFlxFile.empty()) {
+  if(mBinFile.empty() && mLuaFile.empty() && mFlxFile.empty() && mPyFile.empty()) {
     std::cout << "varfaudes: error: nothing we can validate" << std::endl;
     return 1;
   }
@@ -295,6 +323,12 @@ int main(int argc, char *argv[]) {
       testok=runfexec(mLuaFaudes,mLuaFile);
     }
   }
+
+    // python tutorials
+  if(!mPyFile.empty()) {
+    testok=runsexec("python",mPyFile);
+  }
+
 
   // flx extensions
   if(!mFlxFile.empty()) {
@@ -336,5 +370,5 @@ int main(int argc, char *argv[]) {
       std::cout << "valfaudes: diff returncode \"" << testok << "\": test failed" << std::endl;
   }
   
-  return testok;
+  return (testok==0 ? 0 : 1);
 }

@@ -1551,21 +1551,17 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot))
 # Formal targets
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
-# tools 
-VALFAUDES = ./bin/valfaudes  
+# tools #verb
+VALFAUDES = ./bin/valfaudes  -q
 
-# Conversion functions
+# Conversion function target->protocol
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
-FNCT_LUASCRIPT = $(patsubst %_lua.prot,%.lua,$(notdir $(call FNCT_PROTOCOL,$(1))))
-FNCT_PYSCRIPT = $(patsubst %_py.prot,%.py,$(notdir $(call FNCT_PROTOCOL,$(1))))
-FNCT_CPPBIN = $(patsubst %_cpp.prot,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
-FNCT_WORKDIR = $(patsubst %/data/,%,$(dir $(call FNCT_PROTOCOL,$(1))))
-FNCT_TMPPROT = $(patsubst %,tmp_%,$(notdir $(call FNCT_PROTOCOL,$(1))))
+FNCT_TESTNAME = $(patsubst %.prot,%,$(notdir $(call FNCT_PROTOCOL,$(1))))
 
 # default test runner
-FNCT_RUNCPPBIN = $(call    FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
+FNCT_RUNCPPBIN =    $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
-FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+FNCT_RUNPYSCRIPT =  $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 
 # overwrtie non functionl variants
 ifeq (pwrsh,$(FAUDES_MSHELL)) 
@@ -1579,28 +1575,27 @@ endif
 TESTTARGETSX = $(patsubst %,TESTFLX_%,$(notdir $(wildcard stdflx/*.flx))) 
 TESTTARGETS += $(TESTTARGETSX)
 
-# cpp test cases #verb
+# cpp test cases 
 %_cpp.prot: 
-	$(ECHO) running test case $(call FNCT_CPPBIN,$@)
-	$(call FNCT_RUNCPPBIN,$@)
+	$(ECHO) running test case $(call FNCT_TESTNAME,$@)
+	@$(call FNCT_RUNCPPBIN,$@)
 
-# lua test cases #verb
+# lua test cases 
 %_lua.prot: 
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
-	$(ECHO) running test case $(call FNCT_LUASCRIPT,$@)
-	$(call FNCT_RUNLUASCRIPT,$@)
+	$(ECHO) running test case $(call FNCT_TESTNAME,$@)
+	@$(call FNCT_RUNLUASCRIPT,$@)
 else
-	$(ECHO) skipping test case $(call FNCT_LUASCRIPT,$@) [no Lua bindings configured]
+	$(ECHO) skipping test case $(call FNCT_TESTNAME,$@) [no Lua bindings configured]
 endif
 
 # python test cases
 %_py.prot: 
 ifeq (pybindings,$(findstring pybindings,$(FAUDES_PLUGINS)))
-	$(ECHO) running test case $(call FNCT_PYSCRIPT,$@)
-	@- $(call FNCT_RUNPYSCRIPT,$@)
-	@ $(call FNCT_DIFFPROT,$@)
+	$(ECHO) running test case $(call FNCT_TESTNAME,$@)
+	@$(call FNCT_RUNPYSCRIPT,$@)
 else
-	$(ECHO) skipping test case $(call FNCT_PYSCRIPT,$@) [no Python bindings configured]
+	$(ECHO) skipping test case $(call FNCT_TESTNAME,$@) [no Python bindings configured]
 endif
 
 # have temp dir
@@ -1630,7 +1625,7 @@ show:
 	$(LSL) *faudes* 
 	$(ECHO) " ============================== " 
 
-test: binaries tutorial show $(TESTTARGETS) 
+test: binaries tutorial $(TESTTARGETS) 
 	$(ECHO) " ============================== " 
 	$(ECHO) "libFAUDES-make: test cases: done" 
 	$(ECHO) " ============================== " 

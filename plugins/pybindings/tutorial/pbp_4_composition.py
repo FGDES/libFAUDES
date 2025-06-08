@@ -88,16 +88,16 @@ FAUDES_TEST_DUMP("parallel incl. comp. map b", s1_3)
 FAUDES_TEST_DUMP("parallel incl. comp. map c", s2_3)
 
 ## ##########################################
-## Omega parallel
+## Buechi parallel
 ## ##########################################
 
 ## Announce
-print("################# Omega parallel composition (incl attributes)");
+print("#################  parallel composition wrt Buechi acceptance(incl attributes)");
 
 
 ## Compose overall plant
 omachines = faudes.System()
-faudes.OmegaParallel(machine1,machine2,omachines)
+faudes.BuechiParallel(machine1,machine2,omachines)
 
 ## Report
 omachines.Write()
