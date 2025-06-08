@@ -132,6 +132,28 @@ void vBaseVector::DoAssign(const vBaseVector& rSourceVector) {
   FD_DC("vBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << "): done");
 }
 
+// assignment (here, we know the type to match)
+void vBaseVector::AssignByReference(vBaseVector& rSourceVector) {
+  FD_DC("vBaseVector(" << this << ")::AssignByReference(rOtherVector " << &rSourceVector << ")");
+  // bail out on selfref
+  if(this==&rSourceVector) return;
+  // virtual clear
+  Clear();
+  // care about base
+  mObjectName=rSourceVector.mObjectName;
+  mElementTagDef=rSourceVector.mObjectName;
+  // allocate
+  mVector.resize(rSourceVector.Size());
+  // copy entries (incl name)
+  for(Position pos=0; pos<mVector.size(); pos++) {
+    mVector[pos].pElement = rSourceVector.mVector[pos].pElement;
+    mVector[pos].mMine=false;
+    mVector[pos].mFileName="";
+  }
+  // done
+  FD_DC("vBaseVector(" << this << ")::AssignByReference(rOtherVector " << &rSourceVector << "): done");
+}
+
 // clear
 void vBaseVector::Clear(void) {
   // delete entries

@@ -16,11 +16,13 @@ OMG_SRCDIR = $(OMG_BASE)/src
 # list source files
 
 OMG_CPPFILES = \
+  omg_hoa.cpp \
   omg_buechifnct.cpp  \
   omg_buechictrl.cpp \
   omg_rabinacc.cpp \
   omg_rabinaut.cpp \
-  omg_rabinfnct.cpp
+  omg_rabinfnct.cpp \
+  omg_rabinctrl.cpp
 
 OMG_INCLUDE = omg_include.h
 OMG_RTIDEFS = omg_definitions.rti
@@ -41,12 +43,33 @@ OMG_RTIFREF := $(OMG_RTIFREF:%=$(OMG_SRCDIR)/registry/%)
 
 #
 # append my overall include file to libfaudes.h
+
 $(INCLUDEDIR)/$(OMG_INCLUDE): $(OMG_SRCDIR)/$(OMG_INCLUDE)  
 	cp -pR $< $@
 	echo "#include \"$(OMG_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
 	echo "/* omegaaut plugin configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGIN_OMEGAAUT" >> $(INCLUDEDIR)/configuration.h
 	echo " " >> $(INCLUDEDIR)/configuration.h
+
+#
+# extra include to access cpphoafparser headers
+INCLUDES+=-I$(call FNCT_FIXDIRSEP,$(OMG_BASE)/lib)
+
+#
+# have rule to unzip cpphoafparser
+
+OMG_CPPHOAF_SRC=cpphoafparser-0.99.2
+$(OMG_BASE)/lib/cpphoafparser: $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC).tgz
+	- rm -rf $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)
+	- rm -rf $(OMG_BASE)/lib/cpphoafparser
+	cd $(OMG_BASE)/lib ; tar -xzf $(OMG_CPPHOAF_SRC).tgz
+	mv $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)/include/cpphoafparser $(OMG_BASE)/lib/
+	rm -rf $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)
+
+#
+# advertise plugin: care about extra libraries
+DISTCLEANFILES += $(OMG_BASE)/lib/cpphoafparser
+PREPARETARGETS += $(OMG_BASE)/lib/cpphoafparser
 
 #
 # advertise plugin: c sources and friends
@@ -58,7 +81,6 @@ VPATH   += $(OMG_SRCDIR)
 
 #
 # advertise plugin: runtime interface
-
 RTIPLUGINS += $(OMG_NAME)
 RTIDEFS += $(OMG_RTIDEFS)
 RTIFREF += $(OMG_RTIFREF)

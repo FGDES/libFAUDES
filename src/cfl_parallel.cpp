@@ -74,12 +74,10 @@ void Parallel(
 }
 
 // Parallel for multiple Generators, nonblocking part only
-void ParallelNB(
+void ParallelLive(
   const GeneratorVector& rGenVec,
   Generator& rResGen)
 {
-  // helpers:
-  std::map< std::pair<Idx,Idx>, Idx> cmap;
   // prepare result
   rResGen.Clear();
   bool rnames=rResGen.StateNamesEnabled();
@@ -93,9 +91,9 @@ void ParallelNB(
   // run parallel 
   for(GeneratorVector::Position i=1; i<rGenVec.Size(); i++) {
     RemoveNonCoaccessibleOut(rResGen);
-    FD_DF("ParallelNB() cnt " << i << " certconf trans #" << rResGen.TransRel().Size());
-    Parallel(rResGen,rGenVec.At(i),cmap,rResGen);
-    FD_DF("ParallelNB() cnt " << i << " parallel trans #" << rResGen.TransRel().Size());
+    FD_DF("ParallelLive() cnt " << i << " certconf trans #" << rResGen.TransRel().Size());
+    ParallelLive(rResGen,rGenVec.At(i),rResGen);
+    FD_DF("ParallelLive() cnt " << i << " parallel trans #" << rResGen.TransRel().Size());
   }
 }
 
@@ -261,11 +259,12 @@ void Parallel(
 }
 
 
-// Parallel(rGen1, rGen2, rCompositionMap, res)
+// Parallel(rGen1, rGen2, rCompositionMap, res, live_only)
 void Parallel(
   const Generator& rGen1, const Generator& rGen2, 
   std::map< std::pair<Idx,Idx>, Idx>& rCompositionMap, 
-  Generator& rResGen)
+  Generator& rResGen,
+  bool live_only)
 {
   FD_DF("Parallel(" << &rGen1 << "," << &rGen2 << ")");
 
@@ -317,6 +316,13 @@ void Parallel(
   FD_DF("Parallel: inserted indices in rResGen.alphabet( "
       << pResGen->AlphabetToString() << ")");
 
+  // know each aruments coaccessible set
+  StateSet gen1live, gen2live;
+  if(live_only) {
+    gen1live=rGen1.CoaccessibleSet();
+    gen2live=rGen2.CoaccessibleSet();
+  }
+  
   // shared events
   EventSet sharedalphabet = rGen1.Alphabet() * rGen2.Alphabet();
   FD_DF("Parallel: shared events: " << sharedalphabet.ToString());
@@ -335,12 +341,19 @@ void Parallel(
   FD_DF("Parallel: adding all combinations of initial states to todo:");
   for (lit1 = rGen1.InitStatesBegin(); lit1 != rGen1.InitStatesEnd(); ++lit1) {
     for (lit2 = rGen2.InitStatesBegin(); lit2 != rGen2.InitStatesEnd(); ++lit2) {
-      currentstates = std::make_pair(*lit1, *lit2);
-      todo.push(currentstates);
+      newstates = std::make_pair(*lit1, *lit2);
       tmpstate = pResGen->InsInitState();
-      rCompositionMap[currentstates] = tmpstate;
+      rCompositionMap[newstates] = tmpstate;
       FD_DF("Parallel:   (" << *lit1 << "|" << *lit2 << ") -> " 
-          << rCompositionMap[currentstates]);
+          << rCompositionMap[newstates]);
+      if(live_only) {
+	if(!gen1live.Exists(newstates.first)) continue;
+	if(!gen2live.Exists(newstates.second)) continue;
+      }
+      todo.push(newstates);
+      FD_DF("Parallel:   todo push: (" << newstates.first << "|" 
+         << newstates.second << ") -> " 
+         << rCompositionMap[newstates]);
     }
   }
 
@@ -361,22 +374,27 @@ void Parallel(
     // (includes execution of shared events)
     tit1 = rGen1.TransRelBegin(currentstates.first);
     tit1_end = rGen1.TransRelEnd(currentstates.first);
-    for (; tit1 != tit1_end; ++tit1) {
+    for(; tit1 != tit1_end; ++tit1) {
       // if event not shared
-      if (! sharedalphabet.Exists(tit1->Ev)) {
+      if(! sharedalphabet.Exists(tit1->Ev)) {
         FD_DF("Parallel:   exists only in rGen1");
         newstates = std::make_pair(tit1->X2, currentstates.second);
-        // add to todo list if composition state is new
+        // add to result if composition state is new
         rcit = rCompositionMap.find(newstates);
-        if (rcit == rCompositionMap.end()) {
-          todo.push(newstates);
+        if(rcit == rCompositionMap.end()) {
           tmpstate = pResGen->InsState();
           rCompositionMap[newstates] = tmpstate;
-          FD_DF("Parallel:   todo push: (" << newstates.first << "|" 
-              << newstates.second << ") -> " 
-              << rCompositionMap[newstates]);
-        }
-        else {
+	  bool dopush=true;
+	  if(live_only) {
+	    dopush= gen1live.Exists(newstates.first) && gen2live.Exists(newstates.second);
+	  }
+	  if(dopush) {
+            todo.push(newstates);
+            FD_DF("Parallel:   todo push: (" << newstates.first << "|" 
+                << newstates.second << ") -> " 
+                << rCompositionMap[newstates]);
+	  }
+        } else {
           tmpstate = rcit->second;
         }
         pResGen->SetTransition(rCompositionMap[currentstates], tit1->Ev, tmpstate);
@@ -392,17 +410,22 @@ void Parallel(
         tit2_end = rGen2.TransRelEnd(currentstates.second, tit1->Ev);
         for (; tit2 != tit2_end; ++tit2) {
           newstates = std::make_pair(tit1->X2, tit2->X2);
-          // add to todo list if composition state is new
+          // add to result if composition state is new
           rcit = rCompositionMap.find(newstates);
           if (rcit == rCompositionMap.end()) {
-            todo.push(newstates);
             tmpstate = pResGen->InsState();
             rCompositionMap[newstates] = tmpstate;
-            FD_DF("Parallel:   todo push: (" << newstates.first << "|" 
-                << newstates.second << ") -> " 
-                << rCompositionMap[newstates]);
-          }
-          else {
+	    bool dopush=true;
+	    if(live_only) {
+	      dopush= gen1live.Exists(newstates.first) && gen2live.Exists(newstates.second);
+	    }
+	    if(dopush) {
+              todo.push(newstates);
+              FD_DF("Parallel:   todo push: (" << newstates.first << "|" 
+                  << newstates.second << ") -> " 
+                  << rCompositionMap[newstates]);
+	    }
+          } else {
             tmpstate = rcit->second;
           }
           pResGen->SetTransition(rCompositionMap[currentstates], 
@@ -423,15 +446,20 @@ void Parallel(
         newstates = std::make_pair(currentstates.first, tit2->X2);
         // add to todo list if composition state is new
         rcit = rCompositionMap.find(newstates);
-        if (rcit == rCompositionMap.end()) {
-          todo.push(newstates);
+        if(rcit == rCompositionMap.end()) {
           tmpstate = pResGen->InsState();
           rCompositionMap[newstates] = tmpstate;
-          FD_DF("Parallel:   todo push: (" << newstates.first << "|" 
-              << newstates.second << ") -> " 
-              << rCompositionMap[newstates]);
-        }
-        else {
+	  bool dopush=true;
+	  if(live_only) {
+	    dopush= gen1live.Exists(newstates.first) && gen2live.Exists(newstates.second);
+	  }
+	  if(dopush) {
+            todo.push(newstates);
+            FD_DF("Parallel:   todo push: (" << newstates.first << "|" 
+                << newstates.second << ") -> " 
+                << rCompositionMap[newstates]);
+	  }
+        } else {
           tmpstate = rcit->second;
         }
         pResGen->SetTransition(rCompositionMap[currentstates], 
@@ -465,6 +493,25 @@ void Parallel(
     rResGen.StateNamesEnabled(false);
 }
 
+// API wrapper ParallelLive
+void ParallelLive(
+  const Generator& rGen1, const Generator& rGen2, 
+  std::map< std::pair<Idx,Idx>, Idx>& rCompositionMap, 
+  Generator& rResGen)
+{
+  FD_DF("ParallelLive(" << &rGen1 << "," << &rGen2 << ")");
+  Parallel(rGen1,rGen2,rCompositionMap,rResGen,true);
+}  
+
+// API wrapper ParallelLive
+void ParallelLive(
+  const Generator& rGen1, const Generator& rGen2,
+  Generator& rResGen)
+{
+  FD_DF("ParallelLive(" << &rGen1 << "," << &rGen2 << ")");
+  std::map< std::pair<Idx,Idx>, Idx> cmap;
+  Parallel(rGen1,rGen2,cmap,rResGen,true);
+}  
 
 // Product(rGen1, rGen2, res)
 void Product(const Generator& rGen1, const Generator& rGen2, Generator& rResGen) {

@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2006  Bernd Opitz
-Copywrite (C) 2007, 2024 Thomas Moor
+Copywrite (C) 2007-2025 Thomas Moor
 Exclusive copyright is granted to Klaus Schmidt
 
 This library is free software; you can redistribute it and/or
@@ -48,7 +48,7 @@ class IndexSet;
  * A SymbolTable associates sybolic names with indices. 
  *
  * Symbolic names are restricted to printable ascii, no quoatation ("),
- * no hash (#) and and no blanks. Indices are of type faudes Idx aka (long unsigned) 
+ * no hash (#) and no blanks. Indices are of type faudes Idx aka (long unsigned) 
  * integer and must be positive. Both, indices and symbolic names must
  * be unique within each SymbolTable. Consistency checks on input data
  * are preformed, regardless of the FAUDES_CHECKED compiletime option.
@@ -60,6 +60,9 @@ class IndexSet;
  */
 class FAUDES_API SymbolTable : public Type {
 public:
+
+  // faudes type std
+  FAUDES_TYPE_DECLARATION(Void,SymbolTable,Type)
 
   using Type::operator=;
 
@@ -257,6 +260,12 @@ public:
   /** assign my members */
   void DoAssign(const SymbolTable& rSrc);
 
+  /** Symboltable token io */
+  void DoRead(TokenReader& rTr,  const std::string& rLabel = "", const Type* pContext=0);
+
+  /** Symboltable token io */
+  void DoWrite(TokenWriter& rTw, const std::string& rLabel="",const Type* pContext=0) const;
+
  private:
 
   /** Name of the SymbolTable */
@@ -274,11 +283,6 @@ public:
   /** Largest used index + 1 */
   Idx mNextIndex;
 
-  /** Symboltable token io */
-  void DoRead(TokenReader& rTr,  const std::string& rLabel = "", const Type* pContext=0);
-
-  /** Symboltable token io */
-  void DoWrite(TokenWriter& rTw, const std::string& rLabel="",const Type* pContext=0) const;
 };
 
 

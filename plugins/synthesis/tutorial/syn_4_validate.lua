@@ -49,7 +49,7 @@ FAUDES_TEST_DUMP("supnorm 3",supN3)
 -- ---------------------------------------------
 -- ---------------------------------------------
 --
--- SupRelativelyPrefixClosed test cases
+-- SupRelativelyClosed test cases
 --
 -- ---------------------------------------------
 -- ---------------------------------------------
@@ -59,7 +59,7 @@ FAUDES_TEST_DUMP("supnorm 3",supN3)
 L=faudes.Generator("data/syn_suprpc_l.gen")
 E=faudes.Generator("data/syn_suprpc_e.gen")
 supK = faudes.Generator()
-faudes.SupRelativelyPrefixClosed(L,E,supK)
+faudes.SupRelativelyClosed(L,E,supK)
 L:Write("tmp_syn_suprpc_l.gen")
 E:Write("tmp_syn_suprpc_e.gen")
 supK:Write("tmp_syn_suprpc_k.gen")

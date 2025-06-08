@@ -341,7 +341,7 @@ extern FAUDES_API void SupConNorm(
 
 
 /**
- * SupPrefixClosed: supremal closed sublanguage of K by cancelling
+ * SupClosed: supremal closed sublanguage of K by cancelling
  * all tranistions leading to a non-marked state.
  * Returns false on empty result.
  * todo: implement test routines, verify correctness
@@ -360,7 +360,7 @@ extern FAUDES_API void SupConNorm(
  * 
  *
  */
-extern FAUDES_API bool SupPrefixClosed(
+extern FAUDES_API bool SupClosed(
   const Generator& rK,
 	Generator& rResult);
 
@@ -390,6 +390,8 @@ extern FAUDES_API void SupConNorm(
   const Generator& rSpecGen, 
   Generator& rResGen);
 
+/** legacy wrapper */
+extern FAUDES_API void SupPrefixClosed(const Generator& rK, Generator& rRessult);
 
 } // end namespace
 #endif

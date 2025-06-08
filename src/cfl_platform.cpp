@@ -48,18 +48,9 @@ const std::string& faudes_pathsep(void) {
   return faudes_pathseps(); 
 }
 #endif
-#ifdef FAUDES_GENERIC
-const std::string& faudes_pathseps(void) {
-  static std::string  faudes_pathsep_str = "/"; 
-  return faudes_pathsep_str;
-}
-const std::string& faudes_pathsep(void) {
-  return faudes_pathseps(); 
-}
-#endif
 #ifdef FAUDES_WINDOWS
 const std::string& faudes_pathseps(void) {
-  static std::string  faudes_pathseps_str = "\\:/";
+  static std::string  faudes_pathseps_str = "/\\:";
   return faudes_pathseps_str;
 }
 const std::string& faudes_pathsep(void) {
@@ -69,8 +60,102 @@ const std::string& faudes_pathsep(void) {
   return faudes_pathsep_str;
 }
 #endif
+#ifdef FAUDES_GENERIC
+const std::string& faudes_pathseps(void) {
+  static std::string  faudes_pathsep_str = "/"; 
+  return faudes_pathsep_str;
+}
+const std::string& faudes_pathsep(void) {
+  return faudes_pathseps(); 
+}
+#endif
 
 
+// Noramliese to internal path representation (as of 2.32 posix)
+std::string faudes_normpath(const std::string& rPath){
+  std::string res;
+  // if the path begins with "drive-letter+':'" it become '/'+drive-letter+'/'
+  res=rPath;
+  if(rPath.size()>=2) {
+    if(rPath.at(1)==':')
+      res=faudes_pathsep() + rPath.at(0) + faudes_pathsep() + rPath.substr(2);
+  }
+  // all seps become my sep (as of 2.32 '/')
+  size_t pos;
+  for(pos=0; pos<res.size(); ++pos) {
+    char c=res.at(pos);
+    if(faudes_pathseps().find(c)!=std::string::npos) 
+      res.at(pos)=faudes_pathseps().at(0);
+  }
+  // could do more here: "//"? "NUL:"?
+  return res;
+}    
+  
+// Externalise internal path representation to shell compatile format
+// note: this addresse windows cmd.exe only
+std::string faudes_extpath(const std::string& rPath){
+  std::string res=rPath;
+#ifdef FAUDES_WINDOWS  
+  // all seps become cmd.exe-sep (aka \)
+  size_t pos;
+  for(pos=0; pos<res.size(); ++pos) {
+    char c=res.at(pos);
+    if(c==faudes_pathseps().at(0))  
+      res.at(pos)='\\';
+  }
+  // if the path begins with "\drive-letter+'\' it becomes 'drive-letter+':'
+  // TODO
+  //std::cerr << "faudes_extpath(): ---> " << res << std::endl;
+#endif
+  return res;
+}    
+
+
+// uniform get/set dir (use posix style interface)
+#ifdef FAUDES_POSIX
+std::string faudes_getwd(void) {
+  std::string res;
+  char buf[(PATH_MAX)+1];
+  char* wd =getcwd(buf,PATH_MAX);
+  if(wd==nullptr) return res;
+  res=wd;
+  return res;
+}
+int faudes_chdir(const std::string& nwd) {
+  return (chdir(nwd.c_str())==0 ? 0 : -1);
+}
+#endif
+#ifdef FAUDES_WINDOWS
+#include <tchar.h>
+std::string faudes_getwd(void) {
+  std::string res;
+  TCHAR buf[MAX_PATH];
+  DWORD ret = GetCurrentDirectory(MAX_PATH, buf);
+  if((ret == 0) || (ret>MAX_PATH)) return res;
+  res=buf;
+  return res;
+}
+int faudes_chdir(const std::string& nwd) {
+  TCHAR buf[MAX_PATH];
+  if(nwd.size()+1>MAX_PATH)
+    return -1;
+  strncpy(buf,nwd.c_str(),MAX_PATH-1);
+  if(!SetCurrentDirectory(buf))
+    return -1;
+  return 0;
+}
+#endif
+#ifdef FAUDES_GENERIC
+std::string faudes_getwd(void) {
+  faudes_invalid("faudes_getwd()");
+  std::string res;
+  return res;
+}
+int faudes_chdir(const std::string& nwd) {
+  faudes_invalid("faudes_chdir()");
+  return -1;
+}
+#endif
 
 // Uniform signalhandler on termination
 void faudes_termsignal(void (*sighandler)(int)) {

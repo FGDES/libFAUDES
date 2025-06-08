@@ -1,4 +1,4 @@
-# libFAUDES - A Discrete-Event Systems Library
+# libFAUDES - A Discrete-Event Systems Library 
 
 
 

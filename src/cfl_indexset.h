@@ -274,10 +274,11 @@ typedef IndexSet StateSet;
 
 
 /** 
- * Convenience typedef for vectors og generators
+ * Convenience typedef for vectors of indexsets
  * \ingroup GeneratorClasses
  */
 typedef  TBaseVector<IndexSet> IndexSetVector;  
+typedef  TBaseVector<StateSet> StateSetVector;  
 
 
 /**

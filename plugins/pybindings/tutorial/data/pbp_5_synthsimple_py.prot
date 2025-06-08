@@ -1,6 +1,6 @@
 %%% test mark: gK [at pbp_5_synthsimple.py]
 % 
-%  Statistics for SupConNB((Generator||Generator),(Generator))
+%  Statistics for SupCon((Generator||Generator),(Generator))
 % 
 %  States:        6
 %  Init/Marked:   1/1

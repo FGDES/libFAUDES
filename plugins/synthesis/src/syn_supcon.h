@@ -513,12 +513,12 @@ extern FAUDES_API void ControlProblemConsistencyCheck(
 
 
 // legacy interface (pre v2.33d) 
-extern FAUDES_API void SupCon(
+extern FAUDES_API void SupConNB(
   const Generator& rPlantGen, 
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
   Generator& rResGen);
-extern FAUDES_API void SupCon(
+extern FAUDES_API void SupConNB(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen);

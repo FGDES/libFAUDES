@@ -94,16 +94,16 @@ bool IsRelativelyMarked(const Generator& rGenPlant, const Generator& rGenCand) {
 
 
 
-//IsRelativelyPrefixClosed(rGenPlant,rGenCand)
-bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenCand) {
+//IsRelativelyClosed(rGenPlant,rGenCand)
+bool IsRelativelyClosed(const Generator& rGenPlant, const Generator& rGenCand) {
 
-  FD_DF("IsRelativelyPrefixClosed(\"" <<  rGenPlant.Name() << "\", \"" << rGenCand.Name() << "\")");
+  FD_DF("IsRelativelyClosed(\"" <<  rGenPlant.Name() << "\", \"" << rGenCand.Name() << "\")");
 
   // alphabets must match
   if ( rGenPlant.Alphabet() != rGenCand.Alphabet()) {
     std::stringstream errstr;
     errstr << "Alphabets of generators do not match.";
-    throw Exception("IsRelativelyPrefixClosed", errstr.str(), 100);
+    throw Exception("IsRelativelyClosed", errstr.str(), 100);
   }
 
 #ifdef FAUDES_CHECKED
@@ -111,7 +111,7 @@ bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenC
   if ( !IsNonblocking(rGenCand) ||  !IsNonblocking(rGenPlant)) {
     std::stringstream errstr;
     errstr << "Arguments are expected to be nonblocking.";
-    throw Exception("IsRelativelyPrefixClosed", errstr.str(), 201);
+    throw Exception("IsRelativelyClosed", errstr.str(), 201);
   }
 #endif
 
@@ -120,12 +120,12 @@ bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenC
   if ( !IsDeterministic(rGenCand) ||  !IsDeterministic(rGenPlant)) {
     std::stringstream errstr;
     errstr << "Arguments are expected to be deterministic.";
-    throw Exception("IsRelativelyPrefixClosed", errstr.str(), 202);
+    throw Exception("IsRelativelyClosed", errstr.str(), 202);
   }
 #endif
 
   // perform composition (variation from cfl_parallel.cpp)
-  FD_DF("IsRelativelyPrefixClosed(..): perform product");
+  FD_DF("IsRelativelyClosed(..): perform product");
 
   // todo stack
   std::stack< std::pair<Idx,Idx> > todo;
@@ -141,7 +141,7 @@ bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenC
   bool inclusion12=true;
 
   // push all combinations of initial states on todo stack
-  FD_DF("IsRelativelyPrefixClosed(..): perform product: adding all combinations of initial states to todo");
+  FD_DF("IsRelativelyClosed(..): perform product: adding all combinations of initial states to todo");
   for (lit1 = rGenCand.InitStatesBegin(); 
       lit1 != rGenCand.InitStatesEnd(); ++lit1) {
     for (lit2 = rGenPlant.InitStatesBegin(); 
@@ -149,13 +149,13 @@ bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenC
       currentstates = std::make_pair(*lit1, *lit2);
       todo.push(currentstates);
       productstates.insert(currentstates);
-      FD_DF("IsRelativelyPrefixClosed(..): perform product: (" << 
+      FD_DF("IsRelativelyClosed(..): perform product: (" << 
 	    *lit1 << "|" << *lit2 << ")");
     }
   }
 
   // start algorithm
-  FD_DF("IsRelativelyPrefixClosed(..): perform product: Product: processing reachable states:");
+  FD_DF("IsRelativelyClosed(..): perform product: Product: processing reachable states:");
   while (! todo.empty() && inclusion12) {
     // allow for user interrupt
     LoopCallback();
@@ -237,8 +237,8 @@ bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenC
 }
 
 
-// SupRelativelyPrefixClosed(rPlantGen, rCAlph, rSpecGen, rResGen)
-void SupRelativelyPrefixClosed(
+// SupRelativelyClosed(rPlantGen, rCAlph, rSpecGen, rResGen)
+void SupRelativelyClosed(
   const Generator& rPlantGen, 
   const Generator& rSpecGen, 
   Generator& rResGen) 
@@ -285,18 +285,18 @@ void SupRelativelyPrefixClosed(
   std::map< std::pair<Idx,Idx>, Idx> rcmap;
 
   // ALGORITHM:
-  SupRelativelyPrefixClosedUnchecked(rPlantGen, rSpecGen, rcmap, rResGen);
+  SupRelativelyClosedUnchecked(rPlantGen, rSpecGen, rcmap, rResGen);
 }
 
 
-// SupRelativelyPrefixClosedUnchecked(rPlantGen, rSpecGen, rCompositionMap, rResGen)
-void SupRelativelyPrefixClosedUnchecked(
+// SupRelativelyClosedUnchecked(rPlantGen, rSpecGen, rCompositionMap, rResGen)
+void SupRelativelyClosedUnchecked(
   const Generator& rPlantGen,
   const Generator& rSpecGen,
   std::map< std::pair<Idx,Idx>, Idx>& rCompositionMap, 
   Generator& rResGen) 
 {
-  FD_DF("SupRelativelyPrefixClosed(" << &rPlantGen << "," << &rSpecGen << ")");
+  FD_DF("SupRelativelyClosed(" << &rPlantGen << "," << &rSpecGen << ")");
 
   // PREPARE RESULT:	
   Generator* pResGen = &rResGen;
@@ -331,5 +331,17 @@ void SupRelativelyPrefixClosedUnchecked(
 }
 
 
+// lagcy wrappers
+bool IsRelativelyPrefixClosed(const Generator& rGenPlant, const Generator& rGenCand){
+  FD_WARN("SupRelativelyPrefixClosed(): API depreciated; use SupRelativelyClosed()");
+  return IsRelativelyClosed(rGenPlant,rGenCand);
+}
+void SupRelativelyPrefixClosed(const Generator& rPlantGen, const Generator& rSpecGen, 
+    Generator& rResGen) {
+  FD_WARN("SupRelativelyPrefixClosed(): API depreciated; use SupRelativelyClosed()");
+  SupRelativelyClosed(rPlantGen,rSpecGen,rResGen);
+}
+
+  
 
 } // name space 

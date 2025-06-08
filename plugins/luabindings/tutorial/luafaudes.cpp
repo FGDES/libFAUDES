@@ -7,7 +7,7 @@
    The Advanced-Readline patch has been applied, also with lua license,
    copyright see below. SWIG based Lua bindings and minor adjustments 
    (wellcome string) have been added (and signed "luafaudes").
-   Thomas Moor, 2008.
+   Thomas Moor, 2008, 2025.
 
 
 @ingroup Tutorials
@@ -143,6 +143,7 @@ static void print_version (void) {
   sstr 
     << "Welcome to luafaudes console." << std::endl
     << "Versions: " << VersionString() << " / " << LUA_VERSION << std::endl
+    << "Build: " << BuildString() << std::endl
     << "Plug-Ins: " << PluginsString() << std::endl
     << "Credits: This libFAUDES interpreter is based on the projects Lua and SWIG." << std::endl
     << "Type 'faudes.Help()' for a list of faudes related types and functions." << std::endl

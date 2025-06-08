@@ -1387,7 +1387,7 @@ class FAUDES_API vGenerator : public ExtType  {
    * @param rNewalphabet
    *   EventSet with alphabet
    */
-  void RestrictAlphabet(const EventSet& rNewalphabet);
+  virtual void RestrictAlphabet(const EventSet& rNewalphabet);
 
   /** 
    * Add new anonymous state to generator 
@@ -1495,7 +1495,7 @@ class FAUDES_API vGenerator : public ExtType  {
    * @param rStates
    *   StateSet containing valid states
    */
-  void RestrictStates(const StateSet& rStates);
+  virtual void RestrictStates(const StateSet& rStates);
 
 
   /** 
@@ -1585,7 +1585,7 @@ class FAUDES_API vGenerator : public ExtType  {
   Idx InsMarkedState(const std::string& rName);
 
   /** 
-   * Add (perhaps new) anonymous initial states to generator  
+   * Add (perhaps new/anonymous) marked states to generator  
    * 
    * @param rStates
    *   Set of states to add

@@ -102,7 +102,7 @@ else
   print("Controllability of supervisor: failed (test case error)")
 end
 
-relclosed = faudes.IsRelativelyPrefixClosed(plant,super);
+relclosed = faudes.IsRelativelyClosed(plant,super);
 if relclosed then
   print("Supervisor is relatively closed: ok (test case error!)")
 else

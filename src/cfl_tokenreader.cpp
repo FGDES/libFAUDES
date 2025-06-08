@@ -85,6 +85,20 @@ TokenReader::TokenReader(const std::string& rFilename)
 }
 
 
+// TokenReader(stream)
+TokenReader::TokenReader(std::istream& rStream)
+  : mMode(Stream), mpStream(NULL), mFileName("anonymous") 
+{
+  FD_DV("TokenReader::Tokenreader(Stream)");
+  mpStream=&rStream;
+  // do some testing?
+  if(mpStream->bad()){
+    std::stringstream errstr;
+    errstr << "Exception opening/reading anonymous stream";
+    throw Exception("TokenReader::TokenReader", errstr.str(), 1);
+  }
+}
+
 //  destruct
 TokenReader::~TokenReader(void) {
   if(mMode==String) delete mpSStream;

@@ -422,14 +422,14 @@ int main() {
   prefixclosure_g.Write("tmp_prefixclosure_g.gen");
 
   // test prefix closure
-  bool isprefixclosed_g = IsPrefixClosed(prefixclosure_g);
+  bool isprefixclosed_g = IsClosed(prefixclosure_g);
   
   // compute prefix closure
   PrefixClosure(prefixclosure_g);
   prefixclosure_g.Write("tmp_prefixclosure_gRes.gen");
 
   // test prefix closure
-  bool isprefixclosed_gRes = IsPrefixClosed(prefixclosure_g);
+  bool isprefixclosed_gRes = IsClosed(prefixclosure_g);
 
   // inspect on console 
   std::cout << "################################\n";

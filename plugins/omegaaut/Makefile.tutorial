@@ -11,12 +11,19 @@ OMG_TUTORIAL_DIR = ./plugins/omegaaut/tutorial
 #
 # source files
 OMG_TUTORIAL_CPPFILES = \
+        waut2dot.cpp \
+        gen2hoa.cpp \
+        hoa2gen.cpp \
 	omg_1_buechi.cpp \
 	omg_2_buechictrl.cpp \
-	omg_3_rabin.cpp 
+	omg_3_rabin.cpp \
+	omg_4_rabinctrl.cpp 
  
 # executables
 OMG_TUTORIAL_EXECUTABLES = $(OMG_TUTORIAL_CPPFILES:%.cpp=$(OMG_TUTORIAL_DIR)/%$(DOT_EXE))
+
+OMG_EXECUTABLES= \
+	gen2hoa hoa2gen waut2dot
 
 
 ####################################
@@ -37,6 +44,7 @@ VPATH += $(OMG_TUTORIAL_DIR)
 TUTORIAL_EXECUTABLES += $(OMG_TUTORIAL_EXECUTABLES)
 CLEANFILES += $(OMG_TUTORIAL_EXECUTABLES)
 SOURCES += $(OMG_TUTORIAL_CPPFILES:%=$(OMG_TUTORIAL_DIR)/%)
+EXECUTABLES += $(OMG_EXECUTABLES:%=$(BINDIR)/%$(DOT_EXE))
 
 
 

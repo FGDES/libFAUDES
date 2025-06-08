@@ -16,9 +16,12 @@ Relative to 2.32*
 
 ***
 
-Refactored to drop the suffix "NB" for sythesis methods. E.g.
+Refactored to drop the suffix "NB" for synthesis methods. E.g.
 "SupConNB" synthesises the supremal controllable sublanguage and
-is now called "SupCon". This was announced to happen 2.22*.
+is now called "SupCon". This was announced to happen 2.22*. Likewise,
+we dropped the prefis "Prefix" in "PrefixClosed". E.g.
+"IsRelativelyPrefixClosed" becomes "IsRelativelyClosed".
+
 
 ***
 

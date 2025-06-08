@@ -107,6 +107,16 @@ Idx ToIdx(const std::string& rString) {
   return (Idx) ul;
 }
 
+// ToLOwerCase(rString(  
+std::string ToLowerCase(const std::string& rString) {
+  std::string res=rString;
+  std::transform(res.begin(), res.end(), res.begin(),
+    [](unsigned char c){ return std::tolower(c); });
+  return res;
+}
+
+
+
 // String Substitution
 std::string StringSubstitute(const std::string& rString,const std::string& rFrom,const std::string& rTo) {
   // prep result
@@ -143,16 +153,19 @@ std::string ContributorsString() {
     "Ramon Barakat, Ruediger Berndt, Christian Breindl, Christine Baier, Tobias Barthel, Christoph Doerr, Marc Duevel, Norman Franchi, Stefan Goetz, Rainer Hartmann, Jochen Hellenschmidt, Stefan Jacobi, Matthias Leinfelder, Tomas Masopust, Michael Meyer, Andreas Mohr, Thomas Moor, Mihai Musunoi, Bernd Opitz, Katja Pelaic, Irmgard Petzoldt, Sebastian Perk, Thomas Rempel, Daniel Ritter, Berno Schlein, Ece Schmidt, Klaus Schmidt, Anne-Kathrin Schmuck, Sven Schneider, Matthias Singer, Yiheng Tang, Ulas Turan, Christian Wamser, Zhengying Wang, Thomas Wittmann, Shi Xiaoxun, Yang Yi, Jorgos Zaddach, Hao Zhou, Christian Zwick, et al";
 }
 
+#define XLITSTR(x) LITSTR(x)
+#define LITSTR(x) #x
+  
 // ContributorsString()
 std::string BuildString() {
   std::string res;
 #ifdef FAUDES_BUILDENV
-  res = res + std::string(FAUDES_BUILDENV);
+  res = res + std::string(XLITSTR(FAUDES_BUILDENV));
 #else  
   res = res + std::string("generic");
 #endif
 #ifdef FAUDES_BUILDTIME  
-  res = res + std::string(" ") + std::string(FAUDES_BUILDTIME);
+  res = res + std::string(" ") + std::string(XLITSTR(FAUDES_BUILDTIME));
 #else
   res = res + std::string(" ") + std::string(FAUDES_CONFIG_TIMESTAMP);
 #endif  
@@ -266,8 +279,6 @@ std::string CreateTempFile(void) {
   return(res);
 }
 
-
-
 // ExtractPath
 std::string ExtractDirectory(const std::string& rFullPath) {
   std::string res="";
@@ -353,7 +364,7 @@ bool DirectoryExists(const std::string& rDirectory) {
   return thedir!= 0;
 #endif
 #ifdef FAUDES_WINDOWS
-  DWORD fattr = GetFileAttributesA(rDirectory.c_str());
+  DWORD fattr = GetFileAttributesA(faudes_extpath(rDirectory).c_str());
   return 
     (fattr!=INVALID_FILE_ATTRIBUTES) && (fattr & FILE_ATTRIBUTE_DIRECTORY); 
 #endif

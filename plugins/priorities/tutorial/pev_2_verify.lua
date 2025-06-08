@@ -4,7 +4,7 @@
 
 
 -- configure number of conveyor belts via command line, default to 5
-N=arg[1]
+N=tonumber(arg[1])
 if N == nil then N=5 end  
 print(string.format('pev_2_verify.lua: number of conveyor belts N=%d',N))
 
@@ -37,7 +37,7 @@ FAUDES_TEST_DUMP("prio comp ver",isnc)
 if tonumber(N) <6 then
   print('pev_2_verify.lua: monolitic verification')
   gall=faudes.Generator()
-  faudes.ParallelNB(gvec,gall)
+  faudes.ParallelLive(gvec,gall)
   print('pev_2_verify: overall statecount:',gall:Size())
   faudes.ShapePriorities(gall,prios)
   isnc = faudes.IsNonblocking(gall)

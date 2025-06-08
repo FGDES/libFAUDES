@@ -4057,7 +4057,7 @@ function faudes.FtcReconfigurator_gLn_gLf_gEr_gEf_gHn_aCON_aUCON_aHI_aLO_gR(gLn,
    -- compute candidate K
    --
    -- enforce relative-closed specification
-   faudes.SupRelativelyPrefixClosed(gPlant,gSpec,gSpec)
+   faudes.SupRelativelyClosed(gPlant,gSpec,gSpec)
    -- first candidate
    faudes.Parallel(gPlant,gSpec,gK)
    -- partial alphabet
@@ -4157,7 +4157,7 @@ function faudes.FtcReconfiguratorTimed_gLn_gLf_gEr_gEf_gHn_aCON_aUCON_aHI_aLO_gR
    -- compute candidate K
    --
    -- enforce relative-closed specification
-   faudes.SupRelativelyPrefixClosed(gPlant,gSpec,gSpec)
+   faudes.SupRelativelyClosed(gPlant,gSpec,gSpec)
    -- first candidate
    faudes.Parallel(gPlant,gSpec,gK)
    -- partial alphabet

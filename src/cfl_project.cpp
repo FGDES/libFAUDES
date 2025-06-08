@@ -222,7 +222,7 @@ void ProjectNonDet_ref(Generator& rGen, const EventSet& rProjectAlphabet) {
 
 
 /**
- * Graph data structure for transitionrelation -- EXPERIMENTAL
+ * Graph data structure for transition relation -- EXPERIMENTAL
  *
  * We have encountered situations where the set based approach implies a 
  * performace penalty for large generators. This light-weight graph class 

@@ -465,6 +465,13 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
     rGen.DelState(dump);
 }
 
+// API warpper Automaton(rGen,rRes)
+void Automaton(const Generator& rGen, Generator& rRes) {
+  FD_DF("Automaton("<< rGen.Name() << ", ...)");
+  rRes=rGen;
+  Automaton(rRes);
+}
+  
 // Automaton(rGen)
 void Automaton(Generator& rGen) {
   FD_DF("Automaton("<< rGen.Name() << ")");
@@ -980,8 +987,8 @@ void PrefixClosure(Generator& rGen) {
     
 }
 
-// IsPrefixClosed
-bool IsPrefixClosed(const Generator& rGen) {
+// IsClosed
+bool IsClosed(const Generator& rGen) {
   
   // figure relevant states
   StateSet relevant = rGen.AccessibleSet() * rGen.CoaccessibleSet();
@@ -1109,7 +1116,12 @@ void SelfLoop(Generator& rGen,const EventSet& rAlphabet,const StateSet& rStates)
   rGen.Name(name);
 }
 
-
+/** legacy wrapper, pre 2.33d */
+bool IsPrefixClosed(const Generator& rGen) {
+  FD_WARN("IsPrefixClosed(): API depreciated, use IsClosed()");
+  return IsClosed(rGen);
+}
+  
 } // namespace faudes
 
 #undef Product //see define above for comment

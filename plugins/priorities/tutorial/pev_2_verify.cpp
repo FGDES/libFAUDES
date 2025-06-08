@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
       start = std::clock();
       Generator gall;
       gall.StateNamesEnabled(false);
-      ParallelNB(gvoi,gall);
+      ParallelLive(gvoi,gall);
       ShapePriorities(gall,prios);
       isnc = IsNonblocking(gall);
       std::cout<<"duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;

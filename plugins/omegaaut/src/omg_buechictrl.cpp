@@ -290,7 +290,7 @@ referenced literature, the corresponding iteration is "essentially optimal" in t
 In the below implementation, we unwind each individual mu/nu quantifiation literally and resist 
 to apply strategic substitutions in order to obtain a reference implementation. This is suspected 
 to introduce (linear) penalty for avoidable boolean operations on sets of states. In a recent study, 
-Christian Wamser proposes a fine-tuned alternative implementation which will be integrated in 
+Christian Wamser proposed a fine-tuned alternative implementation which will be integrated in 
 libFAUDES in due course.
 */
 
@@ -518,7 +518,7 @@ bool ControlledBuechiLiveness(
                 theta.Insert(*sit);
                 if(controls1.find(*sit)==controls1.end()) controls1[*sit]=disable;
                 FD_WARN("ControlledBuechiLiveness(): [FBM] theta found state " << rSupCandGen.SStr(*sit));
-                if(!disable.Empty())disable.Write();
+                if(!disable.Empty()) disable.Write();
 	      }
             } // end: theta   
   

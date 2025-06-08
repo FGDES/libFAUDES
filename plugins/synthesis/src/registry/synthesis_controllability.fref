@@ -321,7 +321,7 @@ the synthesis problem.
 <p>
 If the specification <fimath>E</fimath> fails to be relatively marked w.r.t. the plant <fimath>L</fimath>, 
 one may replace <fimath>E</fimath> with the supremal sublanguage that is relatively closed
-(see also <ffnct>SupRelativelyPrefixClosed</ffnct>) before invoking <ffnct>SupCon</ffnct>,
+(see also <ffnct>SupRelativelyClosed</ffnct>) before invoking <ffnct>SupCon</ffnct>,
 to obtain
 <br/>
 <br/>
@@ -373,7 +373,7 @@ language.
 
 
 
-<ffnct_reference name="IsRelativelyPrefixClosed">
+<ffnct_reference name="IsRelativelyClosed">
 <fdetails/>
 
 <p>
@@ -429,7 +429,7 @@ since that language is a subset of the language marked by the specification
 and thus requires the buffer to be empty.
 In particular, the string <tt>alpha_1 beta_1</tt> witnesses a violation
 of relative closedness condition and
-the function <ffnct>IsRelativelyPrefixClosed</ffnct> returns "false" when applied to 
+the function <ffnct>IsRelativelyClosed</ffnct> returns "false" when applied to 
 GPlant and GSupervisor.
 </p>
 
@@ -522,7 +522,7 @@ and nonblocking.
 
 
 
-<ffnct_reference name="SupRelativelyPrefixClosed">
+<ffnct_reference name="SupRelativelyClosed">
 <fdetails/>
 
 <p>
@@ -567,6 +567,41 @@ including a formula for the supremal relatively closed sublanguage, see <fcite n
 <p>
 This implementation requires the alphabets of both generators to match. 
 Furthermore, both specified generators must be deterministic.
+</p>
+
+</ffnct_reference>
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+
+<ffnct_reference name="SupClosed">
+<fdetails/>
+
+<p>
+Given a closed-loop candidate <fimath>E=Lm(GCand)</fimath> this function
+computes the supremal prefix-closed sublanguage <fimath>K^\uparrow \subseteq E</fimath> that:
+<br/>
+<br/>
+<fdmath> K^\uparrow = \sup \{ \ K \subseteq E |\ K= \Closure{K}\ \}</fdmath> .
+<br/>
+<br/>
+The current implementation removes all transitions that lead to an unmarked state.
+The result is returned as a trim generator <i>GRes</i>
+that marks <fimath>K^\uparrow</fimath>.
+</p>
+<p>
+For a formal discussion on closedness in the context of supervisory control,
+including a formula for the supremal closed sublanguage, see <fcite name="S9"/>.
+</p>
+
+
+<fconditions/>
+
+<p>
+The specified generator must be deterministic, and so will be the result.
 </p>
 
 </ffnct_reference>

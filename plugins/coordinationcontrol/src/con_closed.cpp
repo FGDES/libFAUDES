@@ -55,7 +55,7 @@ bool IsConditionalClosed(const GeneratorVector& specVect, const Generator& pk, c
 	}
 
 	// check if P_k(K) is Lm(G_k)-closed
-	if (IsRelativelyPrefixClosed(gk,pk) == false) {
+	if (IsRelativelyClosed(gk,pk) == false) {
 	  return false;
 	}
 
@@ -63,7 +63,7 @@ bool IsConditionalClosed(const GeneratorVector& specVect, const Generator& pk, c
 	for (i = 0; i < specVect.Size(); i++) {
 	  Generator helpPlant;
 	  Parallel(genVect.At(i),pk,helpPlant);
-	  if (IsRelativelyPrefixClosed(helpPlant,specVect.At(i)) == false) {
+	  if (IsRelativelyClosed(helpPlant,specVect.At(i)) == false) {
 	    return false;
 	  }
 	}

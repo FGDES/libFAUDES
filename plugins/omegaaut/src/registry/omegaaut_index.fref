@@ -137,10 +137,13 @@ R_p,\ I_p \subseteq Q \text{ for all } p\in P\ .
 </fdmath>
 <br />
 <br />
-An an infinite-length run  <fimath>\pi</fimath> on <fimath>G</fimath> is accepted
-w.r.t. the pair <fimath>(R_p,\ I_p),\ p\in P.</fimath> if
-it eventually stays within <fimath>I_p</fimath> and visits <fimath>R_p</fimath>
-infinitely often, i.e.,
+For an individual pair <fimath>(R_p,\ I_p),\ p\in P,</fimath> the
+set <fimath>R_p</fimath> shall be persistently recurrent and the
+set <fimath>I_p</fimath> shall be an eventually invariant. 
+An infinite-length run  <fimath>\pi</fimath> on <fimath>G</fimath> is accepted
+w.r.t. the pair <fimath>(R_p,\ I_p)</fimath> if
+it <fimath>\pi</fimath> eventually stays within <fimath>I_p</fimath> and
+visits <fimath>R_p</fimath> infinitely often, i.e.,
 <br />
 <br />
 <fdmath>\inf\[\pi\]\subseteq I_p \text{ and } \inf\[\pi\]\cap R_p\neq\emptyset</fdmath> .
