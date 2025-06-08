@@ -2,9 +2,6 @@ name: Build libFAUDES with MSVC
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[a-z]*'
       
 jobs:
 
@@ -27,6 +24,9 @@ jobs:
       run: |
         make -j configure
         make clean
+        rm -rf ./bin/*
+        echo "notempty" > ./obj/notempty
+        echo "notempty" > ./bin/notempty
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -58,25 +58,29 @@ jobs:
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j libfaudes
-    - name: Build Tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch includes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch plugins/luabindings/obs/*.cpp
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
+    - name: Build Tools
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
+    - name: Build Tutorials
+      shell: cmd
+      run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 tutorial
     - name: Run Test Cases
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 test
     - name: Build DSO incl Tools
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win clean
         %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win binaries

@@ -2,9 +2,6 @@ name: Build libFAUDES on OsX
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[a-z]*'
       
 jobs:
 
@@ -49,6 +46,7 @@ jobs:
       run: |
         brew update
         brew install make
+        brew install swig  # why do we need this?
     - name: Build Default Targets
       run: |
         gmake --touch includes
