@@ -504,7 +504,7 @@ static int pmain (lua_State *L) {
     return 0;
   }
   if (has_v) print_version(); 
-  if (!has_d) faudes_mute(true); /* luafaudes: mute */
+  if (!has_d) Verbosity(0); /* luafaudes: mute */
   if (!has_x) faudes_loaddefext(L, argv[0]);  /* luafaudes: default extension */
   s->status = runargs(L, argv, (script > 0) ? script : s->argc);
   if (s->status != 0) return 0;

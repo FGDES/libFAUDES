@@ -4,7 +4,7 @@
 import faudes
 
 ## Turn on debugging messages
-## faudes.Mute(false)
+## faudes.Verbosity(1)
 
 ## ##########################################
 ## Plain index set (eg StateSet)

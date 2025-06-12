@@ -25,13 +25,13 @@
 #define PEV_ABSTRACTION_H
 
 #define PCOMPVER_VERB2(msg) \
-  { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=2 )) { \
+  { if(faudes::ConsoleOut::G()->Verb() >=2 ) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
 #define PCOMPVER_VERB1(msg) \
-  { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=1 )) { \
+  { if(faudes::ConsoleOut::G()->Verb() >=1 ) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
 #define PCOMPVER_VERB0(msg) \
-  { if((!faudes::ConsoleOut::G()->Mute()) && (faudes::ConsoleOut::G()->Verb() >=0 )) { \
+  { if(faudes::ConsoleOut::G()->Verb() >=0 ) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
 
 #include "pev_pgenerator.h"

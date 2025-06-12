@@ -73,11 +73,11 @@ typedef double Float;
 
 /** Debug: console output, no redirection */
 #define FAUDES_WRITE_DIRECT(message) \
-  { if(!faudes::ConsoleOut::G()->Mute()) { std::cout << message << std::endl;} }
+  { if(faudes::ConsoleOut::G()->Verb()>0) { std::cout << message << std::endl;} }
 
 /** Debug: output macro for optional redirection of all console output */
 #define FAUDES_WRITE_CONSOLE(message) \
-  { if(!faudes::ConsoleOut::G()->Mute()) { \
+  { if(faudes::ConsoleOut::G()->Verb()>0) {			     \
       std::ostringstream cfl_line; cfl_line << message << std::endl; \
       faudes::ConsoleOut::G()->Write(cfl_line.str()); } }
 

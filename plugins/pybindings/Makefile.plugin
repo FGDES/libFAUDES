@@ -101,7 +101,7 @@ PBP_SWIGOPTS = $(PBP_PYTHON_INC) -Wno-misleading-indentation
 
 #
 # build overall interface 
-$(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
+$(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES) 
 	echo "// ###### auto-generated overall swig interface file" > $@
 	echo "#define SwigModule \"SwigLibFaudes\" " >> $@
 	echo "%module(docstring=\"libFAUDES Python bindings --- see https://fgdes.tf.fau.de\") faudes" >> $@
@@ -120,7 +120,7 @@ PBP_RTIFLAT = -flat
 
 #
 # run swig (incl. copy faudes.py to the tutorials)
-$(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i
+$(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(INCLUDEDIR)/rtiautoload.i
 	$(SWIG) $(PBP_SWIGOPTIONS) -o $(call FNCT_FIXDIRSEP,$@) $(call FNCT_FIXDIRSEP,$<)
 
 

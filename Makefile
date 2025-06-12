@@ -768,7 +768,6 @@ CPPFILES = $(CPPFILESMIN) \
   cfl_graphfncts.cpp cfl_parallel.cpp cfl_determin.cpp cfl_project.cpp cfl_statemin.cpp\
   cfl_regular.cpp cfl_conflequiv.cpp cfl_bisimulation.cpp cfl_bisimcta.cpp
 
-
 RTIDEFS = cfl_definitions.rti
 RTIFREF = reference_index.fref reference_types.fref reference_functions.fref reference_literature.fref \
   corefaudes_index.fref corefaudes_elementary.fref \
@@ -791,7 +790,10 @@ RTIFREF := $(RTIFREF:%=$(SRCDIR)/registry/%)
 SWGINTERFACES = $(SRCDIR)/swig/corefaudes.i
 SWGINCLUDE = -I$(SRCDIR)/swig -I$(INCLUDEDIR)
 SWGMODULES = faudes
-
+VPATH += $(SRCDIR)/swig
+HEADERS += swg_utils.h
+SOURCES += $(SRCDIR)/swig/swg_utils.cpp
+OBJECTS += $(OBJDIR)/swg_utils$(DOT_O) 
 
 DEPEND = Makefile.depend
 

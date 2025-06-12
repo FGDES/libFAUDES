@@ -148,10 +148,7 @@ void TokenWriter::Flush(void) {
   DoFlush(); // incl linefeed if col>0
   mpStream->flush();
   if(mMode==Stdout) {
-    bool m=ConsoleOut::G()->Mute();
-    ConsoleOut::G()->Mute(false);
-    ConsoleOut::G()->Write(mSStream.str());
-    ConsoleOut::G()->Mute(m);
+    ConsoleOut::G()->Write(mSStream.str(),0,0,0); // verb 0 <> always
     mSStream.str("");
   }
 }

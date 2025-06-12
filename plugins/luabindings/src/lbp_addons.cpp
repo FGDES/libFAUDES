@@ -68,10 +68,7 @@ int faudes_print(lua_State *L) {
   }
   // linefeed/flush/restore mute
   line << std::endl;
-  m=faudes::ConsoleOut::G()->Mute();
-  faudes::ConsoleOut::G()->Mute(false);
-  faudes::ConsoleOut::G()->Write(line.str());
-  faudes::ConsoleOut::G()->Mute(m);
+  faudes::ConsoleOut::G()->Write(line.str(),0,0,0); // verb 0 <> always
   // still do loop callback (the below note on hooks also applies here)
   try{
     LoopCallback();
