@@ -115,8 +115,8 @@ $(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
 	echo "%include \"../../../include/rtiautoload.i\" " >> $@
 	echo " " >> $@
 #
-# option for rti2code (cheep workaround for conditionals in SWIG pre 4.1.0)
-PBP_RTIFLAT = -flat
+# option for rti2code (cheep workaround for conditionals in SWIG pre 4.0.2)
+#PBP_RTIFLAT = -flat
 
 #
 # run swig (incl. copy faudes.py to the tutorials)
