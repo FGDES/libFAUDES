@@ -39,9 +39,8 @@ please do not hesitate to report back to us.
 <p>
 Restrictions:
 
-- The build system allows for either Lua bindings or Python bindings; building both
-  simultaneously is not supported.
-
+- Although the build system allows for multiple bindings plug-ins, we recommend to either
+  use Lua bindings or Python bindings, but not both for the same build.
 
 - For most plug-ins, bindings are automatically generated via SWIG based on so called
   interface files (residing in <tt>libfaudes/plugins/`*`/registry/`*`.i</tt>);
@@ -147,13 +146,13 @@ Notes:
 
 - You should configure libFAUDES to use no minimum number of plug-ins.
   This is done in the main Makefile. The test cases for python cover
-  the synthesis plug-in. If you have used other pluhg-ins, please sumbit
+  the synthesis plug-in. If you have used other pluhg-ins, please submit
   your test cases.
 
 
 - The build system is best supported on Linux and OS X. For Windows, we have
   test pybindings within the MSYS2 enviroment and it works just fine. We did not
-  yest test with MSVC compilers and/or plain cmd.exe terminal.
+  yet test with MSVC compilers and/or plain cmd.exe terminal.
 
 
 - The build process relies on the developer package of your Python distribution. It
@@ -164,7 +163,7 @@ Notes:
 
 
 - After building libFAUDES as a shared object, copy the files <tt>pybindings/tutorial/faudes.py</tt>
-  and <tt>pybindings/tutorial/_faudes.so</tt>  (<tt>.pyd</tt> on Windows) to reside in the same
+  and <tt>pybindings/tutorial/_faudes.so</tt> (<tt>.pyd</tt> on Windows) to reside in the same
   directory as your Python project. Test your settings by starting a Python command promt  
   within your project directory. Try , e.g., <tt>import faudes</tt> and print 
   <tt>faudes.Version()</tt>.

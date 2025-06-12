@@ -33,7 +33,6 @@ namespace faudes {
 // programatically throw exceptions
 extern FAUDES_API void faudes_throw_exception(const std::string& msg);
 
-
 // behavioural features
 extern FAUDES_API void faudes_statenames_on(void);
 extern FAUDES_API void faudes_statenames_off(void);
@@ -43,18 +42,26 @@ extern FAUDES_API std::string  faudes_version(void);
 extern FAUDES_API std::string  faudes_build(void);
 extern FAUDES_API bool faudes_dotready(void);
 
-
 // help: insert topic to dictionary
 extern FAUDES_API void faudes_dict_insert_topic(const std::string& topic, const std::string& text);
 
 // help: insert entry to dictionary
 extern FAUDES_API void faudes_dict_insert_entry(const std::string& topic, const std::string& key, const std::string& entry);
-
-// show main help text
+  
+// help: show main text
 extern FAUDES_API void faudes_help(void);
 
 // help: show section text
 extern FAUDES_API void faudes_help(const std::string& topic);
+
+// API wrappers
+extern FAUDES_API void faudes_gen_version(const Generator& rGen, const std::string& ver, Generator& rRes);
+extern FAUDES_API void faudes_gen_version(const Generator& rGen, const std::string& pat, const std::string& rep, Generator& rRes);
+extern FAUDES_API void faudes_set_union(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes);
+extern FAUDES_API void faudes_set_intersection(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes);
+extern FAUDES_API void faudes_set_difference(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes); 
+
+
   
 
 }//namespace  

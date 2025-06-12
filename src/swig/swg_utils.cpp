@@ -156,5 +156,21 @@ void faudes_help(const std::string& topic) {
   Print(0,sstr.str()); // verb 0 <> always
 }
 
+// API wrappers
+void faudes_gen_version(const Generator& rGen, const std::string& ver, Generator& rRes) {
+  rGen.Version(ver,rRes);
+}
+void faudes_gen_version(const Generator& rGen, const std::string& pat, const std::string& rep, Generator& rRes) {
+  rGen.Version(pat,rep,rRes);
+}
+void faudes_set_union(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes) 
+ { rRes = rAlph1; rRes.InsertSet(rAlph2); }
+void faudes_set_intersection(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes)
+ { rRes = rAlph1; rRes.RestrictSet(rAlph2); }
+void faudes_set_difference(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes) 
+ { rRes = rAlph1; rRes.EraseSet(rAlph2); }
+
+  
+
 }//namespace  
 

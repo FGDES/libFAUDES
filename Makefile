@@ -80,7 +80,7 @@ FAUDES_PLUGINS += iodevice
 #FAUDES_PLUGINS += pushdown      # out of maintenance
 #FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
 FAUDES_PLUGINS += luabindings
-#FAUDES_PLUGINS += pybindings    # conflicts with luabindings, choose one of either
+#FAUDES_PLUGINS += pybindings    # 
 endif
 
 

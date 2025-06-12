@@ -34,15 +34,7 @@ Functions misc
 */
 
 
-// **** Version (does not participate in rti)
-// Have function interface for a generator member
-%{
-void faudes_gen_version(const Generator& rGen, const std::string& ver, Generator& rRes) 
- { rGen.Version(ver,rRes);}
-void faudes_gen_version(const Generator& rGen, const std::string& pat, const std::string& rep, Generator& rRes) 
- { rGen.Version(pat,rep,rRes);}
-%}
-// Tell SWIG with nice target name
+// advertiese to SWIG with nice target name
 %rename(Version) faudes_gen_version;
 void faudes_gen_version(const Generator& rGen, const std::string& ver, Generator& rRes);
 void faudes_gen_version(const Generator& rGen, const std::string& pat, const std::string& rep, Generator& rRes);
@@ -82,19 +74,8 @@ Functions related to EventSet
 **************************************************
 */
 
-// Have function interface with Alphabets
-%{
-void faudes_set_union(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes) 
- { rRes = rAlph1; rRes.InsertSet(rAlph2); }
-void faudes_set_intersection(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes)
- { rRes = rAlph1; rRes.RestrictSet(rAlph2); }
-void faudes_set_difference(const EventSet& rAlph1, const EventSet& rAlph2, EventSet& rRes) 
- { rRes = rAlph1; rRes.EraseSet(rAlph2); }
-%}
 
-
-
-// Tell SWIG with nice target names (depreciated, use rti versions instead)
+// advertise to SWIG with nice target names (depreciated, use rti versions instead)
 %rename(EventSetUnion) faudes_set_union;
 %rename(EventSetIntersection) faudes_set_intersection;
 %rename(EventSetDifference) faudes_set_difference;
