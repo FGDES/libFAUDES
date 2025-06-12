@@ -80,7 +80,7 @@ FAUDES_PLUGINS += iodevice
 #FAUDES_PLUGINS += pushdown      # out of maintenance
 #FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
 FAUDES_PLUGINS += luabindings
-#FAUDES_PLUGINS += pybindings    # 
+#FAUDES_PLUGINS += pybindings
 endif
 
 
@@ -1136,7 +1136,7 @@ rti: rtitools rticode doc-reference doc-fref
 rtitools: $(BINDIR)/rti2code$(DOT_EXE) 
 
 # generated code
-rticode: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload.i
+rticode: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload.h
 
 # clean
 rti-clean:
@@ -1164,10 +1164,9 @@ $(BINDIR)/rti2code$(DOT_EXE): $(OBJDIR)/rti2code_min$(DOT_O) $(MINFAUDES) | $(BI
 $(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)  
 	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -merge $(RTIDEFS) $@
 
-# have my auto register tools and produce includes
-# note: we use .i as target since depend touches .h and .cpp
-$(INCLUDEDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
-	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) $(PBP_RTIFLAT) $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload)
+# have my auto register tools to produce includes (.h and .cpp)
+$(INCLUDEDIR)/rtiautoload.h: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -loader $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload)
 
 
 ####################################

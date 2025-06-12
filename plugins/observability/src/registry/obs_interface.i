@@ -59,5 +59,5 @@ SwigHelpTopic("Observability","Observability PlugIn");
 
 // Include rti generated function interface
 #if SwigModule=="SwigObservability"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

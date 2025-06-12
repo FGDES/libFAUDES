@@ -137,5 +137,5 @@ SwigHelpEntry("Diagnosis","Types for Diagnosis", "FailureTypeMap (minimal lua in
 
 // Include rti generated function interface
 #if SwigModule=="SwigDiagnosis"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

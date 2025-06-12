@@ -64,7 +64,7 @@ SwigHelpTopic("Synthesis","Synthesis PlugIn");
 
 // Include rti generated function interface
 #if SwigModule=="SwigSynthesis"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif
 
 

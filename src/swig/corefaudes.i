@@ -39,5 +39,5 @@ end
 				
 // include rti generated interface
 #if SwigModule=="SwigCoreFaudes"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

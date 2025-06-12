@@ -160,5 +160,5 @@ SwigHelpEntry("IoSystem","io systems","IoSystem plant/controller model");
 
 // Include rti generated function interface
 #if SwigModule=="SwigIoSystem"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

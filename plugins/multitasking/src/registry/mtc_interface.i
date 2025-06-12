@@ -187,5 +187,5 @@ SwigHelpEntry("Multitasking","Types for Multitasking", "AttributeColoredState At
 
 // Include rti generated function interface
 #if SwigModule=="SwigMultitasking"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

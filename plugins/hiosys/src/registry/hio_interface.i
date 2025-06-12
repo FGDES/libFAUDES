@@ -538,5 +538,5 @@ SwigHelpEntry("HioSys","io systems","HioConstraint external constraint");
 
 // Include rti generated function interface
 #if SwigModule=="SwigHioSys"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif
