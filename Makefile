@@ -60,11 +60,10 @@ endif
 # manualy enable plug-ins (uncomment corresponding lines)
 
 # note: only enable those plug-ins you need/know
-# note: do not enable both Lua and Pyhton bindings simultaneosly 
 
 ifeq ($(FAUDES_PLUGINS),)
 FAUDES_PLUGINS = 
-#FAUDES_PLUGINS += example      # docu only
+#FAUDES_PLUGINS += example      # docs only
 FAUDES_PLUGINS += omegaaut	
 FAUDES_PLUGINS += synthesis	
 FAUDES_PLUGINS += observer
@@ -79,8 +78,8 @@ FAUDES_PLUGINS += simulator
 FAUDES_PLUGINS += iodevice
 #FAUDES_PLUGINS += pushdown      # out of maintenance
 #FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
-FAUDES_PLUGINS += luabindings
-#FAUDES_PLUGINS += pybindings
+FAUDES_PLUGINS += luabindings    # Lua is our default scripting language ...
+#FAUDES_PLUGINS += pybindings    # ... but you may likewise opt for Python
 endif
 
 
@@ -1012,6 +1011,8 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(OBJDIR) 
 	rm -rf $(DOCDIR) 
 	rm -rf $(INCLUDEDIR)/*
+	rm -f Makefile.user
+	rm -f Makefile.depend
 	rm -f libfaudes.a libfaudes.so libfaudesd.a libfaudesd.so
 	rm -f libfaudes.dylib libfaudesd.dylib  libfaudes.jsa
 	rm -f faudes.lib faudes.dll faudesd.lib faudesd.dll VERSION.bat

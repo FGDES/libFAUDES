@@ -1022,8 +1022,8 @@ public:
 template<class T>
  class CastToType<T,false>  {
 public:
-  static Type* Pointer(T* ptr) {return nullptr;};
-  static const Type* ConstPointer(const T* ptr) {return nullptr;};
+  static Type* Pointer(T* ptr) {(void) ptr; return nullptr;};
+  static const Type* ConstPointer(const T* ptr) {(void) ptr; return nullptr;};
 };
   
   
