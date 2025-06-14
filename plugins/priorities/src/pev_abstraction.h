@@ -93,7 +93,7 @@ FAUDES_API bool IsShaped(const pGenerator& rPGen, const EventSet& pevs);
  * is a variant of faudes::IsPFNonblocking that addresses a generalised concept of fairness.
  *
  * @param rGvec generators to consider
- * @param rPrevs global event priosities
+ * @param rPrios global event priosities
  * @param rFairVec one fairness constraint per generator
  * @return true for nonconflicting
  *

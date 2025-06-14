@@ -1,4 +1,4 @@
-/** @file omg_3_buechictrl.cpp
+/** @file omg_2_buechictrl.cpp
 
 Supervision of omega-languages w.r.t. Buechi acceptance
 

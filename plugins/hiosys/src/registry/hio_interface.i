@@ -480,7 +480,7 @@ bool IsHioControllerForm(
   EventSet& rErrEvSet,
   TransSet& rErrTrSet,
   StateSet& rErrStSet,
-  std::string& OUTPUT);
+  std::string& rStrOut);
 
 
 // **** Test Hio properties: environment form
@@ -494,7 +494,7 @@ bool IsHioEnvironmentForm(
   EventSet& rErrEvSet,
   TransSet& rErrTrSet,
   StateSet& rErrStSet,
-  std::string& OUTPUT);
+  std::string& rStrOut);
 
 
 // **** Test Hio properties: environment form
@@ -506,7 +506,7 @@ bool IsHioConstraintForm(
   EventSet& rErrEvSet,
   TransSet& rErrTrSet,
   StateSet& rErrStSet,
-  std::string& OUTPUT);
+  std::string& rStrOut);
 
 
   

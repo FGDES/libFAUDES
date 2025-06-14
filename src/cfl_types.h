@@ -49,7 +49,9 @@ namespace faudes {
  ************************************************/
 
 
-/** @defgroup RunTimeInterface  Run-Time Interface
+/**
+@defgroup RunTimeInterface  Run-Time Interface
+@section RunTimeInterface  Run-Time Interface
 
 The libFAUDES run-time interface (RTI) facilitates the development 
 of applications that are transparent to libFAUDES extensions, e.g.,

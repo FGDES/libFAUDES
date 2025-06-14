@@ -42,6 +42,8 @@ namespace faudes {
  *
  * @param rRAut
  *   Automaton to control
+ * @param rSigmaCtrl
+ *   Set of controllable events
  * @param rCtrlPfx
  *   State set that marks the controllability prefix.
  *

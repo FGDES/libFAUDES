@@ -46,7 +46,7 @@ namespace faudes {
  *   Stream to write to
  * @param rAut
  *   Automaton to write
- * @param
+ * @param pSymTab
  *   Optional symbol table to record event mapping
  *
  * @ingroup OmgPlugin
@@ -65,7 +65,7 @@ extern FAUDES_API void ExportHoa(
  *   File to write to
  * @param rAut
  *   Automaton to write
- * @param
+ * @param pSymTab
  *   Optional symbol table to record event mapping
  *
  * @ingroup OmgPlugin
@@ -100,7 +100,7 @@ extern FAUDES_API void ExportHoa(
  *   Stream to read from
  * @param rAut
  *   Resultimg automaton
- * @param
+ * @param pSymTab
  *   Optional symbol table to provide event mapping
  * @param resolve
  *   Ask cpphoafparser to resolve aliase
@@ -126,7 +126,7 @@ extern FAUDES_API void ImportHoa(
  *   File to read from
  * @param rAut
  *   Resultimg automaton
- * @param
+ * @param pSymTab
  *   Optional symbol table to provide event mapping
  * @param resolve
  *   Ask cpphoafparser to resolve aliase

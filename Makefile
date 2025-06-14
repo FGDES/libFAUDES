@@ -470,16 +470,17 @@ endif
 # - a note on the @rpath topic: as of libFAUDES 2.33d we build the shared object with @rpath in
 #   the install name; when building executables, we then set the @rpath relative to the
 #   @executable_path in a fairly general manner; all in all we avoid the "install-name_tool"
-#   hassel when buulding applications
+#   hassel when building applications
 # - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7,
-#   Mac OS X 10.11, and macOS2 during development of libFAUDES.
+#   Mac OS X 10.11, and macOS during development of libFAUDES.
 # - as of libFAUDES 2.27i, only the Mac OS X 10.11 environment is
 #   available for testing
 # - as of libFAUDES 2.31a, only the macOS 12 environment is
 #   available for testing
 # - note that the compiler here is actually LLVM/clang++ version 14.0.0
 # - test deployment target by "otool -l FILE | grep version"
-# - moving to libc++ and c11, we now should target for MAC OS X 10.9 (although 10.7 still works)
+# - moving to libc++ and c11, we now target for MAC OS X 10.9 (although 10.7 still works)
+# - moving even further, we now target for MAC OS X 10.11 (although 10.9 still works)
 #
 #
 
@@ -489,7 +490,7 @@ CXX = clang++ -std=gnu++11
 CC = clang
 LXX = clang++
 #
-MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.9 -stdlib=libc++ 
+MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.11 -stdlib=libc++ 
 MAINOPTS += -DFAUDES_BUILDENV=gcc_osx
 MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
 WARNINGS =  -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
