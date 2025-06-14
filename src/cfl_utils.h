@@ -335,16 +335,13 @@ public:
   /** Acess static instance */
   static ConsoleOut* G(void);
   /** Write a std::string message (optional progress report and verbosity) */
-  virtual void Write(const std::string& message,long int cntnow=0, long int cntdone=0, int verb=0);
+  virtual void Write(const std::string& message,long int cntnow=0, long int cntdone=0, int verb=1);
   /** Redirect to file */
   void ToFile(const std::string& filename);
   /** Query filename */
   const std::string& Filename(void) { return mFilename;}; 
   /** Redirect */
   void Redirect(ConsoleOut* out);
-  /** Mute */
-  void Mute(bool on) {mMute=on;};
-  bool Mute() { return mMute;};
   /** Verbosity */
   void Verb(int verb) {mVerb=verb;};
   int Verb() { return mVerb;};  
@@ -354,14 +351,13 @@ protected:
   /** Destructor */
   virtual ~ConsoleOut(void);
   /** Writing hook. Re-implement this function in order to grab all output */
-  virtual void DoWrite(const std::string& message,long int cntnow=0, long int cntdone=0, int verb=0);
+  virtual void DoWrite(const std::string& message,long int cntnow=0, long int cntdone=0, int verb=1);
 private:
   /** Private output stream */
   std::ofstream* pStream;
   /** Private record file name */
   std::string mFilename;
   /** Mute flag */
-  bool mMute;
   int mVerb;
   /** Redirect */
   ConsoleOut* pInstance;
@@ -369,7 +365,13 @@ private:
   static ConsoleOut* smpInstance;
 };
 
- 
+
+/** API wrapper Print at verbosity */
+extern FAUDES_API void Print(int v, const std::string& message);
+extern FAUDES_API void Print(const std::string& message);
+extern FAUDES_API void Verbosity(int v);
+extern FAUDES_API int Verbosity(void);
+  
 /**
  * Debugging counter. Counts items as specified by the type string and reports
  * sums on exit. You must define the macro FAUDES_DEBUG_CODE to get a report.

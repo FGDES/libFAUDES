@@ -1,7 +1,7 @@
 -- Test/demonstrate basic faudes containers 
 
 -- Turn on debugging messages
--- faudes.Mute(false)
+-- faudes.Verbosity(0)
 
 -- ------------------------------------------
 -- Plain index set (eg StateSet)

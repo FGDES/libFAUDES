@@ -84,6 +84,6 @@ SwigHelpTopic("OmegaAut","Omega Automata PlugIn");
 
 // Include rti generated function interface
 #if SwigModule=="SwigOmegaAut"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif
  

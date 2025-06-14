@@ -68,5 +68,5 @@ SwigHelpEntry("Example","Functions", " AlternativeAccessible(gen)");
 
 // Include rti generated functioninterface 
 #if SwigModule=="SwigExample"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

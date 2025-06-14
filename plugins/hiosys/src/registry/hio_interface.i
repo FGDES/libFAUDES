@@ -480,7 +480,7 @@ bool IsHioControllerForm(
   EventSet& rErrEvSet,
   TransSet& rErrTrSet,
   StateSet& rErrStSet,
-  std::string& OUTPUT);
+  std::string& rStrOut);
 
 
 // **** Test Hio properties: environment form
@@ -494,7 +494,7 @@ bool IsHioEnvironmentForm(
   EventSet& rErrEvSet,
   TransSet& rErrTrSet,
   StateSet& rErrStSet,
-  std::string& OUTPUT);
+  std::string& rStrOut);
 
 
 // **** Test Hio properties: environment form
@@ -506,7 +506,7 @@ bool IsHioConstraintForm(
   EventSet& rErrEvSet,
   TransSet& rErrTrSet,
   StateSet& rErrStSet,
-  std::string& OUTPUT);
+  std::string& rStrOut);
 
 
   
@@ -538,5 +538,5 @@ SwigHelpEntry("HioSys","io systems","HioConstraint external constraint");
 
 // Include rti generated function interface
 #if SwigModule=="SwigHioSys"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

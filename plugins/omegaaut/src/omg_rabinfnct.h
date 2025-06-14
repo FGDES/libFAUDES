@@ -185,7 +185,7 @@ extern FAUDES_API void  RabinBuechiAutomaton(const RabinAutomaton& rRAut, const 
  *   First automaton
  * @param rBAut
  *   Second automaton
- * @param rResGen
+ * @param rRes
  *   Reference to resulting product composition
  *
  *

@@ -127,6 +127,6 @@ SwigHelpTopic("Priorities","Priorities PlugIn");
 
 // Include rti generated function interface
 #if SwigModule=="SwigPriorities"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif
  

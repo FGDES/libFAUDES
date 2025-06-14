@@ -59,5 +59,5 @@ SwigHelpTopic("Hybird","Hybrid PlugIn function");
 
 // Include rti generated functioninterface 
 #if SwigModule=="SwigHybrid"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

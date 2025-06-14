@@ -355,7 +355,7 @@ int main(int argc, char* argv[])
   
   // mute libFAUDES console out
   if(mConsoleOut<0) 
-    ConsoleOut::G()->Mute(true);
+    ConsoleOut::G()->Verb(0);
 
   try{
 

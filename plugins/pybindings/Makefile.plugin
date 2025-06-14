@@ -46,8 +46,6 @@ PBP_PYTHON_LNK += $(shell python3 -c 'import sysconfig; print(sysconfig.get_conf
 PBP_PYTHON_INC += -I$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
-
-
 # test: manual settings for OsX 11 Python 3.10 from macport 
 #PBP_PYTHON_LNK = /opt/local/Library/Frameworks/Python.framework/Versions/3.10/lib/libpython3.10.dylib
 #PBP_PYTHON_INC = -I/opt/local/Library/Frameworks/Python.framework/Headers
@@ -77,8 +75,6 @@ PBP_OBJDIR = ./plugins/pybindings/obj
 PBP_CPPFILES = 
 PBP_INCLUDE  = pbp_include.h
 
-
-
 #
 # std plug-in file lists
 PBP_HEADERS = $(PBP_CPPFILES:.cpp=.h) $(PBP_INCLUDE)
@@ -92,7 +88,7 @@ PBP_OBJECTS = $(PBP_SOURCES:$(PBP_SRCDIR)/%.cpp=$(PBP_OBJDIR)/%$(DOT_O))
 
 #
 # swig flags
-PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) $(SWGINCLUDE) -c++ -python -DSWIG_TYPE_TABLE=pyfaudes  
+PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) -I$(PBP_OBJDIR) $(SWGINCLUDE) -c++ -python -DSWIG_TYPE_TABLE=pyfaudes  
 
 #
 # c-flags for swig generated c-code
@@ -100,8 +96,13 @@ PBP_SWIGOPTS = $(PBP_PYTHON_INC) -Wno-misleading-indentation
 
 
 #
+# use rti2code to generate rtiautoload.i
+$(PBP_OBJDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -swig -flat $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti) $(call FNCT_FIXDIRSEP,$(PBP_OBJDIR)/rtiautoload)
+
+#
 # build overall interface 
-$(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
+$(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES) 
 	echo "// ###### auto-generated overall swig interface file" > $@
 	echo "#define SwigModule \"SwigLibFaudes\" " >> $@
 	echo "%module(docstring=\"libFAUDES Python bindings --- see https://fgdes.tf.fau.de\") faudes" >> $@
@@ -112,15 +113,12 @@ $(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
 	echo " " >> $@
 	echo " " >> $@
 	echo "// ##### load all rti definied functions " >> $@
-	echo "%include \"../../../include/rtiautoload.i\" " >> $@
+	echo "%include \"rtiautoload.i\" " >> $@
 	echo " " >> $@
-#
-# option for rti2code (cheep workaround for conditionals in SWIG pre 4.1.0)
-PBP_RTIFLAT = -flat
 
 #
 # run swig (incl. copy faudes.py to the tutorials)
-$(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i
+$(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(PBP_OBJDIR)/rtiautoload.i
 	$(SWIG) $(PBP_SWIGOPTIONS) -o $(call FNCT_FIXDIRSEP,$@) $(call FNCT_FIXDIRSEP,$<)
 
 

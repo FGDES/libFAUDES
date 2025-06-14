@@ -4,7 +4,7 @@ Tutorial on basic operations on Buechi automata
 
 @ingroup Tutorials 
 
-@include omp_1_buechi.cpp
+@include omg_1_buechi.cpp
 
 */
 

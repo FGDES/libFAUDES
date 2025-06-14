@@ -91,7 +91,8 @@ protected:
     * @exception Exception
     *   - IO error (id 1)
     */
-    virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=nullptr){}
+    virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=nullptr)
+      { (void) rTr; (void) rLabel; (void) pContext;}
 
     /**
     * Writes attribute to TokenWriter, see AttributeVoid for public wrappers.
@@ -107,7 +108,8 @@ protected:
     * @exception Exception
     *   - IO error (id 2)
     */
-    virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const {}
+    virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const 
+      { (void) rTw; (void) rLabel; (void) pContext;}
 
     /*!
      * \brief mFairConst

@@ -46,6 +46,8 @@ the corefaudes interface definitions.
 
 // include faudes headers (inc. also pbp_include.h, lbp_include.h etc)
 #include "libfaudes.h"
+#include "swg_utils.h"
+  
 
 // use libfaudes namespace
 using namespace faudes;

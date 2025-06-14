@@ -5,6 +5,7 @@ CVS
 */._*
 */.DS*
 .git/*
+Makefile.user
 .depend
 kbusdemo.tgz
 wago/kbusDemo

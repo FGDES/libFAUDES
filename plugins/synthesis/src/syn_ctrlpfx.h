@@ -67,9 +67,9 @@ public:
    * This is a wrapper for the protected method DoEvaluate. The latter
    * should be re-implemented by derived classes to encode the actual operator.
    *
-   * @param rAggs
+   * @param rArgs
    *   State-set valued arguments the operator performs on
-   * @parem rRes
+   * @param rRes
    *   Resulting state set
    **/
   void Evaluate(StateSetVector& rArgs, StateSet& rRes) const;
@@ -82,7 +82,7 @@ public:
    *
    * @param rArg
    *   State-set valued argument
-   * @parem rRes
+   * @param rRes
    *   Resulting state set
    **/
   void Evaluate(StateSet& rArg, StateSet& rRes) const;
@@ -93,7 +93,7 @@ public:
    * This is a convenience wrapper for the protected method DoEvaluate for
    * operators with no arguments.
    *
-   * @parem rRes
+   * @param rRes
    *   Resulting state set
    **/
   void Evaluate(StateSet& rRes) const;
@@ -142,7 +142,7 @@ protected:
    *
    * @param rAggs
    *   State-set valued arguments the operator performs on
-   * @parem rRes
+   * @param rRes
    *   Resulting state set
    **/
   virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const =0;
@@ -187,9 +187,9 @@ protected:
    * Note: the order of the argument vector matters. The last entry is the iterate
    * in the inner most iteration.
    *
-   * @param rAggs
+   * @param rArgs
    *   Argument [Y,X] in that order
-   * @parem rRes
+   * @param rRes
    *   Resulting state set
    **/
   virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
@@ -268,7 +268,7 @@ protected:
    *
    * @param rArgs
    *   Arguments the operator performs on
-   * @parem rRes
+   * @param rRes
    *   Resulting state set
    **/
   virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
@@ -338,7 +338,7 @@ protected:
    *
    * @param rArgs
    *   Arguments the operator performs on
-   * @parem rRes
+   * @param rRes
    *   Resulting state set
    **/
   virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;

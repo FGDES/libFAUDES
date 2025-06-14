@@ -49,7 +49,9 @@ namespace faudes {
  ************************************************/
 
 
-/** @defgroup RunTimeInterface  Run-Time Interface
+/**
+@defgroup RunTimeInterface  Run-Time Interface
+@section RunTimeInterface  Run-Time Interface
 
 The libFAUDES run-time interface (RTI) facilitates the development 
 of applications that are transparent to libFAUDES extensions, e.g.,
@@ -1022,8 +1024,8 @@ public:
 template<class T>
  class CastToType<T,false>  {
 public:
-  static Type* Pointer(T* ptr) {return nullptr;};
-  static const Type* ConstPointer(const T* ptr) {return nullptr;};
+  static Type* Pointer(T* ptr) {(void) ptr; return nullptr;};
+  static const Type* ConstPointer(const T* ptr) {(void) ptr; return nullptr;};
 };
   
   

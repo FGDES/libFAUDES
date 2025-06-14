@@ -107,8 +107,6 @@ public:
      * @param rCE
      *   counter example, which is abstract at begin and shall be
      *   expanded to concrete finally w.r.t. cand
-     * @param isPreemptive
-     *   flag, true when consider event preemption
      * @exception
      *   500: concrete bad state can not be reached
      *   (this is theoretically impossible. Will only occur

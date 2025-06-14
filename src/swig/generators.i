@@ -126,10 +126,10 @@ Generator: introduce common base
     void GraphWrite(const std::string& rFileName, const std::string& rOutFormat="") const {
       // dont crash on missing dot
       if(!faudes_dotready()) {
-        FD_WARN("faudes.Generator::GraphWrite(...): failed to run graphviz \"" << faudes_dotpath << "\"");
+        FD_WARN("faudes.Generator::GraphWrite(...): failed to run graphviz \"" << faudes_dotexecpath() << "\"");
         return;
       }
-      $self->GraphWrite(rFileName,rOutFormat,faudes_dotpath);
+      $self->GraphWrite(rFileName,rOutFormat,faudes_dotexecpath());
     }
   }
 

@@ -1,7 +1,7 @@
 -- Test/demonstrate I/O systems
 
 -- Optionally, turn on faudes debugging messages
-faudes.Mute(false)
+faudes.Verbosity(0)
 
 -- ------------------------------------------
 -- IoSystem basic maintenance

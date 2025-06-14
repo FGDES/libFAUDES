@@ -512,20 +512,6 @@ protected:
    */
   virtual void DoWrite(TokenWriter& rTw, const std::string& rLabel="", const Type* pContext=0) const;
 
-  // /**
-  //  * Write to TokenWriter, see also public wrappers XWrite() in faudes::Type.
-  //  *
-  //  * @param rTw
-  //  *   Reference to TokenWriter
-  //  * @param rLabel
-  //  *   Label of section to write, defaults to "Executor"
-  //  * @param pContext
-  //  *   Write context to provide contextual information (ignored)
-  //  *
-  //  * @exception Exception 
-  //  *   - IO errors (id 2)
-  //  */
-  // virtual void DoXWrite(TokenWriter& rTw, const std::string& rLabel="", const Type* pContext=0) const;
 
   /**
    * Reads generator files section from TokenReader

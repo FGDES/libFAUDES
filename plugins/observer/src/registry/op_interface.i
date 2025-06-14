@@ -103,5 +103,5 @@ SwigHelpTopic("Observer","Observer plugin functions");
 
 // Include rti generated functioninterface 
 #if SwigModule=="SwigObserver"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif

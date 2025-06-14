@@ -32,7 +32,7 @@ namespace faudes {
  * We use faudes Type as base class to faciltate serialisation
  * of sets of RabinPairs aka RabinAcceptance.
  *
- * @ingroup OmegaautPlugin
+ * @ingroup OmgPlugin
  */
 class FAUDES_API RabinPair : public ExtType {
 
@@ -196,7 +196,7 @@ protected:
  * We use faudes::TBaseVector as the base class and perhaps
  * add some convenience accessors in due course.
  *
- * @ingroup OmegaautPlugin
+ * @ingroup OmgPlugin
  */
 class FAUDES_API RabinAcceptance : public TBaseVector<RabinPair> {
 

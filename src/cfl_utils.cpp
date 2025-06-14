@@ -432,7 +432,7 @@ bool FileCopy(const std::string& rFromFile, const std::string& rToFile) {
 // ConsoleOut class
 // Note: console-out is not re-entrant; for multithreaded applications
 // you must derive a class that has built-in mutexes; 
-ConsoleOut::ConsoleOut(void) : pStream(NULL), mMute(false) , mVerb(0) {
+ConsoleOut::ConsoleOut(void) : pStream(NULL), mVerb(1) {
   pInstance=this;
 }
 ConsoleOut::~ConsoleOut(void) {
@@ -458,8 +458,7 @@ void ConsoleOut::ToFile(const std::string& filename) {
   pStream = new std::ofstream();
   pStream->open(mFilename.c_str(),std::ios::app);
 }
-  void ConsoleOut::Write(const std::string& message,long int cntnow, long int cntdone, int verb) {
-  if(mMute) return;
+void ConsoleOut::Write(const std::string& message,long int cntnow, long int cntdone, int verb) {
   if(mVerb<verb) return;
   DoWrite(message,cntnow,cntdone,verb);
 }
@@ -473,7 +472,27 @@ void ConsoleOut::ToFile(const std::string& filename) {
 
 // global instance
 ConsoleOut* ConsoleOut::smpInstance=NULL;
- 
+
+/** API wrapper Print at verbosity */
+void Print(int v, const std::string& message) {
+  // print
+  std::ostringstream line;
+  line << "FAUDES_PRINT: " <<  message << std::endl;
+  faudes::ConsoleOut::G()->Write(line.str(),0,0,1);
+  // still do loop callback
+  LoopCallback();
+}
+void Print(const std::string& message) {
+  Print(1,message);
+}
+
+/** API wrapper get/set verbosity */
+void Verbosity(int v) {
+  faudes::ConsoleOut::G()->Verb(v);
+}
+int Verbosity(void) {
+  return faudes::ConsoleOut::G()->Verb();
+}
 
 
 // debugging: objectcount

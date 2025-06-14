@@ -59,5 +59,5 @@ SwigHelpTopic("CoordinationControl","CoordinationControl PlugIn");
 
 // Include rti generated function interface
 #if SwigModule=="SwigCoordinationControl"
-%include "../../../include/rtiautoload.i"
+%include "rtiautoload.i"
 #endif
