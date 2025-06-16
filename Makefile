@@ -506,7 +506,7 @@ endif
 ifeq ($(SHARED),yes)
 LIBOPTS += -fvisibility=hidden -fvisibility-inlines-hidden  
 LDFLAGS +=  -stdlib=libc++
-LDFLAGS += -Wl,-rpath,@executable_path/.,-rpath,@executable_path/../lib,-rpath,@executable_path/../,-rpath,@executable_path/../../../ 
+LDFLAGS += -Wl,-rpath,@executable_path/.,-rpath,@executable_path/../lib,-rpath,@executable_path/../Frameworks,-rpath,@executable_path/../,-rpath,@executable_path/../../../ 
 #LDFLAGS += -Wl,-install_name,@rpath/libfaudes.dylib
 FNCT_POST_APP = strip $(1) 
 endif 
