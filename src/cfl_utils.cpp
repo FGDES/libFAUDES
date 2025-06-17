@@ -459,11 +459,11 @@ void ConsoleOut::ToFile(const std::string& filename) {
   pStream->open(mFilename.c_str(),std::ios::app);
 }
 void ConsoleOut::Write(const std::string& message,long int cntnow, long int cntdone, int verb) {
-  if(mVerb<verb) return;
   DoWrite(message,cntnow,cntdone,verb);
 }
-  void ConsoleOut::DoWrite(const std::string& message,long int cntnow, long int cntdone, int verb) {
-    (void) cntnow; (void) cntdone; (void) verb;
+void ConsoleOut::DoWrite(const std::string& message,long int cntnow, long int cntdone, int verb) {
+  (void) cntnow; (void) cntdone; 
+  if(mVerb<verb) return;
   std::ostream* sout=pStream;
   if(!sout) sout=&std::cout; // tmoor: used to be std::cerr, using std::cout to facilitate emscripten/js
   *sout << message;
@@ -478,7 +478,7 @@ void Print(int v, const std::string& message) {
   // print
   std::ostringstream line;
   line << "FAUDES_PRINT: " <<  message << std::endl;
-  faudes::ConsoleOut::G()->Write(line.str(),0,0,1);
+  faudes::ConsoleOut::G()->Write(line.str(),0,0,v);
   // still do loop callback
   LoopCallback();
 }
