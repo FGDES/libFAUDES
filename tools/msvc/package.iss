@@ -20,7 +20,7 @@ DefaultDirName={sd}\FAUDES\libFAUDES
 OutputDir=.\
 SourceDir=..\..\
 SetupIconFile=tools\msvc\package.ico
-OutputBaseFilename=libfaudes-{#VMAJOR}_{#VMINOR}_setup
+OutputBaseFilename=libfaudes_{#VMAJOR}_{#VMINOR}_setup
 
 [Types]
 Name: "full"; Description: "Full installation"

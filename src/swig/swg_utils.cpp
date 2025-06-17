@@ -115,7 +115,7 @@ void faudes_help(void) {
     << std::endl
     << "  faudes.Print(\"message\")            print as faudes debugging message" << std::endl
     << "  faudes.Error(\"message\")            abort script with error message" << std::endl
-    << "  faudes.Verbosity(int)                set verbositry level " << std::endl;
+    << "  faudes.Verbosity(int)              set verbositry level " << std::endl;
 
   // do print to stderr
   Print(0,sstr.str()); // verb 0 <> always
