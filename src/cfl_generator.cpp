@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2006  Bernd Opitz
-   Copyright (C) 2007, 2010, 2024  Thomas Moor
+   Copyright (C) 2007, 2010, 2025  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@
 //#define FD_DG(m) FD_WARN(m)
 
 namespace faudes {
+
 
 // msObjectCount (static) 
 Idx vGenerator::msObjectCount = 0;

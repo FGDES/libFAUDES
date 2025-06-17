@@ -363,7 +363,7 @@ public:
    * 	Faudes-tyep name to search for.
    *
    * @return
-   * 	Pointer to faudes::TypeDefinition, NULL for unknoen type.
+   * 	Pointer to faudes::TypeDefinition, NULL for unknown type.
    *
    */
   const TypeDefinition* Definitionp(const std::string& rTypeName) const;
@@ -722,6 +722,21 @@ public:
    * 	- Unknown function (id 46)
    */
   const FunctionDefinition& Definition(const Function& rFunction) const;
+
+  /**
+   * Look up the function definition by faudes-function name
+   *
+   * @param rFunctionName
+   * 	Label of faudes::FunctionDefinition to search for.
+   *
+   * @return
+   * 	Reference to faudes::FunctionDefinition
+   *
+   * @return
+   * 	Pointer to faudes::FunctionDefinition, NULL for unknown type.
+   *
+   */
+  const FunctionDefinition* Definitionp(const std::string& rTypeName) const;
 
   /**
    * Look up the function name by faudes object

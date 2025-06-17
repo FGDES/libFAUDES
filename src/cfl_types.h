@@ -1743,7 +1743,7 @@ class FAUDES_API TypeDefinition : public Documentation {
    * @param rTag
    *   New tag parameter
    */
-  void ElementType(const std::string& rTag); 
+  void ElementType(const std::string& rEype); 
 
 protected:
 

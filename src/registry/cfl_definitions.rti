@@ -74,6 +74,9 @@ Vector of alphabets
 CoreFaudes    vector        eventset      alphabet      
 </Keywords> 
 
+<ElementTag value="EventSet"/>
+<ElementType value="EventSet"/>
+
 </TypeDefinition> 
 
 
@@ -108,7 +111,10 @@ Vector of generators
 </Documentation> 
 <Keywords> 
 CoreFaudes    vector        generator     
-</Keywords> 
+</Keywords>
+
+<ElementTag value="Generator"/>
+<ElementType value="Generator"/>
 
 </TypeDefinition> 
 
@@ -144,7 +150,10 @@ Vector of integers
 </Documentation> 
 <Keywords> 
 CoreFaudes    "elementary type"  vector        integer       
-</Keywords> 
+</Keywords>
+
+<ElementTag value="Integer"/>
+<ElementType value="Integer"/>
 
 </TypeDefinition> 
 
@@ -212,6 +221,9 @@ Vector of systems
 <Keywords> 
 CoreFaudes    vector        generator     system        
 </Keywords> 
+
+<ElementTag value="Generator"/>
+<ElementType value="System"/>
 
 </TypeDefinition> 
 

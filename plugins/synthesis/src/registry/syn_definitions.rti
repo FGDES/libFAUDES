@@ -600,7 +600,37 @@ Synthesis  "supremal sublanguage"  controllability  controllable  forcible preem
 
 </FunctionDefinition> 
 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupTconNB (lagacy interface)        -->
+<!-- =================================================== -->
+<!-- =================================================== -->
 
+<FunctionDefinition name="Synthesis::SupTconNB" ctype="faudes::SupTcon"> 
+
+<VariantSignatures> 
+
+<Signature name="SupTcon(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+<Signature name="SupTcon(GPlant,AContr,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="Generator" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AForcib" ftype="EventSet" access="In"/> 
+<Parameter name="APreemp" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="Generator" access="In"/> 
+<Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+xxx
 <!-- =================================================== -->
 <!-- =================================================== -->
 <!-- Faudes Function IsStdSynthesisConsistent -->

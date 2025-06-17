@@ -200,6 +200,13 @@ int main(int argc, char *argv[]) {
           "\", \"" << tit->second->ElementTag() << "\");";
         rticode << std::endl;
       }
+      // Extra data set: element tag
+      if(tit->second->ElementType()!="") {
+        rtiname = std::string("gRti") + ToStringInteger(tcnt) + "ElementType" + ftype;
+        rticode << "AutoRegisterElementType<" << ctype << "> " << rtiname << "(\"" << ftype << 
+          "\", \"" << tit->second->ElementType() << "\");";
+        rticode << std::endl;
+      }
     }
   }
 

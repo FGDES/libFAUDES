@@ -486,7 +486,7 @@ const std::string& ExtType::ElementType(void) const {
     ExtType* fake_const = const_cast< ExtType* >(this);
     const TypeDefinition* fdp=TypeDefinitionp();
     if(fdp) {
-      FD_DRTI("Type::ElementType: type " << fdp->TypeName() << "etag " << fdp->ElementType());
+      FD_DRTI("Type::ElementType: type " << fdp->TypeName() << "etype " << fdp->ElementType());
       if(!fdp->ElementType().empty()) fake_const->mElementType=fdp->ElementType();
     }
   }
@@ -894,6 +894,7 @@ void TypeDefinition::Clear(){
   Documentation::Clear();
   // my members
   mElementTag="";
+  mElementType="";
 }
 
 
@@ -903,6 +904,7 @@ void TypeDefinition::DoAssign(const TypeDefinition& rSrc) {
   Documentation::DoAssign(rSrc);
   // assign my members
   mElementTag=rSrc.mElementTag;
+  mElementType=rSrc.mElementType;
   // special member
   if(mpType) delete mpType;
   mpType=0;
@@ -916,6 +918,7 @@ bool TypeDefinition::DoEqual(const TypeDefinition& rOther) const {
   if(!Documentation::DoEqual(rOther)) return false;
   // test my members
   if(mElementTag!=rOther.mElementTag) return false;
+  if(mElementType!=rOther.mElementType) return false;
   return true;
 }
 
@@ -951,6 +954,15 @@ void TypeDefinition::DoReadCore(TokenReader& rTr) {
       rTr.ReadEnd("ElementTag");
       continue;
     }
+    // element type
+    if(token.IsBegin())
+    if(token.StringValue()=="ElementType") {
+      rTr.ReadBegin("ElementType",token);
+      if(token.ExistsAttributeString("value"))
+        mElementType=token.AttributeStringValue("value");
+      rTr.ReadEnd("ElementType");
+      continue;
+    }
     // break un unknown
     break;
   }
@@ -976,6 +988,13 @@ void TypeDefinition::DoWriteCore(TokenWriter& rTw) const {
     etag.SetEmpty("ElementTag");
     etag.InsAttributeString("value", mElementTag);
     rTw << etag;
+  }
+  // my data
+  if(mElementType!="") {
+    Token etype;
+    etype.SetEmpty("ElementType");
+    etype.InsAttributeString("value", mElementType);
+    rTw << etype;
   }
 }
 

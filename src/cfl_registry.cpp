@@ -579,6 +579,14 @@ const FunctionDefinition& FunctionRegistry::Definition(const Function& rFunction
   throw Exception("FunctionRegistry::Definition()", err.str(), 46);
 }
 
+// access function definition by function name
+const FunctionDefinition* FunctionRegistry::Definitionp(const std::string& rName) const{
+  FD_DRTI("FunctionRegistry::Definition( " << rName << " )");
+  Iterator mit=mNameToFunctionDef.find(rName);
+  if(mit == End()) return nullptr;
+  return(mit->second);
+}
+
 // access function definition by typed reference
 const std::string& FunctionRegistry::FunctionName(const Function& rFunction) const{
   FD_DRTI("FunctionRegistry::FunctionName(): typeid " << typeid(rFunction).name());
