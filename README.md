@@ -44,7 +44,7 @@ environments via the GitHub provided action/workflow service.
 The <i>dev</i> branch is used for our ongoing development process. We typically only commit
 when test cases pass, but there may be temporally exceptions and we rarely validate in a 
 Windows environment. We wont bother to increment version numbers or to set tages either. The 
-<i>dev</i> branch is only of interest, if you plant to contribute to libFAUDES and want to 
+<i>dev</i> branch is only of interest if you plant to contribute to libFAUDES and want to 
 inspect latest features. In that case you most likely want to have your personal branch/fork 
 based on the <i>dev</i> branch.
 
