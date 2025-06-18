@@ -60,6 +60,6 @@ echo ===  copy do doc =====================================
 echo ======================================================
 
 #rm $DSTDIR/tmp_*
-cp -v tmp_omg*.png $DSTDIR
-cp -v tmp_omg*.svg $DSTDIR
-cp -v tmp_omg*.fref $DSTDIR
+#cp -v tmp_omg*.png $DSTDIR
+#cp -v tmp_omg*.svg $DSTDIR
+#cp -v tmp_omg*.fref $DSTDIR

@@ -144,7 +144,7 @@ an overview.
 <p>
 Notes:
 
-- You should configure libFAUDES to use no minimum number of plug-ins.
+- You should configure libFAUDES to use a minimum number of plug-ins.
   This is done in the main Makefile. The test cases for python cover
   the synthesis plug-in. If you have used other pluhg-ins, please submit
   your test cases.
