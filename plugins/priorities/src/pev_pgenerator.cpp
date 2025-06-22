@@ -36,11 +36,53 @@ FAUDES_TYPE_IMPLEMENTATION(Void,AttributePGenGl,AttributeVoid)
 
 /*
 ********************************
-Autoregister pGenerator
+Autoregister
 ********************************
 */
 
 AutoRegisterType<pGenerator> gRtiRegisterPGenerator("pGenerator");
+  
+AutoRegisterType<FairnessConstraints> gRtiRegisterFairCons("FairnessConstraints");
+AutoRegisterElementTag<FairnessConstraints> gRtiRegisterFairConsETag("FairnessConstraints","EventSet");
+AutoRegisterElementType<FairnessConstraints> gRtiRegisterFairConsEType("FairnessConstraints","EventSet");
+
+
+/*
+********************************
+Implementation global attribute
+********************************
+*/
+
+// construct  
+AttributePGenGl::AttributePGenGl(void) : AttributeVoid() {
+  mFairCons.Name("FairnessConstraints");
+}
+  
+// token io
+void AttributePGenGl::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  std::string label=rLabel;
+  if(label.empty()) label="FairnessConstraints";
+  Token tok;
+  rTr.Peek(tok);
+  if(!tok.IsBegin(label)) return;
+  mFairCons.Read(rTr,label,pContext);
+}
+
+// token io
+void AttributePGenGl::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
+  std::string label=rLabel;
+  if(label.empty()) label="FairnessConstraints";
+  mFairCons.Write(rTw,label,pContext);
+}
+
+// token io
+void AttributePGenGl::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
+  std::string label=rLabel;
+  if(label.empty()) label="FairnessConstraints";
+  mFairCons.XWrite(rTw,label,pContext);
+}
+
+
   
 
 }// namespace

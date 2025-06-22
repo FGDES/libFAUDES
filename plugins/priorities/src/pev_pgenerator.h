@@ -32,8 +32,6 @@ namespace faudes {
 /*!
  * \brief The AttributePGenGl class
  * Class wrapping various global attributes of a FPGen
- * Note: this is not yet a propper faudes Attribute, it misses out on
- * serialisation.
  */
 
 class FAUDES_API AttributePGenGl : public AttributeVoid {
@@ -44,19 +42,24 @@ public:
     /**
     * Default constructor
     */
-    AttributePGenGl(void) : AttributeVoid() {}
-
+    AttributePGenGl(void);
+ 
     /** Destructor */
     virtual ~AttributePGenGl(void) {}
 
     /** Access members */
-    void Fairness(const FairnessConstraints& rFair) { mFairConsts = rFair; }
-    const FairnessConstraints& Fairness(void) const { return mFairConsts; }
+    void Fairness(const FairnessConstraints& rFair) { mFairCons = rFair; }
+    const FairnessConstraints& Fairness(void) const { return mFairCons; }
 
     /**
     * Clear (mandatory for serialisation)
     */
-    void Clear(void) { mFairConsts.Clear();}
+    void Clear(void) { mFairCons.Clear();}
+
+    /** 
+    * Test for default value
+    */
+    bool IsDefault(void) const {return mFairCons.Empty();};
 
 protected:
     /**
@@ -65,7 +68,7 @@ protected:
     * @param rSrcAttr
     *    Source to assign from
     */
-    void DoAssign(const AttributePGenGl& rSrcAttr) {mFairConsts = rSrcAttr.mFairConsts;}
+    void DoAssign(const AttributePGenGl& rSrcAttr) {mFairCons = rSrcAttr.mFairCons;}
 
     /**
     * Test equality of configuration data.
@@ -75,7 +78,7 @@ protected:
     * @return
     *   True on match.
     */
-    bool DoEqual(const AttributePGenGl& rOther) const {return (mFairConsts == rOther.mFairConsts);}
+    bool DoEqual(const AttributePGenGl& rOther) const {return (mFairCons == rOther.mFairCons);}
 
     /**
     * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -91,8 +94,7 @@ protected:
     * @exception Exception
     *   - IO error (id 1)
     */
-    virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=nullptr)
-      { (void) rTr; (void) rLabel; (void) pContext;}
+    virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=nullptr);
 
     /**
     * Writes attribute to TokenWriter, see AttributeVoid for public wrappers.
@@ -108,14 +110,29 @@ protected:
     * @exception Exception
     *   - IO error (id 2)
     */
-    virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const 
-      { (void) rTw; (void) rLabel; (void) pContext;}
+    virtual void DoWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const; 
+
+    /**
+    * Writes attribute to TokenWriter, see AttributeVoid for public wrappers.
+    * Label and Context argument are ignored.
+    *
+    * @param rTw
+    *   TokenWriter to write to
+    * @param rLabel
+    *   Section to write
+    * @param pContext
+    *   Write context to provide contextual information
+    *
+    * @exception Exception
+    *   - IO error (id 2)
+    */
+    virtual void DoXWrite(TokenWriter& rTw,const std::string& rLabel="", const Type* pContext=nullptr) const; 
 
     /*!
      * \brief mFairConst
      * fairness constraints
      */
-    FairnessConstraints mFairConsts;
+    FairnessConstraints mFairCons;
 
 };
 
@@ -218,7 +235,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @param rOtherGen
      *   Other generator
      */
-     /*virtual*/ TpGenerator& operator= (const TpGenerator& rOtherGen);
+     TpGenerator& operator= (const TpGenerator& rOtherGen);
   
     /**
      * Assignment method
@@ -374,18 +391,18 @@ protected:
 /** 
  * Convenience typedef for std prioritised generator 
  */
-typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, AttributeVoid> PrioritisedGenerator;
-
-
-// Tyoedef for compatibility with YT's original code / internal use
-typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, AttributeVoid> pGenerator;
+typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, AttributeVoid> FairGenerator;
 
 
 /** 
  * Convenience typedef for vectors of priositised systems
- * \ingroup GeneratorClasses
+ * @ingroup GeneratorClasses
  */
- //typedef  TBaseVector<PriositisedSystem> PrioritisedSystemVector;  
+typedef TBaseVector<FairGenerator> FairGeneratorVector;  
+
+
+// Tyoedef for compatibility with YT's original code / internal use
+typedef TpGenerator<AttributePGenGl, AttributeVoid, AttributePriority, AttributeVoid> pGenerator;
 
 
 /*

@@ -28,8 +28,8 @@
 #include "pev_abstraction.h"
 
 // local debug
-#undef FD_DF
-#define FD_DF(a) FD_WARN(a)
+//#undef FD_DF
+//#define FD_DF(a) FD_WARN(a)
 
 namespace faudes {
 
@@ -2011,7 +2011,9 @@ void MergeFairness(const pGenerator& rPGen1, const pGenerator& rPGen2, FairnessC
   }
 }
 
-
+/*
+Pre 2025/06  
+    
 // The main function for non-conflict check.
 // a) if rFairVec is non-empty, fairness constraints are considered
 // b) if rFairVec is empty we treat omega-termination as the acceptance condition (see below wraper)
@@ -2185,11 +2187,202 @@ bool IsPFNonblocking(const GeneratorVector& rGvec,
   return IsStronglyNonblocking(pgenvec.at(0));
 }
 
-// wrapper for no fairness constraints
-bool IsPNonblocking(const GeneratorVector& rGvec, const EventPriorities& rPrios) {
-  std::vector<FairnessConstraints> dummy;
-  return IsPFNonblocking(rGvec,rPrios,dummy);
+*/
+
+// abstract/compose-loop
+bool IsPFNonblocking_Loop(std::vector<pGenerator>& pgenvec, EventPriorities& prios){    
+
+  PCOMPVER_VERB1("IsPFNonconflicting_Loop:: parsing priorities");
+  // rearrange for consecutive priorities starting at 1 // TM2025/04
+  //prios.NormalisePriorities();  
+  // get lowest/highest priority  (PWB requires on extra prioity below internally) TMPRIO
+  Idx lowest = prios.LowestPriority();
+  Idx highest = prios.HighestPriority();
+  if(lowest==0){ 
+    throw Exception("IsPFNonconflicting_Loop()", "priority 0 reserved for internal use", 599);
+  }  
+  lowest--;  
+  // set global priorities
+  std::size_t git = 0;
+  for(;git<pgenvec.size();git++){
+    pgenvec.at(git).Priorities(prios);
+    pgenvec.at(git).LowestPriority(lowest);
+    pgenvec.at(git).HighestPriority(highest);
+  }
+
+  // global index for "full hiding"
+  Idx tau = 0;
+  // local loop variables  
+  EventSet merging;
+  // run the loop
+  bool firstCycle = true;
+  while (true){
+    PCOMPVER_VERB1("========================================")
+    PCOMPVER_VERB1("Remaining automata: "<<pgenvec.size())
+
+    // trivial cases
+    if(pgenvec.size()==0) return true;
+    if(pgenvec.size()==1) break;
+
+    // figure silent events
+    EventSet silent, all, shared;
+    git=0;
+    while(true){
+      all = all+pgenvec.at(git).Alphabet();
+      Idx git_next = git+1;
+      if (git_next == pgenvec.size()) break;
+      for(;git_next!=pgenvec.size();git_next++){
+	shared = shared
+	  + (pgenvec.at(git).Alphabet())
+	  * (pgenvec.at(git_next).Alphabet());
+      }
+      git++;
+    }
+    silent=all-shared; // all silent events in all current candidates
+    // normalize for one silent event at each priority level per generator, and then abstract.
+    // note from the second iteration, this is only necessary for the
+    // automaton composed from former candidates. This is realized by
+    // the break at the end
+    git = 0;
+    for(;git!=pgenvec.size();git++){
+      //abstraction
+      pGenerator& g = pgenvec.at(git);
+      PCOMPVER_VERB1("Abstracting Automaton "<< g.Name()<<", with state count: "<<g.Size())
+      ShapeUpsilon(g,silent); // enforce well-formedness
+      g.Accessible();
+      EventSet upsilon = HidePrivateEvs(g,silent,prios,tau,&merging);
+      PConflictPreservingAbstraction(g, upsilon);
+      PCOMPVER_VERB1("State count after abstraction: "<<g.Size())
+	if (!firstCycle) break;
+    }
+    firstCycle = false;
+
+    // candidate choice heuritics. Branch by different tasks
+    Idx imin = 0;
+    Idx jmin = 0;
+
+    //        // candidat pairs with fewest transitions 'minT'
+    //        git = 1;
+    //        for(;git!=pgenvec.size();git++){
+    //            if(pgenvec.at(git).TransRelSize()<pgenvec.at(imin).TransRelSize());
+    //                imin = git;
+    //        }
+    //        // candidat pairs with most common events 'maxC'
+    //        git = jmin;
+    //        Int score=-1;
+    //        for(; git!=pgenvec.size(); git++){
+    //            if(git==imin) continue;
+    //            Int sharedsize = (pgenvec.at(git).Alphabet() * pgenvec.at(imin).Alphabet()).Size();
+    //            if ( sharedsize > score){
+    //                jmin = git;
+    //                score = sharedsize;
+    //            }
+    //        }
+    
+    // compose candidate pair
+    imin = 0;
+    jmin = 1;
+
+    // get new private event for SParallel
+    EventSet myevs;
+    EventSet otherevs;
+    git = 0;
+    for(;git!=pgenvec.size();git++){
+      if (git==imin || git==jmin)
+	myevs = myevs + pgenvec.at(git).Alphabet();
+      else
+	otherevs = otherevs + pgenvec.at(git).Alphabet();
+    }
+    EventSet privateevs = myevs-otherevs;
+
+    // *************** compose Gi and Gj and reinstall attributes to gij
+    std::vector<pGenerator> newpgenvec;
+    pGenerator gij;
+    FairnessConstraints newfairness;
+    PCOMPVER_VERB1("Composing automata "<<pgenvec.at(imin).Name()<<" and "<<pgenvec.at(jmin).Name());
+    SUParallel(pgenvec.at(imin),pgenvec.at(jmin),merging,privateevs,prios,gij);
+    pGenerator pgij = gij;
+    pgij.Priorities(prios);
+    newpgenvec.push_back(pgij); // the composed generator is always the first element
+    UParallel_MergeFairness(pgenvec.at(imin), pgenvec.at(jmin),gij, merging, newfairness);
+
+    newpgenvec[0].Fairness(newfairness);
+    newpgenvec[0].LowestPriority(lowest);
+    newpgenvec[0].HighestPriority(highest);
+    // and retain other uncomposed automata
+    git = 0;
+    for(;git!=pgenvec.size();git++){
+      if (git == imin || git == jmin) continue;
+      newpgenvec.push_back(pgenvec.at(git)); // all other candidates are just copied to the next iteraion
+    }
+    pgenvec = newpgenvec;
+  }
+  ShapePriorities(pgenvec.at(0));
+  pgenvec.at(0).Accessible();
+  std::cout<<"Final state count: "<<ToStringInteger(pgenvec.at(0).Size())<<std::endl;
+  return IsStronglyNonblocking(pgenvec.at(0));
 }
+
+
+// API for non-conflict test incl. fairness
+bool IsPFNonblocking(const FairGeneratorVector& rPGvec,
+		     const EventPriorities& rPrios)
+{
+  FD_DF("IsPFNonblocking()");
+
+  // have a writable copy
+  EventPriorities prios=rPrios;
+
+  // test consistency
+  Idx git = 0;
+  for(;git<rPGvec.Size();git++){
+    FairnessConstraints::Position fpos = 0;
+    const FairnessConstraints& fcons= rPGvec.At(git).Fairness();
+    for(;fpos<fcons.Size();++fpos){
+      const EventSet& fair = fcons.At(fpos);
+      if (!(fair<=rPGvec.At(git).Alphabet())){
+        std::stringstream errstr;
+        errstr << "Consistency check fails";
+        errstr << "Generator '"<<rPGvec.At(git).Name() <<"' contains fairness event not in its alphabet";
+        throw Exception("IsPFNonconflicting", errstr.str(), 599);
+      }
+    }
+  }
+
+  // have a writable copy 
+  std::vector<pGenerator> pgenvec;
+  git = 0;
+  for(;git<rPGvec.Size();git++){
+    pGenerator pgen=rPGvec.At(git);
+    pgenvec.push_back(pgen);
+  }
+
+  // run the loop
+  return IsPFNonblocking_Loop(pgenvec,prios);  
+}
+  
+
+// API for non-conflict test excl. fairness
+bool IsPNonblocking(const GeneratorVector& rGvec, const EventPriorities& rPrios) 
+{
+  FD_DF("IsPNonblocking()");
+
+  // have a writable copy
+  EventPriorities prios=rPrios;
+
+  // have a writable copy incl. formal fairness
+  std::vector<pGenerator> pgenvec;
+  Idx git = 0;
+  for(;git<rGvec.Size();git++){
+    pGenerator pgen=rGvec.At(git);
+    AppendOmegaTermination(pgen,prios);
+    pgenvec.push_back(pgen);
+  }
+
+  // run the loop
+  return IsPFNonblocking_Loop(pgenvec,prios);
+}
+  
     
 
  

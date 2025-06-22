@@ -1,0 +1,523 @@
+<Generator name="Sbd2Gen(M1) [minstate]">
+
+% 
+%  Statistics for Sbd2Gen(M1) [minstate]
+% 
+%  States:        90
+%  Init/Marked:   1/90
+%  Events:        27
+%  Transitions:   452
+%  StateSymbols:  90
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+cb_bm+        cb_boff       pm_bm+        pm_boff       pm_pm+        pm_poff      
+pm_pm-        pm_moff       pm_mon        HE[tS[11000]xS[11001]]  HE[tS[11001]xS[11002]]  HE[tS[11002]xS[11090]] 
+HE[tS[11004]xS[11001]]  HE[tS[11003]xS[11004]]  HE[tS[11090]xS[11003]]  F11003        F11002        m2_busy1     
+m2_busy0      op_s1act      op_s1rel      op_s2act      op_s2rel      p1           
+p0            F11001        F11090       
+</Alphabet>
+
+<States>
+S1            S2            S3            S4            S5            S6           
+S7            S8            S9            S10           S11           S12          
+S13           S14           S15           S16           S17           S18          
+S19           S20           S21           S22           S23           S24          
+S25           S26           S27           S28           S29           S30          
+S31           S32           S33           S34           S35           S36          
+S37           S38           S39           S40           S41           S42          
+S43           S44           S45           S46           S47           S48          
+S49           S50           S51           S52           S53           S54          
+S55           S56           S57           S58           S59           S60          
+S61           S62           S63           S64           S65           S66          
+S67           S68           S69           S70           S71           S72          
+S73           S74           S75           S76           S77           S78          
+S79           S80           S81           S82           S83           S84          
+S85           S86           S87           S88           S89           S90          
+</States>
+
+<TransRel>
+S1            m2_busy1      S76          
+S1            m2_busy0      S1           
+S1            op_s1act      S29          
+S1            op_s1rel      S1           
+S1            op_s2act      S78          
+S1            op_s2rel      S1           
+S2            m2_busy1      S2           
+S2            m2_busy0      S50          
+S2            op_s1act      S2           
+S2            op_s1rel      S81          
+S2            op_s2act      S2           
+S2            op_s2rel      S49          
+S3            cb_bm+        S3           
+S3            cb_boff       S3           
+S3            pm_bm+        S3           
+S3            pm_boff       S3           
+S3            m2_busy1      S71          
+S3            m2_busy0      S3           
+S3            op_s1act      S68          
+S3            op_s1rel      S3           
+S3            op_s2act      S3           
+S3            op_s2rel      S66          
+S3            F11001        S7           
+S4            pm_bm+        S4           
+S4            pm_boff       S4           
+S4            F11003        S86          
+S4            m2_busy1      S74          
+S4            m2_busy0      S4           
+S4            op_s1act      S4           
+S4            op_s1rel      S46          
+S4            op_s2act      S4           
+S4            op_s2rel      S45          
+S4            p0            S4           
+S5            pm_pm+        S5           
+S5            pm_poff       S5           
+S5            pm_pm-        S5           
+S5            pm_moff       S5           
+S5            pm_mon        S5           
+S5            F11002        S8           
+S5            m2_busy1      S5           
+S5            m2_busy0      S64          
+S5            op_s1act      S62          
+S5            op_s1rel      S5           
+S5            op_s2act      S59          
+S5            op_s2rel      S5           
+S6            HE[tS[11000]xS[11001]]  S68          
+S7            HE[tS[11001]xS[11002]]  S25          
+S8            HE[tS[11002]xS[11090]]  S20          
+S9            HE[tS[11004]xS[11001]]  S68          
+S10           HE[tS[11003]xS[11004]]  S30          
+S11           HE[tS[11090]xS[11003]]  S47          
+S12           F11090        S15          
+S13           op_s1act      S47          
+S13           op_s1rel      S13          
+S13           p0            S43          
+S14           m2_busy1      S57          
+S14           m2_busy0      S14          
+S14           op_s1act      S55          
+S14           op_s1rel      S14          
+S14           op_s2act      S14          
+S14           op_s2rel      S52          
+S14           p1            S89          
+S15           m2_busy1      S15          
+S15           m2_busy0      S48          
+S15           op_s1act      S49          
+S15           op_s1rel      S15          
+S15           op_s2act      S81          
+S15           op_s2rel      S15          
+S16           m2_busy1      S81          
+S16           m2_busy0      S16          
+S16           op_s1act      S50          
+S16           op_s1rel      S16          
+S16           op_s2act      S16          
+S16           op_s2rel      S48          
+S17           F11090        S48          
+S18           m2_busy1      S54          
+S18           m2_busy0      S18          
+S18           op_s1act      S18          
+S18           op_s1rel      S52          
+S18           op_s2act      S55          
+S18           op_s2rel      S18          
+S18           p1            S51          
+S19           HE[tS[11002]xS[11090]]  S52          
+S20           m2_busy1      S20          
+S20           m2_busy0      S52          
+S20           op_s1act      S54          
+S20           op_s1rel      S20          
+S20           op_s2act      S57          
+S20           op_s2rel      S20          
+S20           p1            S12          
+S21           m2_busy1      S21          
+S21           m2_busy0      S55          
+S21           op_s1act      S21          
+S21           op_s1rel      S57          
+S21           op_s2act      S21          
+S21           op_s2rel      S54          
+S21           p1            S90          
+S22           HE[tS[11002]xS[11090]]  S57          
+S23           pm_pm+        S23          
+S23           pm_poff       S23          
+S23           pm_pm-        S23          
+S23           pm_moff       S23          
+S23           pm_mon        S23          
+S23           F11002        S58          
+S23           m2_busy1      S23          
+S23           m2_busy0      S61          
+S23           op_s1act      S23          
+S23           op_s1rel      S59          
+S23           op_s2act      S23          
+S23           op_s2rel      S62          
+S24           HE[tS[11001]xS[11002]]  S59          
+S25           pm_pm+        S25          
+S25           pm_poff       S25          
+S25           pm_pm-        S25          
+S25           pm_moff       S25          
+S25           pm_mon        S25          
+S25           F11002        S88          
+S25           m2_busy1      S59          
+S25           m2_busy0      S25          
+S25           op_s1act      S61          
+S25           op_s1rel      S25          
+S25           op_s2act      S25          
+S25           op_s2rel      S64          
+S26           pm_pm+        S26          
+S26           pm_poff       S26          
+S26           pm_pm-        S26          
+S26           pm_moff       S26          
+S26           pm_mon        S26          
+S26           F11002        S53          
+S26           m2_busy1      S62          
+S26           m2_busy0      S26          
+S26           op_s1act      S26          
+S26           op_s1rel      S64          
+S26           op_s2act      S61          
+S26           op_s2rel      S26          
+S27           HE[tS[11001]xS[11002]]  S64          
+S28           cb_bm+        S28          
+S28           cb_boff       S28          
+S28           pm_bm+        S28          
+S28           pm_boff       S28          
+S28           m2_busy1      S67          
+S28           m2_busy0      S28          
+S28           op_s1act      S28          
+S28           op_s1rel      S66          
+S28           op_s2act      S68          
+S28           op_s2rel      S28          
+S28           F11001        S65          
+S29           HE[tS[11000]xS[11001]]  S28          
+S30           HE[tS[11004]xS[11001]]  S28          
+S31           cb_bm+        S31          
+S31           cb_boff       S31          
+S31           pm_bm+        S31          
+S31           pm_boff       S31          
+S31           m2_busy1      S31          
+S31           m2_busy0      S66          
+S31           op_s1act      S67          
+S31           op_s1rel      S31          
+S31           op_s2act      S71          
+S31           op_s2rel      S31          
+S31           F11001        S87          
+S32           cb_bm+        S32          
+S32           cb_boff       S32          
+S32           pm_bm+        S32          
+S32           pm_boff       S32          
+S32           m2_busy1      S32          
+S32           m2_busy0      S68          
+S32           op_s1act      S32          
+S32           op_s1rel      S71          
+S32           op_s2act      S32          
+S32           op_s2rel      S67          
+S32           F11001        S60          
+S33           HE[tS[11000]xS[11001]]  S32          
+S34           HE[tS[11004]xS[11001]]  S32          
+S35           HE[tS[11003]xS[11004]]  S34          
+S36           m2_busy1      S36          
+S36           m2_busy0      S38          
+S36           op_s1act      S34          
+S36           op_s1rel      S36          
+S36           op_s2act      S36          
+S36           op_s2rel      S39          
+S37           HE[tS[11003]xS[11004]]  S36          
+S38           m2_busy1      S36          
+S38           m2_busy0      S38          
+S38           op_s1act      S9           
+S38           op_s1rel      S38          
+S38           op_s2act      S38          
+S38           op_s2rel      S41          
+S39           m2_busy1      S39          
+S39           m2_busy0      S41          
+S39           op_s1act      S70          
+S39           op_s1rel      S39          
+S39           op_s2act      S36          
+S39           op_s2rel      S39          
+S40           HE[tS[11003]xS[11004]]  S39          
+S41           m2_busy1      S39          
+S41           m2_busy0      S41          
+S41           op_s1act      S30          
+S41           op_s1rel      S41          
+S41           op_s2act      S38          
+S41           op_s2rel      S41          
+S42           HE[tS[11003]xS[11004]]  S41          
+S43           pm_bm+        S43          
+S43           pm_boff       S43          
+S43           F11003        S42          
+S43           m2_busy1      S44          
+S43           m2_busy0      S43          
+S43           op_s1act      S45          
+S43           op_s1rel      S43          
+S43           op_s2act      S46          
+S43           op_s2rel      S43          
+S43           p0            S43          
+S44           pm_bm+        S44          
+S44           pm_boff       S44          
+S44           F11003        S40          
+S44           m2_busy1      S44          
+S44           m2_busy0      S43          
+S44           op_s1act      S73          
+S44           op_s1rel      S44          
+S44           op_s2act      S75          
+S44           op_s2rel      S44          
+S44           p0            S44          
+S45           pm_bm+        S45          
+S45           pm_boff       S45          
+S45           F11003        S10          
+S45           m2_busy1      S73          
+S45           m2_busy0      S45          
+S45           op_s1act      S45          
+S45           op_s1rel      S43          
+S45           op_s2act      S4           
+S45           op_s2rel      S45          
+S45           p0            S45          
+S46           pm_bm+        S46          
+S46           pm_boff       S46          
+S46           F11003        S85          
+S46           m2_busy1      S75          
+S46           m2_busy0      S46          
+S46           op_s1act      S4           
+S46           op_s1rel      S46          
+S46           op_s2act      S46          
+S46           op_s2rel      S43          
+S46           p0            S46          
+S47           op_s1act      S47          
+S47           op_s1rel      S13          
+S47           p0            S45          
+S48           HE[tS[11090]xS[11003]]  S13          
+S49           m2_busy1      S49          
+S49           m2_busy0      S11          
+S49           op_s1act      S49          
+S49           op_s1rel      S15          
+S49           op_s2act      S2           
+S49           op_s2rel      S49          
+S50           m2_busy1      S2           
+S50           m2_busy0      S50          
+S50           op_s1act      S50          
+S50           op_s1rel      S16          
+S50           op_s2act      S50          
+S50           op_s2rel      S11          
+S51           F11090        S11          
+S52           m2_busy1      S20          
+S52           m2_busy0      S52          
+S52           op_s1act      S18          
+S52           op_s1rel      S52          
+S52           op_s2act      S14          
+S52           op_s2rel      S52          
+S52           p1            S17          
+S53           HE[tS[11002]xS[11090]]  S18          
+S54           m2_busy1      S54          
+S54           m2_busy0      S18          
+S54           op_s1act      S54          
+S54           op_s1rel      S20          
+S54           op_s2act      S21          
+S54           op_s2rel      S54          
+S54           p1            S84          
+S55           m2_busy1      S21          
+S55           m2_busy0      S55          
+S55           op_s1act      S55          
+S55           op_s1rel      S14          
+S55           op_s2act      S55          
+S55           op_s2rel      S18          
+S55           p1            S82          
+S56           HE[tS[11002]xS[11090]]  S55          
+S57           m2_busy1      S57          
+S57           m2_busy0      S14          
+S57           op_s1act      S21          
+S57           op_s1rel      S57          
+S57           op_s2act      S57          
+S57           op_s2rel      S20          
+S57           p1            S83          
+S58           HE[tS[11002]xS[11090]]  S21          
+S59           pm_pm+        S59          
+S59           pm_poff       S59          
+S59           pm_pm-        S59          
+S59           pm_moff       S59          
+S59           pm_mon        S59          
+S59           F11002        S22          
+S59           m2_busy1      S59          
+S59           m2_busy0      S25          
+S59           op_s1act      S23          
+S59           op_s1rel      S59          
+S59           op_s2act      S59          
+S59           op_s2rel      S5           
+S60           HE[tS[11001]xS[11002]]  S23          
+S61           pm_pm+        S61          
+S61           pm_poff       S61          
+S61           pm_pm-        S61          
+S61           pm_moff       S61          
+S61           pm_mon        S61          
+S61           F11002        S56          
+S61           m2_busy1      S23          
+S61           m2_busy0      S61          
+S61           op_s1act      S61          
+S61           op_s1rel      S25          
+S61           op_s2act      S61          
+S61           op_s2rel      S26          
+S62           pm_pm+        S62          
+S62           pm_poff       S62          
+S62           pm_pm-        S62          
+S62           pm_moff       S62          
+S62           pm_mon        S62          
+S62           F11002        S80          
+S62           m2_busy1      S62          
+S62           m2_busy0      S26          
+S62           op_s1act      S62          
+S62           op_s1rel      S5           
+S62           op_s2act      S23          
+S62           op_s2rel      S62          
+S63           HE[tS[11001]xS[11002]]  S62          
+S64           pm_pm+        S64          
+S64           pm_poff       S64          
+S64           pm_pm-        S64          
+S64           pm_moff       S64          
+S64           pm_mon        S64          
+S64           F11002        S19          
+S64           m2_busy1      S5           
+S64           m2_busy0      S64          
+S64           op_s1act      S26          
+S64           op_s1rel      S64          
+S64           op_s2act      S25          
+S64           op_s2rel      S64          
+S65           HE[tS[11001]xS[11002]]  S26          
+S66           cb_bm+        S66          
+S66           cb_boff       S66          
+S66           pm_bm+        S66          
+S66           pm_boff       S66          
+S66           m2_busy1      S31          
+S66           m2_busy0      S66          
+S66           op_s1act      S28          
+S66           op_s1rel      S66          
+S66           op_s2act      S3           
+S66           op_s2rel      S66          
+S66           F11001        S27          
+S67           cb_bm+        S67          
+S67           cb_boff       S67          
+S67           pm_bm+        S67          
+S67           pm_boff       S67          
+S67           m2_busy1      S67          
+S67           m2_busy0      S28          
+S67           op_s1act      S67          
+S67           op_s1rel      S31          
+S67           op_s2act      S32          
+S67           op_s2rel      S67          
+S67           F11001        S63          
+S68           cb_bm+        S68          
+S68           cb_boff       S68          
+S68           pm_bm+        S68          
+S68           pm_boff       S68          
+S68           m2_busy1      S32          
+S68           m2_busy0      S68          
+S68           op_s1act      S68          
+S68           op_s1rel      S3           
+S68           op_s2act      S68          
+S68           op_s2rel      S28          
+S68           F11001        S79          
+S69           HE[tS[11000]xS[11001]]  S67          
+S70           HE[tS[11004]xS[11001]]  S67          
+S71           cb_bm+        S71          
+S71           cb_boff       S71          
+S71           pm_bm+        S71          
+S71           pm_boff       S71          
+S71           m2_busy1      S71          
+S71           m2_busy0      S3           
+S71           op_s1act      S32          
+S71           op_s1rel      S71          
+S71           op_s2act      S71          
+S71           op_s2rel      S31          
+S71           F11001        S24          
+S72           HE[tS[11003]xS[11004]]  S70          
+S73           pm_bm+        S73          
+S73           pm_boff       S73          
+S73           F11003        S72          
+S73           m2_busy1      S73          
+S73           m2_busy0      S45          
+S73           op_s1act      S73          
+S73           op_s1rel      S44          
+S73           op_s2act      S74          
+S73           op_s2rel      S73          
+S73           p0            S73          
+S74           pm_bm+        S74          
+S74           pm_boff       S74          
+S74           F11003        S35          
+S74           m2_busy1      S74          
+S74           m2_busy0      S4           
+S74           op_s1act      S74          
+S74           op_s1rel      S75          
+S74           op_s2act      S74          
+S74           op_s2rel      S73          
+S74           p0            S74          
+S75           pm_bm+        S75          
+S75           pm_boff       S75          
+S75           F11003        S37          
+S75           m2_busy1      S75          
+S75           m2_busy0      S46          
+S75           op_s1act      S74          
+S75           op_s1rel      S75          
+S75           op_s2act      S75          
+S75           op_s2rel      S44          
+S75           p0            S75          
+S76           m2_busy1      S76          
+S76           m2_busy0      S1           
+S76           op_s1act      S69          
+S76           op_s1rel      S76          
+S76           op_s2act      S77          
+S76           op_s2rel      S76          
+S77           m2_busy1      S77          
+S77           m2_busy0      S78          
+S77           op_s1act      S33          
+S77           op_s1rel      S77          
+S77           op_s2act      S77          
+S77           op_s2rel      S76          
+S78           m2_busy1      S77          
+S78           m2_busy0      S78          
+S78           op_s1act      S6           
+S78           op_s1rel      S78          
+S78           op_s2act      S78          
+S78           op_s2rel      S1           
+S79           HE[tS[11001]xS[11002]]  S61          
+S80           HE[tS[11002]xS[11090]]  S54          
+S81           m2_busy1      S81          
+S81           m2_busy0      S16          
+S81           op_s1act      S2           
+S81           op_s1rel      S81          
+S81           op_s2act      S81          
+S81           op_s2rel      S15          
+S82           F11090        S50          
+S83           F11090        S81          
+S84           F11090        S49          
+S85           HE[tS[11003]xS[11004]]  S38          
+S86           HE[tS[11003]xS[11004]]  S9           
+S87           HE[tS[11001]xS[11002]]  S5           
+S88           HE[tS[11002]xS[11090]]  S14          
+S89           F11090        S16          
+S90           F11090        S2           
+</TransRel>
+
+<InitStates>
+S1           
+</InitStates>
+
+<MarkedStates>
+S1            S2            S3            S4            S5            S6           
+S7            S8            S9            S10           S11           S12          
+S13           S14           S15           S16           S17           S18          
+S19           S20           S21           S22           S23           S24          
+S25           S26           S27           S28           S29           S30          
+S31           S32           S33           S34           S35           S36          
+S37           S38           S39           S40           S41           S42          
+S43           S44           S45           S46           S47           S48          
+S49           S50           S51           S52           S53           S54          
+S55           S56           S57           S58           S59           S60          
+S61           S62           S63           S64           S65           S66          
+S67           S68           S69           S70           S71           S72          
+S73           S74           S75           S76           S77           S78          
+S79           S80           S81           S82           S83           S84          
+S85           S86           S87           S88           S89           S90          
+</MarkedStates>
+
+<FairnessConstraints>
+<EventSet>
+HE[tS[11001]xS[11002]]
+</EventSet>
+</FairnessConstraints>
+
+</Generator>

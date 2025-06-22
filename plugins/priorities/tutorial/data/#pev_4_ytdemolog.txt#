@@ -1,0 +1,104 @@
+******************************************************************************************
+******************************************************************************************
+******************************************************************************************
+
+Remaining automata: 7
+Abstracting Automaton Sbd2Gen(M1) [minstate], with state count: 91
+State count after abstraction: 46
+Abstracting Automaton Sbd2Gen(P) [minstate], with state count: 86
+State count after abstraction: 12
+Abstracting Automaton Sbd2Gen(TAKE_L) [minstate], with state count: 101
+State count after abstraction: 65
+Abstracting Automaton oneWPonCB, with state count: 3
+State count after abstraction: 3
+Abstracting Automaton Sbd2Gen(SEND) [minstate], with state count: 177
+State count after abstraction: 129
+Abstracting Automaton G_RBPM_coup, with state count: 6
+State count after abstraction: 6
+Abstracting Automaton Sbd2Gen(M2) [minstate], with state count: 622
+State count after abstraction: 126
+Composing automata Sbd2Gen(M1) [minstate] and Sbd2Gen(P) [minstate]
+========================================
+Remaining automata: 6
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) [minstate], with state count: 70
+State count after abstraction: 38
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) [minstate] and Sbd2Gen(TAKE_L) [minstate]
+========================================
+Remaining automata: 5
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...nstate]||Sbd2Gen(TAKE_L) [minstate], with state count: 429
+State count after abstraction: 243
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...nstate]||Sbd2Gen(TAKE_L) [minstate] and oneWPonCB
+========================================
+Remaining automata: 4
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...d2Gen(TAKE_L) [minstate]||oneWPonCB, with state count: 98
+State count after abstraction: 86
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...d2Gen(TAKE_L) [minstate]||oneWPonCB and Sbd2Gen(SEND) [minstate]
+========================================
+Remaining automata: 3
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...oneWPonCB||Sbd2Gen(SEND) [minstate], with state count: 171
+State count after abstraction: 39
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...oneWPonCB||Sbd2Gen(SEND) [minstate] and G_RBPM_coup
+========================================
+Remaining automata: 2
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...d2Gen(SEND) [minstate]||G_RBPM_coup, with state count: 167
+State count after abstraction: 82
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...d2Gen(SEND) [minstate]||G_RBPM_coup and Sbd2Gen(M2) [minstate]
+========================================
+Remaining automata: 1
+Final state count: 53
+Duration in seconds: 0.733000
+Is P-Nonconflicting? 1
+
+
+******************************************************************************************
+******************************************************************************************
+******************************************************************************************
+Dann das Protokoll mit 6 Automata (also ohne oneWPonCB):
+******************************************************************************************
+******************************************************************************************
+******************************************************************************************
+Remaining automata: 6
+Abstracting Automaton Sbd2Gen(M1) [minstate], with state count: 91
+State count after abstraction: 46
+Abstracting Automaton Sbd2Gen(P) [minstate], with state count: 86
+State count after abstraction: 12
+Abstracting Automaton Sbd2Gen(TAKE_L) [minstate], with state count: 101
+State count after abstraction: 63
+Abstracting Automaton Sbd2Gen(SEND) [minstate], with state count: 177
+State count after abstraction: 129
+Abstracting Automaton G_RBPM_coup, with state count: 6
+State count after abstraction: 6
+Abstracting Automaton Sbd2Gen(M2) [minstate], with state count: 622
+State count after abstraction: 126
+Composing automata Sbd2Gen(M1) [minstate] and Sbd2Gen(P) [minstate]
+========================================
+Remaining automata: 5
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) [minstate], with state count: 70
+State count after abstraction: 38
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) [minstate] and Sbd2Gen(TAKE_L) [minstate]
+========================================
+Remaining automata: 4
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...nstate]||Sbd2Gen(TAKE_L) [minstate], with state count: 421
+State count after abstraction: 219
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...nstate]||Sbd2Gen(TAKE_L) [minstate] and Sbd2Gen(SEND) [minstate]
+========================================
+Remaining automata: 3
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...minstate]||Sbd2Gen(SEND) [minstate], with state count: 457
+State count after abstraction: 139
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...minstate]||Sbd2Gen(SEND) [minstate] and G_RBPM_coup
+========================================
+Remaining automata: 2
+Abstracting Automaton Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...d2Gen(SEND) [minstate]||G_RBPM_coup, with state count: 654
+State count after abstraction: 475
+Composing automata Sbd2Gen(M1) [minstate]||Sbd2Gen(P) ...d2Gen(SEND) [minstate]||G_RBPM_coup and Sbd2Gen(M2) [minstate]
+========================================
+Remaining automata: 1
+Final state count: 1908
+****** THE BLOCKING: 62
+Duration in seconds: 1.366000
+Is P-Nonconflicting? 0
+
+******************************************************************************************
+******************************************************************************************
+******************************************************************************************
+

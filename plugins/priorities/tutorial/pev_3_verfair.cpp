@@ -21,22 +21,18 @@ int main(int argc, char* argv[]) {
     
     // prepare results
     ConsoleOut::G()->Verb(1);
-    GeneratorVector gvoi;
+    FairGeneratorVector gvoi;
     gvoi.Clear();
     EventPriorities prios;
-    std::vector<FairnessConstraints> fairvec;
     FairnessConstraints faircons;
     EventSet fair;
     
     // read models
-    gvoi.Append(Generator("tmp_pev_cbs_src.gen"));
+    gvoi.Append(FairGenerator("tmp_pev_cbs_src.gen"));
     for(int i = 1;i<=count;i++){
-        gvoi.Append(Generator("tmp_pev_cbs_"+ToStringInteger(i)+"_cl.gen"));
+        gvoi.Append(FairGenerator("tmp_pev_cbs_"+ToStringInteger(i)+"_cl.gen"));
     }
-    gvoi.Append(Generator("tmp_pev_cbs_snk.gen"));
-
-    // read priorities
-    prios.Read("tmp_pev_cbs_prios.alph");
+    gvoi.Append(FairGenerator("tmp_pev_cbs_snk.gen"));
 
     // construct fairness constraints 
     for (int i = 0; i<=count+1; i++){
@@ -44,13 +40,16 @@ int main(int argc, char* argv[]) {
         fair.Clear();
         fair.Insert("ar_"+ToStringInteger(i));
         faircons.Append(fair);
-        fairvec.push_back(faircons);
+        gvoi.At(i).Fairness(faircons);
     }
+
+    // read priorities
+    prios.Read("tmp_pev_cbs_prios.alph");
 
     // do compositional verification
     std::cout<<"starting compositional verification" << std::endl;
     auto start = std::clock();
-    bool isnc = IsPFNonblocking(gvoi,prios,fairvec);
+    bool isnc = IsPFNonblocking(gvoi,prios);
     std::cout<<"duration in seconds: "<<ToStringFloat((std::clock()-start)/(double) CLOCKS_PER_SEC)<<std::endl;
     if(isnc)
       std::cout<<"p-nonconflicting test passed"<<std::endl;
