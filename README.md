@@ -38,15 +38,17 @@ https://fgdes.tf.fau.de/faudes/faudes_build.html
 The <i>main</i> branch of this repository is at least in a state to compile all default 
 plug-ins and pass the test cases. It should be suitable for the devlopment of libFAUDES 
 based applications. We add tags to <i>main</i> whenever the version (as specified in the 
-file `VERSION`) number is incremented. In this event we typically validate in Linux,
-Mac OS amd Windows environments.
+file `VERSION`) number is incremented. In this event validation in Linux, Mac OS amd 
+Windows environments is trigered automaticaly.  
 
 The <i>dev</i> branch is used for our ongoing development process. We typically only commit
 when test cases pass, but there may be temporally exceptions and we rarely validate in a 
-Windows environment. We wont bother to increment version numbers or to set tages either. The 
-<i>dev</i> branch is only of interest, if you plant to contribute to libFAUDES and want to 
+Windows environment. We wont bother to increment version numbers or to set tags either. The 
+<i>dev</i> branch is only of interest, if you plan to contribute to libFAUDES and want to 
 inspect latest features. In that case you most likely want to have your personal branch/fork 
-based on the <i>dev</i> branch.
+based on the <i>dev</i> branch. You will inherit the test cases and can trigger automatic 
+validation on all supported envorinments by setting/commiting/pushing a tag; see our yml-files
+for GitHub actions.
 
 
 
