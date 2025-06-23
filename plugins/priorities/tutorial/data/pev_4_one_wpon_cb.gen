@@ -1,0 +1,36 @@
+<Generator name="oneWPonCB">
+
+% 
+%  Statistics for oneWPonCB
+% 
+%  States:        2
+%  Init/Marked:   1/2
+%  Events:        2
+%  Transitions:   2
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+HE[tS[2000]xS[2001,2003]]        cb_wpar      
+</Alphabet>
+
+<States>
+1              2             
+</States>
+
+<TransRel>
+1              HE[tS[2000]xS[2001,2003]]        2             
+2              cb_wpar       1             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1              2             
+</MarkedStates>
+
+
+</Generator>

@@ -82,27 +82,6 @@ FAUDES_API void ShapeUpsilon(pGenerator& rPGen, const EventSet& rUpsilon);
 FAUDES_API void ShapePreemption(Generator& rGen, const EventSet& rPrevs);
 
 
-FAUDES_API bool IsShaped(const pGenerator& rPGen, const EventSet& pevs);
-
-
-/**
- * Nonconflicting Test
- *
- * Given a family of generators and global event priorities, decide whether or not the
- * synchronous composition is non-conflicting under event priorisation. This function
- * is a variant of faudes::IsPFNonblocking that addresses a generalised concept of fairness.
- *
- * @param rGvec generators to consider
- * @param rPrios global event priosities
- * @param rFairVec one fairness constraint per generator
- * @return true for nonconflicting
- *
- * @ingroup PrioritiesPlugin
- */  
-FAUDES_API bool IsPFNonblocking(
-    const GeneratorVector& rGvec,
-    const EventPriorities& rPrios,
-    const std::vector<FairnessConstraints>& rFairVec);
 
 /**
  * Nonconflicting Test
@@ -120,6 +99,24 @@ FAUDES_API bool IsPFNonblocking(
  */  
 FAUDES_API bool IsPNonblocking(
     const GeneratorVector& rGvec,
+    const EventPriorities& rPrios);
+
+
+/**
+ * Nonconflicting Test
+ *
+ * Given a family of generators and global event priorities, decide whether or not the
+ * synchronous composition is non-conflicting under event priorisation. This function
+ * is a variant of faudes::IsPNonblocking that addresses a generalised concept of fairness.
+ *
+ * @param rPGvec generators to consider
+ * @param rPrios global event priosities
+ * @return true for nonconflicting
+ *
+ * @ingroup PrioritiesPlugin
+ */  
+FAUDES_API bool IsPFNonblocking(
+    const FairGeneratorVector& rFGvec,
     const EventPriorities& rPrios);
 
   

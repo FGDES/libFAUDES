@@ -1,0 +1,334 @@
+<Generator name="Sbd2Gen(P) [minstate]">
+
+% 
+%  Statistics for Sbd2Gen(P) [minstate]
+% 
+%  States:        85
+%  Init/Marked:   1/85
+%  Events:        24
+%  Transitions:   269
+%  StateSymbols:  85
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+pm_nps-       pm_ps-        pm_pm+        pm_poff       pm_pm-        pm_ps+       
+pm_nps+       pm_mrqu       pm_mack       pm_moff       pm_mon        HE[tS[1000]xS[1001]] 
+HE[tS[1005]xS[1999]]  HE[tS[1004]xS[1005]]  HE[tS[1001]xS[1002]]  HE[tS[1003]xS[1004]]  HE[tS[1002]xS[1003]]  HE[tS[11001]xS[11002]] 
+F1005         F1004         F1001         F1003         F1002         F11002       
+</Alphabet>
+
+<States>
+S1            S2            S3            S4            S5            S6           
+S7            S8            S9            S10           S11           S12          
+S13           S14           S15           S16           S17           S18          
+S19           S20           S21           S22           S23           S24          
+S25           S26           S27           S28           S29           S30          
+S31           S32           S33           S34           S35           S36          
+S37           S38           S39           S40           S41           S42          
+S43           S44           S45           S46           S47           S48          
+S49           S50           S51           S52           S53           S54          
+S55           S56           S57           S58           S59           S60          
+S61           S62           S63           S64           S65           S66          
+S67           S68           S69           S70           S71           S72          
+S73           S74           S75           S76           S77           S78          
+S79           S80           S81           S82           S83           S84          
+S85          
+</States>
+
+<TransRel>
+S1            pm_pm+        S29          
+S1            pm_poff       S1           
+S1            pm_pm-        S46          
+S1            pm_mrqu       S36          
+S1            pm_mon        S5           
+S1            HE[tS[11001]xS[11002]]  S81          
+S2            F1001         S11          
+S3            pm_nps-       S12          
+S3            pm_pm+        S3           
+S3            pm_poff       S5           
+S3            pm_pm-        S64          
+S3            pm_mrqu       S16          
+S3            pm_moff       S29          
+S4            pm_ps-        S64          
+S4            pm_pm+        S12          
+S4            pm_poff       S65          
+S4            pm_pm-        S4           
+S4            pm_mrqu       S17          
+S4            pm_moff       S30          
+S5            pm_pm+        S3           
+S5            pm_poff       S5           
+S5            pm_pm-        S64          
+S5            pm_mrqu       S18          
+S5            pm_moff       S1           
+S6            pm_nps-       S11          
+S6            pm_mrqu       S19          
+S7            pm_ps-        S54          
+S7            pm_mrqu       S20          
+S8            pm_poff       S70          
+S8            pm_mrqu       S21          
+S9            pm_pm+        S85          
+S9            pm_mrqu       S77          
+S10           pm_pm-        S49          
+S11           pm_ps+        S82          
+S11           pm_mrqu       S23          
+S12           pm_pm+        S12          
+S12           pm_poff       S65          
+S12           pm_pm-        S4           
+S12           pm_ps+        S62          
+S12           pm_mrqu       S24          
+S12           pm_moff       S32          
+S13           pm_nps+       S7           
+S13           pm_mrqu       S25          
+S14           pm_pm+        S62          
+S14           pm_poff       S63          
+S14           pm_pm-        S14          
+S14           pm_nps+       S4           
+S14           pm_mrqu       S26          
+S14           pm_moff       S33          
+S15           pm_mrqu       S45          
+S16           pm_nps-       S24          
+S16           pm_pm+        S16          
+S16           pm_poff       S18          
+S16           pm_pm-        S60          
+S16           pm_mack       S3           
+S16           pm_moff       S34          
+S17           pm_ps-        S60          
+S17           pm_pm+        S24          
+S17           pm_poff       S61          
+S17           pm_pm-        S17          
+S17           pm_mack       S4           
+S17           pm_moff       S35          
+S18           pm_pm+        S16          
+S18           pm_poff       S18          
+S18           pm_pm-        S60          
+S18           pm_mack       S5           
+S18           pm_moff       S36          
+S19           pm_nps-       S23          
+S19           pm_mack       S6           
+S20           pm_ps-        S42          
+S20           pm_mack       S7           
+S21           pm_poff       S50          
+S21           pm_mack       S8           
+S22           pm_pm+        S76          
+S22           pm_mack       S78          
+S23           pm_ps+        S43          
+S23           pm_mack       S11          
+S24           pm_pm+        S24          
+S24           pm_poff       S61          
+S24           pm_pm-        S17          
+S24           pm_ps+        S58          
+S24           pm_mack       S12          
+S24           pm_moff       S37          
+S25           pm_nps+       S20          
+S25           pm_mack       S13          
+S26           pm_pm+        S58          
+S26           pm_poff       S59          
+S26           pm_pm-        S26          
+S26           pm_nps+       S17          
+S26           pm_mack       S14          
+S26           pm_moff       S38          
+S27           pm_mack       S44          
+S28           pm_moff       S10          
+S29           pm_nps-       S32          
+S29           pm_pm+        S29          
+S29           pm_poff       S1           
+S29           pm_pm-        S46          
+S29           pm_mrqu       S34          
+S29           pm_mon        S3           
+S30           pm_ps-        S46          
+S30           pm_pm+        S32          
+S30           pm_poff       S66          
+S30           pm_pm-        S30          
+S30           pm_mrqu       S35          
+S30           pm_mon        S4           
+S31           pm_pm+        S67          
+S31           pm_poff       S31          
+S31           pm_pm-        S33          
+S31           pm_mrqu       S55          
+S31           pm_mon        S63          
+S31           HE[tS[11001]xS[11002]]  S75          
+S32           pm_pm+        S32          
+S32           pm_poff       S66          
+S32           pm_pm-        S30          
+S32           pm_ps+        S67          
+S32           pm_mrqu       S37          
+S32           pm_mon        S12          
+S33           pm_pm+        S67          
+S33           pm_poff       S31          
+S33           pm_pm-        S33          
+S33           pm_nps+       S30          
+S33           pm_mrqu       S38          
+S33           pm_mon        S14          
+S34           pm_nps-       S37          
+S34           pm_pm+        S34          
+S34           pm_poff       S36          
+S34           pm_pm-        S56          
+S34           pm_mack       S29          
+S34           pm_mon        S16          
+S35           pm_ps-        S56          
+S35           pm_pm+        S37          
+S35           pm_poff       S57          
+S35           pm_pm-        S35          
+S35           pm_mack       S30          
+S35           pm_mon        S17          
+S36           pm_pm+        S34          
+S36           pm_poff       S36          
+S36           pm_pm-        S56          
+S36           pm_mack       S1           
+S36           pm_mon        S18          
+S36           HE[tS[11001]xS[11002]]  S79          
+S37           pm_pm+        S37          
+S37           pm_poff       S57          
+S37           pm_pm-        S35          
+S37           pm_ps+        S47          
+S37           pm_mack       S32          
+S37           pm_mon        S24          
+S38           pm_pm+        S47          
+S38           pm_poff       S55          
+S38           pm_pm-        S38          
+S38           pm_nps+       S35          
+S38           pm_mack       S33          
+S38           pm_mon        S26          
+S39           pm_mon        S51          
+S40           HE[tS[1000]xS[1001]]  S22          
+S41           F11002        S1           
+S42           HE[tS[1004]xS[1005]]  S53          
+S43           HE[tS[1001]xS[1002]]  S21          
+S44           HE[tS[1003]xS[1004]]  S28          
+S45           HE[tS[1002]xS[1003]]  S39          
+S46           pm_pm+        S29          
+S46           pm_poff       S1           
+S46           pm_pm-        S46          
+S46           pm_mrqu       S56          
+S46           pm_mon        S64          
+S47           pm_pm+        S47          
+S47           pm_poff       S55          
+S47           pm_pm-        S38          
+S47           pm_mack       S67          
+S47           pm_mon        S58          
+S48           F1005         S68          
+S49           F1004         S13          
+S50           F1002         S45          
+S51           F1003         S27          
+S52           pm_poff       S69          
+S52           pm_mrqu       S53          
+S53           pm_poff       S48          
+S53           pm_mack       S52          
+S54           HE[tS[1004]xS[1005]]  S52          
+S55           pm_pm+        S47          
+S55           pm_poff       S55          
+S55           pm_pm-        S38          
+S55           pm_mack       S31          
+S55           pm_mon        S59          
+S55           HE[tS[11001]xS[11002]]  S74          
+S56           pm_pm+        S34          
+S56           pm_poff       S36          
+S56           pm_pm-        S56          
+S56           pm_mack       S46          
+S56           pm_mon        S60          
+S57           pm_pm+        S37          
+S57           pm_poff       S57          
+S57           pm_pm-        S35          
+S57           pm_mack       S66          
+S57           pm_mon        S61          
+S57           HE[tS[11001]xS[11002]]  S40          
+S58           pm_pm+        S58          
+S58           pm_poff       S59          
+S58           pm_pm-        S26          
+S58           pm_mack       S62          
+S58           pm_moff       S47          
+S59           pm_pm+        S58          
+S59           pm_poff       S59          
+S59           pm_pm-        S26          
+S59           pm_mack       S63          
+S59           pm_moff       S55          
+S60           pm_pm+        S16          
+S60           pm_poff       S18          
+S60           pm_pm-        S60          
+S60           pm_mack       S64          
+S60           pm_moff       S56          
+S61           pm_pm+        S24          
+S61           pm_poff       S61          
+S61           pm_pm-        S17          
+S61           pm_mack       S65          
+S61           pm_moff       S57          
+S62           pm_pm+        S62          
+S62           pm_poff       S63          
+S62           pm_pm-        S14          
+S62           pm_mrqu       S58          
+S62           pm_moff       S67          
+S63           pm_pm+        S62          
+S63           pm_poff       S63          
+S63           pm_pm-        S14          
+S63           pm_mrqu       S59          
+S63           pm_moff       S31          
+S64           pm_pm+        S3           
+S64           pm_poff       S5           
+S64           pm_pm-        S64          
+S64           pm_mrqu       S60          
+S64           pm_moff       S46          
+S65           pm_pm+        S12          
+S65           pm_poff       S65          
+S65           pm_pm-        S4           
+S65           pm_mrqu       S61          
+S65           pm_moff       S66          
+S66           pm_pm+        S32          
+S66           pm_poff       S66          
+S66           pm_pm-        S30          
+S66           pm_mrqu       S57          
+S66           pm_mon        S65          
+S66           HE[tS[11001]xS[11002]]  S80          
+S67           pm_pm+        S67          
+S67           pm_poff       S31          
+S67           pm_pm-        S33          
+S67           pm_mrqu       S47          
+S67           pm_mon        S62          
+S68           F11002        S36          
+S69           F1005         S41          
+S70           F1002         S15          
+S71           F1001         S82          
+S72           pm_pm+        S71          
+S72           pm_mrqu       S73          
+S73           pm_pm+        S83          
+S73           pm_mack       S72          
+S74           HE[tS[1000]xS[1001]]  S73          
+S75           HE[tS[1000]xS[1001]]  S72          
+S76           F1001         S23          
+S77           pm_pm+        S84          
+S77           pm_mack       S9           
+S78           pm_pm+        S2           
+S78           pm_mrqu       S22          
+S79           HE[tS[1000]xS[1001]]  S77          
+S80           HE[tS[1000]xS[1001]]  S78          
+S81           HE[tS[1000]xS[1001]]  S9           
+S82           HE[tS[1001]xS[1002]]  S8           
+S83           F1001         S43          
+S84           F1001         S19          
+S85           F1001         S6           
+</TransRel>
+
+<InitStates>
+S1           
+</InitStates>
+
+<MarkedStates>
+S1            S2            S3            S4            S5            S6           
+S7            S8            S9            S10           S11           S12          
+S13           S14           S15           S16           S17           S18          
+S19           S20           S21           S22           S23           S24          
+S25           S26           S27           S28           S29           S30          
+S31           S32           S33           S34           S35           S36          
+S37           S38           S39           S40           S41           S42          
+S43           S44           S45           S46           S47           S48          
+S49           S50           S51           S52           S53           S54          
+S55           S56           S57           S58           S59           S60          
+S61           S62           S63           S64           S65           S66          
+S67           S68           S69           S70           S71           S72          
+S73           S74           S75           S76           S77           S78          
+S79           S80           S81           S82           S83           S84          
+S85          
+</MarkedStates>
+
+
+</Generator>

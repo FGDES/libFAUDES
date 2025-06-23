@@ -262,7 +262,7 @@ class FAUDES_TAPI TpEventSet : public TaEventSet<Attr> {
    */
   Idx Priority(const Idx idx) const { return this->Attribute(idx).Priority(); }
 
-   /**
+  /**
    * Set priority by symbolic name
    *
    * @param rName

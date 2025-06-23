@@ -45,7 +45,7 @@ The <i>dev</i> branch is used for our ongoing development process. We typically 
 when test cases pass, but there may be temporally exceptions and we rarely validate in a 
 Windows environment. We wont bother to increment version numbers or to set tags either. The 
 <i>dev</i> branch is only of interest, if you plan to contribute to libFAUDES and want to 
-inspect latest features. In that case you most likely want to have your personal branch/fork 
+inspect/utilise latest features. In that case you most likely want to have your personal branch/fork 
 based on the <i>dev</i> branch. You will inherit the test cases and can trigger automatic 
 validation on all supported envorinments by setting/commiting/pushing a tag; see our yml-files
 for GitHub actions.

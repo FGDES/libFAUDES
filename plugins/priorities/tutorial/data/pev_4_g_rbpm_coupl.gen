@@ -1,0 +1,43 @@
+<Generator name="G_RBPM_coup">
+
+% 
+%  Statistics for G_RBPM_coup
+% 
+%  States:        5
+%  Init/Marked:   1/3
+%  Events:        6
+%  Transitions:   9
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+pm_wplv       rb_scw        rb_nscw       rb_sccw       rb_nsccw      rb_wpar      
+</Alphabet>
+
+<States>
+1              2              4              5              6             
+</States>
+
+<TransRel>
+1              pm_wplv       2             
+1              rb_nsccw      4             
+2              rb_wpar       1             
+4              pm_wplv       6             
+4              rb_scw        5             
+4              rb_sccw       1             
+5              pm_wplv       6             
+5              rb_nscw       4             
+5              rb_wpar       5             
+</TransRel>
+
+<InitStates>
+1             
+</InitStates>
+
+<MarkedStates>
+1              4              5             
+</MarkedStates>
+
+
+</Generator>

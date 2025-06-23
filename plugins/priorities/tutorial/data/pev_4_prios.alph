@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE EventPriorities SYSTEM "http://www.faudes.org/dtd/1.0/eventpriorities.dtd">
+<EventPriorities name="NameSet">
+<Event name="pm_wplv">
+<Priority value="1"/>
+</Event>
+<Event name="rb_scw">
+<Priority value="1"/>
+</Event>
+<Event name="rb_nscw">
+<Priority value="1"/>
+</Event>
+<Event name="rb_sccw">
+<Priority value="1"/>
+</Event>
+<Event name="rb_nsccw">
+<Priority value="1"/>
+</Event>
+<Event name="rb_wpar">
+<Priority value="1"/>
+</Event>
+<Event name="cb_bm+">
+<Priority value="1"/>
+</Event>
+<Event name="cb_boff">
+<Priority value="1"/>
+</Event>
+<Event name="pm_bm+">
+<Priority value="1"/>
+</Event>
+<Event name="pm_boff">
+<Priority value="1"/>
+</Event>
+<Event name="pm_pm+">
+<Priority value="1"/>
+</Event>
+<Event name="pm_poff">
+<Priority value="1"/>
+</Event>
+<Event name="pm_pm-">
+<Priority value="1"/>
+</Event>
+<Event name="pm_moff">
+<Priority value="1"/>
+</Event>
+<Event name="pm_mon">
+<Priority value="1"/>
+</Event>
+<Event name="HE[tS[11000]xS[11001]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[11001]xS[11002]]">
+<Priority value="1"/>
+</Event>
+<Event name="HE[tS[11002]xS[11090]]">
+<Priority value="1"/>
+</Event>
+<Event name="HE[tS[11004]xS[11001]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[11003]xS[11004]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[11090]xS[11003]]">
+<Priority value="2"/>
+</Event>
+<Event name="F11003">
+<Priority value="2"/>
+</Event>
+<Event name="F11002">
+<Priority value="2"/>
+</Event>
+<Event name="m2_busy1">
+<Priority value="1"/>
+</Event>
+<Event name="m2_busy0">
+<Priority value="1"/>
+</Event>
+<Event name="op_s1act">
+<Priority value="1"/>
+</Event>
+<Event name="op_s1rel">
+<Priority value="1"/>
+</Event>
+<Event name="op_s2act">
+<Priority value="1"/>
+</Event>
+<Event name="op_s2rel">
+<Priority value="1"/>
+</Event>
+<Event name="p1">
+<Priority value="1"/>
+</Event>
+<Event name="p0">
+<Priority value="1"/>
+</Event>
+<Event name="F11001">
+<Priority value="2"/>
+</Event>
+<Event name="F11090">
+<Priority value="2"/>
+</Event>
+<Event name="rb_rcw">
+<Priority value="1"/>
+</Event>
+<Event name="rb_rccw">
+<Priority value="1"/>
+</Event>
+<Event name="rb_roff">
+<Priority value="1"/>
+</Event>
+<Event name="rb_bm+">
+<Priority value="1"/>
+</Event>
+<Event name="rb_boff">
+<Priority value="1"/>
+</Event>
+<Event name="rb_wplv">
+<Priority value="1"/>
+</Event>
+<Event name="xs_wpar">
+<Priority value="1"/>
+</Event>
+<Event name="xs_wplv">
+<Priority value="1"/>
+</Event>
+<Event name="HE[tS[12000]xS[12001]b[12901&gt;12001]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12000]xS[12002]b[12901&gt;12002]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12006]xS[12007]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12001]xS[12006]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12007]xS[12008]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12008]xS[12009]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12003]xS[12004]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12005]xS[12006]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12002]xS[12003]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12009]xS[12001]b[12901&gt;12001]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12009]xS[12002]b[12901&gt;12002]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[12004]xS[12005]]">
+<Priority value="2"/>
+</Event>
+<Event name="F12008">
+<Priority value="2"/>
+</Event>
+<Event name="F12003">
+<Priority value="2"/>
+</Event>
+<Event name="F12001">
+<Priority value="2"/>
+</Event>
+<Event name="F12005">
+<Priority value="2"/>
+</Event>
+<Event name="F12007">
+<Priority value="2"/>
+</Event>
+<Event name="F12002">
+<Priority value="2"/>
+</Event>
+<Event name="F12004">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[2000]xS[2001,2003]]">
+<Priority value="2"/>
+</Event>
+<Event name="cb_wpar">
+<Priority value="1"/>
+</Event>
+<Event name="pm_nps-">
+<Priority value="1"/>
+</Event>
+<Event name="pm_ps-">
+<Priority value="1"/>
+</Event>
+<Event name="pm_ps+">
+<Priority value="1"/>
+</Event>
+<Event name="pm_nps+">
+<Priority value="1"/>
+</Event>
+<Event name="pm_mrqu">
+<Priority value="1"/>
+</Event>
+<Event name="pm_mack">
+<Priority value="1"/>
+</Event>
+<Event name="HE[tS[1000]xS[1001]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[1005]xS[1999]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[1004]xS[1005]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[1001]xS[1002]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[1003]xS[1004]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[1002]xS[1003]]">
+<Priority value="2"/>
+</Event>
+<Event name="F1005">
+<Priority value="2"/>
+</Event>
+<Event name="F1004">
+<Priority value="2"/>
+</Event>
+<Event name="F1001">
+<Priority value="2"/>
+</Event>
+<Event name="F1003">
+<Priority value="2"/>
+</Event>
+<Event name="F1002">
+<Priority value="2"/>
+</Event>
+<Event name="pm_wpar">
+<Priority value="1"/>
+</Event>
+<Event name="cb_wplv">
+<Priority value="1"/>
+</Event>
+<Event name="HE[tS[3000]xS[3001]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[3001]xS[3002]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[3002]xS[3999]]">
+<Priority value="2"/>
+</Event>
+<Event name="F3002">
+<Priority value="2"/>
+</Event>
+<Event name="F3001">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[2002,2004]xS[2999]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[2001]xS[2002]]">
+<Priority value="2"/>
+</Event>
+<Event name="HE[tS[2003]xS[2004]]">
+<Priority value="2"/>
+</Event>
+<Event name="F2002">
+<Priority value="2"/>
+</Event>
+<Event name="F2004">
+<Priority value="2"/>
+</Event>
+<Event name="F2001">
+<Priority value="2"/>
+</Event>
+<Event name="F2003">
+<Priority value="2"/>
+</Event>
+</EventPriorities>

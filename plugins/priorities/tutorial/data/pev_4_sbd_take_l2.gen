@@ -1,0 +1,311 @@
+<Generator name="Sbd2Gen(TAKE_L) [minstate]">
+
+% 
+%  Statistics for Sbd2Gen(TAKE_L) [minstate]
+% 
+%  States:        100
+%  Init/Marked:   1/100
+%  Events:        19
+%  Transitions:   242
+%  StateSymbols:  100
+%  Attrib. E/S/T: 0/0/0
+% 
+
+<Alphabet>
+pm_wpar       pm_wplv       cb_bm+        cb_boff       pm_bm+        pm_boff      
+cb_wpar       cb_wplv       HE[tS[11000]xS[11001]]  HE[tS[11004]xS[11001]]  HE[tS[2000]xS[2001,2003]]  HE[tS[2002,2004]xS[2999]] 
+HE[tS[2001]xS[2002]]  HE[tS[2003]xS[2004]]  F11001        F2002         F2004         F2001        
+F2003        
+</Alphabet>
+
+<States>
+S1            S2            S3            S4            S5            S6           
+S7            S8            S9            S10           S11           S12          
+S13           S14           S15           S16           S17           S18          
+S19           S20           S21           S22           S23           S24          
+S25           S26           S27           S28           S29           S30          
+S31           S32           S33           S34           S35           S36          
+S37           S38           S39           S40           S41           S42          
+S43           S44           S45           S46           S47           S48          
+S49           S50           S51           S52           S53           S54          
+S55           S56           S57           S58           S59           S60          
+S61           S62           S63           S64           S65           S66          
+S67           S68           S69           S70           S71           S72          
+S73           S74           S75           S76           S77           S78          
+S79           S80           S81           S82           S83           S84          
+S85           S86           S87           S88           S89           S90          
+S91           S92           S93           S94           S95           S96          
+S97           S98           S99           S100         
+</States>
+
+<TransRel>
+1              cb_bm+        85            
+1              cb_boff       1             
+1              pm_bm+        86            
+1              pm_boff       1             
+1              HE[tS[11000]xS[11001]]  41            
+1              HE[tS[11004]xS[11001]]  41            
+2              F2001         10            
+3              pm_wpar       71            
+3              cb_bm+        77            
+3              cb_boff       3             
+3              pm_bm+        3             
+3              pm_boff       80            
+4              pm_wplv       77            
+4              cb_bm+        4             
+4              cb_boff       78            
+4              pm_bm+        4             
+4              pm_boff       82            
+5              cb_bm+        25            
+5              cb_boff       5             
+5              pm_bm+        84            
+5              pm_boff       5             
+6              pm_wpar       31            
+6              cb_wpar       19            
+7              cb_boff       53            
+7              pm_boff       34            
+7              cb_wpar       26            
+8              pm_wpar       94            
+8              cb_bm+        99            
+9              cb_bm+        37            
+10             pm_bm+        100           
+10             cb_wpar       27            
+11             cb_bm+        91            
+11             pm_bm+        39            
+12             pm_boff       74            
+13             cb_boff       50            
+13             cb_wpar       28            
+14             cb_bm+        58            
+14             pm_boff       98            
+15             cb_wpar       23            
+16             pm_wpar       46            
+16             cb_bm+        16            
+16             cb_boff       44            
+16             pm_bm+        16            
+16             pm_boff       43            
+16             cb_wpar       77            
+17             pm_wplv       16            
+17             cb_bm+        17            
+17             cb_boff       45            
+17             pm_bm+        17            
+17             pm_boff       48            
+17             cb_wpar       4             
+18             cb_bm+        18            
+18             cb_boff       86            
+18             pm_bm+        18            
+18             pm_boff       85            
+18             cb_wpar       83            
+19             pm_wpar       57            
+20             cb_boff       76            
+20             pm_boff       93            
+20             cb_wplv       7             
+21             pm_bm+        92            
+21             cb_wplv       10            
+22             cb_boff       33            
+22             cb_wplv       13            
+23             cb_wplv       6             
+24             pm_wplv       83            
+24             cb_bm+        24            
+24             cb_boff       71            
+24             pm_bm+        24            
+24             pm_boff       61            
+24             cb_wplv       17            
+25             cb_bm+        25            
+25             cb_boff       5             
+25             pm_bm+        83            
+25             pm_boff       25            
+25             cb_wplv       43            
+26             cb_boff       87            
+26             pm_boff       89            
+27             pm_bm+        95            
+28             cb_boff       73            
+29             HE[tS[2000]xS[2001,2003]]  40            
+30             F11001        62            
+31             HE[tS[2001]xS[2002]]  56            
+32             HE[tS[2003]xS[2004]]  20            
+33             F2002         30            
+34             F2004         13            
+35             F2003         8             
+36             HE[tS[2001]xS[2002]]  54            
+37             F2001         55            
+38             cb_bm+        96            
+39             F2003         38            
+40             cb_bm+        2             
+40             pm_bm+        35            
+41             HE[tS[2000]xS[2001,2003]]  11            
+42             cb_bm+        43            
+42             cb_boff       42            
+42             pm_bm+        44            
+42             pm_boff       42            
+42             HE[tS[11000]xS[11001]]  29            
+42             HE[tS[11004]xS[11001]]  29            
+43             cb_bm+        43            
+43             cb_boff       42            
+43             pm_bm+        16            
+43             pm_boff       43            
+43             cb_wpar       79            
+44             pm_wpar       65            
+44             cb_bm+        16            
+44             cb_boff       44            
+44             pm_bm+        44            
+44             pm_boff       42            
+45             pm_wplv       44            
+45             cb_bm+        17            
+45             cb_boff       45            
+45             pm_bm+        45            
+45             pm_boff       47            
+46             pm_wplv       18            
+46             cb_bm+        46            
+46             cb_boff       65            
+46             pm_bm+        46            
+46             pm_boff       63            
+46             cb_wpar       24            
+47             cb_bm+        48            
+47             cb_boff       47            
+47             pm_bm+        45            
+47             pm_boff       47            
+48             cb_bm+        48            
+48             cb_boff       47            
+48             pm_bm+        17            
+48             pm_boff       48            
+48             cb_wpar       82            
+49             F11001        47            
+50             F2002         49            
+51             F2004         49            
+52             pm_boff       51            
+53             F2002         52            
+54             cb_boff       70            
+54             pm_boff       60            
+54             cb_wpar       20            
+55             HE[tS[2001]xS[2002]]  59            
+56             HE[tS[2003]xS[2004]]  54            
+57             HE[tS[2001]xS[2002]]  32            
+58             F2001         36            
+59             cb_boff       67            
+59             cb_wpar       22            
+60             F2004         59            
+61             cb_bm+        61            
+61             cb_boff       62            
+61             pm_bm+        24            
+61             pm_boff       61            
+61             cb_wplv       48            
+62             cb_bm+        61            
+62             cb_boff       62            
+62             pm_bm+        71            
+62             pm_boff       62            
+63             cb_bm+        63            
+63             cb_boff       64            
+63             pm_bm+        46            
+63             pm_boff       63            
+63             cb_wpar       61            
+64             cb_bm+        63            
+64             cb_boff       64            
+64             pm_bm+        65            
+64             pm_boff       64            
+65             pm_wplv       86            
+65             cb_bm+        46            
+65             cb_boff       65            
+65             pm_bm+        65            
+65             pm_boff       64            
+66             F11001        64            
+67             F2002         66            
+68             F2004         66            
+69             pm_boff       68            
+70             F2002         69            
+71             pm_wplv       84            
+71             cb_bm+        24            
+71             cb_boff       71            
+71             pm_bm+        71            
+71             pm_boff       62            
+72             F11001        81            
+73             F2002         72            
+74             F2004         72            
+75             pm_boff       88            
+76             F2002         75            
+77             pm_wpar       24            
+77             cb_bm+        77            
+77             cb_boff       3             
+77             pm_bm+        77            
+77             pm_boff       79            
+78             pm_wplv       3             
+78             cb_bm+        4             
+78             cb_boff       78            
+78             pm_bm+        78            
+78             pm_boff       81            
+79             cb_bm+        79            
+79             cb_boff       80            
+79             pm_bm+        77            
+79             pm_boff       79            
+80             cb_bm+        79            
+80             cb_boff       80            
+80             pm_bm+        3             
+80             pm_boff       80            
+81             cb_bm+        82            
+81             cb_boff       81            
+81             pm_bm+        78            
+81             pm_boff       81            
+82             cb_bm+        82            
+82             cb_boff       81            
+82             pm_bm+        4             
+82             pm_boff       82            
+83             cb_bm+        83            
+83             cb_boff       84            
+83             pm_bm+        83            
+83             pm_boff       25            
+83             cb_wplv       16            
+84             cb_bm+        83            
+84             cb_boff       84            
+84             pm_bm+        84            
+84             pm_boff       5             
+85             cb_bm+        85            
+85             cb_boff       1             
+85             pm_bm+        18            
+85             pm_boff       85            
+85             cb_wpar       25            
+86             cb_bm+        18            
+86             cb_boff       86            
+86             pm_bm+        86            
+86             pm_boff       1             
+87             F2002         12            
+88             F2004         30            
+89             F2004         28            
+90             pm_bm+        97            
+90             cb_wpar       21            
+91             F2001         90            
+92             F2003         23            
+93             F2004         22            
+94             HE[tS[2003]xS[2004]]  14            
+95             F2003         19            
+96             F2001         15            
+97             F2003         15            
+98             F2004         9             
+99             F2001         6             
+100            F2003         6             
+</TransRel>
+
+<InitStates>
+S1           
+</InitStates>
+
+<MarkedStates>
+S1            S2            S3            S4            S5            S6           
+S7            S8            S9            S10           S11           S12          
+S13           S14           S15           S16           S17           S18          
+S19           S20           S21           S22           S23           S24          
+S25           S26           S27           S28           S29           S30          
+S31           S32           S33           S34           S35           S36          
+S37           S38           S39           S40           S41           S42          
+S43           S44           S45           S46           S47           S48          
+S49           S50           S51           S52           S53           S54          
+S55           S56           S57           S58           S59           S60          
+S61           S62           S63           S64           S65           S66          
+S67           S68           S69           S70           S71           S72          
+S73           S74           S75           S76           S77           S78          
+S79           S80           S81           S82           S83           S84          
+S85           S86           S87           S88           S89           S90          
+S91           S92           S93           S94           S95           S96          
+S97           S98           S99           S100         
+</MarkedStates>
+
+
+</Generator>

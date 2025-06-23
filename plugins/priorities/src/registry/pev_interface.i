@@ -97,6 +97,12 @@ public:
 };
 
 
+// Fairness: Announce template to SWIG
+// Note: declare SWIG internal type and let SWIG know that 
+// there is a corresponding C++ type
+//%template(FairnessConstraints) TBaseVector<EventSet>;
+//typedef TBaseVector<IndexSet> FairnessConstraints;
+
 
 // help entry
 			   
@@ -109,6 +115,10 @@ SwigHelpEntry("EventPriorities","Priorities","    Priority(string,int)");
 SwigHelpEntry("EventPriorities","Priorities","    Priorities(EventPriorities)");
 SwigHelpEntry("EventPriorities","Priorities","int LowestPriority()");
 SwigHelpEntry("EventPriorities","Priorities","int HighestPriority()");
+
+//SwigHelpTopic("FairnessConstraints", "FairnessConstraints are modelled as a vector of EventsSets");
+//SwigHelpEntry("FairnessConstraints", "Methods", " same as EventSetVector");
+
 
 /*
 **************************************************

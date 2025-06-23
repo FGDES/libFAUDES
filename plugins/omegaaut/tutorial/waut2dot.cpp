@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
     std::string basename = autin;
     if(basename.rfind(".gen") < basename.size()) 
       basename.resize(basename.rfind(".gen"));
-    std::string dotout = basename+".dot";
+    dotout = basename+".dot";
   }
   
   // read gen file
