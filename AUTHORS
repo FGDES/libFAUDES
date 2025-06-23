@@ -14,7 +14,7 @@ Yiheng Tang / Thomas Moor, 2025
 Thomas Moor, 2023
 
   Re-organisation of the build system to generate Python bindings along 
-  side with Lus bindings (cfl-swig and the plug-in pybindings)
+  side with Lua bindings (cfl-swig and the plug-in pybindings)
   
 Yiheng Tang, 2022
 
