@@ -341,7 +341,7 @@ void LuaFunctionDefinition::Install(lua_State* pLL) const {
   }
 
   // parse signatures, test consistence
-  std::vector< std::string > lffnct;                          //fnct names
+  std::vector< std::string > lffnct;                          // fnct names
   std::vector< int > lfparcnt;                                // # actual parameters
   std::vector< std::vector<std::string> > lfparams;           // par names
   std::vector< std::vector<Parameter::ParamAttr> > lfattrib;  // par access
@@ -360,7 +360,7 @@ void LuaFunctionDefinition::Install(lua_State* pLL) const {
       // retrieve faudes type and attrib
       std::string ftype=sigi.At(j).Type();
       Parameter::ParamAttr fattr=sigi.At(j).Attribute();
-      // autodefault creturn flag
+      // autodefault c-return flag
       bool fcret=false;
       if(fattr==Parameter::Out) fcret=true;
       if(fattr==Parameter::InOut) fcret=true;
@@ -411,7 +411,7 @@ void LuaFunctionDefinition::Install(lua_State* pLL) const {
   std::vector< std::string > lfsig;
   for(unsigned int i=0; i<lffnct.size(); i++) {
     // create type conditional, part1: lua types
-    std::string test1="(arg['n']==" + ToStringInteger(lfparcnt.at(i)) + ")" ;    
+    std::string test1="(argn==" + ToStringInteger(lfparcnt.at(i)) + ")" ;    
     unsigned int pj=0;    
     for(unsigned int j=0; j<lfparams.at(i).size(); j++) {
       if(!lfparval.at(i).at(j)) continue;
@@ -485,13 +485,15 @@ void LuaFunctionDefinition::Install(lua_State* pLL) const {
 
   // set up wrapper frunction
   std::stringstream lfwrap;
-  //lfwrap << "-- LuaFunctionDefinition.Install() " << Name() << std::endl;
-  //lfwrap << std::endl;
-  lfwrap << LuaCode();
-  //lfwrap << std::endl;
+  lfwrap << "-- LuaFunctionDefinition.Install() " << Name() << std::endl;
   lfwrap << std::endl;
-  //lfwrap << "-- LuaFunctionDefinition.Install(): dispatch / typecheck" << std::endl;
+  lfwrap << LuaCode();
+  lfwrap << std::endl;
+  lfwrap << std::endl;
+  lfwrap << "-- LuaFunctionDefinition.Install(): dispatch / typecheck" << std::endl;
   lfwrap << "function faudes." << lfname << "(...)" << std::endl;
+  lfwrap << "  local arg  = {...}" << std::endl; // Lua >= 5.2.x, omitt for earlier versions
+  lfwrap << "  local argn = #arg" << std::endl;  // Lua >= 5.2.x, use "local argn=arg['n']" for earlier versions
   for(unsigned int i=0; i< lftest1.size(); i++) {
     lfwrap << "  if (" << lftest1.at(i) << ") then " << std::endl;
     lfwrap << "  if (" << lftest2.at(i) << ") then " << std::endl;
@@ -508,7 +510,7 @@ void LuaFunctionDefinition::Install(lua_State* pLL) const {
 
 
   // debugging report
-  //FD_WARN("LuaFunctionDefinition:Install(): code:" << std::endl << lfwrap.str());
+  FD_DLB("LuaFunctionDefinition:Install(): code:" << std::endl << lfwrap.str());
   FD_DLB("LuaFunctionDefinition:Install(): code: done");
 
   // finally install (aka run) the wrapper
@@ -1162,7 +1164,7 @@ LuaState* LuaState::G(void) {
 void LuaState::Open(void) {
   Close();
   FD_DLB("LuaState::Open()");
-  mpLL=lua_open();
+  mpLL=luaL_newstate();
   Initialize(mpLL);
   faudes_print_register(mpLL);  // todo:  configure this
   faudes_hook_register(mpLL);   // todo:  configure this
@@ -1409,13 +1411,15 @@ Type* LuaState::Global(const std::string& gname, const Type* fdata) {
 Type* LuaState::Global(lua_State* pLL, const std::string& gname, const Type* fdata) {
   // get
   if(fdata==NULL) {
-    lua_getfield(pLL, LUA_GLOBALSINDEX, gname.c_str()); 
+    //lua_getfield(pLL, LUA_GLOBALSINDEX, gname.c_str());
+    lua_getglobal(pLL,gname.c_str());
     return Pop(pLL);
   }
   // set
   else {
     Push(pLL,fdata);
-    lua_setfield(pLL, LUA_GLOBALSINDEX, gname.c_str());   
+    //lua_setfield(pLL, LUA_GLOBALSINDEX, gname.c_str());   
+    lua_setglobal(pLL,gname.c_str());
     return 0;
   }
 }

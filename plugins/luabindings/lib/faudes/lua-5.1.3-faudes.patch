@@ -1,0 +1,175 @@
+diff -crB lua-5.1.3-original/src/lauxlib.c lua-5.1.3/src/lauxlib.c
+*** lua-5.1.3-original/src/lauxlib.c	Mon Jan 21 14:20:51 2008
+--- lua-5.1.3/src/lauxlib.c	Wed Jun 25 10:47:56 2025
+***************
+*** 4,9 ****
+--- 4,13 ----
+  ** See Copyright Notice in lua.h
+  */
+  
++ /*
++ This version of lauxlib.c has been cosmetically patched 
++ to fix clang waring "empty body"
++ */
+  
+  #include <ctype.h>
+  #include <errno.h>
+***************
+*** 567,580 ****
+    c = getc(lf.f);
+    if (c == '#') {  /* Unix exec. file? */
+      lf.extraline = 1;
+!     while ((c = getc(lf.f)) != EOF && c != '\n') ;  /* skip first line */
+      if (c == '\n') c = getc(lf.f);
+    }
+    if (c == LUA_SIGNATURE[0] && filename) {  /* binary file? */
+!     lf.f = freopen(filename, "rb", lf.f);  /* reopen in binary mode */
+      if (lf.f == NULL) return errfile(L, "reopen", fnameindex);
+      /* skip eventual `#!...' */
+!    while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) ;
+      lf.extraline = 0;
+    }
+    ungetc(c, lf.f);
+--- 571,584 ----
+    c = getc(lf.f);
+    if (c == '#') {  /* Unix exec. file? */
+      lf.extraline = 1;
+!     while ((c = getc(lf.f)) != EOF && c != '\n') {/*tm*/} ;  /* skip first line */ 
+      if (c == '\n') c = getc(lf.f);
+    }
+    if (c == LUA_SIGNATURE[0] && filename) {  /* binary file? */
+!     lf.f = freopen(filename, "rb", lf.f);  /* reopen in binary mode */ 
+      if (lf.f == NULL) return errfile(L, "reopen", fnameindex);
+      /* skip eventual `#!...' */
+!     while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) {/*tm*/} ;
+      lf.extraline = 0;
+    }
+    ungetc(c, lf.f);
+diff -crB lua-5.1.3-original/src/lvm.c lua-5.1.3/src/lvm.c
+*** lua-5.1.3-original/src/lvm.c	Fri Dec 28 16:32:23 2007
+--- lua-5.1.3/src/lvm.c	Wed Jun 25 10:47:56 2025
+***************
+*** 5,10 ****
+--- 5,25 ----
+  */
+  
+  
++ /*
++ This version of lvm.c has been adapted to luafaudes in order
++ to  relax the type requirements on comparison operators 
++ <,<= and == for user data.
++ 
++ Since the changes affect elementary Lua semantics, there may 
++ be conflicts with relevant Lua modules or other existing code. 
++ You may want to resort to a std Lua interpreter.
++ 
++ Patched code signed "luafaudes"
++ 
++ 2010-12-6  
++ */
++ 
++ 
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+***************
+*** 188,198 ****
+    const TValue *tm1 = luaT_gettmbyobj(L, p1, event);
+    const TValue *tm2;
+    if (ttisnil(tm1)) return -1;  /* no metamethod? */
+    tm2 = luaT_gettmbyobj(L, p2, event);
+!   if (!luaO_rawequalObj(tm1, tm2))  /* different metamethods? */
+!     return -1;
+    callTMres(L, L->top, tm1, p1, p2);
+!   return !l_isfalse(L->top);
+  }
+  
+  
+--- 205,249 ----
+    const TValue *tm1 = luaT_gettmbyobj(L, p1, event);
+    const TValue *tm2;
+    if (ttisnil(tm1)) return -1;  /* no metamethod? */
++ 
++   /* 
++    luafaudes 2010-12-6  
++ 
++    The original Lua behaviour is to insist in both objects to 
++    to use the same metamethods in order to be comparable
++ 
++    This is the original code:
++   
++    tm2 = luaT_gettmbyobj(L, p2, event);
++    if (!luaO_rawequalObj(tm1, tm2))  return -1;
++    callTMres(L, L->top, tm1, p1, p2);
++    return !l_isfalse(L->top);
++ 
++    For luafaudes we relax this condition in having
++    perhaps different metamethods as long as they return the 
++    same result. There are a number of tradeoffs to consider, and
++    we are still not sure about this decision.
++ 
++   */
++ 
+    tm2 = luaT_gettmbyobj(L, p2, event);
+!   if (ttisnil(tm2)) return -1;  /* no metamethod? */
+! 
+!   /* case a: metamathods indeed match */
+!   if (luaO_rawequalObj(tm1, tm2)) {
+!     callTMres(L, L->top, tm1, p1, p2);
+!     return !l_isfalse(L->top);
+!   }
+! 
+!   /* case b: conjuct both methods */
+!   callTMres(L, L->top, tm2, p1, p2);
+!   int res2 = !l_isfalse(L->top);
+    callTMres(L, L->top, tm1, p1, p2);
+!   int res1 = !l_isfalse(L->top);
+!   return res1 && res2;
+! 
+!   /* luafaudes: end */
+! 
+  }
+  
+  
+***************
+*** 251,256 ****
+--- 302,340 ----
+  int luaV_equalval (lua_State *L, const TValue *t1, const TValue *t2) {
+    const TValue *tm;
+    lua_assert(ttype(t1) == ttype(t2));
++ 
++ 
++   /* 
++    luafaudes 2010-12-6  
++ 
++    The original Lua behaviour is to insist in both objects to 
++    to use the same metamethods in order to be comparable. The
++    test is implemented in the get_compTM function. The original 
++    code is still below. 
++ 
++    For luafaudes we relax this condition in having
++    perhaps different metamethods as long as they return the 
++    same result. There are a number of tradeoffs to consider, and
++    we are still not sure about this decision.
++ 
++   */
++ 
++   /* pick luafaudes case: user data only, should test for modul faudes? */
++   if(ttype(t1) == LUA_TUSERDATA) {
++     if (uvalue(t1) == uvalue(t2)) return 1;
++     const TValue* tm1 = luaT_gettmbyobj(L, t1, TM_EQ); 
++     const TValue* tm2 = luaT_gettmbyobj(L, t2, TM_EQ); 
++     if(tm1 == NULL) return 0;  
++     if(tm2 == NULL) return 0;  
++     callTMres(L, L->top, tm1, t1, t2);  /* call TM */
++     int res1 = !l_isfalse(L->top);
++     callTMres(L, L->top, tm2, t2, t1);  /* call TM */
++     int res2 = !l_isfalse(L->top);
++     return res1 && res2;
++   }
++   /* luafaudes: end */
++ 
++ 
+    switch (ttype(t1)) {
+      case LUA_TNIL: return 1;
+      case LUA_TNUMBER: return luai_numeq(nvalue(t1), nvalue(t2));

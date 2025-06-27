@@ -51,6 +51,7 @@ extern int FAUDES_API faudes_loaddefext(lua_State* pL, const char* arg0);
 // interface to completer
 extern FAUDES_API char **faudes_complete(lua_State* pL, const char *text, int start, int end);
 
+
 }// namespace
 #endif
 

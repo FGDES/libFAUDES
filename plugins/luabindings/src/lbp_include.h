@@ -193,6 +193,20 @@ extern "C" {
 }
 
 
+// use 5.2.x API in 5.1.x 
+#if LUA_VERSION_NUM < 502 
+//#define lua_getglobal(l,str) lua_getfield(l, LUA_GLOBALSINDEX, str)
+//#define lua_setglobal(l,str) lua_setfield(l, LUA_GLOBALSINDEX, str)
+#ifndef lua_pushglobaltable  
+#define lua_pushglobaltable(l) lua_pushvalue(l, LUA_GLOBALSINDEX)
+#endif  
+#endif
+
+// this macro was removed (in some version after 5.1.3 ...)  
+#ifndef LUA_QL  
+#define LUA_QL(x)       "'" x "'"
+#endif  
+  
 // std streams 
 #include <iostream>
 #include <fstream>

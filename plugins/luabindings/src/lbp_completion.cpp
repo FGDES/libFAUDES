@@ -196,25 +196,26 @@ static std::list< std::string > faudes_rl_complete(lua_State *L, const std::stri
   int savetop;
   bool used_swig_get=false;
 
-  // bail ot on text that cannot complete to an identifier
+  // bail out on text that cannot complete to an identifier
   if (!(text[0] == '\0' || isalpha(text[0]) || text[0] == '_')) return mlist;
 
-  // recird top of stack
+  // record top of stack
   savetop = lua_gettop(L);
 
   // figure the right most complete field in "word" and
   // -- leave the table of globals on the stack, if there is no complete field
-  lua_pushvalue(L, LUA_GLOBALSINDEX);
-  for (n = (size_t)(end-start), i = dot = 0, colon=-1; i < n; i++)
-    if (text[i] == '.' || text[i] == ':') {
-      if (!faudes_rl_getfield(L, text+dot, i-dot))
+  lua_pushglobaltable(L);
+  for(n = (size_t)(end-start), i = dot = 0, colon=-1; i < n; i++) {
+    if(text[i] == '.' || text[i] == ':') {
+      if(!faudes_rl_getfield(L, text+dot, i-dot))
 	{ lua_settop(L, savetop); return mlist; } // error
       dot = i+1;  // Points to first char after dot/colon.
       if(text[i] == ':') colon=dot; // record whether we have seen a colon
     }
-
+  }
+    
   // Append all matches against keywords if there is no dot/colon. 
-  if (dot == 0)
+  if(dot == 0)
     for (i = 0; (s = faudes_rl_keywords[i]) != NULL; i++)
       if(!strncmp(s, text, n)) faudes_rl_dmadd(mlist, "", std::string(s), " ");
 
@@ -222,7 +223,7 @@ static std::list< std::string > faudes_rl_complete(lua_State *L, const std::stri
   loop = 0;  // Avoid infinite metatable loops. 
   do {
     if(lua_istable(L, -1) &&
-	(loop == 0 || !lua_rawequal(L, -1, LUA_GLOBALSINDEX)))
+       (loop == 0 || 1 /* !lua_rawequal(L, -1, LUA_GLOBALSINDEX) */) )  // TODO: lu 5.4.8
       for (lua_pushnil(L); lua_next(L, -2); lua_pop(L, 1))
 	if (lua_type(L, -2) == LUA_TSTRING) {
 	  s = lua_tostring(L, -2);
