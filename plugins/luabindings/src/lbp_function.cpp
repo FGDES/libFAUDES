@@ -492,8 +492,8 @@ void LuaFunctionDefinition::Install(lua_State* pLL) const {
   lfwrap << std::endl;
   lfwrap << "-- LuaFunctionDefinition.Install(): dispatch / typecheck" << std::endl;
   lfwrap << "function faudes." << lfname << "(...)" << std::endl;
-  lfwrap << "  local arg  = {...}" << std::endl; // Lua >= 5.2.x, omitt for earlier versions
-  lfwrap << "  local argn = #arg" << std::endl;  // Lua >= 5.2.x, use "local argn=arg['n']" for earlier versions
+  lfwrap << "  local arg  = {...}" << std::endl; // Lua >= 5.1.x, omitt for earlier versions
+  lfwrap << "  local argn = #arg" << std::endl;  // Lua >= 5.1.x, use "local argn=arg['n']" for earlier versions
   for(unsigned int i=0; i< lftest1.size(); i++) {
     lfwrap << "  if (" << lftest1.at(i) << ") then " << std::endl;
     lfwrap << "  if (" << lftest2.at(i) << ") then " << std::endl;
