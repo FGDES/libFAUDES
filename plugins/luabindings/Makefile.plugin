@@ -54,6 +54,10 @@ LBP_OBJECTS = $(LBP_SOURCES:$(LBP_SRCDIR)/%.cpp=$(LBP_OBJDIR)/%$(DOT_O))
 #LBP_LUAVER = 5.1.3
 LBP_LUAVER = 5.4.8
 
+# btw:
+# to create the patch, we use
+# "diff -crB dir_original dir_updated > dfile.patch"
+
 #
 # lua sources 5.1.3
 ifeq ($(LBP_LUAVER),5.1.3)
