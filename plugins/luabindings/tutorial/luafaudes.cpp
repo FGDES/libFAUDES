@@ -132,7 +132,7 @@ static void print_usage (const char *badoption) {
   progname);
   /* //FAUDES: end */
 #else 
-  /* //FAUDES: all of the above except -E and -W  */
+  /* //FAUDES: all of the above except -E and -W  [MS CL wont digest preprocessing within concateneted strings]*/
   lua_writestringerror(
   "usage: %s [options] [script [args]]\n"
   "available options are:\n"
