@@ -140,9 +140,9 @@ ifeq ($(FAUDES_PLATFORM),gcc_linux)
   LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
-  # using readline will make libFAUDES depend on libreadline 
-  LBP_LUAOPTS = -DLUA_USE_READLINE
-  LDFLAGS += -lreadline
+  # using readline will make libFAUDES depend on libreadline i.e. need to get via e.g macports or brew
+  #LBP_LUAOPTS = -DLUA_USE_READLINE
+  #LDFLAGS += -lreadline
   LBP_LUAOPTS += -DLUA_USE_MACOSX -Wno-gnu-label-as-value -Wno-pedantic -Wno-deprecated-declarations
   LBP_SWCFLAGS = -Wno-misleading-indentation
 endif

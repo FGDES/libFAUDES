@@ -104,12 +104,16 @@ static void laction (int i) {
 }
 
 
+
+
 static void print_usage (const char *badoption) {
   lua_writestringerror("%s: ", progname);
   if (badoption[1] == 'e' || badoption[1] == 'l')
     lua_writestringerror("'%s' needs argument\n", badoption);
   else
     lua_writestringerror("unrecognized option '%s'\n", badoption);
+#if LUA_VERSION_NUM >= 504
+  /* //FAUDES: original 5.4.8 code */
   lua_writestringerror(
   "usage: %s [options] [script [args]]\n"
   "available options are:\n"
@@ -118,18 +122,33 @@ static void print_usage (const char *badoption) {
   "  -l mod    require library 'mod' into global 'mod'\n"
   "  -l g=mod  require library 'mod' into global 'g'\n"
   "  -v        show version information\n"
-#if LUA_VERSION_NUM >= 504
-  /* //FAUDES: original 5.4.8 code */
   "  -E        ignore environment variables\n"  
   "  -W        turn warnings on\n"
-  /* //FAUDES: end */
-#endif  
   "  -d        pass on libFAUDES messages to console\n"   /* //FAUDES */
   "  -x flx    load libFAUDES extension 'flx'\n"          /* //FAUDES */
   "  --        stop handling options\n"
   "  -         stop handling options and execute stdin\n"
   ,
   progname);
+  /* //FAUDES: end */
+#else 
+  /* //FAUDES: all of the above except -E and -W  */
+  lua_writestringerror(
+  "usage: %s [options] [script [args]]\n"
+  "available options are:\n"
+  "  -e stat   execute string 'stat'\n"
+  "  -i        enter interactive mode after executing 'script'\n"
+  "  -l mod    require library 'mod' into global 'mod'\n"
+  "  -l g=mod  require library 'mod' into global 'g'\n"
+  "  -v        show version information\n"
+  "  -d        pass on libFAUDES messages to console\n"   /* //FAUDES */
+  "  -x flx    load libFAUDES extension 'flx'\n"          /* //FAUDES */
+  "  --        stop handling options\n"
+  "  -         stop handling options and execute stdin\n"
+  ,
+  progname);
+  /* //FAUDES: end */
+#endif  
 }
 
 
