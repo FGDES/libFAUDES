@@ -222,9 +222,9 @@ static std::list< std::string > faudes_rl_complete(lua_State *L, const std::stri
   // Append all valid matches from all tables/metatables. 
   loop = 0;  // Avoid infinite metatable loops. 
   do {
-    if(lua_istable(L, -1) &&
-       (loop == 0 || 1 /* !lua_rawequal(L, -1, LUA_GLOBALSINDEX) */) )  // TODO: lu 5.4.8
-      for (lua_pushnil(L); lua_next(L, -2); lua_pop(L, 1))
+    if(lua_istable(L, -1)) 
+    if((loop == 0 || 1 /* !lua_rawequal(L, -1, LUA_GLOBALSINDEX) */) ) {  // TODO: this used to be Lua 5.1.3 .. what todo with Lua 5.4.8?
+      for (lua_pushnil(L); lua_next(L, -2); lua_pop(L, 1)) {
 	if (lua_type(L, -2) == LUA_TSTRING) {
 	  s = lua_tostring(L, -2);
 	  // Only match names starting with '_' if explicitly requested. 
@@ -241,6 +241,8 @@ static std::list< std::string > faudes_rl_complete(lua_State *L, const std::stri
 	    faudes_rl_dmadd(mlist, std::string(text,dot), std::string(s), suf);
 	  }
 	}
+      }
+    }
     used_swig_get = faudes_rl_getmeta(L,colon>0);
   } while (++loop < 20);
 

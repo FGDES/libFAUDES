@@ -49,8 +49,8 @@ LBP_OBJECTS = $(LBP_SOURCES:$(LBP_SRCDIR)/%.cpp=$(LBP_OBJDIR)/%$(DOT_O))
 
 #
 # lua language: choose original source
-# as of libFAUDES 2.33i we afer transitioning to Lua 5.4.8
-# support for Lua 5.1.3 will fade out
+# - as of libFAUDES 2.33i we afer transitioning to Lua 5.4.8
+# - support for Lua 5.1.3 will fade out
 #LBP_LUAVER = 5.1.3
 LBP_LUAVER = 5.4.8
 
@@ -74,8 +74,6 @@ endif
 ifeq ($(LBP_LUAVER),5.4.8)
 LBP_LUATGZ = lua-5.4.8.tar.gz
 LBP_LUADIR = $(LBP_BASE)/lib/lua-5.4.8
-#LBP_FAUDESPATCH = $(LBP_BASE)/faudes/lua-5.4.8-faudes.patch
-#LBP_ARLPATCH = lua-5.1-advanced-readline.patch
 LBP_LUACFILES = \
   lapi.c lcode.c lctype.c ldebug.c ldo.c ldump.c lfunc.c lgc.c llex.c lmem.c \
   lobject.c lopcodes.c lparser.c lstate.c lstring.c ltable.c ltm.c lundump.c lvm.c lzio.c \
@@ -97,7 +95,7 @@ $(LBP_LUADIR):
 	rm -rf $(LBP_LUADIR); cd $(LBP_BASE)/lib ; tar -xzf $(LBP_LUATGZ)   
 ifdef LBP_FAUDESPATCH
 	@echo "applying faudes patch" 
-	cd $(LBP_LUADIR); patch -p1 < ../faudes/$(LBP_FAUDESPATCH)
+	cd $(LBP_LUADIR); patch -p1 < ../$(LBP_FAUDESPATCH)
 endif	
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
 	@echo "applying advanced edit patch" 
@@ -142,7 +140,7 @@ ifeq ($(FAUDES_PLATFORM),gcc_linux)
   LBP_SWCFLAGS = -Wno-misleading-indentation
 endif
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
-  # using this will make libFAUDES depend on libreadline 
+  # using readline will make libFAUDES depend on libreadline 
   LBP_LUAOPTS = -DLUA_USE_READLINE
   LDFLAGS += -lreadline
   LBP_LUAOPTS += -DLUA_USE_MACOSX -Wno-gnu-label-as-value -Wno-pedantic -Wno-deprecated-declarations

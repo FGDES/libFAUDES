@@ -3,7 +3,7 @@
 /* 
 FAU Discrete Event Systems Library (libfaudes)
 
-Copyright (C) 2010 Thomas Moor
+Copyright (C) 2010- 2025 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -1411,14 +1411,12 @@ Type* LuaState::Global(const std::string& gname, const Type* fdata) {
 Type* LuaState::Global(lua_State* pLL, const std::string& gname, const Type* fdata) {
   // get
   if(fdata==NULL) {
-    //lua_getfield(pLL, LUA_GLOBALSINDEX, gname.c_str());
     lua_getglobal(pLL,gname.c_str());
     return Pop(pLL);
   }
   // set
   else {
     Push(pLL,fdata);
-    //lua_setfield(pLL, LUA_GLOBALSINDEX, gname.c_str());   
     lua_setglobal(pLL,gname.c_str());
     return 0;
   }

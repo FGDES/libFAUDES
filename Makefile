@@ -465,19 +465,20 @@ endif
 
 ### platform "gcc_osx" #####################
 #
-#  Mac OS X 10.5 and later
+#  Mac OS X 10.11 and later
 #
 # - a note on the @rpath topic: as of libFAUDES 2.33d we build the shared object with @rpath in
 #   the install name; when building executables, we then set the @rpath relative to the
 #   @executable_path in a fairly general manner; all in all we avoid the "install-name_tool"
-#   hassel when building applications
-# - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7,
-#   Mac OS X 10.11, and macOS during development of libFAUDES.
-# - as of libFAUDES 2.27i, only the Mac OS X 10.11 environment is
-#   available for testing
+#   hassel when building applications; to see, what is actually loaded, use e.g.
+#   > DYLD_PRINT_LIBRARIES=YES ./bin/luafaudes
 # - as of libFAUDES 2.31a, only the macOS 12 environment is
 #   available for testing
 # - note that the compiler here is actually LLVM/clang++ version 14.0.0
+# - as of libFAUDES 2.27i, only the Mac OS X 10.11 environment is
+#   available for testing
+# - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7,
+#   Mac OS X 10.11, and macOS 12 during development of libFAUDES.
 # - test deployment target by "otool -l FILE | grep version"
 # - moving to libc++ and c11, we now target for MAC OS X 10.9 (although 10.7 still works)
 # - moving even further, we now target for MAC OS X 10.11 (although 10.9 still works)
