@@ -1,11 +1,27 @@
 =======================================================================
 =======================================================================
 
-Major code contributions to libFAUDES in chronological order:
+Major code contributions to libFAUDES in chronological order
+
+This list was neglected for some period of time -- if you feel
+you are missing here, send us a notification. A more comprehesive
+list of contributers (be it coding or testing) is hardcode in cfl_utils 
+and is meant for appreaciation in derived software; see e.g. the about 
+splash in DESTool.
 
 =======================================================================
 =======================================================================
 
+Yiheng Tang / Thomas Moor, 2025
+
+  Integartion of Yiheng's compostional verification w.r.t. prioritised 
+  events (priorities plug-in)
+
+Thomas Moor, 2023
+
+  Re-organisation of the build system to generate Python bindings along 
+  side with Lua bindings (cfl-swig and the plug-in pybindings)
+  
 Yiheng Tang, 2022
 
   Further development of compostional verification
@@ -156,20 +172,23 @@ Thomas Moor, 2007
 
 Sebastian Perk / Klaus Schmidt / Thomas Moor, 2006
 
-  Introduced plug-in for hierarchical io synthesis (not part of std distribution)
+  Introduced plug-in for hierarchical io synthesis (initially not part of std 
+  distribution)
 
 Berno Schlein, 2006
 
-  Initial version of a plug-in for timed automata (not part of std distribution)
+  Initial version of a plug-in for timed automata (initially not part of std 
+  distribution)
 
 Klaus Schmidt / Bernd Opitz, 2006
 
-  Plug-in for decentralized hierarchical synthesis (not part of std distribution)
+  Plug-in for decentralized hierarchical synthesis (initially not part of std 
+  distribution)
 
 Klaus Schmidt / Thomas Moor, 2006
 
-  Extended TokenReader to support hierarchically organized fileformat; Introduced 
-  aGenerator (attributed generator) as base of cGenerator
+  Extended TokenReader to support hierarchically organized fileformat; 
+  Introduced aGenerator (attributed generator) as base of cGenerator
 
 Bernd Opitz, 2005
 

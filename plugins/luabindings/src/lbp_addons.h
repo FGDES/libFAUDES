@@ -3,7 +3,7 @@
 /* 
 FAU Discrete Event Systems Library (libfaudes)
 
-Copyright (C) 2023 Thomas Moor
+Copyright (C) 2023, 2025 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -50,6 +50,7 @@ extern int FAUDES_API faudes_loaddefext(lua_State* pL, const char* arg0);
 
 // interface to completer
 extern FAUDES_API char **faudes_complete(lua_State* pL, const char *text, int start, int end);
+
 
 }// namespace
 #endif

@@ -211,7 +211,7 @@ endif
 ###############################################################################
 
 ifeq ($(FAUDES_LINKING),)
-FAUDES_LINKING = shared
+FAUDES_LINKING = shared 
 endif
 
 ifneq ($(filter shared,$(FAUDES_LINKING)),)
@@ -346,7 +346,7 @@ COUTOPT = -o
 LOUTOPT = -o 
 AOUTOPT =
 MAINOPTS = -O2
-WARNINGS = -Wall 
+WARNINGS = -Wall -Wfatal-errors
 DSOOPTS = -shared 
 DOT_O  = .o
 DOT_EXE = 
@@ -392,7 +392,7 @@ MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
 MAINOPTS += -std=gnu++11
 MAINOPTS += -DFAUDES_BUILDENV=gcc_linux
 MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
-WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
+WARNINGS = -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable
 LDFLAGS += -Wl,--as-needed  
 ifeq ($(DEBUG),yes)
 MAINOPTS += -g
@@ -416,7 +416,7 @@ endif
 ifeq ($(FAUDES_PLATFORM),gcc_linux32)
 MAINOPTS = -m32 -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
 MAINOPTS += -DFAUDES_BUILDENV=gcc_linux32
-WARNINGS = -pedantic -Wall
+WARNINGS = -pedantic -Wall 
 LDFLAGS += -m32 -Wl,--as-needed  
 ifeq ($(DEBUG),yes)
 MAINOPTS += -g
@@ -465,19 +465,20 @@ endif
 
 ### platform "gcc_osx" #####################
 #
-#  Mac OS X 10.5 and later
+#  Mac OS X 10.11 and later
 #
 # - a note on the @rpath topic: as of libFAUDES 2.33d we build the shared object with @rpath in
 #   the install name; when building executables, we then set the @rpath relative to the
 #   @executable_path in a fairly general manner; all in all we avoid the "install-name_tool"
-#   hassel when building applications
-# - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7,
-#   Mac OS X 10.11, and macOS during development of libFAUDES.
-# - as of libFAUDES 2.27i, only the Mac OS X 10.11 environment is
-#   available for testing
+#   hassel when building applications; to see, what is actually loaded, use e.g.
+#   > DYLD_PRINT_LIBRARIES=YES ./bin/luafaudes
 # - as of libFAUDES 2.31a, only the macOS 12 environment is
 #   available for testing
 # - note that the compiler here is actually LLVM/clang++ version 14.0.0
+# - as of libFAUDES 2.27i, only the Mac OS X 10.11 environment is
+#   available for testing
+# - we have used Xtools provided by Mac OS X 10.5, Mac OS X 10.7,
+#   Mac OS X 10.11, and macOS 12 during development of libFAUDES.
 # - test deployment target by "otool -l FILE | grep version"
 # - moving to libc++ and c11, we now target for MAC OS X 10.9 (although 10.7 still works)
 # - moving even further, we now target for MAC OS X 10.11 (although 10.9 still works)
@@ -493,7 +494,7 @@ LXX = clang++
 MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.11 -stdlib=libc++ 
 MAINOPTS += -DFAUDES_BUILDENV=gcc_osx
 MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
-WARNINGS =  -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
+WARNINGS =  -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
 DSOOPTS  =  -dynamiclib  -single_module
 DSOOPTS  += -install_name @rpath/$@
 # 
@@ -605,7 +606,7 @@ CXX = g++.exe
 CC = gcc.exe
 LXX = g++.exe
 MAINOPTS = -O3 
-WARNINGS = -pedantic -Wall 
+WARNINGS = -pedantic -Wall -Wfatal-errors
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols 
 DOT_EXE = .exe
 LNKLIBS = -lwinmm -lwsock32    # winmm for win systime only 
@@ -624,7 +625,7 @@ endif
 #
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
-WARNINGS = -pedantic -Wall -Wno-unused-variable -Wno-unused-but-set-variable
+WARNINGS = -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable
 MAINOPTS += -DFAUDES_BUILDENV=gcc_msys
 MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols

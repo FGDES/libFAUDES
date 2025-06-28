@@ -38,7 +38,7 @@ https://fgdes.tf.fau.de/faudes/faudes_build.html
 The <i>main</i> branch of this repository is at least in a state to compile all default 
 plug-ins and pass the test cases. It should be suitable for the devlopment of libFAUDES 
 based applications. We add tags to <i>main</i> whenever the version (as specified in the 
-file `VERSION`) number is incremented. In this event validation in Linux, Mac OS amd 
+file `VERSION`) number is incremented. In this event validation in Linux, Mac OS add 
 Windows environments is trigered automaticaly.  
 
 The <i>dev</i> branch is used for our ongoing development process. We typically only commit

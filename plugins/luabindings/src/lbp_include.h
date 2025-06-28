@@ -5,7 +5,7 @@
  Convenience header file that includes all headers
  relevant to the luabindings plug-in. 
 
- (c) Thomas Moor 2008
+ (c) Thomas Moor 2008-2025
  ****************************************************
  */
 
@@ -193,13 +193,47 @@ extern "C" {
 }
 
 
+// use 5.2.x API in 5.1.x 
+#if LUA_VERSION_NUM < 502 
+//#define lua_getglobal(l,str) lua_getfield(l, LUA_GLOBALSINDEX, str)
+//#define lua_setglobal(l,str) lua_setfield(l, LUA_GLOBALSINDEX, str)
+#ifndef lua_writestring
+#define lua_writestring(s,l) fwrite((s), sizeof(char), (l), stdout)
+#endif
+#ifndef lua_writeline
+#define lua_writeline() (lua_writestring("\n", 1), fflush(stdout))
+#endif
+#ifndef lua_writestringerror
+#define lua_writestringerror(s,p) (fprintf(stderr, (s), (p)), fflush(stderr))
+#endif
+#ifndef lua_pushglobaltable  
+#define lua_pushglobaltable(l) lua_pushvalue(l, LUA_GLOBALSINDEX)
+#endif  
+#endif
+
+// this macro was removed (in some version after 5.1.3 ...)  
+#ifndef LUA_QL  
+#define LUA_QL(x)       "'" x "'"
+#endif  
+  
+// this macro was introduced (in some version after 5.1.3 ...)  
+#ifndef LUA_OK  
+#define LUA_OK 0
+#endif  
+
+// this macro was introduced (in some version after 5.1.3 ...)  
+#ifndef LUA_VERSUFFIX
+#define LUA_VERSUFFIX "_5_1"
+#endif
+
+
 // std streams 
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 
-// c libs since we dont use lua.h
+// c libs 
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>

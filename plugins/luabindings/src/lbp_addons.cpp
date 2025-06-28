@@ -3,7 +3,7 @@
 /* 
 FAU Discrete Event Systems Library (libfaudes)
 
-Copyright (C) 2023 Thomas Moor
+Copyright (C) 2023, 2025 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -37,6 +37,19 @@ namespace faudes{
 **************************************************
 **************************************************
 
+try to be version agnostic
+
+**************************************************
+**************************************************
+**************************************************
+*/
+
+
+/*
+**************************************************
+**************************************************
+**************************************************
+
 LoopCallback: have Lua-print do LoopCallback;
 install LoopCallback as and Lua-line-hook
 
@@ -45,7 +58,9 @@ install LoopCallback as and Lua-line-hook
 **************************************************
 */
 
+  
 // variation of luaB_print, programmatic registration
+// this is still Lua 5.1.3, could be adapted for 5.4.8
 int faudes_print(lua_State *L) {
   int n,i,m;
   // line buffer
@@ -60,8 +75,7 @@ int faudes_print(lua_State *L) {
     lua_call(L, 1, 1);        // execute
     s = lua_tostring(L, -1);  // retrieve result string
     if(s == NULL)
-      return luaL_error(L, LUA_QL("tostring") " must return a string to "
-                           LUA_QL("print"));
+      return luaL_error(L, LUA_QL("tostring") " must return a string to " LUA_QL("print"));
     if(i>1) line << "\t"; 
     line << s;           
     lua_pop(L, 1);            // pop result string
@@ -81,9 +95,11 @@ int faudes_print(lua_State *L) {
 
 // register pring with Lua
 void faudes_print_register(lua_State* L) {
-  lua_pushstring(L, "print");
+  //lua_pushstring(L, "print");
+  //lua_pushcfunction(L, faudes_print);
+  //lua_rawset(L, LUA_GLOBALSINDEX);
   lua_pushcfunction(L, faudes_print);
-  lua_rawset(L, LUA_GLOBALSINDEX);
+  lua_setglobal(L, "print");
 }
 
 // Lua line hook to call faudes LoopCallback()

@@ -16,10 +16,16 @@ Relative to 2.32*
 
 ***
 
+Upgraded to Lua 5.4.8; There was no pressing need, but 5.1.3. just felt
+so outdated. We'll see how we are going. Edit luabindings/makefile.pluigin
+to select good old Lua 5.1.3.
+
+***
+
 Refactored to drop the suffix "NB" for synthesis methods. E.g.
 "SupConNB" synthesises the supremal controllable sublanguage and
 is now called "SupCon". This was announced to happen 2.22*. Likewise,
-we dropped the prefis "Prefix" in "PrefixClosed". E.g.
+we dropped the prefix "Prefix" in "PrefixClosed". E.g.
 "IsRelativelyPrefixClosed" becomes "IsRelativelyClosed".
 
 
@@ -27,6 +33,7 @@ we dropped the prefis "Prefix" in "PrefixClosed". E.g.
 
 Refactored to collect all Buechi-related utilities in a separate plug-in.
 This includes renaming for some functions from "AbcOmegaXyz" to "AbcBuechiXyz".
+The plug-in will be the basis to address Rabin automata in due course.
 
 ***
 
@@ -203,7 +210,7 @@ libFAUDES external basic types:
 - Int   (=long int, used in integer for arithmetic) 
 - Float (=double, used as pseudo real for arithmetic)
 Other occurences of "int" and "long int" have been (should
-be) substituted by a more specific type from the C++ std, 
+have been) substituted by a more specific type from the C++ std, 
 e.g. std::size_t.
 
 We are planning to use 64-bit precompiled binaries for
@@ -212,7 +219,7 @@ on 32-bit binary distributions.
 
 ***
 
-Minor adjustment in signal based io devices for 2.23g, 
+Minor adjustment in signal based IO devices for 2.23g, 
 including a copy of the process image to improve performance 
 in Comedi based edge detection. This may have unintended 
 side effects for other signal based devices, please report 
