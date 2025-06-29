@@ -22,7 +22,10 @@ OMG_CPPFILES = \
   omg_rabinacc.cpp \
   omg_rabinaut.cpp \
   omg_rabinfnct.cpp \
-  omg_rabinctrl.cpp
+  omg_rabinctrl.cpp \
+  omg_controlpattern.cpp \
+  omg_pseudodet.cpp \
+  omg_rabinctrlpartialobs.cpp
 
 OMG_INCLUDE = omg_include.h
 OMG_RTIDEFS = omg_definitions.rti

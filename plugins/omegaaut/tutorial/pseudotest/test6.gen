@@ -1,0 +1,27 @@
+<Generator>
+
+<Alphabet>
+"a" "b"
+</Alphabet>
+
+<States>
+"q0" "q1"
+</States>
+
+<TransRel>
+"q0" "a"  "q0"
+"q0" "b"  "q0"
+"q0" "b"  "q1"
+"q1" "b"  "q1"
+</TransRel>
+
+<InitStates>
+"q0"
+</InitStates>
+
+<MarkedStates>
+"q1" 
+</MarkedStates>
+
+
+</Generator>
