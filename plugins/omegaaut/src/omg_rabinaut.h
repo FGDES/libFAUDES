@@ -408,8 +408,8 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
     std::vector<std::string> ColorVector;
     ColorVector.push_back("blue");
     ColorVector.push_back("darkblue");
-    ColorVector.push_back("green");
     ColorVector.push_back("orange");
+    ColorVector.push_back("darkorange");
     ColorVector.push_back("green");
     ColorVector.push_back("darkgreen");
     ColorVector.push_back("red");
@@ -431,7 +431,7 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
 	col+=2;
       }
       // draw multiple colors as clusters 
-      if(colvec.size()>1) {
+      //if(colvec.size()>1) {
 	for(size_t i=0; i<colvec.size(); ++i) {
            stream << "  subgraph cluster_" << clustNr++ << " {color=" << ColorVector.at(colvec.at(i)) << ";" << std::endl;
         }
@@ -440,11 +440,11 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
           stream << "}";
         }
         stream << std::endl;
-      }
+	//}
       // draw single color by attribute 
-      if(colvec.size()==1) {
-	stream << "  \"" << xname << "\" " << "[color=" << colvec.at(0) << "]" << std::endl;
-      }
+      //if(colvec.size()==1) {
+      //	stream << "  \"" << xname << "\" " << "[color=" << ColorVector.at(colvec.at(0)) << "]" << std::endl;
+      //}
     }
     stream << std::endl;
 

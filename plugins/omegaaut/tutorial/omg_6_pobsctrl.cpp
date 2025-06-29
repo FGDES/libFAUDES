@@ -50,5 +50,10 @@ int main() {
   RabinCtrlPartialObs(cplant,spec,epsObserved);
   epsObserved.DWrite();
   epsObserved.Write("tmp_ObservedBelt.gen");
+
+  // record test case
+  FAUDES_TEST_DUMP("synth result", epsObserved);
+  FAUDES_TEST_DIFF();
+
   return 0;
 }

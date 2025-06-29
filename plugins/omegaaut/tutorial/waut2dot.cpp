@@ -91,12 +91,35 @@ int main(int argc, char *argv[]) {
       basename.resize(basename.rfind(".gen"));
     dotout = basename+".dot";
   }
+
+  // prepare faudes object
+  Generator* pgen=nullptr;
+
+  // try to be smart and sense type
+  std::string ftype;
+  TokenReader tr(autin);
+  Token btag;
+  tr.Peek(btag);
+  if(btag.IsBegin()) {
+    ftype=btag.StringValue();
+    if(btag.ExistsAttributeString("ftype")) 
+      ftype=btag.AttributeStringValue("ftype");
+    if(ftype=="RabinAutomaton") pgen=new RabinAutomaton;
+    if(ftype=="Generator") pgen=new Generator;
+    if(ftype=="System") pgen=new System;
+  }
+
+  // fallback
+  if(pgen==nullptr) pgen=new RabinAutomaton;  
   
   // read gen file
-  RabinAutomaton aut(autin);
+  pgen->Read(autin);
 
   // write dot file
-  aut.DotWrite(dotout);
+  pgen->DotWrite(dotout);
+
+  // be kind
+  delete pgen;
 
   return 0;
 }

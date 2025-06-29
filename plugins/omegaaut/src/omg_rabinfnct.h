@@ -33,7 +33,7 @@ namespace faudes {
 
 
 /**
- * Live states  w.r.t a Rabin pair.
+ * Live states w.r.t a Rabin pair.
  *
  * A state is considered live if it allows for a future path that such
  * that the acceptance condition is met,
@@ -64,7 +64,7 @@ extern FAUDES_API void RabinLiveStates(
 
 
 /**
- * Live states  w.r.t a Rabin pair.
+ * Live states w.r.t a Rabin pair.
  *
  * API wrapper.
  *

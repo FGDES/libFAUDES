@@ -2388,14 +2388,17 @@ void vGenerator::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type
     SetMinStateIndexMap();
   // figure section
   std::string label=rLabel;
+  std::string ftype=TypeName();
   if(label=="") label="Generator"; 
   FD_DG("vGenerator(" << this << ")::DoWrite(): section " << label);
-  // write generator
+  // figure begin tag
   Token btag;
   btag.SetBegin(label);
   if(mObjectName!=label) btag.InsAttributeString("name",mObjectName);
+  if(ftype!=label && ftype!="") btag.InsAttributeString("ftype",ftype); // semi mandatory type v2.33j   
   rTw.Write(btag);
   rTw << "\n";
+  // write body
   SWrite(rTw);
   rTw << "\n";
   mpAlphabet->Write(rTw);
@@ -2455,9 +2458,7 @@ void vGenerator::DoXWrite(TokenWriter& rTw, const std::string& rLabel, const Typ
   Token btag;
   btag.SetBegin(label);
   if(Name()!=label && Name()!="") btag.InsAttributeString("name",Name());
-  //2.24e: make ftype mandatory for XML format to allow for more flexible faudes/plain format
-  //if(ftype!=label && ftype!="") btag.InsAttributeString("ftype",ftype); // pre 2.22e  
-  btag.InsAttributeString("ftype",ftype); // 2.24e
+  btag.InsAttributeString("ftype",ftype); // mandatory as of 2.24e
   FD_DG("vGenerator(" << this << ")::DoXWrite(..): section " << btag.StringValue() << " #" << Size());
   rTw.Write(btag);
   // Optional re-indexing
@@ -3133,8 +3134,9 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
   // hypothesis: format is either "relaxed native 2.24e" or "xml"
   bool native=true;
   bool xml= true;
-  // the ftype attribute is mandatory to indicate xml format (as of 2.24e)
-  if(btag.ExistsAttributeString("ftype")) { native=false;}
+  // as of 2.24e, we used the ftype to sense XML; as og 2.33j we  have ftype also in native mode
+  // so we may need another way to detect XML
+  //if(btag.ExistsAttributeString("ftype")) { native=false;} // 2.24e
   // try name by relaxed native 2.24e
   if(native) {
     FD_DG("vGenerator(" << this << ")::DoRead(): relaxed native header")
@@ -3185,7 +3187,7 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
     if(token.IsBegin("M"))
       {ReadStateSet(rTr, "M", mMarkedStates); xml=false;}
     mMarkedStates.Name("MarkedStates");
-    // read attribute
+    // read attribute (mandatory if non-void --- should be optional?)
     mpGlobalAttribute->Read(rTr,"",this);
   }
   // if we survived, its not xml
@@ -3207,7 +3209,7 @@ void vGenerator::DoRead(TokenReader& rTr,  const std::string& rLabel, const Type
     XReadTransRel(rTr);
     // read attribute
     mpGlobalAttribute->Read(rTr,"",this);
-    // fix labels
+    // fix object names
     mInitStates.Name("InitStates");
     mMarkedStates.Name("MarkedStates");
   }

@@ -13,7 +13,7 @@ fi
 # configure
 LIBFAUDES=../../..
 
-DOTWRITE=$LIBFAUDES/bin/gen2dot
+DOTWRITE=$LIBFAUDES/bin/waut2dot
 LUAFAUDES=$LIBFAUDES/bin/luafaudes
 DOTEXEC=dot 
 CONVERT=convert
@@ -29,7 +29,8 @@ rm tmp_*
 
 ./omg_1_buechi
 ./omg_2_buechictrl
-
+./omg_3_rabin
+. ./safra.sh
 
 # advertise
 echo ======================================================

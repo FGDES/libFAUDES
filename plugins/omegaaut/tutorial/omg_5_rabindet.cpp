@@ -1,4 +1,4 @@
-/** @file pseudodet_example.cpp
+/** @file omg_5_rabindet.cpp
  *
  * Example usage of pseudo-determinization algorithm for Rabin automata
  *
@@ -6,7 +6,7 @@
  * nondeterministic Rabin automata to deterministic ones.
  *
  * @ingroup Tutorials
- * @include pseudodet_example.cpp
+ * @include omg_5_rabindet.cpp
  */
 
  #include "libfaudes.h"
@@ -31,5 +31,12 @@
 
          DRA.DWrite();
          //DRA.RabinGraphWrite("DRA.png");
+
+	 // record test case
+         FAUDES_TEST_DUMP("pseudo det result", DRA);
+
+	 // compare with our records
+         FAUDES_TEST_DIFF();
+
          return 0;
      }

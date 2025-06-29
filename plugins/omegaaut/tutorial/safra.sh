@@ -7,7 +7,10 @@ GEN2DOT=./waut2dot
 LTL2DSTAR=~/opt/ltl2dstar 
 DOT=dot
 
-# read Buechi automata and convert to HOA format
+# copy Buechi automaton for documentation
+cp data/omg_nba.gen tmp_omg_nba.gen 
+
+# read Buechi automaton and convert to HOA format
 echo "== gen->hoa"
 ${GEN2HOA} -s tmp_omg_nba.sym data/omg_nba.gen tmp_omg_nba.hoa 
 

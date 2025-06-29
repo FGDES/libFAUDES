@@ -1,8 +1,41 @@
+/** @file omg_controlpattern.h Augmented events and control patterns
+ * 
+ * @ingroup OmegaautPlugin
+ */
+
+/*
+  
+   FAU Discrete Event Systems Library (libfaudes)
+
+   Copyright (C) 2025 Thomas Moor
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+
+   This module implements augmented events / control patterns
+   
+   Copyrigth Changming Yang 2025
+   Non-exclusive copyright is granted to Thomas Moor
+
+*/
+
 #ifndef FAUDES_OMG_CONTROLPATTERN_H
 #define FAUDES_OMG_CONTROLPATTERN_H
 
 #include "libfaudes.h"
-#include "omg_rabinaut.h"  // For RabinAutomaton typedef
+#include "omg_rabinaut.h"  
 
 namespace faudes {
 
@@ -11,6 +44,8 @@ namespace faudes {
  * 
  * This class extends AttributeVoid to represent an event paired with 
  * the control pattern under which it can occur.
+ *
+ * @ingroup OmgPlugin
  */
 class FAUDES_API AugmentedEvent : public AttributeVoid {
 
@@ -113,6 +148,8 @@ private:
  * 
  * This class manages a collection of AugmentedEvent objects,
  * representing all possible event-control pattern combinations.
+ *
+ * @ingroup OmgPlugin
  */
 class FAUDES_API AugmentedAlphabet : public TBaseSet<AugmentedEvent> {
 
@@ -182,6 +219,8 @@ protected:
  * 
  * Utility class to generate all valid control patterns for a given alphabet
  * based on controllability information.
+ *
+ * @ingroup OmgPlugin
  */
 class FAUDES_API ControlPatternGenerator {
 

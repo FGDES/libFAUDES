@@ -1,5 +1,5 @@
 ###############################################################################
-# Makefile for libFAUDES, tmoor 20240301
+# Makefile for libFAUDES, tmoor 20250629
 #
 # Requires GNU make
 #
@@ -66,19 +66,19 @@ FAUDES_PLUGINS =
 #FAUDES_PLUGINS += example      # docs only
 FAUDES_PLUGINS += omegaaut	
 FAUDES_PLUGINS += synthesis	
-#FAUDES_PLUGINS += observer
-#FAUDES_PLUGINS += multitasking
-#FAUDES_PLUGINS += diagnosis
-#FAUDES_PLUGINS += hiosys
+FAUDES_PLUGINS += observer
+FAUDES_PLUGINS += multitasking
+FAUDES_PLUGINS += diagnosis
+FAUDES_PLUGINS += hiosys
 FAUDES_PLUGINS += iosystem
-#FAUDES_PLUGINS += coordinationcontrol
-#FAUDES_PLUGINS += priorities   
-#FAUDES_PLUGINS += timed
-#FAUDES_PLUGINS += simulator
-#FAUDES_PLUGINS += iodevice
+FAUDES_PLUGINS += coordinationcontrol
+FAUDES_PLUGINS += priorities   
+FAUDES_PLUGINS += timed
+FAUDES_PLUGINS += simulator
+FAUDES_PLUGINS += iodevice
 #FAUDES_PLUGINS += pushdown      # out of maintenance
 #FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
-#FAUDES_PLUGINS += luabindings    # Lua is our default scripting language ...
+FAUDES_PLUGINS += luabindings    # Lua is our default scripting language ...
 #FAUDES_PLUGINS += pybindings    # ... but you may likewise opt for Python
 endif
 
@@ -1013,7 +1013,6 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(OBJDIR) 
 	rm -rf $(DOCDIR) 
 	rm -rf $(INCLUDEDIR)/*
-	rm -f Makefile.user
 	rm -f Makefile.depend
 	rm -f libfaudes.a libfaudes.so libfaudesd.a libfaudesd.so
 	rm -f libfaudes.dylib libfaudesd.dylib  libfaudes.jsa

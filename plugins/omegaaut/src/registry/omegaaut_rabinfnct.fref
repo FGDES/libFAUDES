@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="OmegaAut" page="3_Rabin-Functions" title="Functions on Rabin Automata">
+<h1>
+Functions on Rabin Automata
+</h1>
+
+<p>
+The omega-automata plug-in provides a set of general purpose operations on Rabin Automata.
+</p>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinLiveStates">
+<fdetails/>
+
+<p>
+A state is considered live if it allows for a future path such
+that the acceptance condition is met.
+</p>
+
+<p>
+Given a Rabin pair <fimath>(R,I)</fimath>, the implementation of this function is along the following lines
+</p>
+
+<ul class="l2">
+<li><p>  
+  initialise the candidate live states <fimath>L:=I</fimath>
+</p></li>
+<li><p>  
+ run a nu-iteration on <fimath>L</fimath> to figure the largest existential invariant
+</p></li>
+<li><p>  
+  run a mu-iteration on <fimath>L\cap R</fimath>  to restrict <fimath>L</fimath> to states which
+  can reach <fimath>R</fimath>
+</p></li>
+<li><p>  
+  repeat the above two steps until a fix point is attained
+</p></li>
+<li><p>  
+  run one more mu-iteration on <fimath>L</fimath> to extend to the bachward reach
+</p></li>
+<li><p>  
+  return <fimath>L</fimath> as the result
+</p></li>
+</ul>
+
+<p>
+Depending on the signature, liveness is required w.r.t. at least one of the provided
+Rabin pairs.
+</p>
+
+<fexample/>
+
+<table class="plain"> <tr> <td> 
+<table>
+<tr> <td> G </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_rnottrim"/> </td> 
+</tr>
+</table> 
+</td> </tr> </table>
+
+<p>
+For the blue Rabin pair, the trim set is reported as
+{<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>}.
+For the orange Rabin pair, the trim set is reported as
+{<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>, <tt>A3</tt>, <tt>AB4</tt>, <tt>B2_R</tt>, <tt>B3</tt>,  <tt>B4</tt>}.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinTrim">
+<fdetails/>
+
+<p>
+Trim a given Rabin automaton <i>RAut</i> by 
+removing states that are not live; see also <ffnct>RabinLiveStates</ffnct>.
+The accepted language <fimath>Rm(RAut)</fimath> is not affected.
+</p>
+
+<p>
+When applied on the above example, <ffnct>RabinTrim</ffnct> returns 
+the result:
+<br />
+<br />
+<fimage fsrc="tmp_omg_rtrim"/> 
+<br />
+<br />
+</p>
+
+</ffnct_reference>
+
+</ReferencePage>
+
+  

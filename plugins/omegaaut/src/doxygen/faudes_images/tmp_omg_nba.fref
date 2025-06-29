@@ -1,0 +1,40 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_nba.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_nba.svg">
+<a class="faudes_image" href="tmp_omg_nba.svg">
+<img src="tmp_omg_nba.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="eventually always alternating a and b"&gt;
+&lt;T&gt;
+1 a 1
+1 b 1
+1 a 2
+2 b 3
+3 a 2
+&lt;/T&gt;
+&lt;I&gt; 1&lt;/I&gt;
+&lt;M&gt; 2 3 &lt;/M&gt;
+&lt;/Generator&gt;
+
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

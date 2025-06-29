@@ -1,12 +1,38 @@
-/** @file omg_pseudodet.h 
- * 
- * Pseudo-determinization algorithm for Rabin automata
- * 
- * This module implements the pseudo-determinization algorithm that converts
- * nondeterministic Rabin automata to deterministic Rabin automata.
- * 
+/** @file omg_pseudodet.h Pseudo-determinization algorithm for Rabin automata
+ *   
  * @ingroup OmegaautPlugin
  */
+
+/*
+  
+   FAU Discrete Event Systems Library (libfaudes)
+
+   Copyright (C) 2025 Thomas Moor
+   Exclusive copyright is granted to Klaus Schmidt
+
+   This library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with this library; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+
+   This module implements the pseudo-determinization algorithm that converts
+   nondeterministic Rabin automata to deterministic Rabin automata.
+  
+   Copyrigth Changming Yang 2025
+   Non-exclusive copyright is granted to Thomas Moor
+
+*/
+
 
  #ifndef FAUDES_OMG_PSEUDODET_H
  #define FAUDES_OMG_PSEUDODET_H
@@ -51,6 +77,8 @@
  
  /**
   * Labeled tree class for pseudo-determinization algorithm
+  *
+  * @ingroup OmgPlugin
   */
  class FAUDES_API LabeledTree {
  public:
@@ -95,6 +123,8 @@
   * @exception Exception
   *   - Input automaton has no initial states (id 201)
   *   - Algorithm complexity limits exceeded (id 202)
+  *
+  * @ingroup OmgPlugin
   */
  FAUDES_API void PseudoDet(const RabinAutomaton& rGen, RabinAutomaton& rRes);
  
@@ -105,6 +135,8 @@
   *   Input labeled tree
   * @return
   *   String signature representing the tree structure
+  *
+  * @ingroup OmgPlugin
   */
  FAUDES_API std::string ComputeTreeSignature(const LabeledTree& tree);
  

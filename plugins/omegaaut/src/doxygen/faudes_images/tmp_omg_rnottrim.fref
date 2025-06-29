@@ -1,0 +1,97 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_rnottrim.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_rnottrim.svg">
+<a class="faudes_image" href="tmp_omg_rnottrim.svg">
+<img src="tmp_omg_rnottrim.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="G" ftype="RabinAutomaton"&gt;
+
+% 
+%  Statistics for G
+% 
+%  States:        13
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   18
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+N0            N1            N2            N3            A1            A2_R         
+A3            AB4           A5            A6            B2_R          B3           
+B4           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+N0            a             N1           
+N0            a             A1           
+N1            a             N2           
+N2            a             N2           
+N2            a             N3           
+A1            a             A2_R         
+A2_R          a             A1           
+A2_R          a             A3           
+A3            a             N2           
+A3            a             AB4          
+AB4           a             A5           
+AB4           a             B2_R         
+A5            a             A6           
+A6            a             A5           
+B2_R          a             AB4          
+B2_R          a             B3           
+B3            a             B4           
+B4            a             AB4          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+N0           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+&lt;RabinAcceptance&gt;
+&lt;RabinPair name="A"&gt;
+&lt;R&gt;
+A2_R         
+&lt;/R&gt;
+&lt;I&gt;
+A1            A2_R          A3            AB4           A5            A6           
+&lt;/I&gt;
+&lt;/RabinPair&gt;
+&lt;RabinPair name="B"&gt;
+&lt;R&gt;
+B2_R         
+&lt;/R&gt;
+&lt;I&gt;
+AB4           B2_R          B3            B4           
+&lt;/I&gt;
+&lt;/RabinPair&gt;
+&lt;/RabinAcceptance&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

@@ -20,10 +20,40 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
-/*
-The omageaut plug-in does not provide bindings for data structures yet, so this
-interface file is a dummy
-*/
+
+// RabinAutomaton typedef
+typedef TrGenerator<RabinAcceptance, AttributeVoid, AttributeCFlags, AttributeVoid> RabinAutomaton;
+
+// AugmentedEvent class
+class AugmentedEvent : public AttributeVoid {
+public:
+    AugmentedEvent(void);
+    AugmentedEvent(Idx event, const EventSet& pattern);
+    AugmentedEvent(const AugmentedEvent& other);
+    
+    Idx Event() const;
+    void Event(Idx event);
+    const EventSet& ControlPattern() const;
+    void ControlPattern(const EventSet& pattern);
+    
+    bool operator==(const AugmentedEvent& other) const;
+    bool operator!=(const AugmentedEvent& other) const;
+};
+
+// AugmentedAlphabet class
+class AugmentedAlphabet : public TaGenerator<AugmentedEvent, AttributeVoid, AttributeVoid, AttributeVoid> {
+public:
+    AugmentedAlphabet(void);
+    AugmentedAlphabet(const AugmentedAlphabet& other);
+    
+    void InsertAugmentedEvent(Idx event, const EventSet& pattern);
+    //void EraseAugmentedEvent(Idx event, const EventSet& pattern);
+    bool ExistsAugmentedEvent(Idx event, const EventSet& pattern) const;
+    AugmentedAlphabet FindByPattern(const EventSet& pattern) const;
+    EventSet Events(void) const;
+    std::vector<EventSet> ControlPatterns(void) const;
+};
+
 
 // Set SWIG module name
 // Note: must match libFAUDES plugin name
