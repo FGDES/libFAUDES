@@ -193,8 +193,7 @@ static int dolibrary (lua_State *L, const char *name) {
 ** completion in DESTool. Thus, we moved the original completer code to LuaState 
 ** (see lbp_function.cpp and lbp_completer.cpp) and provide a C interface via
 ** luafaudes_complete() (see lbp_addons.cpp). The below code is reduced to the libreadline 
-** interface. The original patch still ships with libFAUDES for reference and can be 
-** inspected in lua.c in the Lua source tree. TMoor. 
+** interface. The original patch still ships with libFAUDES for reference; TMoor. 
 
 ** Advanced readline support for the GNU readline and history libraries
 ** or compatible replacements.

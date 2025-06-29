@@ -64,7 +64,6 @@ ifeq ($(LBP_LUAVER),5.1.3)
 LBP_LUATGZ = lua-5.1.3.tar.gz
 LBP_LUADIR = $(LBP_BASE)/lib/lua-5.1.3
 LBP_FAUDESPATCH = lua-5.1.3-faudes.patch
-LBP_ARLPATCH = lua-5.1-advanced-readline.patch
 LBP_LUACFILES = \
    lapi.c lcode.c ldebug.c ldo.c ldump.c lfunc.c lgc.c llex.c lmem.c \
    lobject.c lopcodes.c lparser.c lstate.c lstring.c ltable.c ltm.c  \
@@ -101,10 +100,6 @@ ifdef LBP_FAUDESPATCH
 	@echo "applying faudes patch" 
 	cd $(LBP_LUADIR); patch -p1 < ../$(LBP_FAUDESPATCH)
 endif	
-ifeq ($(FAUDES_PLATFORM),gcc_linux)
-	@echo "applying advanced edit patch" 
-	cd $(LBP_LUADIR); patch -p1 < ../$(LBP_ARLPATCH)
-endif
 	@echo "copy lua headers"
 	- rm -rf $(INCLUDEDIR)/lua  
 	mkdir $(INCLUDEDIR)/lua
