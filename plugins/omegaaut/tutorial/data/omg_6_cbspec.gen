@@ -1,0 +1,36 @@
+<Generator>
+"cb spec"
+
+<Alphabet>
+a_1    b_2     
+</Alphabet>
+
+<States>
+E       F 
+</States>
+
+<TransRel>
+E    a_1    F
+F    b_2    E      
+</TransRel>
+
+<InitStates>
+E       
+</InitStates>
+
+<MarkedStates>
+E      
+</MarkedStates>
+
+<RabinAcceptance>
+<RabinPair name="RabinPair">
+<R>
+F      
+</R>
+<I>
+E 
+</I>
+</RabinPair>
+</RabinAcceptance>
+
+</Generator>

@@ -21,6 +21,9 @@
 #include "omg_buechictrl.h"
 #include "omg_rabinfnct.h"
 #include "omg_rabinctrl.h"
+#include "omg_controlpattern.h"
+#include "omg_pseudodet.h"
+#include "omg_rabinctrlpartialobs.h"
 
 #endif
 

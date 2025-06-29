@@ -1,0 +1,25 @@
+<Generator>
+"single cb"
+
+<Alphabet>
+a    b      
+</Alphabet>
+
+<States>
+e       f 
+</States>
+
+<TransRel>
+e      a     f
+f      b     e      
+</TransRel>
+
+<InitStates>
+e       
+</InitStates>
+
+<MarkedStates>
+f      
+</MarkedStates>
+
+</Generator>

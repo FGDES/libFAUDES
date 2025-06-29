@@ -1,0 +1,52 @@
+<Generator>
+
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        3
+%  Transitions:   8
+%  StateSymbols:  3
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+a        b        eps      
+</Alphabet>
+
+<States>
+q0       q1       q2       
+</States>
+
+<TransRel>
+q0       a        q1       
+q0       b        q2       
+q0       eps      q0       
+q0       eps      q2       
+q1       a        q2       
+q1       eps      q1       
+q2       b        q1       
+q2       eps      q0       
+</TransRel>
+
+<InitStates>
+q0       
+</InitStates>
+
+<MarkedStates>
+q1       
+</MarkedStates>
+
+<RabinAcceptance>
+<RabinPair name="RabinPair">
+<R>
+q1             
+</R>
+<I>
+q1   q2     
+</I>
+</RabinPair>
+</RabinAcceptance>
+
+</Generator>
