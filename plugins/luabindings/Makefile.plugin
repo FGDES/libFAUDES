@@ -102,7 +102,7 @@ ifdef LBP_FAUDESPATCH
 endif	
 	@echo "copy lua headers"
 	- rm -rf $(INCLUDEDIR)/lua  
-	mkdir $(INCLUDEDIR)/lua
+	mkdir -p $(INCLUDEDIR)/lua
 	cp $(LBP_LUADIR)/src/*.h $(INCLUDEDIR)/lua
 
 #
