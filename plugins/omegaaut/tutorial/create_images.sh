@@ -32,6 +32,8 @@ rm tmp_*
 ./omg_3_rabin
 . ./safra.sh
 
+rm tmp_omg*.png
+
 # advertise
 echo ======================================================
 echo ===  converting gen to png/svg/html ==================
@@ -44,7 +46,8 @@ for FILE in tmp_*.gen ; do
   echo ============= processing $BASE
   $DOTWRITE $FILE
   $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tsvg -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.svg
-  $CONVERT -background none $BASE.svg $BASE.png
+  $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tpng -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.png
+  #$CONVERT -background none $BASE.svg $BASE.png  # tends to mess with size/crop
 done;
 
 # loop all .gen files for ref page

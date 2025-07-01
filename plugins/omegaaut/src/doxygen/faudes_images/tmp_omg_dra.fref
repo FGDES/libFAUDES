@@ -18,25 +18,54 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator ftype="RabinAutomaton"&gt;
+&lt;Generator name="eventually always alternating a and b" ftype="RabinAutomaton"&gt;
 
 % 
-%  Statistics for Generator
+%  Statistics for eventually always alternating a and b
 % 
-%  States:        0
-%  Init/Marked:   0/0
-%  Events:        0
-%  Transitions:   0
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        2
+%  Transitions:   8
 %  StateSymbols:  0
 %  Attrib. E/S/T: 0/0/0
 % 
 
-&lt;Alphabet/&gt;
-&lt;States/&gt;
-&lt;TransRel/&gt;
-&lt;InitStates/&gt;
+&lt;Alphabet&gt;
+a             b            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+1              2              3              4             
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              a             2             
+1              b             4             
+2              a             3             
+2              b             1             
+3              a             3             
+3              b             1             
+4              a             3             
+4              b             4             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+4             
+&lt;/InitStates&gt;
+
 &lt;MarkedStates/&gt;
-&lt;RabinAcceptance/&gt;
+&lt;RabinAcceptance&gt;
+&lt;RabinPair name="RabinPair"&gt;
+&lt;R&gt;
+1              2             
+&lt;/R&gt;
+&lt;I&gt;
+1              2             
+&lt;/I&gt;
+&lt;/RabinPair&gt;
+&lt;/RabinAcceptance&gt;
+
 &lt;/Generator&gt;
 
 </pre>
