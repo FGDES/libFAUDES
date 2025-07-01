@@ -43,7 +43,7 @@ for FILE in tmp_*.gen ; do
   BASE=$(basename $FILE .gen)
   echo ============= processing $BASE
   $DOTWRITE $FILE
-  $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tsvg -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.svg
+  $DOTEXEC -Tsvg -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.svg
   $CONVERT -background none $BASE.svg $BASE.png
 done;
 

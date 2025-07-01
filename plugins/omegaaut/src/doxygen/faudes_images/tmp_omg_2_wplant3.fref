@@ -18,7 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="wPlant3"&gt;
+&lt;Generator name="wPlant3" ftype="System"&gt;
 
 % 
 %  Statistics for wPlant3
