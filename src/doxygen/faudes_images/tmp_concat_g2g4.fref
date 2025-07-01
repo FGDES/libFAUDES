@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-Concatenate(g2,g4) 
+&lt;Generator name="Concatenate(g2,g4)"&gt;
 
 % 
 %  Statistics for Concatenate(g2,g4)

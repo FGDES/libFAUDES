@@ -183,8 +183,16 @@ public:
   SwigBaseSetMembers(IndexSet,Idx,IndexSetIterator);
 };
 
-// Have StateSet alias
+// Have StateSet alias (on Lua, somehow not funtional)
 typedef IndexSet StateSet;
+
+// Extra Lua functions: (introduce StateSet as a duplicat of IndexSet)
+#ifdef SWIGLUA
+%luacode {
+faudes['StateSet']=faudes['IndexSet']  
+}				
+#endif
+
 
 // Set with attributes 
 // (minimal format to tell SWIG that it can upcast)

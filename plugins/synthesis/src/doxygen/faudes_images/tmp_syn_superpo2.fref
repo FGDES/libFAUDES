@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_syn_superpo2.gen
 </h1>
@@ -18,11 +18,10 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-Generator    
+&lt;Generator name="SupConNorm(very simple machine_1||very simple machine_2, two place buffer)"&gt;
 
 % 
-%  Statistics for Generator
+%  Statistics for SupConNorm(very simple machine_1||very simple machine_2, two place buffer)
 % 
 %  States:        9
 %  Init/Marked:   1/3

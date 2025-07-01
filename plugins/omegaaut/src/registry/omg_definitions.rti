@@ -12,13 +12,48 @@
 <TypeDefinition name="OmegaAut::RabinAutomaton" ctype="faudes::RabinAutomaton" autoregister="true"> 
 
 <Documentation ref="omegaaut_index.html#RabinAutomaton"> 
-Automaton model RA=(Sigma,Q,delta,Qo,{R_p,I_p}).
+Automaton model RA=(Sigma,Q,delta,Qo,{(R_p,I_p)}).
+</Documentation> 
+<Keywords> 
+OmegaAut    generator   "rabin automaton"   "rabin acceptance condition"   
+</Keywords> 
+
+</TypeDefinition>
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type RabinAcceptance -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="OmegaAut::RabinAcceptance" ctype="faudes::RabinAcceptance"> 
+
+<Documentation ref="omegaaut_index.html#RabinAutomaton"> 
+A Rabin acceptance condition  {(R_p,I_p)}.
 </Documentation> 
 <Keywords> 
 OmegaAut    generator   "rabin automaton"   "rabin acceptance condition"   
 </Keywords> 
 
 </TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type RabinAcceptance -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="OmegaAut::RabinPair" ctype="faudes::RabinPair"> 
+
+<Documentation ref="omegaaut_index.html#RabinAutomaton"> 
+A single Rabin pair (R,I).
+</Documentation> 
+<Keywords> 
+OmegaAut    generator   "rabin automaton"   "rabin acceptance condition"   
+</Keywords> 
+
+</TypeDefinition> 
+
 
 <!-- =================================================== -->
 <!-- =================================================== -->

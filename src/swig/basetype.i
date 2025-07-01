@@ -121,6 +121,25 @@ public:
 };
 
 
+// macro for universal faudes base class members, extended as ov v2.33)
+%define SwigExtTypeMembers()
+  const std::string& Name(void) const;
+  void Name(const std::string& rName);
+%enddef  
+
+// universal faudes base class (extenden as ov v2.33)
+class ExtType : public Type {
+public:
+  // construct/destruct
+  ExtType(void);
+  ExtType(const ExtType& rType);
+  virtual ~ExtType();
+
+  // have token io etc
+  SwigExtTypeMembers()
+};
+
+
 // helper: report object type
 %rename(TypeName) FaudesTypeName;
 const std::string& FaudesTypeName(const Type& rObject);

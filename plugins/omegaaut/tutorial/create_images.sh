@@ -3,9 +3,12 @@
 # simple script to run tutorials, create images, and to 
 # install them in the libfaudes doxygen tree
 
+# note: this script co-exists in various variants around different plugins
+# on some stage it should be unifed and go to tools -- tm 2025/07
+
 # sanity check
-if [ ! -d ../../omegaaut/tutorial ]; then
-    echo "error: the current directory appears not to be omegaaut/tutorial"
+if [ ! -d ../../../plugins/synthesis ]; then
+    echo "error: the current path appears not to be a libFAUDES tutorial"
     return
 fi
 
@@ -31,8 +34,11 @@ rm tmp_*
 ./omg_2_buechictrl
 ./omg_3_rabin
 . ./safra.sh
-
 rm tmp_omg*.png
+
+echo "=== tutorial: done (no error check)"
+echo
+
 
 # advertise
 echo ======================================================
@@ -46,8 +52,8 @@ for FILE in tmp_*.gen ; do
   echo ============= processing $BASE
   $DOTWRITE $FILE
   $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tsvg -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.svg
-  $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tpng -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.png
-  #$CONVERT -background none $BASE.svg $BASE.png  # tends to mess with size/crop
+  $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tpng -Gbgcolor=transparent -Gsize=8,8 $BASE.dot -o $BASE.png
+  #$CONVERT -background none $BASE.svg $BASE.png  # tends to mess with size/crop, tends to hickup on MacOS
 done;
 
 # loop all .gen files for ref page
@@ -64,6 +70,6 @@ echo ===  copy do doc =====================================
 echo ======================================================
 
 #rm $DSTDIR/tmp_*
-#cp -v tmp_omg*.png $DSTDIR
-#cp -v tmp_omg*.svg $DSTDIR
-#cp -v tmp_omg*.fref $DSTDIR
+cp -v tmp_omg*.png $DSTDIR
+cp -v tmp_omg*.svg $DSTDIR
+cp -v tmp_omg*.fref $DSTDIR

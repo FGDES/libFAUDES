@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_syn_suprpc_k.gen
 </h1>
@@ -18,11 +18,10 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-SupRpcNB((L),(E)) 
+&lt;Generator name="SupRpc((L),(E))"&gt;
 
 % 
-%  Statistics for SupRpcNB((L),(E))
+%  Statistics for SupRpc((L),(E))
 % 
 %  States:        2
 %  Init/Marked:   1/1

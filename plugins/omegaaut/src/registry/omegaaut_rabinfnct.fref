@@ -54,14 +54,10 @@ Rabin pairs.
 
 <fexample/>
 
-<table class="plain"> <tr> <td> 
-<table>
+<table class="plain"> 
 <tr> <td> G </td> </tr>
-<tr>
-<td> <fimage fsrc="tmp_omg_rnottrim"/> </td> 
-</tr>
+<tr> <td> <fimage fsrc="tmp_omg_rnottrim"/> </td> </tr>
 </table> 
-</td> </tr> </table>
 
 <p>
 For the blue Rabin pair, the trim set is reported as

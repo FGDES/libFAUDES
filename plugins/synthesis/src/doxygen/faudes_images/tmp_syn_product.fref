@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_syn_product.gen
 </h1>
@@ -19,7 +19,6 @@ Token IO
 </h3>
 <pre>
 &lt;Generator&gt;
-Generator    
 
 % 
 %  Statistics for Generator

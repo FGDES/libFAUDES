@@ -61,6 +61,7 @@ int main() {
   InvProject(cand,sigall);
   Automaton(cand);
   RabinBuechiProduct(cand,plant,cand);
+  cand.GraphWrite("tmp_omg_cand13_test.png");
   //RabinBuechiAutomaton(cand,plant,cand);
   cand.Write();
   StateSet ctrlpfx;

@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_syn_superpoc.gen
 </h1>
@@ -18,11 +18,10 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"Intersection(SupCon((Project(very s...e machine_1||very simple machine_2)" 
+&lt;Generator name="SupConNormClosed(very simple machine_1||very simple machine_2, PrefixClosure(buffer))"&gt;
 
 % 
-%  Statistics for Intersection(SupCon((Project(very s...e machine_1||very simple machine_2)
+%  Statistics for SupConNormClosed(very simple machine_1||very simple machine_2, PrefixClosure(buffer))
 % 
 %  States:        3
 %  Init/Marked:   1/3

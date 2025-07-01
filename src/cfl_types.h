@@ -1176,7 +1176,6 @@ public:
    *   Tag
    */
   virtual const std::string&  ElementTag(void) const;
-
   /**
    * Configure the element name tag.
    *

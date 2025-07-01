@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-g_nondet     
+&lt;Generator name="g_nondet"&gt;
 
 % 
 %  Statistics for g_nondet

@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-GComplete    
+&lt;Generator name="GComplete"&gt;
 
 % 
 %  Statistics for GComplete

@@ -208,7 +208,9 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @param rFileName                                                                                 
      *    Name of file to save result                                                                   
      */
-    virtual void DotWrite(const std::string& rFileName) const; protected:
+    virtual void DotWrite(const std::string& rFileName) const;
+
+ protected:
 
     /** need to reimplement to care about Additional members */
     void DoAssign(const TrGenerator& rSrc);
@@ -468,16 +470,17 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
 TEMP void THIS::DotWrite(const std::string& rFileName) const {
   FD_DG("RabinAutomaton(" << this << ")::DotWrite(" << rFileName << ")");
   // list of colors (pairs light vs. solid for I-Set and R-Set)
-  std::vector<std::string> ColorVector;
-  ColorVector.push_back("lightblue");   // X11 light blue
-  ColorVector.push_back("darkblue");    // X11 dark blue
-  ColorVector.push_back("#ffcc80");     // my light orange
-  ColorVector.push_back("#ff9900");     // my dark orange 
-  ColorVector.push_back("green");
-  ColorVector.push_back("darkgreen");
-  ColorVector.push_back("red");
-  ColorVector.push_back("darkred");
-  if(THIS::RabinAcceptance().Size()>ColorVector.size()) {
+  std::vector<std::string> ColorPalette;
+  ColorPalette.push_back("lightblue");   // X11 light blue
+  ColorPalette.push_back("darkblue");    // X11 dark blue
+  ColorPalette.push_back("#ffcc80");     // my light orange
+  ColorPalette.push_back("#ff9900");     // my dark orange 
+  ColorPalette.push_back("green");
+  ColorPalette.push_back("darkgreen");
+  ColorPalette.push_back("red");
+  ColorPalette.push_back("darkred");
+  ColorPalette.push_back("black");       // have black for std marking
+  if(2*THIS::RabinAcceptance().Size()>ColorPalette.size()-1) {
     FD_DG("RabinAutomaton(" << this << ")::DotWrite(...): to many Rabin pairs");
     BASE::DotWrite(rFileName);
     return;
@@ -519,6 +522,7 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
       marked = marked + rit->ISet();
       marked = marked + rit->RSet();
     }
+    marked.InsertSet(this->MarkedStates());
 
     // uncolored states - output
     stream << "  // plain states" << std::endl;
@@ -541,19 +545,24 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
       std::vector<int> colvec;
       int col=0;
       for(rit=THIS::RabinAcceptance().Begin();rit!=THIS::RabinAcceptance().End();++rit) {
-        if(rit->RSet().Exists(*it)) colvec.push_back(col+1);
         if(rit->ISet().Exists(*it)) colvec.push_back(col);
-	col+=2;
+        if(rit->RSet().Exists(*it)) colvec.push_back(col+1);
+    	col+=2;
       }
+      // add traditional marking (black is at the end of our palette)
+      if(this->ExistsMarkedState(*it))
+	colvec.push_back(ColorPalette.size()-1);
       // begin HTML label
       stream << " [label=<<TABLE BORDER=\"0\"><TR>";
-      size_t i;
-      for(i=0;i<colvec.size();++i) {
-        // assembling td elements per color
-        stream << "<TD BGCOLOR=\"" << ColorVector.at(colvec.at(i)) << "\" BORDER=\"0\" WIDTH=\"10\"></TD>";
-      }	
       // add state name to table
       stream << "<TD>" << xname << "</TD>";
+      // add hspace to table
+      stream << "<TD WIDTH=\"5\"></TD>";
+      // assembling td elements per color   
+      size_t i;
+      for(i=0;i<colvec.size();++i) {
+        stream << "<TD BGCOLOR=\"" << ColorPalette.at(colvec.at(i)) << "\" BORDER=\"0\" WIDTH=\"10\"></TD>";
+      }
       // finalize table
       stream << "</TR></TABLE>>";
       stream << "];" << std::endl;
