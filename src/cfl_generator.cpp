@@ -2974,7 +2974,7 @@ void vGenerator::DotWrite(const std::string& rFileName) const {
   StateSet::Iterator lit;
   TransSet::Iterator tit;
   // figure longest label to decide on shape
-  int maxlen=0;
+  unsigned int  maxlen=0;
   for(lit = StatesBegin(); lit != StatesEnd(); ++lit) {
     std::string xname= StateName(*lit);
     if(xname=="") xname=ToStringInteger(MinStateIndex(*lit));
