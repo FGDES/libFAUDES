@@ -25,7 +25,7 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-        make -j configure
+        make configure
         make clean
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
