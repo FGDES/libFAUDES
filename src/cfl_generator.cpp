@@ -2969,18 +2969,20 @@ void vGenerator::DoSWrite(TokenWriter& rTw) const
 // DotWrite(rFileName)
 void vGenerator::DotWrite(const std::string& rFileName) const {
   FD_DG("vGenerator(" << this << ")::DotWrite(" << rFileName << ")");
-  if(ReindexOnWrite())
-    SetMinStateIndexMap();
+  // repare
+  if(ReindexOnWrite()) SetMinStateIndexMap();
+  TransSetX1X2Ev trx1x2ev(TransRel());
   StateSet::Iterator lit;
-  TransSet::Iterator tit;
-  // figure longest label to decide on shape
-  unsigned int  maxlen=0;
+  TransSetX1X2Ev::Iterator tit;
+  // inspect labels to decide on shape
+  bool circles=true;
   for(lit = StatesBegin(); lit != StatesEnd(); ++lit) {
     std::string xname= StateName(*lit);
-    if(xname=="") xname=ToStringInteger(MinStateIndex(*lit));
-    if(xname.length()>maxlen) maxlen=xname.length();
+    if(!xname.empty()) circles=false;
+    xname=ToStringInteger(MinStateIndex(*lit));
+    if(xname.length()>2) circles=false;
+    if(!circles) break;
   }
-  bool circles = (maxlen <= 2);
   // iterate items and write to dot file
   try {
     // header
@@ -3034,13 +3036,31 @@ void vGenerator::DotWrite(const std::string& rFileName) const {
     stream << std::endl;
     // transrel
     stream << "  // transition relation" << std::endl;
-    for(tit = TransRelBegin(); tit != TransRelEnd(); ++tit) {
-      std::string x1name= StateName(tit->X1);
-      if(x1name=="") x1name=ToStringInteger(MinStateIndex(tit->X1));
-      std::string x2name= StateName(tit->X2);
-      if(x2name=="") x2name=ToStringInteger(MinStateIndex(tit->X2));
-      stream << "  \"" << x1name  << "\" -> \"" << x2name
-	     << "\" [label=\"" << EventName(tit->Ev) << "\"];" << std::endl;
+    std::string elabel;
+    for(tit = trx1x2ev.Begin(); tit != trx1x2ev.End();) {
+      // accumulate label
+      if(!elabel.empty()) elabel = elabel + ", ";
+      if(elabel.length()>9) elabel = elabel + "\n";
+      elabel=elabel + EventName(tit->Ev);
+      Idx x1=tit->X1;
+      Idx x2=tit->X2;
+      bool flush=false;
+      // next transition
+      ++tit;
+      if(tit==trx1x2ev.End())
+	flush =true;
+      else
+        flush=((tit->X1 != x1) || (tit->X2 != x2));
+      // write out
+      if(flush) {
+        std::string x1name= StateName(x1);
+        if(x1name=="") x1name=ToStringInteger(MinStateIndex(x1));
+        std::string x2name= StateName(x2);
+        if(x2name=="") x2name=ToStringInteger(MinStateIndex(x2));
+        stream << "  \"" << x1name  << "\" -> \"" << x2name
+	     << "\" [label=\"" << elabel << "\"];" << std::endl;
+	elabel="";
+      }
     }
     stream << "}" << std::endl;
     stream.close();

@@ -65,7 +65,7 @@
 <text text-anchor="middle" x="412.97" y="-62.25" font-family="Arial" font-size="14.00">alpha_2</text>
 </g>
 <!-- I|B|E&#45;&gt;I|I|E -->
-<g id="edge6" class="edge">
+<g id="edge5" class="edge">
 <title>I|B|E&#45;&gt;I|I|E</title>
 <path fill="none" stroke="black" d="M454.47,-74.35C448.71,-74.85 442.64,-75.29 436.97,-75.55 296.11,-81.94 260.14,-88.34 119.72,-75.55 117.56,-75.35 115.34,-75.11 113.12,-74.82"/>
 <polygon fill="black" stroke="black" points="113.87,-71.4 103.47,-73.39 112.84,-78.32 113.87,-71.4"/>
@@ -78,14 +78,14 @@
 <text text-anchor="middle" x="619.97" y="-66.12" font-family="Arial" font-size="14.00">B|B|E</text>
 </g>
 <!-- I|B|E&#45;&gt;B|B|E -->
-<g id="edge5" class="edge">
+<g id="edge6" class="edge">
 <title>I|B|E&#45;&gt;B|B|E</title>
 <path fill="none" stroke="black" d="M509.19,-71.55C529.7,-71.55 558.48,-71.55 581.43,-71.55"/>
 <polygon fill="black" stroke="black" points="581.31,-75.05 591.31,-71.55 581.31,-68.05 581.31,-75.05"/>
 <text text-anchor="middle" x="550.97" y="-74" font-family="Arial" font-size="14.00">alpha_1</text>
 </g>
 <!-- B|B|E&#45;&gt;B|I|E -->
-<g id="edge8" class="edge">
+<g id="edge7" class="edge">
 <title>B|B|E&#45;&gt;B|I|E</title>
 <path fill="none" stroke="black" d="M601.27,-53.18C593.79,-46.53 584.59,-39.65 574.97,-35.55 469.05,9.64 431.19,3.14 316.97,-11.55 294.7,-14.41 270.37,-20.62 250.92,-26.36"/>
 <polygon fill="black" stroke="black" points="250.09,-22.95 241.54,-29.21 252.13,-29.65 250.09,-22.95"/>
@@ -98,7 +98,7 @@
 <text text-anchor="middle" x="751.22" y="-36.12" font-family="Arial" font-size="14.00">I|B|F</text>
 </g>
 <!-- B|B|E&#45;&gt;I|B|F -->
-<g id="edge7" class="edge">
+<g id="edge8" class="edge">
 <title>B|B|E&#45;&gt;I|B|F</title>
 <path fill="none" stroke="black" d="M647.44,-65.4C666.26,-61.04 691.8,-55.11 712.72,-50.25"/>
 <polygon fill="black" stroke="black" points="713.36,-53.7 722.31,-48.03 711.78,-46.88 713.36,-53.7"/>

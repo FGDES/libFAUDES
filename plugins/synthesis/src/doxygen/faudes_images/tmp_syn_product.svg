@@ -91,21 +91,21 @@
 <text text-anchor="middle" x="550.97" y="-72.55" font-family="Arial" font-size="14.00">alpha_2</text>
 </g>
 <!-- I|B|E&#45;&gt;I|I|E -->
-<g id="edge8" class="edge">
+<g id="edge7" class="edge">
 <title>I|B|E&#45;&gt;I|I|E</title>
 <path fill="none" stroke="black" d="M454.58,-146.12C394.8,-146.44 244.49,-145.66 119.72,-131.85 117.56,-131.61 115.35,-131.33 113.13,-131.03"/>
 <polygon fill="black" stroke="black" points="113.91,-127.61 103.48,-129.52 112.82,-134.52 113.91,-127.61"/>
 <text text-anchor="middle" x="278.35" y="-146.28" font-family="Arial" font-size="14.00">beta_2</text>
 </g>
 <!-- I|B|E&#45;&gt;B|B|E -->
-<g id="edge7" class="edge">
+<g id="edge8" class="edge">
 <title>I|B|E&#45;&gt;B|B|E</title>
 <path fill="none" stroke="black" d="M509.33,-137.25C527.82,-131.08 553.06,-122.38 574.97,-113.85 577.3,-112.94 579.69,-111.99 582.09,-111.01"/>
 <polygon fill="black" stroke="black" points="583.31,-114.29 591.18,-107.2 580.6,-107.84 583.31,-114.29"/>
 <text text-anchor="middle" x="550.97" y="-133.53" font-family="Arial" font-size="14.00">alpha_1</text>
 </g>
 <!-- B|B|E&#45;&gt;B|I|E -->
-<g id="edge10" class="edge">
+<g id="edge9" class="edge">
 <title>B|B|E&#45;&gt;B|I|E</title>
 <path fill="none" stroke="black" d="M592.49,-95.18C522.53,-96.04 332.62,-98.38 251.39,-99.39"/>
 <polygon fill="black" stroke="black" points="251.47,-95.89 241.51,-99.51 251.55,-102.89 251.47,-95.89"/>
@@ -118,14 +118,14 @@
 <text text-anchor="middle" x="751.22" y="-75.43" font-family="Arial" font-size="14.00">I|B|F</text>
 </g>
 <!-- B|B|E&#45;&gt;I|B|F -->
-<g id="edge9" class="edge">
+<g id="edge10" class="edge">
 <title>B|B|E&#45;&gt;I|B|F</title>
 <path fill="none" stroke="black" d="M647.44,-91.98C666.17,-89.96 691.57,-87.21 712.43,-84.95"/>
 <polygon fill="black" stroke="black" points="712.72,-88.43 722.28,-83.88 711.96,-81.48 712.72,-88.43"/>
 <text text-anchor="middle" x="685.6" y="-92.37" font-family="Arial" font-size="14.00">beta_1</text>
 </g>
 <!-- I|B|F&#45;&gt;I|I|F -->
-<g id="edge12" class="edge">
+<g id="edge11" class="edge">
 <title>I|B|F&#45;&gt;I|I|F</title>
 <path fill="none" stroke="black" d="M736.25,-62.65C728.4,-53.74 717.87,-43.7 706.22,-37.85 605.72,12.61 567.17,-0.24 454.97,-7.85 425.43,-9.86 417.34,-8.37 388.97,-16.85 386.6,-17.56 384.19,-18.38 381.79,-19.28"/>
 <polygon fill="black" stroke="black" points="380.71,-15.94 372.83,-23.02 383.41,-22.4 380.71,-15.94"/>
@@ -138,7 +138,7 @@
 <text text-anchor="middle" x="889.22" y="-45.43" font-family="Arial" font-size="14.00">B|B|F</text>
 </g>
 <!-- I|B|F&#45;&gt;B|B|F -->
-<g id="edge11" class="edge">
+<g id="edge12" class="edge">
 <title>I|B|F&#45;&gt;B|B|F</title>
 <path fill="none" stroke="black" d="M778.44,-75.07C799.04,-70.52 828,-64.14 851,-59.06"/>
 <polygon fill="black" stroke="black" points="851.59,-62.52 860.6,-56.94 850.08,-55.68 851.59,-62.52"/>
