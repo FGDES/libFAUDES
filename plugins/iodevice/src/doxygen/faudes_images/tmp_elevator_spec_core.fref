@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_elevator_spec_core.gen
 </h1>
@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-FullLanguage(NameSet)||E_opcmd||E_cabmot 
+&lt;Generator name="FullLanguage(NameSet)||E_opcmd||E_cabmot"&gt;
 
 % 
 %  Statistics for FullLanguage(NameSet)||E_opcmd||E_cabmot

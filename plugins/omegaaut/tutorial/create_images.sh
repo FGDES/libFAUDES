@@ -1,27 +1,23 @@
 #!/bin/sh
 
-# simple script to run tutorials, create images, and to 
-# install them in the libfaudes doxygen tree
+# run relevant turtorials and process images for reference and doxugen
 
-# note: this script co-exists in various variants around different plugins
-# on some stage it should be unifed and go to tools -- tm 2025/07
+# configure
+LIBFAUDES=../../..
+LUAFAUDES=$LIBFAUDES/bin/luafaudes
+GEN2DOT=$LIBFAUDES/bin/waut2dot
+DSTDIR=../src/doxygen/faudes_images
 
 # sanity check
-if [ ! -d ../../../plugins/synthesis ]; then
+if [ ! -d $DSTDIR ]; then
+    echo "error: the current path appears not to be a libFAUDES tutorial"
+    return
+fi
+if [ ! -f $LIBFAUDES/src/registry/cfl_definitions.rti ]; then
     echo "error: the current path appears not to be a libFAUDES tutorial"
     return
 fi
 
-
-# configure
-LIBFAUDES=../../..
-
-DOTWRITE=$LIBFAUDES/bin/waut2dot
-LUAFAUDES=$LIBFAUDES/bin/luafaudes
-DOTEXEC=dot 
-CONVERT=convert
-DSTDIR=$LIBFAUDES/plugins/omegaaut/src/doxygen/faudes_images
-GEN2REF=$LIBFAUDES/tools/gen2ref/gen2ref.pl
 
 # advertise
 echo ======================================================
@@ -39,29 +35,8 @@ rm tmp_omg*.png
 echo "=== tutorial: done (no error check)"
 echo
 
-
-# advertise
-echo ======================================================
-echo ===  converting gen to png/svg/html ==================
-echo ======================================================
-
-
-# loop all .svg files
-for FILE in tmp_*.gen ; do
-  BASE=$(basename $FILE .gen)
-  echo ============= processing $BASE
-  $DOTWRITE $FILE
-  $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tsvg -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.svg
-  $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tpng -Gbgcolor=transparent -Gsize=8,8 $BASE.dot -o $BASE.png
-  #$CONVERT -background none $BASE.svg $BASE.png  # tends to mess with size/crop, tends to hickup on MacOS
-done;
-
-# loop all .gen files for ref page
-for FILE in tmp_*.gen ; do
-  BASE=$(basename $FILE .gen)
-  echo ============= processing $BASE
-  $GEN2REF $BASE.gen > $BASE.fref
-done;
+# pass on to common image procssing
+. $LIBFAUDES/tools/imgproc/imgproc.sh
 
 
 # advertise

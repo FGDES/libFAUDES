@@ -1,0 +1,114 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_plant_core.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_plant_core.svg">
+<a class="faudes_image" href="tmp_elevator_plant_core.svg">
+<img src="tmp_elevator_plant_core.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="elevator core plant (cabin plus buttons)" ftype="System"&gt;
+
+% 
+%  Statistics for elevator core plant (cabin plus buttons)
+% 
+%  States:        9
+%  Init/Marked:   1/2
+%  Events:        9
+%  Transitions:   49
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/0/0
+% 
+
+&lt;Alphabet&gt;
+c_up          +C+           c_down        +C+           c_stp         +C+          
+c_arlw        c_arup        c_lvlw        c_lvup        o_upb         o_lwb        
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+&lt;Consecutive&gt;
+1              9             
+&lt;/Consecutive&gt;
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+1              c_up          2             
+1              c_down        3             
+1              c_stp         1             
+1              o_upb         1             
+1              o_lwb         1             
+2              c_up          2             
+2              c_down        3             
+2              c_stp         1             
+2              c_lvlw        4             
+2              o_upb         2             
+2              o_lwb         2             
+3              c_up          2             
+3              c_down        3             
+3              c_stp         1             
+3              o_upb         3             
+3              o_lwb         3             
+4              c_up          4             
+4              c_down        5             
+4              c_stp         6             
+4              c_arup        7             
+4              o_upb         4             
+4              o_lwb         4             
+5              c_up          4             
+5              c_down        5             
+5              c_stp         6             
+5              c_arlw        3             
+5              o_upb         5             
+5              o_lwb         5             
+6              c_up          4             
+6              c_down        5             
+6              c_stp         6             
+6              o_upb         6             
+6              o_lwb         6             
+7              c_up          7             
+7              c_down        8             
+7              c_stp         9             
+7              o_upb         7             
+7              o_lwb         7             
+8              c_up          7             
+8              c_down        8             
+8              c_stp         9             
+8              c_lvup        5             
+8              o_upb         8             
+8              o_lwb         8             
+9              c_up          7             
+9              c_down        8             
+9              c_stp         9             
+9              o_upb         9             
+9              o_lwb         9             
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+1             
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+1              9             
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+
