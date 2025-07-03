@@ -50,7 +50,7 @@ alphabets are treated as if they were defined over the union of all input alphab
 
 <table class="plain"> 
 <tr> <td> 
-<table>
+<table class="images">
 <tr> <td> <fimath>G_1</fimath> </td> <td> <fimath>G_2</fimath> </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_boolean_g1"/> </td> 
@@ -59,7 +59,7 @@ alphabets are treated as if they were defined over the union of all input alphab
 </table> 
 </td> </tr> 
 <tr><td><br/><br/></td></tr>
-<tr> <td> <table width="100%">
+<tr> <td> <table class="images" width="100%">
 <tr> <td> <fimath>G_{Res}</fimath>, <fimath>L_m(G_{Res}) = L_m(G_1) \ \cup\ L_m(G_2)</fimath> </td> </tr>
 <tr> <td> <fimage fsrc="tmp_union_g1g2"/> </td> </tr>
 </table> </td> </tr> </table>
@@ -105,7 +105,7 @@ the intersection of the involved languages, see e.g.
 
 <table class="plain"> 
 <tr> <td> 
-<table>
+<table class="images">
 <tr> <td> <fimath>G_1</fimath> </td> <td> <fimath>G_2</fimath> </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_boolean_g1"/> </td> 
@@ -114,7 +114,7 @@ the intersection of the involved languages, see e.g.
 </table> 
 </td> </tr> 
 <tr><td><br/><br/></td></tr>
-<tr> <td> <table width="100%">
+<tr> <td> <table class="images">
 <tr> <td> <fimath>G_{Res}</fimath>, <fimath>L_m(G_{Res}) = L_m(G_1) \ \cap\ L_m(G_2)</fimath> </td> </tr>
 <tr> <td> <fimage fsrc="tmp_intersection_g1g2"/> </td> </tr>
 </table> </td> </tr> </table>
@@ -142,17 +142,13 @@ the marking of the states of the result:
 
 <fexample/>
 
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> <fimath>G</fimath> </td> <td> <fimath>G_{Res}</fimath> </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_boolean_g1"/> </td> 
 <td> <fimage fsrc="tmp_complement_g1"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 
 
 <fconditions/>
@@ -184,7 +180,7 @@ alphabet of <fimath>G_1</fimath>.
 
 <table class="plain"> 
 <tr> <td> 
-<table>
+<table class="images">
 <tr> <td> <fimath>G_1</fimath> </td> <td> <fimath>G_2</fimath> </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_difference_g1"/> </td> 
@@ -193,7 +189,7 @@ alphabet of <fimath>G_1</fimath>.
 </table> 
 </td> </tr> 
 <tr><td><br/><br/></td></tr>
-<tr> <td> <table width="100%">
+<tr> <td> <table class="images">
 <tr> <td> <fimath>G_{Res}</fimath>, <fimath>L_m(G_{Res}) = L_m(G_1) \ -\  L_m(G_2)</fimath> </td> </tr>
 <tr> <td> <fimage fsrc="tmp_difference_g1minusg2"/> </td> </tr>
 </table> </td> </tr> </table>

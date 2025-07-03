@@ -407,7 +407,7 @@ table.plain {
   width: 100%;
   padding: 0px;
   margin-left: 0px;
-  margin-right: 0px; /* 40/20 100% hack */ 
+  margin-right: 0px; 
   margin-top: 0px;
   margin-bottom: 20px;
   border-spacing: 0px;
@@ -485,6 +485,32 @@ table.small_table {
   background: #EEEEEE;
   text-align: left;
 }
+
+/* imgages */
+table.images {
+  width: 100%;
+  padding: 0px;
+  border-spacing: 30px;
+  margin-left: -30px;
+  margin-right: -30px;
+  margin-top: -20px;
+  margin-bottom: -10px;
+  border-width: 0px;
+}    
+
+.images tbody {
+    padding: 0px;
+    margin: 0px;
+}    
+.images tr {
+    padding: 0px;
+    margin: 0px;
+}    
+
+.images td {
+  padding: 0px;
+  margin: 0px;
+}    
 
 /* image link */
 .faudes_image img {

@@ -142,7 +142,7 @@ The below example is taken from <fcite name="S10"/> and refers to the
 alphabets <fimath>\Sigma_o=\{\mathsf{r},\ \mathsf{p},\ \mathsf{a}\}</fimath> and 
 <fimath>\Sigma_{c}=\{\mathsf{a},\ \mathsf{p}\}</fimath>.
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_5_planta"/> </td> </tr>
 <tr> <td> Abstraction GPlant0</td> </tr>
@@ -206,7 +206,7 @@ potentially reduced state size. This algorithm is implemented by the function  <
 <p>
 The below example is taken from <fcite name="S6"/>. We have
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_3_plant1"/> </td> </tr>
 <tr> <td> Initial Supervisor GSup</td> </tr>

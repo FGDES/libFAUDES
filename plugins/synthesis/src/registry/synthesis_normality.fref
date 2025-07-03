@@ -159,11 +159,11 @@ closed-loop behaviour would be achieved. However, in our example
 <fimath>\Closure{K}</fimath> is not normal w.r.t <fimath>(L(G),\Sigma_o)</fimath>:
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> <fimath>\Closure{K}</fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_syn_clsuper"/> </td></tr>
 </table> 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> <fimath>L(G) \,\cap\,  \ProInv{0}(H_o) </fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_syn_clloop1"/> </td> </tr>
 </table> 
@@ -382,7 +382,7 @@ empty, and this will never happen, as long as <tt>alpha_2</tt> is disabled.
 Consequently, the process stops after the sequence <tt>alpha_1 beta_1</tt> and
 <ffnct>SupConNormClosed</ffnct> consistently returns the following
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> supremal controllable and normal sublanguage for prefix closed plant and specificaton. </td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_superpoc"/> </td> </tr>
 </table> 
@@ -520,7 +520,7 @@ ending up with an empty buffer.
 <ffnct>SupConNorm</ffnct> then returns the
 below
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> supremal controllable and normal sublanguage for prefix closed specificaton.</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_superpo"/> </td> </tr>
 </table> 
@@ -530,11 +530,11 @@ event <tt>beta_1</tt>, is to extend the buffer
 to have a capacity of two work pieces
 and to not insist in the buffer to become eventually empty.
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td>  Buffer with capacity two</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_buffer2"/> </td> </tr>
 </table> 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td>  and the resulting supremal controllabel and normal sublanguage</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_superpo2"/> </td> </tr>
 </table> 

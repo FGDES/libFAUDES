@@ -56,16 +56,13 @@ This is achieved by introducing a dump state to represent
 </p>
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_automaton_g"/> </td> 
 <td> <fimage fsrc="tmp_automaton_gRes"/> </td> 
 </tr>
 </table> 
-</td> </tr> </table>
 
 
 <fconditions/>
@@ -101,16 +98,12 @@ sufficient and necessary. In general, it is only sufficient.
 </p>
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_prefixclosure_g"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 <p>
 The language <fimath>L_m(G)</fimath> marked by the above generator is not
 prefix-closed, since the states <tt>1</tt>, <tt>2</tt> and <tt>4</tt> are accessible
@@ -143,17 +136,13 @@ and then marking the remaining states.
 </p>
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_prefixclosure_g"/> </td> 
 <td> <fimage fsrc="tmp_prefixclosure_gRes"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 
 </ffnct_reference>
 

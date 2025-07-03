@@ -178,7 +178,7 @@ Else, it returns "true".
 <p>
 Consider the <a href="synthesis_index.html#example">very simple machine scenario</a>. We have
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Overall Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_plant"/> </td></tr>
 <tr> <td> Product(GPlant,GSpec)</td> </tr>
@@ -414,7 +414,7 @@ The function returns "true" if both conditions are fulfilled.
 Consider the <a href="synthesis_index.html#example">very simple machine scenario</a>.
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Overall Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_plant"/> </td></tr> 
 <tr> <td> Supervisor GSupervisor</td> </tr>
@@ -550,7 +550,7 @@ including a formula for the supremal relatively closed sublanguage, see <fcite n
 
 <fexample/>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> 
 <td> Plant  <fimath>L</fimath></td> 
 <td> Specification <fimath>E</fimath></td> 

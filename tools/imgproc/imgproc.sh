@@ -28,7 +28,7 @@ GEN2REF=$LIBFAUDES/tools/gen2ref/gen2ref.pl
 # - summary so far: adjust size of the image in a browser by setting "-Gdpi"
 # - finetune with "-Gsize" to for automatic scaling once the size is exceeded
 DOTOPTS_BASE="-Efontname=Arial -Nfontname=Arial -Gbgcolor=transparent -Gdpi=72"
-DOTOPTS_NRML="$DOTOPTS_BASE -Gsize=12,12"
+DOTOPTS_NRML="$DOTOPTS_BASE -Gsize=11,11"
 DOTOPTS_WIDE="$DOTOPTS_BASE -Gsize=10,10"
 
 

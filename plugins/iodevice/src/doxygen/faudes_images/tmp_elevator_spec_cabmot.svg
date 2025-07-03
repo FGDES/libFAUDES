@@ -30,8 +30,7 @@
 <title>Idle&#45;&gt;Idle</title>
 <path fill="none" stroke="black" d="M59.66,-63.7C58.29,-73.08 61.27,-81.54 68.6,-81.54 72.72,-81.54 75.46,-78.87 76.83,-74.85"/>
 <polygon fill="black" stroke="black" points="80.3,-75.4 77.43,-65.21 73.32,-74.97 80.3,-75.4"/>
-<text text-anchor="middle" x="68.6" y="-99.74" font-family="Arial" font-size="14.00">c_arlw, </text>
-<text text-anchor="middle" x="68.6" y="-83.99" font-family="Arial" font-size="14.00">c_arup</text>
+<text text-anchor="middle" x="68.6" y="-83.99" font-family="Arial" font-size="14.00">c_arlw, c_arup</text>
 </g>
 <!-- Down -->
 <g id="node3" class="node">

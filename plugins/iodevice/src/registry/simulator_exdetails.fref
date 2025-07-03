@@ -421,21 +421,13 @@ referring to the respective alphabet.
 </p>
 
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Cabin <fimath>G_{cabin}</fimath> </td> </tr> 
-<tr>
-<td> <fimage fsrc="tmp_elevator_plant_cabin"/> </td>
-</tr>
+<tr> <td> <fimage fsrc="tmp_elevator_plant_cabin"/> </td> </tr>
 <tr> <td> Door <fimath>G_{door}</fimath> </td> </tr>
- 
-<tr> <td> <fimage fsrc="tmp_elevator_plant_door"/> </td>
-</tr>
-
+<tr> <td> <fimage fsrc="tmp_elevator_plant_door"/> </td> </tr>
 <tr> <td> Light barrier <fimath>G_{lbarrier}</fimath> </td> </tr> 
-
-<tr><td> <fimage fsrc="tmp_elevator_plant_lbarrier"/></td>
-</tr>
-
+<tr><td> <fimage fsrc="tmp_elevator_plant_lbarrier"/></td> </tr>
 </table> 
 
 <p>
@@ -457,6 +449,7 @@ We sense the operator button to enable cabin activity.
 The internal events <tt>a_*</tt> are introduced to simplify 
 synchronisation with further specification components.
 <br/>
+<br/>
 <fimage fsrc="tmp_elevator_spec_opcmds"/> 
 </p>
 
@@ -466,6 +459,7 @@ Cabin movement must not be interupted until the
 upper or lower position is reached. Note that this specification
 also introduces that <tt>a_done</tt> can only occur after 
 the cabin did perform some shuttle operation.
+<br/>
 <br/>
 <fimage fsrc="tmp_elevator_spec_cabmots"/>
 </p>
@@ -479,6 +473,7 @@ However, the we allow the closing operation to fail to accomodate for
 the light barrier. The internal events <tt>a_close</tt> and
 <tt>a_open</tt> to indicate the outcome of a door operation.
 <br/>
+<br/>
 <fimage fsrc="tmp_elevator_spec_drmot1"/> 
 </p>
 
@@ -489,6 +484,7 @@ the light barrier. The internal events <tt>a_close</tt> and
 once the door has been closed. After cabin movement, 
 the door is to be opened.
 <br/>
+<br/>
 <fimage fsrc="tmp_elevator_spec_scheds"/> 
 </p>
 
@@ -498,6 +494,7 @@ the door is to be opened.
 The first safety requirement to the door is that it must not be open
 when the cabin moves.
 <br/>
+<br/>
 <fimage fsrc="tmp_elevator_spec_drsaf1"/> 
 </p>
 <p>
@@ -505,6 +502,7 @@ when the cabin moves.
 <fimath>E_{drsaf2}</fimath>:
 The second safety requirement to the door is that 
 it must re-open when the light barrier becomes blocked during closing.
+<br/>
 <br/>
 <fimage fsrc="tmp_elevator_spec_drsaf2"/> 
 </p>
@@ -638,7 +636,7 @@ super_full_min:WriteStatistics()
 
 </pre>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Resulting Supervisor  <fimath>S_{full}</fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_elevator_super_full"/> </td> </tr>
 </table>
