@@ -2969,7 +2969,7 @@ void vGenerator::DoSWrite(TokenWriter& rTw) const
 // DotWrite(rFileName)
 void vGenerator::DotWrite(const std::string& rFileName) const {
   FD_DG("vGenerator(" << this << ")::DotWrite(" << rFileName << ")");
-  // repare
+  // prepare
   if(ReindexOnWrite()) SetMinStateIndexMap();
   TransSetX1X2Ev trx1x2ev(TransRel());
   StateSet::Iterator lit;

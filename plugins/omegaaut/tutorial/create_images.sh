@@ -29,6 +29,7 @@ rm tmp_*
 ./omg_1_buechi
 ./omg_2_buechictrl
 ./omg_3_rabin
+./omg_4_rabinctrl
 . ./safra.sh
 rm tmp_omg*.png
 

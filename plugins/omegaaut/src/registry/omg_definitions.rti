@@ -478,6 +478,59 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 
 </FunctionDefinition> 
 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinBuechiAutomaton -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinBuechiAutomaton" ctype="faudes::RabinBuechiAutomaton"> 
+
+<Documentation ref="omegaaut_controlpattern.html#RabinProduct"> 
+Assemble an automaton to accept a given Rabuin/Buechi accepted lanuage. 
+</Documentation> 
+<Keywords> 
+OmegaAut    "product"    "parallel composition"    "Rabin automata"  "Buechi automata" "product composition"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinBuechiAutomata(RAut,BAut,GRes)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BAut" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinBuechiPeoduct -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinBuechiProduct" ctype="faudes::RabinBuechiProduct"> 
+
+<Documentation ref="omegaaut_controlpattern.html#RabinProduct"> 
+Assemble an automaton to accept the intsection of given Rabuin/Buechi accepted lanuage. 
+</Documentation> 
+<Keywords> 
+OmegaAut    "product"    "parallel composition"    "Rabin automata"  "Buechi automata" "product composition"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinBuechiProduct(RAut,BAut,GRes)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BAut" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
 <!-- =================================================== -->
 <!-- =================================================== -->
 <!-- Faudes Function RabinProduct -->

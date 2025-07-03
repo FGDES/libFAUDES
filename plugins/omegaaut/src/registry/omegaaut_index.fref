@@ -167,10 +167,10 @@ R_p,\ I_p \subseteq Q \text{ for all } p\in P\ .
 <br />
 For an individual pair <fimath>(R_p,\ I_p),\ p\in P,</fimath> the
 set <fimath>R_p</fimath> shall be persistently recurrent and the
-set <fimath>I_p</fimath> shall be an eventually invariant. 
+set <fimath>I_p</fimath> shall be eventually invariant. 
 An infinite-length run  <fimath>\pi</fimath> on <fimath>G</fimath> is accepted
 w.r.t. the pair <fimath>(R_p,\ I_p)</fimath> if
-it <fimath>\pi</fimath> eventually stays within <fimath>I_p</fimath> and
+it eventually stays within <fimath>I_p</fimath> and
 visits <fimath>R_p</fimath> infinitely often, i.e.,
 <br />
 <br />
@@ -178,7 +178,8 @@ visits <fimath>R_p</fimath> infinitely often, i.e.,
 <br />
 <br />
 The run is accepted by the Rabin automaton if it is accepted by at least one pair (so called
-<i>existential</i> Rabin acceptace condition). Thus we have the associated omega-language
+<i>existential</i> Rabin acceptance condition, not to be confused with <i>universal</i> Rabin acceptace).
+To this end,  we have the associated omega-language
 <br />
 <br />
 <fdmath>Rm(G)\ :=\ \{
@@ -234,14 +235,14 @@ a b
 &lt;/States&gt;
 
 &lt;TransRel&gt;
-1              a             2             
-1              b             4             
-2              a             3             
-2              b             1             
-3              a             3             
-3              b             1             
-4              a             3             
-4              b             4             
+1              a             2
+1              b             4
+2              a             3
+2              b             1
+3              a             3
+3              b             1
+4              a             3
+4              b             4
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;
@@ -275,7 +276,7 @@ a b
 <fliterature name="W2">
 <fauthors>P.J. Ramadge</fauthors>
 <ftitle>Some tractable supervisory control problems for discrete-event systems modeled by Buchi automata</ftitle>
-<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>, 
 vol 34, no 1, pp. 10-19</fjournal>
 <fyear>1989</fyear>
 </fliterature>
@@ -283,7 +284,7 @@ vol 34, no 1, pp. 10-19</fjournal>
 <fliterature name="W3">
 <fauthors>R. Kumar, V. Garg, S.I. Marcus</fauthors>
 <ftitle>On supervisory control of sequential behaviors</ftitle>
-<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   vol 37, no 12, pp. 1978-1985</fjournal>
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>, vol 37, no 12, pp. 1978-1985</fjournal>
 <fyear>1992</fyear>
 </fliterature>
 

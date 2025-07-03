@@ -51,36 +51,41 @@ int main() {
   Generator specab2("data/omg_specab2.gen");
   Generator specab3("data/omg_specab3.gen");
 
-  // compute a controllability prefix
+  // select test case plat=1 spec=3
   const System& plant=machineab1;
+  plant.Write("tmp_omg_4_plant1.gen");
   const Generator&  spec=specab3;  
   EventSet sigall = plant.Alphabet() + spec.Alphabet();
   EventSet sigctrl = plant.ControllableEvents();
+
+  // set up cloed loop candidate
   RabinAutomaton cand=spec;
+  cand.Write("tmp_omg_4_spec3_buechi.gen");
   cand.RabinAcceptance(cand.MarkedStates());
+  cand.Write("tmp_omg_4_spec3_rabin.gen");
   InvProject(cand,sigall);
   Automaton(cand);
+  cand.Write("tmp_omg_4_spec3_rabinfull.gen");
+  RabinAutomaton rbaut;                         // dox only
+  RabinBuechiAutomaton(cand,plant,rbaut);       // dox only
+  rbaut.Write("tmp_omg_4_rbaut13.gen");         // dox only
   RabinBuechiProduct(cand,plant,cand);
-  cand.GraphWrite("tmp_omg_cand13_test.png");
-  //RabinBuechiAutomaton(cand,plant,cand);
-  cand.Write();
+  cand.Write("tmp_omg_4_cand13_test.gen");
+
+  // compute controllability prefix
   StateSet ctrlpfx;
   RabinCtrlPfx(cand,sigctrl,ctrlpfx);
   cand.WriteStateSet(ctrlpfx);
   cand.RestrictStates(ctrlpfx);
   // SupClosed(cand)
-  cand.RabinAcceptanceWrite();
-  cand.GraphWrite("tmp_omg_rabinctrl13.png");
+
+  // finalise result to compare with SupBuechiCon
   Generator test=cand;
   test.StateNamesEnabled(false);
   test.InjectMarkedStates(cand.RabinAcceptance().Begin()->RSet());
   StateMin(test,test);
-  test.GraphWrite("tmp_omg_rabinctrl13_test.png");
+  test.Write("tmp_omg_4_rabinctrl13_test.gen");
   
-  
-
-
-
   return 0;
 }
 

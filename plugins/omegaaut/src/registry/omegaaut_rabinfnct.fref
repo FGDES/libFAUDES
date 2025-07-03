@@ -94,6 +94,97 @@ the result:
 
 </ffnct_reference>
 
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinBuechiAutomaton">
+<fdetails/>
+
+<p>
+Given a Rabin automaton <i>RAut</i> and a Buechi automaton <i>BAut</i>,
+compose a Rabin automaton <i>GRes</i> on the product state set. Then lift acceptance conditions such that
+the Rabin accepted language matches that of <i>RAut</i> and the Buechi accepted language
+matches that of <i>BAut</i>; i.e., <fimath>Rm(RAut)=Rm(Gres)</fimath> and <fimath>Bm(BAut)=Bm(Gres)</fimath>.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table class="images">
+<tr> <td> Component RAut </td> <td> Component BAut </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_4_spec3_rabinfull"/> </td>
+<td> <fimage fsrc="tmp_omg_4_plant1"/> </td>
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table class="images">
+<tr> <td> Composition GRes</td> </tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_rbaut13"/> </td> </tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fconditions/>
+
+<p>
+Arguments must have matching alphabets <fimath>\Sigma</fimath>.
+Arguments must be full, i.e., generate <fimath>\Sigma^w</fimath>
+</p>
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinBuechiProduct">
+<fdetails/>
+
+<p>
+Given a Rabin automaton <i>RAut</i> and a Buechi automaton <i>BAut</i>,
+compose a Rabin automaton <i>GRes</i> on the product augmented state set (see <ffnct>BuechiProduct</ffnct>).
+Set the Rabin acceptance condition such that accepted words are those accepted by both arguments; i.e.,
+<fimath>Rm(Gres)= Rm(RAut)\cap Bm(BAut) </fimath>.
+</p>
+
+<p>
+To facilitate controller syhnthesis, we also set the Buechi acceptance to appcept
+<fimath>Bm(BAut)</fimath>. This feature requires <i>RAut</i> to be full.
+</p>
+  
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table class="images">
+<tr> <td> Component RAut </td> <td> Component BAut </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_4_spec3_rabinfull"/> </td>
+<td> <fimage fsrc="tmp_omg_4_plant1"/> </td>
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table class="images">
+<tr> <td> Composition GRes</td> </tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_cand13_test"/> </td> </tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fconditions/>
+
+<p>
+Arguments must have matching alphabets <fimath>\Sigma</fimath>.
+The argument <i>RAut</i>  must be full, i.e., generate <fimath>\Sigma^w</fimath>
+</p>
+
+</ffnct_reference>
+
+
 </ReferencePage>
 
   

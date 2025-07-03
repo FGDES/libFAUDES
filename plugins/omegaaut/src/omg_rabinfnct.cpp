@@ -183,7 +183,7 @@ bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rRes) {
 }  
 
 
-// Rabin-Buechi product (lifting individual acceptence conditions, languages not affaected
+// Rabin-Buechi product (lifting individual acceptence conditions, languages not affected
 // if arguments are full))
 void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  RabinAutomaton& rRes) {
   // prepare result
@@ -196,7 +196,7 @@ void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  
   StateSet::Iterator sit_end;
   std::map< std::pair<Idx,Idx>, Idx>::iterator cit;
   std::map< std::pair<Idx,Idx>, Idx> cmap;
-  // transition product
+  // std product (this will make res->Alphabet the union of the arguments)
   Product(rRAut,rBAut,cmap,*pRes);
   // set conversion rRAut-state to set of new states
   std::map< Idx , StateSet > rmap;
