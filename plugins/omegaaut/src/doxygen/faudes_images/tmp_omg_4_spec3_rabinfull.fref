@@ -1,0 +1,84 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_4_spec3_rabinfull.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_4_spec3_rabinfull.svg">
+<a class="faudes_image" href="tmp_omg_4_spec3_rabinfull.svg">
+<img src="tmp_omg_4_spec3_rabinfull.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="Automaton(A-B-Spec-Eventually-B)" ftype="RabinAutomaton"&gt;
+
+% 
+%  Statistics for Automaton(A-B-Spec-Eventually-B)
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   12
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+A             B             dump         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+A             a             A            
+A             b             B            
+A             c             A            
+A             d             A            
+B             a             dump         
+B             b             B            
+B             c             A            
+B             d             B            
+dump          a             dump         
+dump          b             dump         
+dump          c             dump         
+dump          d             dump         
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+A            
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+B            
+&lt;/MarkedStates&gt;
+
+&lt;RabinAcceptance&gt;
+&lt;RabinPair name="RabinPair"&gt;
+&lt;R&gt;
+B            
+&lt;/R&gt;
+&lt;I&gt;
+A             B            
+&lt;/I&gt;
+&lt;/RabinPair&gt;
+&lt;/RabinAcceptance&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

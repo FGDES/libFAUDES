@@ -1,0 +1,72 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_4_plant1.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_4_plant1.svg">
+<a class="faudes_image" href="tmp_omg_4_plant1.svg">
+<img src="tmp_omg_4_plant1.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="A-B-Machine" ftype="System"&gt;
+
+% 
+%  Statistics for A-B-Machine
+% 
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   10
+%  StateSymbols:  5
+%  Attrib. E/S/T: 2/0/0
+% 
+
+&lt;Alphabet&gt;
+a             +C+           b             +C+           c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+I             A             B             FA            FB           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+I             a             A            
+I             b             B            
+A             c             I            
+A             d             FA           
+B             c             I            
+B             d             FB           
+FA            a             A            
+FA            b             B            
+FB            a             A            
+FB            b             B            
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+I            
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+I            
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+
