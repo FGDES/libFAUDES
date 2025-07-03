@@ -26,10 +26,10 @@ Further details are organized as follows:
 <a href="omegaaut_buechifnct.html">Operations on Buechi automata</a>
 </p></li>
 <li><p>
-<a href="omegaaut_buechictrl.html">Supervisory Control for Buechi automata</a>
+<a href="omegaaut_rabinfnct.html">Operations on Rabin automata</a>
 </p></li>
 <li><p>
-<a href="omegaaut_rabinfnct.html">Operations on Rabin automata</a>
+<a href="omegaaut_buechictrl.html">Supervisory Control for Buechi automata</a>
 </p></li>
 <li><p>
 <a href="omegaaut_pobsctrl.html">Supervisory Control under Partial Observation</a>
@@ -137,7 +137,7 @@ The automaton <i>eventually-allways-alternate</i> is defined over
 the alphabet Sigma={<tt>a</tt>, <tt>b</tt>}. It will generate an any sequence
 in <fimath>\Sigma^w</fimath> and accept <fimath>\Sigma^*(ab)^w</fimath>.
 </p>
-<table class="plain">
+<table class="image">
 <tr><td>G="<i>eventually-allways-alternating</i>"</td> </tr> 
 <tr><td><fimage fsrc="tmp_omg_nba"/> </td> </tr>
 </table> 
@@ -199,12 +199,14 @@ The Rabin automaton variant of the <i>eventually-allways-alternate</i> example
 is again defined over Sigma={<tt>a</tt>, <tt>b</tt>} to accept
 <fimath>\Sigma^*(ab)^w</fimath>.
 </p>
-<table class="plain">
+<table class="image">
 <tr><td>RA="<i>eventually-allways-alternate</i>"</td> </tr> 
 <tr><td><fimage fsrc="tmp_omg_dra"/> </td> </tr>
 </table> 
 <p>
-Note that the above automaton is deterministic.
+Note that the above automaton is deterministic. It has been onbtained by the external program
+<a href="https://www.ltl2dstar.de"><tt>ltl2dstar</tt></a>; see also
+the script <tt>safra.sh</tt> in the tutorial section of the omega-automata plug-in. 
 </p>
 
 <h4>

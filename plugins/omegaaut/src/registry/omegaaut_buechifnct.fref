@@ -25,14 +25,10 @@ Else it returns "false".
 
 <fexample/>
 
-<table class="plain"> <tr> <td> 
-<table>
+<table class="image">
 <tr> <td> G </td> </tr>
-<tr>
-<td> <fimage fsrc="tmp_omg_notbtrim"/> </td> 
-</tr>
-</table> 
-</td> </tr> </table>
+<tr> <td> <fimage fsrc="tmp_omg_notbtrim"/> </td> </tr>
+</table>
 
 <p>
 The example generator fails to be trim since it is
@@ -102,15 +98,13 @@ Else it returns true.
 </p>
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="image"> 
 <tr> <td> G </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_omg_bclosure_g"/> </td> 
 </tr>
 </table> 
-</td> </tr> </table>
+
 <p>
 The language <fimath>B_m(G)</fimath> realized by the above Buechi automaton is not
 topolgically closed.
@@ -161,16 +155,13 @@ Thus,
 </p>
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="image"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_omg_bclosure_g"/> </td> 
 <td> <fimage fsrc="tmp_omg_bclosure_gRes"/> </td> 
 </tr>
 </table> 
-</td> </tr> </table>
 
 </ffnct_reference>
 
@@ -332,7 +323,7 @@ passes a <i>GRes</i>-marking infinitely often, also passes infinitely many marke
 
 <table class="plain"> 
 <tr> <td> 
-<table>
+<table class="image">
 <tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_omg_bparallel_g1"/> </td> 
@@ -340,7 +331,7 @@ passes a <i>GRes</i>-marking infinitely often, also passes infinitely many marke
 </tr>
 </table> 
 </td> </tr> 
-<tr> <td> <table width="100%">
+<tr> <td> <table class="image">
 <tr> <td> Composition G=G1 ||| G2 </td> </tr>
 <tr> <td> <fimage fsrc="tmp_omg_bparallel_g1g2"/> </td> </tr>
 </table> </td> </tr> 

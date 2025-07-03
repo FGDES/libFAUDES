@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
-<ReferencePage chapter="Reference" section="OmegaAut" page="3_Rabin-Functions" title="Functions on Rabin Automata">
+<ReferencePage chapter="Reference" section="OmegaAut" page="2_Rabin-Functions" title="Functions on Rabin Automata">
 <h1>
 Functions on Rabin Automata
 </h1>
@@ -53,8 +53,11 @@ Rabin pairs.
 </p>
 
 <fexample/>
-
+<br/>
+<br/>
 <fimage fsrc="tmp_omg_rnottrim"/> 
+<br/>
+<br/>
 
 <p>
 For the blue Rabin pair, the trim set is reported as

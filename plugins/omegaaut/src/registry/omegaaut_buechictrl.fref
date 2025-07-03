@@ -193,7 +193,7 @@ Each variant exhibits an eventuality property and, hence, neither
 of the induced omega-languages are topologically closed.
 </p>
 
-<table class="plain"> 
+<table class="image"> 
 <tr> <td> A-B-machine, std. variant </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_machineab1"/> </td></tr>
 <tr> <td> A-B-machine, B exhausts the machine </td></tr>
@@ -210,18 +210,27 @@ that require the closed loop to
 <li><p>
 persistenly alternate successful operation of processes A and B, or to
 <br/>
+<br/>
 <fimage fsrc="tmp_omg_2_specab1"/>
+<br/>
+<br/>
 </p></li>
 <li><p>
 persistently run some operation successfully, or to
 <br/>
+<br/>
 <fimage fsrc="tmp_omg_2_specab2"/>
+<br/>
+<br/>
 </p></li>
 <li><p>
 start with process A, eventually switch to B, and, on success 
 turn back to A.
 <br/>
+<br/>
 <fimage fsrc="tmp_omg_2_specab3"/>
+<br/>
+<br/>
 </p></li>
 </ul>
 
@@ -321,15 +330,13 @@ computed using <ffnct>SupConCmpl</ffnct>
 from the Syntheis Plug-In. 
 </p>
 
-<table class="plain"> 
+<table class="image"> 
 <tr> <td> A-B-machine, std. variant, with alternate-A-and-B-success specification  </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab11"/> </td></tr>
 <tr> <td> A-B-machine, std. variant, with persistently-any-success specification  </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab21"/> </td></tr>
 <tr> <td> A-B-machine, B exhausts the machine, with alternate-A-and-B-success specification</td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab12"/> </td></tr>
-
-
 <tr> <td> A-B-machine, B breaks the machine, with persistenly-any-success specification</td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab23"/> </td></tr>
 </table> 
@@ -445,7 +452,7 @@ to the specific case at hand.
 The following results have been obtained for the three variants of 
 A-B-machine and the eventually-switch-to-B specification.
 </p>
-<table class="plain"> 
+<table class="image"> 
 <tr> <td> A-B-machine, std. variant, with eventually-switch-to-B specification  </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_msupab31"/> </td></tr>
 <tr> <td> A-B-machine, B exhausts the machine, with eventually-switch-to-B specification</td></tr>
