@@ -48,12 +48,19 @@ The argument may be non-deterministic.
 <ffnct_reference name="Automaton">
 <fdetails/>
 <p>
-Converts the given generator G to a formal automaton that generates the
+Converts the given generator G to a formal automaton that marks the
 same marked language <fimath>L_m(G)</fimath> while accepting any 
 input string, i.e. <fimath>L(G)=\Sigma^*</fimath>. 
 This is achieved by introducing a dump state to represent 
 <fimath>\Sigma^* - \Closure{L_m(G)}</fimath>.
 </p>
+<p>
+<b>Note.</b>
+In libFAUDES pre 2.33, we used to preprocess by <ffnct>Trim</ffnct>
+in order to gain performance. This was dropped so you may want to invoke
+<ffnct>Trim</ffnct> explicitly. The rational was to become agnostic to
+alternative acceptance conditions.
+</p>  
 
 <fexample/>
 <table class="images"> 

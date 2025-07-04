@@ -23,11 +23,11 @@ Token IO
 % 
 %  Statistics for Generator
 % 
-%  States:        10
+%  States:        8
 %  Init/Marked:   1/2
 %  Events:        4
-%  Transitions:   20
-%  StateSymbols:  10
+%  Transitions:   16
+%  StateSymbols:  8
 %  Attrib. E/S/T: 0/0/0
 % 
 
@@ -36,31 +36,27 @@ a             b             c             d
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
-A|I           A|A           B|B           B|FB          dump|A        dump|I       
-dump|FA       dump|B        dump|FB       A|FA         
+A|I           A|R           B|R           B|F           dump|R        dump|I       
+dump|F        A|F          
 &lt;/States&gt;
 
 &lt;TransRel&gt;
-A|I           a             A|A          
-A|I           b             B|B          
-A|A           c             A|I          
-A|A           d             A|FA         
-B|B           c             A|I          
-B|B           d             B|FB         
-B|FB          a             dump|A       
-B|FB          b             B|B          
-dump|A        c             dump|I       
-dump|A        d             dump|FA      
-dump|I        a             dump|A       
-dump|I        b             dump|B       
-dump|FA       a             dump|A       
-dump|FA       b             dump|B       
-dump|B        c             dump|I       
-dump|B        d             dump|FB      
-dump|FB       a             dump|A       
-dump|FB       b             dump|B       
-A|FA          a             A|A          
-A|FA          b             B|B          
+A|I           a             A|R          
+A|I           b             B|R          
+A|R           c             A|I          
+A|R           d             A|F          
+B|R           c             A|I          
+B|R           d             B|F          
+B|F           a             dump|R       
+B|F           b             B|R          
+dump|R        c             dump|I       
+dump|R        d             dump|F       
+dump|I        a             dump|R       
+dump|I        b             dump|R       
+dump|F        a             dump|R       
+dump|F        b             dump|R       
+A|F           a             A|R          
+A|F           b             B|R          
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;
@@ -74,10 +70,10 @@ A|I           dump|I
 &lt;RabinAcceptance&gt;
 &lt;RabinPair name="RabinPair"&gt;
 &lt;R&gt;
-B|B           B|FB         
+B|R           B|F          
 &lt;/R&gt;
 &lt;I&gt;
-A|I           A|A           B|B           B|FB          A|FA         
+A|I           A|R           B|R           B|F           A|F          
 &lt;/I&gt;
 &lt;/RabinPair&gt;
 &lt;/RabinAcceptance&gt;

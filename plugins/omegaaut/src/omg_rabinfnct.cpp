@@ -229,6 +229,11 @@ void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  
   sit_end=rBAut.MarkedStatesEnd();
   for(;sit!=sit_end;++sit) 
     pRes->InsMarkedStates(bmap[*sit]);  
+  // be attribute aware
+  bool careattr=rRAut.Alphabet().EqualAttributes(rBAut.Alphabet());
+  if(careattr) {
+    pRes->EventAttributes(rRAut.Alphabet());
+  }
   // copy result
   if(pRes != &rRes) {
     pRes->Move(rRes);
@@ -404,6 +409,12 @@ void RabinBuechiProduct(const RabinAutomaton& rRAut, const Generator& rBAut, Rab
   // .. or clear them (?)
   if(!(rRAut.StateNamesEnabled() && rBAut.StateNamesEnabled() && pRes->StateNamesEnabled())) 
     pRes->StateNamesEnabled(false);
+
+  // be attribute aware
+  bool careattr=rRAut.Alphabet().EqualAttributes(rBAut.Alphabet());
+  if(careattr) {
+    pRes->EventAttributes(rRAut.Alphabet());
+  }
 
   // copy result
   if(pRes != &rRes) {

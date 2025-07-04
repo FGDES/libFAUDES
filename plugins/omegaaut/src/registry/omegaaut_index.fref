@@ -32,6 +32,9 @@ Further details are organized as follows:
 <a href="omegaaut_buechictrl.html">Supervisory Control for Buechi automata</a>
 </p></li>
 <li><p>
+<a href="omegaaut_rabinctrl.html">Supervisory Control for Rabin automata</a>
+</p></li>
+<li><p>
 <a href="omegaaut_pobsctrl.html">Supervisory Control under Partial Observation</a>
 </p></li>
 </ul>
@@ -289,12 +292,20 @@ vol 34, no 1, pp. 10-19</fjournal>
 </fliterature>
 
 
-<fliterature name="W4">
+<fliterature name="W4a">
+<fauthors>J.G. Thistle, W.M. Wonham</fauthors>
+<ftitle>Control of infinite behavior of finite automata.</ftitle>
+<fjournal>SIAM Journal on Control and Optimization,   vol 32, no, 4, pp. 1075 - 1097</fjournal>
+<fyear>1994</fyear>
+</fliterature>
+
+<fliterature name="W4b">
 <fauthors>J.G. Thistle, W.M. Wonham</fauthors>
 <ftitle>Supervision of Infinite Behavior of Discrete-Event Systems</ftitle>
 <fjournal>SIAM Journal on Control and Optimization,   vol 32, no, 4, pp. 1098 - 1113</fjournal>
 <fyear>1994</fyear>
 </fliterature>
+
 
 <fliterature name="W5">
 <fauthors>J.G. Thistle, H.M. Lamouchi</fauthors>

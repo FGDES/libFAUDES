@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="OmegaAut" page="3_Rabin-Control" title="Synthesis w.r.t. Rabin Acceptance">
+
+<h1>
+Synthesis w.r.t. Rabin Acceptance
+</h1>
+
+<fsummary>
+Synthesis procedure for specifications given as Rabin Automata.
+</fsummary>
+
+<p>
+Controller synthesis for non-terminating processes realised by
+Buechi automata to enforce specifications given as Rabin Automata.
+</p>
+
+<h2>
+Definition of Omega-Controllability (following <fcite name="W4b"/>)
+</h2>
+
+<p>
+The notion of controllability for non-terminating processes used in <fcite name="W2"/>
+nicely covers the case where the specification is relatively closed w.r.t. the plant, but falls
+short otherwise. This is followed up by <fcite name="W4b"/> and we give a concise summary,
+rephrased in our language based notation.
+</p>
+
+<p>
+Consider two omega languages <fimath>L</fimath> and <fimath>K</fimath>
+over a common alphabet <fimath>\Sigma</fimath>,
+and a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+A finite word <fimath>s\in\Sigma</fimath>  is in the <i>controllability prefix</i> of <fimath>K</fimath>
+if there exists an omega language  <fimath>V\subseteq K</fimath> with <fimath>s\in\Prefic{V}</fimath>
+such that
+<br/>
+<br/>
+(i) &nbsp;&nbsp; <fimath>\Prefix{V}</fimath> is *-controllable w.r.t. <fimath>\Prefix{L\ \cap\ s\Sigma^w }</fimath>, and
+<br/>
+<br/>
+(ii) &nbsp;&nbsp; <fimath>V</fimath> is relatively topologically closed w.r.t. <fimath>L</fimath>.
+<br/>
+<br/>
+The controllability prefix of <fimath>K</fimath> is denoted <fimath>\CtrlPfx{K}</fimath>.
+If the controllability prefix equals the ordinary prefix, then <fimath>K</fimath>
+is said to be <i>omega-controllable</i> w.r.t. <fimath>(L,\Sigma_{uc})</fimath>.
+</p>
+
+<p>
+To appreciate the above devinition, observe that the two conditions (i) and (ii) imposed on  <fimath>V</fimath>
+render <fimath>V</fimath> a closed-loop behaviour that can be enforced by a closed controller; see also
+<a href="omegaaut_buechictrl.html">supervisory control w.r.t. Buechi acceptance</a>. Thus, if for whatever reasons the
+plant has generated a finite word from the controllability prefix, we could then activate a supervisor
+that controls the plant to evolve within <fimath>V\subseteq K</fimath>. Omega-controllabilty requires that
+<fimath>\Prefix{K}</fimath> can at any instance of time be controlled to satisfy <fimath>K</fimath>.
+</p>
+
+<p>
+<b>Note 1.</b>
+Omega-controllability in the sense of the above defintion is retained under arbitrary union. Thus,
+<br/>
+<br/>
+<fimath>K^\uparrow := \sup \{ \ K \subseteq E\ |\ K \text{ is omega-controllable w.r.t } (L,\Sigma_{uc})\ \}</fimath> 
+<br/>
+<br/>
+is itself omega-controllable.
+This is not the case for the alternative notion of controllability presented in the context of
+<a href="omegaaut_buechictrl.html">supervisory control w.r.t. Buechi acceptance</a>.
+However, the supremal controllable sublanguages w.r.t. either variant of omega controllabily match.
+</p>
+
+<p>
+<b>Note 2.</b>
+The control problem to be addressed is still literaly the same as discussed in the context of
+<a href="omegaaut_buechictrl.html">supervisory control w.r.t. Buechi acceptance</a>.
+I.e., given a plant <fimath>L</fimath> and a specification <fimath>E</fimath>
+over a common alphabet <fimath>\Sigma = \Sigma_{c}\ \dcup\ \Sigma_{uc} </fimath>,
+find a closed controller <fimath>H\subseteq \Sigma^\omega</fimath>, 
+such that
+<br/>
+<br/>
+(a) <fimath>\Prefix{L \,\cap\, H } = \Prefix{L}\; \cap \; \Prefix{H}</fimath>;
+<br/>
+<br/>
+(b) <fimath>\Prefix{H}</fimath> is *-controllable w.r.t. <fimath>\Prefix{L}</fimath>
+<br/>
+<br/>
+(c) <fimath>L\, \cap \, H \subseteq E</fimath>.
+<br/>
+<br/>
+If existent, such a controller con be extracted from a realisation of <fimath>K^\uparrow</fimath>.
+</p>
+
+
+
+<h2>
+<a id="Example">Synthesis Procedure by Example</a>
+</h2>
+
+<p>
+We illustrate the overall synthesis procedure by reusing a variant of the example presented 
+in the context of Buechi acceptance conditions. Again consider a machine that runs
+two alternative processes A or B. The processes are initiated by the controllable events
+<tt>a</tt> and <tt>b</tt>, respectively.
+Once started, a process may terminate with success <tt>c</tt> or failure <tt>d</tt>.
+As a liveness property of the plant, we assume that either process is guaranteed
+to eventually succeed.
+</p>
+
+<table class="images"> 
+<tr> <td> plant L </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_plant1"/> </td></tr>
+</table> 
+
+<p>
+For the specification, we use the third vriant, i.e.,
+start with process A, eventually switch to B, and, on success 
+turn back to A. Here, we have encoded the Buechi appeptance condition as
+single Rabin pair and have extended the transition structure to a full automaton.
+</p>
+
+<table class="images"> 
+<tr> <td> specification E </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_spec3_rabinfull.gen"/> </td></tr>
+</table>
+
+<p>
+Taking the <ffnct>RabinBuechiProduct</ffnct>, we obtain a <ftype>RabinAutomaton</ftype>
+that (a) appects the restricted specification <fimath>E\ \cap\ L</fimath> by its Rabin acceptance condition
+and that (b) has a marking to accept the <fimath>L</fimath> by its Buechi appectance condition.
+</p>
+
+<table class="images"> 
+<tr> <td> candidate K </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_cand13"/> </td></tr>
+</table>
+
+<p>
+This matches the setting in which <fcite name="W4a"/> proposes an algorithm for the computation
+of the controllability prefix. We apply <ffnct>RabinCtrlPfx</ffnct> to obtain the result as shown below.
+</p>
+
+<table class="images"> 
+<tr> <td> <fimath>\CtrlPfx{K}</fimath> (red marking)  </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_ctrlpfx13.gen"/> </td></tr>
+</table>
+
+<p>
+Allthough <fimath>\CtrlPfx{K} \neq \CtrlPfx{K}</fimath>, we observe the empty string to be in
+<fimath>\CtrlPfx{K}</fimath>. We also note that the only transition that exits <fimath>\CtrlPfx{K}</fimath>, is
+controllable. This is in general the case. If we restricting the transition structure to generate
+the supremal closed sublanguages of <fimath>\CtrlPfx{K}</fimath>, the Rabin acceptance condition
+accepts the supremal omega-crontrollable sublanguage <fimath>K^\uparrow</fimath>.
+Applying <ffnct>SupClosed</ffnct>, we obtain the following result:
+</p>
+
+<table class="images"> 
+<tr> <td> <fimath>K^\uparrow</fimath>   </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_supcon13.gen"/> </td></tr>
+</table>
+
+</ReferencePage>
+
+  

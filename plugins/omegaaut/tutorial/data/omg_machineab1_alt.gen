@@ -1,0 +1,34 @@
+<Generator name="A-B-Machine">
+
+% simplified in v2.33i, TMoor.
+
+<Alphabet>
+"a" +C+       "b"  +C+         
+"c"           "d"          
+</Alphabet>
+
+<States>
+"I" "R" "F"
+</States>
+
+<TransRel>
+"I"  "a" "R"
+"I"  "b" "R"
+"R"  "c" "I"
+"R"  "d" "F"
+"F"  "a" "R"
+"F"  "b" "R"
+</TransRel>
+
+<InitStates>
+"I"        
+</InitStates>
+
+<MarkedStates>
+"I" 
+</MarkedStates>
+
+</Generator>
+
+
+

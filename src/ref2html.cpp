@@ -517,6 +517,7 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=TexMacroSubstitute1(buff,"\\Pro","P#1");
   buff=TexMacroSubstitute1(buff,"\\Closure","Closure(#1)");
   buff=TexMacroSubstitute1(buff,"\\Prefix","Prefix(#1)");
+  buff=TexMacroSubstitute1(buff,"\\CtrlPfx","CtrlPfx(#1)");
   buff=TexMacroSubstitute1(buff,"\\Shape","Shape(#1)");
   // tex math spacing and plain text
   buff=TexMacroSubstitute1(buff,"\\texttt","\\text{<tt>#1</tt>}");

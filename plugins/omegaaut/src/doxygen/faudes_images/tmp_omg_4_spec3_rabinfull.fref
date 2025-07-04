@@ -24,7 +24,7 @@ Token IO
 %  Statistics for Automaton(A-B-Spec-Eventually-B)
 % 
 %  States:        3
-%  Init/Marked:   1/1
+%  Init/Marked:   1/0
 %  Events:        4
 %  Transitions:   12
 %  StateSymbols:  3
@@ -58,10 +58,7 @@ dump          d             dump
 A            
 &lt;/InitStates&gt;
 
-&lt;MarkedStates&gt;
-B            
-&lt;/MarkedStates&gt;
-
+&lt;MarkedStates/&gt;
 &lt;RabinAcceptance&gt;
 &lt;RabinPair name="RabinPair"&gt;
 &lt;R&gt;

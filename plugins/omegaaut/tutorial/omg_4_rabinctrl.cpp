@@ -44,14 +44,14 @@ int main() {
 
 
   // Read A-B-Machines and specifications
-  System machineab1("data/omg_machineab1.gen");
+  System machineab1("data/omg_machineab1_alt.gen");
   System machineab2("data/omg_machineab2.gen");
   System machineab3("data/omg_machineab3.gen");
   Generator specab1("data/omg_specab1.gen");
   Generator specab2("data/omg_specab2.gen");
   Generator specab3("data/omg_specab3.gen");
 
-  // select test case plat=1 spec=3
+  // select test case plant=1 spec=3
   const System& plant=machineab1;
   plant.Write("tmp_omg_4_plant1.gen");
   const Generator&  spec=specab3;  
@@ -62,6 +62,7 @@ int main() {
   RabinAutomaton cand=spec;
   cand.Write("tmp_omg_4_spec3_buechi.gen");
   cand.RabinAcceptance(cand.MarkedStates());
+  cand.ClearMarkedStates();
   cand.Write("tmp_omg_4_spec3_rabin.gen");
   InvProject(cand,sigall);
   Automaton(cand);
@@ -70,21 +71,38 @@ int main() {
   RabinBuechiAutomaton(cand,plant,rbaut);       // dox only
   rbaut.Write("tmp_omg_4_rbaut13.gen");         // dox only
   RabinBuechiProduct(cand,plant,cand);
-  cand.Write("tmp_omg_4_cand13_test.gen");
+  cand.Write("tmp_omg_4_cand13.gen");
+  std::cout << "====== first candidate" << std::endl;
+  cand.Write();
+
 
   // compute controllability prefix
   StateSet ctrlpfx;
   RabinCtrlPfx(cand,sigctrl,ctrlpfx);
   cand.WriteStateSet(ctrlpfx);
-  cand.RestrictStates(ctrlpfx);
-  // SupClosed(cand)
+  RabinAutomaton cpxaut=cand;                   // dox only
+  RabinPair rpair;                              // dox only
+  cpxaut.RabinAcceptance().Append(rpair);       // dox only
+  cpxaut.RabinAcceptance().Append(rpair);       // dox only
+  rpair.RSet().InsertSet(ctrlpfx);              // dox only
+  cpxaut.RabinAcceptance().Append(rpair);       // dox only
+  cpxaut.Write("tmp_omg_4_ctrlpfx13.gen");      // dox only
+
+  
+  //cand.RestrictStates(ctrlpfx);
+  cand.ClearMarkedStates();
+  cand.InsMarkedStates(ctrlpfx);
+  SupClosed(cand,cand);
+  cand.ClearMarkedStates();
+  cand.RestrictStates(cand.States());
+  cand.Write("tmp_omg_4_supcon13.gen");
 
   // finalise result to compare with SupBuechiCon
   Generator test=cand;
   test.StateNamesEnabled(false);
   test.InjectMarkedStates(cand.RabinAcceptance().Begin()->RSet());
   StateMin(test,test);
-  test.Write("tmp_omg_4_rabinctrl13_test.gen");
+  test.Write("tmp_omg_4_rabinctrl13.gen");
   
   return 0;
 }

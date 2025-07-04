@@ -29,6 +29,7 @@ rm -f tmp_*
 ./3_functions
 ./1_generator
 
+rm tmp_languagesEmpty_result*
 cp data/simplemachine.gen tmp_simplemachine.gen
 
 # pass on to common image generation

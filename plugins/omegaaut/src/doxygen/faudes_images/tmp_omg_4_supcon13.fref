@@ -1,0 +1,84 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_4_supcon13.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_4_supcon13.svg">
+<a class="faudes_image" href="tmp_omg_4_supcon13.svg">
+<img src="tmp_omg_4_supcon13.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="SupClosed(Automaton(A-B-Spec-Eventually-B).x.A-B-Machine)" ftype="RabinAutomaton"&gt;
+
+% 
+%  Statistics for SupClosed(Automaton(A-B-Spec-Eventually-B).x.A-B-Machine)
+% 
+%  States:        7
+%  Init/Marked:   1/0
+%  Events:        4
+%  Transitions:   13
+%  StateSymbols:  7
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+A|I|r1m#1     A|R|r1m#2     B|R|r1m#3     A|I|r2m#4     B|F|r2m#5     B|R|r2m#7    
+A|F|r1m#10   
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+A|I|r1m       a             A|R|r1m      
+A|I|r1m       b             B|R|r1m      
+A|R|r1m       c             A|I|r1m      
+A|R|r1m       d             A|F|r1m      
+B|R|r1m       c             A|I|r2m      
+B|R|r1m       d             B|F|r2m      
+A|I|r2m       a             A|R|r1m      
+A|I|r2m       b             B|R|r1m      
+B|F|r2m       b             B|R|r2m      
+B|R|r2m       c             A|I|r2m      
+B|R|r2m       d             B|F|r2m      
+A|F|r1m       a             A|R|r1m      
+A|F|r1m       b             B|R|r1m      
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+A|I|r1m      
+&lt;/InitStates&gt;
+
+&lt;MarkedStates/&gt;
+&lt;RabinAcceptance&gt;
+&lt;RabinPair name="RabinPair"&gt;
+&lt;R&gt;
+A|I|r2m      
+&lt;/R&gt;
+&lt;I&gt;
+A|I|r1m       A|R|r1m       B|R|r1m       A|I|r2m       B|F|r2m       B|R|r2m      
+A|F|r1m      
+&lt;/I&gt;
+&lt;/RabinPair&gt;
+&lt;/RabinAcceptance&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

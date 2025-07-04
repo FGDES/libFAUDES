@@ -1,15 +1,15 @@
 <ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
-Example Data: tmp_omg_4_rabinctrl13_test.gen
+Example Data: tmp_omg_4_rabinctrl13.gen
 </h1>
 
 <h3>
 Dot-processed graph as SVG-image
 </h3>
 
-<object type="image/svg+xml" name="graph" data="tmp_omg_4_rabinctrl13_test.svg">
-<a class="faudes_image" href="tmp_omg_4_rabinctrl13_test.svg">
-<img src="tmp_omg_4_rabinctrl13_test.png" title="Click on image to download SVG formated file." />
+<object type="image/svg+xml" name="graph" data="tmp_omg_4_rabinctrl13.svg">
+<a class="faudes_image" href="tmp_omg_4_rabinctrl13.svg">
+<img src="tmp_omg_4_rabinctrl13.png" title="Click on image to download SVG formated file." />
 </a>
 </object>
 
@@ -18,10 +18,10 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="Automaton(A-B-Spec-Eventually-B).x.A-B-Machine [minstate]"&gt;
+&lt;Generator name="SupClosed(Automaton(A-B-Spec-Eventually-B).x.A-B-Machine) [minstate]"&gt;
 
 % 
-%  Statistics for Automaton(A-B-Spec-Eventually-B).x.A-B-Machine [minstate]
+%  Statistics for SupClosed(Automaton(A-B-Spec-Eventually-B).x.A-B-Machine) [minstate]
 % 
 %  States:        5
 %  Init/Marked:   1/1

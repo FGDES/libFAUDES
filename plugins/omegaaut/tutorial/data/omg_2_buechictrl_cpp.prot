@@ -104,11 +104,11 @@ false
 % 
 %  Statistics for SupConCmpl(A-B-Machine, PrefixClosure(A-B-Spec-Keep-Running.x.A-B-Machine))
 % 
-%  States:        10
+%  States:        6
 %  Init/Marked:   1/2
 %  Events:        4
-%  Transitions:   20
-%  StateSymbols:  10
+%  Transitions:   12
+%  StateSymbols:  6
 %  Attrib. E/S/T: 0/0/0
 % 
 % 
@@ -149,11 +149,11 @@ false
 % 
 %  Statistics for SupBuechiCon((A-B-Machine),(A-B-Spec-Keep-Running))
 % 
-%  States:        10
+%  States:        6
 %  Init/Marked:   1/1
 %  Events:        4
-%  Transitions:   20
-%  StateSymbols:  10
+%  Transitions:   12
+%  StateSymbols:  6
 %  Attrib. E/S/T: 0/0/0
 % 
 % 

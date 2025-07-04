@@ -130,11 +130,11 @@ false
 % 
 %  Statistics for Automaton(g1)
 % 
-%  States:        4
+%  States:        5
 %  Init/Marked:   1/1
 %  Events:        3
-%  Transitions:   12
-%  StateSymbols:  4
+%  Transitions:   15
+%  StateSymbols:  5
 %  Attrib. E/S/T: 0/0/0
 % 
 % 
