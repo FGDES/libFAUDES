@@ -580,7 +580,7 @@ void EpsObservation(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
     // Step 2: Create epsilon events for each pattern
     std::map<std::string, Idx> patternToEpsilon;
     for(const std::string& pattern : patterns) {
-        std::string epsEventName = "eps_" + pattern;
+        std::string epsEventName = "eps";
         Idx epsEvent = rRes.InsEvent(epsEventName);
         
         // Set epsilon event as uncontrollable and unobservable

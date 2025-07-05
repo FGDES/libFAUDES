@@ -1,25 +1,32 @@
 <Generator>
-"single cb"
+"double cb"
 
 <Alphabet>
-a    b      
+a_1       b_1       a_2      b_2                
 </Alphabet>
 
 <States>
-e       f 
+A           B           C           D          
 </States>
 
 <TransRel>
-e      a     f
-f      b     e      
+A           a_1           B          
+A           a_2           C          
+B           b_1           A          
+B           a_2           D          
+C           a_1           D          
+C           b_2           A          
+D           b_1           C          
+D           b_2           B          
 </TransRel>
 
 <InitStates>
-e       
+A          
 </InitStates>
 
 <MarkedStates>
-f      
+A          
 </MarkedStates>
+
 
 </Generator>
