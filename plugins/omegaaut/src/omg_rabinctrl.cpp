@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
   
 
 #include "omg_rabinctrl.h"
+#include "omg_rabinfnct.h"
 #include "syn_include.h"
 
 // local degug
@@ -45,6 +46,8 @@ protected:
   const TransSet& rTransRel;
   const TransSetX2EvX1& rRevTransRel;
   EventSet mSigmaCtrl;
+  /** record control patterns */
+  //TaIndexSet<EventSet> mCtrlPatterns;    
 public:
   /** construct to record context */
   RabinInvDynOperator(
@@ -98,9 +101,11 @@ public:
 protected:  
   /** actual operator implementation */
   virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
-    // convenience acsesors
+    // convenience accesors
     const StateSet& Z1=rArgs.At(0);
     const StateSet& Z2=rArgs.At(1);
+    // record controls
+    //EventSet disable;
     // do operate
     rRes=rRevTransRel.PredecessorStates(Z1);
     StateSet::Iterator sit=rRes.Begin();
@@ -116,8 +121,10 @@ protected:
         // successor is in Z2: will not disable     	
         if(Z2.Exists(tit->X2)) {continue;}
 	// sucessor is neither in Z1 nor Z2: need to disable
-    	if(!mSigmaCtrl.Exists(tit->Ev)){ exitZ12 = true; break;}
-      }  
+    	if(!mSigmaCtrl.Exists(tit->Ev)){exitZ12 = true; break;}
+	// record controls
+	//disable.Insert(tit->Ev);
+      }      
       if(!enterZ1 || exitZ12) rRes.Erase(sit++);
       else++sit;
     }
@@ -134,7 +141,7 @@ Problem for Tree w-Automata", 1992, Def 8.3:
 "theta_tilde(X1,X2)=nu X3 mu X4 theta( X1 + (X4 - R), (X3 - R) * X2 ) ")
 
 We first implement the core formula without the nu/mu iteration and then apply nu/mu.
-We use "Y1/Y2/Y3/Y4" and "Z1/Z2" argument names to
+We use "Y1/Y2/Y3/Y4" -->  "Z1/Z2" argument names 
 */
 class  RabinInvDynThetaTildeCore : public RabinInvDynTheta {
 public:
@@ -189,8 +196,8 @@ public:
     mNuMuThetaCore(mMuThetaCore)
   {
     FD_DF("RabinInvDynThetaTilde(): instantiated for " << rGen.Name());
-    Name("theta_tilde([W1,W2])");
-    mArgNames= std::vector<std::string>{"W1","W2"};
+    Name("theta_tilde([Y1,Y2])");
+    mArgNames= std::vector<std::string>{"Y1","Y2"};
     mArgCount=2;
   };
 protected:  
@@ -212,7 +219,7 @@ p-reach(X1,X2)= mu X3 . theta-tilde(X1,X) union theta-tilde((X1 u X2 u X3, I_p))
 We first implement the core formular without the nu/mu iteration, and then do the
 mu iteration
 
-We use "U1/U2/U3" and "W1/W2" argument names
+We use "U1/U2/U3" 
 */
 class  RabinInvDynPReachCore : public RabinInvDynThetaTilde {
   /** additional context */
@@ -239,14 +246,14 @@ protected:
     const StateSet& U3=rArgs.At(2);
     StateSetVector args;
     args.Size(2);
-    StateSet& W1=args.At(0);
-    StateSet& W2=args.At(1);
+    StateSet& Y1=args.At(0);
+    StateSet& Y2=args.At(1);
     // do operate
-    W1=U1;
-    W2=Domain();
+    Y1=U1;
+    Y2=Domain();
     RabinInvDynThetaTilde::DoEvaluate(args,rRes);
-    W1=U1+U2+U3;
-    W2=mRPit->ISet();
+    Y1=U1+U2+U3;
+    Y2=mRPit->ISet();
     StateSet rhs;
     RabinInvDynThetaTilde::DoEvaluate(args,rhs);
     rRes.InsertSet(rhs);
@@ -324,7 +331,7 @@ protected:
   };
 };      
     
-/** ctrollable set, mu-nu iteration */
+/** controllable set, mu-nu iteration */
 class  RabinInvDynCtrl : public RabinInvDynOperator {
 protected:
   /** have additional context */
@@ -354,11 +361,12 @@ protected:
 
 
 
-  
+// API  
 void RabinCtrlPfx(
   const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl,
-  StateSet& rCtrlPfx){
-  // we can only handle one Rabin pair
+  StateSet& rCtrlPfx)
+{
+  // can only handle one Rabin pair
   if(rRAut.RabinAcceptance().Size()!=1){
     std::stringstream errstr;
     errstr << "the current implementation requires exactly one Rabin pair";
@@ -374,6 +382,93 @@ void RabinCtrlPfx(
 };
 
 
+// API void RabinCtrlPfx(
+void RabinCtrlPfx(
+  const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl,
+  Generator& rResGen)
+{
+  // prepare result
+  Generator* pResGen = &rResGen;
+  if(dynamic_cast<RabinAutomaton*>(&rResGen)== &rRAut) {
+    pResGen= rResGen.New();
+  }
+  pResGen->Clear();
+  pResGen->Name(CollapsString("CtrlPfx("+rRAut.Name()+")"));
 
+  // do run
+  StateSet ctrlpfx;
+  RabinCtrlPfx(rRAut,rSigmaCtrl,ctrlpfx);
+  pResGen->Assign(rRAut);
+  pResGen->InjectMarkedStates(ctrlpfx);
+  pResGen->Trim();;
+
+  // copy result
+  if(pResGen != &rResGen) {
+    pResGen->Move(rResGen);
+    delete pResGen;
+  }
+}
+
+// API warpper
+void SupRabinCon(
+  const Generator& rBPlant, 
+  const EventSet& rCAlph, 
+  const RabinAutomaton& rRSpec, 
+  RabinAutomaton& rRes) 
+{
+  // consitenct check
+  ControlProblemConsistencyCheck(rBPlant, rCAlph, rRSpec);  
+  // prepare result
+  RabinAutomaton* pRes = &rRes;
+  if(dynamic_cast<Generator*>(pRes)== &rBPlant || pRes== &rRSpec) {
+    pRes= rRes.New();
+  }
+  // execute: set up cloed loop candidate
+  pRes->Assign(rRSpec);
+  pRes->ClearMarkedStates();
+  Automaton(*pRes);
+  RabinBuechiProduct(*pRes,rBPlant,*pRes);
+  // execute: compute controllability prefix
+  StateSet ctrlpfx;
+  RabinCtrlPfx(*pRes,rCAlph,ctrlpfx);
+  // execute: trim
+  pRes->ClearMarkedStates();
+  pRes->InsMarkedStates(ctrlpfx);
+  SupClosed(*pRes,*pRes);
+  pRes->ClearMarkedStates();
+  pRes->RestrictStates(pRes->States()); // fix Rabin pairs
+  // record name
+  pRes->Name(CollapsString("SupRabinCon(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
+  // copy result
+  if(pRes != &rRes) {
+    pRes->Move(rRes);
+    delete pRes;
+  }
+}
+
+
+// SupRabinCon for Systems:
+// uses and maintains controllablity from plant 
+void SupRabinCon(
+  const System& rBPlant, 
+  const RabinAutomaton& rRSpec, 
+  RabinAutomaton& rRes) {
+  // prepare result
+  RabinAutomaton* pRes = &rRes;
+  if(dynamic_cast<Generator*>(pRes)== &rBPlant || pRes== &rRSpec) {
+    pRes= rRes.New();
+  }
+  // execute 
+  SupRabinCon(rBPlant, rBPlant.ControllableEvents(),rRSpec,*pRes);
+  // copy all attributes of input alphabet
+  pRes->EventAttributes(rBPlant.Alphabet());
+  // copy result
+  if(pRes != &rRes) {
+    pRes->Move(rRes);
+    delete pRes;
+  }
+}
+
+  
 } // namespace faudes
 

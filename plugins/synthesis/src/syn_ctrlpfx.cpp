@@ -33,9 +33,6 @@ Implementation of operator on state sets: virtual base
 *********************************************************************    
 */
 
-// static member
-bool StateSetOperator::mLogMuNu;  
-  
 // get dummy domain  
 const StateSet&  StateSetOperator::Domain(void) const {
   static StateSet empty;
@@ -110,10 +107,6 @@ void StateSetOperator::Indent(const std::string& indent) const {
   rwp->mIndent = indent;
 }
 
-// logging  
-void StateSetOperator::LogMuNu(bool logon) {
-  mLogMuNu=logon;
-}
 
 /*  
 *********************************************************************
@@ -233,11 +226,10 @@ const StateSet& MuIteration::Domain(void) const {
 // evaluation
 void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   // prepare progress message
-  std::string prog="MuIteration::DoEvaluate(): " + Indent() + Name() + ": " + ArgStatistics(rArgs);
-  if(mLogMuNu) {
+  std::string prog;
+  if(Verbosity()>=10) {
+    prog="MuIteration::DoEvaluate(): " + Indent() + Name() + ": " + ArgStatistics(rArgs);
     FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
-  } else {
-    FD_DF(prog);
   }
   // prepare result
   rRes.Clear();
@@ -255,15 +247,70 @@ void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
     FD_WPC(1,2,prog);
   }
   // say goodby
-  prog=prog + " -> " + mrOp.ArgName(mrOp.ArgCount()-1) + " #" + faudes::ToStringInteger(rRes.Size());
-  if(mLogMuNu) {
+  if(Verbosity()>=10) {
+    prog=prog + " -> " + mrOp.ArgName(mrOp.ArgCount()-1) + " #" + faudes::ToStringInteger(rRes.Size());
     FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
-  } else {
-    FD_DF(prog);
   }
 };
 
 
+// evaluation incl rank (there are more clever wayz to implement this ...)
+void MuIteration::Rank(StateSetVector& rArgs, std::map<Idx,int>& rRMap) const {
+  // consistency check
+  if(rArgs.Size()!=mArgCount) {
+    std::stringstream errstr;
+    errstr << "signature mismatch: expected arguments #" << mArgCount <<
+      " provided argumenst #" << rArgs.Size();
+    throw Exception("StateSetOperator::Evaluate", errstr.str(), 80);
+  }
+  // prepare progress message
+  std::string prog;
+  if(Verbosity()>=10) {
+    prog="MuIteration::Rank(): " + Indent() + Name() + ": " + ArgStatistics(rArgs);
+    FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
+  }
+  // prepare result
+  rRMap.clear();
+  StateSet res;
+  // actual implementation comes here
+  StateSetVector xargs;
+  xargs.AssignByReference(rArgs);  
+  xargs.PushBack(&res);
+  StateSet R;
+  StateSet N;
+  StateSet::Iterator sit;
+  int rank=0;
+  while(true) {
+    mrOp.Evaluate(xargs,R);
+    N=R-res;
+    FD_DF("MuIteration::DoEvaluate(): " << Indent() << res.size() << "# -> #" << R.Size());
+    res.Assign(R);
+    if(N.Empty()) break;
+    for(sit=N.Begin();sit!=N.End();++sit)
+      rRMap[*sit]=rank;
+    ++rank;
+    FD_WPC(1,2,prog);
+  }
+  // say goodby
+  if(Verbosity()>=10) {
+    prog=prog + " -> " + mrOp.ArgName(mrOp.ArgCount()-1) + " #" + faudes::ToStringInteger(res.Size());
+    FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
+  }
+};
+
+// API wrapper, single argument  
+void MuIteration::Rank(StateSet& rArg, std::map<Idx,int>& rRMap) const {
+  StateSetVector args;
+  args.PushBack(&rArg);
+  Rank(args,rRMap); 
+}
+
+// API wrapper, no arguments 
+void MuIteration::Rank(std::map<Idx,int>& rRMap) const {
+  static StateSetVector args;
+  Rank(args,rRMap); 
+}
+  
 
 /*  
 *********************************************************************
@@ -305,11 +352,10 @@ const StateSet& NuIteration::Domain(void) const {
 // evaluation
 void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
   // prepare progress message
-  std::string prog="NuIteration::DoEvaluate(): " + Indent() + Name() + ": " + ArgStatistics(rArgs);
-  if(mLogMuNu) {
+  std::string prog;
+  if(Verbosity()>=10) {
+    prog="NuIteration::DoEvaluate(): " + Indent() + Name() + ": " + ArgStatistics(rArgs);
     FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
-  } else {
-    FD_DF(prog);
   }
   // prepare result
   rRes.Clear();
@@ -328,11 +374,9 @@ void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
     FD_WPC(1,2,prog);
   }
   // say goodby
-  prog=prog + " -> " + mrOp.ArgName(mrOp.ArgCount()-1) + " #" + faudes::ToStringInteger(rRes.Size());
-  if(mLogMuNu) {
+  if(Verbosity()>=10) {
+    prog=prog + " -> " + mrOp.ArgName(mrOp.ArgCount()-1) + " #" + faudes::ToStringInteger(rRes.Size());
     FAUDES_WRITE_CONSOLE("FAUDES_MUNU:  " << prog);
-  } else {
-    FD_DF(prog);
   }
 };
 

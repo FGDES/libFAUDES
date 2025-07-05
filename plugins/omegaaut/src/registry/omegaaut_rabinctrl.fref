@@ -114,8 +114,8 @@ to eventually succeed.
 
 <p>
 For the specification, we use the third vriant, i.e.,
-start with process A, eventually switch to B, and, on success 
-turn back to A. Here, we have encoded the Buechi appeptance condition as
+start with any process A or B, eventually switch to B, and, only on success 
+turn back to A or B. Here, we have encoded the Buechi appeptance condition as
 single Rabin pair and have extended the transition structure to a full automaton.
 </p>
 
@@ -147,10 +147,10 @@ of the controllability prefix. We apply <ffnct>RabinCtrlPfx</ffnct> to obtain th
 
 <p>
 Allthough <fimath>\CtrlPfx{K} \neq \CtrlPfx{K}</fimath>, we observe the empty string to be in
-<fimath>\CtrlPfx{K}</fimath>. We also note that the only transition that exits <fimath>\CtrlPfx{K}</fimath>, is
+<fimath>\CtrlPfx{K}</fimath>. We also note that the only transition that exits <fimath>\CtrlPfx{K}</fimath> is
 controllable. This is in general the case. If we restricting the transition structure to generate
 the supremal closed sublanguages of <fimath>\CtrlPfx{K}</fimath>, the Rabin acceptance condition
-accepts the supremal omega-crontrollable sublanguage <fimath>K^\uparrow</fimath>.
+accepts the supremal omega-controllable sublanguage <fimath>K^\uparrow</fimath>.
 Applying <ffnct>SupClosed</ffnct>, we obtain the following result:
 </p>
 
@@ -158,6 +158,78 @@ Applying <ffnct>SupClosed</ffnct>, we obtain the following result:
 <tr> <td> <fimath>K^\uparrow</fimath>   </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_4_supcon13.gen"/> </td></tr>
 </table>
+
+<p>
+There is alsi the convenience wrapper <ffnct>SubRabinCon</ffnct> that runs the
+entire syntheisis procedure discussed so far.
+</p>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinCtrlPfx">
+<fdetails/>
+
+<p>
+Given a Rabin-Buechi automation <i>RBAut</i>, this function
+computes the controllability prefix by the algorith proposed in <fcite name="W4a"/>.
+The argument must be set uo to accept the plant behaviour L via its Buechi acceptance condition
+and to accept the specification E via its Rabin acceptance condition.
+</p>
+
+<p>
+Depending on the signature, the result is
+either passed as a set of states that mark the controllability prefix when set to the argument transition structure,
+or, as a plain trim generator.
+</p>
+
+<p>
+A full example is given <a href="#Example">[above]</a>.
+</p>
+
+<fconditions/>
+
+<p>
+The argument must be be deterministic. The specification E must be a subset of (or equal to) the plant behaviour L.
+The current implementation is restricted to one Rabin pair,
+generalisation should be straight forward.
+</p>
+
+</ffnct_reference>
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupRabinCon">
+<fdetails/>
+<p>
+  Given a plant behaviour L realised by a Buechi automaton <i>BPlant</i>
+  and a specification E realised by a Rabin automaton <i>RSpec</i>,
+  this function computes a realisation <i>RSup</i> of the
+  supremal omega-controllable sublanguage of E. Depending on the signature,
+  controllable events may be passed explcitly or will be taken from the
+  plant automaton. The result is reported as a trim Rabin automaton.
+</p>
+
+<p>
+A full example incl. discussion is given <a href="#Example">[above]</a>.
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of plant and specification to match.
+Both automata arguments must be be deterministic.
+Effectively, the specification E is intersected with the plant behaviour L.
+The result will be deterministic and trimmed.
+</p>
+
+</ffnct_reference>
+
+
 
 </ReferencePage>
 

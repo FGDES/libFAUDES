@@ -556,7 +556,72 @@ OmegaAut    "synchronous product"    "parallel composition"    "Rabin automata" 
 
 </FunctionDefinition> 
 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinCtrlPfx -->
+<!-- =================================================== -->
+<!-- =================================================== -->
 
+<FunctionDefinition name="OmegaAut::RabinCtrlPfx" ctype="faudes::RabinCtrlPfx"> 
+
+<Documentation ref="omegaaut_rabinctrl.html#RabinCtrlPfx"> 
+Controllability prefix for Rabin-Buechi automata.
+</Documentation> 
+<Keywords> 
+OmegaAut    "Rabin automata" "synthesis" "controllability prefix"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinCtrlPfx(RBAut,ACtrl,CtrlPfxStates)"> 
+<Parameter name="RBAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="CtrlPfx" ftype="StateSet" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrlPfx(RBAut,Sigma_c,CtrlPfxGen)"> 
+<Parameter name="RBAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="CtrlPfx" ftype="Generator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupRabinCon -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::SupRabinCon" ctype="faudes::SupRabinCon"> 
+
+<Documentation ref="omegaaut_rabinctrl.html#SupRabinCon"> 
+Supremal Controllable Sublanguage for Buechi Plants and Rabin Specifications.
+</Documentation> 
+<Keywords> 
+OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupRabinCon(BPlant,RSpec,RSup)"> 
+<Parameter name="BPlant" ftype="System" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="RSup" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+<Signature name="SupRabinCon(BPlant,ACtrl,RSpec,RSup)"> 
+<Parameter name="BPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="RSup" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+  
 <!-- =================================================== -->
 <!-- =================================================== -->
 <!-- Faudes Function EpsObservation -->

@@ -428,8 +428,7 @@ bool ControlledBuechiLiveness(
 	
 /*
 Variant of the controllable prefix to extract a particular feedback map. Again, this is 
-very close to the relevant literature and meant as a reference. A more efficient 
-implementation proposed by Christian Wamser will be integrated in due course.
+very close to the relevant literature and meant as a reference. It is not particulary performant.
 */
 
 bool ControlledBuechiLiveness(
