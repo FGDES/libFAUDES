@@ -104,7 +104,7 @@ two alternative processes A or B. The processes are initiated by the controllabl
 <tt>a</tt> and <tt>b</tt>, respectively.
 Once started, a process may terminate with success <tt>c</tt> or failure <tt>d</tt>.
 As a liveness property of the plant, we assume that either process is guaranteed
-to eventually succeed.
+to eventually succeed. This is encoded aa a Buechi acceptance condition.
 </p>
 
 <table class="images"> 
@@ -116,7 +116,7 @@ to eventually succeed.
 For the specification, we use the third vriant, i.e.,
 start with any process A or B, eventually switch to B, and, only on success 
 turn back to A or B. Here, we have encoded the Buechi appeptance condition as
-single Rabin pair and have extended the transition structure to a full automaton.
+a single Rabin pair and have extended the transition structure to a full automaton.
 </p>
 
 <table class="images"> 
@@ -126,7 +126,7 @@ single Rabin pair and have extended the transition structure to a full automaton
 
 <p>
 Taking the <ffnct>RabinBuechiProduct</ffnct>, we obtain a <ftype>RabinAutomaton</ftype>
-that (a) appects the restricted specification <fimath>E\ \cap\ L</fimath> by its Rabin acceptance condition
+that (a) appects the restricted specification <fimath>E' := E\ \cap\ L</fimath> by its Rabin acceptance condition
 and that (b) has a marking to accept the <fimath>L</fimath> by its Buechi appectance condition.
 </p>
 
@@ -160,8 +160,8 @@ Applying <ffnct>SupClosed</ffnct>, we obtain the following result:
 </table>
 
 <p>
-There is alsi the convenience wrapper <ffnct>SubRabinCon</ffnct> that runs the
-entire syntheisis procedure discussed so far.
+There is also the convenience wrapper <ffnct>SupRabinCon</ffnct> that runs the
+entire syntheisis procedure as discussed so far.
 </p>
 
 <!-- ===================================================== -->
