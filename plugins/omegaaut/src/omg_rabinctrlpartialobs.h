@@ -1,38 +1,12 @@
-/** @file omg_rabinctrlpartialobs.h  Rabin control synthesis under partial observation
+/** @file omg_rabinctrlpartialobs.h 
+ * 
+ * Rabin control synthesis under partial observation
+ * 
+ * This module implements high-level API functions for supervisory control
+ * synthesis of Rabin automata under partial observation constraints.
  * 
  * @ingroup OmegaautPlugin
  */
-
-/*
-  
-   FAU Discrete Event Systems Library (libfaudes)
-
-   Copyright (C) 2025 Thomas Moor
-
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-
-   This module implements high-level API functions for supervisory control
-   synthesis of Rabin automata under partial observation constraints.
-  
-   Copyrigth Changming Yang 2025
-   Non-exclusive copyright is granted to Thomas Moor
-
-*/
-
-
 
 #ifndef FAUDES_OMG_RABINCTRLPARTIALOBS_H
 #define FAUDES_OMG_RABINCTRLPARTIALOBS_H
@@ -104,8 +78,6 @@ FAUDES_API void RabinCtrlPartialObs(const System& rPlant,
  *   - Empty specification language (id 302)
  *   - Synthesis failed - no valid supervisor exists (id 303)
  *   - Algorithm complexity limits exceeded (id 304)
- *
- * @ingroup OmgPlugin
  */
 FAUDES_API void RabinCtrlPartialObs(const RabinAutomaton& rPlant, 
                                    const EventSet& rControllableEvents,
@@ -129,8 +101,6 @@ FAUDES_API void RabinCtrlPartialObs(const RabinAutomaton& rPlant,
  *   - Controllable events not subset of alphabet (id 305)
  *   - Observable events not subset of alphabet (id 306)
  *   - Plant or specification is nondeterministic (id 201-204)
- *
- *  @ingroup OmgPlugin
  */
 FAUDES_API void RabinCtrlPartialObsConsistencyCheck(const RabinAutomaton& rPlant,
                                                    const RabinAutomaton& rSpec,
@@ -145,8 +115,6 @@ FAUDES_API void RabinCtrlPartialObsConsistencyCheck(const RabinAutomaton& rPlant
  * @param rSys System with event attributes
  * @param rControllableEvents Output: extracted controllable events
  * @param rObservableEvents Output: extracted observable events
- *
- * @ingroup OmgPlugin
  */
 FAUDES_API void ExtractEventAttributes(const System& rSys,
                                       EventSet& rControllableEvents,

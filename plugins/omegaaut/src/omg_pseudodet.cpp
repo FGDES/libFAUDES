@@ -211,51 +211,110 @@ void PseudoDet(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
             }
             
             // STEP 2: Update state labels based on transitions
-            for(auto& pair : newTree.nodes) {
-                Idx nodeId = pair.first;
-                TreeNode& node = pair.second;
-                
-                // Create new label based on successor states
-                StateSet newLabel;
-                
-                // Check if it's an epsilon event
-                bool isEpsilonEvent = false;
-                std::string eventName = rGen.EventName(event);
-                if(eventName.find("eps") != std::string::npos || eventName == "epsilon") {
-                    isEpsilonEvent = true;
-                }
-                
-                if(isEpsilonEvent) {
-                    // For epsilon transitions: δ(ε, Y) ∪ Y
-                    // First include original state set Y
-                    for(StateSet::Iterator sit = node.stateLabel.Begin(); sit != node.stateLabel.End(); ++sit) {
-                        newLabel.Insert(*sit);
-                    }
+            // Check if sigma_c is epsilon
+            std::string eventName = rGen.EventName(event);
+            bool isEpsilonEvent = (eventName == "epsilon" || eventName.find("eps") != std::string::npos);
+            
+            if (isEpsilonEvent) {
+                // Case 2a: If σ_c = ε, replace every state label Y with δ_v(ε, Y) ∪ Y
+                for(auto& pair : newTree.nodes) {
+                    TreeNode& node = pair.second;
+                    StateSet newLabel = node.stateLabel; // Start with Y
                     
-                    // Then add states reachable through epsilon transitions δ(ε, Y)
+                    // Add δ_v(ε, Y)
                     for(StateSet::Iterator sit = node.stateLabel.Begin(); sit != node.stateLabel.End(); ++sit) {
                         Idx state = *sit;
-                        
                         for(TransSet::Iterator tit = rGen.TransRelBegin(state, event); 
                             tit != rGen.TransRelEnd(state, event); ++tit) {
                             newLabel.Insert(tit->X2);
                         }
+                    }
+                    node.stateLabel = newLabel;
+                }
+            } else {
+                // Case 2b: If σ_c ∈ Σ_o, check condition Y_r ⊇ δ_v(ε, Y_r)
+                StateSet rootLabel = newTree.nodes[newTree.rootNode].stateLabel;
+                StateSet epsilonSuccessors;
+                
+                // Compute δ_v(ε, Y_r) - find epsilon transitions from root states
+                for(StateSet::Iterator sit = rootLabel.Begin(); sit != rootLabel.End(); ++sit) {
+                    Idx state = *sit;
+                    // Look for epsilon transitions
+                    for(EventSet::Iterator eit = rGen.AlphabetBegin(); eit != rGen.AlphabetEnd(); ++eit) {
+                        std::string eName = rGen.EventName(*eit);
+                        if(eName == "epsilon" || eName.find("eps") != std::string::npos) {
+                            for(TransSet::Iterator tit = rGen.TransRelBegin(state, *eit); 
+                                tit != rGen.TransRelEnd(state, *eit); ++tit) {
+                                epsilonSuccessors.Insert(tit->X2);
+                            }
+                        }
+                    }
+                }
+                
+                // Check if Y_r ⊇ δ_v(ε, Y_r)
+                bool conditionSatisfied = true;
+                for(StateSet::Iterator sit = epsilonSuccessors.Begin(); sit != epsilonSuccessors.End(); ++sit) {
+                    if(!rootLabel.Exists(*sit)) {
+                        conditionSatisfied = false;
+                        break;
+                    }
+                }
+                
+                if(conditionSatisfied) {
+                    // Replace every state label Y with δ_v(σ_c, Y)
+                    for(auto& pair : newTree.nodes) {
+                        TreeNode& node = pair.second;
+                        StateSet newLabel;
+                        
+                        for(StateSet::Iterator sit = node.stateLabel.Begin(); sit != node.stateLabel.End(); ++sit) {
+                            Idx state = *sit;
+                            for(TransSet::Iterator tit = rGen.TransRelBegin(state, event); 
+                                tit != rGen.TransRelEnd(state, event); ++tit) {
+                                newLabel.Insert(tit->X2);
+                            }
+                        }
+                        node.stateLabel = newLabel;
                     }
                 } else {
-                    // For regular events: δ(σ, Y)
-                    // Check all transitions from this node with this event
-                    for(StateSet::Iterator sit = node.stateLabel.Begin(); sit != node.stateLabel.End(); ++sit) {
-                        Idx state = *sit;
-                        
-                        for(TransSet::Iterator tit = rGen.TransRelBegin(state, event); 
-                            tit != rGen.TransRelEnd(state, event); ++tit) {
-                            newLabel.Insert(tit->X2);
+                    // Transition function is undefined, skip this event
+                    continue;
+                }
+            }
+            
+            // Check if there exists a state in root that has no transitions for ALL observable events and epsilon
+            // According to algorithm step 2: skip event only if such a state exists
+            StateSet rootLabel = newTree.nodes[newTree.rootNode].stateLabel;
+            bool shouldSkipEvent = false;
+            
+            for(StateSet::Iterator sit = rootLabel.Begin(); sit != rootLabel.End(); ++sit) {
+                Idx state = *sit;
+                bool hasAnyTransition = false;
+                
+                // Check if this state has transitions for any observable event or epsilon
+                for(EventSet::Iterator evIt = rGen.AlphabetBegin(); evIt != rGen.AlphabetEnd(); ++evIt) {
+                    Idx checkEvent = *evIt;
+                    std::string eventName = rGen.EventName(checkEvent);
+                    
+                    // Check observable events and epsilon
+                    if(rGen.Observable(checkEvent) || eventName == "epsilon" || eventName.find("eps") != std::string::npos) {
+                        for(TransSet::Iterator tit = rGen.TransRelBegin(state, checkEvent); 
+                            tit != rGen.TransRelEnd(state, checkEvent); ++tit) {
+                            hasAnyTransition = true;
+                            break;
                         }
+                        if(hasAnyTransition) break;
                     }
                 }
                 
-                // Update node's state label
-                node.stateLabel = newLabel;
+                // If this state has no transitions for all observable events and epsilon, skip current event
+                if(!hasAnyTransition) {
+                    shouldSkipEvent = true;
+                    break;
+                }
+            }
+            
+            if(shouldSkipEvent) {
+                continue; // Skip this event according to algorithm step 2
             }
             
             // STEP 3: Create nodes for Rabin acceptance violations
@@ -512,42 +571,67 @@ void PseudoDet(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
     
     // Create Rabin pairs for output automaton
     RabinAcceptance outputRabinPairs;
-    
-    // Create R and I sets based on colors
-    StateSet globalR, globalI;
-    
-    for(auto& statePair : stateToTree) {
-        Idx state = statePair.first;
+
+    // First, collect all unique node IDs that have ever been created.
+    std::set<Idx> allNodeIds;
+    for (const auto& statePair : stateToTree) {
         const LabeledTree& tree = statePair.second;
-        
-        bool hasRedNode = false;
-        bool hasGreenNode = false;
-        
-        for(auto& nodePair : tree.nodes) {
-            if(nodePair.second.color == TreeNode::RED) hasRedNode = true;
-            if(nodePair.second.color == TreeNode::GREEN) hasGreenNode = true;
+        for(const auto& nodePair : tree.nodes) {
+            allNodeIds.insert(nodePair.first);
         }
-        
-        if(hasRedNode) globalR.Insert(state);
-        if(hasGreenNode) globalI.Insert(state);
     }
-    
-    // Add RabinPair when both R and I are non-empty
-    if(!globalR.Empty() && !globalI.Empty()) {
-        RabinPair newPair;
-        newPair.RSet() = globalR;
-        newPair.ISet() = globalI;
-        outputRabinPairs.Insert(newPair);
+
+    // Now, create a Rabin pair for each unique node ID.
+    for (Idx nodeId : allNodeIds) {
+        if (nodeId == LabeledTree::INVALID_NODE) continue;
+
+        StateSet Rn; // States where this nodeId is GREEN
+        StateSet In; // States where this nodeId is NOT RED and NOT DELETED
+
+        // Iterate through all generated states of the result automaton.
+        for (const auto& statePair : stateToTree) {
+            Idx state = statePair.first;
+            const LabeledTree& tree = statePair.second;
+
+            // Check if 'nodeId' exists in this tree's nodes.
+            // Its existence means it is "not deleted" for this tree state.
+            auto nodeIt = tree.nodes.find(nodeId);
+            if (nodeIt != tree.nodes.end()) {
+                const TreeNode& node = nodeIt->second;
+
+                // Populate In: node must exist and not be RED.
+                if (node.color != TreeNode::RED) {
+                    In.Insert(state);
+                }
+
+                // Populate Rn: node must be GREEN.
+                if (node.color == TreeNode::GREEN) {
+                    Rn.Insert(state);
+                }
+            }
+        }
+
+        // According to the paper's logic, a pair is meaningful if the condition
+        // of infinite visits (green coloring) can actually happen.
+        // So, we add the pair only if the set Rn is not empty.
+        if (!Rn.Empty()) {
+            RabinPair newPair;
+            // RSet is the set of states to be visited infinitely often.
+            newPair.RSet() = Rn; 
+            // ISet is the set of states to be eventually stayed within.
+            newPair.ISet() = In; 
+            outputRabinPairs.Insert(newPair);
+        }
     }
-    
+
     rRes.RabinAcceptance() = outputRabinPairs;
     
     FD_DF("PseudoDet completed with " 
               << stateCounter << " states and "
               << outputRabinPairs.Size() << " RabinPairs");
               
-    FD_DF("GlobalR has " << globalR.Size() << " states");
-    FD_DF("GlobalI has " << globalI.Size() << " states");
+    // FD_DF("GlobalR has " << globalR.Size() << " states");
+    // FD_DF("GlobalI has " << globalI.Size() << " states");
 }
 
 } // namespace faudes

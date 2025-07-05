@@ -107,10 +107,10 @@ void RabinCtrlPartialObs(const System& rPlant,
 }
 
 // RabinCtrlPartialObs (explicit event sets)
-void RabinCtrlPartialObs(const RabinAutomaton& rPlant, 
+void RabinCtrlPartialObs(const RabinAutomaton& rSpec, 
                         const EventSet& rControllableEvents,
                         const EventSet& rObservableEvents,
-                        const RabinAutomaton& rSpec, 
+                        const RabinAutomaton& rPlant, 
                         RabinAutomaton& rSupervisor) {
     FD_DF("RabinCtrlPartialObs: explicit event sets");
     
@@ -142,35 +142,27 @@ void RabinCtrlPartialObs(const RabinAutomaton& rPlant,
         
         // STEP 1: Compute synchronous product of plant and specification
         FD_DF("RabinCtrlPartialObs: Step 1 - Computing product");
-        RabinAutomaton product;
-        RabinProduct(rPlant, rSpec, product);
+        RabinAutomaton Product;
+        RabinBuechiProduct(rSpec, rPlant, Product);
         
-        if (product.Empty()) {
+        if (Product.Empty()) {
             throw Exception("RabinCtrlPartialObs", 
                            "Product of plant and specification is empty", 302);
         }
         
-        FD_DF("RabinCtrlPartialObs: Product computed, states: " << product.Size());
+        FD_DF("RabinCtrlPartialObs: Product computed, states: " << Product.Size());
         
-        // STEP 2: Expand to control patterns
-        FD_DF("RabinCtrlPartialObs: Step 2 - Expanding to control patterns");
-        
-        RabinAutomaton expanded = ControlPatternGenerator::ExpandToControlPatterns(
-            product, rControllableEvents);
-        
-        if (expanded.Empty()) {
-            throw Exception("RabinCtrlPartialObs", 
-                           "Control pattern expansion resulted in empty automaton", 303);
-        }
-        
-        FD_DF("RabinCtrlPartialObs: Control patterns expanded, states: " << expanded.Size());
-        
-        // STEP 3: Apply epsilon observation (simple version like testdemo)
-        FD_DF("RabinCtrlPartialObs: Step 3 - Applying epsilon observation");
+        // STEP 2: Apply epsilon observation directly on product (skip control pattern expansion)
+        FD_DF("RabinCtrlPartialObs: Step 2 - Applying epsilon observation directly on product");
         RabinAutomaton epsObserved;
         
-        // Simple epsilon observation like testdemo - just apply it directly
-        EpsObservation(expanded, epsObserved);
+        Product.SetControllable(rControllableEvents);
+
+        EventSet allProductEvents = Product.Alphabet();
+        Product.ClrObservable(allProductEvents);
+        Product.SetObservable(rObservableEvents);
+        // Apply epsilon observation directly on the product
+        EpsObservation(Product, epsObserved);
         
         if (epsObserved.Empty()) {
             throw Exception("RabinCtrlPartialObs", 
@@ -179,8 +171,8 @@ void RabinCtrlPartialObs(const RabinAutomaton& rPlant,
         
         FD_DF("RabinCtrlPartialObs: Epsilon observation applied, states: " << epsObserved.Size());
         
-        // STEP 4: Pseudo-determinize the result
-        FD_DF("RabinCtrlPartialObs: Step 4 - Pseudo-determinization");
+        // STEP 3: Pseudo-determinize the result
+        FD_DF("RabinCtrlPartialObs: Step 3 - Pseudo-determinization");
         PseudoDet(epsObserved, *pSupervisor);
         
         if (pSupervisor->Empty()) {
@@ -190,8 +182,8 @@ void RabinCtrlPartialObs(const RabinAutomaton& rPlant,
         
         FD_DF("RabinCtrlPartialObs: Pseudo-determinization completed, states: " << pSupervisor->Size());
         
-        // STEP 5: Trim the result
-        FD_DF("RabinCtrlPartialObs: Step 5 - Trimming result");
+        // STEP 4: Trim the result
+        FD_DF("RabinCtrlPartialObs: Step 4 - Trimming result");
         pSupervisor->Trim();
         
         if (pSupervisor->Empty()) {
@@ -201,8 +193,8 @@ void RabinCtrlPartialObs(const RabinAutomaton& rPlant,
         
         FD_DF("RabinCtrlPartialObs: Trimming completed, final states: " << pSupervisor->Size());
         
-        // Set alphabet to original plant alphabet (remove control pattern extensions)
-        pSupervisor->InjectAlphabet(rPlant.Alphabet());
+        // Keep the alphabet as computed by PseudoDet (includes epsilon events)
+        // Do not reset to original plant alphabet since we need eps events
         
         FD_DF("RabinCtrlPartialObs: Synthesis completed successfully");
         
