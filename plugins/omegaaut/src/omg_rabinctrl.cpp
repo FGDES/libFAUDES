@@ -47,7 +47,8 @@ protected:
   const TransSetX2EvX1& rRevTransRel;
   EventSet mSigmaCtrl;
   /** record control patterns */
-  //TaIndexSet<EventSet> mCtrlPatterns;    
+  bool mRecCtrl=false;
+  TaIndexSet<EventSet> mController;
 public:
   /** construct to record context */
   RabinInvDynOperator(
@@ -59,14 +60,31 @@ public:
     rMarkedStates(gen.MarkedStates()),
     rTransRel(gen.TransRel()),
     rRevTransRel(revtrans),    
-    mSigmaCtrl(sigctrl)
+    mSigmaCtrl(sigctrl),
+    mRecCtrl(false)
   {
-    Name("void base class operator");
+    Name("void base class rabin-inv-dynamics operator");
     mArgCount=0;
   };
   /** overaall stateset */
   virtual const StateSet& Domain(void) const {
     return rDomain;
+  }
+  /** access control flag  */
+  void RecCtrl(bool on) { mRecCtrl=on; }
+  bool RecCtrl(void) { return mRecCtrl; }
+  /** acces control pattern */
+  TaIndexSet<EventSet>& Controller(void) { return mController; }
+  const TaIndexSet<EventSet>& Controller(void) const { return mController; }
+  void ClrCtrl(void) { mController.Clear(); }
+  void InsCtrl(const RabinInvDynOperator& rOther) {
+    if(!mRecCtrl) return;
+    const TaIndexSet<EventSet>& otherctrl=rOther.Controller();
+    IndexSet::Iterator sit=otherctrl.Begin();
+    IndexSet::Iterator sit_end=otherctrl.End();
+    for(;sit!=sit_end;++sit)
+      if(!mController.Exists(*sit))
+	mController.Insert(*sit,otherctrl.Attribute(*sit));
   }
 };      
 
@@ -98,19 +116,20 @@ public:
     mArgNames= std::vector<std::string>{"Z1","Z2"};
     mArgCount=2;
   };
-protected:  
+protected:
+  /** loop local vars */
+  EventSet mDisable;    
   /** actual operator implementation */
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
     // convenience accesors
     const StateSet& Z1=rArgs.At(0);
     const StateSet& Z2=rArgs.At(1);
-    // record controls
-    //EventSet disable;
     // do operate
     rRes=rRevTransRel.PredecessorStates(Z1);
     StateSet::Iterator sit=rRes.Begin();
     StateSet::Iterator sit_end=rRes.End();
     while(sit!=sit_end){
+      if(mRecCtrl) mDisable.Clear();
       TransSet::Iterator tit=rTransRel.Begin(*sit);
       TransSet::Iterator tit_end=rTransRel.End(*sit);
       bool enterZ1 = false;
@@ -123,11 +142,15 @@ protected:
 	// sucessor is neither in Z1 nor Z2: need to disable
     	if(!mSigmaCtrl.Exists(tit->Ev)){exitZ12 = true; break;}
 	// record controls
-	//disable.Insert(tit->Ev);
-      }      
-      if(!enterZ1 || exitZ12) rRes.Erase(sit++);
-      else++sit;
+	if(mRecCtrl) mDisable.Insert(tit->Ev);
+      }
+      // failed
+      if(!enterZ1 || exitZ12) {rRes.Erase(sit++); continue;}
+      // success
+      if(mRecCtrl) mController.Insert(*sit,rGen.Alphabet()-mDisable);
+      ++sit;
     }
+    
   }; 
 };      
     
@@ -158,7 +181,7 @@ public:
   };
 protected:  
   /** actual operator implementation */
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
     // convenience acsesors
     const StateSet& Y1=rArgs.At(0);
     const StateSet& Y2=rArgs.At(1);
@@ -177,13 +200,48 @@ protected:
     
 
 /*
-Inverse dynamics operator theta tilde, outer nu/mu iteration
+Inverse dynamics operator theta tilde, inner mu iteration
 */
-class  RabinInvDynThetaTilde : public RabinInvDynOperator {
+class  RabinInvDynThetaTildeInner : public RabinInvDynOperator {
 protected:
   /** additional context */
   RabinInvDynThetaTildeCore mThetaCore;
   MuIteration mMuThetaCore;
+public:
+  /** construct to record context */
+  RabinInvDynThetaTildeInner(
+    const vGenerator& gen, const TransSetX2EvX1& revtrans, const EventSet& sigctrl)
+  :
+    RabinInvDynOperator(gen,revtrans,sigctrl),
+    mThetaCore(gen,revtrans,sigctrl),
+    mMuThetaCore(mThetaCore)
+  {
+    FD_DF("RabinInvDynThetaTildeInner(): instantiated for " << rGen.Name());
+    Name("theta_tilde_inner_mu([Y1,Y2,Y3])");
+    mArgNames= std::vector<std::string>{"Y1","Y2","Y3"};
+    mArgCount=3;
+  };
+protected:  
+  /** actual operator implementation */
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
+    // pass on ctrl record flag
+    mThetaCore.RecCtrl(mRecCtrl);
+    mThetaCore.ClrCtrl();
+    // run mu iteration
+    mMuThetaCore.Evaluate(rArgs, rRes);
+    // merge controller
+    InsCtrl(mThetaCore);
+  };
+};      
+
+
+/*
+Inverse dynamics operator theta tilde, outer nu iteration
+*/
+class  RabinInvDynThetaTilde : public RabinInvDynOperator {
+protected:
+  /** additional context */
+  RabinInvDynThetaTildeInner mMuThetaCore;
   NuIteration mNuMuThetaCore;
 public:
   /** construct to record context */
@@ -191,8 +249,7 @@ public:
     const vGenerator& gen, const TransSetX2EvX1& revtrans, const EventSet& sigctrl)
   :
     RabinInvDynOperator(gen,revtrans,sigctrl),
-    mThetaCore(gen,revtrans,sigctrl),
-    mMuThetaCore(mThetaCore),
+    mMuThetaCore(gen,revtrans,sigctrl),
     mNuMuThetaCore(mMuThetaCore)
   {
     FD_DF("RabinInvDynThetaTilde(): instantiated for " << rGen.Name());
@@ -202,8 +259,25 @@ public:
   };
 protected:  
   /** actual operator implementation */
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
+    // plain fixpoint, dont record in inner mu
+    mMuThetaCore.RecCtrl(false);
     mNuMuThetaCore.Evaluate(rArgs, rRes);
+    // if we have been asked to record, run mu again with nu-var set to fixpoint
+    if(mRecCtrl) {
+      StateSetVector args;
+      args.AssignByReference(rArgs);
+      args.PushBack(&rRes);
+      mMuThetaCore.RecCtrl(true);
+      StateSet dummy;
+      mMuThetaCore.Evaluate(args,dummy);
+      InsCtrl(mMuThetaCore);
+//#ifdef FAUDES_DEBUG 
+      if(!dummy.Equal(rRes)) {
+	FD_ERR("RabinInvDynThetaTilde: internal errror in secondary run of mu iteration")
+      }
+//#endif
+    }
   };
 };      
 
@@ -221,25 +295,30 @@ mu iteration
 
 We use "U1/U2/U3" 
 */
-class  RabinInvDynPReachCore : public RabinInvDynThetaTilde {
+class  RabinInvDynPReachCore : public RabinInvDynOperator {
   /** additional context */
+  RabinInvDynThetaTilde mThetaTilde;
   RabinAcceptance::CIterator mRPit;
 public:
   /** construct to record context */
   RabinInvDynPReachCore(
     const RabinAutomaton& raut, const TransSetX2EvX1& revtrans, const EventSet& sigctrl)
   :
-    RabinInvDynThetaTilde(raut,revtrans,sigctrl),
+    RabinInvDynOperator(raut,revtrans,sigctrl),
+    mThetaTilde(raut,revtrans,sigctrl),
     mRPit(raut.RabinAcceptance().Begin())
   {
     FD_DF("RabinInvDynPReachCore(): instantiated for " << rGen.Name());
-    Name("invdyn_op([U1,U2,U3)");
+    Name("p_reach_core([U1,U2,U3)");
     mArgNames= std::vector<std::string>{"U1","U2","U3"};
     mArgCount=3;
   };
 protected:  
   /** actual operator implementation */
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
+    // pass on rec flag
+    mThetaTilde.RecCtrl(mRecCtrl);
+    mThetaTilde.ClrCtrl();
     // convenience accessors
     const StateSet& U1=rArgs.At(0);
     const StateSet& U2=rArgs.At(1);
@@ -248,15 +327,19 @@ protected:
     args.Size(2);
     StateSet& Y1=args.At(0);
     StateSet& Y2=args.At(1);
-    // do operate
+    // do operate a
     Y1=U1;
     Y2=Domain();
-    RabinInvDynThetaTilde::DoEvaluate(args,rRes);
+    mThetaTilde.Evaluate(args,rRes);
+    InsCtrl(mThetaTilde);
+    // do operate b
     Y1=U1+U2+U3;
     Y2=mRPit->ISet();
     StateSet rhs;
-    RabinInvDynThetaTilde::DoEvaluate(args,rhs);
+    mThetaTilde.Evaluate(args,rhs);
+    InsCtrl(mThetaTilde);
     rRes.InsertSet(rhs);
+    //std::cout << "p_reach_core: ctrl #" << mController.Size() << std::endl;
   };
 };      
     
@@ -276,14 +359,21 @@ public:
     mMuPReachCore(mPReachCore)
   {
     FD_DF("RabinInvDynPReach(): instantiated for " << rGen.Name());
-    Name("p_reach_op([O1,O2])");
+    Name("p_reach([O1,O2])");
     mArgNames= std::vector<std::string>{"O1","O2"};
     mArgCount=2;
   };
 protected:  
   /** actual operator implementation */
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
+    // pass on ctrl record flag
+    mPReachCore.RecCtrl(mRecCtrl);
+    mPReachCore.ClrCtrl();
+    // run mu iteration
     mMuPReachCore.Evaluate(rArgs, rRes);
+    // merge controller
+    InsCtrl(mPReachCore);
+    std::cout << "p_reach: ctrl #" << mController.Size() << std::endl;
   };
 };      
 
@@ -293,9 +383,9 @@ Controllable subset
 Cite Thistle/Wonham "Control of w-Automata, Church's Problem, and the Emptiness
 Problem for Tree w-Automata", 1992, Def 8.5
 
-CA = mu X1 nu X2 . p-reach(X1, X2 * R)
+CA = mu X1 nu X2 . p-reach(X1, X2 * Rp)
 
-We first implement the core formular without the mu/nu iteration, and then do the mu/nu.
+We first implement the core formula without the mu/nu iteration, and then do the mu/nu.
 
 */
 class  RabinInvDynCtrlCore : public RabinInvDynPReach {
@@ -310,13 +400,13 @@ public:
     mRPit(raut.RabinAcceptance().Begin())
   {
     FD_DF("RabinInvDynCtrlCore(): instantiated for " << rGen.Name());
-    Name("ctrl([X1,X2])");
+    Name("ctrl_core([X1,X2])");
     mArgNames= std::vector<std::string>{"X1","X2"};
     mArgCount=2;
   };
 protected:  
   /** actual operator implementation */
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
     // convenience accessors
     const StateSet& X1=rArgs.At(0);
     const StateSet& X2=rArgs.At(1);
@@ -331,12 +421,56 @@ protected:
   };
 };      
     
-/** controllable set, mu-nu iteration */
-class  RabinInvDynCtrl : public RabinInvDynOperator {
+/** controllable set, inner nu iteration */
+class  RabinInvDynCtrlInner : public RabinInvDynOperator {
 protected:
   /** have additional context */
   RabinInvDynCtrlCore mCtrlCore;
   NuIteration mNuCtrlCore;
+public:
+  /** construct to record context */
+  RabinInvDynCtrlInner(
+    const RabinAutomaton& raut, const TransSetX2EvX1& revtrans, const EventSet& sigctrl)
+  :
+    RabinInvDynOperator(raut,revtrans,sigctrl),
+    mCtrlCore(raut,revtrans,sigctrl),
+    mNuCtrlCore(mCtrlCore)
+  {
+    FD_DF("RabinInvDynCtrlInner(): instantiated for " << rGen.Name());
+    Name("ctrl_inner_nu([X1])");
+    mArgNames= std::vector<std::string>{"X1"};
+    mArgCount=1;
+  };
+protected:  
+  /** actual operator implementation */
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
+    // plain fixpoint, dont record 
+    mCtrlCore.RecCtrl(false);
+    mNuCtrlCore.Evaluate(rArgs, rRes);
+    // if we have been asked to record, nu-var set to fixpoint
+    if(mRecCtrl) {
+      StateSetVector args;
+      args.AssignByReference(rArgs);
+      args.PushBack(&rRes);
+      mCtrlCore.RecCtrl(true);
+      StateSet dummy;
+      mCtrlCore.Evaluate(args,dummy);
+      InsCtrl(mCtrlCore);
+//#ifdef FAUDES_DEBUG 
+      if(!dummy.Equal(rRes)) {
+	FD_ERR("RabinInvDynCtrlInner: internal errror in secondary run of mu iteration")
+      }
+//#endif      
+      std::cout << "ctrl_inner: ctrl #" << mController.Size() << std::endl;
+    }
+  };
+};      
+
+/** controllable set, outer mu iteration */
+class  RabinInvDynCtrl : public RabinInvDynOperator {
+protected:
+  /** have additional context */
+  RabinInvDynCtrlInner mNuCtrlCore;
   MuIteration mMuNuCtrlCore;
 public:
   /** construct to record context */
@@ -344,8 +478,7 @@ public:
     const RabinAutomaton& raut, const TransSetX2EvX1& revtrans, const EventSet& sigctrl)
   :
     RabinInvDynOperator(raut,revtrans,sigctrl),
-    mCtrlCore(raut,revtrans,sigctrl),
-    mNuCtrlCore(mCtrlCore),
+    mNuCtrlCore(raut,revtrans,sigctrl),
     mMuNuCtrlCore(mNuCtrlCore)
   {
     FD_DF("RabinInvDynCtrl(): instantiated for " << rGen.Name());
@@ -354,8 +487,15 @@ public:
   };
 protected:  
   /** actual operator implementation */
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
+    // pass on ctrl record flag
+    mNuCtrlCore.RecCtrl(mRecCtrl);
+    mNuCtrlCore.ClrCtrl();
+    // run mu iteration
     mMuNuCtrlCore.Evaluate(rArgs, rRes);
+    // merge controller
+    InsCtrl(mNuCtrlCore);
+    std::cout << "ctrl: ctrl #" << mController.Size() << std::endl;
   };
 };      
 
@@ -382,6 +522,30 @@ void RabinCtrlPfx(
 };
 
 
+// API  
+void RabinCtrlPfx(
+  const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl,
+  TaIndexSet<EventSet>& rController)
+{
+  // can only handle one Rabin pair
+  if(rRAut.RabinAcceptance().Size()!=1){
+    std::stringstream errstr;
+    errstr << "the current implementation requires exactly one Rabin pair";
+    throw Exception("RabinCtrlPfx", errstr.str(), 80);
+  }
+  // set up various helper
+  TransSetX2EvX1 revtrans(rRAut.TransRel());
+  EventSet sigctrl(rSigmaCtrl);
+  // have operator
+  RabinInvDynCtrl ctrl(rRAut,revtrans,sigctrl);
+  ctrl.RecCtrl(true);
+  // run
+  StateSet ctrlpfx;
+  ctrl.Evaluate(ctrlpfx);
+  rController.Assign(ctrl.Controller());
+};
+
+
 // API void RabinCtrlPfx(
 void RabinCtrlPfx(
   const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl,
@@ -400,7 +564,7 @@ void RabinCtrlPfx(
   RabinCtrlPfx(rRAut,rSigmaCtrl,ctrlpfx);
   pResGen->Assign(rRAut);
   pResGen->InjectMarkedStates(ctrlpfx);
-  pResGen->Trim();;
+  pResGen->Trim();
 
   // copy result
   if(pResGen != &rResGen) {

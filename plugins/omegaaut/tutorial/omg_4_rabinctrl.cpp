@@ -75,11 +75,15 @@ int main() {
   std::cout << "====== first candidate" << std::endl;
   cand.Write();
 
+  // turn on mu-nu protocol
+  Verbosity(10);
 
   // compute controllability prefix
   StateSet ctrlpfx;
   RabinCtrlPfx(cand,sigctrl,ctrlpfx);
+  std::cout << "====== controllability prefix" << std::endl;
   cand.WriteStateSet(ctrlpfx);
+  std::cout << std::endl;
   RabinAutomaton cpxaut=cand;                   // dox only
   RabinPair rpair;                              // dox only
   cpxaut.RabinAcceptance().Append(rpair);       // dox only
@@ -89,7 +93,14 @@ int main() {
   cpxaut.Write("tmp_omg_4_ctrlpfx13.gen");      // dox only
 
   
-  //cand.RestrictStates(ctrlpfx);
+  // compute controller
+  TaIndexSet<EventSet> controller;
+  RabinCtrlPfx(cand,sigctrl,controller);
+  std::cout << "====== controller" << std::endl;
+  cand.WriteStateSet(controller);
+  std::cout << std::endl;
+
+  // compute supremal controllable sublanguage
   cand.ClearMarkedStates();
   cand.InsMarkedStates(ctrlpfx);
   SupClosed(cand,cand);

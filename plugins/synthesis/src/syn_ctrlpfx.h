@@ -138,7 +138,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const =0;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) =0;
 
 };
 
@@ -185,7 +185,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes);
   
 
   /** set up context references */
@@ -302,7 +302,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes);
   
   /** the base operator to iterate with */
   const StateSetOperator& mrOp;
@@ -372,7 +372,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes);
 
   /** the base operator to iterate on */
   const StateSetOperator& mrOp;

@@ -71,6 +71,26 @@ extern FAUDES_API void RabinCtrlPfx(
   const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl,
   Generator& rCtrlPfx);
 
+
+/**
+ * Controllability prefix for Rabin automata.
+ *
+ * API wrapper to return a controller
+ *
+ * @param rRAut
+ *   Automaton to control
+ * @param rSigmaCtrl
+ *   Set of controllable events
+ * @param rConyroller
+ *   Map from states to enabled events.
+ *
+ * @ingroup OmgPlugin
+ */
+extern FAUDES_API void RabinCtrlPfx(
+  const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl,
+  TaIndexSet<EventSet>& rController);
+
+  
 /**
  * Omega-synthesis w.r.t. Buechi/Rabin acceptance condition
  *

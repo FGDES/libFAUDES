@@ -47,7 +47,7 @@ void StateSetOperator::Evaluate(StateSetVector& rArgs, StateSet& rRes) const {
       " provided argumenst #" << rArgs.Size();
     throw Exception("StateSetOperator::Evaluate", errstr.str(), 80);
   }
-  DoEvaluate(rArgs,rRes); 
+  const_cast<StateSetOperator*>(this)->DoEvaluate(rArgs,rRes); 
 }
 
 // API wrapper, single argument  
@@ -60,7 +60,7 @@ void StateSetOperator::Evaluate(StateSet& rArg, StateSet& rRes) const {
   }
   StateSetVector args;
   args.PushBack(&rArg);
-  DoEvaluate(args,rRes); 
+  const_cast<StateSetOperator*>(this)->DoEvaluate(args,rRes); 
 }
 
 // API wrapper, no arguments 
@@ -72,7 +72,7 @@ void StateSetOperator::Evaluate(StateSet& rRes) const {
     throw Exception("StateSetOperator::Evaluate", errstr.str(), 80);
   }
   static StateSetVector args;
-  DoEvaluate(args,rRes); 
+  const_cast<StateSetOperator*>(this)->DoEvaluate(args,rRes); 
 }
 
 // signature, i.e., the number of arguments */
@@ -137,7 +137,7 @@ const StateSet& CtrlPfxOperator::Domain(void) const {
 }  
 
 // evaluation
-void CtrlPfxOperator::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+void CtrlPfxOperator::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
   FD_DF("CtrlPfxOperator::DoEvaluate(): " << Name());
   // prepare result
   rRes.Clear();
@@ -224,7 +224,7 @@ const StateSet& MuIteration::Domain(void) const {
 }  
 
 // evaluation
-void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
   // prepare progress message
   std::string prog;
   if(Verbosity()>=10) {
@@ -350,7 +350,7 @@ const StateSet& NuIteration::Domain(void) const {
 }  
 
 // evaluation
-void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const {
+void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
   // prepare progress message
   std::string prog;
   if(Verbosity()>=10) {
