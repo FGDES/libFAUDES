@@ -583,11 +583,12 @@ void SupRabinCon(
   // consitenct check
   ControlProblemConsistencyCheck(rBPlant, rCAlph, rRSpec);  
   // prepare result
+  bool snames= rBPlant.StateNamesEnabled() &&  rRSpec.StateNamesEnabled() &&  rRes.StateNamesEnabled();    
   RabinAutomaton* pRes = &rRes;
   if(dynamic_cast<Generator*>(pRes)== &rBPlant || pRes== &rRSpec) {
     pRes= rRes.New();
   }
-  // execute: set up cloed loop candidate
+  // execute: set up closed loop candidate
   pRes->Assign(rRSpec);
   pRes->ClearMarkedStates();
   Automaton(*pRes);
@@ -616,12 +617,14 @@ void SupRabinCon(
 void SupRabinCon(
   const System& rBPlant, 
   const RabinAutomaton& rRSpec, 
-  RabinAutomaton& rRes) {
+  RabinAutomaton& rRes)
+{
   // prepare result
   RabinAutomaton* pRes = &rRes;
   if(dynamic_cast<Generator*>(pRes)== &rBPlant || pRes== &rRSpec) {
     pRes= rRes.New();
   }
+  pRes->StateNamesEnabled(rRes.StateNamesEnabled());
   // execute 
   SupRabinCon(rBPlant, rBPlant.ControllableEvents(),rRSpec,*pRes);
   // copy all attributes of input alphabet
@@ -641,11 +644,13 @@ void RabinCtrl(
   const RabinAutomaton& rRSpec, 
   Generator& rRes) 
 {
-  // consitenct check
+  // consitency check
   ControlProblemConsistencyCheck(rBPlant, rCAlph, rRSpec);  
-  // execute: set up cloed loop candidate
+  // execute: set up closed loop candidate
+  bool snames= rBPlant.StateNamesEnabled() &&  rRSpec.StateNamesEnabled() &&  rRes.StateNamesEnabled();    
   RabinAutomaton cand;
   cand.Assign(rRSpec);
+  cand.StateNamesEnabled(snames);
   cand.ClearMarkedStates();
   Automaton(cand);
   RabinBuechiProduct(cand,rBPlant,cand);
@@ -680,7 +685,97 @@ void RabinCtrl(
   rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
 }
 
+// API warpper
+void RabinCtrl(
+  const Generator& rBPlant, 
+  const EventSet& rCAlph, 
+  const Generator& rGLSpec, 
+  const RabinAutomaton& rRUSpec, 
+  Generator& rRes) 
+{
+  // consitency check
+  ControlProblemConsistencyCheck(rBPlant, rCAlph, rRUSpec);  
+  ControlProblemConsistencyCheck(rBPlant, rCAlph, rGLSpec);
+  /*
+  // execute: set up ctrlpfx
+  bool snames= false;
+  RabinAutomaton cand;
+  cand.Assign(rRSpec);
+  cand.StateNamesEnabled(snames);
+  cand.ClearMarkedStates();
+  Automaton(cand);
+  RabinBuechiProduct(cand,rBPlant,cand);
+  // execute: compute controllability prefix incl greedy controller
+  TaIndexSet<EventSet> controller;
+  RabinCtrlPfx(cand,rCAlph,controller);
+  // execute: trim to pre SupCon
+  cand.ClearMarkedStates();
+  cand.InsMarkedStates(ctrlpfx);
+  SupClosed(cand,cand);
+  cand.RestrictStates(cand.States()); // fix Rabin pairs
 
+  // todo: test lim LSpec cap L subseteq SupCon (!!)
+  // q: is this impplied by  LSpec seubseteq pre SupCon ?
+  
+  // excute: compose with LSpec given as generated language
+  Generator lspec=LSpec;
+  lspec.ClearMarkedStates();
+  Idx ds=Automaton(lspec);
+  ProductCompositionMap cmap;
+  Generator rRes;
+  Parallel(lspec,cand,rRes,cmap);  
+  // execute: apply control patterns on exit of lspec;
+  TransSet::Iterator tit=rRes.TransRelBegin();
+  Idx cx=0;
+  const EventSet* pctrlpat=nullptr;
+  while(tit!=rRes.TransRelEnd()) {
+    if(cx!=tit->X1) {
+      cx=tit->X1; 
+      pctrlpat=nullptr;
+      lsx = cmap.Arg1State(tit->X1);
+      scx = cmap.Arg2State(tit->X1);
+      if(lsx==ds)
+        if(controller.Exists(scx))
+  	  pctrlpat=&controller.Attribute(scx);
+    }
+    if(pctrlpat) {
+      if(pctrlpat->Exists(tit->Ev)) {
+        ++tit;
+        continue;
+      }
+    }
+    rRes.ClrTransition(tit++);
+  }
+  // execute: polish
+  rRes.Accessible();
+  rRes.ClearMarkedStates();
+  rRes.RestrictStates(cand.States());
+  rRes.Assign(cand);
+  */
+  rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRUSpec.Name()+"))"));
+}
+
+// API warpper
+void RabinCtrl(
+  const System& rBPlant, 
+  const RabinAutomaton& rRSpec, 
+  Generator& rRes) 
+{
+  // prepare result
+  Generator* pRes = &rRes;
+  if(dynamic_cast<System*>(pRes)== &rBPlant || dynamic_cast<RabinAutomaton*>(pRes)== &rRSpec) {
+    pRes= rRes.New();
+  }
+  // execute 
+  RabinCtrl(rBPlant, rBPlant.ControllableEvents(),rRSpec,*pRes);
+  // copy all attributes of input alphabet
+  pRes->EventAttributes(rBPlant.Alphabet());
+  // copy result
+  if(pRes != &rRes) {
+    pRes->Move(rRes);
+    delete pRes;
+  }
+}
 
   
 } // namespace faudes

@@ -336,7 +336,7 @@ bool LanguageDisjoint(const Generator& rGen1, const Generator& rGen2) {
 }
 
 // Automaton(rGen)
-void Automaton(Generator& rGen, const EventSet& rAlphabet) {
+Idx Automaton(Generator& rGen, const EventSet& rAlphabet) {
   FD_DF("Automaton("<< rGen.Name() << "," << rAlphabet.Name() << ")");
     
   TransSet::Iterator tit;
@@ -464,23 +464,28 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
   }
   
   // if no transition was introduced (except for selfloops), remove dump state
-  if(!dumpReached) 
+  if(!dumpReached) {
     rGen.DelState(dump);
+    dump=0;
+  }
+  
+  return dump;
 }
 
 // API warpper Automaton(rGen,rRes)
-void Automaton(const Generator& rGen, Generator& rRes) {
+Idx Automaton(const Generator& rGen, Generator& rRes) {
   FD_DF("Automaton("<< rGen.Name() << ", ...)");
   rRes=rGen;
-  Automaton(rRes);
+  return Automaton(rRes);
 }
   
 // Automaton(rGen)
-void Automaton(Generator& rGen) {
+Idx Automaton(Generator& rGen) {
   FD_DF("Automaton("<< rGen.Name() << ")");
   std::string name=rGen.Name();
-  Automaton(rGen,rGen.Alphabet());    
+  Idx ds=Automaton(rGen,rGen.Alphabet());    
   rGen.Name(CollapsString("Automaton(" + name + ")"));
+  return ds;
 }
 
 // LanguageComplement(rGen,rAlphabet)

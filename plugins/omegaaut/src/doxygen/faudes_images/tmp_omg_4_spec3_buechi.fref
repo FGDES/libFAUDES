@@ -18,7 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="A-B-Spec-Eventually-B" ftype="RabinAutomaton"&gt;
+&lt;Generator name="A-B-Spec-Eventually-B"&gt;
 
 % 
 %  Statistics for A-B-Spec-Eventually-B
@@ -57,7 +57,7 @@ A
 B            
 &lt;/MarkedStates&gt;
 
-&lt;RabinAcceptance/&gt;
+
 &lt;/Generator&gt;
 
 </pre>

@@ -18,16 +18,16 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="A-B-Spec-Eventually-B" ftype="RabinAutomaton"&gt;
+&lt;Generator name="Automaton(A-B-Spec-Eventually-B)" ftype="RabinAutomaton"&gt;
 
 % 
-%  Statistics for A-B-Spec-Eventually-B
+%  Statistics for Automaton(A-B-Spec-Eventually-B)
 % 
-%  States:        2
+%  States:        3
 %  Init/Marked:   1/0
 %  Events:        4
-%  Transitions:   7
-%  StateSymbols:  2
+%  Transitions:   12
+%  StateSymbols:  3
 %  Attrib. E/S/T: 0/0/0
 % 
 
@@ -36,7 +36,7 @@ a             b             c             d
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
-A             B            
+A             B             dump         
 &lt;/States&gt;
 
 &lt;TransRel&gt;
@@ -44,9 +44,14 @@ A             a             A
 A             b             B            
 A             c             A            
 A             d             A            
+B             a             dump         
 B             b             B            
 B             c             A            
 B             d             B            
+dump          a             dump         
+dump          b             dump         
+dump          c             dump         
+dump          d             dump         
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;

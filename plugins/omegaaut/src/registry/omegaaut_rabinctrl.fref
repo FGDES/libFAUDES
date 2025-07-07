@@ -121,7 +121,7 @@ a single Rabin pair and have extended the transition structure to a full automat
 
 <table class="images"> 
 <tr> <td> specification E </td></tr>
-<tr> <td> <fimage fsrc="tmp_omg_4_spec3_rabinfull.gen"/> </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_spec3_rabin.gen"/> </td></tr>
 </table>
 
 <p>

@@ -55,22 +55,23 @@ int main() {
   const System& plant=machineab1;
   plant.Write("tmp_omg_4_plant1.gen");
   const Generator&  spec=specab3;  
+  spec.Write("tmp_omg_4_spec3_buechi.gen");
   EventSet sigall = plant.Alphabet() + spec.Alphabet();
   EventSet sigctrl = plant.ControllableEvents();
 
-  // set up cloed loop candidate
-  RabinAutomaton cand=spec;
-  cand.Write("tmp_omg_4_spec3_buechi.gen");
-  cand.RabinAcceptance(cand.MarkedStates());
-  cand.ClearMarkedStates();
-  cand.Write("tmp_omg_4_spec3_rabin.gen");
-  InvProject(cand,sigall);
-  Automaton(cand);
-  cand.Write("tmp_omg_4_spec3_rabinfull.gen");
-  RabinAutomaton rbaut;                         // dox only
-  RabinBuechiAutomaton(cand,plant,rbaut);       // dox only
-  rbaut.Write("tmp_omg_4_rbaut13.gen");         // dox only
-  RabinBuechiProduct(cand,plant,cand);
+  // preprocess lazy spec
+  RabinAutomaton rspec=spec;
+  rspec.RabinAcceptance(rspec.MarkedStates());
+  rspec.ClearMarkedStates();
+  InvProject(rspec,sigall);
+  Automaton(rspec);
+  rspec.Write("tmp_omg_4_spec3_rabin.gen");
+
+  // construct rabin-buechi automaton as base candidate
+  RabinAutomaton cand;                          
+  RabinBuechiAutomaton(rspec,plant,cand);       // dox only
+  cand.Write("tmp_omg_4_rbaut13.gen");          // dox only
+  RabinBuechiProduct(rspec,plant,cand);
   cand.Write("tmp_omg_4_cand13.gen");
   std::cout << "====== first candidate" << std::endl;
   cand.Write();
@@ -85,37 +86,41 @@ int main() {
   cand.WriteStateSet(ctrlpfx);
   std::cout << std::endl;
 
-  // doc only: have a visual by a muck rabin R-Set
-  RabinAutomaton cpxaut=cand;                   // dox only
-  RabinPair rpair;                              // dox only
-  cpxaut.RabinAcceptance().Append(rpair);       // dox only
-  cpxaut.RabinAcceptance().Append(rpair);       // dox only
-  rpair.RSet().InsertSet(ctrlpfx);              // dox only
-  cpxaut.RabinAcceptance().Append(rpair);       // dox only
-  cpxaut.Write("tmp_omg_4_ctrlpfx13.gen");      // dox only
+  // dox only: have a visual by a muck rabin R-Set
+  RabinAutomaton cpxaut=cand;                   
+  RabinPair rpair;                              
+  cpxaut.RabinAcceptance().Append(rpair);       
+  cpxaut.RabinAcceptance().Append(rpair);       
+  rpair.RSet().InsertSet(ctrlpfx);             
+  cpxaut.RabinAcceptance().Append(rpair);  
+  cpxaut.Write("tmp_omg_4_ctrlpfx13.gen");
 
+  // demo supcon API wrapper
+  RabinAutomaton supcon;
+  SupRabinCon(plant,rspec,supcon);
+  supcon.Write("tmp_omg_4_supcon13.gen");
   
-  // compute controller
+  // minimze supcon to compare with SupBuechiCon
+  Generator test=supcon;
+  test.StateNamesEnabled(false);
+  test.InjectMarkedStates(cand.RabinAcceptance().Begin()->RSet());
+  StateMin(test,test);
+  test.Write("tmp_omg_4_supmin13.gen");
+
+  // compute greedy controller
   TaIndexSet<EventSet> controller;
   RabinCtrlPfx(cand,sigctrl,controller);
   std::cout << "====== controller" << std::endl;
   cand.WriteStateSet(controller);
   std::cout << std::endl;
 
-  // compute supremal controllable sublanguage
-  cand.ClearMarkedStates();
-  cand.InsMarkedStates(ctrlpfx);
-  SupClosed(cand,cand);
-  cand.ClearMarkedStates();
-  cand.RestrictStates(cand.States());
-  cand.Write("tmp_omg_4_supcon13.gen");
+  // demo greedy controller  API wrapper
+  Generator ctrl;
+  ctrl.StateNamesEnabled(false);
+  RabinCtrl(plant,rspec,ctrl);
+  StateMin(ctrl,ctrl);
+  ctrl.Write("tmp_omg_4_ctrl13.gen");
 
-  // finalise result to compare with SupBuechiCon
-  Generator test=cand;
-  test.StateNamesEnabled(false);
-  test.InjectMarkedStates(cand.RabinAcceptance().Begin()->RSet());
-  StateMin(test,test);
-  test.Write("tmp_omg_4_rabinctrl13.gen");
   
   return 0;
 }

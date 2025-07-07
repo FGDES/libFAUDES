@@ -18,21 +18,21 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="SupClosed(Automaton(A-B-Spec-Eventually-B).x.A-B-Machine)" ftype="RabinAutomaton"&gt;
+&lt;Generator name="SupRabinCon((A-B-Machine),(Automaton(A-B-Spec-Eventually-B)))" ftype="RabinAutomaton"&gt;
 
 % 
-%  Statistics for SupClosed(Automaton(A-B-Spec-Eventually-B).x.A-B-Machine)
+%  Statistics for SupRabinCon((A-B-Machine),(Automaton(A-B-Spec-Eventually-B)))
 % 
 %  States:        7
 %  Init/Marked:   1/0
 %  Events:        4
 %  Transitions:   13
 %  StateSymbols:  7
-%  Attrib. E/S/T: 0/0/0
+%  Attrib. E/S/T: 2/0/0
 % 
 
 &lt;Alphabet&gt;
-a             b             c             d            
+a             +C+           b             +C+           c             d            
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
