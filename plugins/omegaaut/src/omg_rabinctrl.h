@@ -160,6 +160,41 @@ extern FAUDES_API void SupRabinCon(
   const RabinAutomaton& rRSpec, 
   RabinAutomaton& rRes);
 
+
+/**
+ * Omega-synthesis w.r.t. Buechi/Rabin acceptance condition
+ *
+ * Computation of the "greedy" supervisor that runs for early acceptance.
+ *
+ * Parameter restrictions: both generators must be deterministic and 
+ * refer to the same alphabet.
+ *
+ *
+ * @param rPlantGen
+ *   Plant G
+ * @param rCAlph
+ *   Controllable events
+ * @param rSpecGen
+ *   Specification Generator E
+ * @param rRes
+ *   Greedy Controller.
+ *
+ * @exception Exception
+ *   - alphabets of generators don't match (id 100)
+ *   - plant nondeterministic (id 201)
+ *   - spec nondeterministic (id 203)
+ *   - plant and spec nondeterministic (id 204)
+ *
+ * @ingroup OmgPlugin
+ *
+ */
+extern FAUDES_API void RabinCtrl(
+  const Generator& rBPlant, 
+  const EventSet&  rCAlph,
+  const RabinAutomaton& rRSpec, 
+  Generator& rRes);
+
+
   
 
 } // namespace faudes

@@ -47,7 +47,7 @@ is said to be <i>omega-controllable</i> w.r.t. <fimath>(L,\Sigma_{uc})</fimath>.
 </p>
 
 <p>
-To appreciate the above devinition, observe that the two conditions (i) and (ii) imposed on  <fimath>V</fimath>
+To appreciate the above defnition, observe that the two conditions (i) and (ii) imposed on  <fimath>V</fimath>
 render <fimath>V</fimath> a closed-loop behaviour that can be enforced by a closed controller; see also
 <a href="omegaaut_buechictrl.html">supervisory control w.r.t. Buechi acceptance</a>. Thus, if for whatever reasons the
 plant has generated a finite word from the controllability prefix, we could then activate a supervisor

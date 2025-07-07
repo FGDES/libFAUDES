@@ -84,6 +84,8 @@ int main() {
   std::cout << "====== controllability prefix" << std::endl;
   cand.WriteStateSet(ctrlpfx);
   std::cout << std::endl;
+
+  // doc only: have a visual by a muck rabin R-Set
   RabinAutomaton cpxaut=cand;                   // dox only
   RabinPair rpair;                              // dox only
   cpxaut.RabinAcceptance().Append(rpair);       // dox only

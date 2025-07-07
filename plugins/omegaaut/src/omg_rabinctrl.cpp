@@ -272,11 +272,11 @@ protected:
       StateSet dummy;
       mMuThetaCore.Evaluate(args,dummy);
       InsCtrl(mMuThetaCore);
-//#ifdef FAUDES_DEBUG 
+#ifdef FAUDES_DEBUG 
       if(!dummy.Equal(rRes)) {
 	FD_ERR("RabinInvDynThetaTilde: internal errror in secondary run of mu iteration")
       }
-//#endif
+#endif
     }
   };
 };      
@@ -456,11 +456,11 @@ protected:
       StateSet dummy;
       mCtrlCore.Evaluate(args,dummy);
       InsCtrl(mCtrlCore);
-//#ifdef FAUDES_DEBUG 
+#ifdef FAUDES_DEBUG 
       if(!dummy.Equal(rRes)) {
 	FD_ERR("RabinInvDynCtrlInner: internal errror in secondary run of mu iteration")
       }
-//#endif      
+#endif      
       std::cout << "ctrl_inner: ctrl #" << mController.Size() << std::endl;
     }
   };
@@ -632,6 +632,55 @@ void SupRabinCon(
     delete pRes;
   }
 }
+
+
+// API warpper
+void RabinCtrl(
+  const Generator& rBPlant, 
+  const EventSet& rCAlph, 
+  const RabinAutomaton& rRSpec, 
+  Generator& rRes) 
+{
+  // consitenct check
+  ControlProblemConsistencyCheck(rBPlant, rCAlph, rRSpec);  
+  // execute: set up cloed loop candidate
+  RabinAutomaton cand;
+  cand.Assign(rRSpec);
+  cand.ClearMarkedStates();
+  Automaton(cand);
+  RabinBuechiProduct(cand,rBPlant,cand);
+  // execute: compute controllability prefix incl greedy controller
+  TaIndexSet<EventSet> controller;
+  RabinCtrlPfx(cand,rCAlph,controller);
+  // execute: apply control patterns
+  StateSet::Iterator sit;
+  TransSet::Iterator tit=cand.TransRelBegin();
+  Idx cx=0;
+  const EventSet* pctrlpat=nullptr;
+  while(tit!=cand.TransRelEnd()) {
+    if(cx!=tit->X1) {
+      cx=tit->X1;
+      pctrlpat=nullptr;
+      if(controller.Exists(cx))
+	pctrlpat=&controller.Attribute(cx);
+    }
+    if(pctrlpat) {
+      if(pctrlpat->Exists(tit->Ev)) {
+        ++tit;
+        continue;
+      }
+    }
+    cand.ClrTransition(tit++);
+  }
+  // execute: polish
+  cand.Accessible();
+  cand.ClearMarkedStates();
+  cand.RestrictStates(cand.States());
+  rRes.Assign(cand);
+  rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
+}
+
+
 
   
 } // namespace faudes
