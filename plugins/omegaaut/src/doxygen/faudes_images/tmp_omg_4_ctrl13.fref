@@ -23,10 +23,10 @@ Token IO
 % 
 %  Statistics for RabinCtrl((A-B-Machine),(Automaton(A-B-Spec-Eventually-B))) [minstate]
 % 
-%  States:        2
-%  Init/Marked:   1/0
+%  States:        3
+%  Init/Marked:   1/1
 %  Events:        4
-%  Transitions:   3
+%  Transitions:   4
 %  StateSymbols:  0
 %  Attrib. E/S/T: 0/0/0
 % 
@@ -36,20 +36,24 @@ a             b             c             d
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
-1              2             
+1              2              3             
 &lt;/States&gt;
 
 &lt;TransRel&gt;
 1              b             2             
 2              c             1             
-2              d             1             
+2              d             3             
+3              b             2             
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;
 1             
 &lt;/InitStates&gt;
 
-&lt;MarkedStates/&gt;
+&lt;MarkedStates&gt;
+1             
+&lt;/MarkedStates&gt;
+
 
 &lt;/Generator&gt;
 

@@ -23,6 +23,7 @@ OMG_CPPFILES = \
   omg_rabinaut.cpp \
   omg_rabinfnct.cpp \
   omg_rabinctrl.cpp \
+  omg_rabinctrlrk.cpp \
   omg_controlpattern.cpp \
   omg_pseudodet.cpp \
   omg_rabinctrlpartialobs.cpp

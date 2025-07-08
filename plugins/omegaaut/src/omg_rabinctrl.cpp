@@ -1,8 +1,5 @@
-/** @file omg_rabinctrl.cpp
+/** @file omg_rabinctrl.cpp Controller synthesis for Rabin automata */
 
-Operations regarding omega languages accepted by Rabin automata
-
-*/
 
 /* FAU Discrete Event Systems Library (libFAUDES)
 
@@ -28,12 +25,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #include "omg_rabinfnct.h"
 #include "syn_include.h"
 
-// local degug
+// local debug via FD_DF
 //#undef FD_DF
 //#define FD_DF(m) FD_WARN(m)
 
+// local debug via FAUDES_DEBUG_RABINCTRL
+//#define FAUDES_DEBUG_RABINCTRL
+
 namespace faudes {
 
+/*  
+*****************************************************************
+*****************************************************************
+*****************************************************************
+
+Implementation of the fixpoint iteration proposed by Thistle/Wonham
+in "Control of w-Automata, Church's Problem, and the Emptiness Problem
+for Tree w-Automata", 1992.
+
+The iteration is ran on a transitions structure with two independent
+acceptance conditions, one Rabin and one Buechi. The result is the so
+so called controllable set, i.e., the set of states for which there
+exit individual control patterns such that in the controlled system,
+the Buechi acceptance condition (think of plant liveness properties)
+implies the Rabin acceptance condition (think of specification
+liveness requirements).
+
+At the current stage we only address specifications with a single
+Rabin pair, as this is our current use case. 
+
+*****************************************************************
+*****************************************************************
+*****************************************************************
+*/
+  
 /*
 Base class for my operators to hold context
 */
@@ -500,6 +525,29 @@ protected:
 };      
 
 
+/*  
+*****************************************************************
+*****************************************************************
+*****************************************************************
+
+API wrappers to compute the controllability prefix. The latter is
+defined by Thistle/Wonham in "Supervision of Infinite Behavior of
+Discrete-Event Systems, 1994. It is the star-language which consists
+of all words such that thereafter a controller exits to enforce
+the specification. The controllability prefix relates to the
+controllable set as follows:
+
+Given a plant L and a specification E subseteq L, assume we have
+a transition systems such that L is accepted by a Buechi acceptance
+condition and E is appected by a Rabin aceptance condition. We refer
+to this as the candidate. The controllable set of the candidate then
+marks the controllability prefix on the same transition structur.
+
+
+*****************************************************************
+*****************************************************************
+*****************************************************************
+*/
 
 // API  
 void RabinCtrlPfx(
@@ -573,6 +621,36 @@ void RabinCtrlPfx(
   }
 }
 
+/*  
+*****************************************************************
+*****************************************************************
+*****************************************************************
+
+API wrappers for the supremal omega-controllable sublanguage.
+
+The supremal controllable sublanguage relates to the controllability
+prefix as follows.
+
+Given a plant L and a specification E, set up the candidate and
+compute the controllability prexis CFX. Then
+
+K := lim sup-closed-sublanguage(CFX) cap E
+
+is the supremal omega-controllable sublanguage of E.
+
+Thistle/Wonham give in " Supervision of Infinite Behavior of Discrete-Event",
+1994, the slightly different formula
+
+K := lim sup-closed-and-controllabe--sublanguage(CFX) cap E,
+
+but since only controllable envents can exit CFX to pre L both
+formulae should yield the same result.
+
+*****************************************************************
+*****************************************************************
+*****************************************************************
+*/
+
 // API warpper
 void SupRabinCon(
   const Generator& rBPlant, 
@@ -637,6 +715,33 @@ void SupRabinCon(
 }
 
 
+/*  
+*****************************************************************
+*****************************************************************
+*****************************************************************
+
+API wrappers for controller syntheis.
+
+Technically, neither the supremal omega-controllable sublanguage
+K nor the controllility prefix CFX are controllers. But CFX lends
+itself as a basis to extract a controller. We provide two variants.
+
+a)
+The greedy controller will attempts to achieve R-states as fast
+as possible. This is a rather restrictive policy.
+
+b)
+Given a lower bound specification A, let the plant run freely
+until it exits pre A. Then apply the greedy controller. This
+requires the relative closure of A w.r.t the plant to be within
+K
+
+*****************************************************************
+*****************************************************************
+*****************************************************************
+*/
+
+
 // API warpper
 void RabinCtrl(
   const Generator& rBPlant, 
@@ -646,6 +751,7 @@ void RabinCtrl(
 {
   // consitency check
   ControlProblemConsistencyCheck(rBPlant, rCAlph, rRSpec);  
+
   // execute: set up closed loop candidate
   bool snames= rBPlant.StateNamesEnabled() &&  rRSpec.StateNamesEnabled() &&  rRes.StateNamesEnabled();    
   RabinAutomaton cand;
@@ -654,34 +760,46 @@ void RabinCtrl(
   cand.ClearMarkedStates();
   Automaton(cand);
   RabinBuechiProduct(cand,rBPlant,cand);
+
   // execute: compute controllability prefix incl greedy controller
   TaIndexSet<EventSet> controller;
   RabinCtrlPfx(cand,rCAlph,controller);
+
+  // execute: trim to generate pre supcon
+  Generator gcand=cand;
+  gcand.ClearMarkedStates();
+  gcand.InsMarkedStates(controller);
+  SupClosed(gcand,gcand);
+  gcand.ClearMarkedStates();
+
+  // cosmetic: recover plant Buechi acceptance
+  StateSet pbuechi = cand.MarkedStates() * gcand.States();
+  gcand.InsMarkedStates(pbuechi);
+  
   // execute: apply control patterns
-  StateSet::Iterator sit;
-  TransSet::Iterator tit=cand.TransRelBegin();
+  TransSet::Iterator tit=gcand.TransRelBegin();
   Idx cx=0;
   const EventSet* pctrlpat=nullptr;
-  while(tit!=cand.TransRelEnd()) {
+  while(tit!=gcand.TransRelEnd()) {
     if(cx!=tit->X1) {
       cx=tit->X1;
       pctrlpat=nullptr;
       if(controller.Exists(cx))
 	pctrlpat=&controller.Attribute(cx);
     }
-    if(pctrlpat) {
-      if(pctrlpat->Exists(tit->Ev)) {
-        ++tit;
-        continue;
-      }
+    if(pctrlpat==nullptr) {
+      FD_ERR("RabinCtrl: greedy: controller incomplete");
     }
-    cand.ClrTransition(tit++);
+    if(pctrlpat->Exists(tit->Ev)) {
+      ++tit;
+    } else {
+      gcand.ClrTransition(tit++);
+    }
   }
+
   // execute: polish
-  cand.Accessible();
-  cand.ClearMarkedStates();
-  cand.RestrictStates(cand.States());
-  rRes.Assign(cand);
+  gcand.Accessible();
+  gcand.Move(rRes);
   rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
 }
 
@@ -696,62 +814,85 @@ void RabinCtrl(
   // consitency check
   ControlProblemConsistencyCheck(rBPlant, rCAlph, rRUSpec);  
   ControlProblemConsistencyCheck(rBPlant, rCAlph, rGLSpec);
-  /*
+
   // execute: set up ctrlpfx
   bool snames= false;
   RabinAutomaton cand;
-  cand.Assign(rRSpec);
+  cand.Assign(rRUSpec);
   cand.StateNamesEnabled(snames);
   cand.ClearMarkedStates();
   Automaton(cand);
   RabinBuechiProduct(cand,rBPlant,cand);
+
   // execute: compute controllability prefix incl greedy controller
   TaIndexSet<EventSet> controller;
   RabinCtrlPfx(cand,rCAlph,controller);
-  // execute: trim to pre SupCon
-  cand.ClearMarkedStates();
-  cand.InsMarkedStates(ctrlpfx);
-  SupClosed(cand,cand);
-  cand.RestrictStates(cand.States()); // fix Rabin pairs
+#ifdef FAUDES_DEBUG_RABINCTRL
+  controller.Write("tmp_rbc_controller.xml");
+#endif  
+
+  // execute: trim to obtain pre SupCon
+  Generator gcand=cand;
+  gcand.ClearMarkedStates();
+  gcand.InsMarkedStates(controller);
+  SupClosed(gcand,gcand);
+  gcand.ClearMarkedStates();
+#ifdef FAUDES_DEBUG_RABINCTRL
+  gcand.Write("tmp_rbc_supcon.gen");
+#endif  
 
   // todo: test lim LSpec cap L subseteq SupCon (!!)
-  // q: is this impplied by  LSpec seubseteq pre SupCon ?
+  // Q: is this impplied by  LSpec subseteq pre SupCon ?
   
   // excute: compose with LSpec given as generated language
-  Generator lspec=LSpec;
+  Generator lspec=rGLSpec;
   lspec.ClearMarkedStates();
   Idx ds=Automaton(lspec);
   ProductCompositionMap cmap;
-  Generator rRes;
-  Parallel(lspec,cand,rRes,cmap);  
+  aProduct(lspec,gcand,cmap,rRes);
+#ifdef FAUDES_DEBUG_RABINCTRL
+  rRes.Write("tmp_rbc_product.gen");
+#endif  
+
   // execute: apply control patterns on exit of lspec;
   TransSet::Iterator tit=rRes.TransRelBegin();
   Idx cx=0;
+  bool doctrl=false;
   const EventSet* pctrlpat=nullptr;
   while(tit!=rRes.TransRelEnd()) {
     if(cx!=tit->X1) {
       cx=tit->X1; 
       pctrlpat=nullptr;
-      lsx = cmap.Arg1State(tit->X1);
-      scx = cmap.Arg2State(tit->X1);
-      if(lsx==ds)
-        if(controller.Exists(scx))
-  	  pctrlpat=&controller.Attribute(scx);
+      Idx csx = cmap.Arg1State(tit->X1);
+      Idx ccx = cmap.Arg2State(tit->X1);
+      doctrl = (csx==ds);
+      if(controller.Exists(ccx))
+  	pctrlpat=&controller.Attribute(ccx);
     }
-    if(pctrlpat) {
-      if(pctrlpat->Exists(tit->Ev)) {
-        ++tit;
-        continue;
-      }
+    if(!doctrl) {
+      ++tit;
+      continue;
     }
-    rRes.ClrTransition(tit++);
+    if(pctrlpat==nullptr) {
+      FD_ERR("RabinCtrl: with rGLSpec: controller incomplete");
+    }
+    if(!pctrlpat->Exists(tit->Ev)) {
+      rRes.ClrTransition(tit++);
+    } else {
+      ++tit;
+    }
   }
+
+  // cosmetic: install plant Buechi marking
+  StateSet::Iterator sit=rRes.StatesBegin();
+  for(; sit!=rRes.StatesEnd(); ++sit) {
+    Idx ccx = cmap.Arg2State(*sit);
+    if(cand.ExistsMarkedState(ccx))
+       rRes.InsMarkedState(*sit);
+  }
+  
   // execute: polish
   rRes.Accessible();
-  rRes.ClearMarkedStates();
-  rRes.RestrictStates(cand.States());
-  rRes.Assign(cand);
-  */
   rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRUSpec.Name()+"))"));
 }
 
@@ -777,6 +918,30 @@ void RabinCtrl(
   }
 }
 
+// API warpper
+void RabinCtrl(
+  const System& rBPlant, 
+  const Generator& rBLSpec, 
+  const RabinAutomaton& rRUSpec, 
+  Generator& rRes) 
+{
+  // prepare result
+  Generator* pRes = &rRes;
+  bool copy=false;
+  if(dynamic_cast<System*>(pRes)== &rBPlant) copy=true;
+  if(dynamic_cast<RabinAutomaton*>(pRes)== &rRUSpec) copy=true;
+  if(dynamic_cast<Generator*>(pRes)== &rBLSpec) copy=true;
+  if(copy) pRes= rRes.New();
+  // execute 
+  RabinCtrl(rBPlant, rBPlant.ControllableEvents(),rBLSpec,rRUSpec,*pRes);
+  // copy all attributes of input alphabet
+  pRes->EventAttributes(rBPlant.Alphabet());
+  // copy result
+  if(pRes != &rRes) {
+    pRes->Move(rRes);
+    delete pRes;
+  }
+}
   
 } // namespace faudes
 

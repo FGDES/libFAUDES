@@ -45,7 +45,7 @@ echo ======================================================
 echo ===  copy do doc =====================================
 echo ======================================================
 
-rm $DSTDIR/tmp_*
-cp -v tmp_omg*.png $DSTDIR
-cp -v tmp_omg*.svg $DSTDIR
-cp -v tmp_omg*.fref $DSTDIR
+#rm $DSTDIR/tmp_*
+rsync -c -v tmp_omg*.png $DSTDIR
+rsync -c -v tmp_omg*.svg $DSTDIR
+rsync -c -v tmp_omg*.fref $DSTDIR

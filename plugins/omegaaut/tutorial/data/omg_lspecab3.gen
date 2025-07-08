@@ -1,0 +1,13 @@
+<Generator name="low spec 3">
+<T>
+IA a A
+A  c IB
+A  d IB
+IB b B
+B  d IB
+B  c IA
+</T>
+<I>
+IA
+</I>
+</Generator>

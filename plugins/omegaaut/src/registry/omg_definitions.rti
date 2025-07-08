@@ -620,6 +620,52 @@ OmegaAut     "supremal sublanguage" controllability  controllable  "controller s
 
 </FunctionDefinition> 
 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinCtrl -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinCtrl" ctype="faudes::RabinCtrl"> 
+
+<Documentation ref="omegaaut_rabinctrl.html#RabinCtrl"> 
+Controllabler Synthesis for Buechi Plants and Rabin Specifications.
+</Documentation> 
+<Keywords> 
+OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="RabinCtrl(BPlant,RSpec,BRes)"> 
+<Parameter name="BPlant" ftype="System" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrl(BPlant,Actrl,RSpec,BRes)"> 
+<Parameter name="BPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrl(BPlant,BLSpec,RSUpec,BRes)"> 
+<Parameter name="BPlant" ftype="System" access="In"/> 
+<Parameter name="BLSpec" ftype="Generator" access="In"/> 
+<Parameter name="RUSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrl(BPlant,Actrl,BLSpec,RSUpec,BRes)"> 
+<Parameter name="BPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="BLSpec" ftype="Generator" access="In"/> 
+<Parameter name="RUSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
 
   
 <!-- =================================================== -->

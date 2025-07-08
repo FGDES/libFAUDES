@@ -1,0 +1,82 @@
+%%% test mark: cand13 [at omg_4_rabinctrl.cpp:87]
+% 
+%  Statistics for Automaton(A-B-Spec-Eventually-B).x.A-B-Machine
+% 
+%  States:        10
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   20
+%  StateSymbols:  10
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: ctrlpfx13 [at omg_4_rabinctrl.cpp:100]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 7
+%  Shared Data: #0 clients
+% 
+% 
+% 
+
+%%% test mark: supcon13 [at omg_4_rabinctrl.cpp:117]
+% 
+%  Statistics for SupRabinCon((A-B-Machine),(Automaton(A-B-Spec-Eventually-B)))
+% 
+%  States:        7
+%  Init/Marked:   1/0
+%  Events:        4
+%  Transitions:   13
+%  StateSymbols:  7
+%  Attrib. E/S/T: 2/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: ctrl13 [at omg_4_rabinctrl.cpp:134]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 7
+%  Shared Data: #0 clients
+%  Attributes: 7
+%  Attribute Type: EventSet
+% 
+% 
+% 
+
+%%% test mark: loop13 [at omg_4_rabinctrl.cpp:144]
+% 
+%  Statistics for RabinCtrl((A-B-Machine),(Automaton(A-B-Spec-Eventually-B))) [minstate]
+% 
+%  States:        3
+%  Init/Marked:   1/1
+%  Events:        4
+%  Transitions:   4
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: lloop13 [at omg_4_rabinctrl.cpp:153]
+% 
+%  Statistics for RabinCtrl((A-B-Machine),(Automaton(A-B-Spec-Eventually-B))) [minstate]
+% 
+%  States:        9
+%  Init/Marked:   1/3
+%  Events:        4
+%  Transitions:   15
+%  StateSymbols:  0
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
