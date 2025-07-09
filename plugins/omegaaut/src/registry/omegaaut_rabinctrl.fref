@@ -91,9 +91,9 @@ such that
 <br/>
 <br/>
 If and only if <fimath>K^\uparrow \neq\emptyset</fimath>, there exists a controller
-with <fimath>\emptyset \neq \L \, \cap \, H \subseteq E</fimath>. Then, such a controller
+with <fimath>\emptyset \neq L \, \cap \, H \subseteq E</fimath>. Then, such a controller
 can be extracted from <fimath>K^\uparrow</fimath>. Hence our interest in the computation
-of a realisation of <fimath>K^\uparrow</fimath>; see also <ffnct>SupRabinCon</ffnct>.
+of <fimath>K^\uparrow</fimath>; see also <ffnct>SupRabinCon</ffnct>.
 </p>
 
 
@@ -314,15 +314,16 @@ and a specification E realised by a Rabin automaton <i>RUSpec</i>,
 such that the associated control problem has a non-trivial solution; i.e.,
 the supremal omega-controllabel sublanguage <fimath>K^\uparrow</fimath>
 of <fimath>E</fimath> is non-empty. Then <ffcnt>RabinCtrl</ffcnt> computes a
-non-empty closed-loop behaviour K, where the result is given als
-the Buechi automaton <i>BRes</i>. The closure of K is a controller that
-solves the control problem.
+non-empty closed-loop behaviour K, where the result is given as
+the Buechi automaton <i>BRes</i>. The closure of K is an applicable
+controller that solves the control problem.
 </p>
 
 <p>
 If no additional lower-bound specification is provided, the controller is
-greedy in the sense that it persistemtly directs the plant to once again
-attain a recurrent state od the specification.
+greedy in the sense that it persistently directs the plant to once again
+attain a recurrent state of the specification usinf the least number of
+transitions.
 </p>
 
 <p>
