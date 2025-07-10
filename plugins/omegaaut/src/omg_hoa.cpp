@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 #include "omg_hoa.h"
 
-#if __GNUC__ >=4 && __GNUC_MINOR__ >=2
+#if __clang__
 #define OMG_HOA_GCCMUTE
 #endif
 #ifdef OMG_HOA_GCCMUTE
