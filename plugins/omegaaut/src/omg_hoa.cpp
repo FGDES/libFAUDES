@@ -23,7 +23,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 #include "omg_hoa.h"
 
-#if __GNUC__ >=13
+#if __GNUC__ >=4 && __GNUC_MINOR__ >=2
+#define OMG_HOA_GCCMUTE
+#endif
+#ifdef OMG_HOA_GCCMUTE
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-private-field"
 #pragma GCC diagnostic ignored "-Winconsistent-missing-override"
@@ -37,7 +41,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #include "cpphoafparser/util/implicit_edge_helper.hh"
 #include "cpphoafparser/consumer/hoa_consumer.hh"
 
-#if __GNUC__ >=13
+#ifdef OMG_HOA_GCCMUTE
 #pragma GCC diagnostic pop
 #endif
 
