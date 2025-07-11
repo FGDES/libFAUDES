@@ -67,7 +67,7 @@ the controllers under consideration can only exercise control
 by disabling events within <fimath>\Sigma_o</fimath>, and in this
 sense the approach is restrictive.
 A synthesis algorithm for controllers without this restriction 
-is presented in <fcite name="S8"/>.
+is presented in <fcite name="S5"/>.
 </p>
 
 <h2>
@@ -428,7 +428,7 @@ The set of controllable events <fimath>\Sigma_c</fimath>
 and the set of observable events <fimath>\Sigma_o</fimath> 
 may be given explicitely or are extracted from the argument GPlant.
 The implemention performs the iteration proposed
-in <fcite name="S7"/>:
+in <fcite name="S4"/>:
 <br/>
 <br/>
 1.&nbsp;&nbsp; 
@@ -457,7 +457,7 @@ In step 2., controllability w.r.t. <fimath>L</fimath> can be equivalenty replace
 by controllability w.r.t. <fimath>\Closure{L}</fimath>. Thus, computation of the supremal sublanguage
 can be performed by <ffnct>SupConNormClosed</ffnct>.
 Under the hypothesis, that <fimath>E</fimath> is relatively marked,
-the results presented in <fcite name="S7"/> imply that 
+the results presented in <fcite name="S4"/> imply that 
 (i) the above iteration terminates, 
 and that (ii) the fixpoint <fimath>K</fimath> indeed equals the supremum <fimath>K^\uparrow</fimath>,
 and that (iii) the latter is relatively closed w.r.t. the plant <fdmath>L</fdmath>.
@@ -488,7 +488,7 @@ that satisfies all four closed-loop conditions (a)-(d).
 
 <p>
 Remark. The implementation follows the above pseudo code and in addition
-introduces a Trim operation on the iterate <fimath>K_i</fimath>, as proposed in <fcite name="S7"/>.
+introduces a Trim operation on the iterate <fimath>K_i</fimath>, as proposed in <fcite name="S4"/>.
 In particular, GPlant is technically required to be non-blocking in order 
 for <ffnct>SupConNormClosed</ffnct> to compute the above supremum. 
 If, on the other hand, <fimath>GPlant</fimath> is blocking, 

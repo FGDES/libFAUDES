@@ -41,7 +41,7 @@ Copyright (C) 2006, Bernd Opitz.
 <br/>
 Copyright (C) 2008, 2009 Thomas Moor, Klaus Schmidt, Sebastian Perk. 
 <br/>
-Copyright (C) 2010 - 2013 Thomas Moor.
+Copyright (C) 2010 - 2025 Thomas Moor.
 </p>
 
 <h2>
@@ -206,35 +206,35 @@ Literature
 <fyear>1990</fyear>
 </fliterature>
 
-<fliterature name="S6">
+<fliterature name="S3">
 <fauthors>R.&nbsp;Su, W.M.&nbsp;Wonham</fauthors>
 <ftitle>Supervisor Reduction for Discrete-Event Systems</ftitle>
 <fjournal><a href="http://www.springer.com/mathematics/applications/journal/10626">Discrete Event Dynamic Systems</a>, vol. 14, no. 1</fjournal>
 <fyear>2004</fyear>
 </fliterature>
 
-<fliterature name="S7">
+<fliterature name="S4">
 <fauthors>T.&nbsp;Moor, Ch.&nbsp;Baier,T.-S.&nbsp;Yoo, F.&nbsp;Lin, S.&nbsp;Lafortune</fauthors>
 <ftitle>On the Computation of Supremal Sublanguages Relevant to Supervisory Control</ftitle>
 <fjournal>Workshop on Discrete Event Systems (WODES)</fjournal>
 <fyear>2012</fyear>
 </fliterature>
 
-<fliterature name="S8">
+<fliterature name="S5">
 <fauthors>T.-S.&nbsp;Yoo, S.&nbsp;Lafortune</fauthors>
 <ftitle>Solvability of Centralized Supervisory Control Under Partial Observation</ftitle>
 <fjournal><a href="http://www.springer.com/mathematics/applications/journal/10626">Discrete Event Dynamic Systems</a>, vol. 16</fjournal>
 <fyear>2006</fyear>
 </fliterature>
 
-<fliterature name="S9">
+<fliterature name="S6">
 <fauthors>R.M.&nbsp;Ziller, J.E.R.&nbsp;Cury</fauthors>
 <ftitle>On the Supremal Lm-closed and the Supremal Lm-closed and L-controllable Sublanguages of a Given Language</ftitle>
 <fjournal>Lecture Notes in Control and Information Sciences 199, Springer-Verlag, pp. 80-85</fjournal>
 <fyear>1994</fyear>
 </fliterature>
 
-<fliterature name="S10">
+<fliterature name="S7">
 <fauthors>T.&nbsp;Moor</fauthors>
 <ftitle>Natural projections for the synthesis of non-conflicting supervisory controllers</ftitle>
 <fjournal>Workshop on Discrete Event Systems (WODES)</fjournal>
