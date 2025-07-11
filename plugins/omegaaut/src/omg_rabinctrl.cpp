@@ -1,7 +1,8 @@
 /** @file omg_rabinctrl.cpp Controller synthesis for Rabin automata */
 
 
-/* FAU Discrete Event Systems Library (libFAUDES)
+/*
+FAU Discrete Event Systems Library (libFAUDES)
 
 Copyright (C) 2025 Thomas Moor
 
@@ -17,7 +18,8 @@ Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
   
 
@@ -398,7 +400,7 @@ protected:
     mMuPReachCore.Evaluate(rArgs, rRes);
     // merge controller
     InsCtrl(mPReachCore);
-    std::cout << "p_reach: ctrl #" << mController.Size() << std::endl;
+    //std::cout << "p_reach: ctrl #" << mController.Size() << std::endl;
   };
 };      
 
@@ -727,8 +729,9 @@ K nor the controllility prefix CFX are controllers. But CFX lends
 itself as a basis to extract a controller. We provide two variants.
 
 a)
-The greedy controller will attempts to achieve R-states as fast
-as possible. This is a rather restrictive policy.
+The greedy controller will attempts to achieve yat another R-state
+as fast as possible. This is a rather restrictive policy but it does
+the job.
 
 b)
 Given a lower bound specification A, let the plant run freely
@@ -815,6 +818,9 @@ void RabinCtrl(
   ControlProblemConsistencyCheck(rBPlant, rCAlph, rRUSpec);  
   ControlProblemConsistencyCheck(rBPlant, rCAlph, rGLSpec);
 
+  // have alphabet
+  const EventSet& sigma=rBPlant.Alphabet();
+  
   // execute: set up ctrlpfx
   bool snames= false;
   RabinAutomaton cand;
@@ -841,8 +847,9 @@ void RabinCtrl(
   gcand.Write("tmp_rbc_supcon.gen");
 #endif  
 
-  // todo: test lim LSpec cap L subseteq SupCon (!!)
-  // Q: is this impplied by  LSpec subseteq pre SupCon ?
+  // todo: test lim LSpec cap L subseteq SupCon
+  // (currently we do this implicitly when applyiny controlpatterns
+  // so we should be fine ?)
   
   // excute: compose with LSpec given as generated language
   Generator lspec=rGLSpec;
@@ -857,31 +864,44 @@ void RabinCtrl(
   // execute: apply control patterns on exit of lspec;
   TransSet::Iterator tit=rRes.TransRelBegin();
   Idx cx=0;
+  Idx csx=0;
+  Idx ccx=0;
   bool doctrl=false;
   const EventSet* pctrlpat=nullptr;
   while(tit!=rRes.TransRelEnd()) {
+    // new state, update control pattern
     if(cx!=tit->X1) {
       cx=tit->X1; 
       pctrlpat=nullptr;
-      Idx csx = cmap.Arg1State(tit->X1);
-      Idx ccx = cmap.Arg2State(tit->X1);
-      doctrl = (csx==ds);
+      csx = cmap.Arg1State(tit->X1);
+      ccx = cmap.Arg2State(tit->X1);
       if(controller.Exists(ccx))
   	pctrlpat=&controller.Attribute(ccx);
+      // record: if we are outside lspec, the greedy controller takes action
+      doctrl = (csx==ds);
+      // figure issue: we shall apply control but have no control-pattern
+      if(doctrl && (pctrlpat==nullptr)) {
+        FD_ERR("RabinCtrl: with rGLSpec: controller incomplete");
+      }
+      // figure issue: if we are in lspec, we shall be in ctrlpfx
+      if( (csx!=ds) && (!controller.Exists(ccx)) ) {
+        EmptyLanguage(sigma,rRes);
+      }
     }
+    // wont apply control: fine, let run
     if(!doctrl) {
       ++tit;
       continue;
     }
-    if(pctrlpat==nullptr) {
-      FD_ERR("RabinCtrl: with rGLSpec: controller incomplete");
-    }
+    // apply that control
     if(!pctrlpat->Exists(tit->Ev)) {
       rRes.ClrTransition(tit++);
     } else {
       ++tit;
     }
   }
+
+  cand.WriteStateSet(err);
 
   // cosmetic: install plant Buechi marking
   StateSet::Iterator sit=rRes.StatesBegin();
@@ -895,6 +915,7 @@ void RabinCtrl(
   rRes.Accessible();
   rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRUSpec.Name()+"))"));
 }
+
 
 // API warpper
 void RabinCtrl(

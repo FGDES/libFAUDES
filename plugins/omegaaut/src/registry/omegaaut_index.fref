@@ -7,12 +7,11 @@ Omega Automata PlugIn
 </h1>
 
 <fsummary>
-The omega-automata plug-in collects data structures and functions to support
-supervisory control of non-termination processes.
+Functions to support supervisory control of non-termination processes w.r.t. Rabin or Buechi acceptance conditions.  
 </fsummary>
 
 <p>
-This plug-in provides data structures and functions to represent
+This plug-in provides data types and functions to represent and operate on
 automata that process infinite-length words. For a general overview on
 the topic see <fcite name="W1"/>. For the purpose of libFAUDES, we
 restrict the scope to support synthesis of supervisiors for non-termiating processes.

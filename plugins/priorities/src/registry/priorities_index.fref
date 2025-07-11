@@ -7,8 +7,7 @@ Priorities PlugIn
 </h1>
 
 <fsummary>
-Plug-in to provide Yiheng Tang's implementation for the verfication of non-blockingness
-of modular diccrete-event systems with prioritised events.
+Verfication of non-blockingness of modular diccrete-event systems with prioritised events.
 </fsummary>
 
 

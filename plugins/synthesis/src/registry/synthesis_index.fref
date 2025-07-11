@@ -8,8 +8,7 @@ Synthesis
   
 <fsummary>
 Functions to synthesise and/or to verify properties relevant for controller design,
-including controllability, normality, relative closedness, completeness and 
-variants of omega-controllability.
+including controllability, normality, relative closedness and completeness. 
 </fsummary>
 
 

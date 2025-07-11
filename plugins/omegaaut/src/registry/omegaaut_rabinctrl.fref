@@ -151,7 +151,7 @@ of the controllability prefix. We apply <ffnct>RabinCtrlPfx</ffnct> to obtain th
 </table>
 
 <p>
-Allthough <fimath>\CtrlPfx{K} \neq \CtrlPfx{K}</fimath>, we observe the empty string to be in
+Allthough <fimath>\CtrlPfx{K} \neq \Prefix{K}</fimath>, we observe the empty string to be in
 <fimath>\CtrlPfx{K}</fimath>. We also note that the only transition that exits <fimath>\CtrlPfx{K}</fimath> is
 controllable. This is in general the case. If we restricting the transition structure to generate
 the supremal closed sublanguages of <fimath>\CtrlPfx{K}</fimath>, the Rabin acceptance condition
@@ -178,9 +178,9 @@ does not exist. There are two ways to go about this.
 </p>
 
 <p>
-The procedure used for computing th controllability prefix can optionally identify control patterns
+The procedure used for computing the controllability prefix can optionally identify control patterns
 to be applied to enforce the specification E, or, for that matter, <fimath>K^\uparrow \subseteq E</fimath>.
-Provided that <fimath>K^\uparrow\neq\emptyset</fimath>, those control patterns can be recorded and used to set
+Provided that <fimath>K^\uparrow\neq\emptyset</fimath>, the respective control patterns can be recorded and used to set
 up a controller to achieve a non-empty closed-loop behaviour that satisfies the upper bound
 <fimath>K^\uparrow </fimath>. We refer to this control strategy as the <i>greedy controller</i> since it will direct the
 plant to persistently take the shortest path to once again attain a recurrent Rabin set (R-set of a Rabin pair).
@@ -196,11 +196,8 @@ For the example at hand, we obtain the following closed-loop behaviour under gre
 
 <p>
 The greedy controller opts for running exclusively the B-process and thereby enforces the specified
-upper bound <fimath>E</fimath>. Obviously this is rather resrictive: by the specification we are elidgible
-to once in a while run the A-process as long as we eventually turn to the B-process. For a closed controller and
-an upper bound specification, we would need to specify how often we <i>must</i> run the A-process
-befor turning to the B-process for the greedy controller to so. But since we 
-only encoded that we <i>may</i> give the A-process a try the greedy controller will not do so.
+upper bound <fimath>E</fimath>. Obviously this is rather resrictive: by the specification we <i>may</i>
+to once in a while run the A-process as long as we eventually turn to the B-process.
 To this end, <fcite name="W4b"/>
 proposes an additional lower-bound specification <fimath>A</fimath> and ask for a closed-loop behaviour
 <fimath>K</fimath> with <fimath>A\subseteq K \subseteq E</fimath>. For our example we consider the
@@ -335,6 +332,12 @@ the resulting closed-loop behaviour <fimath>K</fimath> will satisfy
 </p>
 
 <p>
+If either <fimath>K^\uparrow=\emptyset</fimath> or <fimath>A</fimath> is not a subset of
+<fimath>K^\uparrow</fimath> then no viable controller exists. In this case, the function
+returns the empty generator.
+</p>
+
+<p>
 A full example is given <a href="#Example">[above]</a>.
 </p>
 
@@ -345,7 +348,6 @@ This implementation requires the alphabets of plant and specification to match.
 Automata arguments must be be deterministic.
 Effectively, the specification E is intersected with the plant behaviour L.
 The result will be deterministic and trimmed.
-The validity of the lower-bound A' is not verified in the current implementation.
 </p>
 
 
