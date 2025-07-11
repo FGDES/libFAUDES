@@ -901,8 +901,6 @@ void RabinCtrl(
     }
   }
 
-  cand.WriteStateSet(err);
-
   // cosmetic: install plant Buechi marking
   StateSet::Iterator sit=rRes.StatesBegin();
   for(; sit!=rRes.StatesEnd(); ++sit) {
