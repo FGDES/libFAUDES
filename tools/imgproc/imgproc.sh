@@ -57,7 +57,7 @@ for FILE in tmp_*.gen ; do
   $GEN2DOT $FILE
   $DOTEXEC $DOTOPTS_WIDE -Tsvg $BASE.dot -o $BASE.svg
   $DOTEXEC $DOTOPTS_NRML -Tpng $BASE.dot -o $BASE.png_pre
-  $CONVERT -trim $BASE.png_pre $BASE.png
+  $CONVERT -trim -define png:include-chunk=none $BASE.png_pre $BASE.png
   rm $BASE.png_pre
 done;
 
