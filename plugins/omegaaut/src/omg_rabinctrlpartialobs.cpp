@@ -143,7 +143,7 @@ void RabinCtrlPartialObs(const RabinAutomaton& rSpec,
         // STEP 1: Compute synchronous product of plant and specification
         FD_DF("RabinCtrlPartialObs: Step 1 - Computing product");
         RabinAutomaton Product;
-        RabinProduct(rSpec, rPlant, Product);
+        RabinBuechiAutomaton(rSpec, rPlant, Product);
         
         if (Product.Empty()) {
             throw Exception("RabinCtrlPartialObs", 
@@ -181,17 +181,6 @@ void RabinCtrlPartialObs(const RabinAutomaton& rSpec,
         }
         
         FD_DF("RabinCtrlPartialObs: Pseudo-determinization completed, states: " << pSupervisor->Size());
-        
-        // STEP 4: Trim the result
-        FD_DF("RabinCtrlPartialObs: Step 4 - Trimming result");
-        pSupervisor->Trim();
-        
-        if (pSupervisor->Empty()) {
-            throw Exception("RabinCtrlPartialObs", 
-                           "Synthesis failed - no valid supervisor exists after trimming", 303);
-        }
-        
-        FD_DF("RabinCtrlPartialObs: Trimming completed, final states: " << pSupervisor->Size());
         
         // Keep the alphabet as computed by PseudoDet (includes epsilon events)
         // Do not reset to original plant alphabet since we need eps events
