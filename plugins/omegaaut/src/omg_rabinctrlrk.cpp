@@ -123,8 +123,8 @@ protected:
     StateRanking ranking(mCurrentMuLevel, mCurrentNuLevel, mCurrentBranchType);
     for (StateSet::Iterator it = rNewStates.Begin(); it != rNewStates.End(); ++it) {
       // Only record if this state hasn't been ranked yet (first time added)
-      if (mpStateRanking->find(*it) == mpStateRanking->end()) {
-        (*mpStateRanking)[*it] = ranking;
+      if (!mpStateRanking->Exists(*it)) {
+        mpStateRanking->Insert(*it, ranking);
       }
     }
   }
@@ -182,7 +182,7 @@ protected:
     	if(!mSigmaCtrl.Exists(tit->Ev)){ exitZ12 = true; break;}
       }  
       if(!enterZ1 || exitZ12) rRes.Erase(sit++);
-      else++sit;
+      else ++sit;
     }
   }; 
 };      
@@ -630,7 +630,7 @@ public:
   
   /** construct state feedback mapping based on Theorem 6.4 */
   void ConstructStateFeedback(const StateSet& rCtrlPfx, StateFeedbackMap& rFeedback) const {
-    rFeedback.clear();
+    rFeedback.Clear();
     
     // Get Rabin pair (we assume exactly one pair)
     RabinAcceptance::CIterator rpIt = mRAut.RabinAcceptance().Begin();
@@ -643,12 +643,11 @@ public:
       EventSet controlPattern;
       
       // Get state ranking
-      StateRankingMap::const_iterator rankIt = mStateRanking.find(state);
-      if (rankIt == mStateRanking.end()) {
+      if (!mStateRanking.Exists(state)) {
         // If no ranking found, use default safe control (allow all controllable events)
         controlPattern = mSigmaCtrl;
       } else {
-        const StateRanking& ranking = rankIt->second;
+        const StateRanking& ranking = mStateRanking.Attribute(state);
         
         // Construct control pattern based on ranking and Theorem 6.4
         constructControlPatternForState(state, ranking, RSet, ISet, controlPattern);
@@ -658,7 +657,7 @@ public:
       EventSet uncontrollableEvents = mRAut.Alphabet() - mSigmaCtrl;
       controlPattern.InsertSet(uncontrollableEvents);
       
-      rFeedback[state] = controlPattern;
+      rFeedback.Insert(state, controlPattern);
     }
   }
   
@@ -681,10 +680,8 @@ private:
       bool enableEvent = false;
       
       // Get successor's ranking if it exists
-      StateRankingMap::const_iterator succRankIt = mStateRanking.find(successor);
-      
-      if (succRankIt != mStateRanking.end()) {
-        const StateRanking& succRanking = succRankIt->second;
+      if (mStateRanking.Exists(successor)) {
+        const StateRanking& succRanking = mStateRanking.Attribute(successor);
         
         // Apply control rules based on Theorem 6.4:
         // 1. If successor has lower or equal ranking, enable the event
@@ -763,13 +760,13 @@ void ComputeControlPattern(
   }
   
   // Map each state to its corresponding control pattern
-  for (const auto& pair : rStateFeedback) {
-    std::string stateName = rRAut.StateName(pair.first);
+  for (StateFeedbackMap::Iterator it = rStateFeedback.Begin(); it != rStateFeedback.End(); ++it) {
+    std::string stateName = rRAut.StateName(*it);
     if (stateName.empty()) {
-      stateName = std::to_string(pair.first); // Fallback to numeric representation
+      stateName = std::to_string(*it); // Fallback to numeric representation
     }
     
-    const EventSet& statePattern = pair.second;
+    const EventSet& statePattern = rStateFeedback.Attribute(*it);
     
     // Find which control pattern matches this state's feedback
     std::string matchingPattern = "Unknown";
@@ -789,11 +786,11 @@ void ComputeControlPattern(
   }
 
   FD_DF("ComputeControlPattern(): computed controllable prefix with " 
-        << rCtrlPfx.Size() << " states and " << rStateFeedback.size() << " feedback entries");
+        << rCtrlPfx.Size() << " states and " << rStateFeedback.Size() << " feedback entries");
 }
 
 void RabinCtrlPfxWithFeedback(
-  const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl, NameSet& rSigmaCtrlPattern) {
+  const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl, TaIndexSet<EventSet>& rController) {
   
   // we can only handle one Rabin pair
   if(rRAut.RabinAcceptance().Size()!=1){
@@ -815,10 +812,18 @@ void RabinCtrlPfxWithFeedback(
 
   StateSet rCtrlPfx; 
   // run computation
-  ctrl.Evaluate(rCtrlPfx);
+  ctrl.Evaluate(rCtrlPfx); 
   
-  // construct state feedback mapping and compute control patterns
-  ComputeControlPattern(rRAut, sigctrl, stateRanking, rCtrlPfx, rSigmaCtrlPattern);
+  // construct state feedback mapping
+  StateFeedbackMap rStateFeedback;
+  StateFeedbackConstructor feedbackConstructor(rRAut, sigctrl, stateRanking);
+  feedbackConstructor.ConstructStateFeedback(rCtrlPfx, rStateFeedback);
+  
+  // clear and populate controller with state -> EventSet mapping
+  rController.Clear();
+  for (StateFeedbackMap::Iterator it = rStateFeedback.Begin(); it != rStateFeedback.End(); ++it) {
+    rController.Insert(*it, rStateFeedback.Attribute(*it));
+  }
 };
 
 

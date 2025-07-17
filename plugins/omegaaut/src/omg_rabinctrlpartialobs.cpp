@@ -143,7 +143,7 @@ void RabinCtrlPartialObs(const RabinAutomaton& rSpec,
         // STEP 1: Compute synchronous product of plant and specification
         FD_DF("RabinCtrlPartialObs: Step 1 - Computing product");
         RabinAutomaton Product;
-        RabinBuechiProduct(rSpec, rPlant, Product);
+        RabinProduct(rSpec, rPlant, Product);
         
         if (Product.Empty()) {
             throw Exception("RabinCtrlPartialObs", 

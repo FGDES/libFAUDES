@@ -49,15 +49,15 @@ int main() {
   RabinAutomaton NRA;
   EpsObservation(Product, NRA);
   NRA.Name("Epsilon Observed Product");
-  NRA.Write("tmp_EpsObservedBelt.gen");
+  NRA.Write("tmp_6_EpsObservedBelt.gen");
   NRA.DWrite();
   
   RabinAutomaton epsObserved;
   PseudoDet(NRA, epsObserved);
   epsObserved.Name("Determinized Epsilon Observed Product");
   epsObserved.DWrite();
-  epsObserved.Write("tmp_DetEpsObservedBelt.gen");
-  epsObserved.GraphWrite("tmp_DetEpsObservedBelt.png");
+  epsObserved.Write("tmp_6_DetEpsObservedBelt.gen");
+  epsObserved.GraphWrite("tmp_6_DetEpsObservedBelt.png");
   */
 
   
@@ -68,6 +68,13 @@ int main() {
   epsObserved.Write("tmp_6_ObservedBelt.gen");
   epsObserved.GraphWrite("tmp_6_ObservedBelt.png");
 
+  TaIndexSet<EventSet> controller1;
+  RabinCtrlPfxWithFeedback(epsObserved,contevents,controller1);
+  epsObserved.WriteStateSet(controller1);
+
+  TaIndexSet<EventSet> controller2;
+  RabinCtrlPfx(epsObserved,contevents,controller2);
+  epsObserved.WriteStateSet(controller2);
 
   StateSet ctrlpfx;
   RabinCtrlPfx(epsObserved,contevents,ctrlpfx);
@@ -81,6 +88,7 @@ int main() {
   test.InjectMarkedStates(epsObserved.RabinAcceptance().Begin()->RSet());
   StateMin(test,test);
   test.GraphWrite("tmp_6_consubsetDB_test.png");
-
+  
+  
   return 0;
 }
