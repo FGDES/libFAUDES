@@ -30,8 +30,8 @@ keep the both variants until we figured how to resolve best.
 TM, 2025/07
 */
 
-#ifndef FAUDES_OMG_RABINCTRL_H
-#define FAUDES_OMG_RABINCTRL_H
+#ifndef FAUDES_OMG_RABINCTRLRK_H
+#define FAUDES_OMG_RABINCTRLRK_H
 
 #include "corefaudes.h"
 #include "omg_rabinaut.h"
@@ -44,7 +44,7 @@ namespace faudes {
  * Maps each controllable state to its corresponding control pattern (subset of events).
  * This implements the state feedback controller from Theorem 6.4 in Thistle/Wonham 1994.
  */
-typedef std::map<Idx, EventSet> StateFeedbackMap;
+typedef TaIndexSet<EventSet> StateFeedbackMap;
 
 /**
  * State ranking information for fixpoint computation.
@@ -52,19 +52,35 @@ typedef std::map<Idx, EventSet> StateFeedbackMap;
  * Records the level at which each state was added during the nested fixpoint iteration.
  * Used for constructing the state feedback controller according to Theorem 6.4.
  */
-struct StateRanking {
+class StateRanking : public AttributeVoid {
+public:
   int muLevel;     // Outer mu-iteration level (i)
   int nuLevel;     // Inner nu-iteration level (j) 
   int branchType;  // Which branch of the p-reach operator (0 or 1)
   
-  StateRanking() : muLevel(0), nuLevel(0), branchType(0) {}
-  StateRanking(int mu, int nu, int branch) : muLevel(mu), nuLevel(nu), branchType(branch) {}
+  StateRanking() : AttributeVoid(), muLevel(0), nuLevel(0), branchType(0) {}
+  StateRanking(int mu, int nu, int branch) : AttributeVoid(), muLevel(mu), nuLevel(nu), branchType(branch) {}
   
   // Lexicographic comparison for state ranking
   bool operator<(const StateRanking& other) const {
     if (muLevel != other.muLevel) return muLevel < other.muLevel;
     if (nuLevel != other.nuLevel) return nuLevel < other.nuLevel;
     return branchType < other.branchType;
+  }
+  
+  // Required by AttributeVoid interface
+  virtual bool IsDefault(void) const {
+    return muLevel == 0 && nuLevel == 0 && branchType == 0;
+  }
+  
+  // Assignment operator
+  StateRanking& operator=(const StateRanking& other) {
+    if (this != &other) {
+      muLevel = other.muLevel;
+      nuLevel = other.nuLevel;
+      branchType = other.branchType;
+    }
+    return *this;
   }
 };
 
@@ -73,7 +89,7 @@ struct StateRanking {
  * 
  * Maps each state to its ranking information during fixpoint computation.
  */
-typedef std::map<Idx, StateRanking> StateRankingMap;
+typedef TaIndexSet<StateRanking> StateRankingMap;
 
 
 /**
@@ -96,7 +112,7 @@ typedef std::map<Idx, StateRanking> StateRankingMap;
  */
 extern FAUDES_API void RabinCtrlPfxWithFeedback(
   const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl,
-  NameSet& rSigmaCtrlPattern);
+  TaIndexSet<EventSet>& rController);
 
 
 /**
