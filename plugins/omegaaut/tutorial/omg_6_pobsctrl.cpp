@@ -34,31 +34,31 @@ int main() {
   obsevents.Insert("a_1");
   obsevents.Insert("b_2");
 
-  /*
-  RabinAutomaton Product;
-  RabinBuechiProduct(spec,plant,Product);
-  Product.SetControllable(contevents);
 
-  EventSet allProductEvents = Product.Alphabet();
-  Product.ClrObservable(allProductEvents);
-  Product.SetObservable(obsevents);
+  // RabinAutomaton Product;
+  // RabinBuechiAutomaton(spec,plant,Product);
+  // Product.SetControllable(contevents);
 
-  Product.Name("Product of Plant and Spec");
-  Product.Write("tmp_6_ProductBelt.gen");
+  // EventSet allProductEvents = Product.Alphabet();
+  // Product.ClrObservable(allProductEvents);
+  // Product.SetObservable(obsevents);
 
-  RabinAutomaton NRA;
-  EpsObservation(Product, NRA);
-  NRA.Name("Epsilon Observed Product");
-  NRA.Write("tmp_6_EpsObservedBelt.gen");
-  NRA.DWrite();
+  // Product.Name("Product of Plant and Spec");
+  // Product.Write("tmp_6_ProductBelt.gen");
+  // Product.DWrite();
+  // RabinAutomaton NRA;
+  // EpsObservation(Product, NRA);
+  // NRA.Name("Epsilon Observed Product");
+  // NRA.Write("tmp_6_EpsObservedBelt.gen");
+  // NRA.DWrite();
   
-  RabinAutomaton epsObserved;
-  PseudoDet(NRA, epsObserved);
-  epsObserved.Name("Determinized Epsilon Observed Product");
-  epsObserved.DWrite();
-  epsObserved.Write("tmp_6_DetEpsObservedBelt.gen");
-  epsObserved.GraphWrite("tmp_6_DetEpsObservedBelt.png");
-  */
+  // RabinAutomaton epsObserved;
+  // PseudoDet(NRA, epsObserved);
+  // epsObserved.Name("Determinized Epsilon Observed Product");
+  // epsObserved.DWrite();
+  // epsObserved.Write("tmp_6_DetEpsObservedBelt.gen");
+  // epsObserved.GraphWrite("tmp_6_DetEpsObservedBelt.png");
+
 
   
 
@@ -68,13 +68,9 @@ int main() {
   epsObserved.Write("tmp_6_ObservedBelt.gen");
   epsObserved.GraphWrite("tmp_6_ObservedBelt.png");
 
-  TaIndexSet<EventSet> controller1;
-  RabinCtrlPfxWithFeedback(epsObserved,contevents,controller1);
-  epsObserved.WriteStateSet(controller1);
-
-  TaIndexSet<EventSet> controller2;
-  RabinCtrlPfx(epsObserved,contevents,controller2);
-  epsObserved.WriteStateSet(controller2);
+  TaIndexSet<EventSet> controller;
+  RabinCtrlPfx(epsObserved,contevents,controller);
+  epsObserved.WriteStateSet(controller);
 
   StateSet ctrlpfx;
   RabinCtrlPfx(epsObserved,contevents,ctrlpfx);

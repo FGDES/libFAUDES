@@ -534,9 +534,6 @@ void PseudoDet(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
                 
                 FD_DF("Created new state " << targetState << " for tree");
                 
-                // Set marking based on Rabin acceptance condition
-                bool shouldMark = false;
-                
                 // Mark states that contain green nodes but no red nodes
                 bool hasGreen = false;
                 bool hasRed = false;
@@ -546,14 +543,6 @@ void PseudoDet(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
                     if(nodePair.second.color == TreeNode::RED) hasRed = true;
                 }
                 
-                if(hasGreen && !hasRed) {
-                    shouldMark = true;
-                }
-                
-                if(shouldMark) {
-                    rRes.SetMarkedState(targetState);
-                    FD_DF("Marking state " << targetState);
-                }
             }
             
             // Add transition from current state to target state
