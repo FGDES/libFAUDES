@@ -222,20 +222,15 @@ extern FAUDES_API bool IsBuechiClosed(const Generator& rGen);
 /**
  * Test for relative marking, omega langauges.
  *
- * Tests whether the omega language Bm(GCand) 
- * is relatively marked w.r.t.
- * the omega language Bm(GPlant). The formal definition of this property
- * requires
+ * Tests whether the omega language Bm(GCand) is relatively marked w.r.t. the
+ * omega language Bm(GPlant). The formal definition of this property requires
  *
  * closure(Bm(GCand)) ^ Bm(GPlant) <= Bm(GCand).
  *
- * The implementation first performs the product composition 
- * of the two generators with product state space QPlant x QCand and 
- * generated language L(GPlant x GCand) = L(Plant) ^ L(Cand). It then investigates 
- * all SCCs that do not
- * contain a state that corresponds to GCand-marking. If and only if
- * none of the considered SCCs has a GPlant marking, the function
- * returns true.
+ * The implementation first performs the product composition of the two generators
+ * with product state space QPlant x QCand and generated language L(GPlant x GCand)
+ * = L(Plant) ^ L(Cand). It test whether
+ * - when muting the GCand-marking, there must be no SCC with GPlant-marking
  *
  * The arguments GCand and GPlant are required to be deterministic and omega trim.
  *
@@ -253,28 +248,26 @@ extern FAUDES_API bool IsBuechiClosed(const Generator& rGen);
  * @return 
  *   true / false
  *
- * @ingroup SynthesisPlugIn
+ * @ingroup OmgPlugIn
  */
 extern FAUDES_API bool IsBuechiRelativelyMarked(const Generator& rGenPlant, const Generator& rGenCand);
 
 /**
  * Test for relative closedness, omega languages.
  *
- * Tests whether the omega language Bm(GCand) 
- * is relatively closed w.r.t.
+ * Tests whether the omega language Bm(GCand) is relatively closed w.r.t.
  * the omega language Bm(GPlant). The formal definition of this property
  * requires
  *
  * closure(Bm(GCand)) ^ Bm(GPlant) =  Bm(GCand).
  *
  *
- * The implementation first performs the product composition 
- * of the two generators with product state space QPlant x QCand and 
- * generated language L(GPlant x GCand) = L(GPlant) ^ L(GCand). It uses the composition
- * to test the follwing three conditions:
+ * The implementation first performs the product composition of the two generators with
+ * product state space QPlant x QCand and generated language L(GPlant x GCand) = L(GPlant) ^ L(GCand).
+ * It uses the composition to test the follwing three conditions:
  * - L(GCand) subseteq L(GPlant);
- * - no SCC of GPlant x GCand without GCand-marking contains a state with GPlant-marking; and
- * - no SCC of GPlant x GCand without GPlant-marking contains a state with GCand-marking.
+ * - when muting the GCand-marking, there must be no SCC with GPlant-marking
+ * - when muting the GPlant-marking, there must be no SCC with GCand-marking
  * If and only if all three tests are passed, the function
  * returns true.
  *
@@ -295,7 +288,7 @@ extern FAUDES_API bool IsBuechiRelativelyMarked(const Generator& rGenPlant, cons
  * @return 
  *   true / false
  *
- * @ingroup SynthesisPlugIn
+ * @ingroup OmgPlugIn
  */
 extern FAUDES_API bool IsBuechiRelativelyClosed(const Generator& rGenPlant, const Generator& rGenCand);
 
@@ -313,6 +306,75 @@ extern FAUDES_API bool IsBuechiRelativelyClosed(const Generator& rGenPlant, cons
  *
  */
 extern FAUDES_API bool IsBuechiRelativelyClosedUnchecked(const Generator& rGenPlant, const Generator& rGenCand);
+
+/**
+ * Test for languege inclusion, omega languages.
+ *
+ * Tests whether the omega language Bm(Gen1) is included in Bm(Gen2).
+ *
+ * The implementation first performs the product composition of the two generators with
+ * product state space QPlant x QCand and generated language L(GPlant x GCand) = L(GPlant) ^ L(GCand).
+ * It uses the composition to test the follwing conditions:
+ * - L(Gen1) subseteq L(Gen2);
+ * - when muting the Gen2-marking, there must be no SCC with Gen1-marking
+ * If and only if both tests are passed, the function returns true.
+ *
+ * Note. Relevant Background is given in ""Complementing Deterministic Biichi Automata in Polynomial Time",
+ * by R.P. KURSHAN, 1986. The setting in the reference is quire different, but at the end our implementation
+ * should match.
+ * 
+ *
+ * The arguments Gen1 and Gen2 are required to be deterministic and omega trim.
+ *
+ * @param rGen1
+ *   Generator Gen1
+ * @param rGen2
+ *   Generator Gen2
+ *
+ * @exception Exception
+ *   - alphabets of generators don't match (id 100)
+ *   - arguments are not omega trim (id 201, only if FAUDES_CHECKED is set)
+ *   - arguments are non-deterministic (id 202, only if FAUDES_CHECKED is set)
+ *
+ * @return 
+ *   true / false
+ *
+ * @ingroup OmgPlugIn
+ */
+extern FAUDES_API bool BuechiLanguageInclusion(const Generator& rGen1, const Generator& rGen2);
+
+
+/**
+ * Test for languege equality, omega languages.
+ *
+ * Tests whether the omega language Bm(Gen1) equalsBm(Gen2).
+ *
+ * The implementation first performs the product composition of the two generators with
+ * product state space QPlant x QCand and generated language L(GPlant x GCand) = L(GPlant) ^ L(GCand).
+ * It uses the composition to test the follwing conditions:
+ * - L(Gen1) = L(Gen2);
+ * - when muting the Gen2-marking, there must be no SCC with Gen1-marking
+ * - when muting the Gen1-marking, there must be no SCC with Gen2-marking
+ * If and only if all tests are passed, the function returns true.
+ *
+ * The arguments Gen1 and Gen2 are required to be deterministic and omega trim.
+ *
+ * @param rGen1
+ *   Generator Gen1
+ * @param rGen2
+ *   Generator Gen2
+ *
+ * @exception Exception
+ *   - alphabets of generators don't match (id 100)
+ *   - arguments are not omega trim (id 201, only if FAUDES_CHECKED is set)
+ *   - arguments are non-deterministic (id 202, only if FAUDES_CHECKED is set)
+ *
+ * @return 
+ *   true / false
+ *
+ * @ingroup OmgPlugIn
+ */
+extern FAUDES_API bool BuechiLanguageEquality(const Generator& rGen1, const Generator& rGen2);
 
 
 } // namespace faudes

@@ -69,6 +69,94 @@ the result:
 
 </ffnct_reference>
 
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="BuechiLanguageInclusion">
+<fdetails/>
+
+<p>
+This function tests for <fimath>Bm(Gen1) \subseteq  Bm(Gen2)</fimath>.
+</p>
+
+<p>
+The implementation is along the line of that of <ffnct>IsBuechiRelativelyClosed</ffnct>.
+We take the product composition of the two generators in order to verify the
+following conditions:
+</p>
+<ul class="l2">
+<li><p>
+<fimath>L(Gen1) \subseteq  L(Gen2)</fimath>;
+</p></li>
+<li><p>
+when muting Gen2-marked states, no SCC must have a Gen1-marked state;  
+</p></li>
+</ul>
+<p>
+The function returns "true" if both conditions are satisfied. 
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of both generators to match. 
+Furthermore, both specified generators must be deterministic
+and trim (w.r.t. Buechi acceptance).
+</p>
+
+</ffnct_reference>
+
+
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+
+<ffnct_reference name="BuechiLanguageEquality">
+<fdetails/>
+
+<p>
+This function tests for <fimath>Bm(Gen1) = Bm(Gen2)</fimath>.
+</p>
+
+<p>
+The implementation is along the line of that of <ffnct>IsBuechiRelativelyClosed</ffnct>.
+We take the product composition of the two generators in order to verify the
+following conditions:
+</p>
+<ul class="l2">
+<li><p>
+<fimath>L(Gen1) =L(Gen2)</fimath>;
+</p></li>
+<li><p>
+when muting Gen2-marked states, no SCC must have a Gen1-marked state;  
+</p></li>
+<li><p>
+when muting Gen1-marked states, no SCC must have a Gen2-marked state;  
+</p></li>
+</ul>
+<p>
+The function returns "true" if both conditions are satisfied. 
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of both generators to match. 
+Furthermore, both specified generators must be deterministic
+and trim (w.r.t. Buechi acceptance).
+</p>
+
+</ffnct_reference>
+
+
+
 <!-- ===================================================== -->
 <!-- ===================================================== -->
 <!-- ===================================================== -->
@@ -202,14 +290,14 @@ following three conditions:
 <fimath>L(GCand) \subseteq  L(GPlant)</fimath>;
 </p></li>
 <li><p>
-no SCC of <fimath>GPlant \times GCand</fimath> without GCand-marking contains a state with GPlant-marking; and
+when muting GCand-marked states, no SCC must have a GPlant-marked state; and
 </p></li>
 <li><p>
-no SCC of <fimath>GPlant \times GCand</fimath> without GPlant-marking contains a state with GCond-marking.
+when muting GPlant-marked states,  no SCC must have a GCand-marked state;  
 </p></li>
 </ul>
 <p>
-The function returns "true" if all conditions are satisfied.
+The function returns "true" if all conditions are satisfied. 
 </p>
 
 
@@ -326,8 +414,8 @@ passes a <i>GRes</i>-marking infinitely often, also passes infinitely many marke
 <table class="image">
 <tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
 <tr>
-<td> <fimage fsrc="tmp_omg_bparallel_g1"/> </td> 
-<td> <fimage fsrc="tmp_omg_bparallel_g2"/> </td> 
+<td> <fimage fsrc="tmp_omg_bparallel_g1"/> &nbsp;</td> 
+<td> &nbsp; <fimage fsrc="tmp_omg_bparallel_g2"/> </td> 
 </tr>
 </table> 
 </td> </tr> 

@@ -239,6 +239,56 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 
 </FunctionDefinition> 
 
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiLanguageInclusion -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiLanguageInclusion" ctype="faudes::BuechiLanguageInclusion"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiLanguageInclusion"> 
+Test for inclusion of Buechi accepted languages
+</Documentation> 
+<Keywords> 
+OmegaAut     "language inclusion" "Buechi acceptance"   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="BuechiLanguageInclusion(Gen1,Gen2)"> 
+<Parameter name="Gen1" ftype="Generator" access="In"/> 
+<Parameter name="Gen2" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiLanguageEquality -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiLanguageEquality" ctype="faudes::BuechiLanguageEquality"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiLanguageEquality"> 
+Test for equality of Buechi accepted languages
+</Documentation> 
+<Keywords> 
+OmegaAut     "language equality" "Buechi acceptance"   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="BuechiLanguageInclusion(Gen1,Gen2)"> 
+<Parameter name="Gen1" ftype="Generator" access="In"/> 
+<Parameter name="Gen2" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
 
 <!-- =================================================== -->
 <!-- =================================================== -->

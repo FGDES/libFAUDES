@@ -92,9 +92,6 @@ extern FAUDES_API bool IsBuechiControllable(
   const Generator& rSupCandGen);
 
 
-
-
-
 /**
  * Omega-synthesis w.r.t. Buechi acceptance condition
  *
@@ -133,7 +130,6 @@ extern FAUDES_API void SupBuechiCon(
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
   Generator& rResGen);
-
 
 
 /**
@@ -179,7 +175,6 @@ extern FAUDES_API void SupBuechiCon(
  * Parameter restrictions: both generators must be deterministic and 
  * have the same alphabet.
  *
- *
  * @param rPlantGen
  *   Plant G
  * @param rCAlph
@@ -204,7 +199,6 @@ extern FAUDES_API void BuechiCon(
   const EventSet&  rCAlph,
   const Generator& rSpecGen, 
   Generator& rResGen);
-
 
 
 /**
@@ -250,7 +244,6 @@ extern FAUDES_API void BuechiCon(
  *
  * Parameter restrictions: both generators must be deterministic and 
  * have the same alphabet.
- *
  *
  * @param rPlantGen
  *   Plant G
@@ -315,7 +308,6 @@ extern FAUDES_API void SupBuechiConNorm(
   Generator& rResGen);
 
 
-
 /**
  * Omega-synthesis for partial observation (experimental!)
  *
@@ -328,7 +320,6 @@ extern FAUDES_API void SupBuechiConNorm(
  *
  * Parameter restrictions: both generators must be deterministic and 
  * have the same alphabet.
- *
  *
  * @param rPlantGen
  *   Plant G
@@ -359,7 +350,6 @@ extern FAUDES_API void BuechiConNorm(
   Generator& rResGen);
 
 
-
 /**
  * Omega-synthesis for partial observation (experimental!)
  *
@@ -368,7 +358,6 @@ extern FAUDES_API void BuechiConNorm(
  * Controllability attributes are taken from the plant argument.
  * If the result is specified as a System, attributes will be copied
  * from the plant argument.
- *
  *
  * @param rPlantGen
  *   Plant System

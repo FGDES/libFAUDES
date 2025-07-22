@@ -67,7 +67,40 @@ int main() {
   FAUDES_TEST_DUMP("bparallel",bparallel_g1g2);
   FAUDES_TEST_DUMP("buechi parallel",bparallel_g1g2);
 
+  
+  ////////////////////////////
+  // language inclusion
+  ////////////////////////////
 
+  std::cout << "################################\n";
+  std::cout << "# tutorial, language inclusion\n";
+
+  // recycle example ffrom parallel
+  Generator bparallel_g1full=bparallel_g1;
+  InvProject(bparallel_g1full,bparallel_g1g2.Alphabet());
+
+  // do test and report
+  bool langinc_a=BuechiLanguageInclusion(bparallel_g1g2,bparallel_g1full);
+  bool langinc_b=BuechiLanguageInclusion(bparallel_g1full,bparallel_g1g2);
+  bool langinc_c=BuechiLanguageEquality(bparallel_g1full,bparallel_g1g2);
+  if(langinc_a) 
+    std::cout << "# g1g2 subseteq g1full (expecte)\n";
+  else
+    std::cout << "# g1g2 not subseteq g1full (test case failed!)\n";
+  if(langinc_b) 
+    std::cout << "# g1full subseteq g1g2 (test case failed!))\n";
+  else
+    std::cout << "# g1full not subseteq g1g2 (expected)\n";
+  if(langinc_c) 
+    std::cout << "# g1full == g1g2 (test case failed!))\n";
+  else
+    std::cout << "# g1full not == g1g2 (expected)\n";
+
+  // record
+  FAUDES_TEST_DUMP("language inc a", langinc_a);
+  FAUDES_TEST_DUMP("language inc b", langinc_b);
+  FAUDES_TEST_DUMP("language inc c", langinc_c);
+ 
   
   ////////////////////////////
   // closure w.r.t. Buechi acceptance
