@@ -93,7 +93,7 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable
     // we use J.Klen style from ltl2dstar: (Fin(0))&Inf(1)) | etc
     const RabinAcceptance& acc=pRAut->RabinAcceptance();
     accstr1 = "Acceptance: " + ToStringInteger(acc.Size()) + " ";
-    accstr2 = "acc-name  Rabin " + ToStringInteger(acc.Size());	  
+    accstr2 = "acc-name: Rabin " + ToStringInteger(acc.Size());	  
     size_t i;
     for(i=0;i<acc.Size();++i) {
       if(i>0) accstr1 += "|";
