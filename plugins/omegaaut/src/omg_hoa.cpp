@@ -86,18 +86,18 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable
   std::string accstr2;
   if(buechi) {
     accvec.push_back(rAut.MarkedStates());
-    accstr1 = "Acceptance: 1 Inf(0)";
-    accstr2 = "acc-name: Buchi";
+    accstr1 = "acc-name: Buchi";
+    accstr2 = "Acceptance: 1 Inf(0)";
   }
   if(rabin) {
     // we use J.Klen style from ltl2dstar: (Fin(0))&Inf(1)) | etc
     const RabinAcceptance& acc=pRAut->RabinAcceptance();
-    accstr1 = "Acceptance: " + ToStringInteger(acc.Size()) + " ";
-    accstr2 = "acc-name: Rabin " + ToStringInteger(acc.Size());	  
+    accstr1 = "acc-name: Rabin " + ToStringInteger(acc.Size());	  
+    accstr2 = "Acceptance: " + ToStringInteger(2*acc.Size()) + " ";
     size_t i;
     for(i=0;i<acc.Size();++i) {
-      if(i>0) accstr1 += "|";
-      accstr1 += "(Fin(" + ToStringInteger(2*i) + ")&Inf("+ ToStringInteger(2*i+1) + "))";
+      if(i>0) accstr2 += "|";
+      accstr2 += "(Fin(" + ToStringInteger(2*i) + ")&Inf("+ ToStringInteger(2*i+1) + "))";
       StateSet fin=rAut.States();
       fin.EraseSet(acc.At(i).ISet());
       accvec.push_back(fin);
@@ -301,10 +301,11 @@ public:
       return;
     }
     if(mBuechi) {
-      // todo: check for one set
+      if(numberOfSets!=1)
+        throw error("acc-name Buchi requires exactly on set in \"Acceptance:\"");
       return;
     }
-    throw error("ACC befor acc-name");
+    throw error("\"Acceptance:\" befor \"acc-name:\"");
   }
   // consume "acc-name: ..."
   virtual void provideAcceptanceName(const std::string& name, const std::vector<IntOrString>& extraInfo) override {
@@ -314,7 +315,7 @@ public:
     }
     if(name=="Rabin") {
       if(pRAut==nullptr)
-        throw error("acc-name is Rabin, buit only a plain Generator was passed");
+        throw error("acc-name is Rabin, but only a plain Generator was passed");
       mRabin=true;
       return;
     }
