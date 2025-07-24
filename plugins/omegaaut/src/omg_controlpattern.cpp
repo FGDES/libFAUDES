@@ -560,72 +560,77 @@ void EpsObservation(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
         return;
     }
     
-    // Step 1: Create new epsilon events for each control pattern
-    std::set<std::string> patterns;  // Store unique patterns
-    std::map<Idx, Idx> eventMapping;  // Map from old unobservable event to new epsilon event
+    // Create single epsilon event
+    std::string epsEventName = "eps";
+    Idx epsEvent = rRes.InsEvent(epsEventName);
     
-    // First pass: collect all unique patterns from unobservable events
-    EventSet::Iterator uit;
-    for(uit = unobservableEvents.Begin(); uit != unobservableEvents.End(); ++uit) {
-        std::string eventName = rRes.EventName(*uit);
-        
-        // Extract pattern from event name (e.g., "beta_1_G3" -> "G3")
-        size_t pos = eventName.find_last_of('_');
-        if(pos != std::string::npos && pos < eventName.length() - 1) {
-            std::string pattern = eventName.substr(pos + 1);
-            patterns.insert(pattern);
-        }
-    }
+    // Set epsilon event as uncontrollable and unobservable
+    rRes.ClrControllable(epsEvent);
+    rRes.ClrObservable(epsEvent);
+    rRes.ClrForcible(epsEvent);
     
-    // Step 2: Create epsilon events for each pattern
-    std::map<std::string, Idx> patternToEpsilon;
-    for(const std::string& pattern : patterns) {
-        std::string epsEventName = "eps";
-        Idx epsEvent = rRes.InsEvent(epsEventName);
-        
-        // Set epsilon event as uncontrollable and unobservable
-        rRes.ClrControllable(epsEvent);
-        rRes.ClrObservable(epsEvent);
-        rRes.ClrForcible(epsEvent);
-        
-        patternToEpsilon[pattern] = epsEvent;
-    }
-    
-    // Step 3: Create mapping from unobservable events to epsilon events
-    for(uit = unobservableEvents.Begin(); uit != unobservableEvents.End(); ++uit) {
-        std::string eventName = rRes.EventName(*uit);
-        
-        // Extract pattern from event name
-        size_t pos = eventName.find_last_of('_');
-        if(pos != std::string::npos && pos < eventName.length() - 1) {
-            std::string pattern = eventName.substr(pos + 1);
-            if(patternToEpsilon.find(pattern) != patternToEpsilon.end()) {
-                eventMapping[*uit] = patternToEpsilon[pattern];
-            }
-        }
-    }
-    
-    // Step 4: Replace transitions
+    // Step 1: Replace transitions
     TransSet originalTransitions = rRes.TransRel();  // Get copy of original transition relation
     
     TransSet::Iterator tit;
     for(tit = originalTransitions.Begin(); tit != originalTransitions.End(); ++tit) {
-        if(eventMapping.find(tit->Ev) != eventMapping.end()) {
+        if(unobservableEvents.Exists(tit->Ev)) {
             // This transition uses an unobservable event that should be replaced
-            Idx newEvent = eventMapping[tit->Ev];
             
             // Remove original transition
             rRes.ClrTransition(tit->X1, tit->Ev, tit->X2);
             
             // Add new transition using epsilon
-            rRes.SetTransition(tit->X1, newEvent, tit->X2);
-            
+            rRes.SetTransition(tit->X1, epsEvent, tit->X2);
         }
     }
     
-    // Step 5: Remove old unobservable events from alphabet
+    // Step 2: Remove old unobservable events from alphabet
+    EventSet::Iterator uit;
     for(uit = unobservableEvents.Begin(); uit != unobservableEvents.End(); ++uit) {
-        std::string removedEventName = rRes.EventName(*uit);
+        rRes.DelEvent(*uit);
+    }
+}
+
+void EpsObservation(const System& rGen, System& rRes) {
+    rRes = rGen;  // Copy original generator
+    
+    // Get unobservable events
+    EventSet unobservableEvents = rRes.UnobservableEvents();
+    
+    // If no unobservable events, return original generator
+    if(unobservableEvents.Size() == 0) {
+        return;
+    }
+    
+    // Create single epsilon event
+    std::string epsEventName = "eps";
+    Idx epsEvent = rRes.InsEvent(epsEventName);
+    
+    // Set epsilon event as uncontrollable and unobservable
+    rRes.ClrControllable(epsEvent);
+    rRes.ClrObservable(epsEvent);
+    rRes.ClrForcible(epsEvent);
+    
+    // Step 1: Replace transitions
+    TransSet originalTransitions = rRes.TransRel();  // Get copy of original transition relation
+    
+    TransSet::Iterator tit;
+    for(tit = originalTransitions.Begin(); tit != originalTransitions.End(); ++tit) {
+        if(unobservableEvents.Exists(tit->Ev)) {
+            // This transition uses an unobservable event that should be replaced
+            
+            // Remove original transition
+            rRes.ClrTransition(tit->X1, tit->Ev, tit->X2);
+            
+            // Add new transition using epsilon
+            rRes.SetTransition(tit->X1, epsEvent, tit->X2);
+        }
+    }
+    
+    // Step 2: Remove old unobservable events from alphabet
+    EventSet::Iterator uit;
+    for(uit = unobservableEvents.Begin(); uit != unobservableEvents.End(); ++uit) {
         rRes.DelEvent(*uit);
     }
 }
