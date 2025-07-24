@@ -39,8 +39,8 @@ namespace faudes {
  * and somewhat adboc writes HOA formated entities to the specified
  * stream.
  *
- * Our current implementation is restricted to (nondetermistic) Buechi
- * automata.
+ * Our current implementation uses dynamic cast to figure wheter to
+ * to output a Buechi or a Rabin automaton
  *
  * @param rOutStream
  *   Stream to write to
@@ -83,7 +83,7 @@ extern FAUDES_API void ExportHoa(
  * authored/copyrighted by
  *
  * Joachim Klein <klein@tcs.inf.tu-dresden.de>
- * DDavid Mueller <david.mueller@tcs.inf.tu-dresden.de>
+ * David Mueller <david.mueller@tcs.inf.tu-dresden.de>
  *
  * We have found the original sources at
  *
@@ -92,13 +92,13 @@ extern FAUDES_API void ExportHoa(
  * They are distributed under LGPL v2.1 conditions and we include
  * them with libFAUDES under the same license terms.
  *
- * Our current implementation can read deterministic Rabin automata
+ * Our current implementation can read Rabin and Buechi automata
  * with implicit edges. This is not a restriction of cpphoafparser
- * and we extend for further use cases in future.
+ * and may extend for further use cases in future.
  *
  * @param rInStream
  *   Stream to read from
- * @param rAut
+ * @param rGen
  *   Resultimg automaton
  * @param pSymTab
  *   Optional symbol table to provide event mapping
@@ -111,7 +111,7 @@ extern FAUDES_API void ExportHoa(
  */
 extern FAUDES_API void ImportHoa(
   std::istream& rInStream,
-  RabinAutomaton& rAut,
+  Generator& rGen,
   const SymbolTable* pSymTab=nullptr,
   bool resolve=false,
   bool trace=false);
@@ -124,7 +124,7 @@ extern FAUDES_API void ImportHoa(
  *
  * @param rFilename
  *   File to read from
- * @param rAut
+ * @param rGen
  *   Resultimg automaton
  * @param pSymTab
  *   Optional symbol table to provide event mapping
@@ -137,7 +137,7 @@ extern FAUDES_API void ImportHoa(
  */
 extern FAUDES_API void ImportHoa(
   const std::string& rFilename,
-  RabinAutomaton& rAut,
+  Generator& rGen,
   const SymbolTable* pSymTab=nullptr,
   bool resolve=false,
   bool trace=false);

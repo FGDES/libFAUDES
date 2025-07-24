@@ -72,20 +72,44 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable
   StateSet::Iterator sit_end;
   TransSet::Iterator tit;
   TransSet::Iterator tit_end;
-  // write Buechi automaton in HOA format: intro
-  rOutStream << "HOA: v1" << std::endl;
-  rOutStream << "name: \"" << rAut.Name() << "\""<< std::endl;
-  // figure number of atomic propositions
+  // figure type
+  bool buechi=true;
+  bool rabin=false;
+  const RabinAutomaton* pRAut = dynamic_cast<const RabinAutomaton*>(&rAut);
+  if(pRAut!=nullptr) {
+    rabin=true;
+    buechi=false;
+  }
+  // set up HOA style acceptance
+  std::vector<StateSet> accvec;
+  std::string accstr1;
+  std::string accstr2;
+  if(buechi) {
+    accvec.push_back(rAut.MarkedStates());
+    accstr1 = "Acceptance: 1 Inf(0)";
+    accstr2 = "acc-name: Buchi";
+  }
+  if(rabin) {
+    // we use J.Klen style from ltl2dstar: (Fin(0))&Inf(1)) | etc
+    const RabinAcceptance& acc=pRAut->RabinAcceptance();
+    accstr1 = "Acceptance: " + ToStringInteger(acc.Size()) + " ";
+    accstr2 = "acc-name  Rabin " + ToStringInteger(acc.Size());	  
+    size_t i;
+    for(i=0;i<acc.Size();++i) {
+      if(i>0) accstr1 += "|";
+      accstr1 += "(Fin(" + ToStringInteger(2*i) + ")&Inf("+ ToStringInteger(2*i+1) + "))";
+      StateSet fin=rAut.States();
+      fin.EraseSet(acc.At(i).ISet());
+      accvec.push_back(fin);
+      accvec.push_back(acc.At(i).RSet());
+    }
+  }
+  // figure number of atomic propositions to log_2(#events)
   uint32_t asz=rAut.Alphabet().Size();
   int apc=1;
   for(;asz>2;asz=(asz>>1))
     apc++;
-  //FD_WARN("Atomic propositions: apc " << apc << " asz " << asz);
-  rOutStream << "AP: " << apc;
-  for(int i=0; i<apc; ++i)
-    rOutStream << " \"ap"<<i<<"\"";
-  rOutStream  << std::endl;
-  // set up event mapping
+  // set up event mapping: faudes-idx -> [ consecutive integer starting from 0 , HOA expression ]
   std::map<Idx,uint32_t> ev2bits;
   std::map<Idx,std::string> ev2expr;
   uint32_t cnt=0;
@@ -96,28 +120,40 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable
     ev2expr[*eit]=omg_hoa_bits2expr(cnt,apc);
     cnt++;
   }
-  // write event aliases and set up symbol table
-  if(pSymTab) pSymTab->Clear();
-  eit=rAut.AlphabetBegin();
-  eit_end=rAut.AlphabetEnd();
-  for(;eit!=eit_end;++eit) {
-    rOutStream << "Alias: @" << rAut.EventName(*eit) << " " << ev2expr[*eit] << std::endl;
-    if(pSymTab)
+  // set up symbol table: [integer+1] -> [faudes name]
+  if(pSymTab) {
+    pSymTab->Clear();
+    eit=rAut.AlphabetBegin();
+    eit_end=rAut.AlphabetEnd();
+    for(;eit!=eit_end;++eit) 
       pSymTab->InsEntry(ev2bits[*eit]+1,rAut.EventName(*eit));
   }
-  // write initial states
+  // write HOA format: intro
+  rOutStream << "HOA: v1" << std::endl;
+  rOutStream << "name: \"" << rAut.Name() << "\""<< std::endl;
+  // write HOA format: atomic propositions
+  rOutStream << "AP: " << apc;
+  for(int i=0; i<apc; ++i)
+    rOutStream << " \"ap"<<i<<"\"";
+  rOutStream  << std::endl;
+  // write HOA format: event aliases 
+  eit=rAut.AlphabetBegin();
+  eit_end=rAut.AlphabetEnd();
+  for(;eit!=eit_end;++eit) 
+    rOutStream << "Alias: @" << rAut.EventName(*eit) << " " << ev2expr[*eit] << std::endl;
+  // write HOA format: initial states
   rOutStream << "Start:";
   sit=rAut.InitStatesBegin();
   sit_end=rAut.InitStatesEnd();
   for(;sit!=sit_end;++sit) 
     rOutStream << " " << (*sit)-1;
   rOutStream << std::endl;
-  // write number of states
+  // write HOA format: number of states
   rOutStream << "States: " << rAut.States().Size() << std::endl;
-  // configure for  Buchi acceptance
-  rOutStream << "Acceptance: 1 Inf(0)" << std::endl;
-  rOutStream << "acc-name: Buchi" << std::endl;
-  // do the graph structure
+  // write HOA format: acceptance condition
+  rOutStream << accstr1 << std::endl;
+  rOutStream << accstr2 << std::endl;
+  // write HOA format: graph structure
   rOutStream << "--BODY--" << std::endl;
   // iterate over all states
   sit=rAut.StatesBegin();
@@ -125,9 +161,16 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable
   for(;sit!=sit_end;++sit) {
     // state section
     rOutStream << "State: " << (*sit)-1;
-    if(rAut.ExistsMarkedState(*sit)) {
-      rOutStream << " {0}";
+    bool none=true;
+    for(int i=0; i<accvec.size(); ++i) {
+      if(!accvec[i].Exists(*sit)) continue;
+      if(none)
+	rOutStream << " {" + ToStringInteger(i);
+      else 
+	rOutStream << " " + ToStringInteger(i);
+      none=false;
     }
+    if(!none) rOutStream << "}";
     rOutStream << std::endl;
     // iterate over transitions from this state
     tit=rAut.TransRelBegin(*sit);
@@ -202,8 +245,8 @@ using namespace cpphoafparser;
 class HOAConsumerFaudes : public cpphoafparser::HOAConsumer {
 public:
   /** Constructor, holding a reference to the generator to read to */
-  HOAConsumerFaudes(RabinAutomaton& aut, const SymbolTable& syms) :
-    rAut(aut), rSymTab(syms), mImplEdgeHlp(0) {}
+  HOAConsumerFaudes(Generator& gen, const SymbolTable& syms) :
+    rGen(gen), rSymTab(syms), mImplEdgeHlp(0) {}
   /** Constructs a HOAParserExeption to indicate an unsupported but presumably relevent feature */
   HOAParserException error(const std::string& msg) {
     std::stringstream ss;
@@ -217,16 +260,17 @@ public:
   // consume start of header
   virtual void notifyHeaderStart(const std::string& version) override {
     // should we the check version?
-    rAut.Clear();
+    rGen.Clear();
+    pRAut = dynamic_cast<RabinAutomaton*>(&rGen);
   }
   // consume "States:"
   virtual void setNumberOfStates(unsigned int numberOfStates) override {
-    for(unsigned int i=0;i<numberOfStates;++i) rAut.InsState(i+1);
+    for(unsigned int i=0;i<numberOfStates;++i) rGen.InsState(i+1);
   }
   // consume "Start:"
   virtual void addStartStates(const int_list& stateConjunction) override {
     for(unsigned int state : stateConjunction) 
-       rAut.InsInitState(state+1);
+       rGen.InsInitState(state+1);
   }
   // consume "Alias: @..."
   virtual void addAlias(const std::string& name, label_expr::ptr labelExpr) override {
@@ -243,33 +287,43 @@ public:
     unsigned int evcnt= 1L << mApCount;
     for(uint32_t i=0;i<evcnt;++i) {
       std::string evname=omg_hoa_bits2event(i,mApCount);
-      if(rSymTab.Exists(i+1)) // todo: consider  to mute unknown
+      if(rSymTab.Exists(i+1)) // todo: consider to mute unknown
         evname=rSymTab.Symbol(i+1);
-      rAut.InsEvent(evname);
-      mEdgeBitsToEvIdx[i]=rAut.EventIndex(evname);
+      rGen.InsEvent(evname);
+      mEdgeBitsToEvIdx[i]=rGen.EventIndex(evname);
     }
   }
   // consume "ACC: ..."
   virtual void setAcceptanceCondition(unsigned int numberOfSets, acceptance_expr::ptr accExpr) override {
     if(mRabin) {
-      rAut.RabinAcceptance().Size((numberOfSets+1)/2);
+      pRAut->RabinAcceptance().Size((numberOfSets+1)/2);
+      // todo: check that this is in J. Klein style
+      return;
+    }
+    if(mBuechi) {
+      // todo: check for one set
       return;
     }
     throw error("ACC befor acc-name");
   }
   // consume "acc-name: ..."
   virtual void provideAcceptanceName(const std::string& name, const std::vector<IntOrString>& extraInfo) override {
-    if(name=="Rabin") 
-      mRabin=true;
-    if(name=="Buchi") 
+    if(name=="Buchi") {
       mBuechi=true;
-    // can only deal with Rabin
-    if(!mRabin)
-      throw error("acc-name must be Rabin");
+      return;
+    }
+    if(name=="Rabin") {
+      if(pRAut==nullptr)
+        throw error("acc-name is Rabin, buit only a plain Generator was passed");
+      mRabin=true;
+      return;
+    }
+    // can only deal with Buchi and Rabin
+    throw error("acc-name must be Buchi or Rabin");
   }
   // consume "Name: ..."
   virtual void setName(const std::string& name) override {
-    rAut.Name(name);
+    rGen.Name(name);
   }
   // consume "tool: ..."
   virtual void setTool(const std::string& name, std::shared_ptr<std::string> version) override {
@@ -293,11 +347,16 @@ public:
       throw error("state label expression");
     }
     // have the state (redundant)
-    rAut.InsState(id+1);
+    rGen.InsState(id+1);
     // record to acceptance condition
-    if (accSignature) {
+    if (accSignature && mBuechi) {
+      if(accSignature->size()>0)
+	rGen.InsMarkedState(id+1);
+    }
+    // record to acceptance condition
+    if (accSignature && mRabin) {
       for (unsigned int acc : *accSignature) {
-	RabinPair& rpair = rAut.RabinAcceptance().At(acc/2);
+	RabinPair& rpair = pRAut->RabinAcceptance().At(acc/2);
 	bool rnoti = acc%2;
 	if(rnoti) rpair.RSet().Insert(id+1);
 	else rpair.ISet().Insert(id+1);
@@ -317,7 +376,7 @@ public:
     uint32_t edgebits = mImplEdgeHlp.nextImplicitEdge();
     Idx evindex=mEdgeBitsToEvIdx[edgebits]; // todo: guard this, e.g. mute unknown
     for (unsigned int succ : conjSuccessors) 
-      rAut.SetTransition(stateId+1,evindex,succ+1);
+      rGen.SetTransition(stateId+1,evindex,succ+1);
   }
   // consume expilcit tarnsitio
   virtual void addEdgeWithLabel(unsigned int stateId,
@@ -339,9 +398,11 @@ public:
   // end of body
   virtual void notifyEnd() override {
     // invert ISets
-    RabinAcceptance::Iterator rit=rAut.RabinAcceptance().Begin();
-    for(;rit!=rAut.RabinAcceptance().End();++rit) 
-      rit->ISet()=rAut.States() - rit->ISet();
+    if(mRabin) {
+      RabinAcceptance::Iterator rit=pRAut->RabinAcceptance().Begin();
+      for(;rit!=pRAut->RabinAcceptance().End();++rit) 
+        rit->ISet()=pRAut->States() - rit->ISet();
+    }
   }
   // some sort of parser error
   virtual void notifyAbort() override {
@@ -357,7 +418,8 @@ public:
 private:
 
   /** Payload: automaton to parse to */
-  RabinAutomaton& rAut;
+  Generator& rGen;
+  RabinAutomaton* pRAut=nullptr;
   const SymbolTable& rSymTab;
 
   /** Payload: intermediate parsing results */
@@ -371,14 +433,14 @@ private:
 
 
 // read from HOA formated tream
-  void ImportHoa(std::istream& rInStream, RabinAutomaton& rAut, const SymbolTable* pSymTab, bool resolve, bool trace){
+  void ImportHoa(std::istream& rInStream, Generator& rGen, const SymbolTable* pSymTab, bool resolve, bool trace){
   // symboltable incl fallback
   static SymbolTable syms;
   const SymbolTable* psyms=&syms;
   if(pSymTab)
     psyms=pSymTab;  
   // configure parser
-  HOAConsumer::ptr consumer(new HOAConsumerFaudes(rAut,*psyms));
+  HOAConsumer::ptr consumer(new HOAConsumerFaudes(rGen,*psyms));
   if(resolve)
     consumer.reset(new HOAIntermediateResolveAliases(consumer));
   if(trace)
@@ -394,7 +456,7 @@ private:
 };
 
 // API wrapper
-void ImportHoa(const std::string& rFilename, RabinAutomaton& rAut, const SymbolTable* pSymTab, bool resolve, bool trace) {
+void ImportHoa(const std::string& rFilename, Generator& rGen, const SymbolTable* pSymTab, bool resolve, bool trace) {
   // open file
   std::ifstream fin;
   fin.exceptions(std::ios::badbit); // dont throw on failbit because the hoa patrser will provoke that
@@ -407,7 +469,7 @@ void ImportHoa(const std::string& rFilename, RabinAutomaton& rAut, const SymbolT
     throw Exception("ImportHoa", errstr.str(), 2);
   }
   // pass on
-  ImportHoa(fin,rAut,pSymTab,resolve,trace);
+  ImportHoa(fin,rGen,pSymTab,resolve,trace);
 }
 
 } // namespace faudes

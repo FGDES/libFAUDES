@@ -111,17 +111,18 @@ int main(int argc, char *argv[]) {
     if(ftype == "RabinAutomaton") israbin=true; 
     if(ftype == "Generator") isbuechi=true;
   }
-  if(!isbuechi){
-    throw Exception("gen2hoa", "only buechi automata for the time being -- sorry", 80);
-  }  
-  if(israbin){
-    throw Exception("gen2hoa", "only buechi automata for the time being -- sorry", 80);
-  }  
 
-  // have and read generator
-  Generator gen;
-  gen.Read(*tgenin);
-  gen.MinStateIndex();
+  // have generator
+  Generator* pgen=nullptr;
+  if(israbin) pgen= new RabinAutomaton;
+  if(isbuechi) pgen= new Generator;
+  if(pgen==nullptr){
+    throw Exception("gen2hoa", "only buechi and rabin automata for the time being -- sorry", 80);
+  }
+  
+  // read generator		
+  pgen->Read(*tgenin);
+  pgen->MinStateIndex();
 
   // have a symbol table
   SymbolTable syms;
@@ -129,9 +130,9 @@ int main(int argc, char *argv[]) {
 
   // output in HOA format
   if(hoaout.empty()) 
-    ExportHoa(std::cout,gen,&syms);
+    ExportHoa(std::cout,*pgen,&syms);
   else
-    ExportHoa(hoaout,gen,&syms);
+    ExportHoa(hoaout,*pgen,&syms);
 
   // export symbol table
   if(!symout.empty()) {
@@ -141,6 +142,7 @@ int main(int argc, char *argv[]) {
 
   // tidy up
   delete tgenin;
+  delete pgen;
 
   // done
   return 0;
