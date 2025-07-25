@@ -120,6 +120,21 @@ FAUDES_API void ExtractEventAttributes(const System& rSys,
                                       EventSet& rControllableEvents,
                                       EventSet& rObservableEvents);
 
+/**
+ * @brief Apply controller to filter transitions and create Buchi automaton
+ *
+ * This function takes a deterministic Rabin automaton and a controller map,
+ * filters out transitions not allowed by the controller, ignores Rabin
+ * acceptance conditions, and marks all states to create a Buchi automaton.
+ *
+ * @param rsDRA Input deterministic Rabin automaton
+ * @param rController Controller mapping states to allowed events
+ * @param rRes Output Buchi automaton (all states marked)
+ */
+FAUDES_API void ControlAut(const RabinAutomaton& rsDRA,
+                          const TaIndexSet<EventSet>& rController,
+                          Generator& rRes);
+
 } // namespace faudes
 
 #endif // FAUDES_OMG_RABINCTRLPARTIALOBS_H

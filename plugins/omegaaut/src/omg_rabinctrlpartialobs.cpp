@@ -91,7 +91,7 @@ void RabinCtrlPartialObsConsistencyCheck(const RabinAutomaton& rPlant,
 
 // RabinCtrlPartialObs (System interface - automatic event attribute extraction)
 void RabinCtrlPartialObs(const System& rPlant, 
-                        const RabinAutomaton& rSpec, 
+                        const RabinAutomaton& rSpec,           
                         RabinAutomaton& rSupervisor) {
     FD_DF("RabinCtrlPartialObs: System interface");
     
@@ -107,10 +107,10 @@ void RabinCtrlPartialObs(const System& rPlant,
 }
 
 // RabinCtrlPartialObs (explicit event sets)
-void RabinCtrlPartialObs(const RabinAutomaton& rSpec, 
+void RabinCtrlPartialObs(const RabinAutomaton& rPlant, 
                         const EventSet& rControllableEvents,
                         const EventSet& rObservableEvents,
-                        const RabinAutomaton& rPlant, 
+                        const RabinAutomaton& rSpec, 
                         RabinAutomaton& rSupervisor) {
     FD_DF("RabinCtrlPartialObs: explicit event sets");
     
@@ -143,7 +143,7 @@ void RabinCtrlPartialObs(const RabinAutomaton& rSpec,
         // STEP 1: Compute synchronous product of plant and specification
         FD_DF("RabinCtrlPartialObs: Step 1 - Computing product");
         RabinAutomaton Product;
-        RabinBuechiAutomaton(rSpec, rPlant, Product);
+        RabinBuechiProduct(rSpec, rPlant, Product);
         
         if (Product.Empty()) {
             throw Exception("RabinCtrlPartialObs", 
@@ -204,6 +204,93 @@ void RabinCtrlPartialObs(const RabinAutomaton& rSpec,
     }
     
     FD_DF("RabinCtrlPartialObs: completed");
+}
+
+// ControlAut - Apply controller to filter transitions and create Buchi automaton
+void ControlAut(const RabinAutomaton& rsDRA,
+               const TaIndexSet<EventSet>& rController,
+               Generator& rRes) {
+    FD_DF("ControlAut()");
+    
+    // Clear result automaton
+    Generator* pRes = &rRes;
+    if (&rRes == &rsDRA) {
+        pRes = new Generator();
+    }
+    pRes->Clear();
+    pRes->Name("ControlAut(" + rsDRA.Name() + ")");
+    
+    // Copy alphabet from source automaton
+    pRes->InjectAlphabet(rsDRA.Alphabet());
+    
+    // Copy only states that are in the controller
+    StateSet::Iterator sit;
+    for (sit = rsDRA.StatesBegin(); sit != rsDRA.StatesEnd(); ++sit) {
+        if (rController.Exists(*sit)) {
+            pRes->InsState(*sit);
+        }
+    }
+    
+    // Set initial states (only if they exist in the controller)
+    StateSet::Iterator iit;
+    for (iit = rsDRA.InitStatesBegin(); iit != rsDRA.InitStatesEnd(); ++iit) {
+        if (rController.Exists(*iit)) {
+            pRes->SetInitState(*iit);
+        }
+    }
+    
+    // Mark all states (create Buchi automaton)
+    for (sit = pRes->StatesBegin(); sit != pRes->StatesEnd(); ++sit) {
+        pRes->SetMarkedState(*sit);
+    }
+    
+    // Add self-loops for unobservable events in each state (step 2)
+    EventSet unobservableEvents = rsDRA.Alphabet() - rsDRA.ObservableEvents();
+    for (sit = pRes->StatesBegin(); sit != pRes->StatesEnd(); ++sit) {
+        EventSet::Iterator eit;
+        for (eit = unobservableEvents.Begin(); eit != unobservableEvents.End(); ++eit) {
+            pRes->SetTransition(*sit, *eit, *sit);
+            FD_DF("ControlAut: Adding unobservable self-loop " << *sit << " --" << 
+                  rsDRA.EventName(*eit) << "--> " << *sit);
+        }
+    }
+    
+    // Filter transitions based on controller
+    TransSet::Iterator tit;
+    for (tit = rsDRA.TransRelBegin(); tit != rsDRA.TransRelEnd(); ++tit) {
+        Idx state = tit->X1;
+        Idx event = tit->Ev;
+        Idx nextState = tit->X2;
+        
+        // Check if this state has controller restrictions
+        if (rController.Exists(state)) {
+            const EventSet& allowedEvents = rController.Attribute(state);
+            // Only add transition if event is allowed by controller
+            if (allowedEvents.Exists(event)) {
+                pRes->SetTransition(state, event, nextState);
+                FD_DF("ControlAut: Adding transition " << state << " --" << 
+                      rsDRA.EventName(event) << "--> " << nextState);
+            } else {
+                FD_DF("ControlAut: Filtering out transition " << state << " --" << 
+                      rsDRA.EventName(event) << "--> " << nextState << " (not allowed by controller)");
+            }
+        } else {
+            // Skip transitions from states not in controller (they are deleted)
+            FD_DF("ControlAut: Skipping transition " << state << " --" << 
+                  rsDRA.EventName(event) << "--> " << nextState << " (state not in controller)");
+        }
+    }
+    
+    // Copy result if needed
+    if (pRes != &rRes) {
+        rRes = *pRes;
+        delete pRes;
+    }
+    
+    
+    FD_DF("ControlAut: Generated Buchi automaton with " << rRes.Size() << 
+          " states and " << rRes.TransRelSize() << " transitions");
+    FD_DF("ControlAut: All " << rRes.MarkedStatesSize() << " states are marked");
 }
 
 } // namespace faudes

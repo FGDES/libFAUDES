@@ -295,6 +295,20 @@ private:
 FAUDES_API void EpsObservation(const RabinAutomaton& rGen, RabinAutomaton& rRes);
 
 /**
+ * @brief Replace unobservable events with epsilon events for System types
+ *
+ * This function creates a System where all unobservable events are replaced
+ * with a single epsilon event. This is useful for converting systems to a form
+ * where unobservable behavior is represented uniformly as epsilon transitions.
+ *
+ * @param rGen 
+ *   Input System
+ * @param rRes
+ *   Output System with epsilon events replacing unobservable events
+ */
+FAUDES_API void EpsObservation(const System& rGen, System& rRes);
+
+/**
  * @brief Compute the synchronous product of two Rabin automata
  * 
  * This function computes the synchronous product (parallel composition) of two
