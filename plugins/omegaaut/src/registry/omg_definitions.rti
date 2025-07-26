@@ -538,7 +538,7 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 <FunctionDefinition name="OmegaAut::RabinBuechiAutomaton" ctype="faudes::RabinBuechiAutomaton"> 
 
 <Documentation ref="omegaaut_rabinfnct.html#RabinBuechiAutomaton"> 
-Assemble an automaton to accept a given Rabuin/Buechi accepted lanuage. 
+Assemble an automaton to accept a given Rabin/Buechi accepted lanuage. 
 </Documentation> 
 <Keywords> 
 OmegaAut    "product"    "parallel composition"    "Rabin automata"  "Buechi automata" "product composition"        

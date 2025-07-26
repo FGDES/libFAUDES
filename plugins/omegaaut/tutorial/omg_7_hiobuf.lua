@@ -1,4 +1,4 @@
-------------------------------------------------------------------------------------
+----------------------------OA--------------------------------------------------------
 -- Finite capacity buffer in HIO architecture
 ------------------------------------------------------------------------------------
 
@@ -352,13 +352,13 @@ sigobs:Write()
 
 print("=== running graphviz")
 
-src:GraphWrite("tmp_src.png")
-bl:GraphWrite("tmp_bl.png")
-env:GraphWrite("tmp_env.png")
-br:GraphWrite("tmp_br.png")
-snk:GraphWrite("tmp_snk.png")
---plant:GraphWrite("tmp_plant.png")
-spec:GraphWrite("tmp_spec.png")
+src:GraphWrite("tmp_omg_7_src.png")
+bl:GraphWrite("tmp_omg_7_bl.png")
+env:GraphWrite("tmp_omg_7_env.png")
+br:GraphWrite("tmp_omg_7_br.png")
+snk:GraphWrite("tmp_omg_7_snk.png")
+--plant:GraphWrite("tmp_omg_7_plant.png")
+spec:GraphWrite("tmp_omg_7_spec.png")
 
 
 print("=== prepare synthesis")
@@ -374,6 +374,9 @@ if relcl then
 else
   print("=== spec fails to be rel topologically closed")
 end
+plant:Write("tmp_omg_7_plant.gen")
+spec:Write("tmp_omg_7_spec.gen")
+cand:Write("tmp_omg_7_cand.gen")
 
 
 print("=== running synthesis: supremal controllable sublanguage")
@@ -390,6 +393,7 @@ else
   print("=== supremal controllable sublanguage fails to be rel topologically closed")
 end
 sup:SWrite()
+sup:Write("tmp_omg_7_sup.gen")
 
 
 print("=== running synthesis: closed loop under greedy control")
@@ -402,6 +406,7 @@ loop=faudes.Generator()
 faudes.BuechiProduct(plant,ctrl,loop)
 loop:Name("Loop under Greedy Control")
 loop:SWrite()
+loop:Write("tmp_omg_7_loop.gen")
 
 
 
@@ -450,7 +455,7 @@ looppro:SWrite()
 
 print("=== running graphviz")
 
-looppro:GraphWrite("tmp_looppro.png")
+looppro:GraphWrite("tmp_omg_7_looppro.png")
 --]]
 
 

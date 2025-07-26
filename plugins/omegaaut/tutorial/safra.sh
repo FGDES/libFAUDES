@@ -4,7 +4,7 @@
 GEN2HOA=./gen2hoa
 HOA2GEN=./hoa2gen
 GEN2DOT=./waut2dot
-LTL2DSTAR=~/opt/ltl2dstar 
+LTL2DSTAR=~/opt/bin/ltl2dstar 
 DOT=dot
 
 # say hello

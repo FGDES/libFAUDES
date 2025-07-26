@@ -183,7 +183,7 @@ bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rRes) {
 }  
 
 
-// Rabin-Buechi product (lifting individual acceptence conditions, languages not affected
+// Rabin-Buechi product (lifting individual acceptence conditions, generated languages not affected
 // if arguments are full))
 void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  RabinAutomaton& rRes) {
   // prepare result
