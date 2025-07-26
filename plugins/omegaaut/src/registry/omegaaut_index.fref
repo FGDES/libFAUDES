@@ -15,6 +15,9 @@ This plug-in provides data types and functions to represent and operate on
 automata that process infinite-length words. For a general overview on
 the topic see <fcite name="W1"/>. For the purpose of libFAUDES, we
 restrict the scope to support synthesis of supervisiors for non-termiating processes.
+For post- and pre-processing of omega automata with a varierty of expernal tools,
+libFAUDES exports to and imports from <a href="https://adl.github.io/hoaf/">HOA</a> formated files and streams;
+see <a href="#hoa">[here]</a> for further details.
 </p>
 
 <p>
@@ -228,13 +231,9 @@ Token-IO example for a <ftype>RabinAutomaton</ftype> that accepts <fimath>\Sigma
 <pre>
 &lt;Generator name="eventually-always-alternate" ftype="RabinAutomaton"&gt;
 
-&lt;Alphabet&gt;
-a b
-&lt;/Alphabet&gt;
+&lt;Alphabet&gt; a b &lt;/Alphabet&gt;
 
-&lt;States&gt;
-1 2 3 4
-&lt;/States&gt;
+&lt;States&gt; 1 2 3 4 &lt;/States&gt;
 
 &lt;TransRel&gt;
 1              a             2
@@ -247,21 +246,91 @@ a b
 4              b             4
 &lt;/TransRel&gt;
 
-&lt;InitStates&gt;
-4
-&lt;/InitStates&gt;
-
+&lt;InitStates&gt; 4 &lt;/InitStates&gt;
 &lt;MarkedStates/&gt;
 
 &lt;RabinAcceptance&gt;
-&lt;RabinPair&gt;
-&lt;R&gt; 1 2 &lt;/R&gt;
-&lt;I&gt; 1 2 &lt;/I&gt;
-&lt;/RabinPair&gt;
+&lt;RabinPair&gt; &lt;R&gt; 1 2 &lt;/R&gt; &lt;I&gt; 1 2 &lt;/I&gt; &lt;/RabinPair&gt;
 &lt;/RabinAcceptance&gt;
 
 &lt;/Generator&gt;
 </pre>
+
+
+<h2>
+<a id="hoa">Hanoi Omega-Automata Format (HOA)</a>  
+</h2>
+
+<p>
+The <a href="https://adl.github.io/hoaf/">HOA</a> format was introduced to facilitate the exchange of omega
+automata between different tools like <a href="https://www.ltl2dstar.de/">ltl2dstar</a> and
+<a href="https://spot.lre.epita.fr/index.html">Spot</a>. It allows for a rather flexible specification of
+acceptance conditions, which for our purposes includes Buechi acceptance and Rabin acceptance.
+</p>
+<p>
+To this end, we provide the tools <tt>gen2hoa</tt> and <tt>hoa2gen</tt> to convert libFAUDES formated generators
+to and from the HOA format. As an example, the above eventually-always-alternate Rabin automaton will be
+converted to
+</p>
+<pre>
+~/libFAUDES/bin$ ./gen2hoa -s symtab.xml omg_dra.gen
+HOA: v1
+name: "eventually always alternating a and b"
+AP: 1 "ap0"
+Alias: @a !0
+Alias: @b 0
+Start: 3
+States: 4
+acc-name: Rabin 1
+Acceptance: 2 (Fin(0)&amps;Inf(1))
+--BODY--
+State: 0 {1}
+[@a] 1
+[@b] 3
+State: 1 {1}
+[@a] 2
+[@b] 0
+State: 2 {0}
+[@a] 2
+[@b] 0
+State: 3 {0}
+[@a] 2
+[@b] 3
+</pre>  
+
+<p>
+In HOA, states are always consecutively numbered starting from 0 and transition lables
+are logic formulas in terms of atomic propositions. For import and export, reindexing
+states is straight forward.
+Regarding libFAUDES events, they are first also encoded as consecutive integers starting at 0
+and then these integers are binary encoded as truth values of a sufficient number
+of atomic propositions. In the HOA output, the mapping is preserved by optional aliases.
+Since not all external tools maintane aliases, <tt>gen2hoa</tt> can export a libFAUDES symbol table
+by the <tt>-s</tt> option. So after processing the exported HOA file, one can read back results and
+retrieve the original libFAUDES events.
+</p>
+
+<p>
+In the above example, the HOA states 0 to 3 encode the libFAUDES states
+1 to 4 and we have one atomic proposition <tt>ap0</tt> with
+<tt>!ap0</tt> representing the event <tt>a</tt> and <tt>ap0</tt> representing event <tt>b</tt>.
+The symbol table amounts to
+</p>
+
+<pre>
+&lt;SymbolTable&gt;
+1    a
+2    b
+&lt;/SymbolTable&gt;
+</pre>
+
+<p>
+where we again observe an offset of 1 since 0 is not a valid index in libFAUDES symbol tables.
+</p>
+<p>
+For a complete example for exporting to HOA format, processing by an external tool and importing
+back the result, see <tt>safra.sh</tt> in the tutorial folder.
+</p>
 
 
 <h2>
