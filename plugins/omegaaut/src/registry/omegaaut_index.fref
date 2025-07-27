@@ -283,7 +283,7 @@ Alias: @b 0
 Start: 3
 States: 4
 acc-name: Rabin 1
-Acceptance: 2 (Fin(0)&amps;Inf(1))
+Acceptance: 2 (Fin(0)&amp;Inf(1))
 --BODY--
 State: 0 {1}
 [@a] 1

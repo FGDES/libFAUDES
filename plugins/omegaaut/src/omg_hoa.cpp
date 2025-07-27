@@ -59,7 +59,7 @@ std::string omg_hoa_bits2expr(uint32_t bits, int apc) {
     else res+= "!"+faudes::ToStringInteger(i);
     if(i+1<apc) res+=" & ";
   }
-  FD_DF("hoa_bits2explr: bits " << bits << " expr " << res);
+  FD_DF("hoa_bits2expr: bits " << bits << " expr " << res);
   return res;
 }
 
@@ -230,15 +230,7 @@ void ExportHoa(const std::string& rFilename, const Generator& rAut, SymbolTable*
 }
 
 
-// helper bit vector to faudes event name
-std::string omg_hoa_bits2event(uint32_t bits, int apc) {
-  std::string res="ev";;
-  for(int i=apc-1;i>=0;--i) {
-    if(bits & (1L << i)) res+="1";
-    else res+= "0";
-  }
-  return res;
-}
+
 
 // cpphoaparser comsumer to read to generator
 using namespace cpphoafparser;
@@ -274,7 +266,7 @@ public:
   }
   // consume "Alias: @..."
   virtual void addAlias(const std::string& name, label_expr::ptr labelExpr) override {
-    throw error("aliases");
+    throw error("aliases not supported");
   }
   // consume "AP: ... "
   virtual void setAPs(const std::vector<std::string>& aps) override {
@@ -286,7 +278,7 @@ public:
     mApCount=aps.size();
     unsigned int evcnt= 1L << mApCount;
     for(uint32_t i=0;i<evcnt;++i) {
-      std::string evname=omg_hoa_bits2event(i,mApCount);
+      std::string evname=bits2event(i);
       if(rSymTab.Exists(i+1)) // todo: consider to mute unknown
         evname=rSymTab.Symbol(i+1);
       rGen.InsEvent(evname);
@@ -295,17 +287,7 @@ public:
   }
   // consume "ACC: ..."
   virtual void setAcceptanceCondition(unsigned int numberOfSets, acceptance_expr::ptr accExpr) override {
-    if(mRabin) {
-      pRAut->RabinAcceptance().Size((numberOfSets+1)/2);
-      // todo: check that this is in J. Klein style
-      return;
-    }
-    if(mBuechi) {
-      if(numberOfSets!=1)
-        throw error("acc-name Buchi requires exactly on set in \"Acceptance:\"");
-      return;
-    }
-    throw error("\"Acceptance:\" befor \"acc-name:\"");
+    mAccSetCount=numberOfSets;
   }
   // consume "acc-name: ..."
   virtual void provideAcceptanceName(const std::string& name, const std::vector<IntOrString>& extraInfo) override {
@@ -319,8 +301,6 @@ public:
       mRabin=true;
       return;
     }
-    // can only deal with Buchi and Rabin
-    throw error("acc-name must be Buchi or Rabin");
   }
   // consume "Name: ..."
   virtual void setName(const std::string& name) override {
@@ -337,7 +317,24 @@ public:
   }
   // start graph data
   virtual void notifyBodyStart() override {
+    // initialise implicit edge lables
     mImplEdgeHlp = ImplicitEdgeHelper(mApCount);
+    // test acceptance condition
+    if(!(mRabin || mBuechi))
+      throw error("\"acc-name\" must specify Buchi or Rabin");
+    // sanity test Rabin acceptance
+    if(mRabin) {
+      if(mAccSetCount % 2 != 0)
+        throw error("Rabin acceptance requires an even number of sets in \"Acceptance:\"");
+      pRAut->RabinAcceptance().Size((mAccSetCount+1)/2);
+      return;
+    }
+    // sanity test  Buechi acceptance
+    if(mBuechi) {
+      if(mAccSetCount!=1)
+        throw error("Buchi acceptance requires exactly on set in \"Acceptance:\"");
+      return;
+    }
   }
   // comsume "State: ..."
   virtual void addState(unsigned int id,
@@ -373,24 +370,27 @@ public:
     std::shared_ptr<int_list> accSignature) override
   {
     if (accSignature) 
-      throw error("transition marking");
+      throw error("transition marking not supported");
     uint32_t edgebits = mImplEdgeHlp.nextImplicitEdge();
     Idx evindex=mEdgeBitsToEvIdx[edgebits]; // todo: guard this, e.g. mute unknown
     for (unsigned int succ : conjSuccessors) 
       rGen.SetTransition(stateId+1,evindex,succ+1);
   }
-  // consume expilcit tarnsitio
+  // consume expilcit tarnsition
   virtual void addEdgeWithLabel(unsigned int stateId,
     label_expr::ptr labelExpr,
     const int_list& conjSuccessors,
     std::shared_ptr<int_list> accSignature) override
   {
-    throw error("explicit edge label");
-    /*
-    if (labelExpr) {
-      std::cerr << "[" << *labelExpr << "] ";
+    if (accSignature) 
+      throw error("transition marking not supported");
+    int_list bits;
+    expr2bits(labelExpr, bits);
+    for (unsigned int edgebits : bits) {
+      Idx evindex=mEdgeBitsToEvIdx[edgebits]; // todo: guard this, e.g. mute unknown
+      for (unsigned int succ : conjSuccessors) 
+        rGen.SetTransition(stateId+1,evindex,succ+1);
     }
-    */
   }
   // end of graph data
   virtual void notifyEndOfState(unsigned int stateId) override {
@@ -427,9 +427,32 @@ private:
   bool mRabin=false;
   bool mBuechi=false;
   int mApCount=0;
+  unsigned int mAccSetCount=0;
   std::map<int,std::string> mApSymbols;
   ImplicitEdgeHelper mImplEdgeHlp;
   std::map<uint32_t,Idx> mEdgeBitsToEvIdx;
+
+  /** bit vector to dummy faudes event name */
+  std::string bits2event(uint32_t bits) {
+    std::string res="ev";
+    for(int i=mApCount-1;i>=0;--i) {
+      if(bits & (1L << i)) res+="1";
+      else res+= "0";
+    }
+    return res;
+  }
+
+  /** label expr to list of bit vectors */
+  /** (this is for explicit labeling; we'ld need SAT solver to do this properly) */
+  //typedef std::vector<unsigned int> int_list;
+  //typedef BooleanExpression<AtomLabel> label_expr;
+  void  expr2bits(label_expr::ptr labelExpr, HOAConsumer::int_list& bits) {
+    (void) labelExpr;
+    (void) bits;
+    //std::cerr << "[" << *labelExpr << "] ";
+    throw error("explicit edge label");
+  }    
+
 };
 
 
