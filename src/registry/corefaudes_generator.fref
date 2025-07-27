@@ -10,7 +10,7 @@ Generator
 
 <p>
 A generator is a finite representation of a (regular) formal language. 
-In the context of discrete event systems, generators are used to model the dynamic behaviour 
+In the context of discrete-event systems, generators are used to model the dynamic behaviour 
 in the sense that the corresponding language consists of all strings of events which 
 the system can exhibit. 
 </p>

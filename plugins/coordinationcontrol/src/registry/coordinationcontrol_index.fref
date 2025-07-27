@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
-<ReferencePage chapter="Reference" section="CoordinationControl" title="Coordination Control PlugIn"> 
+<ReferencePage chapter="Reference" section="CoordinationControl" title="Coordination Control"> 
 
-<h1>Coordination Control PlugIn</h1>
+<h1>Coordination Control</h1>
 
 <!--  added summary for a consistent display in reference_index.html, tmoor -->
 <fsummary>

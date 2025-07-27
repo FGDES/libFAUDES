@@ -2,7 +2,7 @@ HOA: v1
 States: 4
 properties: implicit-labels trans-labels no-univ-branch deterministic complete
 tool: "ltl2dstar" "0.5.4"
-name: "eventually always alternating a and !a"
+name: "eventually allways alternating a and !a"
 acc-name: Rabin 1
 Acceptance: 2 (Fin(0)&Inf(1))
 Start: 3

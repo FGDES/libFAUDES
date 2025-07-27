@@ -1619,7 +1619,7 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
 	rTr.ReadEnd("fdmath");
 	continue;
     }
-    // do my special tags: dmath
+    // do my special tags: imath
     if(token.IsBegin("fimath")) {
         rTr.ReadBegin("fimath", token);
         std::string mtext;
@@ -1710,7 +1710,7 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
 	rTr.ReadEnd("falllit");
 	continue;
     }
-    // do my special tags: fliteratur (definition of)
+    // do my special tags: fliterature (definition of)
     if(token.IsBegin("fliterature")) {
         rTr.ReadBegin("fliterature", token);
 	std::string label=token.AttributeStringValue("name");
@@ -1725,7 +1725,7 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
 	rTr.ReadEnd("fcontributors");
 	continue;
     }
-    // do my special tags: flink
+    // do my special tags: fcite
     if(token.IsBegin("fcite")) {
         rTr.ReadBegin("fcite", token);
         std::string label=token.AttributeStringValue("name");

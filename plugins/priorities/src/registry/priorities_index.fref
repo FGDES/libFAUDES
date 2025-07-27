@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
-<ReferencePage chapter="Reference" section="Priorities" page="Index" title="Priorities PlugIn"> 
+<ReferencePage chapter="Reference" section="Priorities" page="Index" title="Priorities"> 
 
 <h1>
-Priorities PlugIn 
+Prioritised Events
 </h1>
 
 <fsummary>
@@ -29,7 +29,7 @@ Each event <fimath>\sigma\in\Sigma_{all}</fimath>
 is asigned a non-negative integer to indicate its execution priority; i.e., we have a map
 <fimath>\texttt{prio}\colon\Sigma_{all}\rightarrow\mathbb{N}</fimath>. 
 as a global entity.
-Thismap is implemented by the faudes type <ftype>EventPriorities</ftype>.
+This map is implemented by the faudes type <ftype>EventPriorities</ftype>.
 It provides access to the individual priorities and some auxiliar functions, e.g., finding minimum
 and maximum priorities.
 </p>
@@ -42,7 +42,7 @@ actuators can be triggered immediately, while the PLC needs to wait for sensors 
 </p>
 <p>
 For the trivial case of a system composed of only one component <fimath>G_1</fimath>, i.e., <fimath>n=1</fimath>,
-the effect of prioritised events is implemented by the so called <i>shaping</i> operator..
+the effect of prioritised events is implemented by the so called <i>shaping</i> operator.
 It iterates over all states and removes any outgoing transitions that are labeled with some event,
 that is preempted by another event that is of higher priority.
 The shaping operator is implemented by the faudes function <ffnct>ShapePriorities</ffnct>

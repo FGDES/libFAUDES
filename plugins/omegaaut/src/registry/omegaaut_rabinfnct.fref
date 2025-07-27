@@ -40,7 +40,7 @@ Given a Rabin pair <fimath>(R,I)</fimath>, the implementation of this function i
   repeat the above two steps until a fix point is attained
 </p></li>
 <li><p>  
-  run one more mu-iteration on <fimath>L</fimath> to extend to the bachward reach
+  run one more mu-iteration on <fimath>L</fimath> to extend to the backward reach
 </p></li>
 <li><p>  
   return <fimath>L</fimath> as the result
@@ -115,7 +115,7 @@ matches that of <i>BAut</i>; i.e., <fimath>Rm(RAut)=Rm(Gres)</fimath> and <fimat
 <table class="images">
 <tr> <td> Component RAut </td> <td> Component BAut </td> </tr>
 <tr>
-<td> <fimage fsrc="tmp_omg_4_spec3_rabinfull"/> </td>
+<td> <fimage fsrc="tmp_omg_4_spec3_rabin"/> </td>
 <td> <fimage fsrc="tmp_omg_4_plant1"/> </td>
 </tr>
 </table> 
@@ -163,14 +163,14 @@ To facilitate controller syhnthesis, we also set the Buechi acceptance to appcep
 <table class="images">
 <tr> <td> Component RAut </td> <td> Component BAut </td> </tr>
 <tr>
-<td> <fimage fsrc="tmp_omg_4_spec3_rabinfull"/> </td>
+<td> <fimage fsrc="tmp_omg_4_spec3_rabin"/> </td>
 <td> <fimage fsrc="tmp_omg_4_plant1"/> </td>
 </tr>
 </table> 
 </td> </tr> 
 <tr> <td> <table class="images">
 <tr> <td> Composition GRes</td> </tr>
-<tr> <td> <fimage fsrc="tmp_omg_4_cand13_test"/> </td> </tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_cand13"/> </td> </tr>
 </table> 
 </td> </tr> 
 </table>

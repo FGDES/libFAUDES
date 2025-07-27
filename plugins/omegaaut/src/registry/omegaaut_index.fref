@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
-<ReferencePage chapter="Reference" section="OmegaAut" page="Index" title="Omega Automata PlugIn"> 
+<ReferencePage chapter="Reference" section="OmegaAut" page="Index" title="Omega Automata"> 
 
 <h1>
-Omega Automata PlugIn 
+Omega Automata  
 </h1>
 
 <fsummary>
@@ -16,8 +16,7 @@ automata that process infinite-length words. For a general overview on
 the topic see <fcite name="W1"/>. For the purpose of libFAUDES, we
 restrict the scope to support synthesis of supervisiors for non-termiating processes.
 For post- and pre-processing of omega automata with a varierty of expernal tools,
-libFAUDES exports to and imports from <a href="https://adl.github.io/hoaf/">HOA</a> formated files and streams;
-see <a href="#hoa">[here]</a> for further details.
+libFAUDES exports to and imports from <a href="https://adl.github.io/hoaf/">HOA</a> formated files and streams; see <a href="#hoa">[here]</a> for further details.
 </p>
 
 <p>
@@ -161,12 +160,12 @@ there exists no deterministic Buechi automate that accepts the same language.
 A Rabin automaton is a tuple
 <fimath>G = (Q,\ \Sigma,\ \delta,\ Q_o,\ A)</fimath>,
 where the first entries are as for common automata and 
-<fimath>A</fimath> is a set of pairs if state sets to encode a <i>Rabin acceptance condition</i>.
+<fimath>A</fimath> is a set of pairs of state sets to encode a <i>Rabin acceptance condition</i>.
 Technically we have
 <br />
 <br />
-<fdmath> A := \{\ (R_p,\ I_p)\ |\ p\in P\ \} \text{ with }
-R_p,\ I_p \subseteq Q \text{ for all } p\in P\ .
+<fdmath> A := \{\ (R_p,\ I_p)\ |\ p\in P\  \ |\  
+R_p,\ I_p \subseteq Q \text{ for } p\in P\ \}.
 </fdmath>
 <br />
 <br />
@@ -187,9 +186,12 @@ The run is accepted by the Rabin automaton if it is accepted by at least one pai
 To this end,  we have the associated omega-language
 <br />
 <br />
-<fdmath>Rm(G)\ :=\ \{
-v \in \Sigma^w \ |\ 
-\text{there ex. a run } \pi \text{ of } G \text{ and } p\in P \text{ s.t. }
+<fdmath>
+Rm(G)\ :=\ \{\  v \in \Sigma^w \ |
+</fdmath><br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+<fdmath>
+\text{there exists a run } \pi \text{ of } G \text{ and } p\in P \text{ s.t. }
 v=w\[\pi\],\ 
 \inf\[\pi\]\subseteq I_p \text{ and } \inf\[\pi\]\cap R_p\neq\emptyset\ 
 \}
@@ -210,9 +212,11 @@ is again defined over Sigma={<tt>a</tt>, <tt>b</tt>} to accept
 <tr><td><fimage fsrc="tmp_omg_dra"/> </td> </tr>
 </table> 
 <p>
-Note that the above automaton is deterministic. It has been onbtained by the external program
+Note that the above automaton is deterministic. It has been onbtained by the external tool
 <a href="https://www.ltl2dstar.de"><tt>ltl2dstar</tt></a>; see also
-the script <tt>safra.sh</tt> in the tutorial section of the omega-automata plug-in. 
+the script <tt>safra.sh</tt> in the tutorial section of the omega-automata plug-in and
+how to ustilise external tools
+<a href="#hoa">[here]</a>.
 </p>
 
 <h4>
@@ -229,23 +233,20 @@ encode the Rabin acceptance condition.
 Token-IO example for a <ftype>RabinAutomaton</ftype> that accepts <fimath>\Sigma^*(ab)^w</fimath>.
 </p>
 <pre>
-&lt;Generator name="eventually-always-alternate" ftype="RabinAutomaton"&gt;
+&lt;Generator name="eventually-allways-alternate" ftype="RabinAutomaton"&gt;
 
 &lt;Alphabet&gt; a b &lt;/Alphabet&gt;
-
 &lt;States&gt; 1 2 3 4 &lt;/States&gt;
-
 &lt;TransRel&gt;
-1              a             2
-1              b             4
-2              a             3
-2              b             1
-3              a             3
-3              b             1
-4              a             3
-4              b             4
+1  a  2
+1  b  4
+2  a  3
+2  b  1
+3  a  3
+3  b  1
+4  a  3
+4  b  4
 &lt;/TransRel&gt;
-
 &lt;InitStates&gt; 4 &lt;/InitStates&gt;
 &lt;MarkedStates/&gt;
 
@@ -268,14 +269,14 @@ automata between different tools like <a href="https://www.ltl2dstar.de/">ltl2ds
 acceptance conditions, which for our purposes includes Buechi acceptance and Rabin acceptance.
 </p>
 <p>
-To this end, we provide the tools <tt>gen2hoa</tt> and <tt>hoa2gen</tt> to convert libFAUDES formated generators
-to and from the HOA format. As an example, the above eventually-always-alternate Rabin automaton will be
-converted to
+To this end, we provide the executables  <tt>gen2hoa</tt> and <tt>hoa2gen</tt> to convert
+libFAUDES formated generators to and from the HOA format. As an example, the above
+eventually-allways-alternate Rabin automaton will be converted to:
 </p>
 <pre>
 ~/libFAUDES/bin$ ./gen2hoa -s symtab.xml omg_dra.gen
 HOA: v1
-name: "eventually always alternating a and b"
+name: "eventually allways alternating a and b"
 AP: 1 "ap0"
 Alias: @a !0
 Alias: @b 0
@@ -299,13 +300,13 @@ State: 3 {0}
 </pre>  
 
 <p>
-In HOA, states are always consecutively numbered starting from 0 and transition lables
+In HOA, states are consecutively numbered starting from 0 and transition lables
 are logic formulas in terms of atomic propositions. For import and export, reindexing
 states is straight forward.
 Regarding libFAUDES events, they are first also encoded as consecutive integers starting at 0
-and then these integers are binary encoded as truth values of a sufficient number
+and then theese integers are binary encoded as truth values of a sufficient number
 of atomic propositions. In the HOA output, the mapping is preserved by optional aliases.
-Since not all external tools maintane aliases, <tt>gen2hoa</tt> can export a libFAUDES symbol table
+Since not all external tools maintaine aliases, <tt>gen2hoa</tt> can export a libFAUDES symbol table
 by the <tt>-s</tt> option. So after processing the exported HOA file, one can read back results and
 retrieve the original libFAUDES events.
 </p>

@@ -12,7 +12,7 @@ variations thereof, addressing the design of hierarchical and modular control ar
 </fsummary>
 
 <p>
-This plug-in implements algorithms that support the hierarchical supervisor synthesis with the aim of reducing the computational synthesis effort for large-scale discrete event systems. In this regard, the plug-in employs different variants of the observer property for natural projections introduced in <fcite name="O1"/> for the nonblocking hierarchical supervisory control. Both <a href="observer_test.html">verification algorithms</a> for the observer property and algorithms for the <a href="observer_calc.html">computation of natural projections</a> that possess the observer property are provided. In addition, the plug-in integrates the local control consistency (LCC) condition <fcite name="O2"/>,<fcite name="O5"/> for the maximally permissive hierarchical supervisory control. 
+This plug-in implements algorithms that support the hierarchical supervisor synthesis with the aim of reducing the computational synthesis effort for large-scale discrete event systems. In this regard, the plug-in employs different variants of the observer property for natural projections introduced in <fcite name="O1"/> for the nonblocking hierarchical supervisory control. Both <a href="observer_test.html">verification algorithms</a> for the observer property and algorithms for the <a href="observer_calc.html">computation of natural projections</a> that possess the observer property are provided. In addition, the plug-in integrates the local control consistency (LCC) condition <fcite name="O2"/>, <fcite name="O5"/>, for the maximally permissive hierarchical supervisory control. 
 </p>
 
 <p>
