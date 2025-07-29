@@ -675,23 +675,23 @@ endif
 ifeq ($(FAUDES_PLATFORM),emcc_js)
 CXX = em++
 CC = emcc
-LXX = em++
+LXX = em++ -s SINGLE_FILE=1
 AR = emar r
-MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0
+MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0 
 WARNINGS =
 DSOOPTS =
 DOT_O  = .o
-DOT_EXE = .js
+DOT_EXE = .mjs
 #
 ifeq ($(SHARED),yes)
 $(error platform emcc_js requires libFAUDES static linking)
 endif
 ifeq ($(DEBUG),yes)
-$(error platform emcc_js doe snot support libFAUDES debugging)
+$(error platform emcc_js does not support libFAUDES debugging)
 endif
-LIBFAUDES := libfaudes.jsa
-IMPFAUDES := libfaudes.jsa
-MINFAUDES := minfaudes.jsa
+LIBFAUDES = libfaudes.jsa
+IMPFAUDES = libfaudes.jsa
+MINFAUDES = minfaudes.jsa
 FNCT_POST_APP = echo $(1)
 endif
 
@@ -1662,6 +1662,7 @@ report-test:
 	$(ECHO) $(FAUDES_PLUGINS)
 	$(ECHO) $(EXECUTABLES)
 	$(ECHO) $(CP)
+	$(ECHO) $(DEFAULTTARGETS)
 
 
 ### all phony targets
