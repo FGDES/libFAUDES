@@ -5,7 +5,7 @@
    FAU Discrete Event Systems Library (libfaudes)
 
    Copyright (C) 2025 Thomas Moor
-   Exclusive copyright is granted to Klaus Schmidt
+   Non-exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -56,6 +56,7 @@ extern FAUDES_API void ExportHoa(
   const Generator& rAut,
   SymbolTable* pSymTab=nullptr);
 
+
 /**
  * Export Automaton as HOA formated stream
  *
@@ -92,9 +93,9 @@ extern FAUDES_API void ExportHoa(
  * They are distributed under LGPL v2.1 conditions and we include
  * them with libFAUDES under the same license terms.
  *
- * Our current implementation can read Rabin and Buechi automata
+ * Our current implementation can read Rabin and Buechi automata, preferably
  * with implicit edges. This is not a restriction of cpphoafparser
- * and may extend for further use cases in future.
+ * and may be extended for further use cases in future.
  *
  * @param rInStream
  *   Stream to read from
@@ -129,7 +130,7 @@ extern FAUDES_API void ImportHoa(
  * @param pSymTab
  *   Optional symbol table to provide event mapping
  * @param resolve
- *   Ask cpphoafparser to resolve aliase
+ *   Ask cpphoafparser to resolve aliases
  * @param trace
  *   Ask cpphoafparser for a parse trace on std::cerr
  *

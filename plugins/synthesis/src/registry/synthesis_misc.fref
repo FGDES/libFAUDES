@@ -34,10 +34,10 @@ notion of controllability.
 
 <p>
 Consider two languages <fimath>L</fimath> and <fimath>K</fimath> over a common alphabet <fimath>\Sigma</fimath>,
-a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>,
 a set of forcible events <fimath>\Sigma_{f} \subseteq \Sigma</fimath>,
 and a set of preemptable events <fimath>\Sigma_{p} \subseteq \Sigma_{uc}</fimath>
-with <fimath>\Sigma_{f}\cap \Sigma_{p}=\emptyset</fimath>.
+with <fimath>\Sigma_{f}\ \cap\  \Sigma_{p}=\emptyset</fimath>.
 </p>
  
 <p>

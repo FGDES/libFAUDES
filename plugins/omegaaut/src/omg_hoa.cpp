@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #include "cpphoafparser/parser/hoa_parser_exception.hh"
 #include "cpphoafparser/util/implicit_edge_helper.hh"
 #include "cpphoafparser/consumer/hoa_consumer.hh"
+#include "cpphoafparser/consumer/hoa_consumer_exception.hh"
 
 #ifdef OMG_HOA_GCCMUTE
 #pragma GCC diagnostic pop
@@ -90,7 +91,7 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable
     accstr2 = "Acceptance: 1 Inf(0)";
   }
   if(rabin) {
-    // we use J.Klen style from ltl2dstar: (Fin(0))&Inf(1)) | etc
+    // we use J.Klen style from ltl2dstar: (Fin(0))&Inf(1)) | [...]
     const RabinAcceptance& acc=pRAut->RabinAcceptance();
     accstr1 = "acc-name: Rabin " + ToStringInteger(acc.Size());	  
     accstr2 = "Acceptance: " + ToStringInteger(2*acc.Size()) + " ";
@@ -224,11 +225,10 @@ void ExportHoa(const std::string& rFilename, const Generator& rAut, SymbolTable*
     omg_export_hoa(fout,rAut,pSymTab);
   } catch (std::ios::failure&) {
     std::stringstream errstr;
-    errstr << "Exception weriting to file \""<< rFilename << "\"";
+    errstr << "Exception writing to file \""<< rFilename << "\"";
     throw Exception("ExportHoa", errstr.str(), 2);
   }
 }
-
 
 
 
@@ -239,13 +239,7 @@ public:
   /** Constructor, holding a reference to the generator to read to */
   HOAConsumerFaudes(Generator& gen, const SymbolTable& syms) :
     rGen(gen), rSymTab(syms), mImplEdgeHlp(0) {}
-  /** Constructs a HOAParserExeption to indicate an unsupported but presumably relevent feature */
-  HOAParserException error(const std::string& msg) {
-    std::stringstream ss;
-    ss << "HOAConsumerFaudes: unsupported feature: " << msg;
-    return HOAParserException(ss.str());
-  }
-  // Unsure about this feature (tmoor)
+  // indicate to parser that aliases should not be resolved
   virtual bool parserResolvesAliases() override {
     return false;
   }
@@ -266,24 +260,14 @@ public:
   }
   // consume "Alias: @..."
   virtual void addAlias(const std::string& name, label_expr::ptr labelExpr) override {
-    throw error("aliases not supported");
+    mAliases[name]=labelExpr;
   }
   // consume "AP: ... "
   virtual void setAPs(const std::vector<std::string>& aps) override {
-    // record the names
+    mApCount=aps.size();
     int i=0;
     for (const std::string& ap : aps) 
       mApSymbols[i++]=ap;
-    // set up alphabet
-    mApCount=aps.size();
-    unsigned int evcnt= 1L << mApCount;
-    for(uint32_t i=0;i<evcnt;++i) {
-      std::string evname=bits2event(i);
-      if(rSymTab.Exists(i+1)) // todo: consider to mute unknown
-        evname=rSymTab.Symbol(i+1);
-      rGen.InsEvent(evname);
-      mEdgeBitsToEvIdx[i]=rGen.EventIndex(evname);
-    }
   }
   // consume "ACC: ..."
   virtual void setAcceptanceCondition(unsigned int numberOfSets, acceptance_expr::ptr accExpr) override {
@@ -297,7 +281,7 @@ public:
     }
     if(name=="Rabin") {
       if(pRAut==nullptr)
-        throw error("acc-name is Rabin, but only a plain Generator was passed");
+        throw HOAConsumerException("acc-name is Rabin, but only a plain Generator was passed");
       mRabin=true;
       return;
     }
@@ -317,23 +301,40 @@ public:
   }
   // start graph data
   virtual void notifyBodyStart() override {
-    // initialise implicit edge lables
-    mImplEdgeHlp = ImplicitEdgeHelper(mApCount);
     // test acceptance condition
     if(!(mRabin || mBuechi))
-      throw error("\"acc-name\" must specify Buchi or Rabin");
+      throw HOAConsumerException("\"acc-name\" must specify Buchi or Rabin");
     // sanity test Rabin acceptance
     if(mRabin) {
       if(mAccSetCount % 2 != 0)
-        throw error("Rabin acceptance requires an even number of sets in \"Acceptance:\"");
+        throw HOAConsumerException("Rabin acceptance requires an even number of sets in \"Acceptance:\"");
       pRAut->RabinAcceptance().Size((mAccSetCount+1)/2);
-      return;
     }
     // sanity test  Buechi acceptance
     if(mBuechi) {
       if(mAccSetCount!=1)
-        throw error("Buchi acceptance requires exactly on set in \"Acceptance:\"");
-      return;
+        throw HOAConsumerException("Buchi acceptance requires exactly on set in \"Acceptance:\"");
+    }
+    // initialise implicit edge lables
+    mImplEdgeHlp = ImplicitEdgeHelper(mApCount);
+    // set up alphabet: with explicit symbol table
+    if(rSymTab.Size()!=0) {
+      unsigned int evcnt= 1L << mApCount;
+      for(uint32_t i=0;i<evcnt;++i) {
+        if(!rSymTab.Exists(i+1)) continue;
+	std::string evname=rSymTab.Symbol(i+1);
+        mEdgeBitsToEvIdx[i]=rGen.InsEvent(evname);
+      }
+    }
+    // set up alphabet: without explicit symbol table    
+    if(rSymTab.Size()==0) {
+      std::map<std::string,label_expr::ptr>::iterator ait;
+      for(ait=mAliases.begin();ait!=mAliases.end();++ait) {
+	int_list bitslist;
+        expr2bits(ait->second,bitslist);
+        if(bitslist.size()!=1) continue;
+        mEdgeBitsToEvIdx[*bitslist.begin()]=rGen.InsEvent(ait->first);
+      }
     }
   }
   // comsume "State: ..."
@@ -342,7 +343,7 @@ public:
                         label_expr::ptr labelExpr,
                         std::shared_ptr<int_list> accSignature) override {
     if (labelExpr) {
-      throw error("state label expression");
+      throw HOAConsumerException("state label expression not supported");
     }
     // have the state (redundant)
     rGen.InsState(id+1);
@@ -369,12 +370,21 @@ public:
     const int_list& conjSuccessors,
     std::shared_ptr<int_list> accSignature) override
   {
-    if (accSignature) 
-      throw error("transition marking not supported");
+    if(accSignature) 
+      throw HOAConsumerException("transition marking not supported");
     uint32_t edgebits = mImplEdgeHlp.nextImplicitEdge();
-    Idx evindex=mEdgeBitsToEvIdx[edgebits]; // todo: guard this, e.g. mute unknown
+    std::map<uint32_t,Idx>::iterator eit;
+    eit=mEdgeBitsToEvIdx.find(edgebits);
+    Idx evidx;
+    if(eit!=mEdgeBitsToEvIdx.end()) {
+      evidx=eit->second;
+    } else {
+      std::string evname=bits2event(edgebits);
+      evidx=rGen.InsEvent(evname);
+      mEdgeBitsToEvIdx[edgebits]=evidx;
+    }
     for (unsigned int succ : conjSuccessors) 
-      rGen.SetTransition(stateId+1,evindex,succ+1);
+      rGen.SetTransition(stateId+1,evidx,succ+1);
   }
   // consume expilcit tarnsition
   virtual void addEdgeWithLabel(unsigned int stateId,
@@ -382,14 +392,23 @@ public:
     const int_list& conjSuccessors,
     std::shared_ptr<int_list> accSignature) override
   {
-    if (accSignature) 
-      throw error("transition marking not supported");
-    int_list bits;
-    expr2bits(labelExpr, bits);
-    for (unsigned int edgebits : bits) {
-      Idx evindex=mEdgeBitsToEvIdx[edgebits]; // todo: guard this, e.g. mute unknown
+    if(accSignature) 
+      throw HOAConsumerException("transition marking not supported");
+    int_list bitslist;
+    expr2bits(labelExpr, bitslist);
+    for (unsigned int edgebits : bitslist) {
+      std::map<uint32_t,Idx>::iterator eit;
+      eit=mEdgeBitsToEvIdx.find(edgebits);
+      Idx evidx;
+      if(eit!=mEdgeBitsToEvIdx.end()) {
+        evidx=eit->second;
+      } else {
+        std::string evname=bits2event(edgebits);
+        evidx=rGen.InsEvent(evname);
+        mEdgeBitsToEvIdx[edgebits]=evidx;
+      }
       for (unsigned int succ : conjSuccessors) 
-        rGen.SetTransition(stateId+1,evindex,succ+1);
+        rGen.SetTransition(stateId+1,evidx,succ+1);
     }
   }
   // end of graph data
@@ -407,13 +426,11 @@ public:
   }
   // some sort of parser error
   virtual void notifyAbort() override {
-    std::cerr << "HAO parser: abort" << std::endl;
-    std::cerr.flush();
+    rGen.Clear();
   }
   // some sort of parser warning
   virtual void notifyWarning(const std::string& warning) override {
-    std::cerr << "HAO parser: Warning: " << warning << std::endl;
-    std::cerr.flush();
+    rGen.Clear();
   }
 
 private:
@@ -426,12 +443,13 @@ private:
   /** Payload: intermediate parsing results */
   bool mRabin=false;
   bool mBuechi=false;
-  int mApCount=0;
   unsigned int mAccSetCount=0;
+  int mApCount=0;
   std::map<int,std::string> mApSymbols;
+  std::map<std::string,label_expr::ptr> mAliases;
   ImplicitEdgeHelper mImplEdgeHlp;
   std::map<uint32_t,Idx> mEdgeBitsToEvIdx;
-
+  
   /** bit vector to dummy faudes event name */
   std::string bits2event(uint32_t bits) {
     std::string res="ev";
@@ -442,22 +460,47 @@ private:
     return res;
   }
 
-  /** label expr to list of bit vectors */
-  /** (this is for explicit labeling; we'ld need SAT solver to do this properly) */
-  //typedef std::vector<unsigned int> int_list;
-  //typedef BooleanExpression<AtomLabel> label_expr;
-  void  expr2bits(label_expr::ptr labelExpr, HOAConsumer::int_list& bits) {
-    (void) labelExpr;
-    (void) bits;
-    //std::cerr << "[" << *labelExpr << "] ";
-    throw error("explicit edge label");
+  /** evaluate a label expression */
+  bool evalexpr(label_expr::ptr expr, uint32_t bits) {
+    switch (expr->getType()) {
+    case label_expr::EXP_AND: 
+      return evalexpr(expr->getLeft(),bits) && evalexpr(expr->getRight(),bits);
+    case label_expr::EXP_OR: 
+      return evalexpr(expr->getLeft(),bits) || evalexpr(expr->getRight(),bits);
+    case label_expr::EXP_NOT: 
+      return !evalexpr(expr->getLeft(),bits);
+    case label_expr::EXP_TRUE: 
+      return true;
+    case label_expr::EXP_FALSE: 
+      return false;
+    case label_expr::EXP_ATOM:       
+      if(!expr->getAtom().isAlias()) 
+        return bits & (1UL << expr->getAtom().getAPIndex());
+      std::map<std::string,label_expr::ptr>::iterator ait;
+      ait=mAliases.find(expr->getAtom().getAliasName());
+      if(ait==mAliases.end())
+	throw HOAConsumerException("unreckonizes alias");
+      return evalexpr(ait->second,bits);      
+    }
+    throw HOAConsumerException("could not evaluate label expression");
+  }
+
+
+  /** label expression to list of bit vectors */
+  /** (we'ld need SAT solver or at least a hash/cache to do this efficiently) */
+  void  expr2bits(label_expr::ptr labelExpr, HOAConsumer::int_list& bitslist) {
+    uint32_t bits_sup = 1UL << mApCount;
+    uint32_t bits=0;
+    for(; bits<bits_sup;++bits)
+      if(evalexpr(labelExpr,bits))
+	 bitslist.push_back(bits);
   }    
 
 };
 
 
 // read from HOA formated tream
-  void ImportHoa(std::istream& rInStream, Generator& rGen, const SymbolTable* pSymTab, bool resolve, bool trace){
+void ImportHoa(std::istream& rInStream, Generator& rGen, const SymbolTable* pSymTab, bool resolve, bool trace){
   // symboltable incl fallback
   static SymbolTable syms;
   const SymbolTable* psyms=&syms;
@@ -473,9 +516,13 @@ private:
   try {
     HOAParser::parse(rInStream, consumer, true);
   } catch (HOAParserException& e) {
-    std::cerr << e.what() << std::endl; // todo: forward als faudes exception
+    std::stringstream errstr;
+    errstr << "ImportHOA parser: \""<< e.what() << "\"";
+    throw Exception("ImportHoa", errstr.str(), 3);
   } catch (HOAConsumerException& e) {
-    std::cerr << "Exception: " << e.what() << std::endl; // todo: forward als faudes exception
+    std::stringstream errstr;
+    errstr << "ImportHOA consumer: \""<< e.what() << "\"";
+    throw Exception("ImportHoa", errstr.str(), 3);
   }  
 };
 

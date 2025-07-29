@@ -193,7 +193,7 @@ void SupTconUnchecked(
       } // end while tith and titg
     } // end if passed
 
-  } //end while todog
+  } //end while todo
 
 
   // remove all states that have been identified as critical or that have
@@ -233,7 +233,7 @@ void SupTconUnchecked(
   FD_DF("SupTcon: forcible events: "       << rFAlph.ToString());
   FD_DF("SupTcon: preemptyble events: "    << rPAlph.ToString());
 
-  // weackly controllable
+  // weakly controllable
   EventSet cpalph = rCAlph + rPAlph;
 
   // ALGORITHM:
