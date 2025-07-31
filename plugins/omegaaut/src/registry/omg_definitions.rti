@@ -123,7 +123,7 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 </Keywords> 
 
 <VariantSignatures> 
-<Signature name="Default"> 
+<Signature name="IsBuechiTrim(G)"> 
 <Parameter name="G" ftype="Generator" access="In"/> 
 <Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
 </Signature> 
@@ -467,35 +467,62 @@ OmegaAut   "supremal sublanguage" controllability  controllable  "controller syn
 
 <!-- =================================================== -->
 <!-- =================================================== -->
-<!-- Faudes Function RabinLiveStates -->
+<!-- Faudes Function RabinLifeStates -->
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<FunctionDefinition name="OmegaAut::RabinLiveStates" ctype="faudes::RabinLiveStates"> 
+<FunctionDefinition name="OmegaAut::RabinLifeStates" ctype="faudes::RabinLifeStates"> 
 
-<Documentation ref="omegaaut_rabinfnct.html#RabinLiveStates">
-Live States w.r.t. Rabin acceptence condition.    
+<Documentation ref="omegaaut_rabinfnct.html#RabinLifeStates">
+Life States w.r.t. Rabin acceptence condition.    
 </Documentation> 
 <Keywords> 
-OmegaAut   "rabin automata" "trim" "live" "rabin acceptence condition"
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
 </Keywords> 
 
 <VariantSignatures> 
 
-<Signature name="RabinLiveStates(Gen,RPair,LiveStates)"> 
+<Signature name="RabinLifeStates(Gen,RPair,LifeStates)"> 
 <Parameter name="Gen" ftype="Generator" access="In"/> 
 <Parameter name="RPair" ftype="RabinPair" access="In"/> 
-<Parameter name="LiveStates" ftype="StateSet" access="Out"/> 
+<Parameter name="LifeStates" ftype="StateSet" access="Out"/> 
 </Signature> 
 
-<Signature name="RabinLiveStates(RAut,LiveStates)"> 
+<Signature name="RabinLifeStates(RAut,LifeStates)"> 
 <Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
-<Parameter name="LiveStates" ftype="StateSet" access="Out"/> 
+<Parameter name="LifeStates" ftype="StateSet" access="Out"/> 
 </Signature> 
 
 </VariantSignatures> 
 
 </FunctionDefinition> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsRabinTrim -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::IsRabinTrim" ctype="faudes::IsRabinTrim"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#IsRabinTrim">
+Test for a Rabin automaton to be trim.
+</Documentation> 
+<Keywords> 
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsRabinTrim(RAut)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
 
 <!-- =================================================== -->
 <!-- =================================================== -->
@@ -506,11 +533,10 @@ OmegaAut   "rabin automata" "trim" "live" "rabin acceptence condition"
 <FunctionDefinition name="OmegaAut::RabinTrim" ctype="faudes::RabinTrim"> 
 
 <Documentation ref="omegaaut_rabinfnct.html#RabinTrim"> 
-Delete states to achieve omega-trimness.
+Delete states that do not contribute to the accepted language.
 </Documentation> 
 <Keywords> 
-OmegaAut    Functions     reachability  generator     trim          reachable     
-"omega languages"  
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
 </Keywords> 
 
 <VariantSignatures> 
@@ -520,6 +546,36 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 </Signature> 
 
 <Signature name="RabinTrim(RAut,RAutRes)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="RAutRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinSimplify -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinSimplify" ctype="faudes::RabinSimplify"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#RabinSimplify"> 
+Simplify individual Rabin pairs and remove doublets.
+</Documentation> 
+<Keywords> 
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="RabinSimplify(RAut)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="InOut"/> 
+</Signature> 
+
+<Signature name="RabinSimplify(RAut,RAutRes)"> 
 <Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
 <Parameter name="RAutRes" ftype="RabinAutomaton" access="Out"/> 
 </Signature> 

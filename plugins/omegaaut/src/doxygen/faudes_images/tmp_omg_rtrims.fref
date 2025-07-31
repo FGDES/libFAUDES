@@ -1,15 +1,15 @@
 <ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
-Example Data: tmp_omg_rtrim.gen
+Example Data: tmp_omg_rtrims.gen
 </h1>
 
 <h3>
 Dot-processed graph as SVG-image
 </h3>
 
-<object type="image/svg+xml" name="graph" data="tmp_omg_rtrim.svg">
-<a class="faudes_image" href="tmp_omg_rtrim.svg">
-<img src="tmp_omg_rtrim.png" title="Click on image to download SVG formated file." />
+<object type="image/svg+xml" name="graph" data="tmp_omg_rtrims.svg">
+<a class="faudes_image" href="tmp_omg_rtrims.svg">
+<img src="tmp_omg_rtrims.png" title="Click on image to download SVG formated file." />
 </a>
 </object>
 
@@ -64,7 +64,7 @@ N0
 A2_R         
 &lt;/R&gt;
 &lt;I&gt;
-A1            A2_R          A3            AB4          
+A1            A2_R         
 &lt;/I&gt;
 &lt;/RabinPair&gt;
 &lt;RabinPair name="B"&gt;

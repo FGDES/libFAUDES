@@ -84,6 +84,14 @@ B2_R
 AB4           B2_R          B3            B4           
 &lt;/I&gt;
 &lt;/RabinPair&gt;
+&lt;RabinPair name="C"&gt;
+&lt;R&gt;
+N1           
+&lt;/R&gt;
+&lt;I&gt;
+N1            N2           
+&lt;/I&gt;
+&lt;/RabinPair&gt;
 &lt;/RabinAcceptance&gt;
 
 &lt;/Generator&gt;

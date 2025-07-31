@@ -29,41 +29,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 namespace faudes {
 
-// RabinLiveStates 
-// compute states from a rabin pair that are not livelocks/deadlocks 
-void RabinLiveStates(
+// RabinLifeStates 
+// compute states that are not lifelocks/deadlocks wrt one Rabin pair
+void RabinLifeStates(
   const TransSet& rTransRel,
   const TransSetX2EvX1& rRevTransRel,
   const RabinPair& rRPair,
-  StateSet& rInv)
+  StateSet& rLife)
 {
   // convenience accessors
   const StateSet& iset=rRPair.ISet();
   const StateSet& rset=rRPair.RSet();
   // initialise optimistic candidate of life states
-  rInv=iset;
+  rLife=iset;
   // iterate for overall fixpoint
   bool fix=false;
   while(!fix) {
     // record size to detect change
-    std::size_t invsz=rInv.Size();
-    // nu-iteration to restrict rInv to an existential forward invariant
+    std::size_t invsz=rLife.Size();
+    // nu-iteration to restrict rLife to an existential forward invariant
     bool nufix=false;
     StateSet nudel;
     while(!nufix) {
       nudel.Clear();
-      StateSet::Iterator sit=rInv.Begin();
-      StateSet::Iterator sit_end=rInv.End();
+      StateSet::Iterator sit=rLife.Begin();
+      StateSet::Iterator sit_end=rLife.End();
       while(sit!=sit_end) {
-        if((rTransRel.SuccessorStates(*sit) * rInv).Empty())
+        if((rTransRel.SuccessorStates(*sit) * rLife).Empty())
           nudel.Insert(*sit);
         ++sit;
       }
-      rInv.EraseSet(nudel);
+      rLife.EraseSet(nudel);
       nufix=nudel.Empty();
     }
     // mu-iteration to obtain existential backward reach from rset
-    StateSet breach=rInv*rset;
+    StateSet breach=rLife*rset;
     StateSet todo=breach;
     bool mufix=false;
     StateSet muins;
@@ -75,20 +75,20 @@ void RabinLiveStates(
         muins.InsertSet(rRevTransRel.PredecessorStates(*sit));
         ++sit;
       }
-      muins.RestrictSet(rInv);
+      muins.RestrictSet(rLife);
       muins.EraseSet(breach);
       breach.InsertSet(muins);
       todo=muins;
       mufix=muins.Empty();	  
     }
-    // restrict rInv to breach
-    rInv=rInv*breach;
+    // restrict rLife to breach
+    rLife=rLife*breach;
     // sense change
-    if(invsz == rInv.Size()) fix=true;    
+    if(invsz == rLife.Size()) fix=true;    
   }
   // one more mu-iteration to obtain existential backward reach from inv
   bool mufix=false;
-  StateSet todo=rInv;
+  StateSet todo=rLife;
   StateSet muins;
   while(!mufix) {
     muins.Clear();
@@ -98,8 +98,8 @@ void RabinLiveStates(
       muins.InsertSet(rRevTransRel.PredecessorStates(*sit));
       ++sit;
     }
-    muins.EraseSet(rInv);
-    rInv.InsertSet(muins);
+    muins.EraseSet(rLife);
+    rLife.InsertSet(muins);
     todo=muins;
     mufix=muins.Empty();	  
   }
@@ -107,72 +107,65 @@ void RabinLiveStates(
 }
 
 
-// RabinLiveStates API wrapper
-void RabinLiveStates(
+// RabinLifeStates API wrapper
+void RabinLifeStates(
   const vGenerator& rRAut,
   const RabinPair& rRPair,
-  StateSet& rInv)
+  StateSet& rLife)
 {
   // convenience accessor
   const TransSet& transrel=rRAut.TransRel();
   TransSetX2EvX1 revtransrel(transrel);
   // run algorithm
-  RabinLiveStates(transrel,revtransrel,rRPair,rInv);
+  RabinLifeStates(transrel,revtransrel,rRPair,rLife);
 }
 
 
-// RabinLiveStates API wrapper
-void RabinLiveStates(const RabinAutomaton& rRAut, StateSet& rInv) {
+// RabinLifeStates API wrapperv
+// report staes that are no deadloack/lifelock wrt Rabiin appectance  
+void RabinLifeStates(const RabinAutomaton& rRAut, StateSet& rLife) {
   // convenience accessor
   const RabinAcceptance& raccept=rRAut.RabinAcceptance();
   const TransSet& transrel=rRAut.TransRel();
   TransSetX2EvX1 revtransrel(transrel);
   // pessimistic candidate for the trim set
-  rInv.Clear();
+  rLife.Clear();
   // iterate over Rabin pairs 
   StateSet inv;
   RabinAcceptance::CIterator rit=raccept.Begin();
   for(;rit!=raccept.End();++rit) {
-    RabinLiveStates(transrel,revtransrel,*rit,inv);    
-    rInv.InsertSet(inv);
+    RabinLifeStates(transrel,revtransrel,*rit,inv);    
+    rLife.InsertSet(inv);
   }  
 }
 
 
+// IsRabinLife
+// (returns true iff no accessible state blocks)
+bool IsRabinLife(const RabinAutomaton& rRAut) {
+  StateSet rLife;
+  RabinLifeStates(rRAut,rLife);
+  return rRAut.AccessibleSet() <= rLife;
+}
+
 // RabinTrimSet
 // (returns the sets that conbtribute to the Rabin accepted omega-language)
 void RabinTrimSet(const RabinAutomaton& rRAut, StateSet& rTrim) {
-  // get live states
-  RabinLiveStates(rRAut,rTrim);
+  // get life states
+  RabinLifeStates(rRAut,rTrim);
   // only reachable states contribute
   rTrim.RestrictSet(rRAut.AccessibleSet());
 }
 
 // RabinTrim
-// (return  True if result contains at least one initial state and at least one non-trivial Rabin pair)
+// (return  True if result contains at least one initial state)
 bool RabinTrim(RabinAutomaton& rRAut) {
-  // make the automaton accessible first
-  rRAut.Accessible();
-  // convenience accessor
-  RabinAcceptance& raccept=rRAut.RabinAcceptance();
-  const TransSet& transrel=rRAut.TransRel();
-  const TransSetX2EvX1 revtransrel(transrel);
-  // trim each Rabin pair to its  live states
-  StateSet alive;
-  StateSet plive;
-  RabinAcceptance::Iterator rit=raccept.Begin();
-  for(;rit!=raccept.End();++rit) {
-    RabinLiveStates(transrel,revtransrel,*rit,plive);
-    rit->RestrictStates(plive);
-    alive.InsertSet(plive);
-  }
-  // remove obviously redundant (could do better here)
-  raccept.EraseDoublets();
-  // trim automaton to live states
-  rRAut.RestrictStates(alive);
+  // trim automaton
+  StateSet trim;
+  RabinTrimSet(rRAut,trim);
+  rRAut.RestrictStates(trim);
   // figure result
-  bool res=true;
-  if(!rRAut.InitStates().Empty()) res =false;
+  bool res= !rRAut.InitStates().Empty();
   return res;
 }
 
@@ -182,6 +175,40 @@ bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rRes) {
   return RabinTrim(rRes);
 }  
 
+// IsRabinTrim
+// (returns true iff accessible and life)
+bool IsRabinTrim(const RabinAutomaton& rRAut) {
+  StateSet rLife;
+  if(!rRAut.IsAccessible()) return false;
+  RabinLifeStates(rRAut,rLife);
+  return (rRAut.States()<=rLife);
+}
+  
+
+// RabinSimplify
+void RabinSimplify(RabinAutomaton& rRAut) {
+  // convenience accessor
+  RabinAcceptance& raccept=rRAut.RabinAcceptance();
+  const TransSet& transrel=rRAut.TransRel();
+  const TransSetX2EvX1 revtransrel(transrel);
+  // trim each Rabin pair to its life states
+  StateSet alife;
+  StateSet plife;
+  RabinAcceptance::Iterator rit=raccept.Begin();
+  for(;rit!=raccept.End();++rit) {
+    RabinLifeStates(transrel,revtransrel,*rit,plife);
+    rit->RestrictStates(plife);
+    alife.InsertSet(plife);
+  }
+  // remove obviously redundant (could do better here)
+  raccept.EraseDoublets();
+}
+
+// rti wrapper
+void RabinSimplify(const RabinAutomaton& rRAut, RabinAutomaton& rRes) {
+  rRes=rRAut;
+  RabinSimplify(rRes);
+}  
 
 // Rabin-Buechi product (lifting individual acceptence conditions, generated languages not affected
 // if arguments are full))

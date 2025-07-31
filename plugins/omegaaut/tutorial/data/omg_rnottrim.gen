@@ -48,7 +48,11 @@ N0
 </RabinPair>
 <RabinPair name="B">
 <R> B2_R </R>
-<I> AB4 B2_R B3 B4 </I>
+<I> AB4 B2_R B3 B4</I>
+</RabinPair>
+<RabinPair name="C">
+<R> N1 </R>
+<I> N1 N2</I>
 </RabinPair>
 </RabinAcceptance>
 

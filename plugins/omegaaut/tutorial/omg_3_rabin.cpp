@@ -151,9 +151,28 @@ int main(void) {
   // Rabin automaton trim
   ////////////////////////////////////////////////////
 
+  std::cout << "===== trimming/lifeness" << std::endl;
+
   // read from file
   ar.Read("data/omg_rnottrim.gen");
-
+  // test
+  bool trim=IsRabinTrim(ar);
+  if(trim)
+    std::cout << "test automaton is trim (test case ERROR)" << std::endl;
+  else
+    std::cout << "test automaton is not trim (expected)" << std::endl;    
+  // show life states per Rabin pair
+  raccept=ar.RabinAcceptance();  
+  rit=raccept.Begin();
+  for(;rit!=raccept.End();++rit) {
+    StateSet inv;
+    RabinLifeStates(ar,*rit,inv);    
+    std::cout << "=== life states for Rabin pair " << rit->Name() << std::endl;
+    ar.WriteStateSet(inv);
+  }
+  std::cout << std::endl;
+  // record test case
+  FAUDES_TEST_DUMP("trim test 1",trim);
   // copy for docs
   ar.Write("tmp_omg_rnottrim.gen");
   try {
@@ -162,22 +181,18 @@ int main(void) {
     std::cout << "omg_3_rabin: cannot execute graphviz' dot. " << std::endl;
   } 
 
-  // show live states per Rabin pair
-  raccept=ar.RabinAcceptance();  
-  rit=raccept.Begin();
-  for(;rit!=raccept.End();++rit) {
-    StateSet inv;
-    RabinLiveStates(ar,*rit,inv);    
-    std::cout << "=== live states for Rabin pair " << rit->Name() << std::endl;
-    ar.WriteStateSet(inv);
-  }
-  std::cout << std::endl;
-  
+  // trim the automaton
   std::cout << "=== trim Rabin automaton" << std::endl;
   RabinTrim(ar);
-  ar.Write();
-  std::cout << std::endl;
-
+  // test
+  trim=IsRabinTrim(ar);
+  if(trim)
+    std::cout << "trimed automaton is trim (expected)" << std::endl;
+  else
+    std::cout << "trimed automaton is not trim (test case ERROR)" << std::endl;   
+  // record test case
+  FAUDES_TEST_DUMP("trim",ar);
+  FAUDES_TEST_DUMP("trim test 2",trim);
   // copy for docs
   ar.Write("tmp_omg_rtrim.gen");
   try {
@@ -186,5 +201,48 @@ int main(void) {
     std::cout << "omg_3_rabin: cannot execute graphviz' dot. " << std::endl;
   } 
 
+  // simplify the automaton
+  std::cout << "=== simplify Rabin acceptance" << std::endl;
+  ar.Read("data/omg_rnottrim.gen");
+  RabinSimplify(ar);
+  // test
+  trim=IsRabinTrim(ar);
+  if(trim)
+    std::cout << "simplified automaton is trim (test case ERROR)" << std::endl;
+  else
+    std::cout << "simplified is not trim (expected)" << std::endl;    
+  // copy for docs
+  ar.Write("tmp_omg_rsimple.gen");
+  try {
+    ar.GraphWrite("tmp_omg_rsimple.png");
+  } catch(faudes::Exception& exception) {
+    std::cout << "omg_3_rabin: cannot execute graphviz' dot. " << std::endl;
+  } 
+  // record test case
+  FAUDES_TEST_DUMP("simplify",ar);
+  FAUDES_TEST_DUMP("trim test",trim);
+
+
+  // best effort
+  std::cout << "=== trim and simplify Rabin acceptance" << std::endl;
+  ar.Read("data/omg_rnottrim.gen");
+  RabinTrim(ar);
+  RabinSimplify(ar);
+  // test
+  trim=IsRabinTrim(ar);
+  if(trim)
+    std::cout << "trimed automaton is trim (expected)" << std::endl;
+  else
+    std::cout << "trimed automaton is not trim (test case ERROR)" << std::endl;
+  // copy for docs
+  ar.Write("tmp_omg_rtrims.gen");
+  try {
+    ar.GraphWrite("tmp_omg_rtrims.png");
+  } catch(faudes::Exception& exception) {
+    std::cout << "omg_3_rabin: cannot execute graphviz' dot. " << std::endl;
+  } 
+  // record test case
+  FAUDES_TEST_DUMP("trim + simplify",ar);
+  FAUDES_TEST_DUMP("trim test 3",trim);
 }  
 

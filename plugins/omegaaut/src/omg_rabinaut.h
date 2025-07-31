@@ -372,10 +372,10 @@ TEMP void THIS::DotWrite(const std::string& rFileName) const {
   ColorPalette.push_back("darkblue");    // X11 dark blue
   ColorPalette.push_back("#ffcc80");     // my light orange
   ColorPalette.push_back("#ff9900");     // my dark orange 
-  ColorPalette.push_back("green");
-  ColorPalette.push_back("darkgreen");
-  ColorPalette.push_back("red");
-  ColorPalette.push_back("darkred");
+  ColorPalette.push_back("#b0ffb0");     // my light green
+  ColorPalette.push_back("#307030");     // my dark green
+  ColorPalette.push_back("#ff9090");     // my light red
+  ColorPalette.push_back("#a00202");     // my dark red
   ColorPalette.push_back("black");       // have black for std marking
   if(2*THIS::RabinAcceptance().Size()>ColorPalette.size()-1) {
     FD_DG("RabinAutomaton(" << this << ")::DotWrite(...): to many Rabin pairs");

@@ -18,7 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="eventually always alternating a and b"&gt;
+&lt;Generator name="eventually allways allternating a and b"&gt;
 &lt;T&gt;
 1 a 1
 1 b 1

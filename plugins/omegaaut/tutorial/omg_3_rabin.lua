@@ -57,7 +57,6 @@ br=ar:Copy()
 br:InsState(77)
 br:RabinAcceptance():At(0):RSet():Insert(77)
 
-
 -- report/record result
 print("=== two Rabin automata")
 br:Write()
@@ -65,12 +64,53 @@ ar:Write()
 FAUDES_TEST_DUMP("first Rabin aut.",ar)
 FAUDES_TEST_DUMP("second Rabin aut.",br)
 
--- trim a rabin automaton
 
+-- ----------------------------
+-- trim Rabin automaton
+-- ----------------------------
+
+-- trim rabin automaton
+print("=== trimming/liveness")
 ar:Read("data/omg_rnottrim.gen")
+arl=faudes.IsRabinTrim(ar)
+if arl then
+  print("automata is trim (test case ERROR)")
+else
+  print("automata is not trim (expected)")
+end
 faudes.RabinTrim(ar)
+arlt=faudes.IsRabinTrim(ar)
+if arlt then
+  print("automata is trim (expected)")
+else
+  print("automata is not trim (test case Error)")
+end
 ar:GraphWrite("tmp_omg_rtrim.png")
 
 -- report result
 print("=== wrote trimmed automaton to 'tmp_omg_rtrim.png'")
+
+FAUDES_TEST_DUMP("trimmed aut.",ar)
+FAUDES_TEST_DUMP("trim test 1",arl)
+FAUDES_TEST_DUMP("trim test 2",arlt)
+
+
+-- ----------------------------
+-- CY reported error as test case 
+-- ----------------------------
+
+-- trim rabin automaton
+print("=== CY test case")
+ar:Read("data/omg_cytrim.gen")
+ar:GraphWrite("tmp_omg_cytrim.png")
+arl=faudes.IsRabinTrim(ar)
+if arl then
+  print("automata is trim (expected)")
+else
+  print("automata is not trim (test case ERROR)")
+end
+faudes.RabinTrim(ar)
+ar:GraphWrite("tmp_omg_cytrimt.png")
+
+FAUDES_TEST_DUMP("trim test 3",arl)
 

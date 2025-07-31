@@ -18,10 +18,10 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="eventually always alternating a and b" ftype="RabinAutomaton"&gt;
+&lt;Generator name="eventually allways allternating a and b" ftype="RabinAutomaton"&gt;
 
 % 
-%  Statistics for eventually always alternating a and b
+%  Statistics for eventually allways allternating a and b
 % 
 %  States:        4
 %  Init/Marked:   1/0

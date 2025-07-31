@@ -1,15 +1,15 @@
 <ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
-Example Data: tmp_omg_rtrim.gen
+Example Data: tmp_omg_rsimple.gen
 </h1>
 
 <h3>
 Dot-processed graph as SVG-image
 </h3>
 
-<object type="image/svg+xml" name="graph" data="tmp_omg_rtrim.svg">
-<a class="faudes_image" href="tmp_omg_rtrim.svg">
-<img src="tmp_omg_rtrim.png" title="Click on image to download SVG formated file." />
+<object type="image/svg+xml" name="graph" data="tmp_omg_rsimple.svg">
+<a class="faudes_image" href="tmp_omg_rsimple.svg">
+<img src="tmp_omg_rsimple.png" title="Click on image to download SVG formated file." />
 </a>
 </object>
 
@@ -23,11 +23,11 @@ Token IO
 % 
 %  Statistics for G
 % 
-%  States:        8
+%  States:        13
 %  Init/Marked:   1/0
 %  Events:        1
-%  Transitions:   10
-%  StateSymbols:  8
+%  Transitions:   18
+%  StateSymbols:  13
 %  Attrib. E/S/T: 0/0/0
 % 
 
@@ -36,17 +36,26 @@ a
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
-N0#1          A1#5          A2_R#6        A3#7          AB4#8         B2_R#11      
-B3#12         B4#13        
+N0            N1            N2            N3            A1            A2_R         
+A3            AB4           A5            A6            B2_R          B3           
+B4           
 &lt;/States&gt;
 
 &lt;TransRel&gt;
+N0            a             N1           
 N0            a             A1           
+N1            a             N2           
+N2            a             N2           
+N2            a             N3           
 A1            a             A2_R         
 A2_R          a             A1           
 A2_R          a             A3           
+A3            a             N2           
 A3            a             AB4          
+AB4           a             A5           
 AB4           a             B2_R         
+A5            a             A6           
+A6            a             A5           
 B2_R          a             AB4          
 B2_R          a             B3           
 B3            a             B4           
@@ -64,7 +73,7 @@ N0
 A2_R         
 &lt;/R&gt;
 &lt;I&gt;
-A1            A2_R          A3            AB4          
+A1            A2_R         
 &lt;/I&gt;
 &lt;/RabinPair&gt;
 &lt;RabinPair name="B"&gt;

@@ -33,7 +33,7 @@ namespace faudes {
 
 
 /**
- * Live states w.r.t a Rabin pair.
+ * Life states w.r.t a Rabin pair.
  *
  * A state is considered live if it allows for a future path that such
  * that the acceptance condition is met,
@@ -51,20 +51,20 @@ namespace faudes {
  *   Reverse sorted variant
  * @param rRPair
  *   Rabin pair to consider
- * @param rInv
- *   Resulting set of live states
+ * @param rLive
+ *   Resulting set of life states
  *
  * @ingroup OmgPlugin
  */
-extern FAUDES_API void RabinLiveStates(
+extern FAUDES_API void RabinLifeStates(
   const TransSet& rTransRel,
   const TransSetX2EvX1& rRevTransRel,
   const RabinPair& rRPair,
-  StateSet& rInv);
+  StateSet& rLife);
 
 
 /**
- * Live states w.r.t a Rabin pair.
+ * Life states w.r.t a Rabin pair.
  *
  * API wrapper.
  *
@@ -72,32 +72,48 @@ extern FAUDES_API void RabinLiveStates(
  *  Trasition system to operate on
  * @param rRPair
  *   Rabin pair to consider
- * @param rInv
- *   Resulting set of live states
+ * @param rLife
+ *   Resulting set of life states
  *
  * @ingroup OmgPlugin
  */
-extern FAUDES_API void RabinLiveStates(
+extern FAUDES_API void RabinLifeStates(
   const vGenerator& rRAut,
   const RabinPair& rRPair,
-  StateSet& rInv);
+  StateSet& rLife);
 
+  
 /**
- * Live states  w.r.t a Rabin acceptance condition.
+ * Life states  w.r.t a Rabin acceptance condition.
  *
  * Iterates over all Rabin pairs and Returns the
  * union of all live states. 
  *
  * @param rRAut
  *  Trasition system to operate on
- * @param rInv
- *   Resulting set of live states
+ * @param rLife
+ *   Resulting set of life states
  *
  * @ingroup OmgPlugin
  */
-extern FAUDES_API void RabinLiveStates(const RabinAutomaton& rRAut, StateSet& rInv);
+extern FAUDES_API void RabinLifeStates(const RabinAutomaton& rRAut, StateSet& rLife);
 
 
+/**
+ * Test for lifeness w.r.t a Rabin acceptance condition.
+ *
+ * Returns true iff all accessible states are life.
+ *
+ * @param rRAut
+ *  Trasition system to operate on
+ * @return
+ *  trud iff Rabin automaton is life.
+ *
+ * @ingroup OmgPlugin
+ */
+extern FAUDES_API bool IsRabinLife(const RabinAutomaton& rRAut);
+
+  
 /**
  * Trim generator w.r.t. Rabin acceptance
  *
@@ -144,6 +160,46 @@ extern FAUDES_API bool RabinTrim(RabinAutomaton& rRAut);
  * @ingroup OmgPlugin
  */
 extern FAUDES_API bool RabinTrim(const RabinAutomaton& rRAut, RabinAutomaton& rRes);
+
+/**
+ * Test a Rabinautomaton to be trim.
+ *
+ * Returns true iff all states are accessible and life.
+ *
+ * @param rRAut
+ *  Trasition system to operate on
+ * @return
+ *  trud iff Rabin automaton is life.
+ *
+ * @ingroup OmgPlugin
+ */
+extern FAUDES_API bool IsRabinTrim(const RabinAutomaton& rRAut);
+
+/**
+ * Simplify Rabin acceptance condition
+ *
+ * Simplify Rabin pairs while maintaining the accepted laguage.
+ *
+ * @param rRAut
+ *   Automaton to simplify
+ *
+ * @ingroup OmgPlugin
+ */
+extern FAUDES_API void RabinSimplify(RabinAutomaton& rRAut);
+
+/**
+ * Simplify Rabin acceptance condition
+ *
+ * Simplify Rabin pairs while maintaining the accepted laguage.
+ *
+ * @param rRAut
+ *   Automaton to simplify
+ * @param rRes
+ *   Resulting automaton
+ *
+ * @ingroup OmgPlugin
+ */
+extern FAUDES_API void RabinSimplify(const RabinAutomaton& rRAut, RabinAutomaton& rRes);
 
 /**
  * Construct Rabin-Buechi automata.

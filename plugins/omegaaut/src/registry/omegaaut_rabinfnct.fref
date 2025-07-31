@@ -60,10 +60,16 @@ Rabin pairs.
 <br/>
 
 <p>
-For the blue Rabin pair, the trim set is reported as
+For the blue Rabin pair, the life states are reported as
 {<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>}.
-For the orange Rabin pair, the trim set is reported as
+For the orange Rabin pair, the lefe states are reported as
 {<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>, <tt>A3</tt>, <tt>AB4</tt>, <tt>B2_R</tt>, <tt>B3</tt>,  <tt>B4</tt>}.
+For the green Rabin pair, no life states exist.
+</p>
+
+<p>
+Applying <ffnct>IsRabinTrim</ffnct> to the above automaton returns <tt>false</tt> because
+there exists accessible states, that are not life, e.g., <tt>N1</tt>
 </p>
 
 </ffnct_reference>
@@ -78,12 +84,13 @@ For the orange Rabin pair, the trim set is reported as
 
 <p>
 Trim a given Rabin automaton <i>RAut</i> by 
-removing states that are not live; see also <ffnct>RabinLiveStates</ffnct>.
+removing states that are not live and/or not accessible; see also <ffnct>RabinLiveStates</ffnct>.
 The accepted language <fimath>Rm(RAut)</fimath> is not affected.
 </p>
 
 <p>
-When applied on the above example, <ffnct>RabinTrim</ffnct> returns 
+When applied on the example given for <ffnct>RabinLifeStates</ffnct>,
+<ffnct>RabinTrim</ffnct> returns 
 the result:
 <br />
 <br />
@@ -91,6 +98,75 @@ the result:
 <br />
 <br />
 </p>
+
+<p>
+Applying <ffnct>IsRabinTrim</ffnct> to the above automaton returns <tt>true</tt>.
+</p>  
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="IsRabinTrim">
+<fdetails/>
+
+<p>
+A Rabin automaton is considered <i>trim</i> if all states are accessible and life w.r.t.
+at least one Rabin pair. In other words, trimness requires all states to contribute to the
+accepted language.
+For examples see <ffnct>RabinTrim</ffnct> and <ffnct>RabinLifeStates</ffnct>.
+</p>  
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinSimplify">
+<fdetails/>
+
+<p>
+Simplify the acceptance condition of the Rabin automaton <i>RAut</i> by restricting
+Rabin pairs to live states and removing doublets.  
+The accepted language <fimath>Rm(RAut)</fimath> is not affected.
+</p>
+
+<fexample/>
+<p>
+We use the same automaton as in <ffnct>RabinLifeStates</ffnct>:
+<br/>
+<br/>
+<fimage fsrc="tmp_omg_rnottrim"/> 
+<br/>
+<br/>
+</p>
+
+<p>
+Applying <ffnct>RabinSimplify</ffnct> we obtain:
+<br />
+<br />
+<fimage fsrc="tmp_omg_rsimple"/> 
+<br />
+<br />
+</p>
+
+<p>
+Applying <ffnct>RabinTrim</ffnct> and <ffnct>RabinSimplify</ffnct>
+we obtain:
+<br />
+<br />
+<fimage fsrc="tmp_omg_rtrims"/> 
+<br />
+<br />
+</p>
+
+<p>
+Applying <ffnct>IsRabinTrim</ffnct> to the above automaton returns <tt>true</tt>.
+</p>  
 
 </ffnct_reference>
 

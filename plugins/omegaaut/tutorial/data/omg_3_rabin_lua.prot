@@ -48,3 +48,42 @@
 % 
 % 
 
+%%% test mark: trimmed aut. [at omg_3_rabin.lua]
+% 
+%  Statistics for G
+% 
+%  States:        8
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   10
+%  StateSymbols:  8
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: trim test 1 [at omg_3_rabin.lua]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: trim test 2 [at omg_3_rabin.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: trim test 3 [at omg_3_rabin.lua]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
