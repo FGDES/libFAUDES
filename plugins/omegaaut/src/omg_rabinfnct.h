@@ -35,7 +35,7 @@ namespace faudes {
 /**
  * Life states w.r.t a Rabin pair.
  *
- * A state is considered live if it allows for a future path that such
+ * A state is considered life if it allows for a future path that such
  * that the acceptance condition is met,
  *
  * The implementation is along the following line
@@ -51,7 +51,7 @@ namespace faudes {
  *   Reverse sorted variant
  * @param rRPair
  *   Rabin pair to consider
- * @param rLive
+ * @param rLife
  *   Resulting set of life states
  *
  * @ingroup OmgPlugin
@@ -87,7 +87,7 @@ extern FAUDES_API void RabinLifeStates(
  * Life states  w.r.t a Rabin acceptance condition.
  *
  * Iterates over all Rabin pairs and Returns the
- * union of all live states. 
+ * union of all life states. 
  *
  * @param rRAut
  *  Trasition system to operate on
@@ -119,7 +119,7 @@ extern FAUDES_API bool IsRabinLife(const RabinAutomaton& rRAut);
  *
  * This function computes the set of states that contribute to the accepted
  * omega language. The current implementation returns the union of all states
- * that are live w.r.t. a Rabin pair, restricted to reachable states.
+ * that are life w.r.t. a Rabin pair, restricted to reachable states.
  *
  * @param rRAut
  *   Automaton to consider
@@ -134,7 +134,7 @@ extern FAUDES_API void RabinTrimSet(const RabinAutomaton& rRAut, StateSet& rTrim
 /**
  * Trim generator w.r.t Rabin acceptance
  *
- * Restrict the automaton to the set of trim states; see also RaibLiveStates and RabinTrimSet
+ * Restrict the automaton to the set of trim states; see also RaibLifeStates and RabinTrimSet
  *
  * @param rRAut
  *   Automaton to trim
@@ -148,7 +148,7 @@ extern FAUDES_API bool RabinTrim(RabinAutomaton& rRAut);
 /**
  * Trim generator w.r.t Rabin acceptance
  *
- * Restrict the automaton to the set of trim states; see also RaibLiveStates and RabinTrimSet
+ * Restrict the automaton to the set of trim states; see also RaibLifeStates and RabinTrimSet
  *
  * @param rRAut
  *   Automaton to trim
@@ -211,7 +211,7 @@ extern FAUDES_API void RabinSimplify(const RabinAutomaton& rRAut, RabinAutomaton
  * result accepts by its Rabin acceptance condition runs that are accepted by rRAut and by
  * its Buechi acceptance condition those path thet are accepted by rBAut.
  *
- * The intended use case is when rRAut is a liveness specification and rBAut is a plant with liveness
+ * The intended use case is when rRAut is a lifeness specification and rBAut is a plant with lifeness
  * guarantees.
  *
  * @param rRAut

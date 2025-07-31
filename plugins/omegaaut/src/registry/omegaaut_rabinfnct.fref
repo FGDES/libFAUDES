@@ -13,11 +13,11 @@ The omega-automata plug-in provides a set of general purpose operations on Rabin
 <!-- ===================================================== -->
 <!-- ===================================================== -->
 
-<ffnct_reference name="RabinLiveStates">
+<ffnct_reference name="RabinLifeStates">
 <fdetails/>
 
 <p>
-A state is considered live if it allows for a future path such
+A state is considered life if it allows for a future path such
 that the acceptance condition is met.
 </p>
 
@@ -27,7 +27,7 @@ Given a Rabin pair <fimath>(R,I)</fimath>, the implementation of this function i
 
 <ul class="l2">
 <li><p>  
-  initialise the candidate live states <fimath>L:=I</fimath>
+  initialise the candidate life states <fimath>L:=I</fimath>
 </p></li>
 <li><p>  
  run a nu-iteration on <fimath>L</fimath> to figure the largest existential invariant
@@ -48,7 +48,7 @@ Given a Rabin pair <fimath>(R,I)</fimath>, the implementation of this function i
 </ul>
 
 <p>
-Depending on the signature, liveness is required w.r.t. at least one of the provided
+Depending on the signature, lifeness is required w.r.t. at least one of the provided
 Rabin pairs.
 </p>
 
@@ -84,7 +84,7 @@ there exists accessible states, that are not life, e.g., <tt>N1</tt>
 
 <p>
 Trim a given Rabin automaton <i>RAut</i> by 
-removing states that are not live and/or not accessible; see also <ffnct>RabinLiveStates</ffnct>.
+removing states that are not life and/or not accessible; see also <ffnct>RabinLifeStates</ffnct>.
 The accepted language <fimath>Rm(RAut)</fimath> is not affected.
 </p>
 
@@ -131,7 +131,7 @@ For examples see <ffnct>RabinTrim</ffnct> and <ffnct>RabinLifeStates</ffnct>.
 
 <p>
 Simplify the acceptance condition of the Rabin automaton <i>RAut</i> by restricting
-Rabin pairs to live states and removing doublets.  
+Rabin pairs to life states and removing doublets.  
 The accepted language <fimath>Rm(RAut)</fimath> is not affected.
 </p>
 
