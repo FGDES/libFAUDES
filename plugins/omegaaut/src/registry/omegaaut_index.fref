@@ -212,7 +212,7 @@ is again defined over Sigma={<tt>a</tt>, <tt>b</tt>} to accept
 <tr><td><fimage fsrc="tmp_omg_dra"/> </td> </tr>
 </table> 
 <p>
-Note that the above automaton is deterministic. It has been onbtained by the external tool
+Note that the above automaton is deterministic. It has been obbtained by the external tool
 <a href="https://www.ltl2dstar.de"><tt>ltl2dstar</tt></a>; see also
 the script <tt>safra.sh</tt> in the tutorial section of the omega-automata plug-in and
 how to ustilise external tools

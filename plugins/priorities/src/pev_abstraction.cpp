@@ -856,7 +856,7 @@ void ShapeUpsilon(vGenerator& rGen, const EventPriorities& rPrios, const EventSe
   Idx lowest  = rPrios.LowestPriority();
   StateSet::Iterator sit = rGen.StatesBegin();
   for(;sit!=rGen.StatesEnd();sit++){
-    // figure gighest enabled priority
+    // figure highest enabled priority
     Idx highest = lowest;
     TransSet::Iterator tit = rGen.TransRelBegin(*sit);
     TransSet::Iterator tit_end = rGen.TransRelEnd(*sit);

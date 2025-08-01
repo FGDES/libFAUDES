@@ -62,7 +62,7 @@ Rabin pairs.
 <p>
 For the blue Rabin pair, the life states are reported as
 {<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>}.
-For the orange Rabin pair, the lefe states are reported as
+For the orange Rabin pair, the life states are reported as
 {<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>, <tt>A3</tt>, <tt>AB4</tt>, <tt>B2_R</tt>, <tt>B3</tt>,  <tt>B4</tt>}.
 For the green Rabin pair, no life states exist.
 </p>
