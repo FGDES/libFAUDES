@@ -426,8 +426,9 @@ function lf_phase1() {
 
 // phase 2: wait for wasm to be ready
 function lf_phase2() {
-  console.log('lflive: phase2: wait for runtime');
-  Module.onRuntimeInitialized = lf_phase3;
+  //console.log('lflive: phase2: wait for runtime');
+  //Module.onRuntimeInitialized = lf_phase3;
+  lf_phase3();
 }
 
 // phase 3: link lua to terminal, link menu buttons, start rep-loop (never return)
