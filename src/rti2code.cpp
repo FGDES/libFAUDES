@@ -232,7 +232,6 @@ int main(int argc, char *argv[]) {
   // Traverse type registry to figure faudes types
   if(loader) {
     TypeRegistry::Iterator  tit;
-    int tcnt;
     for(tit=TypeRegistry::G()->Begin(); tit!=TypeRegistry::G()->End();tit++) {
       // Get C type 
       std::string ctype=tit->second->CType();

@@ -1,17 +1,17 @@
-n<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Lua</title>
     <script src="luafaudes.js"></script>
     <script>
-      function print(line) {}
+      function print(line) { console.log(line); }
       function start() {
         var input = document.getElementById('input');
         var output = document.getElementById('output');
         var button = document.getElementById('button');
         var error = document.getElementById('error');
 
-        console.log('tm: start');
+        print('tm: start');
 
         Module['Lua'].initialize(
           null, 
@@ -25,7 +25,7 @@ n<!DOCTYPE html>
 
         button.onclick = function() {
 
-          console.log('tm: button A');
+          print('tm: button');
 
           if (Module['Lua'].isFinished(input.value)) {
             output.value = '';
@@ -38,7 +38,11 @@ n<!DOCTYPE html>
           }
         }
       };
-      window.onload = start;
+      Module.onRuntimeInitialized = function() {
+        print('tm: runtime');
+        start();
+      }
+      //window.onload = start;
     </script>
   </head>
   <body>

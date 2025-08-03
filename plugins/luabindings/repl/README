@@ -1,26 +1,34 @@
 ======================================================================
 luafaudes_repl.html and friends
 
-Thomas Moor, 20140713
+Thomas Moor, 2014-07-13
 ======================================================================
 
 As an exercise, we compiled libfaudes/libluafaudes to JavaScript using 
-the clanf/llvm based emscripten-tool-chain. At the end, using another 
+the clanf/llvm based emscripten-tool-chain. At the end using another 
 tool-chain once in a while improves compatibility.
 
-Just for the fun of it, we can now run luafaudes in a browser-window,
+Just for the fun of it we can now run luafaudes in a browser-window,
 using JavaScript for console i/o and code-editing. The current implementation 
-is a naive simplification of the design used for repl.it project (more 
-specifically the jsREPL subproject) with Amjad Masad and Max Shawabkeh as 
-the principle authors. 
+is a naive simplification of the design used for the jsREPL project with
+Amjad Masad and Max Shawabkeh as the principle authors. 
 
 Adjustemnts/adaptions of the provided code-base turned out trivial and do 
-affect the original MIT licensing of the third-party components. Finally,
+not affect the original MIT licensing of the third-party components. Finally,
 "luafaudes.js" is compiled from libFAUDES sources and, hence, distributed
 under terms of the LGPL.
 
 ===================================================================
-comments on the toolchain
+comments on the toolchain 2025-08-03
+
+As of libFAUDES 2.33j, we use out-of-the-box emscripten provided by
+Ubuntu 22.04LTS. For configuration and build see the bash script
+'plugins/luabindings/repl/emsbuild.sh'. Testing now requires an actual
+HTTP server, use e.g. 'python -m http.server 8888'
+
+
+===================================================================
+comments on the toolchain (2014, for reference only)
 
 *** 
 to support IE10 we need to hack/fix emscripten/src/embind/embind.js, line 650

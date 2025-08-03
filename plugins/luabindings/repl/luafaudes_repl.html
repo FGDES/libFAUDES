@@ -424,11 +424,16 @@ function lf_phase1() {
 }
 
 
-// phase 2: link lua to terminal, link menu buttons, start rep-loop (never return)
+// phase 2: wait for wasm to be ready
 function lf_phase2() {
+  console.log('lflive: phase2: wait for runtime');
+  Module.onRuntimeInitialized = lf_phase3;
+}
 
-  console.log('lflive: phase2: initialze lua');
+// phase 3: link lua to terminal, link menu buttons, start rep-loop (never return)
+function lf_phase3() {
 
+  console.log('lflive: phase3: init lua');
   // hide load badge
   document.getElementById('loading').style.visibility = 'hidden';
 
@@ -585,8 +590,8 @@ function lf_phase2() {
 
 };
 
-  // set trigger for terminal/editor instantiation and start rep-loop (never return)
-  window.onload = lf_phase1;
+// set trigger for terminal/editor instantiation and start rep-loop (never return)
+window.onload = lf_phase1;
 
 </script>
 

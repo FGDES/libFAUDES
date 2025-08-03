@@ -298,7 +298,7 @@ LBP_REPLDIR = $(LBP_BASE)/repl
 ifeq ($(FAUDES_PLATFORM),emcc_js)
 # luafaudes as javascript target
 $(LBP_REPLDIR)/luafaudes.js: $(LBP_REPLDIR)/luafaudes_embind.cpp $(STATIC) $(LBP_REPLDIR)/luafaudes.js_prepend $(LBP_REPLDIR)/luafaudes.js_append $(LIBFAUDES)
-	$(CXX) $(CFLAGS) --bind -s INVOKE_RUN=0 --pre-js $(LBP_REPLDIR)/luafaudes.js_prepend --post-js $(LBP_REPLDIR)/luafaudes.js_append -o $@  $< $(LIBFAUDES)
+	$(CXX) $(CFLAGS) --bind -s INVOKE_RUN=0 --pre-js $(LBP_REPLDIR)/luafaudes.js_prepend --post-js $(LBP_REPLDIR)/luafaudes.js_append -o $@ $< $(LIBFAUDES)
 # overwrite javascript target
 DEFAULTTARGETS = $(LBP_REPLDIR)/luafaudes.js
 endif

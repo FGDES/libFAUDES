@@ -57,5 +57,5 @@ make -C $FAUDES_SRC clean
 ############################################################################
 # build libFAUDES essentials 
 
-make -C ../../.. FAUDES_PLATFORM=emcc_js FAUDES_LINKING=STATIC  -j libfaudes.jsa
-make -C ../../.. FAUDES_PLATFORM=emcc_js FAUDES_LINKING=STATIC  -j bin/luafaudes.js
+make -C ../../.. FAUDES_PLATFORM=emcc_js FAUDES_LINKING=static  -j libfaudes.jsa
+make -C ../../.. FAUDES_PLATFORM=emcc_js FAUDES_LINKING=static  -j plugins/luabindings/repl/luafaudes.js
