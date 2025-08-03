@@ -107,7 +107,7 @@ the corrosponding infinite-length word over <fimath>\Sigma</fimath>, and
 
 <p>
 An infinite-length word <fimath>v</fimath> is accepted by the Buechi automaton
-<fimath>G</fimath> if there exists a correspondimg run <fimath>\pi</fimath> that visits
+<fimath>G</fimath> if there exists a corresponding run <fimath>\pi</fimath> that visits
 at least one marked state infinitely often. The accepted omega-language
 associated with <fimath>G</fimath> is hence defined
 <br />

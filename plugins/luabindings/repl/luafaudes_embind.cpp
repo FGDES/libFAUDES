@@ -3,7 +3,7 @@
 /* 
 FAU Discrete Event Systems Library (libfaudes)
 
-Copyright (C) 2014 Thomas Moor
+Copyright (C) 2014, 2025 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -66,7 +66,6 @@ EMSCRIPTEN_BINDINGS(my_module) {
   function("lua_objlen", &lua_objlen, allow_raw_pointers()); 
   function("lua_typename", &emb_lua_typename, allow_raw_pointers()); 
   function("lua_topointer", &emb_lua_topointer, allow_raw_pointers()); 
-
   function("luaopen_faudes", &luaopen_faudes, allow_raw_pointers()); 
   function("luaopen_faudes_allplugins", &luaopen_faudes_allplugins, allow_raw_pointers());
   function("luafaudes_loadext", &emb_luafaudes_loadext, allow_raw_pointers());

@@ -291,10 +291,10 @@ CONFIGURETARGETS += luabindings-configure
 
 
 # javascript based repl (used in main makefile)
-LBP_REPLDIR = $(LBP_BASE)/lib/repl
+LBP_REPLDIR = $(LBP_BASE)/repl
 
 #
-# special case: emscriptem 
+# special case: emscripten
 ifeq ($(FAUDES_PLATFORM),emcc_js)
 # javascript target for rep-loop
 $(LBP_REPLDIR)/luafaudes.js: $(LBP_REPLDIR)/luafaudes_embind.cpp $(STATIC) $(LBP_REPLDIR)/luafaudes.js_prepend $(LBP_REPLDIR)/luafaudes.js_append
