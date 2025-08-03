@@ -109,6 +109,7 @@ typedef double Float;
 #endif
 
 /** Alternative progessreport for development */
+#ifdef FAUDES_SYSTIME  
 #define FD_WPD(cntnow, cntdone, message)  { \
   static faudes_systime_t start; \
   static faudes_systime_t now; \
@@ -130,6 +131,9 @@ typedef double Float;
     prog=cntnow; \
   } \
   init=true; } 
+#else
+#define FD_WPD(cntnow, contdone, message) FD_WPC(cntnow, contdone, message) 
+#endif
 
 
 /** Debug: optional report on user functions */

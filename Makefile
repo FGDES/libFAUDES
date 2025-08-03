@@ -40,7 +40,7 @@
 
 
 # allow user local configuration (unless building a distribution package)
-ifeq (,$(findstring package,$(MAKECMDGOALS)))
+ifneq ($(FAUDES_NOUSER),)
 -include Makefile.user
 endif
 
@@ -338,7 +338,7 @@ endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
 #
-CXX = g++ 
+CXX = g++ -std=c++11
 CC = gcc 
 LXX = g++
 AR = ar -sr
@@ -675,13 +675,13 @@ endif
 ifeq ($(FAUDES_PLATFORM),emcc_js)
 CXX = em++
 CC = emcc
-LXX = em++ -s SINGLE_FILE=1
+LXX = em++ -s WASM=0
 AR = emar r
 MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0 
 WARNINGS =
 DSOOPTS =
 DOT_O  = .o
-DOT_EXE = .mjs
+DOT_EXE = .js
 #
 ifeq ($(SHARED),yes)
 $(error platform emcc_js requires libFAUDES static linking)
@@ -1341,7 +1341,8 @@ doc-luafaudes: $(REFSRCDIR)/luafaudes
 	cp $(LBP_REPLDIR)/LICENSE $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*.css $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*.lua $(LUADOCDIR)
-	cp $(LBP_REPLDIR)/*.js $(LUADOCDIR)
+	cp $(LBP_REPLDIR)/*min.js $(LUADOCDIR)
+	cp $(LBP_REPLDIR)/luafaudes_2_28a.js $(LUADOCDIR)/luafaudes.js
 
 # if we dont have luabindings
 else
@@ -1657,12 +1658,11 @@ report-stats:
 	$(ECHO) " ============================== "
 
 report-test:
-	$(ECHO) $(OBJECTSMIN)
-	$(ECHO) $(HEADERS)
-	$(ECHO) $(FAUDES_PLUGINS)
-	$(ECHO) $(EXECUTABLES)
-	$(ECHO) $(CP)
-	$(ECHO) $(DEFAULTTARGETS)
+	$(ECHO) "platform  $(FAUDES_PLATFORM)"
+	$(ECHO) "plug-ins  $(FAUDES_PLUGINS)"
+	$(ECHO) "options   $(FAUDES_OPTIONS)"
+	$(ECHO) "debug     $(FAUDES_DEBUG)"
+	$(ECHO) "targets   $(DEFAULTTARGETS)"
 
 
 ### all phony targets

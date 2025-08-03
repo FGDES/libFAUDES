@@ -25,9 +25,6 @@ Files
 
 ==========================================================================
 
-./libfaudes/libluafaudes.a
-   Archive with Lua objects and all SWIG generated wrapper functions.        
-
 ./luabindings/lib/*
    Lua sources
 
@@ -48,10 +45,13 @@ Files
 
 ./luabindings/tutorial/luafaudes.cpp
    Command line interpreter for faudes enhanced lua scripts. The executable is placed
-   in libfaudes/bin 
+   in libFAUDES/bin 
 
 ./luabindings/tutorial/data/*.lua
    Example scripts.
+
+./luabindings/repl/*
+   Interactive Lua console in Jave Script
 
 
 ==========================================================================
@@ -62,14 +62,14 @@ How to provide luabindings for your plug-in
 
 Notes:
 
-*  Luabinding generation via the libfaudes build system in only supported for
-   Linux/Unix/MacOs. Once the wrappers are generated, you can still compile libfaudes on
+*  Luabinding generation via the libFAUDES build system in only supported for
+   Linux/MacOs/MSYS2. Once the wrappers are generated, you can still compile libFAUDES on
    other platforms.
 
 *  The build system does currently not figure all interface dependencies. In partivular,
-   you must "make luabindings-clean" after changing libfaudes header files.
+   you must "make luabindings-clean" after changing libFAUDES header files.
 
-*  We used SWIG version 1.3.36 and Lua 5.1.3. Other versions may not work with
+*  We used SWIG version 1.3.36 and Lua 5.1.3/5.4.8. Other versions may not work with
    the provided interface definitions.
 
 *  The example plug-in implements exactly one function on a generator and provides

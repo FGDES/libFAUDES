@@ -47,23 +47,33 @@ std::string emb_lua_typename(lua_State *L, int tp) {
   return std::string(lua_typename(L,tp));
 }
 int emb_luafaudes_loadext(lua_State* L, const std::string& filename) {
-  return luafaudes_loadext(L, filename.c_str());
+  return faudes::faudes_loadext(L, filename.c_str());
 }
 
+// wrappers for functions that became macros in Lua 5.4.x
+int emb_lua_pcall(lua_State *L, int nargs, int nresults, int errfunc) {
+  return lua_pcallk(L,nargs,nresults,errfunc, 0, NULL);
+}
+long int emb_lua_tonumber(lua_State *L, int idx) {
+  return (long int) lua_tonumberx(L,idx,NULL);
+}
+unsigned long int  emb_lua_objlen(lua_State *L, int idx) {
+  return (unsigned long int) lua_rawlen(L,idx);
+}
 
 EMSCRIPTEN_BINDINGS(my_module) {
   class_<lua_State>("lua_State");
   function("luaL_newstate", &luaL_newstate, allow_raw_pointers()); 
   function("luaL_openlibs", &luaL_openlibs, allow_raw_pointers()); 
-  function("lua_pcall", &lua_pcall, allow_raw_pointers()); 
+  function("lua_pcall", &emb_lua_pcall, allow_raw_pointers()); 
   function("lua_settop", &lua_settop, allow_raw_pointers()); 
   function("lua_gettop", &lua_gettop, allow_raw_pointers()); 
   function("luaL_loadbuffer", &emb_luaL_loadbuffer, allow_raw_pointers()); 
   function("lua_type", &lua_type, allow_raw_pointers()); 
   function("lua_tolstring", &emb_lua_tolstring, allow_raw_pointers()); 
   function("lua_toboolean", &lua_toboolean, allow_raw_pointers()); 
-  function("lua_tonumber", &lua_tonumber, allow_raw_pointers()); 
-  function("lua_objlen", &lua_objlen, allow_raw_pointers()); 
+  function("lua_tonumber", &emb_lua_tonumber, allow_raw_pointers()); 
+  function("lua_objlen", &emb_lua_objlen, allow_raw_pointers()); 
   function("lua_typename", &emb_lua_typename, allow_raw_pointers()); 
   function("lua_topointer", &emb_lua_topointer, allow_raw_pointers()); 
   function("luaopen_faudes", &luaopen_faudes, allow_raw_pointers()); 
