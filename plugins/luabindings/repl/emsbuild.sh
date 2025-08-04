@@ -3,6 +3,7 @@
 # shell script to build luafaudes with target node-js
 
 FAUDES_SRC=../../../
+source ~/opt/emsdk/emsdk_env.sh
 
 ############################################################################
 # some consistency tests
@@ -57,5 +58,5 @@ make -C $FAUDES_SRC clean
 ############################################################################
 # build libFAUDES essentials 
 
-make -C ../../.. FAUDES_PLATFORM=emcc_js FAUDES_LINKING=static  -j libfaudes.jsa
+make -C ../../.. FAUDES_PLATFORM=emcc_js FAUDES_LINKING=static  -j ./libfaudes.a
 make -C ../../.. FAUDES_PLATFORM=emcc_js FAUDES_LINKING=static  -j plugins/luabindings/repl/luafaudes.js

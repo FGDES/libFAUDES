@@ -668,6 +668,7 @@ endif
 #
 # Targetting jave script i.e. browser
 # - use emscripten toolchain
+# - we updated in 2.33j to use wasm 
 #
 # [for user targets only, see also luabindings/Makefile.plugin]
 # [no debug build here, static linking only]
@@ -675,9 +676,11 @@ endif
 ifeq ($(FAUDES_PLATFORM),emcc_js)
 CXX = em++
 CC = emcc
-LXX = em++ -s WASM=0
+LXX = em++  
 AR = emar r
 MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0 
+MAINOPTS += -DFAUDES_BUILDENV=emcc_js
+MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
 WARNINGS =
 DSOOPTS =
 DOT_O  = .o
@@ -689,9 +692,9 @@ endif
 ifeq ($(DEBUG),yes)
 $(error platform emcc_js does not support libFAUDES debugging)
 endif
-LIBFAUDES = libfaudes.jsa
-IMPFAUDES = libfaudes.jsa
-MINFAUDES = minfaudes.jsa
+LIBFAUDES = libfaudes.a
+IMPFAUDES = libfaudes.a
+MINFAUDES = minfaudes.a
 FNCT_POST_APP = echo $(1)
 endif
 
@@ -1011,9 +1014,9 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(INCLUDEDIR)/*
 	rm -f Makefile.depend
 	rm -f libfaudes.a libfaudes.so libfaudesd.a libfaudesd.so
-	rm -f libfaudes.dylib libfaudesd.dylib  libfaudes.jsa
+	rm -f libfaudes.dylib libfaudesd.dylib  
 	rm -f faudes.lib faudes.dll faudesd.lib faudesd.dll VERSION.bat
-	rm -f minfaudes.a minfaudesd.a minfaudes.jsa minfaudes.lib
+	rm -f minfaudes.a minfaudesd.a  minfaudes.lib
 	rm -f tutorial/tmp_* 
 	rm -f tutorial/faudes.dll 
 	rm -f tutorial/faudesd.dll 

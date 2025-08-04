@@ -4,14 +4,18 @@
     <title>Lua</title>
     <script src="luafaudes.js"></script>
     <script>
+
+      // convenience fnct
       function print(line) { console.log(line); }
+
+      // install myself after loading
       function start() {
         var input = document.getElementById('input');
         var output = document.getElementById('output');
         var button = document.getElementById('button');
         var error = document.getElementById('error');
 
-        print('tm: start');
+        print('tm: start: version '+Module.faudes_js_version);
 
         Module['Lua'].initialize(
           null, 
@@ -24,9 +28,7 @@
         );
 
         button.onclick = function() {
-
           print('tm: button');
-
           if (Module['Lua'].isFinished(input.value)) {
             output.value = '';
             var result = Module['Lua'].eval(input.value);
@@ -34,15 +36,27 @@
               output.value += '\n--------------------------\nResult: ' + result;
             }
           } else {
-            output.value = 'Command not finished.';
+            output.value = 'incomplete command.';
           }
         }
       };
+
+      // default version (not set before 2.33j)
+      if (Module.faudes_js_version == undefined) {
+	Module.faudes_js_version = 228;
+      }
+
+      // detect load js only (pre 2.33j)
+      if (Module.faudes_js_version < 233) {
+        window.onload = start;
+      }
+
+      // detect load incl wasm (as of 2.33j)
       Module.onRuntimeInitialized = function() {
         print('tm: runtime');
         start();
       }
-      //window.onload = start;
+      
     </script>
   </head>
   <body>

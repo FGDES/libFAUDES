@@ -426,9 +426,18 @@ function lf_phase1() {
 
 // phase 2: wait for wasm to be ready
 function lf_phase2() {
-  //console.log('lflive: phase2: wait for runtime');
-  //Module.onRuntimeInitialized = lf_phase3;
-  lf_phase3();
+  // default version (not set before 2.33j)
+  if (Module.faudes_js_version == undefined) {
+    Module.faudes_js_version = 228;
+  }
+  // go on with next phase for pre 2.33j
+  if (Module.faudes_js_version < 233) {
+    console.log('lflive: phase2: forward to phase3');
+    lf_phase3();
+  }
+  // wait for wasm to be ready as of 2.33j
+  console.log('lflive: phase2: waiting for wasm runtime');
+  Module.onRuntimeInitialized = lf_phase3;
 }
 
 // phase 3: link lua to terminal, link menu buttons, start rep-loop (never return)
