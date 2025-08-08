@@ -115,31 +115,6 @@ extern FAUDES_API void RabinCtrlPfxWithFeedback(
   TaIndexSet<EventSet>& rController);
 
 
-/**
- * Compute control patterns and state feedback mapping.
- *
- * Internal function that generates control patterns using ControlPatternGenerator
- * and maps each controllable state to its corresponding control pattern.
- *
- * @param rRAut
- *   Automaton to control
- * @param rSigmaCtrl
- *   Set of controllable events
- * @param stateRanking
- *   State ranking map from fixpoint computation
- * @param rCtrlPfx
- *   Controllable prefix states
- * @param rSigmaCtrlPattern
- *   Output NameSet containing state-to-pattern mappings
- *
- * @ingroup OmgPlugin
- */
-extern FAUDES_API void ComputeControlPattern(
-  const RabinAutomaton& rRAut, 
-  const EventSet& rSigmaCtrl,
-  const StateRankingMap& stateRanking,
-  const StateSet& rCtrlPfx,
-  NameSet& rSigmaCtrlPattern);
 
 
 } // namespace faudes

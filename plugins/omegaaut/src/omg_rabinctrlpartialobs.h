@@ -13,7 +13,6 @@
 
 #include "libfaudes.h"
 #include "omg_rabinaut.h"
-#include "omg_controlpattern.h"
 #include "omg_pseudodet.h"
 
 namespace faudes {
@@ -134,6 +133,66 @@ FAUDES_API void ExtractEventAttributes(const System& rSys,
 FAUDES_API void ControlAut(const RabinAutomaton& rsDRA,
                           const TaIndexSet<EventSet>& rController,
                           Generator& rRes);
+
+/**
+ * @brief Epsilon observation for Rabin automata
+ * 
+ * This function performs epsilon observation on a Rabin automaton by replacing
+ * all unobservable events with corresponding epsilon events. Each control pattern
+ * gets its own epsilon event to maintain the control pattern structure.
+ * 
+ * @param rGen 
+ *   Input Rabin automaton
+ * @param rRes
+ *   Output Rabin automaton with epsilon events replacing unobservable events
+ */
+FAUDES_API void EpsObservation(const RabinAutomaton& rGen, RabinAutomaton& rRes);
+
+/**
+ * @brief Replace unobservable events with epsilon events for System types
+ *
+ * This function creates a System where all unobservable events are replaced
+ * with a single epsilon event. This is useful for converting systems to a form
+ * where unobservable behavior is represented uniformly as epsilon transitions.
+ *
+ * @param rGen 
+ *   Input System
+ * @param rRes
+ *   Output System with epsilon events replacing unobservable events
+ */
+FAUDES_API void EpsObservation(const System& rGen, System& rRes);
+
+/**
+ * @brief Create muted automaton by removing specified states and their transitions
+ *
+ * This function creates a copy of the input automaton with specified states 
+ * and all their associated transitions removed. This is useful for language
+ * inclusion verification algorithms.
+ *
+ * @param rOriginal 
+ *   Input automaton
+ * @param rStatesToMute
+ *   Set of states to be removed (muted)
+ * @return
+ *   New automaton with muted states removed
+ */
+FAUDES_API Generator CreateMutedAutomaton(const Generator& rOriginal, const StateSet& rStatesToMute);
+
+/**
+ * @brief Verify language inclusion for Rabin automata
+ *
+ * This function verifies whether the language of a Büchi automaton is included
+ * in the language of a Rabin automaton using a 7-step verification algorithm.
+ * It performs SCC analysis and checks Rabin acceptance conditions.
+ *
+ * @param rGenL
+ *   Büchi automaton (generator with all states marked)
+ * @param rRabK
+ *   Rabin automaton representing the target language
+ * @return
+ *   True if L(genL) ⊆ L(rabK), false otherwise
+ */
+FAUDES_API bool RabinLanguageInclusion(const System& rGenL, const RabinAutomaton& rRabK);
 
 } // namespace faudes
 

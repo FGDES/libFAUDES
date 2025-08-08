@@ -35,7 +35,6 @@ CY/TM, 2025/07.
 
 #include "omg_rabinctrlrk.h"
 #include "syn_include.h"
-#include "omg_controlpattern.h"
 
 // local degug
 //#undef FD_DF
@@ -729,65 +728,6 @@ private:
 };
 
 
-/*
-Compute control patterns and state feedback mapping
-*/
-void ComputeControlPattern(
-  const RabinAutomaton& rRAut, 
-  const EventSet& rSigmaCtrl,
-  const StateRankingMap& stateRanking,
-  const StateSet& rCtrlPfx,
-  NameSet& rSigmaCtrlPattern) {
-  
-  // construct state feedback mapping
-  StateFeedbackMap rStateFeedback;
-  StateFeedbackConstructor feedbackConstructor(rRAut, rSigmaCtrl, stateRanking);
-  feedbackConstructor.ConstructStateFeedback(rCtrlPfx, rStateFeedback);
-
-  // Generate control patterns using ControlPatternGenerator
-  std::vector<EventSet> controlPatterns = ControlPatternGenerator::GenerateControlPatterns(
-    rRAut.Alphabet(), rSigmaCtrl);
-  
-  FD_DF("ComputeControlPattern(): Generated " << controlPatterns.size() << " control patterns");
-  
-  // Convert control patterns to symbolic representation in rSigmaCtrlPattern
-  for (size_t i = 0; i < controlPatterns.size(); ++i) {
-    const EventSet& pattern = controlPatterns[i];
-    pattern.Write();
-    
-    // Create pattern name (e.g., "G1", "G2", etc.)
-    std::string patternName = "G" + std::to_string(i + 1);
-  }
-  
-  // Map each state to its corresponding control pattern
-  for (StateFeedbackMap::Iterator it = rStateFeedback.Begin(); it != rStateFeedback.End(); ++it) {
-    std::string stateName = rRAut.StateName(*it);
-    if (stateName.empty()) {
-      stateName = std::to_string(*it); // Fallback to numeric representation
-    }
-    
-    const EventSet& statePattern = rStateFeedback.Attribute(*it);
-    
-    // Find which control pattern matches this state's feedback
-    std::string matchingPattern = "Unknown";
-    for (size_t i = 0; i < controlPatterns.size(); ++i) {
-      const EventSet& pattern = controlPatterns[i];
-      
-      // Check if the state's feedback pattern matches this control pattern
-      if (statePattern == pattern) {
-        matchingPattern = "G" + std::to_string(i + 1);
-        break;
-      }
-    }
-    
-    // Create state-to-pattern mapping: "stateName_PatternName"
-    std::string statePatternMapping = stateName + "_" + matchingPattern;
-    rSigmaCtrlPattern.Insert(statePatternMapping);
-  }
-
-  FD_DF("ComputeControlPattern(): computed controllable prefix with " 
-        << rCtrlPfx.Size() << " states and " << rStateFeedback.Size() << " feedback entries");
-}
 
 void RabinCtrlPfxWithFeedback(
   const RabinAutomaton& rRAut, const EventSet& rSigmaCtrl, TaIndexSet<EventSet>& rController) {

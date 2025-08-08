@@ -637,30 +637,7 @@ OmegaAut    "product"    "parallel composition"    "Rabin automata"  "Buechi aut
 </FunctionDefinition> 
 
 
-<!-- =================================================== -->
-<!-- =================================================== -->
-<!-- Faudes Function RabinProduct -->
-<!-- =================================================== -->
-<!-- =================================================== -->
-
-<FunctionDefinition name="OmegaAut::RabinProduct" ctype="faudes::RabinProduct"> 
-
-<Documentation ref="omegaaut_controlpattern.html#RabinProduct"> 
-Compute the synchronous product of two Rabin automata.
-</Documentation> 
-<Keywords> 
-OmegaAut    "synchronous product"    "parallel composition"    "Rabin automata"    "product composition"        
-</Keywords> 
-
-<VariantSignatures> 
-<Signature name="RabinProduct(G1,G2,GRes)"> 
-<Parameter name="G1" ftype="RabinAutomaton" access="In"/> 
-<Parameter name="G2" ftype="RabinAutomaton" access="In"/> 
-<Parameter name="GRes" ftype="RabinAutomaton" access="Out"/> 
-</Signature> 
-</VariantSignatures> 
-
-</FunctionDefinition> 
+ 
 
 <!-- =================================================== -->
 <!-- =================================================== -->
@@ -782,7 +759,7 @@ OmegaAut     "supremal sublanguage" controllability  controllable  "controller s
 
 <FunctionDefinition name="OmegaAut::EpsObservation" ctype="faudes::EpsObservation"> 
 
-<Documentation ref="omegaaut_controlpattern.html#EpsObservation"> 
+<Documentation ref="omegaaut_rabinctrlpartialobs.html#EpsObservation"> 
 Epsilon observation for Rabin automata by replacing unobservable events with epsilon events.
 </Documentation> 
 <Keywords> 
@@ -807,7 +784,7 @@ OmegaAut    "partial observation"    "epsilon observation"    "control patterns"
 
 <FunctionDefinition name="OmegaAut::RabinCtrlPartialObs" ctype="faudes::RabinCtrlPartialObs"> 
 
-<Documentation ref="omegaaut_controlpattern.html#RabinCtrlPartialObs"> 
+<Documentation ref="omegaaut_rabinctrlpartialobs.html#RabinCtrlPartialObs"> 
 Rabin control synthesis under partial observation with control patterns.
 </Documentation> 
 <Keywords> 

@@ -22,7 +22,6 @@
 #include "omg_rabinfnct.h"
 #include "omg_rabinctrl.h"
 #include "omg_rabinctrlrk.h"
-#include "omg_controlpattern.h"
 #include "omg_pseudodet.h"
 #include "omg_rabinctrlpartialobs.h"
 
