@@ -293,4 +293,266 @@ void ControlAut(const RabinAutomaton& rsDRA,
     FD_DF("ControlAut: All " << rRes.MarkedStatesSize() << " states are marked");
 }
 
+// ============================================================================
+// Epsilon Observation Functions
+// ============================================================================
+
+void EpsObservation(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
+    rRes = rGen;  // Copy original automaton
+    
+    // Get unobservable events
+    EventSet unobservableEvents = rRes.UnobservableEvents();
+    
+    // If no unobservable events, return original automaton
+    if(unobservableEvents.Size() == 0) {
+        return;
+    }
+    
+    // Create single epsilon event
+    std::string epsEventName = "eps";
+    Idx epsEvent = rRes.InsEvent(epsEventName);
+    
+    // Set epsilon event as uncontrollable and unobservable
+    rRes.ClrControllable(epsEvent);
+    rRes.ClrObservable(epsEvent);
+    rRes.ClrForcible(epsEvent);
+    
+    // Step 1: Replace transitions
+    TransSet originalTransitions = rRes.TransRel();  // Get copy of original transition relation
+    
+    TransSet::Iterator tit;
+    for(tit = originalTransitions.Begin(); tit != originalTransitions.End(); ++tit) {
+        if(unobservableEvents.Exists(tit->Ev)) {
+            // This transition uses an unobservable event that should be replaced
+            
+            // Remove original transition
+            rRes.ClrTransition(tit->X1, tit->Ev, tit->X2);
+            
+            // Add new transition using epsilon
+            rRes.SetTransition(tit->X1, epsEvent, tit->X2);
+        }
+    }
+    
+    // Step 2: Remove old unobservable events from alphabet
+    EventSet::Iterator uit;
+    for(uit = unobservableEvents.Begin(); uit != unobservableEvents.End(); ++uit) {
+        rRes.DelEvent(*uit);
+    }
+}
+
+void EpsObservation(const System& rGen, System& rRes) {
+    rRes = rGen;  // Copy original generator
+    
+    // Get unobservable events
+    EventSet unobservableEvents = rRes.UnobservableEvents();
+    
+    // If no unobservable events, return original generator
+    if(unobservableEvents.Size() == 0) {
+        return;
+    }
+    
+    // Create single epsilon event
+    std::string epsEventName = "eps";
+    Idx epsEvent = rRes.InsEvent(epsEventName);
+    
+    // Set epsilon event as uncontrollable and unobservable
+    rRes.ClrControllable(epsEvent);
+    rRes.ClrObservable(epsEvent);
+    rRes.ClrForcible(epsEvent);
+    
+    // Step 1: Replace transitions
+    TransSet originalTransitions = rRes.TransRel();  // Get copy of original transition relation
+    
+    TransSet::Iterator tit;
+    for(tit = originalTransitions.Begin(); tit != originalTransitions.End(); ++tit) {
+        if(unobservableEvents.Exists(tit->Ev)) {
+            // This transition uses an unobservable event that should be replaced
+            
+            // Remove original transition
+            rRes.ClrTransition(tit->X1, tit->Ev, tit->X2);
+            
+            // Add new transition using epsilon
+            rRes.SetTransition(tit->X1, epsEvent, tit->X2);
+        }
+    }
+    
+    // Step 2: Remove old unobservable events from alphabet
+    EventSet::Iterator uit;
+    for(uit = unobservableEvents.Begin(); uit != unobservableEvents.End(); ++uit) {
+        rRes.DelEvent(*uit);
+    }
+}
+
+// ============================================================================
+// Language Verification Functions
+// ============================================================================
+
+Generator CreateMutedAutomaton(const Generator& rOriginal, const StateSet& rStatesToMute) {
+    Generator muted = rOriginal;
+    
+    // Remove transitions to and from muted states
+    TransSet::Iterator tit = muted.TransRelBegin();
+    while (tit != muted.TransRelEnd()) {
+        if (rStatesToMute.Exists(tit->X1) || rStatesToMute.Exists(tit->X2)) {
+            TransSet::Iterator tit_del = tit;
+            ++tit;
+            muted.ClrTransition(*tit_del);
+        } else {
+            ++tit;
+        }
+    }
+    
+    // Remove muted states from state set
+    StateSet::Iterator sit;
+    for (sit = rStatesToMute.Begin(); sit != rStatesToMute.End(); ++sit) {
+        if (muted.ExistsState(*sit)) {
+            muted.DelState(*sit);
+        }
+    }
+    
+    return muted;
+}
+
+bool RabinLanguageInclusion(const System& rGenL, const RabinAutomaton& rRabK) {
+    FD_DF("RabinLanguageInclusion(): Starting language inclusion verification");
+    
+    // Step 1: Create copies of genL and rabK
+    Generator genL_copy = rGenL;  // Buechi automaton to accept L
+    RabinAutomaton rabK_copy = rRabK;  // Rabin automaton to accept K
+    
+    // Step 2: Apply BuechiTrim and RabinTrim respectively
+    bool genL_trim_result = IsBuechiTrim(genL_copy);
+    bool rabK_trim_result = IsRabinTrim(rabK_copy);
+    
+    if (!genL_trim_result) {
+        FD_DF("RabinLanguageInclusion(): genL trim failed");
+        return false;
+    }
+    
+    if (!rabK_trim_result) {
+        FD_DF("RabinLanguageInclusion(): rabK trim failed");
+        return false; 
+    }
+    
+    // Step 3: Mark all states to generate closure(L) and closure(K)
+    genL_copy.InjectMarkedStates(genL_copy.States());
+    rabK_copy.InjectMarkedStates(rabK_copy.States());
+
+    // Step 4: Test ordinary *-language inclusion: closure(L) ⊆ closure(K)
+    bool closure_inclusion = LanguageInclusion(genL_copy, rabK_copy);
+    
+    if (closure_inclusion) {
+        std::cout << "✓ closure(SupervisedSystem) ⊆ closure(specification)" << std::endl;
+        return true;
+    }
+    else {
+        std::cout << "RabinLanguageInclusion(): Closure inclusion failed - bailing out" << std::endl;
+        return false;
+    }
+
+    // Step 5: Use Automaton() on original genL and rabK to make them full
+    Generator genL_full = rGenL;
+    RabinAutomaton rabK_full = rRabK;
+    
+    // Make automata complete (full)
+    genL_full.Complete();
+    rabK_full.Complete();
+    
+    FD_DF("RabinLanguageInclusion(): Step 5: Made automata complete - genL: " << genL_full.Size() 
+          << " states, rabK: " << rabK_full.Size() << " states");
+    
+    // Step 6: Use RabinBuechiAutomaton to construct product system
+    RabinAutomaton rgProduct;
+    RabinBuechiAutomaton(rabK_full, genL_full, rgProduct);
+    rgProduct.Name("Product System (rabK x genL)");
+    
+    if (rgProduct.Size() == 0) {
+        FD_DF("RabinLanguageInclusion(): Empty product system - languages are disjoint");
+        return false;
+    }
+    
+    // Make product accessible
+    rgProduct.Accessible();
+
+    // Step 7: Continue with SCC analysis on rgProduct
+
+    // Identify L-marked states in product (corresponding to genL marked states)
+    StateSet lMarkedInProduct;
+    StateSet::Iterator sit;
+    for (sit = rgProduct.StatesBegin(); sit != rgProduct.StatesEnd(); ++sit) {
+        if (rgProduct.ExistsMarkedState(*sit)) {
+            lMarkedInProduct.Insert(*sit);
+        }
+    }
+    
+    FD_DF("RabinLanguageInclusion(): Found " << lMarkedInProduct.Size() << " L-marked states in product");
+    
+    // Process each Rabin pair from original specification
+    const RabinAcceptance& acceptance = rRabK.RabinAcceptance();
+    RabinAcceptance::CIterator rait;
+    
+    for (rait = acceptance.Begin(); rait != acceptance.End(); ++rait) {
+        const StateSet& R = rait->RSet();  // R set (must be visited infinitely often)
+        const StateSet& I = rait->ISet();  // I set (complement will be muted)
+        
+        FD_DF("RabinLanguageInclusion(): Processing Rabin pair: R=" << R.ToString() << ", I=" << I.ToString());
+        
+        // Create states to mute: L-marked states + complement of I
+        StateSet statesToMute = lMarkedInProduct;
+        
+        // Add complement of I to muted states
+        for (sit = rgProduct.StatesBegin(); sit != rgProduct.StatesEnd(); ++sit) {
+            if (!I.Exists(*sit)) {
+                statesToMute.Insert(*sit);
+            }
+        }
+        
+        FD_DF("RabinLanguageInclusion(): Muting " << statesToMute.Size() << " states (L-marked + complement of I)");
+        
+        // Create muted automaton
+        Generator mutedProduct = CreateMutedAutomaton(rgProduct, statesToMute);
+        
+        if (mutedProduct.Size() == 0) {
+            FD_DF("RabinLanguageInclusion(): Muted product is empty - continuing to next Rabin pair");
+            continue;
+        }
+        
+        // Compute SCCs in muted product using libFAUDES function
+        std::list<StateSet> sccList;
+        StateSet sccRoots;
+        ComputeScc(mutedProduct, sccList, sccRoots);
+        
+        FD_DF("RabinLanguageInclusion(): Found " << sccList.size() << " SCCs in muted system");
+        
+        // Check if any SCC contains R-marked states
+        bool foundProblematicSCC = false;
+        std::list<StateSet>::iterator sccIt;
+        int sccIndex = 0;
+        for (sccIt = sccList.begin(); sccIt != sccList.end(); ++sccIt, ++sccIndex) {
+            bool hasRMarked = false;
+            StateSet::Iterator sccit;
+            for (sccit = sccIt->Begin(); sccit != sccIt->End(); ++sccit) {
+                if (R.Exists(*sccit)) {
+                    hasRMarked = true;
+                    break;
+                }
+            }
+            
+            if (hasRMarked && sccIt->Size() > 1) {  // Non-trivial SCC with R-marked state
+                FD_DF("RabinLanguageInclusion(): Found problematic SCC " << sccIndex << " with R-marked states");
+                foundProblematicSCC = true;
+                break;
+            }
+        }
+        
+        if (foundProblematicSCC) {
+            FD_DF("RabinLanguageInclusion(): Language inclusion violated for Rabin pair");
+            return false;
+        }
+    }
+    
+    FD_DF("RabinLanguageInclusion(): All tests passed - language inclusion L ⊆ K holds");
+    return true;
+}
+
 } // namespace faudes
