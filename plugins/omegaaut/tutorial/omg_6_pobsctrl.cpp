@@ -66,7 +66,7 @@ int main() {
   ProductPS.Name("Product of plant and Spec");
   ProductPS.Write("tmp_6_Product.gen");
   ProductPS.DWrite();
-  //ProductPS.GraphWrite("tmp_6_Product.png");
+  ProductPS.GraphWrite("tmp_6_Product.png");
    
 
   RabinAutomaton NRA;
@@ -74,13 +74,13 @@ int main() {
   NRA.Name("Epsilon Observed Product");
   NRA.Write("tmp_6_EpsObservedProduct.gen");
   NRA.DWrite();
-  //NRA.GraphWrite("tmp_6_EpsObservedProduct.png");
+  NRA.GraphWrite("tmp_6_EpsObservedProduct.png");
   RabinAutomaton DRA;
   PseudoDet(NRA, DRA);
   DRA.Name("Determinized Epsilon Observed Product");
   DRA.DWrite();
   DRA.Write("tmp_6_DRA.gen");
-  //DRA.GraphWrite("tmp_6_DRA.png");
+  DRA.GraphWrite("tmp_6_DRA.png");
 
   // // Standard partial observable control synthesis
   // // std::cout << "====== Standard Synthesis ======" << std::endl;
@@ -95,7 +95,7 @@ int main() {
   RemoveEps(DRA, relinkDRA);
   relinkDRA.DWrite();
   relinkDRA.Write("tmp_6_relinkDRA.gen");
-  //relinkDRA.GraphWrite("tmp_6_relinkDRA.png");
+  relinkDRA.GraphWrite("tmp_6_relinkDRA.png");
   
   TaIndexSet<EventSet> controller;
   RabinCtrlPfx(relinkDRA,contevents,controller);
@@ -106,7 +106,7 @@ int main() {
   System CLspec;
   ControlAut(relinkDRA,controller,CLspec);
   CLspec.DWrite();
-  //CLspec.GraphWrite("tmp_6_Controller.png");
+  CLspec.GraphWrite("tmp_6_Controller.png");
   CLspec.Write("tmp_6_Controller.gen");
 
   // Check if the closed-loop controller is deterministic

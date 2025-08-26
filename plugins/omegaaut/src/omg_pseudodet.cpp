@@ -258,7 +258,7 @@ void PseudoDet(const RabinAutomaton& rGen, RabinAutomaton& rRes) {
     rRes.InjectAlphabet(rGen.Alphabet());
     
     // Safety limits
-    const int MAX_STATES = 10000;
+    const int MAX_STATES = 100000;
     const int MAX_ITERATIONS = 100000;
     int stateCounter = 0;
     int iterationCounter = 0;
