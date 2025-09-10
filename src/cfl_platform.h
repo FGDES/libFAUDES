@@ -31,7 +31,7 @@
 #if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) 
 #define FAUDES_WINDOWS
 #else
-#if defined(__MINGW32__) || defined(__MINGW64__) || defined(__MSYS__)
+#if defined(__MINGW32__) || defined(__MINGW64__) 
 #define FAUDES_WINDOWS
 #else
 #if defined(__unix__) || defined(__linus__) || defined(__linux__)
