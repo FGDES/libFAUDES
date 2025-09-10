@@ -90,7 +90,6 @@
 #include <cstring>
 #include <inttypes.h>
 #include <limits>
-#include <string>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -106,9 +105,10 @@
 #ifdef FAUDES_POSIX
 
 #include <stdlib.h>
-#include <cerrno>
+#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include <dirent.h>
 
 #ifdef FAUDES_SYSTIME

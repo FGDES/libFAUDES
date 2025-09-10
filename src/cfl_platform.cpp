@@ -26,7 +26,7 @@
 #include "cfl_platform.h"
 
 // Extra header
-#include <signal.h>
+#include <csignal>
 #include <exception>
 #include <ostream>
 
