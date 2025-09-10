@@ -180,8 +180,7 @@ void faudes_termsignal(void (*sighandler)(int)) {
 const char* faudes_strsignal(int sig) {
 #ifdef FAUDES_POSIX
   return strsignal(sig);
-#endif
-#ifdef FAUDES_WINDOWS
+#else  
   return "unknown";
 #endif
 }

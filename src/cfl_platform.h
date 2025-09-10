@@ -28,7 +28,7 @@
 #ifndef FAUDES_WINDOWS
 #ifndef FAUDES_GENERIC
 
-#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
+#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__) || defined(__MINGW32__)
 #define FAUDES_WINDOWS
 #endif
 #if defined (__unix__) || (__linus__) || (__linux__) || (defined (__APPLE__) && defined (__MACH__))
