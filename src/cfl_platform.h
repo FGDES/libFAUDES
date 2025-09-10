@@ -28,16 +28,21 @@
 #ifndef FAUDES_WINDOWS
 #ifndef FAUDES_GENERIC
 
-#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__) || defined(__MINGW32__)
+#if defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__WINDOWS__) 
 #define FAUDES_WINDOWS
-#endif
-#if defined (__unix__) || (__linus__) || (__linux__) || (defined (__APPLE__) && defined (__MACH__))
+#else
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#define FAUDES_WINDOWS
+#else
+#if defined(__unix__) || defined(__linus__) || defined(__linux__)
 #define FAUDES_POSIX
-#endif
-
-#ifndef FAUDES_POSIX
-#ifndef FAUDES_WINDOWS
+#else
+#if defined(__APPLE__) && defined(__MACH__)
+#define FAUDES_POSIX
+#else
 #define FAUDES_GENERIC
+#endif
+#endif
 #endif
 #endif
 
