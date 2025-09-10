@@ -30,7 +30,7 @@ jobs:
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
-          gcc -dM -E src/cfl_platform.h
+          echo | -dM -E -
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: make -j1 configure
     - name: Build Default Targets
