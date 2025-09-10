@@ -186,8 +186,8 @@ void validate() {
 	 // compare with our records
          FAUDES_TEST_DIFF();
 
-         std::cout << "\n======== Running Validation Tests ========" << std::endl;
-         validate();
+         //std::cout << "\n======== Running Validation Tests ========" << std::endl;
+         //validate();
 
          return 0;
      }

@@ -29,7 +29,7 @@ int main() {
   // Declare controllable and observable events
   EventSet allEvents = plant.Alphabet();
   plant.ClrObservable(allEvents);
- 
+
   // Read spec 
   RabinAutomaton spec;
   spec.Read("data/omg_6_cbspec12.gen");
@@ -67,7 +67,12 @@ int main() {
   ProductPS.Write("tmp_6_Product.gen");
   ProductPS.DWrite();
   ProductPS.GraphWrite("tmp_6_Product.png");
-   
+
+  // record test case
+  FAUDES_TEST_DUMP("plant", plant);
+  FAUDES_TEST_DUMP("spec", spec);
+  FAUDES_TEST_DUMP("cand", ProductPS);
+  
 
   RabinAutomaton NRA;
   EpsObservation(ProductPS, NRA);
@@ -81,6 +86,11 @@ int main() {
   DRA.DWrite();
   DRA.Write("tmp_6_DRA.gen");
   DRA.GraphWrite("tmp_6_DRA.png");
+
+  // record test case
+  FAUDES_TEST_DUMP("eps cand", NRA);
+  FAUDES_TEST_DUMP("det cand", DRA);
+
 
   // // Standard partial observable control synthesis
   // // std::cout << "====== Standard Synthesis ======" << std::endl;
@@ -101,7 +111,10 @@ int main() {
   RabinCtrlPfx(relinkDRA,contevents,controller);
   relinkDRA.WriteStateSet(controller);
   std::cout << std::endl;
-  
+
+  // record
+  FAUDES_TEST_DUMP("controller", controller);
+
   // Test the new CloseLoopSpecification function
   System CLspec;
   ControlAut(relinkDRA,controller,CLspec);
@@ -151,5 +164,14 @@ int main() {
       std::cout << "✗ VERIFICATION FAILED: L(V/G) ⊄ L(E)" << std::endl;
       std::cout << "The supervised system does not satisfy the specification." << std::endl;
   }
+
+  
+  // record
+  FAUDES_TEST_DUMP("validate controlability", controllable);
+  FAUDES_TEST_DUMP("validate determinism", CLspec.IsDeterministic());
+  FAUDES_TEST_DUMP("validate languageinclusion", result);
+
+  // validate
+  FAUDES_TEST_DIFF()
 
 }

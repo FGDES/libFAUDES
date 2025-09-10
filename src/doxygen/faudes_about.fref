@@ -147,6 +147,11 @@ Copyright (C) 2011 - 2025 Thomas Moor, Klaus Schmidt<br/>
 <p>
 <table class="vtop" width="100%"  border="0">
   <tr>
+    <td>10.09.2025</td>
+    <td>libFAUDES 2.34a</td>
+    <td>omega-automata plug-in</td>
+  </tr>
+  <tr>
     <td>01.05.2025</td>
     <td>libFAUDES 2.33a</td>
     <td>prioritised events plug-in</td>
