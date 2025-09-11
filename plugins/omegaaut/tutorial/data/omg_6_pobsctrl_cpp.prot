@@ -1,4 +1,4 @@
-%%% test mark: plant [at omg_6_pobsctrl.cpp:72]
+%%% test mark: plant [at omg_6_pobsctrl.cpp:67]
 % 
 %  Statistics for Generator||Generator
 % 
@@ -13,7 +13,7 @@
 % 
 % 
 
-%%% test mark: spec [at omg_6_pobsctrl.cpp:73]
+%%% test mark: spec [at omg_6_pobsctrl.cpp:68]
 % 
 %  Statistics for cb spec
 % 
@@ -28,7 +28,7 @@
 % 
 % 
 
-%%% test mark: cand [at omg_6_pobsctrl.cpp:74]
+%%% test mark: cand [at omg_6_pobsctrl.cpp:69]
 % 
 %  Statistics for Product of plant and Spec
 % 
@@ -43,7 +43,7 @@
 % 
 % 
 
-%%% test mark: eps cand [at omg_6_pobsctrl.cpp:91]
+%%% test mark: eps cand [at omg_6_pobsctrl.cpp:84]
 % 
 %  Statistics for Epsilon Observed Product
 % 
@@ -58,7 +58,7 @@
 % 
 % 
 
-%%% test mark: det cand [at omg_6_pobsctrl.cpp:92]
+%%% test mark: det cand [at omg_6_pobsctrl.cpp:85]
 % 
 %  Statistics for Determinized Epsilon Observed Product
 % 
@@ -73,7 +73,7 @@
 % 
 % 
 
-%%% test mark: controller [at omg_6_pobsctrl.cpp:116]
+%%% test mark: controller [at omg_6_pobsctrl.cpp:108]
 % 
 %  Statistics for IndexSet
 % 
@@ -85,7 +85,7 @@
 % 
 % 
 
-%%% test mark: validate controlability [at omg_6_pobsctrl.cpp:170]
+%%% test mark: validate controlability [at omg_6_pobsctrl.cpp:174]
 <Boolean>
 true         
 </Boolean>
@@ -93,7 +93,7 @@ true
 % 
 % 
 
-%%% test mark: validate determinism [at omg_6_pobsctrl.cpp:171]
+%%% test mark: validate determinism [at omg_6_pobsctrl.cpp:175]
 <Boolean>
 true         
 </Boolean>
@@ -101,7 +101,7 @@ true
 % 
 % 
 
-%%% test mark: validate languageinclusion [at omg_6_pobsctrl.cpp:172]
+%%% test mark: validate languageinclusion [at omg_6_pobsctrl.cpp:176]
 <Boolean>
 true         
 </Boolean>

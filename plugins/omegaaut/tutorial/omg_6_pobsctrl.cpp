@@ -14,18 +14,15 @@ int main() {
   // Compose belt1 dynamics from two very simple machines 
   Generator belt1; 
   belt1.Read("data/omg_6_belt1.gen");
-  belt1.Write("tmp_6_belt1.gen");
-  belt1.GraphWrite("tmp_6_belt1.png");
+  belt1.Write("tmp_omg_6_belt1.gen");
   Generator belt2; 
   belt2.Read("data/omg_6_belt2.gen");
-  belt2.Write("tmp_6_belt2.gen");
-  belt2.GraphWrite("tmp_6_belt2.png");
-
+  belt2.Write("tmp_omg_6_belt2.gen");
   System plant;
   Parallel(belt1,belt2,plant);
   plant.DWrite();
-  plant.Write("tmp_6_plant.gen");
-  //plant.GraphWrite("tmp_6_plant.png");
+  plant.Write("tmp_omg_6_plant.gen");
+  
   // Declare controllable and observable events
   EventSet allEvents = plant.Alphabet();
   plant.ClrObservable(allEvents);
@@ -33,9 +30,8 @@ int main() {
   // Read spec 
   RabinAutomaton spec;
   spec.Read("data/omg_6_cbspec12.gen");
-  spec.GraphWrite("tmp_6_spec.png");
   InvProject(spec,plant.Alphabet());
-  spec.Write("tmp_6_spec.gen");
+  spec.Write("tmp_omg_6_spec.gen");
 
 
   // Synthesis complete - ready to call RabinCtrlPartialObs
@@ -64,9 +60,8 @@ int main() {
   ProductPS.SetObservable(obsevents);
 
   ProductPS.Name("Product of plant and Spec");
-  ProductPS.Write("tmp_6_Product.gen");
+  ProductPS.Write("tmp_omg_6_Product.gen");
   ProductPS.DWrite();
-  ProductPS.GraphWrite("tmp_6_Product.png");
 
   // record test case
   FAUDES_TEST_DUMP("plant", plant);
@@ -77,15 +72,13 @@ int main() {
   RabinAutomaton NRA;
   EpsObservation(ProductPS, NRA);
   NRA.Name("Epsilon Observed Product");
-  NRA.Write("tmp_6_EpsObservedProduct.gen");
+  NRA.Write("tmp_omg_6_EpsObservedProduct.gen");
   NRA.DWrite();
-  NRA.GraphWrite("tmp_6_EpsObservedProduct.png");
   RabinAutomaton DRA;
   PseudoDet(NRA, DRA);
   DRA.Name("Determinized Epsilon Observed Product");
   DRA.DWrite();
-  DRA.Write("tmp_6_DRA.gen");
-  DRA.GraphWrite("tmp_6_DRA.png");
+  DRA.Write("tmp_omg_6_DRA.gen");
 
   // record test case
   FAUDES_TEST_DUMP("eps cand", NRA);
@@ -97,15 +90,14 @@ int main() {
   // // RabinAutomaton epsObserved;
   // // RabinCtrlPartialObs(spec,contevents,obsevents,belt1,epsObserved);
   // // epsObserved.DWrite();
-  // // epsObserved.Write("tmp_6_ObservedBelt.gen");
-  // // epsObserved.GraphWrite("tmp_6_ObservedBelt.png");
+  // // epsObserved.Write("tmp_omg_6_ObservedBelt.gen");
+  // // epsObserved.GraphWrite("tmp_omg_6_ObservedBelt.png");
   
   // Remove self-loof eps transitions and relink the state only with eps transition
   RabinAutomaton relinkDRA;
   RemoveEps(DRA, relinkDRA);
   relinkDRA.DWrite();
-  relinkDRA.Write("tmp_6_relinkDRA.gen");
-  relinkDRA.GraphWrite("tmp_6_relinkDRA.png");
+  relinkDRA.Write("tmp_omg_6_relinkDRA.gen");
   
   TaIndexSet<EventSet> controller;
   RabinCtrlPfx(relinkDRA,contevents,controller);
@@ -119,14 +111,14 @@ int main() {
   System CLspec;
   ControlAut(relinkDRA,controller,CLspec);
   CLspec.DWrite();
-  CLspec.GraphWrite("tmp_6_Controller.png");
-  CLspec.Write("tmp_6_Controller.gen");
+  CLspec.Write("tmp_omg_6_Controller.gen");
 
   // Check if the closed-loop controller is deterministic
-  if (CLspec.IsDeterministic()) {
-      std::cout << "✓ CloseLoopController is Deterministic" << std::endl;
+  bool cldet= CLspec.IsDeterministic();
+  if (cldet) {
+      std::cout << "CloseLoopController is Deterministic" << std::endl;
   } else {
-      std::cout << "✗ CloseLoopController is NOT Deterministic" << std::endl;
+      std::cout << "CloseLoopController is NOT Deterministic (testcase FAILED)" << std::endl;
   }
 
   // ====== Controllability Verification: IsControllable(Plant, Controller) ======
@@ -136,9 +128,9 @@ int main() {
   bool controllable = IsControllable(plant, CLspecProjected);
   
   if (controllable) {
-      std::cout << "✓ CONTROLLABILITY VERIFIED: Controller is controllable w.r.t. Plant" << std::endl;
+      std::cout << "CONTROLLABILITY VERIFIED: Controller is controllable w.r.t. Plant" << std::endl;
   } else {
-      std::cout << "✗ CONTROLLABILITY FAILED: Controller is NOT controllable w.r.t. Plant" << std::endl;
+      std::cout << "CONTROLLABILITY FAILED: Controller is NOT controllable w.r.t. Plant" << std::endl;
   }
 
   // ====== Language Inclusion Verification: L(V/G) ⊆ L(E) ======
@@ -152,23 +144,35 @@ int main() {
   InvProject(CLspec, plant.Alphabet());
   Product(CLspec, plant, supervisedSystem);
   supervisedSystem.Name("V/G (Supervised System)");
-  supervisedSystem.Write("tmp_6_supervisedSys.gen");
+  supervisedSystem.Write("tmp_omg_6_supervisedSys.gen");
 
   // Perform language inclusion verification: L(V/G) ⊆ L(E)
   bool result = RabinLanguageInclusion(supervisedSystem, spec);
   
   if (result) {
-      std::cout << "✓ VERIFICATION SUCCESSFUL: L(V/G) ⊆ L(E)" << std::endl;
+      std::cout << "VERIFICATION SUCCESSFUL: L(V/G) ⊆ L(E)" << std::endl;
       std::cout << "The supervised system satisfies the specification." << std::endl;
   } else {
-      std::cout << "✗ VERIFICATION FAILED: L(V/G) ⊄ L(E)" << std::endl;
+      std::cout << "VERIFICATION FAILED: L(V/G) ⊄ L(E)" << std::endl;
       std::cout << "The supervised system does not satisfy the specification." << std::endl;
   }
 
+
+  // graphical output
+  if(DotReady()) {
+    belt2.GraphWrite("tmp_omg_6_belt2.png");
+    belt1.GraphWrite("tmp_omg_6_belt1.png");
+    spec.GraphWrite("tmp_omg_6_spec.png");
+    DRA.GraphWrite("tmp_omg_6_DRA.png");
+    NRA.GraphWrite("tmp_omg_6_EpsObservedProduct.png");
+    ProductPS.GraphWrite("tmp_omg_6_Product.png");
+    relinkDRA.GraphWrite("tmp_omg_6_relinkDRA.png");
+    CLspec.GraphWrite("tmp_omg_6_Controller.png");
+  }
   
   // record
   FAUDES_TEST_DUMP("validate controlability", controllable);
-  FAUDES_TEST_DUMP("validate determinism", CLspec.IsDeterministic());
+  FAUDES_TEST_DUMP("validate determinism", cldet);
   FAUDES_TEST_DUMP("validate languageinclusion", result);
 
   // validate

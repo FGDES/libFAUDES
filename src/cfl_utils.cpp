@@ -229,6 +229,20 @@ void ProcessDot(const std::string& rDotFile,
 }
 
 
+// test executable  
+bool DotReady(const std::string& rDotExec) {  
+  // cache value
+  static bool ready=false;  
+  static bool known=false;
+  if(known) return ready;    
+  // test for dot binary
+  std::string testdot = rDotExec + " -V";
+  ready = (system(testdot.c_str()) == 0);
+  known = true;
+  return ready;
+}
+  
+
 // CreateTempFile(void)
 // todo: sys dependant, report, investigate threads
 std::string CreateTempFile(void) {

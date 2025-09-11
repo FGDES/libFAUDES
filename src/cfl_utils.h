@@ -193,6 +193,17 @@ extern FAUDES_API void ProcessDot(const std::string& rDotFile, const std::string
 
 
 /**
+ * Convenience function: test for dot exec to exits
+ *
+ * @param rDotExec
+ *   path/name of executable
+ *
+ */
+extern FAUDES_API bool DotReady(const std::string& rDotExec = "dot");
+
+  
+ 
+/**
  * Create a temp file, length 0
  *
  * @return
