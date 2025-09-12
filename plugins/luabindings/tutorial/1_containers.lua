@@ -311,6 +311,25 @@ tset:ReSort(trset)
 print("Transitionset in reverse order")
 trset:Write()
 
+-- ------------------------------------------
+-- Relabel Map
+-- ------------------------------------------
+
+-- Announce
+print("################# Relabel Map")
+
+rlmap = faudes.RelabelMap()
+rlmap:Insert("a","x")
+rlmap:Insert("c","y")
+rlmap:Insert("c","z")
+print("relabel map")
+print(rlmap)
+print("original set")
+cset:Write()
+print("relabeled set")
+faudes.ApplyRelabelMap(rlmap,cset,cset)
+cset:Write()
+
 
 -- ------------------------------------------
 -- Vectors

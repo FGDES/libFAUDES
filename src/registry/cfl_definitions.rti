@@ -250,6 +250,53 @@ CoreFaudes    vector        generator     system
 
 <!-- =================================================== -->
 <!-- =================================================== -->
+<!-- Faudes Type RelabelMap -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="CoreFaudes::RelabelMap" ctype="faudes::RelabelMap" autoregister="true"> 
+
+<Documentation ref="corefaudes_genmisc.html#RelabelMap"> 
+Set-valued map with domain and range EventSet
+</Documentation> 
+<Keywords> 
+Corefaudes      misc    "relabel events"  map           
+</Keywords> 
+
+<ElementTag value="Label"/>
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function ApplyRelableMap  -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="CoreFaudes::ApplyRelabelMap" ctype="faudes::ApplyRelabelMap"> 
+
+<Documentation ref="corefaudes_genmisc.html#RelabelMap"> 
+Relabel events/transitions as specified by a set-values map.
+</Documentation> 
+<Keywords> 
+CoreFaudes    misc "relabel events" RelabelMap
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="ApplyRelableMap(map,set,set)"> 
+<Parameter name="Map" ftype="RelabelMap" access="In"/> 
+<Parameter name="Sigma_in" ftype="EventSet" access="In"/> 
+<Parameter name="Sigma_out" ftype="EventSet" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
 <!-- Faudes Function Accessible -->
 <!-- =================================================== -->
 <!-- =================================================== -->

@@ -154,6 +154,16 @@ and then marking the remaining states.
 </ffnct_reference>
 
 
+<ftype_reference name="RelabelMap">
+
+<p>
+An <ftype>RelabelMap</ftype> is a set valued map with domain and range <ftype>EventSet</ftype>.
+It is used to represent re-labeling scheme. It origins from the observer plug-in and has
+be reorganised as a general purpose utility. See also <ffnct>InsertRelabeledEvents</ffnct>.
+</p>
+
+</ftype_reference>
+
 
 
 

@@ -855,7 +855,6 @@ class FAUDES_API Type {
    * Convenience function to set up std begin token
    * for XML mode token I/O.
    *
-   *
    * @param rLabel
    *   User specified label
    * @param rFallbackLabel 
@@ -909,11 +908,11 @@ private:
 #define FAUDES_TYPE_IMPLEMENTATION_ASSIGN(ftype,ctype,cbase)	\
   ctype& ctype::Assign(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      this->Clear(); DoAssign(*csattr);} \
+      /* this->Clear();*/ DoAssign(*csattr);}				\
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); DoAssign(rSrc); return *this; }
+  ctype& ctype::operator=(const ctype& rSrc) { /*this->Clear();*/ DoAssign(rSrc); return *this; }
 #define FAUDES_TYPE_IMPLEMENTATION_EQUAL(ftype,ctype,cbase)	\
   bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
@@ -938,11 +937,11 @@ private:
 #define FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(ftype,ctype,cbase,ctemp)	\
   ctemp ctype& ctype::Assign(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      this->Clear(); DoAssign(*csattr);} \
+      /*this->Clear();*/ DoAssign(*csattr);}				\
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); DoAssign(rSrc); return *this; }
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { /* this->Clear();*/ DoAssign(rSrc); return *this; }
 #define FAUDES_TYPE_TIMPLEMENTATION_EQUAL(ftype,ctype,cbase,ctemp)	\
   ctemp bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
@@ -965,11 +964,11 @@ private:
     return dynamic_cast< const ctype * >(pOther); } \
   ctype& ctype::Assign(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      this->Clear(); this->DoAssign(*csattr);} \
+      /*this->Clear();*/ this->DoAssign(*csattr);}			\
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); this->DoAssign(rSrc); return *this; } \
+  ctype& ctype::operator=(const ctype& rSrc) { /*this->Clear();*/ this->DoAssign(rSrc); return *this; } \
   bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
     if(typeid(rOther) != typeid(*this)) return false; \
@@ -991,11 +990,11 @@ private:
     return dynamic_cast< const ctype * >(pOther); } \
   ctemp ctype& ctype::Assign(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      this->Clear(); this->DoAssign(*csattr);} \
+      /*this->Clear();*/ this->DoAssign(*csattr);}			\
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->Clear(); this->DoAssign(rSrc); return *this; } \
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { /*this->Clear();*/ this->DoAssign(rSrc); return *this; } \
   ctemp bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
     if(typeid(rOther) != typeid(*this)) return false; \

@@ -79,8 +79,8 @@ template<class T, class Attr, class Cmp> class TAttrMap;
  * iterators throw an exception (id 62) when used as an argument to a BaseSet function. 
  *
  * The TBaseSet also hosts a container to associate an attribute with each set element. However,
- * in the plain TBAseSey the attribute type is set to void and member methods only deal 
- * with attributes when this does not invilve too much overhead. To make effective use of attributes, 
+ * in the plain TBaseSet the attribute type is set to void and member methods only deal 
+ * with attributes when this does not involve too much overhead. To make effective use of attributes, 
  * one is meant to derive a class from TBaseSet that encodes the actual attribute type and 
  * that provides appropriate access methods. This is facilitated by the class TAttrMap. 
  *
@@ -166,16 +166,29 @@ public:
   bool Empty(void) const;
 
   /**
-   * Return pretty printable element. 
-   * Reimplement this method for derived classes.
+   * Return pretty printable element.
+   * Primary meant for debugging messages.
    *
    * @param rElem
-   *   Element to print
+   *   element to print
    *
    * @return
    *   String
    */
   virtual std::string Str(const T& rElem) const;
+
+  /**
+   * Return pretty printable set
+   * Primary meant for debugging messages.
+   *
+   * @param rElem
+   *   element to print
+   *
+   * @return
+   *   String
+   */
+  virtual std::string Str(void) const;
+
 
   /** 
    * Iterator class for high-level api to TBaseSet.
@@ -189,7 +202,7 @@ public:
    * This is a convenoience typedef --- faudes set iterators are const anyway.
    *
    */
-   typedef Iterator CIterator;
+  typedef Iterator CIterator;
 
 
 
@@ -794,6 +807,26 @@ public:
    virtual void ClrAttribute(const T& rElem);
 
 
+  /**
+   * Create a copy as plain STL set.
+   * This is virtual to allow overrides that address attributes.
+   *
+   * @param
+   *   STL set to read from
+   */
+   virtual void FromStl(const std::set<T,Cmp>& rStlSet);
+
+  /**
+   * Copy data to a plain STL set
+   * This is virtual to allow overrides that address attributes.
+   *
+   * @param rMap
+   *   STL set to read from
+   *   
+   */
+   virtual void ToStl(std::set<T,Cmp>& rStlSet) const;
+  
+
 protected:
 
 
@@ -1279,13 +1312,16 @@ TEMP THIS::~TBaseSet(void) {
 
 // fake copy
 TEMP void THIS::DoAssign(const THIS& rSourceSet) {
-  FD_DC("TBaseSet(" << this << "/" << this->Name() << ")::DoAssign(rOtherSet " << &rSourceSet << "): shallow copy -- src attr# " << rSourceSet.pAttributes->size());
+  FD_DC("TBaseSet(" << this << "[" << this->Name() << "])::DoAssign(rOtherSet " << &rSourceSet << "): shallow copy -- src attr# " << rSourceSet.pAttributes->size());
   FD_DC("TBaseSet():DoAssign(): " << typeid(*this->AttributeType()).name()  << " <== "  << typeid(*rSourceSet.AttributeType()).name()); 
   // bail out on selfref
-  if(this==&rSourceSet) return;
+  if(this==&rSourceSet) {
+    FD_DC("TBaseSet():DoAssign(): bail out on identical objects"); 
+    return;
+  }
   // other members 
   mObjectName=rSourceSet.mObjectName;
-  mElementTagDef=rSourceSet.mObjectName;
+  mElementTagDef=rSourceSet.mElementTagDef;
   // bail out on common shared data
   if(pHostSet==rSourceSet.pHostSet) return;
   // become independant
@@ -1774,8 +1810,23 @@ TEMP void THIS::DValid(const std::string& rMessage) const {
 // Str
 TEMP std::string THIS::Str(const T& rElem) const { 
   (void) rElem;
-  std::string res=""; 
+  std::string res="E"; 
   return res; 
+}
+
+// Str
+TEMP std::string THIS::Str(void) const { 
+  std::stringstream str;
+  str << "[" << Name() << "]{ ";
+  Iterator eit=Begin();
+  Iterator eit_end=End();
+  if(Size()>0) while(true) {
+    str << Str(*(eit++));
+    if(eit==eit_end) break;
+    str << ", ";
+  }
+  str << " }";
+  return str.str();
 }
 
 // Size()
@@ -2415,7 +2466,7 @@ TEMP AttributeVoid* THIS::DoAttributeExplicit(const T& rElem) {
 
 // implement attributes: set  (assume detached)
 TEMP void THIS::DoAttribute(const T& rElem, const Type* pAttr) {
-  FD_DC("TBaseSet::DoAttribute([v] " << this->Str(rElem) << ", ...)");
+  FD_DC("TBaseSet::DoAttribute([v] " << this->EStr(rElem) << ", ...)");
 #ifdef FAUDES_DEBUG_CODE
   if(this->pAttributes!=this->mpAttributes) {
     FD_ERR("TBaseSet::DoAttribute([v] set): attributes not detached");
@@ -2433,7 +2484,7 @@ TEMP void THIS::DoAttribute(const T& rElem, const Type* pAttr) {
     oldattr=ait->second;
   // set to default, case 1
   if(newattr==NULL) {
-    FD_DC("TBaseSet::DoAttribute([v] " << this->Str(rElem) << ", ...): default 1");
+    FD_DC("TBaseSet::DoAttribute([v] " << this->EStr(rElem) << ", ...): default 1");
     if(oldattr==NULL) return;
     delete oldattr;
     this->pAttributes->erase(ait);
@@ -2441,13 +2492,13 @@ TEMP void THIS::DoAttribute(const T& rElem, const Type* pAttr) {
   }  
   // set to default, case 2
   if(newattr->IsDefault()) {
-    FD_DC("TBaseSet::DoAttribute([v] " << this->Str(rElem) << ", ...): default 2");
+    FD_DC("TBaseSet::DoAttribute([v] " << this->EStr(rElem) << ", ...): default 2");
     if(oldattr==NULL) return;
     delete oldattr;
     this->pAttributes->erase(ait);
     return;
   }  
-  FD_DC("TBaseSet::DoAttribute([v] " << this->Str(rElem) << ", ...): " << newattr->ToString());
+  FD_DC("TBaseSet::DoAttribute([v] " << this->EStr(rElem) << ", ...): " << newattr->ToString());
   // prepare attribute and set
   if(oldattr==NULL) {
     AttributeVoid* attr = this->AttributeType()->New();
@@ -2456,8 +2507,22 @@ TEMP void THIS::DoAttribute(const T& rElem, const Type* pAttr) {
     return;
   }
   // plain set     
-  FD_DC("TBaseSet::DoAttribute([v] " << this->Str(rElem) << ", ...): " << newattr->ToString());
+  FD_DC("TBaseSet::DoAttribute([v] " << this->EStr(rElem) << ", ...): " << newattr->ToString());
   oldattr->Assign(*newattr);
+}
+
+// read STL
+TEMP void THIS::FromStl(const std::set<T,Cmp>& rStlSet) {
+  Clear();
+  typename std::set<T,Cmp>::const_iterator it;
+  it=rStlSet.begin();
+  while(it!=rStlSet.end()) 
+    Insert(*(it++));
+}
+
+// write STL
+TEMP void THIS::ToStl(std::set<T,Cmp>& rStlSet) const {
+  rStlSet= *pSet;
 }
 
 

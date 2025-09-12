@@ -1909,7 +1909,7 @@ void insertRelabeledEvents(Generator& rGenPlant, const map<Idx,set<Idx> >&  rMap
 
 
 /** 
- * Rti convenience wrapper
+ * RTI convenience wrapper
  */   
 void calcAbstAlphObs(
   System& rGenObs, 
@@ -1922,21 +1922,21 @@ void calcAbstAlphObs(
 
 
 /** 
- * Rti convenience wrapper
+ * RTI convenience wrapper
  */   
 void insertRelabeledEvents(Generator& rGenPlant, const EventRelabelMap& rMapRelabeledEvents, EventSet& rNewEvents) {
   insertRelabeledEvents(rGenPlant, rMapRelabeledEvents.StlMap(), rNewEvents); 
 }
 
 /** 
- * Rti convenience wrapper
+ * RTI convenience wrapper
  */   
 void insertRelabeledEvents(Generator& rGenPlant, const EventRelabelMap& rMapRelabeledEvents) {
   insertRelabeledEvents(rGenPlant, rMapRelabeledEvents.StlMap()); 
 }
 
 /**
- * Rti wrapper class implementation
+ * RTI wrapper class implementation
  */
 
 // std faudes type

@@ -3,7 +3,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2023  Thomas Moor
+   Copyright (C) 2023-2015  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -87,6 +87,10 @@ BaseSet: Template declaration for swig
   // Deferred copy control
   virtual void Detach(void) const;
   void Lock(void) const;
+  // Pretty print
+  %extend{
+    std::string __str__(void) { return $self->Str(); };
+  };
 
 %enddef
 
@@ -126,7 +130,7 @@ BaseSet: Template declaration for swig
     TYPE DeRef(void) const { return  ** $self; };
     void Inc(void) { ++ *$self; };
     void Dec(void) { -- *$self; };
-  }
+   };
   // compatible c operators
   bool operator == (const ITERATOR& rOther) const;
 
@@ -300,6 +304,7 @@ public:
   void Attribute(const Idx& rIndex, const Attr& rAttr);
   // Attribute overloads
   virtual bool Insert(const Idx& rIndex);
+  virtual bool Insert(const Idx& rIndex, const Attr& rAttr);
   virtual bool Insert(const std::string& rName);
   virtual bool Insert(const std::string& rName, const Attr& rAttr);
   // Convenience extention: attribue by name/iterator
@@ -311,7 +316,7 @@ public:
   } 
 };
 
-// Announce template to SWIG
+// Announce template to SWIG: Alphabet
 // Note: the target Alphabet is a faudes Alphabet. So we tell SWIG to provide
 // a class with target name Alphabet and that it is implemented as specified
 // by the above template with parameter AttributeCFlags. We also tell swig that
@@ -319,6 +324,31 @@ public:
 
 %template(Alphabet) TaNameSet<AttributeCFlags>;
 typedef TaNameSet<AttributeCFlags> Alphabet;
+
+// Announce template to SWIG: NameSet<NameSet>
+%template(NameSet_Attr_NameSet) TaNameSet<NameSet>;
+typedef TaNameSet<NameSet> NameSet_Attr_NameSet;
+
+// RelabelMap
+class RelabelMap : public NameSet_Attr_NameSet {
+public:
+  // Construct/destruct from baseset
+  SwigBaseSetConstructors(RelabelMap,Idx,NameSetIterator);
+  // Extra accessors
+  const NameSet& Target(const Idx& rSrc) const;
+  NameSet& Target(const Idx& rSrc);
+  const NameSet& Target(const std::string& rSrc) const;
+  NameSet& Target(const std::string& rSrc);
+  void Target(const std::string& rSrc, const NameSet& rTarget);
+  void Target(const Idx& rSrc, const NameSet& rTarget);
+  // Extra accessors
+  virtual bool Insert(const Idx& rSrc, const Idx& rDst);
+  virtual bool Insert(const std::string& rSrc, const std::string& rDst);
+  // Pretty print
+  %extend{
+    std::string __str__(void) { return $self->Str(); };
+  };
+};
 
 
 /*

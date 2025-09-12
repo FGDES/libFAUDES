@@ -90,7 +90,7 @@ class EventRelabelMap : public Type {
 **************************************************
 **************************************************
 
-Observer interface: plugin functions vio rti
+Observer interface: plugin functions via RTI
 
 **************************************************
 **************************************************
