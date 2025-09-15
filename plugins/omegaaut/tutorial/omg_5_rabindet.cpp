@@ -34,7 +34,7 @@ RabinAutomaton GenerateRandomNRA(int numStates, int numEvents) {
     nra.SetInitState(1);
     
     // Set some marked states (randomly select 1-2 states)
-    int numMarked = 1 + (rand() % std::min(2, numStates));
+    unsigned int numMarked = 1 + (rand() % std::min(2, numStates));
     std::set<int> markedStates;
     while(markedStates.size() < numMarked) {
         int state = 1 + (rand() % numStates);
@@ -82,7 +82,7 @@ RabinAutomaton GenerateRandomNRA(int numStates, int numEvents) {
     RabinPair pair;
     
     // R-set: select 1-2 random states
-    int rSize = 1 + (rand() % std::min(2, numStates));
+    unsigned int rSize = 1 + (rand() % std::min(2, numStates));
     std::set<int> rStates;
     while(rStates.size() < rSize) {
         int state = 1 + (rand() % numStates);

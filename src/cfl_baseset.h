@@ -1041,15 +1041,6 @@ protected:
   /** Record that an iterator stops to refer to this TBaseSet */
   void DetachIterator(Iterator* pFit) const;
 
-  /** static empty STL set for default constructor */
-  static std::set<T,Cmp> msEmptySet;
-
-  /** static empty STL map for default constructor */
-  static std::map<T,AttributeVoid*> msEmptyAttributes;
-
-  /** static empty STL client list */
-  // std::list< TBaseSet<T,Cmp>* >* msEmptyClients;
-
 
 };
 
@@ -1218,16 +1209,27 @@ FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(Void,THIS,ExtType,TEMP)
 FAUDES_TYPE_TIMPLEMENTATION_EQUAL(Void,THIS,ExtType,TEMP)
 
 
-// template statics: empty set
-TEMP std::set<T,Cmp>  THIS::msEmptySet=std::set<T,Cmp>();
-TEMP std::map<T,AttributeVoid*> THIS::msEmptyAttributes=std::map<T,AttributeVoid*>();
+// template static members (initialisation fiasco)
+template< class T, class Cmp >
+std::set<T,Cmp> * GlobalEmptySet(void) {
+  static std::set<T,Cmp> ges;
+  return &ges;
+}  
+
+// template static members (initialisation fiasco)
+template< class T>
+std::map< T,AttributeVoid* > * GlobalEmptyAttributes(void) {
+  static std::map<T,AttributeVoid*> gea;
+  return &gea;
+}
+
 
 // TBaseSet()
 TEMP THIS::TBaseSet(void) :
   ExtType(),
-  pSet(&msEmptySet),  
+  pSet(GlobalEmptySet<T,Cmp>()),  
   mpSet(NULL),
-  pAttributes(&msEmptyAttributes),
+  pAttributes(GlobalEmptyAttributes<T>()),
   mpAttributes(NULL),
   pHostSet(this),
   mpClients(new std::list< TBaseSet<T,Cmp>* >),
@@ -1244,9 +1246,9 @@ TEMP THIS::TBaseSet(void) :
 // TBaseSet(filename)
 TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
   ExtType(),
-  pSet(&msEmptySet),  
+  pSet(GlobalEmptySet<T,Cmp>()),  
   mpSet(NULL),
-  pAttributes(&msEmptyAttributes),
+  pAttributes(GlobalEmptyAttributes<T>()),
   mpAttributes(NULL),
   pHostSet(this),
   mpClients(new std::list< TBaseSet<T,Cmp>* >),
@@ -1265,9 +1267,9 @@ TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
 // TBaseSet(rOtherSet)
 TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) : 
   ExtType(rOtherSet),
-  pSet(&msEmptySet),  
+  pSet(GlobalEmptySet<T,Cmp>()),  
   mpSet(NULL),  
-  pAttributes(&msEmptyAttributes),
+  pAttributes(GlobalEmptyAttributes<T>()),
   mpAttributes(NULL),
   pHostSet(this),
   mpClients(new std::list< TBaseSet<T,Cmp>* >), // small detour ... for readability
@@ -1403,7 +1405,7 @@ TEMP void THIS::Detach(DetachMode flag) const {
 #ifdef FAUDES_DEBUG_CODE
   // might have missed reference detach
   if(pHostSet==this)
-  if(pSet!=&msEmptySet)
+  if(pSet!=GlobalEmptySet<T,Cmp>())
   if(mpClients)
   if(mpClients->empty()) {
     FD_ERR("TBaseSet(" << this << ")::Detach(): missed detach (?)");
@@ -1640,7 +1642,7 @@ TEMP inline void THIS::DetachClient(TBaseSet* pRef) const {
     break; 
   }
   // figure detached status
-  if(mpClients->empty() && (pSet!=&msEmptySet)) fake_const->mDetached=true;
+  if(mpClients->empty() && (pSet!=GlobalEmptySet<T,Cmp>())) fake_const->mDetached=true;
   FD_DC("TBaseSet::DetachClient(" << this << "): done.");
 }
 
@@ -1665,7 +1667,7 @@ TEMP void THIS::DValid(const std::string& rMessage) const {
   typename std::list< THIS* >::const_iterator rit;
 #ifdef FAUDES_DEBUG_CONTAINER
   std::cerr << "TBaseSet(" << this << ")::DValid(): " << rMessage << " source " 
-     << pHostSet << " " << (pHostSet->pSet==&msEmptySet ? "+e+" : "+f+") << 
+     << pHostSet << " " << (pHostSet->pSet==GlobalEmptySet<T,Cmp>() ? "+e+" : "+f+") << 
         (mLocked ? " +l+" : " ") << (mDetached ? " +d+" : " ") << " -- refs ";
   if(pHostSet->mpClients)
   for(rit=pHostSet->mpClients->begin(); rit!=pHostSet->mpClients->end(); ++rit)
@@ -1676,7 +1678,7 @@ TEMP void THIS::DValid(const std::string& rMessage) const {
   std::cerr << "-- attr #" << pAttributes->size();
   if(mpAttributes) std::cerr << "(" << mpAttributes->size() << ") ";
   else std::cerr << " ";
-  std::cerr << (pAttributes==&msEmptyAttributes ? "+e+ " : "+f+ ") << std::endl;
+  std::cerr << (pAttributes==GlobalEmptyAttributes<T>() ? "+e+ " : "+f+ ") << std::endl;
 #endif
   // iterators, that dont refer to me as basset
   for(iit=mIterators.begin(); iit!=mIterators.end(); ++iit) {
@@ -1735,17 +1737,17 @@ TEMP void THIS::DValid(const std::string& rMessage) const {
     abort();
   }
   // is base but has no own data
-  if((pHostSet == this) && (mpSet==NULL) && (pSet!=&msEmptySet)) {
+  if((pHostSet == this) && (mpSet==NULL) && (pSet!=GlobalEmptySet<T,Cmp>())) {
     FD_WARN("BaseSet(" << this << "," << rMessage << "): no data");
     abort();
   }
   // is base, but has no client list
-  if((pHostSet==this) && (pSet!=&msEmptySet) && (mpClients==NULL)) {
+  if((pHostSet==this) && (pSet!=GlobalEmptySet<T,Cmp>()) && (mpClients==NULL)) {
     FD_WARN("BaseSet(" << this << "," << rMessage << "): host with no client list");
     abort();
   }
   // is base but own data pointer mismatch
-  if((pHostSet == this) && (pSet != mpSet) && (pSet!=&msEmptySet)) {
+  if((pHostSet == this) && (pSet != mpSet) && (pSet!=GlobalEmptySet<T,Cmp>())) {
     FD_WARN("BaseSet(" << this << "," << rMessage << "): data pointer mismatch A");
     abort();
   }
@@ -1782,7 +1784,7 @@ TEMP void THIS::DValid(const std::string& rMessage) const {
     abort();
   }
   // error in detached flag
-  if(mDetached && (pSet==&msEmptySet)) {
+  if(mDetached && (pSet==GlobalEmptySet<T,Cmp>())) {
     FD_WARN("BaseSet(" << this << "," << rMessage << "): detached empty set");
     abort();
   }
@@ -1792,12 +1794,12 @@ TEMP void THIS::DValid(const std::string& rMessage) const {
     abort();
   }
   // invalid emptyset
-  if(!msEmptySet.empty()) {
+  if(!GlobalEmptySet<T,Cmp>()->empty()) {
     FD_WARN("BaseSet(" << this << "," << rMessage << "): invalid empty set");
     abort();
   }
   // invalid emptyset
-  if(!msEmptyAttributes.empty()) {
+  if(!GlobalEmptyAttributes<T>()->empty()) {
     FD_WARN("BaseSet(" << this << "," << rMessage << "): invalid empty attributes");
     abort();
   }
@@ -2016,7 +2018,7 @@ TEMP void THIS::Clear(void) {
   DValid("PreClear");
 #endif
   // special case: empty anyway
-  if(pSet==&msEmptySet) return;
+  if(pSet==GlobalEmptySet<T,Cmp>()) return;
 
   FD_DC("TBaseSet(" << this << ")::Clear(): doit");
   FD_DC("TBaseSet(" << this << ")::Clear(): type " << typeid(*this).name());
@@ -2044,8 +2046,8 @@ TEMP void THIS::Clear(void) {
     mpAttributes=NULL;
   }
   // set to empty set
-  pSet=&msEmptySet;
-  pAttributes=&msEmptyAttributes;
+  pSet=GlobalEmptySet<T,Cmp>();
+  pAttributes=GlobalEmptyAttributes<T>();
   // fix iterators (invalidate)
   typename std::set< Iterator* >::iterator iit;
   for(iit=mIterators.begin(); iit!=mIterators.end(); ++iit) {

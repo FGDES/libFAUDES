@@ -163,7 +163,7 @@ void omg_export_hoa(std::ostream& rOutStream, const Generator& rAut, SymbolTable
     // state section
     rOutStream << "State: " << (*sit)-1;
     bool none=true;
-    for(int i=0; i<accvec.size(); ++i) {
+    for(unsigned int i=0; i<accvec.size(); ++i) {
       if(!accvec[i].Exists(*sit)) continue;
       if(none)
 	rOutStream << " {" + ToStringInteger(i);

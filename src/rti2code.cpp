@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
   if(flat && !swig) {
     usage("mismatching options: flat is only applicable to swig");
   }    
-  if(merge && (argc-pos <3)) {
+  if(merge && (argc-pos <2)) {
     usage("mismatching agruments: to few files to merge");
   }
   if(!merge && (argc-pos !=2)) {
