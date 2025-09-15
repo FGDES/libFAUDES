@@ -1433,10 +1433,10 @@ std::string TaNameSet<Attr>::Str(const Idx& rIndex) const {
   return NameSet::Str(rIndex);
 }
 
-// Str() (not implemented)
+// Str() 
 template<class Attr>
 std::string TaNameSet<Attr>::Str(void) const {
-  return std::string();
+  return NameSet::Str();
 }
 
 

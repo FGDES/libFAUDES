@@ -330,6 +330,17 @@ print("relabeled set")
 faudes.ApplyRelabelMap(rlmap,cset,cset)
 cset:Write()
 
+rlmap = faudes.RelabelMap()
+rlmap:Insert("alpha","xi")
+rlmap:Insert("beta","phi")
+rlmap:Insert("beta","eta")
+print("relabel map")
+print(rlmap)
+print("original set")
+tset:Write()
+--print("relabeled set")
+--faudes.ApplyRelabelMap(rlmap,tset,tset)
+--tset:Write()
 
 -- ------------------------------------------
 -- Vectors

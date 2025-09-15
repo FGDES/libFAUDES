@@ -1276,6 +1276,26 @@ public:
 
 };
 
+
+
+/**
+ * Apply relable map to nameset
+ *
+ * This implementation tries to keep the atributes from the
+ * domain elements.
+ *
+ * @param rMap
+ *  map to apply
+ * @param rSet
+ *  set to apply the map to
+ * @param rRes
+ *  relabled set
+ * @exceptions
+ *  - symboltable must match
+ */
+extern FAUDES_API void ApplyRelabelMap(const RelabelMap& rMap, const TransSet& rSet, TransSet& rRes);
+  
+
 /** @} doxygen group*/
 
 
