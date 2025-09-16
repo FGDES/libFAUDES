@@ -41,7 +41,9 @@
 
 # allow user local configuration (unless building a distribution package)
 ifeq ($(FAUDES_NOUSER),)
+ifneq (package,$(findstring package,$(MAKECMDGOALS)))
 -include Makefile.user
+endif
 endif
 
 
@@ -961,7 +963,7 @@ tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) libfaudes
 
 package: 
 	$(ECHO) " ============================== " 
-	$(ECHO) "libFAUDES pacakge: prepare"
+	$(ECHO) "libFAUDES package: prepare"
 	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
 	$(RM) /tmp/libFAUDES_$(FAUDES_FILEVERSION) 
 	$(MKDIR) /tmp/libFAUDES_$(FAUDES_FILEVERSION)
