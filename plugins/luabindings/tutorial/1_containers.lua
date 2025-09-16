@@ -338,9 +338,9 @@ print("relabel map")
 print(rlmap)
 print("original set")
 tset:Write()
---print("relabeled set")
---faudes.ApplyRelabelMap(rlmap,tset,tset)
---tset:Write()
+print("relabeled set")
+faudes.ApplyRelabelMap(rlmap,tset,tset)
+tset:Write()
 
 -- ------------------------------------------
 -- Vectors

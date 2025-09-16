@@ -256,7 +256,7 @@ CoreFaudes    vector        generator     system
 
 <TypeDefinition name="CoreFaudes::RelabelMap" ctype="faudes::RelabelMap" autoregister="true"> 
 
-<Documentation ref="corefaudes_genmisc.html#RelabelMap"> 
+<Documentation ref="corefaudes_genmisc.html#ApplyRelabelMap"> 
 Set-valued map with domain and range EventSet
 </Documentation> 
 <Keywords> 
@@ -293,6 +293,11 @@ CoreFaudes    misc "relabel events" RelabelMap
 <Parameter name="Map" ftype="RelabelMap" access="In"/> 
 <Parameter name="delta_in" ftype="TransSet" access="In"/> 
 <Parameter name="delta_out" ftype="TransSet" access="Out"/> 
+</Signature> 
+<Signature name="ApplyRelableMap(map,gen,gen)"> 
+<Parameter name="Map" ftype="RelabelMap" access="In"/> 
+<Parameter name="G_in" ftype="Generator" access="In"/> 
+<Parameter name="G_out" ftype="Generator" access="Out"/> 
 </Signature> 
 </VariantSignatures> 
 

@@ -1281,7 +1281,7 @@ public:
 /**
  * Apply relable map to nameset
  *
- * This implementation tries to keep the atributes from the
+ * This implementation tries to keep the attributes from the
  * domain elements.
  *
  * @param rMap

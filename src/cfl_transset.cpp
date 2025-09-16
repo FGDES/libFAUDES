@@ -27,7 +27,7 @@ namespace faudes {
 
 
 
-// apply the map to a NameSet 
+// apply a relabeling map to a TransSet 
 void ApplyRelabelMap(const RelabelMap& rMap, const TransSet& rSet, TransSet& rRes) {
   TransSet& inselem = *rSet.New();
   TransSet delelem;

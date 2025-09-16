@@ -2883,7 +2883,7 @@ void vGenerator::DWriteTransRel(TokenWriter& rTw) const {
     Idx x1= tit->X1;
     std::string x1name = StateName(x1);
     if (x1name != "") {
-      ox1 << x1name << "[" << x1 << "]";
+      ox1 << x1name << "#" << x1;
     } else {
       ox1 << x1;
     }
@@ -2892,14 +2892,14 @@ void vGenerator::DWriteTransRel(TokenWriter& rTw) const {
     std::ostringstream oev;
     Idx ev= tit->Ev;
     std::string evname = EventName(ev);
-    oev << evname << "[" << ev << "]";
+    oev << evname << "#" << ev;
     rTw << oev.str();
     // write x2
     std::ostringstream ox2;
     Idx x2= tit->X2;
     std::string x2name = StateName(x2);
     if (x2name != "") {
-      ox2 << x2name << "[" << x2 << "]";
+      ox2 << x2name << "#" << x2;
     } else {
       ox2 << x2;
     }
@@ -4128,7 +4128,19 @@ void SetDifference(const vGenerator& rGenA, const vGenerator& rGenB, EventSet& r
   SetDifference(rGenA.Alphabet(),rGenB.Alphabet(),rRes);
 }
 
+// rti convenience function
+void ApplyRelabelMap(const RelabelMap& rMap, const vGenerator& rGen, vGenerator& rRes) {
+  EventSet* alph=rGen.Alphabet().Copy();
+  TransSet* delta=rGen.TransRel().Copy();
+  ApplyRelabelMap(rMap,*alph,*alph);
+  ApplyRelabelMap(rMap,*delta,*delta);
+  rRes.InjectTransRel(*delta);
+  rRes.InjectAlphabet(*alph);
+  delete alph;
+  delete delta;
+}
 
+  
 } // name space
 
 

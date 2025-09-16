@@ -366,10 +366,13 @@ TransSet: template declaration, derived from BaseSet
 
 
 
-// Preface: rename std order to plain
+// Preface: rename std order 
 %rename(TransSet) TransSetX1EvX2;
 %rename(TransSetIterator) TransSetX1EvX2Iterator;
 
+// Preface: tell swig that our C-code uses convenience typedefs
+typedef TransSetX1EvX2 TransSet;
+typedef TransSetX1EvX2Iterator TransSetIterator;
 
 // Transition set: iterators
 // Note: yet another layer of macros to manually

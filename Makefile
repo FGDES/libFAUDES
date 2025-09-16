@@ -40,7 +40,7 @@
 
 
 # allow user local configuration (unless building a distribution package)
-ifneq ($(FAUDES_NOUSER),)
+ifeq ($(FAUDES_NOUSER),)
 -include Makefile.user
 endif
 
@@ -976,7 +976,7 @@ package:
 	$(ECHO) "#### libFAUDES package: dist-clean"
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
 	$(ECHO) "#### libFAUDES package: configure"
-	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  -j configure &> /dev/null
+	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION) -DFAUDES_NOUSER -j configure &> /dev/null
 	$(ECHO) "#### libFAUDES package: tar sources"  
 	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION)_source.tar.gz libFAUDES_$(FAUDES_FILEVERSION)
 	$(ECHO) "#### libFAUDES package: build"
