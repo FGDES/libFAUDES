@@ -146,7 +146,7 @@ and then marking the remaining states.
 <table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
-<td> <fimage fsrc="tmp_prefixclosure_g"/> </td> 
+<td> <fimage fsrc="tmp_prefixclosure_g"/> &nbsp;&nbsp;</td> 
 <td> <fimage fsrc="tmp_prefixclosure_gRes"/> </td> 
 </tr>
 </table> 
@@ -161,7 +161,7 @@ and then marking the remaining states.
 <ffnct_reference name="ApplyRelabelMap">
 <fdetails/>
 <p>
-An <ftype>RelabelMap</ftype> is a set valued map with domain and range <ftype>EventSet</ftype>.
+A <ftype>RelabelMap</ftype> is a set valued map with domain and range <ftype>EventSet</ftype>.
 It is used to represent re-labeling a scheme.
 To maintain an event, it must be excluded from the domain.
 To remove an event, it shall be mapped to the empty set.

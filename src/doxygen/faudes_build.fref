@@ -32,7 +32,7 @@ a great approach for cross-distribution binary compatibility.
 However, LSB was last updated in 2015 and common Linux distributions
 stepped out from then on. If you want/need to run early versions of libFAUDES
 or derived software, you may need to install the LSB loader. Depending on your
-Linux distribution, packenames are just <tt>lsb</tt> (e.g. Debian) or
+Linux distribution, packagenames are just <tt>lsb</tt> (e.g. Debian) or
 <tt>redhat-lsb</tt> (e.g. Fedora). All theese issues are readily resolved if you
 are prepared to re-compile.
 </p>
@@ -60,7 +60,7 @@ as our test target. Allthough libFAUDES itself is not a Visual C++ project,
 dependend applications can be developed with the community edition of MS Visual C++
 in that version. If you need to address legacy hardware, you may be lucky with
 an earlier version of libFAUDES. We used MS Visual C++ 2015 to target Windows 7 for
-libFAUDES 2.27, earlier Versions used the MinGW Toolchain to target Windows XP.
+libFAUDES 2.27, earlier Versions used the MinGW toolchain to target Windows XP.
 </p>
 </li>
 </ul>
@@ -254,7 +254,7 @@ in <tt>./doc/reference</tt>
 (requires <a href="http://www.perl.org">Perl</a>),
 </p></li>
 <li><p>
-<tt>doc</tt>/<tt>doc-clean</tt> to set up the doxygen and static HTML documentation in the 
+<tt>doc</tt>/<tt>docs-clean</tt> to set up the doxygen and static HTML documentation in the 
 <tt>./doc</tt> directory  
 (requires all of the above plus
 <a href="http://www.doxygen.org">doxygen</a> v1.9.1 dated 2023 or above),
@@ -295,14 +295,19 @@ to a specific version of doxygen, please report back.
 
 <p>
 For development on a  macOS system,
-there are various ways to obtain the required tools. As of libFAUDES 2.04, we
+there are various ways to obtain the required tools. As of libFAUDES v2.04, we
 use <a href="https://www.macports.org">MacPorts</a> to install SWIG and doxygen, e.g.,
 </p>
 <pre>
 port install swig doxygen    
 </pre>
 <p>
-Regarding the versions of the respective tools, the same concerns as apply as for Linux. Try to use fairly recent
+Since we migrated our sources to <a hreh="https://github.com/FGDES">GitHub</a> as of libFAUDES v2.33,
+we also use <a href="https://brew.sh">HomeBrew</a>
+to obtain <tt>SWIG</tt> and other tools to run GitHub actions. This likewise works out fine,
+so there is some robustness to report on this end.
+Regarding the versions of the respective tools, the same concerns as apply as for Linux.
+Try to use fairly recent
 versions and report back any issues.
 </p>
 

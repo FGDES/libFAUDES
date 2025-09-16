@@ -286,18 +286,18 @@ CoreFaudes    misc "relabel events" RelabelMap
 <VariantSignatures> 
 <Signature name="ApplyRelableMap(map,sigma,sigma)"> 
 <Parameter name="Map" ftype="RelabelMap" access="In"/> 
-<Parameter name="Sigma_in" ftype="EventSet" access="In"/> 
-<Parameter name="Sigma_out" ftype="EventSet" access="Out"/> 
+<Parameter name="Sigma" ftype="EventSet" access="In"/> 
+<Parameter name="SigmaRes" ftype="EventSet" access="Out"/> 
 </Signature> 
 <Signature name="ApplyRelableMap(map,delta,delta)"> 
 <Parameter name="Map" ftype="RelabelMap" access="In"/> 
-<Parameter name="delta_in" ftype="TransSet" access="In"/> 
-<Parameter name="delta_out" ftype="TransSet" access="Out"/> 
+<Parameter name="delta" ftype="TransSet" access="In"/> 
+<Parameter name="deltaRes" ftype="TransSet" access="Out"/> 
 </Signature> 
 <Signature name="ApplyRelableMap(map,gen,gen)"> 
 <Parameter name="Map" ftype="RelabelMap" access="In"/> 
-<Parameter name="G_in" ftype="Generator" access="In"/> 
-<Parameter name="G_out" ftype="Generator" access="Out"/> 
+<Parameter name="G" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="Generator" access="Out"/> 
 </Signature> 
 </VariantSignatures> 
 
