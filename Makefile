@@ -187,13 +187,14 @@ endif
 
 FILE_CONFIG = Makefile.configuration
 
-# if "configuration" or "dist-clean" are not the target, read make variables from file
+# if "configuration"/"dist-clean"/"package" are not the target, read make variables from file
 ifneq (configure,$(findstring configure,$(MAKECMDGOALS)))
 ifneq (dist-clean,$(findstring dist-clean,$(MAKECMDGOALS)))
+ifneq (package,$(findstring package,$(MAKECMDGOALS)))
 include $(FILE_CONFIG)
 endif
 endif
-
+endif
 
 
 ###############################################################################
@@ -975,8 +976,9 @@ package:
 	- $(CPR)  plugins/pybindings ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	$(ECHO) "#### libFAUDES package: dist-clean"
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
+	$(RM) ./libFAUDES_$(FAUDES_FILEVERSION)/Makefile.user
 	$(ECHO) "#### libFAUDES package: configure"
-	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION) -DFAUDES_NOUSER -j configure &> /dev/null
+	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION) -j configure FAUDES_NOUSER="yes" &> /dev/null
 	$(ECHO) "#### libFAUDES package: tar sources"  
 	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION)_source.tar.gz libFAUDES_$(FAUDES_FILEVERSION)
 	$(ECHO) "#### libFAUDES package: build"

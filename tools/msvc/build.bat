@@ -14,6 +14,10 @@ set GNUMAKE=C:\msys64\ucrt64\bin\mingw32-make.exe
 echo "==== set paths for MSVC command line tools"
 call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64"
 
+echo "==== build libFAUDES static/debug"
+%GNUMAKE% FAUDES_PLATFORM=cl_win clean
+%GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes FAUDES_LINKING="static debug" -j 
+
 echo "==== build libFAUDES shared/release"
 %GNUMAKE% FAUDES_PLATFORM=cl_win clean
 %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="shared" -j 

@@ -198,6 +198,13 @@ void IndexSet::DoXWrite(TokenWriter& rTw, const std::string& rLabel,const Type* 
   rTw.WriteEnd(btag.StringValue());
 }
 
+// debug variant
+void IndexSet::DoDWriteElement(TokenWriter& rTw, const Idx& rElem, const std::string &rLabel, const Type* pContext) const {
+  (void) pContext;
+  (void) rLabel;
+  rTw << rElem;
+}
+
 // DoRead(rTr, rLabel)
 void IndexSet::DoRead(TokenReader& rTr, const std::string& rLabel,const Type* pContext) {
    // set up defaults

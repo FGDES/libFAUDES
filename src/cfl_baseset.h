@@ -865,6 +865,21 @@ protected:
    */
   virtual void DoXWriteElement(TokenWriter& rTw, const T& rElem, const std::string &rLabel="", const Type* pContext=0) const;
 
+  /** 
+   * Token output for an individual element of the set, strict XML debug. See also
+   * DoWriteElement
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rElem
+   *   The element to write
+   * @param rLabel
+   *   Label of section to write, defaults to ElemenTag
+   * @param pContext
+   *   Write context to provide contextual information
+   */
+  virtual void DoDWriteElement(TokenWriter& rTw, const T& rElem, const std::string &rLabel="", const Type* pContext=0) const;
+
   /**
    * Token input for individual elemets.
    * Reimplement this function in derived classes for specific
@@ -885,7 +900,7 @@ protected:
   virtual void DoReadElement(TokenReader& rTr, T& rElem, const std::string& rLabel, const Type* pContext);
 
   /** 
-   * Token output, see Type::WWrite for public wrappers.
+   * Token output, see Type::Write for public wrappers.
    * The default implementation iterates over the individual elements and writes
    * them by DoWriteElement. Reimplement this function in derived classes for a
    * taylored output format.
@@ -1918,6 +1933,20 @@ TEMP void THIS::DoXWriteElement(TokenWriter& rTw,const T& rElem, const std::stri
   throw Exception("BaseSet::DoXWriteElement", errstr.str(), 61);
 }
 
+// DoDWriteElement(tw,cpntext)
+TEMP void THIS::DoDWriteElement(TokenWriter& rTw,const T& rElem, const std::string& rLabel, const Type* pContext) const {
+  // test whether we can cast to faudes Type
+  const Type* ep= CastToType<T>::ConstPointer(&rElem);
+  if(ep!=nullptr) {
+    ep->DWrite(rTw,rLabel,pContext);
+    return;
+  }
+  // fail if not reimplemented
+  std::stringstream errstr;
+  errstr << "used but not reimplemented" << typeid(this).name() << std::endl;
+  throw Exception("BaseSet::DoDWriteElement", errstr.str(), 61);
+}
+
 // DoWrite(tw,rLabel,cpntext)
 TEMP void THIS::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
   std::string label=rLabel;
@@ -1952,8 +1981,13 @@ TEMP void THIS::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type*
 
 // DoDWrite(tw, label, context)
 TEMP void THIS::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
-  (void) pContext;
-  (void) rLabel;
+  std::string label=rLabel;
+  if(label=="") label=Name(); 
+  if(label=="") label="BaseSet"; 
+  std::string etstr=ElementTag();
+  FD_DC("TBaseSet(" << this << ")::DoDWrite(..): section " << label << " #" << Size());
+  rTw.WriteBegin(label);
+  // stats
   BASE::DoSWrite(rTw);
   size_t shares=0;
   if(pHostSet->mpClients) shares=pHostSet->mpClients->size();
@@ -1966,6 +2000,12 @@ TEMP void THIS::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Type
 #ifdef FAUDES_DEBUG_CODE
   DValid();
 #endif
+  // elements
+  Iterator it;
+  for (it = Begin(); it != End(); ++it) {
+    DoDWriteElement(rTw, *it, etstr, pContext);
+  }
+  rTw.WriteEnd(label);
 }
 
 // DoSWrite()

@@ -253,6 +253,21 @@ public:
    */
   virtual void DoXWrite(TokenWriter& tw, const std::string& rLabel="", const Type* pContext=0) const;
 
+  /** 
+   * Token output for an individual element of the set, strict debug variant. See also
+   * DoWriteElement
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   * @param rElem
+   *   The element to write
+   * @param rLabel
+   *   Label of section to write, defaults to ElemenTag
+   * @param pContext
+   *   Write context to provide contextual information
+   */
+  virtual void DoDWriteElement(TokenWriter& rTw, const Idx& rElem, const std::string &rLabel="", const Type* pContext=0) const;
+
   /**
    * Read from TokenReader, see Type::Read for public wrappers. 
    * This method invokes TokenReader::ReadBegin() to seek the specified
