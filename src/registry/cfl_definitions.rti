@@ -276,7 +276,7 @@ Corefaudes      misc    "relabel events"  map
 
 <FunctionDefinition name="CoreFaudes::ApplyRelabelMap" ctype="faudes::ApplyRelabelMap"> 
 
-<Documentation ref="corefaudes_genmisc.html#RelabelMap"> 
+<Documentation ref="corefaudes_genmisc.html#ApplyRelabelMap"> 
 Relabel events/transitions as specified by a set-values map.
 </Documentation> 
 <Keywords> 

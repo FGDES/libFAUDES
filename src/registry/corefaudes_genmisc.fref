@@ -176,7 +176,7 @@ The figure shows the scheme  "a->x, b->{z,y} and c->{}".
 <table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
-<td> <fimage fsrc="tmp_toberelabeled"/> </td> 
+<td> <fimage fsrc="tmp_toberelabeled"/> &nbsp;&nbsp;</td> 
 <td> <fimage fsrc="tmp_relabeled"/> </td> 
 </tr>
 </table> 
