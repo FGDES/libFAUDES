@@ -7,7 +7,7 @@
 <script language="JavaScript"> 
 var luafaudes=function() {   
   window.open('luafaudes_repl.html','open_window', 
-    'resizable,dependent, width=720, height=480, left=0, top=0'); 
+    'resizable,dependent, width=760, height=480, left=0, top=0'); 
 };
 </script>
 

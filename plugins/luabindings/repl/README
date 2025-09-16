@@ -22,9 +22,9 @@ under terms of the LGPL.
 comments on the toolchain 2025-08-03
 
 As of libFAUDES 2.33j, we use out-of-the-box emscripten 3.1.5 provided by
-Ubuntu 22.04LTS. For configuration and build see the bash script
-'plugins/luabindings/repl/emsbuild.sh'. Testing requires an actual HTTP
-server, use e.g. 'python -m http.server 8888'
+Ubuntu 22.04LTS. Such a dramatic progress over the last 10 years. For
+configuration and build see the bash script 'plugins/luabindings/repl/emsbuild.sh'.
+Testing requires an actual HTTP server, use e.g. 'python -m http.server 8888'
 
 
 ===================================================================

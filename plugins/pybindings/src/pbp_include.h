@@ -150,8 +150,8 @@ Notes:
   your test cases.
 
 
-- The build system is best supported on Linux and OS X. For Windows, we have
-  test pybindings within the MSYS2 enviroment and it works just fine. We did not
+- The build system is best supported on Linux and macOS. For Windows, we have
+  tested pybindings within the MSYS2 enviroment and it works just fine. We did not
   yet test with MSVC compilers and/or plain cmd.exe terminal.
 
 

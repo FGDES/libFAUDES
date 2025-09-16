@@ -1349,7 +1349,9 @@ doc-luafaudes: $(REFSRCDIR)/luafaudes
 	cp $(LBP_REPLDIR)/*.css $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*.lua $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*min.js $(LUADOCDIR)
-	cp $(LBP_REPLDIR)/luafaudes_2_28a.js $(LUADOCDIR)/luafaudes.js
+#	cp $(LBP_REPLDIR)/luafaudes_2_28a.js $(LUADOCDIR)/luafaudes.js
+	cp $(LBP_REPLDIR)/luafaudes_2_33l.js $(LUADOCDIR)/luafaudes.js
+	cp $(LBP_REPLDIR)/luafaudes_2_33l.wasm $(LUADOCDIR)/luafaudes.wasm
 
 # if we dont have luabindings
 else

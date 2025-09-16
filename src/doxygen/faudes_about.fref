@@ -34,7 +34,7 @@ and (b) effective advertisement of such methods by making them available to the 
 var luafaudes=function() {   
   window.open('luafaudes/index.html','_self');
   window.open('luafaudes/luafaudes_repl.html','open_window', 
-    'resizable,dependent, width=720, height=480, left=0, top=0'); 
+    'resizable,dependent, width=780, height=480, left=0, top=0'); 
 };
 </script>
 
@@ -121,7 +121,7 @@ as a masters project
 <a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/thesis_opitz.pdf">[thesis]</a>, and since then was extended by numerous plug-ins, including external contributions.
 </p>
 <p>
-As of May 2025, the following people have contributed 
+As of September 2025, the following people have contributed 
 to the development of the core library and its plug-ins:
 </p>
 
