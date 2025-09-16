@@ -428,8 +428,7 @@ bool ControlledBuechiLiveness(
 	
 /*
 Variant of the controllable prefix to extract a particular feedback map. Again, this is 
-very close to the relevant literature and meant as a reference. A more efficient 
-implementation proposed by Christian Wamser will be integrated in due course.
+very close to the relevant literature and meant as a reference. It is not particulary performant.
 */
 
 bool ControlledBuechiLiveness(
@@ -439,7 +438,7 @@ bool ControlledBuechiLiveness(
   std::map< Idx , EventSet>& rFeedbackMap)
 {
 	
-  FD_WARN("ControlledBuechiLiveness()");
+  FD_DF("ControlledBuechiLiveness()");
 
   // declare iterate sets
   StateSet resolved, initialK, targetLstar;
@@ -465,7 +464,7 @@ bool ControlledBuechiLiveness(
     while(true) {
       Idx rsz = initialK.Size();
       targetLstar = (initialK * rSupCandGen.MarkedStates()) + resolved;
-      FD_WARN("ControlledBuechiLiveness(): [FBM] iterate resolved/targetLstar #" << xsz << "/" << targetLstar.Size());
+      FD_DF("ControlledBuechiLiveness(): [FBM] iterate resolved/targetLstar #" << xsz << "/" << targetLstar.Size());
 
       // reset controls
       controls1L.clear();
@@ -475,14 +474,14 @@ bool ControlledBuechiLiveness(
       while(true) {
         Idx t1Lsz = initialL.Size();
         targetL = targetLstar + initialL;
-        FD_WARN("ControlledBuechiLiveness(): [FBM] ---- iterate targetL #" << targetL.Size());
+        FD_DF("ControlledBuechiLiveness(): [FBM] ---- iterate targetL #" << targetL.Size());
 
         // evaluate thetaTilde(targetL)=nu(domainL).mu(target1)[ theta(targetL+(target1-markL), domainL-markL) ];
         domainL=full;
         while(true) {
           Idx dsz = domainL.Size();
 	  domain=domainL-rPlantMarking;
-          FD_WARN("ControlledBuechiLiveness(): [FBM] --- iterate domain #" << domain.Size());
+          FD_DF("ControlledBuechiLiveness(): [FBM] --- iterate domain #" << domain.Size());
             
           // reset controls
           controls1.clear();
@@ -497,7 +496,7 @@ bool ControlledBuechiLiveness(
             target = targetL + (target1-rPlantMarking);
 
             // evaluate theta(target,domain) 
-            FD_WARN("ControlledBuechiLiveness(): [FBM] -- evaluate theta for target/domain # " 
+            FD_DF("ControlledBuechiLiveness(): [FBM] -- evaluate theta for target/domain # " 
                << target.Size() << "/" << domain.Size());
             theta.Clear();
             StateSet::Iterator sit = full.Begin(); 
@@ -517,8 +516,10 @@ bool ControlledBuechiLiveness(
               if(pass && !fail) {
                 theta.Insert(*sit);
                 if(controls1.find(*sit)==controls1.end()) controls1[*sit]=disable;
-                FD_WARN("ControlledBuechiLiveness(): [FBM] theta found state " << rSupCandGen.SStr(*sit));
+                FD_DF("ControlledBuechiLiveness(): [FBM] theta found state " << rSupCandGen.SStr(*sit));
+#ifdef FAUDES_DEBUG_FUNCTION
                 if(!disable.Empty()) disable.Write();
+#endif
 	      }
             } // end: theta   
   
@@ -528,7 +529,7 @@ bool ControlledBuechiLiveness(
             if(target1.Size()==fsz) break;
           } // end: mu
 
-          FD_WARN("ControlledBuechiLiveness(): [FBM] -- mu-target1 # " << target1.Size());
+          FD_DF("ControlledBuechiLiveness(): [FBM] -- mu-target1 # " << target1.Size());
   
           // nu-loop on domainL
           domainL.RestrictSet(target1);
@@ -536,7 +537,7 @@ bool ControlledBuechiLiveness(
           if(domainL.Size()==0) break;
         } // end: nu
       
-        FD_WARN("ControlledBuechiLiveness(): [FBM] --- nu-domainL-mu-target1 # " << domainL.Size());
+        FD_DF("ControlledBuechiLiveness(): [FBM] --- nu-domainL-mu-target1 # " << domainL.Size());
 
         // merge controls
 	std::map< Idx , EventSet>::iterator cit=controls1.begin();
@@ -580,7 +581,7 @@ bool ControlledBuechiLiveness(
   StateSet::Iterator sit = resolved.Begin();
   StateSet::Iterator sit_end = resolved.End();
   for(;sit!=sit_end;++sit) {
-    FD_WARN("ControlledBuechiLiveness(): [FBM] controls " << rSupCandGen.SStr(*sit) << " " << controls1X[*sit].ToString());
+    FD_DF("ControlledBuechiLiveness(): [FBM] controls " << rSupCandGen.SStr(*sit) << " " << controls1X[*sit].ToString());
     rFeedbackMap[*sit]= (rSupCandGen.ActiveEventSet(*sit) + ucalph) - controls1X[*sit];
   }
 
@@ -631,7 +632,7 @@ bool ControlledBuechiLiveness(
   std::map< Idx , EventSet>& rFeedbackMap)
 {
 	
-  FD_WARN("ControlledBuechiLiveness(): [POBS]: cand #" << rSupCandGen.Size());
+  FD_DF("ControlledBuechiLiveness(): [POBS]: cand #" << rSupCandGen.Size());
 
   // debugging: interpret empty controllermap as identity
   StateSet::Iterator xit = rSupCandGen.StatesBegin(); 
@@ -646,7 +647,7 @@ bool ControlledBuechiLiveness(
   std::set< Idx > ostates;  
   for(; oit != rControllerStatesMap.end(); ++oit)
     ostates.insert(oit->second);
-  FD_WARN("ControlledBuechiLiveness(): [POBS]: " << "obs #" << ostates.size());
+  FD_DF("ControlledBuechiLiveness(): [POBS]: " << "obs #" << ostates.size());
 
    // declare iterate sets
   StateSet resolved, initialK, targetLstar;
@@ -674,7 +675,7 @@ bool ControlledBuechiLiveness(
     while(true) {
       Idx rsz = initialK.Size();
       targetLstar = (initialK * rSupCandGen.MarkedStates()) + resolved;
-      FD_WARN("ControlledBuechiLiveness(): [POBS] iterate resolved/targetLstar #" << xsz << "/" << targetLstar.Size());
+      FD_DF("ControlledBuechiLiveness(): [POBS] iterate resolved/targetLstar #" << xsz << "/" << targetLstar.Size());
 
       // reset controls
       controls1L.clear();
@@ -684,14 +685,14 @@ bool ControlledBuechiLiveness(
       while(true) {
         Idx t1Lsz = initialL.Size();
         targetL = targetLstar + initialL;
-        FD_WARN("ControlledBuechiLiveness(): [POBS] ---- iterate targetL #" << targetL.Size());
+        FD_DF("ControlledBuechiLiveness(): [POBS] ---- iterate targetL #" << targetL.Size());
 
         // evaluate thetaTilde(targetL)=nu(domainL).mu(target1)[ theta(targetL+(target1-markL), domainL-markL) ];
         domainL=full;
         while(true) {
           Idx dsz = domainL.Size();
 	  domain=domainL-rPlantMarking;
-          FD_WARN("ControlledBuechiLiveness(): [POBS] --- iterate domain #" << domain.Size());
+          FD_DF("ControlledBuechiLiveness(): [POBS] --- iterate domain #" << domain.Size());
             
           // reset controls
           controls1.clear();
@@ -706,7 +707,7 @@ bool ControlledBuechiLiveness(
             target = targetL + (target1-rPlantMarking);
 
             // evaluate theta(target,domain) in three passes
-            FD_WARN("ControlledBuechiLiveness(): [POBS] -- evaluate theta for target/domain # " 
+            FD_DF("ControlledBuechiLiveness(): [POBS] -- evaluate theta for target/domain # " 
                << target.Size() << "/" << domain.Size());
             theta.Clear();
             controlsT.clear();
@@ -773,7 +774,7 @@ bool ControlledBuechiLiveness(
               }
               if(pass && !fail) {
                 theta.Insert(*sit);
-                //FD_WARN("ControlledBuechiLiveness(): [POBS] theta candidate verified " << rSupCandGen.SStr(*sit));
+                //FD_DF("ControlledBuechiLiveness(): [POBS] theta candidate verified " << rSupCandGen.SStr(*sit));
 	      }
             } // end: theta  pass 3
 
@@ -783,7 +784,7 @@ bool ControlledBuechiLiveness(
             if(target1.Size()==fsz) break;
           } // end: mu
 
-          FD_WARN("ControlledBuechiLiveness(): [POBS] -- mu-target1 # " << target1.Size());
+          FD_DF("ControlledBuechiLiveness(): [POBS] -- mu-target1 # " << target1.Size());
   
           // nu-loop on domainL
           domainL.RestrictSet(target1);
@@ -791,7 +792,7 @@ bool ControlledBuechiLiveness(
           if(domainL.Size()==0) break;
         } // end: nu
       
-        FD_WARN("ControlledBuechiLiveness(): [POBS] --- nu-domainL-mu-target1 # " << domainL.Size());
+        FD_DF("ControlledBuechiLiveness(): [POBS] --- nu-domainL-mu-target1 # " << domainL.Size());
 
         // merge controls
 	std::map< Idx , MCtrlPattern>::iterator cit = controls1.begin();
@@ -828,18 +829,18 @@ bool ControlledBuechiLiveness(
 
   // debugging
   if(rSupCandGen.IsCoaccessible())
-    FD_WARN("ControlledBuechiLiveness(): [POBS] ---- coaccessible ok");
+    FD_DF("ControlledBuechiLiveness(): [POBS] ---- coaccessible ok");
   if(rSupCandGen.IsComplete())
-    FD_WARN("ControlledBuechiLiveness(): [POBS] ---- complete ok");
+    FD_DF("ControlledBuechiLiveness(): [POBS] ---- complete ok");
   if(!rSupCandGen.InitStates().Empty())
-    FD_WARN("ControlledBuechiLiveness(): [POBS] ---- init state ok");
+    FD_DF("ControlledBuechiLiveness(): [POBS] ---- init state ok");
 
   // re-write controls as feedback map (w.r.t. candidate states)
   StateSet::Iterator sit = resolved.Begin();
   StateSet::Iterator sit_end = resolved.End();
   for(;sit!=sit_end;++sit) {
     Idx cx=rControllerStatesMap[*sit];
-    //FD_WARN("ControlledBuechiLiveness(): [POBS] controls at cx=" << cx << " for plant state " << rSupCandGen.SStr(*sit) << " " << controls1X[cx].disable_all.ToString());
+    //FD_DF("ControlledBuechiLiveness(): [POBS] controls at cx=" << cx << " for plant state " << rSupCandGen.SStr(*sit) << " " << controls1X[cx].disable_all.ToString());
     rFeedbackMap[*sit]= rSupCandGen.Alphabet() - controls1X[cx].disable_all;
   }
 
@@ -1160,20 +1161,20 @@ void SupBuechiConUnchecked(
     // fast inner loop: prefix controllability and omega-trim
     while(true) {
       Idx count1 = pResGen->Size();
-      FD_WARN("SupBuechiCon: iterate: do prefix con on #"   << pResGen->Size());
+      FD_DF("SupBuechiCon: iterate: do prefix con on #"   << pResGen->Size());
       SupConClosedUnchecked(rPlantGen, rCAlph, *pResGen);
-      FD_WARN("SupBuechiCon: iterate: do coaccessible on #"   << pResGen->Size());
+      FD_DF("SupBuechiCon: iterate: do coaccessible on #"   << pResGen->Size());
       pResGen->Coaccessible();
-      FD_WARN("SupBuechiCon: iterate: do accessible on #"   << pResGen->Size());
+      FD_DF("SupBuechiCon: iterate: do accessible on #"   << pResGen->Size());
       pResGen->Accessible();
-      FD_WARN("SupBuechiCon: iterate: do complete on #"   << pResGen->Size());
+      FD_DF("SupBuechiCon: iterate: do complete on #"   << pResGen->Size());
       pResGen->Complete();
       if(pResGen->Size() == count1) break;
       if(pResGen->Size() == 0) break;
     }
     // slow outer loop: controlled liveness aka restrict to controllable prefix
     Idx count2 = pResGen->Size();
-    FD_WARN("SupBuechiCon: iterate: do controlled liveness  on #"   << pResGen->Size());
+    FD_DF("SupBuechiCon: iterate: do controlled liveness  on #"   << pResGen->Size());
     ControlledBuechiLiveness(*pResGen,rCAlph,rPlantMarking);
     if(pResGen->Size() == count2) break;    
   }
@@ -1208,7 +1209,7 @@ void SupBuechiConUnchecked(
     delete pResGen;
   }
 
-  FD_WARN("SupBuechiCon: return #"   << rResGen.Size());
+  FD_DF("SupBuechiCon: return #"   << rResGen.Size());
 }
 
 
@@ -1223,7 +1224,7 @@ void SupBuechiConNormUnchecked(
   std::map< Idx , EventSet>& rFeedbackMap, 
   Generator& rResGen) 
 {
-  FD_WARN("SupBuechiConNorm(\"" <<  rPlantGen.Name() << "\", \"" << rSpecGen.Name() << "\")");
+  FD_DF("SupBuechiConNorm(\"" <<  rPlantGen.Name() << "\", \"" << rSpecGen.Name() << "\")");
 
   // prepare result
   Generator* pResGen = &rResGen;
@@ -1234,8 +1235,8 @@ void SupBuechiConNormUnchecked(
   pResGen->InjectAlphabet(rPlantGen.Alphabet());
 
   // report events
-  FD_WARN("SupBuechiConNorm: controllable events: "   << rCAlph.ToString());
-  FD_WARN("SupBuechiConNorm: un-observabel events: "   << (rPlantGen.Alphabet()-rOAlph).ToString());
+  FD_DF("SupBuechiConNorm: controllable events: "   << rCAlph.ToString());
+  FD_DF("SupBuechiConNorm: un-observabel events: "   << (rPlantGen.Alphabet()-rOAlph).ToString());
 
   // perform product
   std::map< OPSState , Idx> cmap; 
@@ -1276,7 +1277,7 @@ void SupBuechiConNormUnchecked(
   pResGen->WriteStateSet(rPlantMarking);
 #endif
 
-  FD_WARN("SupBuechiConNorm(): cand #" << pResGen->Size() << " obs #" << obsG.Size());
+  FD_DF("SupBuechiConNorm(): cand #" << pResGen->Size() << " obs #" << obsG.Size());
   // make resulting generator trim until it's fully controllable
   while(true) {
     // catch trivial
@@ -1284,26 +1285,26 @@ void SupBuechiConNormUnchecked(
     // fast inner loop: prefix controllability and omega-trim
     while(true) {
       Idx count1 = pResGen->Size();
-      FD_WARN("SupBuechiConNorm: iterate: do prefix-contr  on #"   << pResGen->Size());
+      FD_DF("SupBuechiConNorm: iterate: do prefix-contr  on #"   << pResGen->Size());
       SupConClosedUnchecked(rPlantGen, rCAlph, *pResGen);
-      FD_WARN("SupBuechiConNorm: iterate: do accessible on #"   << pResGen->Size());
+      FD_DF("SupBuechiConNorm: iterate: do accessible on #"   << pResGen->Size());
       pResGen->Accessible();
-      FD_WARN("SupBuechiConNorm: iterate: do coaccessible on #"   << pResGen->Size());
+      FD_DF("SupBuechiConNorm: iterate: do coaccessible on #"   << pResGen->Size());
       pResGen->Coaccessible();
-      FD_WARN("SupBuechiConNorm: iterate: do prefix-norm  on #"   << pResGen->Size());
+      FD_DF("SupBuechiConNorm: iterate: do prefix-norm  on #"   << pResGen->Size());
       SupConNormClosedUnchecked(rPlantGen, rOAlph, rOAlph, obsG, *pResGen);
-      FD_WARN("SupBuechiConNorm: iterate: do coaccessible on #"   << pResGen->Size());
+      FD_DF("SupBuechiConNorm: iterate: do coaccessible on #"   << pResGen->Size());
       pResGen->Coaccessible();
-      FD_WARN("SupBuechiConNorm: iterate: do accessible on #"   << pResGen->Size());
+      FD_DF("SupBuechiConNorm: iterate: do accessible on #"   << pResGen->Size());
       pResGen->Accessible();
-      FD_WARN("SupBuechiConNorm: iterate: do complete on #"   << pResGen->Size());
+      FD_DF("SupBuechiConNorm: iterate: do complete on #"   << pResGen->Size());
       pResGen->Complete();
       if(pResGen->Size() == count1) break;
       if(pResGen->Size() == 0) break;
     }
     // slow outer loop: controlled liveness
     Idx count2 = pResGen->Size();
-    FD_WARN("SupBuechiConNorm: iterate: do controlled liveness  on #"   << pResGen->Size());
+    FD_DF("SupBuechiConNorm: iterate: do controlled liveness  on #"   << pResGen->Size());
 
     // cosmetic: restrict observer map and count effective states
     std::map< Idx , Idx>::iterator oit = rObserverStateMap.begin();
@@ -1315,7 +1316,7 @@ void SupBuechiConNormUnchecked(
       ostates.insert(oit->second);
 
     //omega controlled liveness aka controllabe prefix
-    FD_WARN("SupBuechiConNorm(): cand #" << pResGen->Size() << " obs #" << ostates.size());
+    FD_DF("SupBuechiConNorm(): cand #" << pResGen->Size() << " obs #" << ostates.size());
     std::map< Idx , EventSet> feedback;
     ControlledBuechiLiveness(*pResGen,rCAlph,rPlantMarking,rObserverStateMap,feedback);
     //ControlledBuechiLiveness(*pResGen,rCAlph,rPlantMarking);
@@ -1426,7 +1427,8 @@ void BuechiCon(
 void BuechiCon(
   const System& rPlantGen, 
   const Generator& rSpecGen, 
-  Generator& rResGen) {
+  Generator& rResGen)
+{
   // prepare result
   Generator* pResGen = &rResGen;
   if(&rResGen== &rPlantGen || &rResGen== &rSpecGen) {

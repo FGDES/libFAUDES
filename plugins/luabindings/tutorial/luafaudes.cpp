@@ -550,7 +550,7 @@ static int handle_luainit (lua_State *L) {
 ** (see lbp_function.cpp and lbp_completer.cpp) and provide a C interface via
 ** luafaudes_complete() (see lbp_addons.cpp). The below code is reduced to the libreadline 
 ** interface. The original patch still ships with libFAUDES for reference and can be 
-** inspected plugins/luabindings/lib  
+** inspected in plugins/luabindings/lib  
 **
 ** Original License/Copyright
 **

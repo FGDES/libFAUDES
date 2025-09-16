@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
-<ReferencePage chapter="Reference" section="OmegaAut" page="Index" title="Omega Automata PlugIn"> 
+<ReferencePage chapter="Reference" section="OmegaAut" page="Index" title="Omega Automata"> 
 
 <h1>
-Omega Automata PlugIn 
+Omega Automata  
 </h1>
 
 <fsummary>
-The omega-automata plug-in collects data structures and functions to support
-supervisory control of non-termination processes.
+Functions to support supervisory control of non-termination processes w.r.t. Rabin or Buechi acceptance conditions.  
 </fsummary>
 
 <p>
-This plug-in provides data structures and functions to represent
+This plug-in provides data types and functions to represent and operate on
 automata that process infinite-length words. For a general overview on
 the topic see <fcite name="W1"/>. For the purpose of libFAUDES, we
-restrict the scope to support for synthises of supervisiors for non-termiating processes.
+restrict the scope to support synthesis of supervisiors for non-termiating processes.
+For post- and pre-processing of omega automata with a varierty of expernal tools,
+libFAUDES exports to and imports from <a href="https://adl.github.io/hoaf/">HOA</a> formated files and streams; see <a href="#hoa">[here]</a> for further details.
 </p>
 
 <p>
@@ -26,26 +27,31 @@ Further details are organized as follows:
 <a href="omegaaut_buechifnct.html">Operations on Buechi automata</a>
 </p></li>
 <li><p>
+<a href="omegaaut_rabinfnct.html">Operations on Rabin automata</a>
+</p></li>
+<li><p>
 <a href="omegaaut_buechictrl.html">Supervisory Control for Buechi automata</a>
 </p></li>
 <li><p>
-<a href="omegaaut_rabinfnct.html">Operations on Rabin automata</a>
+<a href="omegaaut_rabinctrl.html">Supervisory Control for Rabin automata</a>
+</p></li>
+<li><p>
+<a href="omegaaut_pobsctrl.html">Supervisory Control under Partial Observation</a>
 </p></li>
 </ul>
 
 <p>
 <br/>
-<br/>
 Copyright (C) 2010, 2025 Thomas Moor.
 </p>
 
 <h2>
-Acceptance Conditions
+Omega Automata
 </h2>
 
 <p>
 Consider a genarator <fimath>G</fimath>
-and ignore that marking for now; we use the
+and ignore the marking for now; we use the
 notation
 <br />
 <br />
@@ -70,18 +76,23 @@ The crucial aspect from the infinite-length words perspective is the
 <i>acceptance condition</i>, a technical construct that after the elapse
 of all time decides whether or not a processed word <fimath>w\in B(G)</fimath>
 shall be considered an element of the <i>accepted</i> omega language.
-We recall two well established acceptance conditions.
+At this stage, libFAUDES addresses the <a href="#buechi_acceptance">Buechi</a> acceptance condition
+and the <a href="#RabinAutomaton">Rabin</a> acceptance condition.
 </p>  
 
 
-<h4>
+<h2>
 <a id="buechi_acceptance">Buechi Automata</a>
-</h4>
+</h2>
 
 <p>
 A Buechi automaton technically matches the plain finite automaton; i.e., has the form
 <fimath>G = (Q,\ \Sigma,\ \delta,\ Q_o,\ Q_m)</fimath>
 with the <i>marked states</i> <fimath>Q_m</fimath>.
+Specifically, we can use the faudes types <ftype>Generator</ftype> and/or <ftype>System</ftype>
+to encode a Buechi automaton.
+</p>
+<p>
 With an infinite-length run  <fimath>\pi</fimath> on <fimath>G</fimath> we associate
 <ul class="l2">
 <li><p>  
@@ -96,7 +107,7 @@ the corrosponding infinite-length word over <fimath>\Sigma</fimath>, and
 
 <p>
 An infinite-length word <fimath>v</fimath> is accepted by the Buechi automaton
-<fimath>G</fimath> if there exists a correspondimg run <fimath>\pi</fimath> that visits
+<fimath>G</fimath> if there exists a corresponding run <fimath>\pi</fimath> that visits
 at least one marked state infinitely often. The accepted omega-language
 associated with <fimath>G</fimath> is hence defined
 <br />
@@ -113,36 +124,57 @@ For deterministic generators,
 <fimath>Bm(G)</fimath> can be expressed as the limit of <fimath>Lm(G)</fimath>:
 <br />
 <br />
-<fdmath>Bm(G)\ =\ B(Lm(G))\ :=\ \{w \in \Sigma^v \ |\ \text{infinitely many prefixes } s\lt v \text{ are in } Lm(G)\ \}</fdmath> .
+<fdmath>Bm(G)\ =\ B(Lm(G))\ :=\ \{w \in \Sigma^w \ |\ \text{infinitely many prefixes } s\lt v \text{ are in } Lm(G)\ \}</fdmath> .
 <br />
 <br />
 In particular, for deterministic generators <fimath>G_1</fimath> and <fimath>G_2</fimath>
 with <fimath>Lm(G_1)=Lm(G_2)</fimath> we have <fimath>Bm(G_1)=Bm(G_2)</fimath>.
 </p>
 
+
 <h4>
-<a id="rabin_acceptance">Rabin Automata</a>
+Example
 </h4>
+
+<p>
+The automaton <i>eventually-allways-alternate</i> is defined over
+the alphabet Sigma={<tt>a</tt>, <tt>b</tt>}. It will generate an any sequence
+in <fimath>\Sigma^w</fimath> and accept <fimath>\Sigma^*(ab)^w</fimath>.
+</p>
+<table class="image">
+<tr><td>G="<i>eventually-allways-alternating</i>"</td> </tr> 
+<tr><td><fimage fsrc="tmp_omg_nba"/> </td> </tr>
+</table> 
+<p>
+Note that the above automaton is non-deterministic. It is the textbook example
+to demonstrate the restricted expressiveness of deterninistic Buechi automata:
+there exists no deterministic Buechi automate that accepts the same language.
+</p>
+
+
+<h2>
+<a id="RabinAutomaton">Rabin Automata</a>
+</h2>
 
 <p>
 A Rabin automaton is a tuple
 <fimath>G = (Q,\ \Sigma,\ \delta,\ Q_o,\ A)</fimath>,
 where the first entries are as for common automata and 
-<fimath>A</fimath> is a set of pairs if state sets to encode a <i>Rabin acceptance condition</i>.
+<fimath>A</fimath> is a set of pairs of state sets to encode a <i>Rabin acceptance condition</i>.
 Technically we have
 <br />
 <br />
-<fdmath> A := \{\ (R_p,\ I_p)\ |\ p\in P\ \} \text{ with }
-R_p,\ I_p \subseteq Q \text{ for all } p\in P\ .
+<fdmath> A := \{\ (R_p,\ I_p)\ |\ p\in P\  \ |\  
+R_p,\ I_p \subseteq Q \text{ for } p\in P\ \}.
 </fdmath>
 <br />
 <br />
 For an individual pair <fimath>(R_p,\ I_p),\ p\in P,</fimath> the
 set <fimath>R_p</fimath> shall be persistently recurrent and the
-set <fimath>I_p</fimath> shall be an eventually invariant. 
+set <fimath>I_p</fimath> shall be eventually invariant. 
 An infinite-length run  <fimath>\pi</fimath> on <fimath>G</fimath> is accepted
 w.r.t. the pair <fimath>(R_p,\ I_p)</fimath> if
-it <fimath>\pi</fimath> eventually stays within <fimath>I_p</fimath> and
+it eventually stays within <fimath>I_p</fimath> and
 visits <fimath>R_p</fimath> infinitely often, i.e.,
 <br />
 <br />
@@ -150,16 +182,155 @@ visits <fimath>R_p</fimath> infinitely often, i.e.,
 <br />
 <br />
 The run is accepted by the Rabin automaton if it is accepted by at least one pair (so called
-<i>existential</i> Rabin acceptace condition). Thus we have the associated omega-language
+<i>existential</i> Rabin acceptance condition, not to be confused with <i>universal</i> Rabin acceptace).
+To this end,  we have the associated omega-language
 <br />
 <br />
-<fdmath>Rm(G)\ :=\ \{
-v \in \Sigma^w \ |\ 
-\text{there ex. a run } \pi \text{ of } G \text{ and } p\in P \text{ s.t. }
+<fdmath>
+Rm(G)\ :=\ \{\  v \in \Sigma^w \ |
+</fdmath><br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+<fdmath>
+\text{there exists a run } \pi \text{ of } G \text{ and } p\in P \text{ s.t. }
 v=w\[\pi\],\ 
 \inf\[\pi\]\subseteq I_p \text{ and } \inf\[\pi\]\cap R_p\neq\emptyset\ 
 \}
 </fdmath>
+</p>
+
+<h4>
+Example
+</h4>
+
+<p>
+The Rabin automaton variant of the <i>eventually-allways-alternate</i> example
+is again defined over Sigma={<tt>a</tt>, <tt>b</tt>} to accept
+<fimath>\Sigma^*(ab)^w</fimath>.
+</p>
+<table class="image">
+<tr><td>RA="<i>eventually-allways-alternate</i>"</td> </tr> 
+<tr><td><fimage fsrc="tmp_omg_dra"/> </td> </tr>
+</table> 
+<p>
+Note that the above automaton is deterministic. It has been obbtained by the external tool
+<a href="https://www.ltl2dstar.de"><tt>ltl2dstar</tt></a>; see also
+the script <tt>safra.sh</tt> in the tutorial section of the omega-automata plug-in and
+how to ustilise external tools
+<a href="#hoa">[here]</a>.
+</p>
+
+<h4>
+FAUDES type <ftype>RabinAutomaton</ftype>
+</h4>
+
+<p>
+The Omega-Automata Plug-In provides the faudes type <ftype>RabinAutomaton</ftype>. It is implemented
+along the line of the common <ftype>Generator</ftype> with additional data structures to
+encode the Rabin acceptance condition.
+</p>
+
+<p> 
+Token-IO example for a <ftype>RabinAutomaton</ftype> that accepts <fimath>\Sigma^*(ab)^w</fimath>.
+</p>
+<pre>
+&lt;Generator name="eventually-allways-alternate" ftype="RabinAutomaton"&gt;
+
+&lt;Alphabet&gt; a b &lt;/Alphabet&gt;
+&lt;States&gt; 1 2 3 4 &lt;/States&gt;
+&lt;TransRel&gt;
+1  a  2
+1  b  4
+2  a  3
+2  b  1
+3  a  3
+3  b  1
+4  a  3
+4  b  4
+&lt;/TransRel&gt;
+&lt;InitStates&gt; 4 &lt;/InitStates&gt;
+&lt;MarkedStates/&gt;
+
+&lt;RabinAcceptance&gt;
+&lt;RabinPair&gt; &lt;R&gt; 1 2 &lt;/R&gt; &lt;I&gt; 1 2 &lt;/I&gt; &lt;/RabinPair&gt;
+&lt;/RabinAcceptance&gt;
+
+&lt;/Generator&gt;
+</pre>
+
+
+<h2>
+<a id="hoa">Hanoi Omega-Automata Format (HOA)</a>  
+</h2>
+
+<p>
+The <a href="https://adl.github.io/hoaf/">HOA</a> format was introduced to facilitate the exchange of omega
+automata between different tools like <a href="https://www.ltl2dstar.de/">ltl2dstar</a> and
+<a href="https://spot.lre.epita.fr/index.html">Spot</a>. It allows for a rather flexible specification of
+acceptance conditions, which for our purposes includes Buechi acceptance and Rabin acceptance.
+</p>
+<p>
+To this end, we provide the executables  <tt>gen2hoa</tt> and <tt>hoa2gen</tt> to convert
+libFAUDES formated generators to and from the HOA format. As an example, the above
+eventually-allways-alternate Rabin automaton will be converted to:
+</p>
+<pre>
+~/libFAUDES/bin$ ./gen2hoa -s symtab.xml omg_dra.gen
+HOA: v1
+name: "eventually allways alternating a and b"
+AP: 1 "ap0"
+Alias: @a !0
+Alias: @b 0
+Start: 3
+States: 4
+acc-name: Rabin 1
+Acceptance: 2 (Fin(0)&amp;Inf(1))
+--BODY--
+State: 0 {1}
+[@a] 1
+[@b] 3
+State: 1 {1}
+[@a] 2
+[@b] 0
+State: 2 {0}
+[@a] 2
+[@b] 0
+State: 3 {0}
+[@a] 2
+[@b] 3
+</pre>  
+
+<p>
+In HOA, states are consecutively numbered starting from 0 and transition lables
+are logic formulas in terms of atomic propositions. For import and export, reindexing
+states is straight forward.
+Regarding libFAUDES events, they are first also encoded as consecutive integers starting at 0
+and then theese integers are binary encoded as truth values of a sufficient number
+of atomic propositions. In the HOA output, the mapping is preserved by optional aliases.
+Since not all external tools maintaine aliases, <tt>gen2hoa</tt> can export a libFAUDES symbol table
+by the <tt>-s</tt> option. So after processing the exported HOA file, one can read back results and
+retrieve the original libFAUDES events.
+</p>
+
+<p>
+In the above example, the HOA states 0 to 3 encode the libFAUDES states
+1 to 4 and we have one atomic proposition <tt>ap0</tt> with
+<tt>!ap0</tt> representing the event <tt>a</tt> and <tt>ap0</tt> representing event <tt>b</tt>.
+The symbol table amounts to
+</p>
+
+<pre>
+&lt;SymbolTable&gt;
+1    a
+2    b
+&lt;/SymbolTable&gt;
+</pre>
+
+<p>
+where we again observe an offset of 1 since 0 is not a valid index in libFAUDES symbol tables.
+</p>
+<p>
+For a complete example for exporting to HOA format, processing by an external tool and importing
+back the result, see <tt>safra.sh</tt> in the tutorial folder.
 </p>
 
 
@@ -170,14 +341,14 @@ v=w\[\pi\],\
 <fliterature name="W1">
 <fauthors>W.&nbsp;Thomas</fauthors>
 <ftitle>Automata on infinite objects</ftitle>
-<fjournal>Handbook of Theoretical Computer</fjournal>
+<fjournal>Handbook of Theoretical Computer Science</fjournal>
 <fyear>1990</fyear>.
 </fliterature>
 
 <fliterature name="W2">
 <fauthors>P.J. Ramadge</fauthors>
 <ftitle>Some tractable supervisory control problems for discrete-event systems modeled by Buchi automata</ftitle>
-<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>, 
 vol 34, no 1, pp. 10-19</fjournal>
 <fyear>1989</fyear>
 </fliterature>
@@ -185,16 +356,31 @@ vol 34, no 1, pp. 10-19</fjournal>
 <fliterature name="W3">
 <fauthors>R. Kumar, V. Garg, S.I. Marcus</fauthors>
 <ftitle>On supervisory control of sequential behaviors</ftitle>
-<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>,   vol 37, no 12, pp. 1978-1985</fjournal>
+<fjournal><a href="http://ieeexplore.ieee.org/servlet/opac?punumber=9">IEEE Transactions on Automatic Control</a>, vol 37, no 12, pp. 1978-1985</fjournal>
 <fyear>1992</fyear>
 </fliterature>
 
 
-<fliterature name="W4">
+<fliterature name="W4a">
+<fauthors>J.G. Thistle, W.M. Wonham</fauthors>
+<ftitle>Control of infinite behavior of finite automata.</ftitle>
+<fjournal>SIAM Journal on Control and Optimization,   vol 32, no, 4, pp. 1075 - 1097</fjournal>
+<fyear>1994</fyear>
+</fliterature>
+
+<fliterature name="W4b">
 <fauthors>J.G. Thistle, W.M. Wonham</fauthors>
 <ftitle>Supervision of Infinite Behavior of Discrete-Event Systems</ftitle>
 <fjournal>SIAM Journal on Control and Optimization,   vol 32, no, 4, pp. 1098 - 1113</fjournal>
 <fyear>1994</fyear>
+</fliterature>
+
+
+<fliterature name="W5">
+<fauthors>J.G. Thistle, H.M. Lamouchi</fauthors>
+<ftitle>Effective Control Synthesis for Partially Observed Discrete-Event Systems</ftitle>
+<fjournal>SIAM Journal on Control and Optimization, vol. 48, no. 3, pp. 1858 - 1887</fjournal>
+<fyear>2009</fyear>
 </fliterature>
 
 

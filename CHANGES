@@ -16,9 +16,16 @@ Relative to 2.32*
 
 ***
 
+The function Automaton used to preprocess the argument via  Trim. This
+has been removed, you may want to call Trim explcitly before Automaton
+to obtain pte 2.33 compatible behaviour. The rationla is to be agnostic
+w.r.t. altyernative acceptance conditions.
+
+***
+
 Upgraded to Lua 5.4.8; There was no pressing need, but 5.1.3. just felt
-so outdated. We'll see how we are going. Edit luabindings/makefile.pluigin
-to select good old Lua 5.1.3.
+so outdated. We'll see how we are going. Edit luabindings/makefile.plugin
+to select good old Lua 5.1.3. However, 5.1.3 support  will fade out eventually.
 
 ***
 
@@ -86,8 +93,8 @@ Relative to 2.30b
 
 ***
 
-Significant performance improvements for Product composition (used in LanguageIntersection,
-Languagedifference, and many more)
+Significant performance improvements for Product composition (used in
+LanguageIntersection, Languagedifference, and many more)
 
 ***
 

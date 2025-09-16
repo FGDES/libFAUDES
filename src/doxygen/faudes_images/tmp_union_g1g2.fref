@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-Union(g1,g2) 
+&lt;Generator name="Union(g1,g2)"&gt;
 
 % 
 %  Statistics for Union(g1,g2)

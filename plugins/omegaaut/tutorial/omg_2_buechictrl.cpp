@@ -46,7 +46,7 @@ int main() {
 
 
   // Read A-B-Machines and specifications
-  System machineab1("data/omg_machineab1.gen");
+  System machineab1("data/omg_machineab1_alt.gen");
   System machineab2("data/omg_machineab2.gen");
   System machineab3("data/omg_machineab3.gen");
   Generator specab1("data/omg_specab1.gen");

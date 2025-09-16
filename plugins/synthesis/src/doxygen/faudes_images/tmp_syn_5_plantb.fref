@@ -1,0 +1,72 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_syn_5_plantb.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_syn_5_plantb.svg">
+<a class="faudes_image" href="tmp_syn_5_plantb.svg">
+<img src="tmp_syn_5_plantb.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator name="Plant B" ftype="System"&gt;
+
+% 
+%  Statistics for Plant B
+% 
+%  States:        5
+%  Init/Marked:   1/1
+%  Events:        8
+%  Transitions:   8
+%  StateSymbols:  5
+%  Attrib. E/S/T: 6/0/0
+% 
+
+&lt;Alphabet&gt;
+e12           e51           +C+           e14           e55           +C+          
+e52           +o+           e53           +C+           e57           +C+          
+e54           +o+          
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+s0#1          s2#3          s5#5          s4#6          s8#9         
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+s0            e51           s2           
+s2            e55           s5           
+s2            e52           s4           
+s5            e51           s2           
+s5            e53           s8           
+s4            e53           s8           
+s8            e57           s5           
+s8            e54           s0           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+s0           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+s0           
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

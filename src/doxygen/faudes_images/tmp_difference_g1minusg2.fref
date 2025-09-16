@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-Intersection(languagedifference_g1,...nt(languagedifference_g2,Alphabet)) 
+&lt;Generator name="Intersection(languagedifference_g1,...nt(languagedifference_g2,Alphabet))"&gt;
 
 % 
 %  Statistics for Intersection(languagedifference_g1,...nt(languagedifference_g2,Alphabet))

@@ -44,6 +44,9 @@
 #define BISIM_VERB1(msg)						\
   { if(faudes::ConsoleOut::G()->Verb() >=1 ) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
+#define BISIM_VERB2(msg)						\
+  { if(faudes::ConsoleOut::G()->Verb() >=2 ) { \
+      std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
 #define BISIM_VERB0(msg) \
   { if(faudes::ConsoleOut::G()->Verb() >=0 ) { \
       std::ostringstream cfl_line; cfl_line << msg << std::endl; faudes::ConsoleOut::G()->Write(cfl_line.str(),0,0,0);} }
@@ -629,14 +632,14 @@ void BisimulationCTA::RefineChanged(){
 
 // the wrapper
 void BisimulationCTA::ComputeBisimulation(){
-    BISIM_VERB1("Initializing data")
+    BISIM_VERB2("Initializing data")
     EncodeData();
-    BISIM_VERB1("Doing FirstStepApproximation")
+    BISIM_VERB2("Doing FirstStepApproximation")
     FirstStepApproximation();
     while (std::find(mChanged.begin(),mChanged.end(),1)!=mChanged.end()){
-        BISIM_VERB1("Doing ComputeChangedAfters")
+        BISIM_VERB2("Doing ComputeChangedAfters")
         ComputeChangedAfters();
-        BISIM_VERB1("Doing RefineChanged")
+        BISIM_VERB2("Doing RefineChanged")
         RefineChanged();
     }
 }
@@ -895,20 +898,20 @@ void AbstractBisimulationCTA::ComputeChangedObservedAfters(){
 
 // the internal wrapper
 void AbstractBisimulationCTA::ComputeAbstractBisimulation(){
-    BISIM_VERB1("Initializing data")
+    BISIM_VERB2("Initializing data")
     EncodeData();
-    BISIM_VERB1("Doing FirstStepApproximation")
+    BISIM_VERB2("Doing FirstStepApproximation")
     FirstStepApproximation();
     while (std::find(mChanged.begin(),mChanged.end(),1)!=mChanged.end()){
         if (mTaskFlag==1){
-            BISIM_VERB1("Doing ComputeChangedDelayedAfters")
+            BISIM_VERB2("Doing ComputeChangedDelayedAfters")
             ComputeChangedDelayedAfters();
         }
         else if (mTaskFlag==2){
-            BISIM_VERB1("Doing ComputeChangedObservedAfters")
+            BISIM_VERB2("Doing ComputeChangedObservedAfters")
             ComputeChangedObservedAfters();
         }
-        BISIM_VERB1("Doing RefineChanged")
+        BISIM_VERB2("Doing RefineChanged")
         RefineChanged();
     }
 }

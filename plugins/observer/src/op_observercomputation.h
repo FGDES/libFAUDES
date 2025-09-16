@@ -479,7 +479,8 @@ extern FAUDES_API bool CheckSplit(const Generator& rGenObs, const EventSet& rSpl
  * L(G)-observer computation.
  * This function modifies a given generator and an associated natural projection
  * such that the resulting natural projection is an L(G)-observer for the prefix-closed language of
- * the resulting generator. 
+ * the resulting generator.
+ *
  * This function evaluates the observer algorithm as described in 
  * K. C. Wong and W. M. Wonham, "On the Computation of Observers in Discrete Event Systems," 
  * Discrete Event Dynamic Systems, vol. 14, no. 1, pp. 55-107, 2004. 
@@ -642,7 +643,8 @@ extern FAUDES_API void calcAbstAlphObs(Generator& rGenObs, EventSet& rControllab
  * This function is called by void calcAbstAlphObs(Generator& rGenObs, EventSet& rControllableEvents, EventSet& rHighAlph, EventSet& rNewHighAlph, map<Idx, set<Idx> >&  rMapRelabeledEvents).
  * It modifies a given generator and an associated natural projection
  * such that the resulting natural projection is an Lm-observer for the language marked by 
- * the resulting generator. 
+ * the resulting generator.
+ *
  * This function evaluates the observer algorithm as described in 
  * K. C. Wong and W. M. Wonham, "On the Computation of Observers in Discrete Event Systems," 
  * Discrete Event Dynamic Systems, vol. 14, no. 1, pp. 55-107, 2004. 
@@ -668,7 +670,8 @@ extern FAUDES_API void calcAbstAlphObs(Generator& rGenObs, EventSet& rControllab
  * MSA-observer computation.
  * This function modifies a given generator and an associated natural projection
  * such that the resulting natural projection is an msa-observer for the language marked by 
- * the resulting generator. 
+ * the resulting generator.
+ *
  * This function evaluates the msa-observer algorithm as described in 
  * K. Schmidt and Th. Moor, "Marked String Accepting Observers for the Hierarchical and Decentralized Control of Discrete Event Systems," 
  * Workshop on Discrete Event Systems, 2006. 
@@ -709,7 +712,8 @@ extern FAUDES_API void calcAbstAlphMSA(System& rGenObs, EventSet& rHighAlph, Eve
  * This function is called by calcAbstAlphMSA(System& rGenObs, EventSet& rHighAlph, EventSet& rNewHighAlph, map<Idx, set<Idx> >&  rMapRelabeledEvents).
  * It modifies a given generator and an associated natural projection
  * such that the resulting natural projection is an MSA-observer for the language marked by 
- * the resulting generator. 
+ * the resulting generator.
+ *
  * This function evaluates the observer algorithm as described in 
  * K. Schmidt and Th. Moor, "Marked String Accepting Observers for the Hierarchical and Decentralized Control of Discrete Event Systems," 
  * Workshop on Discrete Event Systems, 2006. 
@@ -1084,12 +1088,12 @@ void insertRelabeledEvents(Generator& rGenPlant, const std::map<Idx, std::set<Id
 
 
 /** 
- * Rti convenience wrapper for relabeling maps.
+ * RTI convenience wrapper for relabeling maps.
  *
  * The observer plugin uses an STL map from integers to sets of integers
  * as re-labeling map. In order to support this data type in the libfaudes 
  * run-time interface, we provide a wrapper class that is derived
- * from faudes Type. The implementation is minimla (no token io).
+ * from faudes Type. The implementation is minimal (no token io).
  * Later revisions may use a faudes set with set valued attributes.
  */   
 class FAUDES_API EventRelabelMap : public Type {

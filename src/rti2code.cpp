@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
   if(flat && !swig) {
     usage("mismatching options: flat is only applicable to swig");
   }    
-  if(merge && (argc-pos <3)) {
+  if(merge && (argc-pos <2)) {
     usage("mismatching agruments: to few files to merge");
   }
   if(!merge && (argc-pos !=2)) {
@@ -232,7 +232,6 @@ int main(int argc, char *argv[]) {
   // Traverse type registry to figure faudes types
   if(loader) {
     TypeRegistry::Iterator  tit;
-    int tcnt;
     for(tit=TypeRegistry::G()->Begin(); tit!=TypeRegistry::G()->End();tit++) {
       // Get C type 
       std::string ctype=tit->second->CType();

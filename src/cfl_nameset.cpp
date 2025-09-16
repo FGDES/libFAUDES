@@ -86,7 +86,7 @@ NameSet* NameSet::New(void) const {
 
 // copy (attributes to default)
 void NameSet::DoAssign(const NameSet& rSourceSet) {
-  FD_DC("NameSet(" << this << ")::DoAssign(..)");
+  FD_DC("NameSet(" << this << ")::DoAssign(from " << &rSourceSet <<")");
   // fix my symboltable
   mpSymbolTable=rSourceSet.mpSymbolTable;
   // call base 
@@ -124,6 +124,7 @@ void NameSet::SymbolTablep(SymbolTable* pSymTab) {
 void NameSet::DoWrite(TokenWriter& tw, const std::string& rLabel, const Type* pContext) const {
   std::string label=rLabel;
   if(label=="") label=Name();  
+  if(label=="") label=TypeName();  
   FD_DC("NameSet(" << this << ")::DoWrite(..): section " << label << " #" << Size());
   tw.WriteBegin(label);
   Token token;
@@ -536,6 +537,11 @@ std::string NameSet::Str(const Idx& index) const {
   return mpSymbolTable->Symbol(index)+"#"+faudes::ToStringInteger(index);
 }
 
+// Str()
+std::string NameSet::Str(void) const {
+  return TBaseSet<Idx>::Str();
+}
+
 
 /*
 *********************************************************************************
@@ -578,6 +584,213 @@ void SetUnion(const EventSetVector& rSetVec, EventSet& rRes) {
 }
 
 
+/*
+*********************************************************************************
+*********************************************************************************
+*********************************************************************************
+
+ RelabelMap 
+
+*********************************************************************************
+*********************************************************************************
+*********************************************************************************
+*/
+
+// register with RTI  
+AutoRegisterType<RelabelMap> gRtiRelabelMap("RelabelMap");
+AutoRegisterElementType<RelabelMap> gRtiRelabelMapEType("RelabelMap","EventSet");
+AutoRegisterElementTag<RelabelMap> gRtiRelabelMapETag("RelabelMap","Label");
+
+
+// std faudes type
+FAUDES_TYPE_IMPLEMENTATION_NEW(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
+FAUDES_TYPE_IMPLEMENTATION_COPY(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
+FAUDES_TYPE_IMPLEMENTATION_CAST(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
+FAUDES_TYPE_IMPLEMENTATION_ASSIGN(RelabelMap,RelabelMap,TaNameSet<NameSet>)
+FAUDES_TYPE_IMPLEMENTATION_EQUAL(RelabelMap,RelabelMap,TaNameSet<NameSet>)
+
+
+// empty constructor
+RelabelMap::RelabelMap(void) : TaNameSet<NameSet>(){
+  FD_DC("RelabelMap("<<this<<")::RelabelMap() with symtab "<< mpSymbolTable);
+  mObjectName="RelabelMap";
+  Lock();
+}
+
+// constructor from RelabelMap
+RelabelMap::RelabelMap(const RelabelMap& rOtherMap) : TaNameSet<NameSet>() {
+  FD_DC("RelabelMap(" << this << ")::RelabelMap(rOtherMap " << &rOtherMap << ")");
+  Assign(rOtherMap);
+  FD_DC("RelabelMap(" << this << ")::RelabelMap(rOtherSet " << &rOtherSet << "): done");
+  Lock();
+}
+
+// read file constructor
+RelabelMap::RelabelMap(const std::string& rFilename, const std::string& rLabel) : TaNameSet<NameSet>() {
+  FD_DC("RelabelMap(" << this << ")::RelabelMap(" << rFilename << ")");
+  Read(rFilename, rLabel);
+  Lock();
+}
+
+// destructor
+RelabelMap::~RelabelMap(void) {
+  FD_DC("RelabelMap("<<this<<")::~RelabelMap()");
+}
+
+// extra accessors
+bool RelabelMap::Insert(const Idx& rSrc, const Idx& rDst) {
+  Insert(rSrc);
+  return Attributep(rSrc)->Insert(rDst);
+}
+
+// extra accessors
+bool RelabelMap::Insert(const std::string& rSrc, const std::string& rDst) {
+  Insert(rSrc);
+  return Attributep(rSrc)->Insert(rDst);
+}
+  
+// extra accessors
+const NameSet& RelabelMap::Target(const Idx& rSrc) const {
+  return Attribute(rSrc);
+}
+
+// extra accessors
+NameSet& RelabelMap::Target(const Idx& rSrc) {
+  return *Attributep(rSrc);
+}
+  
+// extra accessors
+const NameSet& RelabelMap::Target(const std::string& rSrc) const {
+  return Attribute(rSrc);
+}
+  
+
+// extra accessors
+NameSet& RelabelMap::Target(const std::string& rSrc) {
+  return *Attributep(rSrc);
+}
+
+// extra accessors
+void RelabelMap::Target(const std::string& rSrc, const NameSet& rTarget) {
+  return Attribute(rSrc,rTarget);
+}
+  
+
+// extra accessors
+void RelabelMap::Target(const Idx& rSrc, const NameSet& rTarget) {
+    return Attribute(rSrc,rTarget);
+}
+
+// read STL
+void RelabelMap::FromStlMap(const std::map<Idx, std::set<Idx> >& rMap) {
+  Clear();
+  NameSet target;
+  std::map<Idx, std::set<Idx> >::const_iterator mit;
+  mit=rMap.begin();
+  while(mit!=rMap.end()) {
+    target.FromStl(mit->second);
+    TAttrMap<Idx,NameSet>::Insert(mit->first,target);
+    ++mit;
+  }
+}
+
+// write STL
+void RelabelMap::ToStlMap(std::map<Idx, std::set<Idx> >& rMap) const {
+  rMap.clear();
+  std::set<Idx> target;
+  Iterator it=Begin();
+  while(it!=End()) {
+    Attribute(*it).ToStl(target);
+    rMap[*it]=target;
+    ++it;
+  }
+}
+
+// pretty print
+std::string RelabelMap::Str(void) const { 
+  std::stringstream str;
+  NameSet::Iterator tit, tit_end;
+  NameSet::Iterator dit=Begin();
+  NameSet::Iterator dit_end=End();
+  while(true) {
+    str << Str(*dit) << " -> { ";
+    const NameSet& target=Target(*dit);
+    tit=target.Begin();
+    tit_end=target.End();
+    for(;tit!=tit_end;++tit) 
+      str << NameSet::Str(*tit) << " ";
+    str << "}";
+    ++dit;
+    if(dit==dit_end) break;
+    str << std::endl;
+  }
+  return str.str();
+}
+  
+  
+  
+// apply the map to a NameSet 
+void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rSet, NameSet& rRes) {
+#ifdef FAUDES_CHECKED
+  // test for matching symboltables
+  if(rMap.SymbolTablep()!=rSet.SymbolTablep()) {
+    std::stringstream errstr;
+    errstr << "symboltable mismatch aka not implemented" << std::endl;
+    throw Exception("ApplyRelableMap", errstr.str(), 67);
+  }
+#endif
+  // set up effective domain and range
+  /*
+  NameSet domain, range;
+  NameSet::Iterator dit=rSet.Begin()
+  NameSet::Iterator dit_end=rSet.End()
+  for(;dit=dit_end;++dit) {
+    if(!rMat.Exists(*dit)) continue;
+    domain.Insert(*dit);
+    range.InsertSet(rMap.Target(*dit));
+  }
+  */
+  // have intermediate targets
+  /*
+  SymbolTable& symtab = *rSet.SymbolTablep();
+  std::map<Idx,Idx> target2alt;
+  std::map<Idx,Idx> alt2target;
+  NameSet::Iterator rit=range.Begin()
+  NameSet::Iterator rit_end=range.End()
+  for(;rit=rit_end;++rit) {
+    std::string  altstr=symtab.UniqueSymbol("TMP_1");
+    Idx altidx = symtab.InsEntry(altstr);
+    target2alt[*rit]=altidx;
+    alt2target[altidx]=*rit;
+  }
+  */
+  NameSet& inselem = *rSet.New();
+  NameSet delelem;
+  NameSet::Iterator tit, tit_end;
+  NameSet::Iterator dit=rSet.Begin();
+  NameSet::Iterator dit_end=rSet.End();
+  for(;dit!=dit_end;++dit) {
+    if(!rMap.Exists(*dit)) continue;
+    delelem.Insert(*dit);
+    const NameSet& target=rMap.Target(*dit);
+    AttributeVoid* attrp = rSet.Attribute(*dit).Copy();
+    tit=target.Begin();
+    tit_end=target.End();
+    for(;tit!=tit_end;++tit) {
+      inselem.Insert(*tit);
+      inselem.Attribute(*tit,*attrp);
+    }
+    delete attrp;      
+  }
+  rRes.Assign(rSet);
+  rRes.EraseSet(delelem);
+  rRes.InsertSet(inselem);
+  delete &inselem;
+}
+
+  
+
 } // namespace faudes
+
 
 

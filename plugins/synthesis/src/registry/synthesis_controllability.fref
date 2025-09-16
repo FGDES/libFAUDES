@@ -178,7 +178,7 @@ Else, it returns "true".
 <p>
 Consider the <a href="synthesis_index.html#example">very simple machine scenario</a>. We have
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Overall Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_plant"/> </td></tr>
 <tr> <td> Product(GPlant,GSpec)</td> </tr>
@@ -414,7 +414,7 @@ The function returns "true" if both conditions are fulfilled.
 Consider the <a href="synthesis_index.html#example">very simple machine scenario</a>.
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Overall Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_plant"/> </td></tr> 
 <tr> <td> Supervisor GSupervisor</td> </tr>
@@ -544,13 +544,13 @@ that marks <fimath>K^\uparrow</fimath>.
 </p>
 <p>
 For a formal discussion on relative-closedness in the context of supervisory control,
-including a formula for the supremal relatively closed sublanguage, see <fcite name="S9"/>.
+including a formula for the supremal relatively closed sublanguage, see <fcite name="S6"/>.
 </p>
 
 
 <fexample/>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> 
 <td> Plant  <fimath>L</fimath></td> 
 <td> Specification <fimath>E</fimath></td> 
@@ -594,7 +594,7 @@ that marks <fimath>K^\uparrow</fimath>.
 </p>
 <p>
 For a formal discussion on closedness in the context of supervisory control,
-including a formula for the supremal closed sublanguage, see <fcite name="S9"/>.
+including a formula for the supremal closed sublanguage, see <fcite name="S6"/>.
 </p>
 
 

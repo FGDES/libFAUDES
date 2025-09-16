@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"g_nonmin [minstate]" 
+&lt;Generator name="g_nonmin [minstate]"&gt;
 
 % 
 %  Statistics for g_nonmin [minstate]
@@ -37,14 +36,14 @@ a             b             c
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
-"{3}"         "{1}"         "{2,5}"       "{4,6}"      
+"{1}"         "{2,5}"       "{3}"         "{4,6}"      
 &lt;/States&gt;
 
 &lt;TransRel&gt;
-"{3}"         a             "{2,5}"      
 "{1}"         a             "{2,5}"      
 "{1}"         c             "{3}"        
 "{2,5}"       b             "{4,6}"      
+"{3}"         a             "{2,5}"      
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;

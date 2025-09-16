@@ -155,6 +155,7 @@ sys:SWrite()
 -- Record test case
 FAUDES_TEST_DUMP("system",sys)
 
+
 -- ------------------------------------------
 -- Generator: example algorithm reachable states
 -- ------------------------------------------
@@ -185,6 +186,23 @@ while not reach_prev:Empty() do        -- iterate while new reachable states ide
   reach_acc:InsertSet(reach_next)      -- accumulate result
   reach_prev=reach_next                -- pass on recent states by reference 
 end
+
+
+-- ------------------------------------------
+-- Generator: relabel events
+-- ------------------------------------------
+
+
+rlmap=faudes.RelabelMap()
+rlmap:Insert("alpha","alpha_2")
+rlmap:Insert("alpha","alpha_x")
+rlmap:Insert("beta","beta_2")
+faudes.ApplyRelabelMap(rlmap,sys,sys)
+print("relabeled system")
+sys:DWrite()
+
+
+
 
 -- log test case
 FAUDES_TEST_DUMP("reach expect true", reach_acc == gen:AccessibleSet() )

@@ -54,13 +54,16 @@ LBP_OBJECTS = $(LBP_SOURCES:$(LBP_SRCDIR)/%.cpp=$(LBP_OBJDIR)/%$(DOT_O))
 #LBP_LUAVER = 5.1.3
 LBP_LUAVER = 5.4.8
 
+# btw:
+# to create the patch, we use
+# "diff -crB dir_original dir_updated > dfile.patch"
+
 #
 # lua sources 5.1.3
 ifeq ($(LBP_LUAVER),5.1.3)
 LBP_LUATGZ = lua-5.1.3.tar.gz
 LBP_LUADIR = $(LBP_BASE)/lib/lua-5.1.3
 LBP_FAUDESPATCH = lua-5.1.3-faudes.patch
-LBP_ARLPATCH = lua-5.1-advanced-readline.patch
 LBP_LUACFILES = \
    lapi.c lcode.c ldebug.c ldo.c ldump.c lfunc.c lgc.c llex.c lmem.c \
    lobject.c lopcodes.c lparser.c lstate.c lstring.c ltable.c ltm.c  \
@@ -97,13 +100,9 @@ ifdef LBP_FAUDESPATCH
 	@echo "applying faudes patch" 
 	cd $(LBP_LUADIR); patch -p1 < ../$(LBP_FAUDESPATCH)
 endif	
-ifeq ($(FAUDES_PLATFORM),gcc_linux)
-	@echo "applying advanced edit patch" 
-	cd $(LBP_LUADIR); patch -p1 < ../$(LBP_ARLPATCH)
-endif
 	@echo "copy lua headers"
 	- rm -rf $(INCLUDEDIR)/lua  
-	mkdir $(INCLUDEDIR)/lua
+	mkdir -p $(INCLUDEDIR)/lua
 	cp $(LBP_LUADIR)/src/*.h $(INCLUDEDIR)/lua
 
 #
@@ -292,14 +291,14 @@ CONFIGURETARGETS += luabindings-configure
 
 
 # javascript based repl (used in main makefile)
-LBP_REPLDIR = $(LBP_BASE)/lib/repl
+LBP_REPLDIR = $(LBP_BASE)/repl
 
 #
-# special case: emscriptem 
+# special case: emscripten
 ifeq ($(FAUDES_PLATFORM),emcc_js)
-# javascript target for rep-loop
-$(LBP_REPLDIR)/luafaudes.js: $(LBP_REPLDIR)/luafaudes_embind.cpp $(STATIC) $(LBP_REPLDIR)/luafaudes.js_prepend $(LBP_REPLDIR)/luafaudes.js_append
-	$(CXX) $(CFLAGS) --bind -s INVOKE_RUN=0 -s OUTLINING_LIMIT=20000  --pre-js $(LBP_REPLDIR)/luafaudes.js_prepend --post-js $(LBP_REPLDIR)/luafaudes.js_append -o $@  $< $(LIBFAUDES)
+# luafaudes as javascript target
+$(LBP_REPLDIR)/luafaudes.js: $(LBP_REPLDIR)/luafaudes_embind.cpp $(STATIC) $(LBP_REPLDIR)/luafaudes.js_prepend $(LBP_REPLDIR)/luafaudes.js_append $(LIBFAUDES)
+	$(CXX) $(CFLAGS) --bind -s INVOKE_RUN=0 --pre-js $(LBP_REPLDIR)/luafaudes.js_prepend --post-js $(LBP_REPLDIR)/luafaudes.js_append -o $@ $< $(LIBFAUDES)
 # overwrite javascript target
 DEFAULTTARGETS = $(LBP_REPLDIR)/luafaudes.js
 endif

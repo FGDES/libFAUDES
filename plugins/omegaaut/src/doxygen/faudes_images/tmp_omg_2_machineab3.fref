@@ -18,7 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="A-B-Machine-B-Breaks"&gt;
+&lt;Generator name="A-B-Machine-B-Breaks" ftype="System"&gt;
 
 % 
 %  Statistics for A-B-Machine-B-Breaks

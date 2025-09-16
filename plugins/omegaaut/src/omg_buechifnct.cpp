@@ -605,7 +605,6 @@ bool IsBuechiRelativelyMarked(const Generator& rGenPlant, const Generator& rGenC
   // result is true if no problematic SCCs exist
   return umsccs.size()==0;
 
-
 }
 
 
@@ -690,7 +689,7 @@ bool IsBuechiRelativelyClosedUnchecked(const Generator& rGenPlant, const Generat
   StateSet::Iterator lit1, lit2;
   TransSet::Iterator tit1, tit1_end, tit2, tit2_end;
   std::map< std::pair<Idx,Idx>, Idx>::iterator rcit;
-  // sense violation of L(G1) <= L(G2)
+  // sense violation of L(GenCand) <= L(GenPlant)
   bool inclusion12=true;
 
   // push all combinations of initial states on todo stack
@@ -767,7 +766,7 @@ bool IsBuechiRelativelyClosedUnchecked(const Generator& rGenPlant, const Generat
 #ifdef FAUDES_DEBUG_FUNCTION
   FD_DF("IsBuechiRelativelyClosed(): Product: done"); 
   if(!inclusion12) {
-    FD_DF("IsBuechiRelativelyClosed(): Product: inclusion L(G1) <= L(G2) not satisfied"); 
+    FD_DF("IsBuechiRelativelyClosed(): Product: inclusion L(GenCand) <= L(GenPlant) not satisfied"); 
   }
 #endif
 
@@ -815,6 +814,369 @@ bool IsBuechiRelativelyClosedUnchecked(const Generator& rGenPlant, const Generat
 
   // done, all tests passed
   FD_DF("IsBuechiRelativelyClosed(): pass");
+  return true;
+}
+
+
+// LanguageInclusion
+bool BuechiLanguageInclusion(const Generator& rGen1, const Generator& rGen2) {
+
+  FD_DF("BuechiLanguageInclusion(\"" <<  rGen1.Name() << "\", \"" << rGen2.Name() << "\")");
+
+  // alphabets must match
+  if ( rGen1.Alphabet() != rGen2.Alphabet()) {
+    std::stringstream errstr;
+    errstr << "Alphabets of generators do not match.";
+    throw Exception("BuechiLanguageInclusion", errstr.str(), 100);
+  }
+
+#ifdef FAUDES_CHECKED
+  // generators are meant to be nonblocking
+  if( !IsBuechiTrim(rGen1) ) {
+    std::stringstream errstr;
+    errstr << "Argument \"" << rGen1.Name() << "\" is not omegatrim.";
+    throw Exception("BuechiLanguageInclusion", errstr.str(), 201);
+  }
+  if( !IsBuechiTrim(rGen2) ) {
+    std::stringstream errstr;
+    errstr << "Argument \"" << rGen2.Name() << "\" is not omega-trim.";
+    throw Exception("BuechiLanguageInclusion", errstr.str(), 201);
+  }
+#endif
+
+  // the trivial case: if B1 is empty it is relatively closed
+  // (we must treat this case because empty generators are not regarded deterministic)
+  if(rGen1.Empty()) {
+    FD_DF("BuechiLanguageInclusion(..): empty candidate: pass");
+    return true;
+  }
+
+  // the trivial case: if B2 is empty but B1 is not empty, the test failed
+  // (we must treat this case because empty generators are not regarded deterministic)
+  if(rGen2.Empty()) {
+    FD_DF("BuechiLanguageInclusion(..): non-empty candidate. empty plant: fail");
+    return false;
+  }
+
+#ifdef FAUDES_CHECKED
+  // generators are meant to be deterministic
+  if ( !IsDeterministic(rGen1) ||  !IsDeterministic(rGen2)) {
+    std::stringstream errstr;
+    errstr << "Arguments are expected to be deterministic.";
+    throw Exception("BuechiLanguageInclusion", errstr.str(), 202);
+  }
+#endif
+
+  // perform composition (variant of cfl_parallel.cpp)
+  std::map< std::pair<Idx,Idx> , Idx> revmap;
+  Generator product;
+  product.StateNamesEnabled(false);
+  StateSet mark1;
+  StateSet mark2;
+
+  // shared alphabet
+  product.InjectAlphabet(rGen1.Alphabet());
+
+  // todo stack
+  std::stack< std::pair<Idx,Idx> > todo;
+  // current pair, new pair
+  std::pair<Idx,Idx> currentstates, newstates;
+  // state
+  Idx tmpstate;
+  // iterators  
+  StateSet::Iterator lit1, lit2;
+  TransSet::Iterator tit1, tit1_end, tit2, tit2_end;
+  std::map< std::pair<Idx,Idx>, Idx>::iterator rcit;
+  // sense violation of L(Gen1) <= L(Gen2)
+  bool inclusion12=true;
+
+  // push all combinations of initial states on todo stack
+  FD_DF("BuechiLanguageInclusion(): Product composition A");
+  for (lit1 = rGen1.InitStatesBegin(); 
+      lit1 != rGen1.InitStatesEnd(); ++lit1) {
+    for (lit2 = rGen2.InitStatesBegin(); 
+        lit2 != rGen2.InitStatesEnd(); ++lit2) {
+      currentstates = std::make_pair(*lit1, *lit2);
+      todo.push(currentstates);
+      tmpstate = product.InsInitState();
+      revmap[currentstates] = tmpstate;
+      FD_DF("BuechiLanguageInclusion(): Product composition A:   (" << *lit1 << "|" << *lit2 << ") -> " 
+          << revmap[currentstates]);
+    }
+  }
+
+  // start algorithm
+  while (! todo.empty() && inclusion12) {
+    // allow for user interrupt
+    LoopCallback();
+    // get next reachable state from todo stack
+    currentstates = todo.top();
+    todo.pop();
+    FD_DF("BuechiLanguageInclusion(): Product composition B: (" << currentstates.first << "|" 
+        << currentstates.second << ") -> " << revmap[currentstates]);
+    // iterate over all rGenCand transitions
+    tit1 = rGen1.TransRelBegin(currentstates.first);
+    tit1_end = rGen1.TransRelEnd(currentstates.first);
+    tit2 = rGen2.TransRelBegin(currentstates.second);
+    tit2_end = rGen2.TransRelEnd(currentstates.second);
+    Idx curev1=0;
+    bool resolved12=true;
+    while((tit1 != tit1_end) && (tit2 != tit2_end)) {
+      // sense new event
+      if(tit1->Ev != curev1) {
+        if(!resolved12) inclusion12=false;
+	curev1=tit1->Ev;
+        resolved12=false;
+      }
+      // shared event
+      if (tit1->Ev == tit2->Ev) {
+        resolved12=true;
+        newstates = std::make_pair(tit1->X2, tit2->X2);
+        // add to todo list if composition state is new
+        rcit = revmap.find(newstates);
+        if (rcit == revmap.end()) {
+          todo.push(newstates);
+          tmpstate = product.InsState();
+          revmap[newstates] = tmpstate;
+          FD_DF("BuechiLanguageInclusion(): Product composition C: (" << newstates.first << "|" 
+             << newstates.second << ") -> " << revmap[newstates]);
+        }
+        else {
+          tmpstate = rcit->second;
+        }
+        product.SetTransition(revmap[currentstates], tit1->Ev, tmpstate);
+        ++tit1;
+        ++tit2;
+      }
+      // try resync tit1
+      else if (tit1->Ev < tit2->Ev) {
+        ++tit1;
+      }
+      // try resync tit2
+      else if (tit1->Ev > tit2->Ev) {
+        ++tit2;
+      }
+    }
+    // last event was not resolved in the product
+    if(!resolved12) inclusion12=false;
+  }
+  // report
+#ifdef FAUDES_DEBUG_FUNCTION
+  FD_DF("BuechiLanguageInclusion(): Product: done"); 
+  if(!inclusion12) {
+    FD_DF("BuechiLanguageInclusion(): Product: inclusion L(Gen1) <= L(Gen2) not satisfied"); 
+  }
+#endif
+
+  // bail out
+  if(!inclusion12) return false;
+
+  // retrieve marking from reverse composition map
+  std::map< std::pair<Idx,Idx>, Idx>::iterator rit;
+  for(rit=revmap.begin(); rit!=revmap.end(); ++rit){
+    if(rGen1.ExistsMarkedState(rit->first.first)) mark1.Insert(rit->second);
+    if(rGen2.ExistsMarkedState(rit->first.second)) mark2.Insert(rit->second);
+  }
+
+  // find all relevant SCCs 
+  SccFilter umfilter21(SccFilter::FmIgnoreTrivial | SccFilter::FmStatesAvoid| SccFilter::FmStatesRequire, 
+    mark2,mark1);
+  std::list<StateSet> umsccs21;
+  StateSet umroots21;
+  ComputeScc(product,umfilter21,umsccs21,umroots21); 
+
+  // report
+  std::list<StateSet>::iterator ssit=umsccs21.begin();
+  for(;ssit!=umsccs21.end(); ++ssit) {
+    FD_DF("BuechiLanguageInclusion(): G1-marked scc without G2-mark: " << ssit->ToString());
+  }  
+
+  // result is false if we found problematic SCCs to exist
+  if(umsccs21.size()!=0) return false;
+
+  // done, all tests passed
+  FD_DF("BuechiLanguageInclusion(): pass");
+  return true;
+}
+
+
+// LanguageEquality
+bool BuechiLanguageEquality(const Generator& rGen1, const Generator& rGen2) {
+
+  FD_DF("BuechiLanguageEquality(\"" <<  rGen1.Name() << "\", \"" << rGen2.Name() << "\")");
+
+  // alphabets must match
+  if ( rGen1.Alphabet() != rGen2.Alphabet()) {
+    std::stringstream errstr;
+    errstr << "Alphabets of generators do not match.";
+    throw Exception("BuechiLanguageEquality", errstr.str(), 100);
+  }
+
+#ifdef FAUDES_CHECKED
+  // generators are meant to be nonblocking
+  if( !IsBuechiTrim(rGen1) ) {
+    std::stringstream errstr;
+    errstr << "Argument \"" << rGen1.Name() << "\" is not omegatrim.";
+    throw Exception("BuechiLanguageEquality", errstr.str(), 201);
+  }
+  if( !IsBuechiTrim(rGen2) ) {
+    std::stringstream errstr;
+    errstr << "Argument \"" << rGen2.Name() << "\" is not omega-trim.";
+    throw Exception("BuechiLanguageEquality", errstr.str(), 201);
+  }
+#endif
+
+
+  // the trivial case: both are empty, or one is empty and one not 
+  // (we must treat this case because empty generators are not regarded deterministic)
+  bool empty1=rGen1.Empty();
+  bool empty2=rGen2.Empty();  
+  if( empty1 && empty2) {
+    FD_DF("BuechiLanguageEquality(..): empty candidates: pass");
+    return true;
+  }
+  if( empty1 != empty2) {
+    FD_DF("BuechiLanguageEquality(..): empty/non-empty candidates: fail");
+    return false;
+  }
+ 
+#ifdef FAUDES_CHECKED
+  // generators are meant to be deterministic
+  if ( !IsDeterministic(rGen1) ||  !IsDeterministic(rGen2)) {
+    std::stringstream errstr;
+    errstr << "Arguments are expected to be deterministic.";
+    throw Exception("BuechiLanguageEquality", errstr.str(), 202);
+  }
+#endif
+
+  // perform composition (variant of cfl_parallel.cpp)
+  std::map< std::pair<Idx,Idx> , Idx> revmap;
+  Generator product;
+  product.StateNamesEnabled(false);
+  StateSet mark1;
+  StateSet mark2;
+
+  // shared alphabet
+  product.InjectAlphabet(rGen1.Alphabet());
+
+  // todo stack
+  std::stack< std::pair<Idx,Idx> > todo;
+  // current pair, new pair
+  std::pair<Idx,Idx> currentstates, newstates;
+  // state
+  Idx tmpstate;
+  // iterators  
+  StateSet::Iterator lit1, lit2;
+  TransSet::Iterator tit1, tit1_end, tit2, tit2_end;
+  std::map< std::pair<Idx,Idx>, Idx>::iterator rcit;
+  // sense violation of L(Gen1) = L(Gen2)
+  bool equal12=true;
+
+  // push all combinations of initial states on todo stack
+  FD_DF("BuechiLanguageEquality(): Product composition A");
+  for (lit1 = rGen1.InitStatesBegin(); 
+      lit1 != rGen1.InitStatesEnd(); ++lit1) {
+    for (lit2 = rGen2.InitStatesBegin(); 
+        lit2 != rGen2.InitStatesEnd(); ++lit2) {
+      currentstates = std::make_pair(*lit1, *lit2);
+      todo.push(currentstates);
+      tmpstate = product.InsInitState();
+      revmap[currentstates] = tmpstate;
+      FD_DF("BuechiLanguageEquality(): Product composition A:   (" << *lit1 << "|" << *lit2 << ") -> " 
+          << revmap[currentstates]);
+    }
+  }
+
+  // start algorithm
+  while (! todo.empty() && equal12) {
+    // allow for user interrupt
+    LoopCallback();
+    // get next reachable state from todo stack
+    currentstates = todo.top();
+    todo.pop();
+    FD_DF("BuechiLanguageEquality(): Product composition B: (" << currentstates.first << "|" 
+        << currentstates.second << ") -> " << revmap[currentstates]);
+    // iterate over all rGen1, rGen2 transitions
+    tit1 = rGen1.TransRelBegin(currentstates.first);
+    tit1_end = rGen1.TransRelEnd(currentstates.first);
+    tit2 = rGen2.TransRelBegin(currentstates.second);
+    tit2_end = rGen2.TransRelEnd(currentstates.second);
+    while((tit1 != tit1_end) && (tit2 != tit2_end)) {
+      // event mismatch
+      if (tit1->Ev != tit2->Ev) {
+	equal12=false;
+	break;
+      }
+      // matching  event
+      newstates = std::make_pair(tit1->X2, tit2->X2);
+      // add to todo list if composition state is new
+      rcit = revmap.find(newstates);
+      if (rcit == revmap.end()) {
+        todo.push(newstates);
+        tmpstate = product.InsState();
+        revmap[newstates] = tmpstate;
+        FD_DF("BuechiLanguageEquality(): Product composition C: (" << newstates.first << "|" 
+           << newstates.second << ") -> " << revmap[newstates]);
+      } else {
+        tmpstate = rcit->second;
+      }
+      product.SetTransition(revmap[currentstates], tit1->Ev, tmpstate);
+      ++tit1;
+      ++tit2;
+    }
+  }
+  // report
+#ifdef FAUDES_DEBUG_FUNCTION
+  FD_DF("BuechiLanguageEquality(): Product: done"); 
+  if(!equal12) {
+    FD_DF("BuechiLanguageEquality(): Product: inclusion L(Gen1) == L(Gen2) not satisfied"); 
+  }
+#endif
+
+  // bail out
+  if(!equal12) return false;
+
+  // retrieve marking from reverse composition map
+  std::map< std::pair<Idx,Idx>, Idx>::iterator rit;
+  for(rit=revmap.begin(); rit!=revmap.end(); ++rit){
+    if(rGen1.ExistsMarkedState(rit->first.first)) mark1.Insert(rit->second);
+    if(rGen2.ExistsMarkedState(rit->first.second)) mark2.Insert(rit->second);
+  }
+
+  // find all relevant SCCs 1
+  SccFilter umfilter12(SccFilter::FmIgnoreTrivial | SccFilter::FmStatesAvoid| SccFilter::FmStatesRequire, 
+    mark2,mark1);
+  std::list<StateSet> umsccs12;
+  StateSet umroots12;
+  ComputeScc(product,umfilter12,umsccs12,umroots12); 
+
+  // report
+  std::list<StateSet>::iterator ssit=umsccs12.begin();
+  for(;ssit!=umsccs12.end(); ++ssit) {
+    FD_DF("BuechiLanguageEquality(): G1-marked scc without G2-mark: " << ssit->ToString());
+  }  
+
+  // result is false if we found problematic SCCs to exist
+  if(umsccs12.size()!=0) return false;
+
+  // find all relevant SCCs 2
+  SccFilter umfilter21(SccFilter::FmIgnoreTrivial | SccFilter::FmStatesAvoid| SccFilter::FmStatesRequire, 
+    mark1,mark2);
+  std::list<StateSet> umsccs21;
+  StateSet umroots21;
+  ComputeScc(product,umfilter21,umsccs21,umroots21); 
+
+  // report
+  ssit=umsccs21.begin();
+  for(;ssit!=umsccs21.end(); ++ssit) {
+    FD_DF("BuechiLanguageEquality(): G2-marked scc without G1-mark: " << ssit->ToString());
+  }  
+
+  // result is false if we found problematic SCCs to exist
+  if(umsccs21.size()!=0) return false;
+
+  // done, all tests passed
+  FD_DF("BuechiLanguageEquality(): pass");
   return true;
 }
 

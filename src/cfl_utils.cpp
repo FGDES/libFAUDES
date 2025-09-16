@@ -150,7 +150,7 @@ std::string PluginsString() {
 // ContributorsString()
 std::string ContributorsString() {
   return 
-    "Ramon Barakat, Ruediger Berndt, Christian Breindl, Christine Baier, Tobias Barthel, Christoph Doerr, Marc Duevel, Norman Franchi, Stefan Goetz, Rainer Hartmann, Jochen Hellenschmidt, Stefan Jacobi, Matthias Leinfelder, Tomas Masopust, Michael Meyer, Andreas Mohr, Thomas Moor, Mihai Musunoi, Bernd Opitz, Katja Pelaic, Irmgard Petzoldt, Sebastian Perk, Thomas Rempel, Daniel Ritter, Berno Schlein, Ece Schmidt, Klaus Schmidt, Anne-Kathrin Schmuck, Sven Schneider, Matthias Singer, Yiheng Tang, Ulas Turan, Christian Wamser, Zhengying Wang, Thomas Wittmann, Shi Xiaoxun, Yang Yi, Jorgos Zaddach, Hao Zhou, Christian Zwick, et al";
+    "Ramon Barakat, Ruediger Berndt, Christian Breindl, Christine Baier, Tobias Barthel, Christoph Doerr, Marc Duevel, Norman Franchi, Stefan Goetz, Rainer Hartmann, Jochen Hellenschmidt, Stefan Jacobi, Matthias Leinfelder, Tomas Masopust, Michael Meyer, Andreas Mohr, Thomas Moor, Mihai Musunoi, Bernd Opitz, Katja Pelaic, Irmgard Petzoldt, Sebastian Perk, Thomas Rempel, Daniel Ritter, Berno Schlein, Ece Schmidt, Klaus Schmidt, Anne-Kathrin Schmuck, Sven Schneider, Matthias Singer, Yiheng Tang, Ulas Turan, Christian Wamser, Zhengying Wang, Thomas Wittmann, Shi Xiaoxun, Changming Yang, Yang Yi, Jorgos Zaddach, Hao Zhou, Christian Zwick, et al";
 }
 
 #define XLITSTR(x) LITSTR(x)
@@ -228,6 +228,20 @@ void ProcessDot(const std::string& rDotFile,
   }
 }
 
+
+// test executable  
+bool DotReady(const std::string& rDotExec) {  
+  // cache value
+  static bool ready=false;  
+  static bool known=false;
+  if(known) return ready;    
+  // test for dot binary
+  std::string testdot = rDotExec + " -V";
+  ready = (system(testdot.c_str()) == 0);
+  known = true;
+  return ready;
+}
+  
 
 // CreateTempFile(void)
 // todo: sys dependant, report, investigate threads

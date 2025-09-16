@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-EmptyLanguage(NameSet) 
+&lt;Generator name="EmptyLanguage(NameSet)"&gt;
 
 % 
 %  Statistics for EmptyLanguage(NameSet)
@@ -37,13 +36,9 @@ a             b
 &lt;/Alphabet&gt;
 
 &lt;States/&gt;
-
 &lt;TransRel/&gt;
-
 &lt;InitStates/&gt;
-
 &lt;MarkedStates/&gt;
-
 
 &lt;/Generator&gt;
 

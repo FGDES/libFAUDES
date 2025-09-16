@@ -44,7 +44,7 @@ int main() {
   std::cout << std::endl;
 
   // Turn on logging
-  StateSetOperator::LogMuNu(true);
+  Verbosity(10);
 
   // Instantiate my operator
   CtrlPfxOperator cfxop_Y_X(sys,sigctrl);
@@ -95,6 +95,16 @@ int main() {
   StateSet xcfx;
   xcfxop_nuY_muX.Evaluate(xcfx);
   std::cout << "# state count of fixpoint: " << xcfx.Size() << std::endl;
+
+  // figure the ranking (run inner mu with outer fixpoint set)
+  std::cout << "################################\n";
+  std::map<Idx,int> rmap;
+  xcfxop_Y_muX.Rank(xcfx,rmap);
+  std::cout << "# state count in ranking: " << rmap.size() << std::endl;
+  auto rit=rmap.begin();
+  for(;rit!=rmap.end();++rit)
+    std::cout << "# state " << rit->first << " rank " << rit->second  << std::endl;
+    
 
   // derive supremal closed-loop behaviour
   sup.InjectMarkedStates(xcfx);

@@ -78,7 +78,7 @@ public:
    * Evaluate opertor on arguments
    *
    * This is a convenience wrapper for the protected method DoEvaluate for
-   * operator with orny one argument.
+   * operators with only one argument.
    *
    * @param rArg
    *   State-set valued argument
@@ -113,10 +113,6 @@ public:
   /** indent (cosmetic) */
   virtual void Indent(const std::string& indent) const;
 
-  /** logging progress (cosmetic) */
-  static void LogMuNu(bool on);
-
-
 protected:
 
  /** signature */
@@ -128,9 +124,6 @@ protected:
  /** support cosmetic */
  std::string mIndent;
 
- /** support cosmetic */
- static bool mLogMuNu;
- 
 
   /**
    * Evaluate opertor on arguments (protected virtual)
@@ -145,7 +138,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const =0;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) =0;
 
 };
 
@@ -192,7 +185,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes);
   
 
   /** set up context references */
@@ -249,6 +242,44 @@ class FAUDES_API MuIteration : public StateSetOperator {
    **/
   virtual const StateSet&  Domain(void) const;
 
+  /**
+   * Evaluate opertor on arguments and return ranking
+   *
+   * The ranking is the loop count at which a state was newly added
+   * to the result. 
+   *
+   * @param rArgs
+   *   State-set valued arguments the operator performs on
+   * @param rRMap
+   *   Result with rank attached.
+   **/
+  void Rank(StateSetVector& rArgs, std::map<Idx,int>& rRMap) const;
+
+  /**
+   * Evaluate opertor on arguments and return ranking
+   *
+   * This is a convenience wrapper for Rank addressing operators
+   * with orny one argument.
+   *
+   * @param rArg
+   *   State-set argument the operator performs on
+   * @param rRMap
+   *   Result with rank attached.
+   **/
+  void Rank(StateSet& rArg, std::map<Idx,int>& rRMap) const;
+
+  /**
+   * Evaluate opertor on arguments and return ranking
+   *
+   * This is a convenience wrapper for Rank addressing operators
+   * with no arguments.
+   *
+   * @param rRMap
+   *   Result with rank attached.
+   **/
+  void Rank(std::map<Idx,int>& rRMap) const;
+
+
   /** indent (cosmetic) */
   using StateSetOperator::Indent;
   virtual void Indent(const std::string& indent) const;
@@ -262,7 +293,7 @@ protected:
    * X for which we seek a fixpoint of Op(rArgs,X). Effectively we iterate
    *
    * X(0) = emptyset
-   * X(i+1) = X(i) union Op(rArgs,X(i))
+   * X(i+1) = Op(rArgs,X(i))
    *
    * until the fixpoint is achieved.
    *
@@ -271,7 +302,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes);
   
   /** the base operator to iterate with */
   const StateSetOperator& mrOp;
@@ -332,7 +363,7 @@ protected:
    * X for which we seek a fixpoint of Op(rArgs,X). Effectively we iterate
    *
    * X(0) = Domain
-   * X(i+1) = X(i) intersected with  Op(rArgs,X(i))
+   * X(i+1) = Op(rArgs,X(i))
    *
    * until the fixpoint is achieved.
    *
@@ -341,7 +372,7 @@ protected:
    * @param rRes
    *   Resulting state set
    **/
-  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes) const;
+  virtual void DoEvaluate(StateSetVector& rArgs, StateSet& rRes);
 
   /** the base operator to iterate on */
   const StateSetOperator& mrOp;

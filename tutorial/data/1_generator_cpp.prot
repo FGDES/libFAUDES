@@ -1,11 +1,11 @@
-%%% test mark: g1 [at 1_generator.cpp:67]
+%%% test mark: g1 [at 1_generator.cpp:69]
 % 
 %  Statistics for Generator
 % 
 %  States:        3
 %  Init/Marked:   1/2
-%  Events:        2
-%  Transitions:   3
+%  Events:        3
+%  Transitions:   4
 %  StateSymbols:  3
 %  Attrib. E/S/T: 0/0/0
 % 
@@ -13,14 +13,14 @@
 % 
 % 
 
-%%% test mark: generator [at 1_generator.cpp:114]
+%%% test mark: generator [at 1_generator.cpp:131]
 % 
 %  Statistics for Generator_3
 % 
 %  States:        3
 %  Init/Marked:   1/2
-%  Events:        2
-%  Transitions:   3
+%  Events:        3
+%  Transitions:   4
 %  StateSymbols:  3
 %  Attrib. E/S/T: 0/0/0
 % 
@@ -28,13 +28,28 @@
 % 
 % 
 
-%%% test mark: g1, edited [at 1_generator.cpp:435]
+%%% test mark: relabel [at 1_generator.cpp:132]
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: g1, edited [at 1_generator.cpp:455]
 % 
 %  Statistics for NewName
 % 
 %  States:        10
 %  Init/Marked:   2/3
-%  Events:        5
+%  Events:        6
 %  Transitions:   3
 %  StateSymbols:  6
 %  Attrib. E/S/T: 0/0/0
@@ -43,7 +58,7 @@
 % 
 % 
 
-%%% test mark: acc [at 1_generator.cpp:636]
+%%% test mark: acc [at 1_generator.cpp:656]
 % 
 %  Statistics for AccessibleSet
 % 
@@ -53,7 +68,7 @@
 % 
 % 
 
-%%% test mark: coacc [at 1_generator.cpp:637]
+%%% test mark: coacc [at 1_generator.cpp:657]
 % 
 %  Statistics for CoaccessibleSet
 % 
@@ -63,7 +78,7 @@
 % 
 % 
 
-%%% test mark: term [at 1_generator.cpp:638]
+%%% test mark: term [at 1_generator.cpp:658]
 % 
 %  Statistics for TerminalStates
 % 
@@ -73,7 +88,7 @@
 % 
 % 
 
-%%% test mark: accessible [at 1_generator.cpp:691]
+%%% test mark: accessible [at 1_generator.cpp:711]
 % 
 %  Statistics for GAccessible
 % 
@@ -88,7 +103,7 @@
 % 
 % 
 
-%%% test mark: coaccessible [at 1_generator.cpp:692]
+%%% test mark: coaccessible [at 1_generator.cpp:712]
 % 
 %  Statistics for GCoccessible
 % 
@@ -103,7 +118,7 @@
 % 
 % 
 
-%%% test mark: complete [at 1_generator.cpp:693]
+%%% test mark: complete [at 1_generator.cpp:713]
 % 
 %  Statistics for GComplete
 % 
@@ -118,7 +133,7 @@
 % 
 % 
 
-%%% test mark: trim [at 1_generator.cpp:694]
+%%% test mark: trim [at 1_generator.cpp:714]
 % 
 %  Statistics for GTrim
 % 
@@ -133,7 +148,7 @@
 % 
 % 
 
-%%% test mark: omega trim [at 1_generator.cpp:695]
+%%% test mark: omega trim [at 1_generator.cpp:715]
 % 
 %  Statistics for GOmegaTrim
 % 
@@ -148,7 +163,7 @@
 % 
 % 
 
-%%% test mark: iscmpl [at 1_generator.cpp:728]
+%%% test mark: iscmpl [at 1_generator.cpp:748]
 <Boolean>
 false        
 </Boolean>
@@ -156,7 +171,7 @@ false
 % 
 % 
 
-%%% test mark: gsigcomplB [at 1_generator.cpp:729]
+%%% test mark: gsigcomplB [at 1_generator.cpp:749]
 % 
 %  Statistics for GSigoCompleteB
 % 
@@ -171,7 +186,7 @@ false
 % 
 % 
 
-%%% test mark: gsigcomplC [at 1_generator.cpp:730]
+%%% test mark: gsigcomplC [at 1_generator.cpp:750]
 % 
 %  Statistics for GSigoCompleteC
 % 

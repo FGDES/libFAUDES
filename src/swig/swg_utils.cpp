@@ -46,15 +46,7 @@ std::string  faudes_build(void) { return BuildString(); }
 
 // helper: run dot for test
 bool faudes_dotready(void) {
-  // cache value
-  static bool ready=false;  
-  static bool known=false;
-  if(known) return ready;    
-  // test for dot binary
-  std::string testdot = faudes_dotpath + " -V";
-  ready = (system(testdot.c_str()) == 0);
-  known = true;
-  return ready;
+  return DotReady(faudes_dotpath);
 }
 
 //global help dictionary topic -> key -> text

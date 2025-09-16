@@ -27,17 +27,13 @@ See <fcite name="C3"/> for the basic algorithm.
 
 <fexample/>
 
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_deterministic_nondet"/> </td> 
 <td> <fimage fsrc="tmp_deterministic_det"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 
 <fconditions/>
 <p> 
@@ -100,16 +96,13 @@ if necessary.
 
 <fexample/>
 
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_minimal_nonmin"/> </td> 
 <td> <fimage fsrc="tmp_minimal_min"/> </td> 
 </tr>
 </table> 
-</td> </tr> </table>
 
 
 <fconditions/>

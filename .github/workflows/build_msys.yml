@@ -17,9 +17,10 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         msystem: UCRT64
+        update: true
         install: >-
           base-devel
-          gcc
+          mingw-w64-ucrt-x86_64-gcc
           swig 
           perl 
           doxygen 
@@ -27,11 +28,14 @@ jobs:
           libreadline-devel 
     - name: Figure Version
       run: |
+          uname -a
+          echo default msystem $MSYSTEM
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+          echo | gcc -dM -E -
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
-      run: make -j configure
+      run: make -j1 configure
     - name: Build Default Targets
       run: make -j1
     - name: Build Tutorials

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="OmegaAut" page="2_Rabin-Functions" title="Functions on Rabin Automata">
+<h1>
+Functions on Rabin Automata
+</h1>
+
+<p>
+The omega-automata plug-in provides a set of general purpose operations on Rabin Automata.
+</p>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinLifeStates">
+<fdetails/>
+
+<p>
+A state is considered life if it allows for a future path such
+that the acceptance condition is met.
+</p>
+
+<p>
+Given a Rabin pair <fimath>(R,I)</fimath>, the implementation of this function is along the following lines
+</p>
+
+<ul class="l2">
+<li><p>  
+  initialise the candidate life states <fimath>L:=I</fimath>
+</p></li>
+<li><p>  
+ run a nu-iteration on <fimath>L</fimath> to figure the largest existential invariant
+</p></li>
+<li><p>  
+  run a mu-iteration on <fimath>L\cap R</fimath>  to restrict <fimath>L</fimath> to states which
+  can reach <fimath>R</fimath>
+</p></li>
+<li><p>  
+  repeat the above two steps until a fix point is attained
+</p></li>
+<li><p>  
+  run one more mu-iteration on <fimath>L</fimath> to extend to the backward reach
+</p></li>
+<li><p>  
+  return <fimath>L</fimath> as the result
+</p></li>
+</ul>
+
+<p>
+Depending on the signature, lifeness is required w.r.t. at least one of the provided
+Rabin pairs.
+</p>
+
+<fexample/>
+<br/>
+<br/>
+<fimage fsrc="tmp_omg_rnottrim"/> 
+<br/>
+<br/>
+
+<p>
+For the blue Rabin pair, the life states are reported as
+{<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>}.
+For the orange Rabin pair, the life states are reported as
+{<tt>N0</tt>, <tt>A1</tt>, <tt>A2_R</tt>, <tt>A3</tt>, <tt>AB4</tt>, <tt>B2_R</tt>, <tt>B3</tt>,  <tt>B4</tt>}.
+For the green Rabin pair, no life states exist.
+</p>
+
+<p>
+Applying <ffnct>IsRabinTrim</ffnct> to the above automaton returns <tt>false</tt> because
+there exists accessible states, that are not life, e.g., <tt>N1</tt>
+</p>
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinTrim">
+<fdetails/>
+
+<p>
+Trim a given Rabin automaton <i>RAut</i> by 
+removing states that are not life and/or not accessible; see also <ffnct>RabinLifeStates</ffnct>.
+The accepted language <fimath>Rm(RAut)</fimath> is not affected.
+</p>
+
+<p>
+When applied on the example given for <ffnct>RabinLifeStates</ffnct>,
+<ffnct>RabinTrim</ffnct> returns 
+the result:
+<br />
+<br />
+<fimage fsrc="tmp_omg_rtrim"/> 
+<br />
+<br />
+</p>
+
+<p>
+Applying <ffnct>IsRabinTrim</ffnct> to the above automaton returns <tt>true</tt>.
+</p>  
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="IsRabinTrim">
+<fdetails/>
+
+<p>
+A Rabin automaton is considered <i>trim</i> if all states are accessible and life w.r.t.
+at least one Rabin pair. In other words, trimness requires all states to contribute to the
+accepted language.
+For examples see <ffnct>RabinTrim</ffnct> and <ffnct>RabinLifeStates</ffnct>.
+</p>  
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinSimplify">
+<fdetails/>
+
+<p>
+Simplify the acceptance condition of the Rabin automaton <i>RAut</i> by restricting
+Rabin pairs to life states and removing doublets.  
+The accepted language <fimath>Rm(RAut)</fimath> is not affected.
+</p>
+
+<fexample/>
+<p>
+We use the same automaton as in <ffnct>RabinLifeStates</ffnct>:
+<br/>
+<br/>
+<fimage fsrc="tmp_omg_rnottrim"/> 
+<br/>
+<br/>
+</p>
+
+<p>
+Applying <ffnct>RabinSimplify</ffnct> we obtain:
+<br />
+<br />
+<fimage fsrc="tmp_omg_rsimple"/> 
+<br />
+<br />
+</p>
+
+<p>
+Applying <ffnct>RabinTrim</ffnct> and <ffnct>RabinSimplify</ffnct>
+we obtain:
+<br />
+<br />
+<fimage fsrc="tmp_omg_rtrims"/> 
+<br />
+<br />
+</p>
+
+<p>
+Applying <ffnct>IsRabinTrim</ffnct> to the above automaton returns <tt>true</tt>.
+</p>  
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinBuechiAutomaton">
+<fdetails/>
+
+<p>
+Given a Rabin automaton <i>RAut</i> and a Buechi automaton <i>BAut</i>,
+compose a Rabin automaton <i>GRes</i> on the product state set. Then lift acceptance conditions such that
+the Rabin accepted language matches that of <i>RAut</i> and the Buechi accepted language
+matches that of <i>BAut</i>; i.e., <fimath>Rm(RAut)=Rm(Gres)</fimath> and <fimath>Bm(BAut)=Bm(Gres)</fimath>.
+</p>
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table class="images">
+<tr> <td> Component RAut </td> <td> Component BAut </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_4_spec3_rabin"/> </td>
+<td> <fimage fsrc="tmp_omg_4_plant1"/> </td>
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table class="images">
+<tr> <td> Composition GRes</td> </tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_rbaut13"/> </td> </tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fconditions/>
+
+<p>
+Arguments must have matching alphabets <fimath>\Sigma</fimath>.
+Arguments must be full, i.e., generate <fimath>\Sigma^w</fimath>
+</p>
+
+</ffnct_reference>
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinBuechiProduct">
+<fdetails/>
+
+<p>
+Given a Rabin automaton <i>RAut</i> and a Buechi automaton <i>BAut</i>,
+compose a Rabin automaton <i>GRes</i> on the product augmented state set (see <ffnct>BuechiProduct</ffnct>).
+Set the Rabin acceptance condition such that accepted words are those accepted by both arguments; i.e.,
+<fimath>Rm(Gres)= Rm(RAut)\cap Bm(BAut) </fimath>.
+</p>
+
+<p>
+To facilitate controller syhnthesis, we also set the Buechi acceptance to appcept
+<fimath>Bm(BAut)</fimath>. This feature requires <i>RAut</i> to be full.
+</p>
+  
+
+<fexample/>
+
+<table class="plain"> 
+<tr> <td> 
+<table class="images">
+<tr> <td> Component RAut </td> <td> Component BAut </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_omg_4_spec3_rabin"/> </td>
+<td> <fimage fsrc="tmp_omg_4_plant1"/> </td>
+</tr>
+</table> 
+</td> </tr> 
+<tr> <td> <table class="images">
+<tr> <td> Composition GRes</td> </tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_cand13"/> </td> </tr>
+</table> 
+</td> </tr> 
+</table>
+
+<fconditions/>
+
+<p>
+Arguments must have matching alphabets <fimath>\Sigma</fimath>.
+The argument <i>RAut</i>  must be full, i.e., generate <fimath>\Sigma^w</fimath>
+</p>
+
+</ffnct_reference>
+
+
+</ReferencePage>
+
+  

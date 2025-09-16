@@ -131,7 +131,7 @@ The set of controllable events <fimath>\Sigma_c</fimath>
 and the set of observable events <fimath>\Sigma_o</fimath> 
 may be given explicitely or are extracted from the argument GPlant.
 The implemention performs the iteration proposed
-in <fcite name="S7"/>:
+in <fcite name="S4"/>:
 <br/>
 <br/>
 1.&nbsp;&nbsp; 
@@ -163,7 +163,7 @@ by controllability w.r.t. <fimath>\Closure{L}</fimath>. Thus, computation of the
 can be performed by <ffnct>SupConNormClosed</ffnct>.
 In step 3., the supremal complete sublanguage is obtained by subsequently removing states
 that have no successor state; see also <ffnct>Complete</ffnct>.
-By <fcite name="S7"/>, the above iteration terminates after a finite number of steps and
+By <fcite name="S4"/>, the above iteration terminates after a finite number of steps and
 the fixpoint <fimath>K</fimath> equals the supremum <fimath>K^\uparrow</fimath>.
 Furthermore, if <fimath>E</fimath> is relatively marked w.r.t. <fimath>L</fimath>,
 then  the result <fimath>K</fimath> is relatively closed w.r.t. the plant <fdmath>L</fdmath>.

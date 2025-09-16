@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"very simple machine 1" 
+&lt;Generator name="very simple machine 1"&gt;
 
 % 
 %  Statistics for very simple machine 1

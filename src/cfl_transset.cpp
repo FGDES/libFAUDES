@@ -22,8 +22,39 @@
        
 #include "cfl_transset.h"
 
+namespace faudes {
 
 
 
 
+// apply a relabeling map to a TransSet 
+void ApplyRelabelMap(const RelabelMap& rMap, const TransSet& rSet, TransSet& rRes) {
+  TransSet& inselem = *rSet.New();
+  TransSet delelem;
+  NameSet::Iterator tit, tit_end;
+  TransSet::Iterator dit=rSet.Begin();
+  TransSet::Iterator dit_end=rSet.End();
+  for(;dit!=dit_end;++dit) {
+    if(!rMap.Exists(dit->Ev)) continue;
+    delelem.Insert(*dit);
+    const NameSet& target=rMap.Target(dit->Ev);
+    tit=target.Begin();
+    tit_end=target.End();
+    for(;tit!=tit_end;++tit) {
+      Transition trans=*dit;
+      AttributeVoid* attrp = rSet.Attribute(*dit).Copy();
+      trans.Ev= *tit;
+      inselem.Insert(trans);
+      inselem.Attribute(trans,*attrp);
+      delete attrp;      
+    }
+  }
+  rRes.Assign(rSet);
+  rRes.EraseSet(delelem);
+  rRes.InsertSet(inselem);
+  delete &inselem;
+}
 
+
+  
+} //namespace

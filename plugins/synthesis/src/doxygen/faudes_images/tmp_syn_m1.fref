@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_syn_m1.gen
 </h1>
@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"very simple machine_1" 
+&lt;Generator name="very simple machine_1" ftype="System"&gt;
 
 % 
 %  Statistics for very simple machine_1

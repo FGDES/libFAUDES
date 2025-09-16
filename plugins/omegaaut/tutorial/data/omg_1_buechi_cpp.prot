@@ -36,7 +36,31 @@ false
 % 
 % 
 
-%%% test mark: buechi closure [at omg_1_buechi.cpp:106]
+%%% test mark: language inc a [at omg_1_buechi.cpp:100]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: language inc b [at omg_1_buechi.cpp:101]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: language inc c [at omg_1_buechi.cpp:102]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: buechi closure [at omg_1_buechi.cpp:139]
 % 
 %  Statistics for BuechiClosure(g)
 % 

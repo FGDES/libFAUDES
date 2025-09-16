@@ -1,60 +1,48 @@
 #!/bin/sh
 
-# simple script to run tutorials, create images, and to 
-# install them in the libfaudes doxygen tree
+# run relevant turtorials and process images for reference and doxugen
 
 # configure
 LIBFAUDES=../../..
-
-DOTWRITE=$LIBFAUDES/bin/gen2dot
 LUAFAUDES=$LIBFAUDES/bin/luafaudes
-DOTEXEC=dot 
-CONVERT=convert
-DSTDIR=$LIBFAUDES/plugins/synthesis/src/doxygen/faudes_images
-GEN2REF=$LIBFAUDES/tools/gen2ref/gen2ref.pl
+GEN2DOT=$LIBFAUDES/bin/gen2dot
+DSTDIR=../src/doxygen/faudes_images
+
+# sanity check
+if [ ! -d $DSTDIR ]; then
+    echo "error: the current path appears not to be a libFAUDES tutorial"
+    return
+fi
+if [ ! -f $LIBFAUDES/src/registry/cfl_definitions.rti ]; then
+    echo "error: the current path appears not to be a libFAUDES tutorial"
+    return
+fi
 
 # advertise
 echo ======================================================
-echo ===  running tutorials ===============================
+echo ===  running tutorials to generate .gen files ========
 echo ======================================================
 
 rm tmp_*
 
-#$LUAFAUDES ./syn_1_simple.lua
-#$LUAFAUDES ./syn_3_reduction.lua
-#$LUAFAUDES ./syn_4_validate.lua
-#$LUAFAUDES ./syn_5_stdcons.lua
-#./syn_2_omega
+$LUAFAUDES ./syn_1_simple.lua
+$LUAFAUDES ./syn_3_reduction.lua
+$LUAFAUDES ./syn_4_validate.lua
+$LUAFAUDES ./syn_5_stdcons.lua
+
+# pass on to common image processing
+. $LIBFAUDES/tools/imgproc/imgproc.sh
 
 # advertise
 echo ======================================================
-echo ===  converting gen to png/svg/html ==================
-echo ======================================================
-
-
-# loop all .svg files
-for FILE in tmp_*.gen ; do
-  BASE=$(basename $FILE .gen)
-  echo ============= processing $BASE
-  $DOTWRITE $FILE
-  $DOTEXEC -Efontname=Arial -Nfontname=Arial -Tsvg -Gbgcolor=transparent -Gsize=10,10 $BASE.dot -o $BASE.svg
-  $CONVERT -background none $BASE.svg $BASE.png
-done;
-
-# loop all .gen files for ref page
-for FILE in tmp_*.gen ; do
-  BASE=$(basename $FILE .gen)
-  echo ============= processing $BASE
-  $GEN2REF $BASE.gen > $BASE.fref
-done;
-
-
-# advertise
-echo ======================================================
-echo ===  copy do doc =====================================
+echo ===  copy to doc =====================================
 echo ======================================================
 
 #rm $DSTDIR/tmp_*
-#cp -v tmp_syn*.png $DSTDIR
-#cp -v tmp_syn*.svg $DSTDIR
-#cp -v tmp_syn*.fref $DSTDIR
+cp -v tmp_*.png $DSTDIR
+cp -v tmp_*.svg $DSTDIR
+cp -v tmp_*.fref $DSTDIR
+
+
+
+

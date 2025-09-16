@@ -39,7 +39,7 @@ int main() {
 
   Generator g1;
 
-  // do some random "user interaction" stuff with the Generator g1
+  // mimique some typical setup procedure for g1
 
   g1.InsState("s1");  
   g1.InsState("s2");                  
@@ -47,10 +47,12 @@ int main() {
 
   g1.InsEvent("a");         
   g1.InsEvent("b");
+  g1.InsEvent("c");
 
   g1.SetTransition("s1", "a", "s2");  
   g1.SetTransition("s2", "a", "s3");  
   g1.SetTransition("s3", "b", "s1");
+  g1.SetTransition("s3", "c", "s3");
 
   g1.SetInitState("s1");              
   g1.SetMarkedState("s2");
@@ -110,8 +112,24 @@ int main() {
   version3.Write();
   std::cout << "################################\n";
 
+  // editing by general relabelimng scheme
+  RelabelMap rlmap;
+  rlmap.Insert("a","x"); // a becomes x
+  rlmap.Insert("b","y"); // b becomes ...
+  rlmap.Insert("b","z"); // ... y and z
+  rlmap.Insert("c");     // c gets deleted
+  Generator g2alt;
+  ApplyRelabelMap(rlmap,g2,g2alt);
+
+  std::cout << "################################\n";
+  std::cout << "# tutorial, relabeled generator \n";
+  g2alt.Write();
+  std::cout << "################################\n";
+  
+
   // record test case
   FAUDES_TEST_DUMP("generator", version1); 
+  FAUDES_TEST_DUMP("relabel", g2alt); 
 
 
   ///////////////////////////////////////////////
@@ -120,7 +138,7 @@ int main() {
 
   // read a Generator from file 
 
-  g2.Read("data/simplemachine.gen");
+  g3.Read("data/simplemachine.gen");
 
   // create a Generator by reading a Generator file
 
@@ -130,6 +148,8 @@ int main() {
   // write a Generator to file 
 
   g4.Write("tmp_simplemachine.gen");
+  g2.Write("tmp_toberelabeled.gen");
+  g2alt.Write("tmp_relabeled.gen");
 
   // write a Generator to file with re-indexed states
   

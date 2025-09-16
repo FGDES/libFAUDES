@@ -77,7 +77,7 @@ extern FAUDES_API void SupTcon(
  * This is the RTI wrapper for   
  * SupTcon(const Generator&, const EventSet&, const Generator&, Generator&).
  * Controllability attributes are taken from the plant argument and
- * tick is the only preemptable event.
+ * <tt>tick</tt> is the only preemptable event.
  * If the result is specified as a System, attributes will be copied
  * from the plant argument.
  *

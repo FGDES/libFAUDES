@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_syn_clloop1.gen
 </h1>
@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"PrefixClosure(very simple machine_1...|Project(PrefixClosure(supervisor))" 
+&lt;Generator name="PrefixClosure(very simple machine_1...|Project(PrefixClosure(supervisor))"&gt;
 
 % 
 %  Statistics for PrefixClosure(very simple machine_1...|Project(PrefixClosure(supervisor))

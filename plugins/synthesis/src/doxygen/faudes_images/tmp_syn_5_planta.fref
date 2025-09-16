@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"process and transport" 
+&lt;Generator name="process and transport" ftype="System"&gt;
 
 % 
 %  Statistics for process and transport

@@ -1,0 +1,111 @@
+%%% test mark: plant [at omg_6_pobsctrl.cpp:67]
+% 
+%  Statistics for Generator||Generator
+% 
+%  States:        6
+%  Init/Marked:   1/4
+%  Events:        6
+%  Transitions:   14
+%  StateSymbols:  6
+%  Attrib. E/S/T: 6/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: spec [at omg_6_pobsctrl.cpp:68]
+% 
+%  Statistics for cb spec
+% 
+%  States:        4
+%  Init/Marked:   1/0
+%  Events:        6
+%  Transitions:   22
+%  StateSymbols:  4
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: cand [at omg_6_pobsctrl.cpp:69]
+% 
+%  Statistics for Product of plant and Spec
+% 
+%  States:        41
+%  Init/Marked:   1/25
+%  Events:        6
+%  Transitions:   90
+%  StateSymbols:  41
+%  Attrib. E/S/T: 6/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: eps cand [at omg_6_pobsctrl.cpp:84]
+% 
+%  Statistics for Epsilon Observed Product
+% 
+%  States:        41
+%  Init/Marked:   1/25
+%  Events:        3
+%  Transitions:   90
+%  StateSymbols:  41
+%  Attrib. E/S/T: 3/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: det cand [at omg_6_pobsctrl.cpp:85]
+% 
+%  Statistics for Determinized Epsilon Observed Product
+% 
+%  States:        26
+%  Init/Marked:   1/0
+%  Events:        3
+%  Transitions:   44
+%  StateSymbols:  0
+%  Attrib. E/S/T: 3/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: controller [at omg_6_pobsctrl.cpp:108]
+% 
+%  Statistics for IndexSet
+% 
+%  Size: 9
+%  Shared Data: #0 clients
+%  Attributes: 9
+%  Attribute Type: EventSet
+% 
+% 
+% 
+
+%%% test mark: validate controlability [at omg_6_pobsctrl.cpp:174]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: validate determinism [at omg_6_pobsctrl.cpp:175]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: validate languageinclusion [at omg_6_pobsctrl.cpp:176]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

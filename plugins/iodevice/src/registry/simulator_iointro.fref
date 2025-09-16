@@ -215,7 +215,7 @@ the remaining components are gathered on the
 <a href="simulator_exdetails.html#plant">further-details-page</a>. 
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Cabin Model <fimath> G_{cabin}</fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_elevator_plant_cabin"/> </td> </tr>
 </table> 
@@ -256,7 +256,7 @@ whereas condition 3 is represented as
 <fimath>E_{opcmd}</fimath>:
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Basic cabin motion <fimath>E_{cabmot}</fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_elevator_spec_cabmot"/> </td> </tr>
 <tr> <td> Shuttle by operator command <fimath>E_{opcmd}</fimath> </td> </tr> 
@@ -273,7 +273,7 @@ scenario including the door is given on the <a href="simulator_exdetails.html#sc
 further-details-page</a>. 
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Supervisor <fimath>S_{core}</fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_elevator_super_core"/> </td>
 </tr>
@@ -292,7 +292,6 @@ and the computer (e.g. PC) that executes the simulator plays the role of the con
 
 <table class="plain">
 <tr>
-
 <td align="center">
 <img fsrc="FAUDES_IMAGES/iop_elevatorhil.png"></img>
 </td>

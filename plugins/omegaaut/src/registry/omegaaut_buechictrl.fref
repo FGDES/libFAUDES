@@ -7,7 +7,7 @@ Synthesis w.r.t. Buechi Acceptance
 </h1>
 
 <fsummary>
-Synthesis and verification procedures for the control of omega-languages relised by Buechi automata.
+Synthesis and verification procedures for the control of omega-languages realised by Buechi automata.
 </fsummary>
 
 <p>
@@ -16,7 +16,7 @@ Buechi automata.
 </p>
 
 <h2>
-Definition of Omega-Controllability
+Definition of Omega-Controllability (following <fcite name="W2"/>)
 </h2>
 
 <p>
@@ -50,7 +50,7 @@ set of all finite length prefixes.
 <b>Note 2:</b>
 The above definition of omega-controllability conforms to
 <fcite name="W2"/> and <fcite name="W3"/>. It must not be confused with the
-more general approach taken in <fcite name="W4"/>; see also <ffnct>SupBuechiCon</ffnct>.
+more general approach taken in <fcite name="W4b"/>; see also <ffnct>SupBuechiCon</ffnct>.
 </p>
 
 <p>
@@ -163,7 +163,7 @@ Not-necessarily relatively closed specifications
 <p>
 A more general approach, that drops the requirement of the specification 
 <fimath>E</fimath> to be relatively closed w.r.t. the plant <fimath>L</fimath>
-is presented in <fcite name="W4"/>. 
+is presented in <fcite name="W4b"/>. 
 In this situation, <fimath>K^\uparrow</fimath> will fail to be relatively closed,
 and a controller <fimath>H^\uparrow=\Closure{K^\uparrow}</fimath> will
 fail to enforce the specification.
@@ -193,7 +193,7 @@ Each variant exhibits an eventuality property and, hence, neither
 of the induced omega-languages are topologically closed.
 </p>
 
-<table class="plain"> 
+<table class="image"> 
 <tr> <td> A-B-machine, std. variant </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_machineab1"/> </td></tr>
 <tr> <td> A-B-machine, B exhausts the machine </td></tr>
@@ -210,18 +210,27 @@ that require the closed loop to
 <li><p>
 persistenly alternate successful operation of processes A and B, or to
 <br/>
+<br/>
 <fimage fsrc="tmp_omg_2_specab1"/>
+<br/>
+<br/>
 </p></li>
 <li><p>
 persistently run some operation successfully, or to
 <br/>
+<br/>
 <fimage fsrc="tmp_omg_2_specab2"/>
+<br/>
+<br/>
 </p></li>
 <li><p>
 start with process A, eventually switch to B, and, on success 
 turn back to A.
 <br/>
+<br/>
 <fimage fsrc="tmp_omg_2_specab3"/>
+<br/>
+<br/>
 </p></li>
 </ul>
 
@@ -310,7 +319,7 @@ relative closedness is not satisfied.
 The third row of the above table points out that there are 
 relevant applications that do not fulfil the requirement of a
 relatively closed specification. This has been addressed in
-<fcite name="W4"/>; see also below the documentation of
+<fcite name="W4b"/>; see also below the documentation of
 <ffnct>SupBuechiCon</ffnct>.
 </p>
 
@@ -321,15 +330,13 @@ computed using <ffnct>SupConCmpl</ffnct>
 from the Syntheis Plug-In. 
 </p>
 
-<table class="plain"> 
+<table class="image"> 
 <tr> <td> A-B-machine, std. variant, with alternate-A-and-B-success specification  </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab11"/> </td></tr>
 <tr> <td> A-B-machine, std. variant, with persistently-any-success specification  </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab21"/> </td></tr>
 <tr> <td> A-B-machine, B exhausts the machine, with alternate-A-and-B-success specification</td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab12"/> </td></tr>
-
-
 <tr> <td> A-B-machine, B breaks the machine, with persistenly-any-success specification</td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_supab23"/> </td></tr>
 </table> 
@@ -428,15 +435,15 @@ sublanguages of E.
 <p>
 Note.
 A more general approach to the control of omega-languages has been 
-developed in <fcite name="W4"/>. When applied to the specific case of determinitsic Buchi 
+developed in <fcite name="W4b"/>. When applied to the specific case of determinitsic Buchi 
 automata addressed here -- and despite some minor differences in the perspective 
 we take -- the above condition (c) is equivalent to the notion 
-of omega-controllability proposed in <fcite name="W4"/>. 
+of omega-controllability proposed in <fcite name="Wb"/>. 
 There, it has been shown that the supremal controllable sublanguage 
 can be represented in terms of the so called <i>controllability prefix</i>  
 and the marking of the specification.
 The current of implementation <ffnct>SupBuechiCon</ffnct> is derived 
-as an adaption of the methods proposed in  <fcite name="W4"/> (and companion papers) 
+as an adaption of the methods proposed in  <fcite name="W4a"/> 
 to the specific case at hand.
 </p>
 
@@ -445,7 +452,7 @@ to the specific case at hand.
 The following results have been obtained for the three variants of 
 A-B-machine and the eventually-switch-to-B specification.
 </p>
-<table class="plain"> 
+<table class="image"> 
 <tr> <td> A-B-machine, std. variant, with eventually-switch-to-B specification  </td></tr>
 <tr> <td> <fimage fsrc="tmp_omg_2_msupab31"/> </td></tr>
 <tr> <td> A-B-machine, B exhausts the machine, with eventually-switch-to-B specification</td></tr>

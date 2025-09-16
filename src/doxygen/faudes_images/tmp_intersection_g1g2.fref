@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-Intersection(g1,g2) 
+&lt;Generator name="Intersection(g1,g2)"&gt;
 
 % 
 %  Statistics for Intersection(g1,g2)

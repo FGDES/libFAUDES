@@ -68,7 +68,7 @@ Copyright (C) 2006 Bernd Opitz.
 <br/>
 Copyright (C) 2008, 2009 Thomas Moor, Klaus Schmidt, Sebastian Perk. 
 <br/>
-Copyright (C) 2010 - 2024 Thomas Moor, Klaus Schmidt.
+Copyright (C) 2010 - 2025 Thomas Moor, Klaus Schmidt.
 </p>
 
 <h2>
@@ -133,7 +133,9 @@ If in addition <fimath>s \neq r</fimath>, we say that
 
 <p>
 <strong>Formal languages</strong>. 
-A <i>formal language</i> over an alphabet <fimath>\Sigma</fimath> is a subset <fimath>L\subseteq\Sigma^*</fimath>.
+A <i>formal language</i> over an alphabet <fimath>\Sigma</fimath> is a subset
+<fimath>L\subseteq\Sigma^*</fimath>.
+Formal languages are also refrred to as <i>star-languages</i>.
 A formal language that can be represented by a finite automata 
 is said to be <i>regular</i>; see also <ftype>Generator</ftype>. 
 </p>
@@ -151,18 +153,19 @@ the first <fimath>i</fimath> symbols.
 </p>
 
 <p>
-<strong>Omega languages</strong>. 
+<strong>Omega-languages</strong>. 
 An <i>omega language</i> over an alphabet <fimath>\Sigma</fimath>
 is a subset <fimath>B\subseteq\Sigma^w</fimath>. The set of all
 prefixes is denotet <fimath>\Prefix{B}=\{s\in\Sigma^*|\ \exists w\in B:\ s\lt w\}</fimath>.
-A formal language <fimath>L\subseteq\Sigma^*</fimath> can be extended to 
+A star-language <fimath>L\subseteq\Sigma^*</fimath> can be extended to 
 an omega-language by the limit operator
 <br />
 <br />
-<fdmath>B(L)=\{w\in\Sigma^w|\ w \text{ has infinitely many prefixes in } L\ \}</fdmath>;
+<fdmath>B(L):=\text{lim } L
+:= \{w\in\Sigma^w|\ w \text{ has infinitely many prefixes in } L\ \}</fdmath>;
 <br />
 <br />
-see also <ftype>Generator</ftype>.
+see also the <a fhref="FAUDES_REFERENCE/omegaaut_index.html">Omage-Automata Plug-In</a>.
 </p>
 
 <h2>

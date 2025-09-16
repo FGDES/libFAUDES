@@ -67,7 +67,7 @@ the controllers under consideration can only exercise control
 by disabling events within <fimath>\Sigma_o</fimath>, and in this
 sense the approach is restrictive.
 A synthesis algorithm for controllers without this restriction 
-is presented in <fcite name="S8"/>.
+is presented in <fcite name="S5"/>.
 </p>
 
 <h2>
@@ -159,11 +159,11 @@ closed-loop behaviour would be achieved. However, in our example
 <fimath>\Closure{K}</fimath> is not normal w.r.t <fimath>(L(G),\Sigma_o)</fimath>:
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> <fimath>\Closure{K}</fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_syn_clsuper"/> </td></tr>
 </table> 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> <fimath>L(G) \,\cap\,  \ProInv{0}(H_o) </fimath> </td> </tr> 
 <tr> <td> <fimage fsrc="tmp_syn_clloop1"/> </td> </tr>
 </table> 
@@ -382,7 +382,7 @@ empty, and this will never happen, as long as <tt>alpha_2</tt> is disabled.
 Consequently, the process stops after the sequence <tt>alpha_1 beta_1</tt> and
 <ffnct>SupConNormClosed</ffnct> consistently returns the following
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> supremal controllable and normal sublanguage for prefix closed plant and specificaton. </td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_superpoc"/> </td> </tr>
 </table> 
@@ -428,7 +428,7 @@ The set of controllable events <fimath>\Sigma_c</fimath>
 and the set of observable events <fimath>\Sigma_o</fimath> 
 may be given explicitely or are extracted from the argument GPlant.
 The implemention performs the iteration proposed
-in <fcite name="S7"/>:
+in <fcite name="S4"/>:
 <br/>
 <br/>
 1.&nbsp;&nbsp; 
@@ -457,7 +457,7 @@ In step 2., controllability w.r.t. <fimath>L</fimath> can be equivalenty replace
 by controllability w.r.t. <fimath>\Closure{L}</fimath>. Thus, computation of the supremal sublanguage
 can be performed by <ffnct>SupConNormClosed</ffnct>.
 Under the hypothesis, that <fimath>E</fimath> is relatively marked,
-the results presented in <fcite name="S7"/> imply that 
+the results presented in <fcite name="S4"/> imply that 
 (i) the above iteration terminates, 
 and that (ii) the fixpoint <fimath>K</fimath> indeed equals the supremum <fimath>K^\uparrow</fimath>,
 and that (iii) the latter is relatively closed w.r.t. the plant <fdmath>L</fdmath>.
@@ -488,7 +488,7 @@ that satisfies all four closed-loop conditions (a)-(d).
 
 <p>
 Remark. The implementation follows the above pseudo code and in addition
-introduces a Trim operation on the iterate <fimath>K_i</fimath>, as proposed in <fcite name="S7"/>.
+introduces a Trim operation on the iterate <fimath>K_i</fimath>, as proposed in <fcite name="S4"/>.
 In particular, GPlant is technically required to be non-blocking in order 
 for <ffnct>SupConNormClosed</ffnct> to compute the above supremum. 
 If, on the other hand, <fimath>GPlant</fimath> is blocking, 
@@ -520,7 +520,7 @@ ending up with an empty buffer.
 <ffnct>SupConNorm</ffnct> then returns the
 below
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> supremal controllable and normal sublanguage for prefix closed specificaton.</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_superpo"/> </td> </tr>
 </table> 
@@ -530,11 +530,11 @@ event <tt>beta_1</tt>, is to extend the buffer
 to have a capacity of two work pieces
 and to not insist in the buffer to become eventually empty.
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td>  Buffer with capacity two</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_buffer2"/> </td> </tr>
 </table> 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td>  and the resulting supremal controllabel and normal sublanguage</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_superpo2"/> </td> </tr>
 </table> 

@@ -1,5 +1,5 @@
 ###############################################################################
-# Makefile for libFAUDES, tmoor 20240301
+# Makefile for libFAUDES, tmoor 20250629
 #
 # Requires GNU make
 #
@@ -39,6 +39,11 @@
 ###############################################################################
 
 
+# allow user local configuration (unless building a distribution package)
+ifeq ($(FAUDES_NOUSER),)
+-include Makefile.user
+endif
+
 
 ###############################################################################
 #
@@ -52,13 +57,8 @@
 #
 ###############################################################################
 
-# allow user local configuration (unless building a distribution package)
-ifeq (,$(findstring package,$(MAKECMDGOALS)))
--include Makefile.user
-endif
 
 # manualy enable plug-ins (uncomment corresponding lines)
-
 # note: only enable those plug-ins you need/know
 
 ifeq ($(FAUDES_PLUGINS),)
@@ -338,7 +338,7 @@ endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
 #
-CXX = g++ 
+CXX = g++ -std=c++11
 CC = gcc 
 LXX = g++
 AR = ar -sr
@@ -382,7 +382,7 @@ endif
 #
 # Targeting Linux systems
 # - we moved to CXX11 ABI and C++11 default as of Ubuntu 16.04 LTS
-# - we stopped specifying ABI/C++-dialect explicitly to let the system choose
+# - we stopped specifying ABI explicitly to let the system choose
 # - g++, tested with 4.x, 5.x, 7.x and 11.x series 
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
@@ -441,7 +441,7 @@ endif
 # note: dropping -fpic was needed for gcc 4.7.2 with Lua 
 # note: not hiding DSO-symbols here for simplicity
 # note: we dont support debug build for LSB
-# - as of libFAUDES 2.31 out of maintenance
+# - as of libFAUDES 2.31 LSB support is out of maintenance
 #
 ifeq ($(FAUDES_PLATFORM),lsb_linux)
 CXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
@@ -668,6 +668,7 @@ endif
 #
 # Targetting jave script i.e. browser
 # - use emscripten toolchain
+# - we updated in 2.33j to use wasm 
 #
 # [for user targets only, see also luabindings/Makefile.plugin]
 # [no debug build here, static linking only]
@@ -675,9 +676,11 @@ endif
 ifeq ($(FAUDES_PLATFORM),emcc_js)
 CXX = em++
 CC = emcc
-LXX = em++
+LXX = em++  
 AR = emar r
-MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0
+MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0 
+MAINOPTS += -DFAUDES_BUILDENV=emcc_js
+MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
 WARNINGS =
 DSOOPTS =
 DOT_O  = .o
@@ -687,11 +690,11 @@ ifeq ($(SHARED),yes)
 $(error platform emcc_js requires libFAUDES static linking)
 endif
 ifeq ($(DEBUG),yes)
-$(error platform emcc_js doe snot support libFAUDES debugging)
+$(error platform emcc_js does not support libFAUDES debugging)
 endif
-LIBFAUDES := libfaudes.jsa
-IMPFAUDES := libfaudes.jsa
-MINFAUDES := minfaudes.jsa
+LIBFAUDES = libfaudes.a
+IMPFAUDES = libfaudes.a
+MINFAUDES = minfaudes.a
 FNCT_POST_APP = echo $(1)
 endif
 
@@ -822,6 +825,7 @@ CONFIGURETARGETS =  depend rtitools rticode reftools docs includes
 # would like to have .WAIT
 DEFAULTTARGETS = report-platform libfaudes binaries 
 
+
 default: default_after_include
 	$(ECHO) " ============================== " 
 	$(ECHO) "libFAUDES-make: default targets: done" 
@@ -935,11 +939,6 @@ export FAUDES_OPTIONS
 all: default tutorial 
 
 includes: $(HEADERS:%=$(INCLUDEDIR)/%)
-ifeq (posix,$(FAUDES_MSHELL))
-	$(ECHO) "setting up include files: done."
-else
-	$(ECHO) "WARNING: refuse to copy include files in non-posix shell"
-endif
 
 prepare: $(PREPARETARGETS)
 
@@ -977,7 +976,7 @@ package:
 	$(ECHO) "#### libFAUDES package: dist-clean"
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
 	$(ECHO) "#### libFAUDES package: configure"
-	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  -j configure &> /dev/null
+	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION) -DFAUDES_NOUSER -j configure &> /dev/null
 	$(ECHO) "#### libFAUDES package: tar sources"  
 	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION)_source.tar.gz libFAUDES_$(FAUDES_FILEVERSION)
 	$(ECHO) "#### libFAUDES package: build"
@@ -1013,12 +1012,11 @@ dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(OBJDIR) 
 	rm -rf $(DOCDIR) 
 	rm -rf $(INCLUDEDIR)/*
-	rm -f Makefile.user
 	rm -f Makefile.depend
 	rm -f libfaudes.a libfaudes.so libfaudesd.a libfaudesd.so
-	rm -f libfaudes.dylib libfaudesd.dylib  libfaudes.jsa
+	rm -f libfaudes.dylib libfaudesd.dylib  
 	rm -f faudes.lib faudes.dll faudesd.lib faudesd.dll VERSION.bat
-	rm -f minfaudes.a minfaudesd.a minfaudes.jsa minfaudes.lib
+	rm -f minfaudes.a minfaudesd.a  minfaudes.lib
 	rm -f tutorial/tmp_* 
 	rm -f tutorial/faudes.dll 
 	rm -f tutorial/faudesd.dll 
@@ -1346,7 +1344,8 @@ doc-luafaudes: $(REFSRCDIR)/luafaudes
 	cp $(LBP_REPLDIR)/LICENSE $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*.css $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*.lua $(LUADOCDIR)
-	cp $(LBP_REPLDIR)/*.js $(LUADOCDIR)
+	cp $(LBP_REPLDIR)/*min.js $(LUADOCDIR)
+	cp $(LBP_REPLDIR)/luafaudes_2_28a.js $(LUADOCDIR)/luafaudes.js
 
 # if we dont have luabindings
 else
@@ -1662,11 +1661,11 @@ report-stats:
 	$(ECHO) " ============================== "
 
 report-test:
-	$(ECHO) $(OBJECTSMIN)
-	$(ECHO) $(HEADERS)
-	$(ECHO) $(FAUDES_PLUGINS)
-	$(ECHO) $(EXECUTABLES)
-	$(ECHO) $(CP)
+	$(ECHO) "platform  $(FAUDES_PLATFORM)"
+	$(ECHO) "plug-ins  $(FAUDES_PLUGINS)"
+	$(ECHO) "options   $(FAUDES_OPTIONS)"
+	$(ECHO) "debug     $(FAUDES_DEBUG)"
+	$(ECHO) "targets   $(DEFAULTTARGETS)"
 
 
 ### all phony targets

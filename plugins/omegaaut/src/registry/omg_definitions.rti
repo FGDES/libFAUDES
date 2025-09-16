@@ -5,6 +5,58 @@
 
 <!-- =================================================== -->
 <!-- =================================================== -->
+<!-- Faudes Type RabinAutomaton -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="OmegaAut::RabinAutomaton" ctype="faudes::RabinAutomaton" autoregister="true"> 
+
+<Documentation ref="omegaaut_index.html#RabinAutomaton"> 
+Automaton model RA=(Sigma,Q,delta,Qo,{(R_p,I_p)}).
+</Documentation> 
+<Keywords> 
+OmegaAut    generator   "rabin automaton"   "rabin acceptance condition"   
+</Keywords> 
+
+</TypeDefinition>
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type RabinAcceptance -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="OmegaAut::RabinAcceptance" ctype="faudes::RabinAcceptance"> 
+
+<Documentation ref="omegaaut_index.html#RabinAutomaton"> 
+A Rabin acceptance condition  {(R_p,I_p)}.
+</Documentation> 
+<Keywords> 
+OmegaAut    generator   "rabin automaton"   "rabin acceptance condition"   
+</Keywords> 
+
+</TypeDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Type RabinAcceptance -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<TypeDefinition name="OmegaAut::RabinPair" ctype="faudes::RabinPair"> 
+
+<Documentation ref="omegaaut_index.html#RabinAutomaton"> 
+A single Rabin pair (R,I).
+</Documentation> 
+<Keywords> 
+OmegaAut    generator   "rabin automaton"   "rabin acceptance condition"   
+</Keywords> 
+
+</TypeDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
 <!-- Faudes Function IsBuechiClosed -->
 <!-- =================================================== -->
 <!-- =================================================== -->
@@ -71,7 +123,7 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 </Keywords> 
 
 <VariantSignatures> 
-<Signature name="Default"> 
+<Signature name="IsBuechiTrim(G)"> 
 <Parameter name="G" ftype="Generator" access="In"/> 
 <Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
 </Signature> 
@@ -174,15 +226,65 @@ OmegaAut    Functions     reachability  generator     trim          reachable
 
 <VariantSignatures> 
 
-<Signature name="G:=BuechiTrim(G)"> 
+<Signature name="BuechiTrim(G)"> 
 <Parameter name="G" ftype="Generator" access="InOut"/> 
 </Signature> 
 
-<Signature name="GRes=BuechiTrim(GArg)"> 
+<Signature name="BuechiTrim(GArg,GRes)"> 
 <Parameter name="GArg" ftype="Generator" access="In"/> 
 <Parameter name="GRes" ftype="Generator" access="Out"/> 
 </Signature> 
 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiLanguageInclusion -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiLanguageInclusion" ctype="faudes::BuechiLanguageInclusion"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiLanguageInclusion"> 
+Test for inclusion of Buechi accepted languages
+</Documentation> 
+<Keywords> 
+OmegaAut     "language inclusion" "Buechi acceptance"   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="BuechiLanguageInclusion(Gen1,Gen2)"> 
+<Parameter name="Gen1" ftype="Generator" access="In"/> 
+<Parameter name="Gen2" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function BuechiLanguageEquality -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::BuechiLanguageEquality" ctype="faudes::BuechiLanguageEquality"> 
+
+<Documentation ref="omegaaut_buechifnct.html#BuechiLanguageEquality"> 
+Test for equality of Buechi accepted languages
+</Documentation> 
+<Keywords> 
+OmegaAut     "language equality" "Buechi acceptance"   
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="BuechiLanguageInclusion(Gen1,Gen2)"> 
+<Parameter name="Gen1" ftype="Generator" access="In"/> 
+<Parameter name="Gen2" ftype="Generator" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
 </VariantSignatures> 
 
 </FunctionDefinition> 
@@ -231,7 +333,7 @@ OmegaAut     controllability  generator     controllable  supervisor    "omega l
 <FunctionDefinition name="OmegaAut::SupBuechiCon" ctype="faudes::SupBuechiCon"> 
 
 <Documentation ref="omegaaut_buechictrl.html#SupBuechiCon"> 
-OmegaAut for omega-languages.
+Supremal Controllable Sublanguage for Buechi Plants and Buechi Specifications.
 </Documentation> 
 <Keywords> 
 OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
@@ -266,7 +368,7 @@ OmegaAut     "supremal sublanguage" controllability  controllable  "controller s
 <FunctionDefinition name="OmegaAut::BuechiCon" ctype="faudes::BuechiCon"> 
 
 <Documentation ref="omegaaut_buechictrl.html#BuechiCon"> 
-OmegaAut for omega-languages.
+Controller Synthesis for Buechi Plants and Buechi Specifications.
 </Documentation> 
 <Keywords> 
 OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
@@ -301,7 +403,7 @@ OmegaAut     "supremal sublanguage" controllability  controllable  "controller s
 <FunctionDefinition name="OmegaAut::SupBuechiConNorm" ctype="faudes::SupBuechiConNorm"> 
 
 <Documentation ref="omegaaut_buechictrl.html#SupBuechiCon"> 
-OmegaAut for omega-languages (experimental!).
+Controllable and Normal Sublanguage for Buechi Plants and Buechi Specifications (experimental!).
 </Documentation> 
 <Keywords> 
 OmegaAut     "supremal sublanguage" controllability  controllable  normality "controller synthesis"  "omega languages"  
@@ -337,7 +439,7 @@ OmegaAut     "supremal sublanguage" controllability  controllable  normality "co
 <FunctionDefinition name="OmegaAut::BuechiConNorm" ctype="faudes::BuechiConNorm"> 
 
 <Documentation ref="omegaaut_buechictrl.html#BuechiConNorm"> 
-OmegaAut for omega-languages (experimental!).
+Synthesis under partial observation for Buechi Plants and Buechi Specifications (experimental!).
 </Documentation> 
 <Keywords> 
 OmegaAut   "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
@@ -359,6 +461,428 @@ OmegaAut   "supremal sublanguage" controllability  controllable  "controller syn
 <Parameter name="GSupervisor" ftype="Generator" access="Out"/> 
 </Signature> 
 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinLifeStates -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinLifeStates" ctype="faudes::RabinLifeStates"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#RabinLifeStates">
+Life States w.r.t. Rabin acceptence condition.    
+</Documentation> 
+<Keywords> 
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="RabinLifeStates(Gen,RPair,LifeStates)"> 
+<Parameter name="Gen" ftype="Generator" access="In"/> 
+<Parameter name="RPair" ftype="RabinPair" access="In"/> 
+<Parameter name="LifeStates" ftype="StateSet" access="Out"/> 
+</Signature> 
+
+<Signature name="RabinLifeStates(RAut,LifeStates)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="LifeStates" ftype="StateSet" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function IsRabinTrim -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::IsRabinTrim" ctype="faudes::IsRabinTrim"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#IsRabinTrim">
+Test for a Rabin automaton to be trim.
+</Documentation> 
+<Keywords> 
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="IsRabinTrim(RAut)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Boolean" access="Out" creturn="true"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinTrim -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinTrim" ctype="faudes::RabinTrim"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#RabinTrim"> 
+Delete states that do not contribute to the accepted language.
+</Documentation> 
+<Keywords> 
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="RabinTrim(RAut)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="InOut"/> 
+</Signature> 
+
+<Signature name="RabinTrim(RAut,RAutRes)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="RAutRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinSimplify -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinSimplify" ctype="faudes::RabinSimplify"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#RabinSimplify"> 
+Simplify individual Rabin pairs and remove doublets.
+</Documentation> 
+<Keywords> 
+OmegaAut   "rabin automata" "trim" "life" "rabin acceptence condition"
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="RabinSimplify(RAut)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="InOut"/> 
+</Signature> 
+
+<Signature name="RabinSimplify(RAut,RAutRes)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="RAutRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinBuechiAutomaton -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinBuechiAutomaton" ctype="faudes::RabinBuechiAutomaton"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#RabinBuechiAutomaton"> 
+Assemble an automaton to accept a given Rabin/Buechi accepted lanuage. 
+</Documentation> 
+<Keywords> 
+OmegaAut    "product"    "parallel composition"    "Rabin automata"  "Buechi automata" "product composition"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinBuechiAutomata(RAut,BAut,GRes)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BAut" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinBuechiPeoduct -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinBuechiProduct" ctype="faudes::RabinBuechiProduct"> 
+
+<Documentation ref="omegaaut_rabinfnct.html#RabinBuechiProduct"> 
+Assemble an automaton to accept the intsection of given Rabuin/Buechi accepted lanuage. 
+</Documentation> 
+<Keywords> 
+OmegaAut    "product"    "parallel composition"    "Rabin automata"  "Buechi automata" "product composition"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinBuechiProduct(RAut,BAut,GRes)"> 
+<Parameter name="RAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BAut" ftype="Generator" access="In"/> 
+<Parameter name="GRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+ 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinCtrlPfx -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinCtrlPfx" ctype="faudes::RabinCtrlPfx"> 
+
+<Documentation ref="omegaaut_rabinctrl.html#RabinCtrlPfx"> 
+Controllability prefix for Rabin-Buechi automata.
+</Documentation> 
+<Keywords> 
+OmegaAut    "Rabin automata" "synthesis" "controllability prefix"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinCtrlPfx(RBAut,ACtrl,CtrlPfxStates)"> 
+<Parameter name="RBAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="CtrlPfx" ftype="StateSet" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrlPfx(RBAut,Sigma_c,CtrlPfxGen)"> 
+<Parameter name="RBAut" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="CtrlPfx" ftype="Generator" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function SupRabinCon -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::SupRabinCon" ctype="faudes::SupRabinCon"> 
+
+<Documentation ref="omegaaut_rabinctrl.html#SupRabinCon"> 
+Supremal Controllable Sublanguage for Buechi Plants and Rabin Specifications.
+</Documentation> 
+<Keywords> 
+OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="SupRabinCon(BPlant,RSpec,RSup)"> 
+<Parameter name="BPlant" ftype="System" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="RSup" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+<Signature name="SupRabinCon(BPlant,ACtrl,RSpec,RSup)"> 
+<Parameter name="BPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="RSup" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinCtrl -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinCtrl" ctype="faudes::RabinCtrl"> 
+
+<Documentation ref="omegaaut_rabinctrl.html#RabinCtrl"> 
+Controllabler Synthesis for Buechi Plants and Rabin Specifications.
+</Documentation> 
+<Keywords> 
+OmegaAut     "supremal sublanguage" controllability  controllable  "controller synthesis"  "omega languages"  
+</Keywords> 
+
+<VariantSignatures> 
+
+<Signature name="RabinCtrl(BPlant,RSpec,BRes)"> 
+<Parameter name="BPlant" ftype="System" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrl(BPlant,Actrl,RSpec,BRes)"> 
+<Parameter name="BPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="RSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrl(BPlant,BLSpec,RSUpec,BRes)"> 
+<Parameter name="BPlant" ftype="System" access="In"/> 
+<Parameter name="BLSpec" ftype="Generator" access="In"/> 
+<Parameter name="RUSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+<Signature name="RabinCtrl(BPlant,Actrl,BLSpec,RSUpec,BRes)"> 
+<Parameter name="BPlant" ftype="Generator" access="In"/> 
+<Parameter name="ACtrl" ftype="EventSet" access="In"/> 
+<Parameter name="BLSpec" ftype="Generator" access="In"/> 
+<Parameter name="RUSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="BRes" ftype="Generator" access="Out"/> 
+</Signature> 
+
+
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+  
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function EpsObservation -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::EpsObservation" ctype="faudes::EpsObservation"> 
+
+<Documentation ref="omegaaut_rabinctrlpartialobs.html#EpsObservation"> 
+Epsilon observation for Rabin automata by replacing unobservable events with epsilon events.
+</Documentation> 
+<Keywords> 
+OmegaAut    "partial observation"    "epsilon observation"    "control patterns"    "Rabin automata"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="EpsObservation(G,GRes)"> 
+<Parameter name="G" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="GRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinCtrlPartialObs                 -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinCtrlPartialObs" ctype="faudes::RabinCtrlPartialObs"> 
+
+<Documentation ref="omegaaut_rabinctrlpartialobs.html#RabinCtrlPartialObs"> 
+Rabin control synthesis under partial observation with control patterns.
+</Documentation> 
+<Keywords> 
+OmegaAut    "control synthesis"    "partial observation"    "Rabin automata"    controllability    "omega languages"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinCtrlPartialObs(GPlant,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="GSupervisor" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+
+<Signature name="RabinCtrlPartialObs(GPlant,AContr,AObs,GSpec,GSupervisor)"> 
+<Parameter name="GPlant" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+<Parameter name="GSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="GSupervisor" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinCtrlPartialObsConsistencyCheck -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinCtrlPartialObsConsistencyCheck" ctype="faudes::RabinCtrlPartialObsConsistencyCheck"> 
+
+<Documentation ref="omegaaut_rabinctrlpartialobs.html#RabinCtrlPartialObsConsistencyCheck"> 
+Check consistency of control problem setup for partial observation synthesis.
+</Documentation> 
+<Keywords> 
+OmegaAut    "consistency check"    "partial observation"    "control synthesis"    validation        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinCtrlPartialObsConsistencyCheck(GPlant,GSpec,AContr,AObs)"> 
+<Parameter name="GPlant" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="GSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="AContr" ftype="EventSet" access="In"/> 
+<Parameter name="AObs" ftype="EventSet" access="In"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function PseudoDet -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::PseudoDet" ctype="faudes::PseudoDet"> 
+
+<Documentation ref="omegaaut_pseudodet.html#PseudoDet"> 
+Pseudo-determinization algorithm for Rabin automata.
+</Documentation> 
+<Keywords> 
+OmegaAut    "pseudo-determinization"    "Rabin automata"    determinization    "omega languages"    "labeled trees"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="PseudoDet(G,GRes)"> 
+<Parameter name="G" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="GRes" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
+</VariantSignatures> 
+
+</FunctionDefinition> 
+
+
+<!-- =================================================== -->
+<!-- =================================================== -->
+<!-- Faudes Function RabinCtrlPartialObs (System version) -->
+<!-- =================================================== -->
+<!-- =================================================== -->
+
+<FunctionDefinition name="OmegaAut::RabinCtrlPartialObsSys" ctype="faudes::RabinCtrlPartialObs"> 
+
+<Documentation ref="omegaaut_rabinctrlpartialobs.html#RabinCtrlPartialObs"> 
+Rabin control synthesis under partial observation using System interface.
+</Documentation> 
+<Keywords> 
+OmegaAut    "control synthesis"    "partial observation"    "Rabin automata"    System    controllability    "omega languages"        
+</Keywords> 
+
+<VariantSignatures> 
+<Signature name="RabinCtrlPartialObs(SysPlant,GSpec,GSupervisor)"> 
+<Parameter name="SysPlant" ftype="System" access="In"/> 
+<Parameter name="GSpec" ftype="RabinAutomaton" access="In"/> 
+<Parameter name="GSupervisor" ftype="RabinAutomaton" access="Out"/> 
+</Signature> 
 </VariantSignatures> 
 
 </FunctionDefinition> 

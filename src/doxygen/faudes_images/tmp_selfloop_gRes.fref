@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-SelfLoop(g,NameSet) 
+&lt;Generator name="SelfLoop(g,NameSet)"&gt;
 
 % 
 %  Statistics for SelfLoop(g,NameSet)

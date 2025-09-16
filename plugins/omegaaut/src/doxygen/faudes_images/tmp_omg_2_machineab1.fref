@@ -18,16 +18,16 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator name="A-B-Machine"&gt;
+&lt;Generator name="A-B-Machine" ftype="System"&gt;
 
 % 
 %  Statistics for A-B-Machine
 % 
-%  States:        5
+%  States:        3
 %  Init/Marked:   1/1
 %  Events:        4
-%  Transitions:   10
-%  StateSymbols:  5
+%  Transitions:   6
+%  StateSymbols:  3
 %  Attrib. E/S/T: 2/0/0
 % 
 
@@ -36,20 +36,16 @@ a             +C+           b             +C+           c             d
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
-I             A             B             FA            FB           
+I             R             F            
 &lt;/States&gt;
 
 &lt;TransRel&gt;
-I             a             A            
-I             b             B            
-A             c             I            
-A             d             FA           
-B             c             I            
-B             d             FB           
-FA            a             A            
-FA            b             B            
-FB            a             A            
-FB            b             B            
+I             a             R            
+I             b             R            
+R             c             I            
+R             d             F            
+F             a             R            
+F             b             R            
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;

@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"Project(g) [minstate]" 
+&lt;Generator name="Project(g) [minstate]"&gt;
 
 % 
 %  Statistics for Project(g) [minstate]
@@ -41,21 +40,21 @@ g             a             e             c
 &lt;/States&gt;
 
 &lt;TransRel&gt;
-1              g             1             
-2              g             1             
-2              e             3             
-2              c             4             
-3              a             2             
-3              e             1             
-4              e             3             
+1              g             2             
+1              e             4             
+1              c             3             
+2              g             2             
+3              e             4             
+4              a             1             
+4              e             2             
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;
-3             
+4             
 &lt;/InitStates&gt;
 
 &lt;MarkedStates&gt;
-2              4             
+1              3             
 &lt;/MarkedStates&gt;
 
 

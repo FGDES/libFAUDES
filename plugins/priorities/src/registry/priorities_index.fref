@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
-<ReferencePage chapter="Reference" section="Priorities" page="Index" title="Priorities PlugIn"> 
+<ReferencePage chapter="Reference" section="Priorities" page="Index" title="Priorities"> 
 
 <h1>
-Priorities PlugIn 
+Prioritised Events
 </h1>
 
 <fsummary>
-Plug-in to provide Yiheng Tang's implementation for the verfication of non-blockingness
-of modular diccrete-event systems with prioritised events.
+Verfication of non-blockingness of modular diccrete-event systems with prioritised events.
 </fsummary>
 
 
@@ -27,31 +26,31 @@ This establishes the
 overall alphabet <fimath>\Sigma_{all}</fimath>; i.e., the set of all events relevant to either generator under
 consideration.
 Each event <fimath>\sigma\in\Sigma_{all}</fimath>
-is asigned a non-negative integer to indicate its execution pririty; i.e., we have a map
+is asigned a non-negative integer to indicate its execution priority; i.e., we have a map
 <fimath>\texttt{prio}\colon\Sigma_{all}\rightarrow\mathbb{N}</fimath>. 
 as a global entity.
-Thia map is implemented by the faudes type <ftype>EventPriorities</ftype>.
-It provides access to the individual priorituies and some auxiliar functions, e.g., finding minimum
+This map is implemented by the faudes type <ftype>EventPriorities</ftype>.
+It provides access to the individual priorities and some auxiliar functions, e.g., finding minimum
 and maximum priorities.
 </p>
 <p>
 Coming back to the composed system, at any instance of physical time, there is a set of enabled events.
 Among the enabled events, those of higher priority preempt those of lower priority; i.e., only those of
 highest priority win the race.
-A typical application scenario are discrete-event dynamics  implemented by a numer of functions in PLC code;
+A typical application scenario are discrete-event dynamics  implemented by a number of functions in PLC code;
 actuators can be triggered immediately, while the PLC needs to wait for sensors to report events.
 </p>
 <p>
 For the trivial case of a system composed of only one component <fimath>G_1</fimath>, i.e., <fimath>n=1</fimath>,
-the effect of prioritised events is implemented by the so called <i>shaping</i> operator..
-It iterates over all states and removes any outgoing transitions that are labled with some event,
+the effect of prioritised events is implemented by the so called <i>shaping</i> operator.
+It iterates over all states and removes any outgoing transitions that are labeled with some event,
 that is preempted by another event that is of higher priority.
 The shaping operator is implemented by the faudes function <ffnct>ShapePriorities</ffnct>
 </p>
 <p>
 As it happens, the shaping operator does not commute with synchronous composition. In order to evaluate blockingness
 for a non-trivial composed system, one would naively first compute the ordinary parallel composition, then apply the shaping operator, and finally test for the existence of blocking states. Computaional efficiency can be substantially improved
-by the compositional approach reported in  <fcite name="PEV1"/>. Here, the composition of individual components alternates with so called <i>conflict preservin abstractions</i>.
+by the compositional approach reported in  <fcite name="PEV1"/>. Here, the composition of individual components alternates with so called <i>conflict preserving abstractions</i>.
 An implementation of this method is provided by <ffnct>IsPNonblocking</ffnct>.
 </p>
 <p>

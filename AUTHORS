@@ -12,6 +12,11 @@ splash in DESTool.
 =======================================================================
 =======================================================================
 
+Changming Yang 2025
+
+  Implementaion of controller synthesis for non-terminating processes
+  under partial observation.
+
 Yiheng Tang / Thomas Moor, 2025
 
   Integartion of Yiheng's compostional verification w.r.t. prioritised 

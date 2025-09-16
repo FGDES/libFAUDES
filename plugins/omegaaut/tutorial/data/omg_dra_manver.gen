@@ -1,4 +1,4 @@
-<Generator name="eventually always alternating a and b" ftype="RabinAutomaton">
+<Generator name="eventually allways alternating a and b" ftype="RabinAutomaton">
 
 <Alphabet>
 <Event name="ev0"/>

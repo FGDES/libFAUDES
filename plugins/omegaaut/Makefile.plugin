@@ -22,14 +22,20 @@ OMG_CPPFILES = \
   omg_rabinacc.cpp \
   omg_rabinaut.cpp \
   omg_rabinfnct.cpp \
-  omg_rabinctrl.cpp
+  omg_rabinctrl.cpp \
+  omg_rabinctrlrk.cpp \
+  omg_pseudodet.cpp \
+  omg_rabinctrlpartialobs.cpp
 
 OMG_INCLUDE = omg_include.h
 OMG_RTIDEFS = omg_definitions.rti
 OMG_RTIFREF = \
   omegaaut_index.fref \
   omegaaut_buechifnct.fref \
-  omegaaut_buechictrl.fref 
+  omegaaut_rabinfnct.fref \
+  omegaaut_buechictrl.fref \
+  omegaaut_rabinctrl.fref \
+  omegaaut_pobsctrl.fref 
 
 #
 # fix directories

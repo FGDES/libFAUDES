@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="OmegaAut" page="3_Rabin-Control" title="Synthesis w.r.t. Rabin Acceptance">
+
+<h1>
+Synthesis w.r.t. Rabin Acceptance
+</h1>
+
+<fsummary>
+Synthesis procedure for specifications given as Rabin Automata.
+</fsummary>
+
+<p>
+Controller synthesis for non-terminating processes realised by
+Buechi automata to enforce specifications given as Rabin Automata.
+</p>
+
+<h2>
+<a id="Definitoon">  
+Definition of Omega-Controllability (following <fcite name="W4b"/>)
+</a>
+</h2>
+
+<p>
+The notion of controllability for non-terminating processes used in <fcite name="W2"/>
+nicely covers the case where the specification is relatively closed w.r.t. the plant, but falls
+short otherwise. This is followed up by <fcite name="W4b"/> and we give a concise summary,
+rephrased in our language based notation.
+</p>
+
+<p>
+Consider two omega languages <fimath>L</fimath> and <fimath>K</fimath>
+over a common alphabet <fimath>\Sigma</fimath>,
+and a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+A finite word <fimath>s\in\Sigma</fimath>  is in the <i>controllability prefix</i> of <fimath>K</fimath>
+if there exists an omega language  <fimath>V\subseteq K</fimath> with <fimath>s\in\Prefix{V}</fimath>
+such that
+<br/>
+<br/>
+(i) &nbsp;&nbsp; <fimath>\Prefix{V}</fimath> is *-controllable w.r.t. <fimath>\Prefix{L\ \cap\ s\Sigma^w }</fimath>, and
+<br/>
+<br/>
+(ii) &nbsp;&nbsp; <fimath>V</fimath> is relatively topologically closed w.r.t. <fimath>L</fimath>.
+<br/>
+<br/>
+The controllability prefix of <fimath>K</fimath> is denoted <fimath>\CtrlPfx{K}</fimath>.
+If the controllability prefix equals the ordinary prefix, then <fimath>K</fimath>
+is said to be <i>omega-controllable</i> w.r.t. <fimath>(L,\Sigma_{uc})</fimath>.
+</p>
+
+<p>
+To appreciate the above defnition, observe that the two conditions (i) and (ii) imposed on  <fimath>V</fimath>
+render <fimath>V</fimath> a closed-loop behaviour that can be enforced by a closed controller; see also
+<a href="omegaaut_buechictrl.html">supervisory control w.r.t. Buechi acceptance</a>. Thus, if for whatever reasons the
+plant has generated a finite word from the controllability prefix, we could then activate a supervisor
+that controls the plant to evolve within <fimath>V\subseteq K</fimath>. Omega-controllabilty requires that
+<fimath>\Prefix{K}</fimath> can at any instance of time be controlled to satisfy <fimath>K</fimath>.
+</p>
+
+<p>
+<b>Note 1.</b>
+Omega-controllability in the sense of the above defintion is retained under arbitrary union. Thus,
+<br/>
+<br/>
+<fimath>K^\uparrow := \sup \{ \ K \subseteq E\ |\ K \text{ is omega-controllable w.r.t } (L,\Sigma_{uc})\ \}</fimath> 
+<br/>
+<br/>
+is itself omega-controllable.
+This is not the case for the alternative notion of controllability presented in the context of
+<a href="omegaaut_buechictrl.html">supervisory control w.r.t. Buechi acceptance</a>.
+However, the supremal controllable sublanguages w.r.t. either variant of omega controllabily match.
+</p>
+
+<p>
+<b>Note 2.</b>
+The control problem to be addressed is still literaly the same as discussed in the context of
+<a href="omegaaut_buechictrl.html">supervisory control w.r.t. Buechi acceptance</a>.
+I.e., given a plant <fimath>L</fimath> and a specification <fimath>E</fimath>
+over a common alphabet <fimath>\Sigma = \Sigma_{c}\ \dcup\ \Sigma_{uc} </fimath>,
+find a closed controller <fimath>H\subseteq \Sigma^\omega</fimath>, 
+such that
+<br/>
+<br/>
+(a) <fimath>\Prefix{L \,\cap\, H } = \Prefix{L}\; \cap \; \Prefix{H}</fimath>;
+<br/>
+<br/>
+(b) <fimath>\Prefix{H}</fimath> is *-controllable w.r.t. <fimath>\Prefix{L}</fimath>
+<br/>
+<br/>
+(c) <fimath>L\, \cap \, H \subseteq E</fimath>.
+<br/>
+<br/>
+If and only if <fimath>K^\uparrow \neq\emptyset</fimath>, there exists a controller
+with <fimath>\emptyset \neq L \, \cap \, H \subseteq E</fimath>. Then, such a controller
+can be extracted from <fimath>K^\uparrow</fimath>. Hence our interest in the computation
+of <fimath>K^\uparrow</fimath>; see also <ffnct>SupRabinCon</ffnct>.
+</p>
+
+
+
+<h2>
+<a id="Example">Synthesis Procedure by Example</a>
+</h2>
+
+<p>
+We illustrate the overall synthesis procedure by reusing a variant of the example presented 
+in the context of Buechi acceptance conditions. Again consider a machine that runs
+two alternative processes A or B. The processes are initiated by the controllable events
+<tt>a</tt> and <tt>b</tt>, respectively.
+Once started, a process may terminate with success <tt>c</tt> or failure <tt>d</tt>.
+As a liveness property of the plant, we assume that either process is guaranteed
+to eventually succeed. This is encoded aa a Buechi acceptance condition.
+</p>
+
+<table class="images"> 
+<tr> <td> plant L </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_plant1"/> </td></tr>
+</table> 
+
+<p>
+For the specification, we use the third vriant, i.e.,
+start with any process A or B, eventually switch to B, and, only on success 
+turn back to A or B. Here, we have encoded the Buechi appeptance condition as
+a single Rabin pair and have extended the transition structure to a full automaton.
+</p>
+
+<table class="images"> 
+<tr> <td> specification E </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_spec3_rabin.gen"/> </td></tr>
+</table>
+
+<p>
+Taking the <ffnct>RabinBuechiProduct</ffnct>, we obtain a <ftype>RabinAutomaton</ftype>
+that (a) appects the restricted specification <fimath>E' := E\ \cap\ L</fimath> by its Rabin acceptance condition
+and that (b) has a marking to accept the <fimath>L</fimath> by its Buechi appectance condition.
+</p>
+
+<table class="images"> 
+<tr> <td> candidate K </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_cand13"/> </td></tr>
+</table>
+
+<p>
+This matches the setting in which <fcite name="W4a"/> proposes an algorithm for the computation
+of the controllability prefix. We apply <ffnct>RabinCtrlPfx</ffnct> to obtain the result as shown below.
+</p>
+
+<table class="images"> 
+<tr> <td> <fimath>\CtrlPfx{K}</fimath> (red marking)  </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_ctrlpfx13.gen"/> </td></tr>
+</table>
+
+<p>
+Allthough <fimath>\CtrlPfx{K} \neq \Prefix{K}</fimath>, we observe the empty string to be in
+<fimath>\CtrlPfx{K}</fimath>. We also note that the only transition that exits <fimath>\CtrlPfx{K}</fimath> is
+controllable. This is in general the case. If we restricting the transition structure to generate
+the supremal closed sublanguages of <fimath>\CtrlPfx{K}</fimath>, the Rabin acceptance condition
+accepts the supremal omega-controllable sublanguage <fimath>K^\uparrow</fimath>.
+Applying <ffnct>SupClosed</ffnct>, we obtain the following result:
+</p>
+
+<table class="images"> 
+<tr> <td> <fimath>K^\uparrow</fimath>   </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_supcon13.gen"/> </td></tr>
+</table>
+
+<p>
+There is also the convenience wrapper <ffnct>SupRabinCon</ffnct> that runs the
+entire syntheisis procedure as discussed so far.
+</p>
+
+<p>
+Recall that in general <fimath>K^\uparrow</fimath>
+can not be achieved as a closed-loop behaviour under a topologically closed controller (i.e., the commonly
+studied feed-back maps). So, yes, <fimath>K^\uparrow</fimath> is the supremal omega-controllable
+sublanguage of E, but, no, it is not the supremal achievable closed-loop behaviour --- the latter in general
+does not exist. There are two ways to go about this.
+</p>
+
+<p>
+The procedure used for computing the controllability prefix can optionally identify control patterns
+to be applied to enforce the specification E, or, for that matter, <fimath>K^\uparrow \subseteq E</fimath>.
+Provided that <fimath>K^\uparrow\neq\emptyset</fimath>, the respective control patterns can be recorded and used to set
+up a controller to achieve a non-empty closed-loop behaviour that satisfies the upper bound
+<fimath>K^\uparrow </fimath>. We refer to this control strategy as the <i>greedy controller</i> since it will direct the
+plant to persistently take the shortest path to once again attain a recurrent Rabin set (R-set of a Rabin pair).
+The closed-loop behaviour <fimath>K</fimath> under greedy control can be computed by <ffnct>RabinCtrl</ffnct>.
+Formaly, a corresponding <fimath>H</fimath> can be obtained by <fimath>H:=\Closure{K}</fimath>.
+For the example at hand, we obtain the following closed-loop behaviour under greedy control.
+</p>  
+
+<table class="images"> 
+<tr> <td> <fimath>K</fimath> [postprocessed with StateMin] </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_ctrl13.gen"/> </td></tr>
+</table>
+
+<p>
+The greedy controller opts for running exclusively the B-process and thereby enforces the specified
+upper bound <fimath>E</fimath>. Obviously this is rather resrictive: by the specification we <i>may</i>
+to once in a while run the A-process as long as we eventually turn to the B-process.
+To this end, <fcite name="W4b"/>
+proposes an additional lower-bound specification <fimath>A</fimath> and ask for a closed-loop behaviour
+<fimath>K</fimath> with <fimath>A\subseteq K \subseteq E</fimath>. For our example we consider the
+closed langauge generated by the automaton
+</p>
+
+<table class="images"> 
+<tr> <td> <fimath>A'</fimath>   </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_lspec3.gen"/> </td></tr>
+</table>
+
+<p>
+and propose <fimath>A:=A'\ \cap\ L</fimath> as the formal lower bound specification. Note that
+<fimath>A</fimath> is by construction reletively closed w.r.t. <fimath>L</fimath>.
+Provided that <fimath>A\subseteq K^\uparrow</fimath> <fcite name="W4b"/> grants the existence
+of a closed controller that respects both, the lower bound <fimath>A</fimath> and the upper
+bound <fimath>E</fimath>. Under this condition <ffnct>RabinCtrl</ffnct> computes a realisation
+of an achievable closed-loop behaviour. For our example, we obtain the following.
+</p>
+
+<table class="images" > 
+<tr> <td> <fimath>K</fimath> [postprocessed with StateMin] </td></tr>
+<tr> <td> <fimage fsrc="tmp_omg_4_lctrl13.gen"/> </td></tr>
+</table>
+
+As with the greedy controller, a corresponding <fimath>H</fimath> can be obtained
+by <fimath>H:=\Closure{K}</fimath>.
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinCtrlPfx">
+<fdetails/>
+
+<p>
+Given a Rabin-Buechi automation <i>RBAut</i>, this function
+computes the controllability prefix by the algorithm proposed in <fcite name="W4a"/>.
+A formal definition of the controllability orefix is given <a href="#Definition">[above]</a>.
+</p>
+
+
+<p>
+The argument must be set up to accept the plant behaviour L via its Buechi acceptance condition
+and to accept the specification E via its Rabin acceptance condition.  
+</p>
+
+<p>
+Depending on the signature, the result is
+either passed as a set of states that mark the controllability prefix when set to the argument transition structure,
+or, as a plain trim generator.
+</p>
+
+<p>
+A full example is given <a href="#Example">[above]</a>.
+</p>
+
+<fconditions/>
+
+<p>
+The argument must be be deterministic. The specification E must be a subset of (or equal to) the plant behaviour L.
+The current implementation is restricted to one Rabin pair,
+generalisation should be straight forward.
+</p>
+
+</ffnct_reference>
+
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+<!-- ================================================================ -->
+
+<ffnct_reference name="SupRabinCon">
+<fdetails/>
+<p>
+  Given a plant behaviour L realised by a Buechi automaton <i>BPlant</i>
+  and a specification E realised by a Rabin automaton <i>RSpec</i>,
+  this function computes a realisation <i>RSup</i> of the
+  supremal omega-controllable sublanguage of E. Depending on the signature,
+  controllable events may be passed explcitly or will be taken from the
+  plant automaton. The result is reported as a trim Rabin automaton.
+</p>
+
+<p>
+A full example incl. discussion is given <a href="#Example">[above]</a>.
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of plant and specification to match.
+Both automata arguments must be be deterministic.
+Effectively, the specification E is intersected with the plant behaviour L.
+The result will be deterministic and trimmed.
+</p>
+
+</ffnct_reference>
+
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="RabinCtrl">
+<fdetails/>
+
+<p>
+Consider a plant behaviour L realised by a Buechi automaton <i>BPlant</i>
+and a specification E realised by a Rabin automaton <i>RUSpec</i>,
+such that the associated control problem has a non-trivial solution; i.e.,
+the supremal omega-controllabel sublanguage <fimath>K^\uparrow</fimath>
+of <fimath>E</fimath> is non-empty. Then <ffcnt>RabinCtrl</ffcnt> computes a
+non-empty closed-loop behaviour K, where the result is given as
+the Buechi automaton <i>BRes</i>. The closure of K is an applicable
+controller that solves the control problem.
+</p>
+
+<p>
+If no additional lower-bound specification is provided, the controller is
+greedy in the sense that it persistently directs the plant to once again
+attain a recurrent state of the specification usinf the least number of
+transitions.
+</p>
+
+<p>
+If an additional closed lower-bound specification A' generated by <i>BLSpec</i>
+is provided, 
+and if  <fimath>A:= A'\ \cap\ L \subseteq K^\uparrow</fimath>,
+the resulting closed-loop behaviour <fimath>K</fimath> will satisfy
+<fimath>A\subseteq K \subseteq E</fimath>.
+</p>
+
+<p>
+If either <fimath>K^\uparrow=\emptyset</fimath> or <fimath>A</fimath> is not a subset of
+<fimath>K^\uparrow</fimath> then no viable controller exists. In this case, the function
+returns the empty generator.
+</p>
+
+<p>
+A full example is given <a href="#Example">[above]</a>.
+</p>
+
+<fconditions/>
+
+<p>
+This implementation requires the alphabets of plant and specification to match.
+Automata arguments must be be deterministic.
+Effectively, the specification E is intersected with the plant behaviour L.
+The result will be deterministic and trimmed.
+</p>
+
+
+</ffnct_reference>
+
+
+
+</ReferencePage>
+
+  

@@ -336,7 +336,7 @@ bool LanguageDisjoint(const Generator& rGen1, const Generator& rGen2) {
 }
 
 // Automaton(rGen)
-void Automaton(Generator& rGen, const EventSet& rAlphabet) {
+Idx Automaton(Generator& rGen, const EventSet& rAlphabet) {
   FD_DF("Automaton("<< rGen.Name() << "," << rAlphabet.Name() << ")");
     
   TransSet::Iterator tit;
@@ -356,8 +356,8 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
   // extend rGen.Alphabet() by rAlphabet
   rGen.InjectAlphabet(rGen.Alphabet()+rAlphabet);
     
-  // trim (this used to be coaccessible only until 2024)
-  rGen.Trim();
+  // we used to trim ... but this will fail for omega automata 
+  // rGen.Trim();
     
   // introduce a dump state (unmarked)
   Idx dump;
@@ -379,7 +379,9 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
     
   // introduce transitions to dumpstate (reference implementation)
   /*
-  for (sit = rGen.StatesBegin(); sit != rGen.StatesEnd(); ++sit) {        
+  StateSet acc;
+  rGen.AccessibleSet(acc);
+  for (sit = acc.Begin(); sit != acc.End(); ++sit) {        
     for (eit = rGen.Alphabet().Begin(); eit != rGen.Alphabet().End(); ++eit) {
       // If no transition is defined for this state and event, insert respective
       // transition to dump state (note that dump state itself is also treated here
@@ -396,9 +398,10 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
 
   // we can do faster ... but is this worth it?
   Idx cs=0, ce=0;
+  StateSet acc = rGen.AccessibleSet();
+  sit=acc.Begin();
   tit=rGen.TransRelBegin();
-  sit=rGen.StatesBegin();
-  for(;sit!=rGen.StatesEnd();++sit) {
+  for(;sit!=acc.End();++sit) {
     FD_DF("Automaton: processing state " << *sit);
     cs=*sit;
     // iterrate transrel to find current state cs
@@ -407,7 +410,7 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
     bool found= false;
     if(tit!=rGen.TransRelEnd())
       if(tit->X1 == cs) found=true;
-    // current state not found, so all transitions to go to dump
+    // current state not found, so all transitions go to dump
     if(!found) {
       FD_DF("Automaton: state not found, all transitions go to dump");
       for(eit=rGen.AlphabetBegin();eit!=rGen.AlphabetEnd();++eit) 
@@ -461,23 +464,28 @@ void Automaton(Generator& rGen, const EventSet& rAlphabet) {
   }
   
   // if no transition was introduced (except for selfloops), remove dump state
-  if(!dumpReached) 
+  if(!dumpReached) {
     rGen.DelState(dump);
+    dump=0;
+  }
+  
+  return dump;
 }
 
 // API warpper Automaton(rGen,rRes)
-void Automaton(const Generator& rGen, Generator& rRes) {
+Idx Automaton(const Generator& rGen, Generator& rRes) {
   FD_DF("Automaton("<< rGen.Name() << ", ...)");
   rRes=rGen;
-  Automaton(rRes);
+  return Automaton(rRes);
 }
   
 // Automaton(rGen)
-void Automaton(Generator& rGen) {
+Idx Automaton(Generator& rGen) {
   FD_DF("Automaton("<< rGen.Name() << ")");
   std::string name=rGen.Name();
-  Automaton(rGen,rGen.Alphabet());    
+  Idx ds=Automaton(rGen,rGen.Alphabet());    
   rGen.Name(CollapsString("Automaton(" + name + ")"));
+  return ds;
 }
 
 // LanguageComplement(rGen,rAlphabet)
@@ -489,7 +497,8 @@ void LanguageComplement(Generator& rGen, const EventSet& rAlphabet) {
   
   // convert to automaton (avoiding statename "dump")
   bool stateNamesEnabled=rGen.StateNamesEnabled(); 
-  rGen.StateNamesEnabled(false); 
+  rGen.StateNamesEnabled(false);
+  rGen.Trim();
   Automaton(rGen,rAlphabet);
   rGen.StateNamesEnabled(stateNamesEnabled); 
     

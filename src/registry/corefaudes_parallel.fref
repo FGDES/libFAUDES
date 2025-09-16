@@ -105,7 +105,7 @@ do not share any events, the parallel compositions turns out as the so called <i
 </p>
 <table class="plain"> 
 <tr> <td> 
-<table>
+<table class="images">
 <tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_parallel_m1"/> </td>
@@ -113,7 +113,7 @@ do not share any events, the parallel compositions turns out as the so called <i
 </tr>
 </table> 
 </td> </tr> 
-<tr> <td> <table width="100%">
+<tr> <td> <table class="images">
 <tr> <td> Composition G=G1 || G2 </td> </tr>
 <tr> <td> <fimage fsrc="tmp_parallel_m1m2"/> </td> </tr>
 </table> 
@@ -132,7 +132,7 @@ However, <i>G2</i> requires the marked language not to end with a <tt>b</tt>-eve
 </p>
 <table class="plain"> 
 <tr> <td> 
-<table>
+<table class="images">
 <tr> <td> Component G1 </td> <td> Component G2 </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_parallel_g1"/> </td>
@@ -140,7 +140,7 @@ However, <i>G2</i> requires the marked language not to end with a <tt>b</tt>-eve
 </tr>
 </table> 
 </td> </tr> 
-<tr> <td> <table width="100%">
+<tr> <td> <table class="images">
 <tr> <td> Composition G=G1 || G2 </td> </tr>
 <tr> <td> <fimage fsrc="tmp_parallel_g1g2"/> </td> </tr>
 </table> 

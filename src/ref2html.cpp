@@ -517,6 +517,7 @@ void MathHtml(std::ostream* pStream, const std::string& rMathString) {
   buff=TexMacroSubstitute1(buff,"\\Pro","P#1");
   buff=TexMacroSubstitute1(buff,"\\Closure","Closure(#1)");
   buff=TexMacroSubstitute1(buff,"\\Prefix","Prefix(#1)");
+  buff=TexMacroSubstitute1(buff,"\\CtrlPfx","CtrlPfx(#1)");
   buff=TexMacroSubstitute1(buff,"\\Shape","Shape(#1)");
   // tex math spacing and plain text
   buff=TexMacroSubstitute1(buff,"\\texttt","\\text{<tt>#1</tt>}");
@@ -1618,7 +1619,7 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
 	rTr.ReadEnd("fdmath");
 	continue;
     }
-    // do my special tags: dmath
+    // do my special tags: imath
     if(token.IsBegin("fimath")) {
         rTr.ReadBegin("fimath", token);
         std::string mtext;
@@ -1709,7 +1710,7 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
 	rTr.ReadEnd("falllit");
 	continue;
     }
-    // do my special tags: fliteratur (definition of)
+    // do my special tags: fliterature (definition of)
     if(token.IsBegin("fliterature")) {
         rTr.ReadBegin("fliterature", token);
 	std::string label=token.AttributeStringValue("name");
@@ -1724,7 +1725,7 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
 	rTr.ReadEnd("fcontributors");
 	continue;
     }
-    // do my special tags: flink
+    // do my special tags: fcite
     if(token.IsBegin("fcite")) {
         rTr.ReadBegin("fcite", token);
         std::string label=token.AttributeStringValue("name");

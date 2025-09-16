@@ -4,10 +4,16 @@
 GEN2HOA=./gen2hoa
 HOA2GEN=./hoa2gen
 GEN2DOT=./waut2dot
-LTL2DSTAR=~/opt/ltl2dstar 
+LTL2DSTAR=~/opt/bin/ltl2dstar 
 DOT=dot
 
-# read Buechi automata and convert to HOA format
+# say hello
+echo "==== safra deyterminsation demo using ltl2dstar"
+
+# copy Buechi automaton for documentation
+cp data/omg_nba.gen tmp_omg_nba.gen 
+
+# read Buechi automaton and convert to HOA format
 echo "== gen->hoa"
 ${GEN2HOA} -s tmp_omg_nba.sym data/omg_nba.gen tmp_omg_nba.hoa 
 
@@ -21,17 +27,17 @@ ${HOA2GEN} -s tmp_omg_nba.sym tmp_omg_dra.hoa tmp_omg_dra.gen
 
 # docs
 echo "== dot processing"
-${LTL2DSTAR} --input=nba --output-format=dot --detailed-states=yes tmp_omg_nba.hoa tmp_omg_dra.dot
-${DOT} -Tpng tmp_omg_dra.dot > tmp_omg_dra.png
-${GEN2DOT} tmp_omg_dra.gen tmp_omg_dra_gen.dot
-${DOT} -Tpng tmp_omg_dra_gen.dot > tmp_omg_dra_gen.png
+${LTL2DSTAR} --input=nba --output-format=dot --detailed-states=yes tmp_omg_nba.hoa tmp_omg_dra_ltl2dstar.dot
+${DOT} -Tpng tmp_omg_dra_ltl2dstar.dot > tmp_omg_dra_ltl2dstar.png
+${GEN2DOT} tmp_omg_dra.gen tmp_omg_dra_faudes.dot
+${DOT} -Tpng tmp_omg_dra_faudes.dot > tmp_omg_dra_faudes.png
 
 
 # reference, i.e., without gen->HAO->gen
 echo "== reference"
-${LTL2DSTAR} --input=nba --output-format=hoa data/omg_nba.hoa tmp_omg_dra_ref.hoa
-${LTL2DSTAR} --input=nba --output-format=dot --detailed-states=yes data/omg_nba.hoa tmp_omg_dra_ref.dot
-${DOT} -Tpng tmp_omg_dra_ref.dot > tmp_omg_dra_ref.png
+${LTL2DSTAR} --input=nba --output-format=hoa data/omg_nba.hoa tmp_omg_dra_reference.hoa
+${LTL2DSTAR} --input=nba --output-format=dot --detailed-states=yes data/omg_nba.hoa tmp_omg_dra_reference.dot
+${DOT} -Tpng tmp_omg_dra_reference.dot > tmp_omg_dra_reference.png
 
 
 

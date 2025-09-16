@@ -49,11 +49,13 @@ public:
   void Name(const std::string& rName);
   Idx Size(void) const;
   void Size(Idx len);
+  bool IsDefault(void) const;
   bool Empty(void) const;
   //void TakeOwnership(void); // not needed, copies anyway
   //void TakeCopies(void);    // not needed, copies anyway
   // element access
-  typedef std::vector<int>::size_type Position;
+  //typedef std::vector<int>::size_type Position;
+  typedef unsigned int Position;
   virtual const T& At(const Position& pos) const; 
   virtual T& At(const Position& pos); 
   // operator [], friendly read/write access via integer iterator
@@ -67,18 +69,21 @@ public:
   }; 
   // vector edit (only take references, ie maintain internal copy)
   virtual void Replace(const Position& pos, const T& rElem);
-  //virtual void Replace(const Position& pos, T* pElem);
+  //virtual void Replace(const Position& pos, T* pElem); // dont allow non-owned entries
   virtual void Replace(const Position& pos, const std::string& rFileName);
   virtual void Erase(const Position& pos); 
   virtual void Insert(const Position& pos, const T& rElem);
-  //virtual void Insert(const Position& pos, T* rElem);
+  //virtual void Insert(const Position& pos, T* rElem); // dont allow non-owned entries
   virtual void Insert(const Position& pos, const std::string& rFileName);
+  virtual void Insert(const T& rElem); // aka append
   virtual void PushBack(const T& rElem);
   //virtual void PushBack(T* rElem);
   virtual void PushBack(const std::string& rFileName);
   virtual void Append(const T& rElem);
   //virtual void Append(T* rElem);
   virtual void Append(const std::string& rFileName);
+  virtual Position  Find(const Type& rElem);
+  virtual void EraseDoublets(void);
   void FilenameAt(const Position& pos, const std::string& rFileName);
   const std::string& FilenameAt(const Position& pos) const;
 };

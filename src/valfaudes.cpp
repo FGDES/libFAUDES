@@ -77,7 +77,7 @@ std::string exesfx(void) { return "";}
 #endif  
 
 
-// helper: run faudes executable (o<>success)
+// helper: run faudes executable (0<>success)
 int runfexec(const std::string& command, const std::string& arguments="") {
   std::string cmd=command;
 #ifdef FAUDES_POSIX
@@ -320,11 +320,14 @@ int main(int argc, char *argv[]) {
       std::cout << "valfaudes: silently skipping test case" << std::endl;
       testok=0;            
     } else {
-      testok=runfexec(mLuaFaudes,mLuaFile);
+      std::string arg=mLuaFile;
+      if(mOptV)
+	arg= "-d " + arg;
+      testok=runfexec(mLuaFaudes,arg);
     }
   }
 
-    // python tutorials
+  // python tutorials
   if(!mPyFile.empty()) {
     testok=runsexec("python",mPyFile);
   }
@@ -343,7 +346,7 @@ int main(int argc, char *argv[]) {
   // go back to original dir
   int pwdok=faudes_chdir(pwd);
   if(pwdok!=0) {
-    usage("could change to back working dir");
+    usage("could change back working dir");
   }
 
   // fail if no tests raun

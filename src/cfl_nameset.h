@@ -424,7 +424,19 @@ public:
    * @return
    *   String
    */
-  std::string Str(const Idx& rIndex) const;
+  virtual std::string Str(const Idx& rIndex) const;
+
+  /**
+   * Return pretty printable string for entire set
+   * Primary meant for debugging messages.
+   *
+   * @param rIndex
+   *   Index to print
+   *
+   * @return
+   *   String
+   */
+  virtual std::string Str(void) const;
 
 
  protected:
@@ -578,7 +590,7 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
  public:
 
 
-  /* YS in 2024 for MSys2 -- see comment in cfl_types implementation macros*/
+  /* YS in 2024 for MSys2 -- See comment in cfl_types implementation macros*/
   using NameSet::operator=;
   using NameSet::operator==;
   using NameSet::operator!=;
@@ -640,7 +652,7 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
    * @return
    *    Ref to this set
    */
-  /*virtual*/ TaNameSet& operator=(const NameSet& rSrc) { return Assign(rSrc); };
+  TaNameSet& operator=(const NameSet& rSrc) { return Assign(rSrc); };
 
   /** 
    * Iterators on nameset. 
@@ -846,7 +858,20 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
    * @return
    *   String
    */
-  std::string Str(const Idx& rIndex) const;
+  virtual std::string Str(const Idx& rIndex) const;
+
+  /**
+   * Return pretty printable string for entire set
+   * Primary meant for debugging messages.
+   *
+   * @param rIndex
+   *   Index to print
+   *
+   * @return
+   *   String
+   */
+  virtual std::string Str(void) const;
+
 
   /** resolve ambiguities from attribute interface ("using" wont do the job)*/
   const Attr* AttributeType(void) const { return TAttrMap<Idx,Attr>::AttributeType(); };
@@ -901,12 +926,211 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
 /** Convenience Macro */
 #define TaEventSet TaNameSet  
 
+
+
+/** 
+ * Relabeling map.
+ *
+ * Set-valued map to relabeling re-labeling schemes.
+ * Technically, this clase is a TaNameSet<TaNameSet>, i.e., a set with a set attribute.
+ * The interface provides some extra convenience accessors, e.g. reading from and writing
+ * to plain STL map<set<Idx>>
+ *
+ */   
+class FAUDES_API RelabelMap : public TaNameSet<NameSet> {
+  FAUDES_TYPE_DECLARATION(RelabelMap,RelabelMap,TaNameSet<NameSet>)
+
+public:
+
+  // methods we refine/extend  
+  using TaNameSet<NameSet>::Insert;
+  using TaNameSet<NameSet>::Str;
+    
+  /**
+   * Constructor for RelabelMap referring to the static SymbolTable. 
+   */
+  RelabelMap(void);
+         
+  /**
+   * Copy-constructor from other RelabelMap.
+   * This also copies the SymbolTable reference, hence the new RelabelMap
+   * will use the same SymbolTable as rOtherMap.
+   *
+   * @param rOtherMap
+   *   Map to copy
+   */
+  RelabelMap(const RelabelMap& rOtherMap);
+
+
+  /**
+   * Constructor from file.
+   * This constructor reads a RelabelMap from a file using the DoRead(TokenReader&, const std::string&)
+   * function. The section is specified by rLabel and the static SymbolTable is used.
+   *
+   * @param rFilename
+   *   Name of file
+   * @param rLabel
+   *   Section for the set in the file; 
+   */
+  RelabelMap(const std::string& rFilename, const std::string& rLabel = "");
+
+  /**
+   * Virtual destructor
+   */
+  virtual ~RelabelMap(void);
+
+  /**
+   * Get Target set (read only))
+   *
+   * @param rSrc
+   *   Original by index
+   * @return 
+   *   Reference to targe set
+   *
+   */
+  const NameSet& Target(const Idx& rSrc) const;
+
+  /**
+   * Get Target set (writable)
+   *
+   * @param rSrc
+   *   Original by index
+   * @return 
+   *   Reference to targe set
+   *
+   */
+  NameSet& Target(const Idx& rSrc);
+
+  /**
+   * Get Target set (read only)
+   *
+   * @param rSrc
+   *   Original by name
+   * @return 
+   *   Reference to targe set
+   *
+   */
+  const NameSet& Target(const std::string& rSrc) const;
+
+  /**
+   * Get Target set (writable)
+   *
+   * @param rSrc
+   *   Original by name
+   * @return 
+   *   Reference to targe set
+   *
+   */
+  NameSet& Target(const std::string& rSrc);
+
+  /**
+   * Set Target set 
+   *
+   * @param rSrc
+   *   Original by name
+   * @param Target
+   *   Target to set 
+   * @return 
+   *   Reference to targe set
+   *
+   */
+  void Target(const std::string& rSrc, const NameSet& rTarget);
+
+  /**
+   * Set Target set 
+   *
+   * @param rSrc
+   *   Original by index
+   * @param Target
+   *   Target to set 
+   * @return 
+   *   Reference to targe set
+   *
+   */
+  void Target(const Idx& rSrc, const NameSet& rTarget);
+
+  /**
+   * Extend map by one target element 
+   *
+   * @param rSrc
+   *   Original index
+   * @param rDst
+   *   Target index to add
+   * @return 
+   *   True, if the original index was new to set
+   * @exception Exception
+   *   - no symbolic name for index (id 65)
+   *
+   */
+  virtual bool Insert(const Idx& rSrc, const Idx& rDst);
+
+  /**
+   * Extend map by one target element 
+   *
+   * @param rSrc
+   *   Original by name
+   * @param rDst
+   *   Target to add by name
+   * @return 
+   *   True, if the original index was new to set
+   *
+   */
+  virtual bool Insert(const std::string& rSrc, const std::string& rDst);
+  
+  /**
+   * Create a copy as plain STL map
+   *
+   * @param
+   *   STL map to read from
+   */
+  void FromStlMap(const std::map<Idx, std::set<Idx> >& rMap);
+
+  /**
+   * Copy data to a plain STL map
+   *
+   * @param rMap
+   *   STL map to read from
+   *   
+   */
+  void ToStlMap(std::map<Idx, std::set<Idx> >& rMap) const;
+
+  /**
+   * Pretty String
+   *
+   * @return
+   *  a pretty string
+   *   
+   */
+  virtual std::string Str(void) const;
+  
+};
+
+
+/**
+ * Apply relable map to nameset
+ *
+ * This implementation tries to keep the atributes from the
+ * domain elements.
+ *
+ * @param rMap
+ *  map to apply
+ * @param rSet
+ *  set to apply the map to
+ * @param rRes
+ *  relabled set
+ * @exceptions
+ *  - symboltable must match
+ */
+extern FAUDES_API void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rSet, NameSet& rRes);
+  
+
 /** @} doxygen group */
+
 
 /*
 *************************************************************************************
 *************************************************************************************
- Implementation
+ Implementation TaNmeSet
 *************************************************************************************
 *************************************************************************************
 */
@@ -1207,6 +1431,12 @@ void TaNameSet<Attr>::Attributes(const TBaseSet<Idx>& rOtherSet) {
 template<class Attr>
 std::string TaNameSet<Attr>::Str(const Idx& rIndex) const {
   return NameSet::Str(rIndex);
+}
+
+// Str() 
+template<class Attr>
+std::string TaNameSet<Attr>::Str(void) const {
+  return NameSet::Str();
 }
 
 

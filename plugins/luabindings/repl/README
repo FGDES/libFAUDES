@@ -1,0 +1,128 @@
+======================================================================
+luafaudes_repl.html and friends
+
+Thomas Moor, 2014-07-13
+======================================================================
+
+As an exercise, we compiled libfaudes/libluafaudes to JavaScript using 
+the clanf/llvm based emscripten-tool-chain. At the end using another 
+tool-chain once in a while improves compatibility.
+
+Just for the fun of it we can now run luafaudes in a browser-window,
+using JavaScript for console i/o and code-editing. The current implementation 
+is a naive simplification of the design used for the jsREPL project with
+Amjad Masad and Max Shawabkeh as the principle authors. 
+
+Adjustemnts/adaptions of the provided code-base turned out trivial and do 
+not affect the original MIT licensing of the third-party components. Finally,
+"luafaudes.js" is compiled from libFAUDES sources and, hence, distributed
+under terms of the LGPL.
+
+===================================================================
+comments on the toolchain 2025-08-03
+
+As of libFAUDES 2.33j, we use out-of-the-box emscripten 3.1.5 provided by
+Ubuntu 22.04LTS. For configuration and build see the bash script
+'plugins/luabindings/repl/emsbuild.sh'. Testing requires an actual HTTP
+server, use e.g. 'python -m http.server 8888'
+
+
+===================================================================
+comments on the toolchain (2014, for reference only)
+
+*** 
+to support IE10 we need to hack/fix emscripten/src/embind/embind.js, line 650
+
+//var dummy = createNamedFunction(constructor.name, function(){});
+
+// IE10 fix / tmoor from kekoa vincent
+var name = constructor.name;
+if (name == undefined) {
+ name = "Function"; // Fallback for IE
+}
+var dummy = createNamedFunction(name, function(){});
+
+***
+currently only works with 2.x series of SWIG
+
+
+======================================================================
+Protocol of development stages and build instructions, using
+emscripten 1.21.0 with clang 3.0 on OS X, downloaded 2014/07 
+
+
+1) prepare libfaudes sources and compile with emcc/em++
+
+set path to have emcc and friends, e.g.
+
+export PATH=/home/mtmoor/ems/emscripten:$PATH
+
+edit Makefile to select plugins (minimum luabindings ;-)
+
+make dist-clean
+make configure FAUDES_PLATFORM=gcc_generic
+make clean
+make FAUDES_PLATFORM=emcc_js
+
+2a) test with plain lua and no libfaudes
+
+cd lua_src_dir
+
+emcc -s EXPORTED_FUNCTIONS='["_luaL_newstate", "_luaL_openlibs", "_lua_pcall", "_lua_settop", "_lua_gettop", "_luaL_loadbuffer", "_lua_type", "_lua_tolstring", "_lua_toboolean", "_lua_tonumber", "_lua_objlen", "_lua_typename", "_lua_topointer"]' -O0 -o luafaudes.js lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o loslib.o ltablib.o lstrlib.o loadlib.o linit.o
+
+firefox test_lua.html (may need to adapt)
+
+2b) compile luafaudes.js
+
+cd libfaudes_basedir
+
+em++ -O2 -s OUTLINING_LIMIT=50000 -s EXPORTED_FUNCTIONS='["_luaL_newstate", "_luaL_openlibs", "_lua_pcall", "_lua_settop", "_lua_gettop", "_luaL_loadbuffer", "_lua_type", "_lua_tolstring", "_lua_toboolean", "_lua_tonumber", "_lua_objlen", "_lua_typename", "_lua_topointer", "_luafaudes_initialize", "_luaopen_faudes", "_luaopen_synthesis", "_luaopen_observer", "_luaopen_iosystem", "_luaopen_faudes_allplugins"]' -o luafaudes.js libluafaudes.a libfaudes.a
+
+note: _luaopen_faudes_allplugins will not be functional due to C++ symbol mangeling
+note: need to adapt entry_point.js to initialize available pluguns (could do this automatically)
+note: test with -O0 to inspect symbols
+note: need -O2 for delayed loading 
+note: -O3 takes ages
+note: consitent optimisation is preferred, check Makefile
+
+3a) merge with repl.it access module
+
+- remove last line run() from luafaudes.js
+- append enty_point.js from repl.it
+
+cat plugins/luabindings/lib/repl/entry_point.js >> luafaudes.js
+cp luafaudes.js plugins/luabindings/lib/repl/
+
+3b) use emcc pre/post derictives and stdin/stdout hooks
+
+em++ -O2 -s OUTLINING_LIMIT=50000 --pre-js plugins/luabindings/lib/repl/luafaudes.js_prepend --post-js plugins/luabindings/lib/repl/luafaudes.js_append -s EXPORTED_FUNCTIONS='["_luaL_newstate", "_luaL_openlibs", "_lua_pcall", "_lua_settop", "_lua_gettop", "_luaL_loadbuffer", "_lua_type", "_lua_tolstring", "_lua_toboolean", "_lua_tonumber", "_lua_objlen", "_lua_typename", "_lua_topointer", "_luafaudes_initialize", "_luaopen_faudes", "_luaopen_synthesis", "_luaopen_observer", "_luaopen_iosystem", "_luaopen_faudes_allplugins"]' -o luafaudes.js libluafaudes.a libfaudes.a
+
+3c) use embind rather than -s EXPORT 
+
+em++ -I include -O2 --bind -s OUTLINING_LIMIT=50000 --pre-js plugins/luabindings/lib/repl/luafaudes.js_prepend --post-js plugins/luabindings/lib/repl/luafaudes.js_append -o luafaudes.js plugins/luabindings/lib/repl/luafaudes_embind.cpp libluafaudes.a libfaudes.a
+
+3d) add exception code (this was the first public release 2014/07)
+
+note: test with -O0, -O2 takes about an hour
+note: -O2 and requires  NODE_JS = ['node', '--stack_size=8192'] in ~/.emcripten configuration
+
+em++ -I include -O2 --bind -s OUTLINING_LIMIT=50000 -s DISABLE_EXCEPTION_CATCHING=0 -s INVOKE_RUN=0 --pre-js plugins/luabindings/lib/repl/luafaudes.js_prepend --post-js plugins/luabindings/lib/repl/luafaudes.js_append -o luafaudes.js plugins/luabindings/lib/repl/luafaudes_embind.cpp libluafaudes.a libfaudes.a
+
+
+4) final build instructions on destool 2014/08 
+
+4a) set path to have emcc and friends:
+
+export PATH=/home/mtmoor/ems/emscripten:$PATH
+
+4b) copy configure sources in the emsbuild direcrtory
+
+cd emsbuild
+. ./copyfaudes.sh
+
+4c) compile
+
+make -C libfaudes FAUDES_PLATFORM=emcc_js FAUDES_LINKING="static" libfaudes
+make -C libfaudes FAUDES_PLATFORM=emcc_js FAUDES_LINKING="static" plugins/luabindings/lib/repl/luafaudes.js
+
+

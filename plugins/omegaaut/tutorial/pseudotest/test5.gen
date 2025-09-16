@@ -1,0 +1,40 @@
+<Generator>
+
+% {"t2"},{"t0","t1"}
+<Alphabet>
+"a" "b"
+</Alphabet>
+
+<States>
+"t0" "t1" "t2"
+</States>
+
+<TransRel>
+"t0" "a" "t0"
+"t0" "a" "t1"
+"t1" "b" "t2"
+"t2" "a" "t1"
+"t2" "b" "t0"
+"t1" "a" "t2"
+</TransRel>
+
+<InitStates>
+"t0"
+</InitStates>
+
+<MarkedStates>
+
+</MarkedStates>
+
+<RabinAcceptance>
+<RabinPair name="RabinPair">
+<R>
+t2             
+</R>
+<I>
+t1   t2     
+</I>
+</RabinPair>
+</RabinAcceptance>
+
+</Generator>

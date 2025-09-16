@@ -1,4 +1,4 @@
-<ReferencePage chapter="none" section="none" title="Example Data">
+<ReferencePage chapter="images" section="none" title="Example Data">
 <h1>
 Example Data: tmp_decdemo_hcloop.gen
 </h1>
@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-"Project(Closed loop (monolithic))" 
+&lt;Generator name="Project(Closed loop (monolithic))"&gt;
 
 % 
 %  Statistics for Project(Closed loop (monolithic))
@@ -41,18 +40,18 @@ alpha         beta          lambda        mue
 &lt;/States&gt;
 
 &lt;TransRel&gt;
-1              beta          2             
-1              mue           3             
-2              alpha         1             
-3              lambda        2             
+1              alpha         2             
+2              beta          1             
+2              mue           3             
+3              lambda        1             
 &lt;/TransRel&gt;
 
 &lt;InitStates&gt;
-2             
+1             
 &lt;/InitStates&gt;
 
 &lt;MarkedStates&gt;
-2             
+1             
 &lt;/MarkedStates&gt;
 
 

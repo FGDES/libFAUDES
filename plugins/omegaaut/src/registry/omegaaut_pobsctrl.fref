@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE ReferencePage SYSTEM "http://www.faudes.org/dtd/1.0/referencepage.dtd">
+<ReferencePage chapter="Reference" section="OmegaAut" page="4_Partial-Obs-Control" title="Control under Partial Observation w.r.t Rabin Specifications">
+
+
+<h1>
+Control under Partial Observation w.r.t Rabin Specifications
+</h1>
+
+<fsummary>
+Controller synthesis under partial observation where the specification is given as a Rabin automaton,
+</fsummary>
+
+<p>
+This section addresses functions for supervisory controller synthesis under partial observation
+with Rabin specification. The synthesis approach combines control pattern expansion,
+epsilon observation, and pseudo-determinization to compute deterministic supervisors
+that enforce the specifications while respecting controllability and observability constraints.
+This approach was proposed by Thistle/Lamouchi in <fcite name="W5"/>.
+</p>
+
+<p>
+<br/>
+Copyright (C) 2025 Changming Yang.
+</p>
+
+<h2>
+Partial Observation Control Problem
+</h2>
+
+<p>
+In the partial observation setting, the supervisor can only observe a subset of events
+<fimath>\Sigma_o \subseteq \Sigma</fimath> and control a subset of events 
+<fimath>\Sigma_c \subseteq \Sigma</fimath>. The synthesis problem is to find a 
+supervisor that:
+</p>
+
+
+<ul class="l2">
+<li><p>
+Enforces the given specification
+</p></li>  
+<li><p>
+Respects controllability constraints (cannot disable uncontrollable events)
+</p></li>  
+<li><p>
+Respects observability constraints (decisions based only on observable events)
+</p></li>  
+<li><p>
+Maintains the Rabin acceptance condition
+</p></li>  
+</ul>
+
+
+<h2>
+Synthesis Algorithm
+</h2>
+
+<p>
+The synthesis algorithm consists of the following steps:
+</p>
+
+<ol>
+<li><strong>Product Construction:</strong> Compute the synchronous product of plant and specification</li>
+<li><strong>Control Pattern Expansion:</strong> Expand the alphabet to include control patterns</li>
+<li><strong>Epsilon Observation:</strong> Replace unobservable events with epsilon transitions</li>
+<li><strong>Pseudo-Determinization:</strong> Convert to a deterministic Rabin automaton</li>
+<li><strong>Trimming:</strong> Remove unreachable states</li>
+</ol>
+
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+
+<ffnct_reference name="RabinCtrlPartialObs">
+<fdetails/>
+
+<p>
+This function performs complete supervisory control synthesis for Rabin automata
+under partial observation. It automatically extracts controllable and observable
+events from System attributes or accepts explicit event sets.
+</p>
+
+<h4>Algorithm</h4>
+<p>
+The function internally calls <ffnct>RabinProduct</ffnct>, 
+<ffnct>ExpandToControlPatterns</ffnct>, <ffnct>EpsObservation</ffnct>, 
+and <ffnct>PseudoDet</ffnct> in sequence to compute the supervisor.
+</p>
+
+<h4>Example</h4>
+
+<!-- TM2CY: we need a small but real example here, incl. graphics -->
+    
+<pre>
+// 
+System plant;
+RabinAutomaton spec, supervisor;
+
+// Set up plant with controllable and observable events
+EventSet controllable;
+controllable.Insert("a");
+plant.SetControllable(controllable);
+
+EventSet observable;  
+observable.Insert("a");
+observable.Insert("c");
+plant.SetObservable(observable);
+
+// Read specification
+spec.Read("specification.gen");
+
+// Synthesize supervisor
+RabinCtrlPartialObs(plant, spec, supervisor);
+
+// Write result
+supervisor.Write("supervisor.gen");
+</pre>
+
+</ffnct_reference>
+
+
+
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+
+<ffnct_reference name="RabinProduct">
+<fdetails/>
+
+<p>
+Computes the synchronous product (parallel composition) of two Rabin automata.
+The result combines the behaviors of both automata with a properly composed 
+Rabin acceptance condition.
+</p>
+
+<h4>Example</h4>
+
+<!-- TM2CY: we need a small but real example here, incl. graphics -->
+
+<pre>
+RabinAutomaton plant, spec, product;
+
+plant.Read("plant.gen");
+spec.Read("specification.gen");
+
+RabinProduct(plant, spec, product);
+product.Write("product.gen");
+</pre>
+
+</ffnct_reference>
+
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+<ffnct_reference name="EpsObservation">
+<fdetails/>
+
+<p>
+Performs epsilon observation on a Rabin automaton by replacing unobservable 
+events with epsilon transitions. This transformation preserves the acceptance 
+condition while enabling the handling of partial observability.
+</p>
+
+<h4>Algorithm</h4>
+<p>
+The function identifies unobservable events and creates epsilon transitions
+that maintain the control pattern structure necessary for synthesis.
+</p>
+
+</ffnct_reference>
+
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+
+<ffnct_reference name="PseudoDet">
+<fdetails/>
+
+<p>
+Converts a nondeterministic Rabin automaton to an equivalent deterministic
+Rabin automaton using the pseudo-determinization algorithm. The algorithm
+uses labeled trees to track acceptance condition during determinization.
+</p>
+
+<h4>Algorithm</h4>
+<p>
+The pseudo-determinization algorithm maintains tree structures for each
+state to track which original states are reachable and their acceptance
+status. This ensures the Rabin acceptance condition is preserved.
+</p>
+
+<h4>Example</h4>
+<!-- TM2CY: we need a small but real example here, incl. graphics -->
+<pre>
+RabinAutomaton nondet, det;
+
+nondet.Read("nondeterministic.gen");
+PseudoDet(nondet, det);
+det.Write("deterministic.gen");
+</pre>
+
+</ffnct_reference>
+
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+<!-- ================================================================= -->
+<h2>
+Complete Synthesis Example
+</h2>
+
+<p>
+The following example demonstrates the complete synthesis process:
+</p>
+
+<pre>
+// Set up plant model
+System plant;
+Generator machine1, machine2;
+machine1.Read("machine1.gen");  
+machine2.Read("machine2.gen");
+Parallel(machine1, machine2, plant);
+
+// Configure controllability
+EventSet controllable;
+controllable.Insert("start");
+plant.SetControllable(controllable);
+
+// Configure observability  
+EventSet observable;
+observable.Insert("start");
+observable.Insert("done");
+plant.SetObservable(observable);
+
+// Read specification
+RabinAutomaton spec;
+spec.Read("specification.gen");
+
+// Synthesize supervisor (one-line solution!)
+RabinAutomaton supervisor;
+RabinCtrlPartialObs(plant, spec, supervisor);
+
+// Verify and save result
+if(supervisor.Empty()) {
+  std::cout &lt;&lt; "No supervisor exists!" &lt;&lt;  std::endl;
+} else {
+  std::cout &lt;&lt; "Supervisor generated successfully" &lt;&lt;  std::endl;
+  supervisor.Write("supervisor.gen");
+}
+</pre>
+
+</ReferencePage>

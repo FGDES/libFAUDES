@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-languagedifference_g2 
+&lt;Generator name="languagedifference_g2"&gt;
 
 % 
 %  Statistics for languagedifference_g2

@@ -1,0 +1,14 @@
+// pre-load to emcc runtime for io hooks
+
+var Module = {
+   faudes_js_version: "233",
+   stdouthook: null,
+   stdout: function(msg) {
+     Module['stdouthook'](msg);
+   },
+   stderrhook: null,
+   stderr: function(msg) {
+     Module['stderrhook'](msg);
+  } 
+}
+  

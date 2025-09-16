@@ -44,42 +44,117 @@ int main() {
 
 
   // Read A-B-Machines and specifications
-  System machineab1("data/omg_machineab1.gen");
+  System machineab1("data/omg_machineab1_alt.gen");
   System machineab2("data/omg_machineab2.gen");
   System machineab3("data/omg_machineab3.gen");
   Generator specab1("data/omg_specab1.gen");
   Generator specab2("data/omg_specab2.gen");
   Generator specab3("data/omg_specab3.gen");
 
-  // compute a controllability prefix
+  // Additional lower bound specification
+  //Generator lbspecab1("data/omg_lspecab1.gen");
+  //Generator lbspecab2("data/omg_lspecab2.gen");
+  Generator lspecab3("data/omg_lspecab3.gen");
+
+  // select test case plant=1 spec=3
   const System& plant=machineab1;
-  const Generator&  spec=specab3;  
+  plant.Write("tmp_omg_4_plant1.gen");
+  const Generator& spec=specab3;  
+  spec.Write("tmp_omg_4_spec3_buechi.gen");
+  const Generator& lspec=lspecab3;  
+  lspec.Write("tmp_omg_4_lspec3.gen");
   EventSet sigall = plant.Alphabet() + spec.Alphabet();
   EventSet sigctrl = plant.ControllableEvents();
-  RabinAutomaton cand=spec;
-  cand.RabinAcceptance(cand.MarkedStates());
-  InvProject(cand,sigall);
-  Automaton(cand);
-  RabinBuechiProduct(cand,plant,cand);
-  //RabinBuechiAutomaton(cand,plant,cand);
+
+  // preprocess lazy spec
+  RabinAutomaton rspec=spec;
+  rspec.RabinAcceptance(rspec.MarkedStates());
+  rspec.ClearMarkedStates();
+  InvProject(rspec,sigall);
+  Automaton(rspec);
+  rspec.Write("tmp_omg_4_spec3_rabin.gen");
+
+  // construct rabin-buechi automaton as base candidate
+  RabinAutomaton cand;                          
+  RabinBuechiAutomaton(rspec,plant,cand);       // dox only
+  cand.Write("tmp_omg_4_rbaut13.gen");          // dox only
+  RabinBuechiProduct(rspec,plant,cand);
+  cand.Write("tmp_omg_4_cand13.gen");
+  std::cout << "====== first candidate" << std::endl;
   cand.Write();
+
+  // record test case
+  FAUDES_TEST_DUMP("cand13",cand);
+
+  // turn on mu-nu protocol
+  Verbosity(10);
+
+  // controllability prefix
   StateSet ctrlpfx;
   RabinCtrlPfx(cand,sigctrl,ctrlpfx);
+  std::cout << "====== controllability prefix" << std::endl;
   cand.WriteStateSet(ctrlpfx);
-  cand.RestrictStates(ctrlpfx);
-  // SupClosed(cand)
-  cand.RabinAcceptanceWrite();
-  cand.GraphWrite("tmp_omg_rabinctrl13.png");
-  Generator test=cand;
+  std::cout << std::endl;
+
+  // record test case
+  FAUDES_TEST_DUMP("ctrlpfx13",ctrlpfx);
+
+  // dox only: have a visual by a muck rabin R-Set
+  RabinAutomaton cpxaut=cand;                   
+  RabinPair rpair;                              
+  cpxaut.RabinAcceptance().Append(rpair);       
+  cpxaut.RabinAcceptance().Append(rpair);       
+  rpair.RSet().InsertSet(ctrlpfx);             
+  cpxaut.RabinAcceptance().Append(rpair);  
+  cpxaut.Write("tmp_omg_4_ctrlpfx13.gen");
+
+  // supcon API wrapper
+  RabinAutomaton supcon;
+  SupRabinCon(plant,rspec,supcon);
+  supcon.Write("tmp_omg_4_supcon13.gen");
+  
+  // record test case
+  FAUDES_TEST_DUMP("supcon13",supcon);
+
+  // minimze supcon to compare with SupBuechiCon
+  Generator test=supcon;
   test.StateNamesEnabled(false);
   test.InjectMarkedStates(cand.RabinAcceptance().Begin()->RSet());
   StateMin(test,test);
-  test.GraphWrite("tmp_omg_rabinctrl13_test.png");
+  test.Write("tmp_omg_4_supmin13.gen");
+
+  // controller
+  TaIndexSet<EventSet> controller;
+  RabinCtrlPfx(cand,sigctrl,controller);
+  std::cout << "====== controller" << std::endl;
+  cand.WriteStateSet(controller);
+  std::cout << std::endl;
+
+  // record test case
+  FAUDES_TEST_DUMP("ctrl13",controller);
+
+  // greedy controller API wrapper
+  Generator ctrl;
+  ctrl.StateNamesEnabled(false);
+  RabinCtrl(plant,rspec,ctrl);
+  StateMin(ctrl,ctrl);
+  ctrl.Write("tmp_omg_4_ctrl13.gen");
+
+  // record test case
+  FAUDES_TEST_DUMP("loop13",ctrl);
+
+  // greedy controller with lower bound
+  ctrl.StateNamesEnabled(false);
+  RabinCtrl(plant,sigctrl,lspec,rspec,ctrl);
+  StateMin(ctrl,ctrl);
+  ctrl.Write("tmp_omg_4_lctrl13.gen");
+
+  // record test case
+  FAUDES_TEST_DUMP("lloop13",ctrl);
+
+  // validate
+  FAUDES_TEST_DIFF();
   
-  
-
-
-
   return 0;
 }
 

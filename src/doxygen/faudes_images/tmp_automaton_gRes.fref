@@ -18,17 +18,16 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-Automaton(g1) 
+&lt;Generator name="Automaton(g1)"&gt;
 
 % 
 %  Statistics for Automaton(g1)
 % 
-%  States:        4
+%  States:        5
 %  Init/Marked:   1/1
 %  Events:        3
-%  Transitions:   12
-%  StateSymbols:  4
+%  Transitions:   15
+%  StateSymbols:  5
 %  Attrib. E/S/T: 0/0/0
 % 
 
@@ -37,19 +36,22 @@ a             d             u
 &lt;/Alphabet&gt;
 
 &lt;States&gt;
-"1"           "2"           "3"           dump         
+"1"           "2"           "3"           "4"           dump         
 &lt;/States&gt;
 
 &lt;TransRel&gt;
 "1"           a             dump         
 "1"           d             "2"          
 "1"           u             dump         
-"2"           a             dump         
+"2"           a             "4"          
 "2"           d             dump         
 "2"           u             "3"          
 "3"           a             dump         
 "3"           d             dump         
 "3"           u             dump         
+"4"           a             dump         
+"4"           d             dump         
+"4"           u             dump         
 dump          a             dump         
 dump          d             dump         
 dump          u             dump         

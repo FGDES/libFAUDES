@@ -1,0 +1,65 @@
+<Generator name="Generator_Expanded">
+
+% 
+%  Statistics for Generator_Expanded
+% 
+%  States:        8
+%  Init/Marked:   1/1
+%  Events:        5
+%  Transitions:   22
+%  StateSymbols:  8
+%  Attrib. E/S/T: 3/0/0
+% 
+
+<Alphabet>
+a_1_G2        +C+           b_2_G1        b_2_G2        eps_G1        +o+          
+eps_G2        +o+          
+</Alphabet>
+
+<States>
+E1|E1|F1      E1|E1|F2      E2|E1|F1      E2|E1|F2      E1|E2|F1      E1|E2|F2     
+E2|E2|F1      E2|E2|F2     
+</States>
+
+<TransRel>
+E1|E1|F1      a_1_G2        E2|E1|F2     
+E1|E1|F1      eps_G1        E1|E2|F1     
+E1|E1|F1      eps_G2        E1|E2|F1     
+E1|E1|F2      eps_G1        E1|E2|F2     
+E1|E1|F2      eps_G2        E1|E2|F2     
+E2|E1|F1      eps_G1        E1|E1|F1     
+E2|E1|F1      eps_G1        E2|E2|F1     
+E2|E1|F1      eps_G2        E1|E1|F1     
+E2|E1|F1      eps_G2        E2|E2|F1     
+E2|E1|F2      eps_G1        E1|E1|F2     
+E2|E1|F2      eps_G1        E2|E2|F2     
+E2|E1|F2      eps_G2        E1|E1|F2     
+E2|E1|F2      eps_G2        E2|E2|F2     
+E1|E2|F1      a_1_G2        E2|E2|F2     
+E1|E2|F2      b_2_G1        E1|E1|F1     
+E1|E2|F2      b_2_G2        E1|E1|F1     
+E2|E2|F1      eps_G1        E1|E2|F1     
+E2|E2|F1      eps_G2        E1|E2|F1     
+E2|E2|F2      b_2_G1        E2|E1|F1     
+E2|E2|F2      b_2_G2        E2|E1|F1     
+E2|E2|F2      eps_G1        E1|E2|F2     
+E2|E2|F2      eps_G2        E1|E2|F2     
+</TransRel>
+
+<InitStates>
+E1|E1|F1     
+</InitStates>
+
+<RabinAcceptance>
+<RabinPair name="RabinPair">
+<R>
+E1|E1|F1      E2|E1|F1      E1|E2|F1      E2|E2|F1     
+</R>
+<I>
+E1|E1|F1      E1|E1|F2      E2|E1|F1      E2|E1|F2      E1|E2|F1      E1|E2|F2     
+E2|E2|F1      E2|E2|F2     
+</I>
+</RabinPair>
+</RabinAcceptance>
+
+</Generator>

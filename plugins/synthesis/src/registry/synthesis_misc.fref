@@ -34,10 +34,10 @@ notion of controllability.
 
 <p>
 Consider two languages <fimath>L</fimath> and <fimath>K</fimath> over a common alphabet <fimath>\Sigma</fimath>,
-a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>.
+a set of uncontrollable events <fimath>\Sigma_{uc} \subseteq \Sigma</fimath>,
 a set of forcible events <fimath>\Sigma_{f} \subseteq \Sigma</fimath>,
 and a set of preemptable events <fimath>\Sigma_{p} \subseteq \Sigma_{uc}</fimath>
-with <fimath>\Sigma_{f}\cap \Sigma_{p}=\emptyset</fimath>.
+with <fimath>\Sigma_{f}\ \cap\  \Sigma_{p}=\emptyset</fimath>.
 </p>
  
 <p>
@@ -113,11 +113,11 @@ implied by the abstraction at hand.
 For the natural projection as an abstraction, the corresponding inverse projection
 for controller implementation, and the common closed-loop requirements
 of controllability and non-conflictingness, the above question has been discussed
-in  <fcite name="S10"/>. 
+in  <fcite name="S7"/>. 
 In particular, it is demonstrated by example that the well-studied natural observer property
 is a sufficient but restrictive condition for an affirmative answer.
 The below test implements (a variation of) the sufficient and necessary criterion
-developed in  <fcite name="S10"/>.  
+developed in  <fcite name="S7"/>.  
 </p>
 
 
@@ -138,11 +138,11 @@ Matthias Leinfelder in course of his bachelor thesis.
 <fexample/>
 
 <p>
-The below example is taken from <fcite name="S10"/> and refers to the
+The below example is taken from <fcite name="S7"/> and refers to the
 alphabets <fimath>\Sigma_o=\{\mathsf{r},\ \mathsf{p},\ \mathsf{a}\}</fimath> and 
 <fimath>\Sigma_{c}=\{\mathsf{a},\ \mathsf{p}\}</fimath>.
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_5_planta"/> </td> </tr>
 <tr> <td> Abstraction GPlant0</td> </tr>
@@ -185,7 +185,7 @@ a reduced state count, while maintaining the closed-loop behaviour.
 </p>
 
 <p>
-The problem of supervisor reduction was first discussed in <fcite name="S6"/>.
+The problem of supervisor reduction was first discussed in <fcite name="S3"/>.
 When plant and supervisor are given as gerenators <fimath>G</fimath> and <fimath>S</fimath>
 over a common alphabet <fimath>\Sigma</fimath>,
 one seeks for a state minimal supervisor <fimath>S_{red}</fimath> 
@@ -195,8 +195,8 @@ and an alphabet <fimath>\Sigma_{red}</fimath> such that
 <fdmath>G\ \parallel\ S \ \  = \ \ G \ \parallel\  S_{red}</fdmath> .
 <br/>
 <br/>
-It is shown in <fcite name="S6"/> that the above supervisor reduction problem is NP-hard. However, 
-<fcite name="S6"/> also provides a polynomial-time algorithm to find a supervisor with a 
+It is shown in <fcite name="S3"/> that the above supervisor reduction problem is NP-hard. However, 
+<fcite name="S3"/> also provides a polynomial-time algorithm to find a supervisor with a 
 potentially reduced state size. This algorithm is implemented by the function  <ffnct>SupReduce</ffnct>
 </p>
 
@@ -204,9 +204,9 @@ potentially reduced state size. This algorithm is implemented by the function  <
 <fexample/>
 
 <p>
-The below example is taken from <fcite name="S6"/>. We have
+The below example is taken from <fcite name="S3"/>. We have
 </p>
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> Plant GPlant</td> </tr>
 <tr> <td> <fimage fsrc="tmp_syn_3_plant1"/> </td> </tr>
 <tr> <td> Initial Supervisor GSup</td> </tr>

@@ -971,7 +971,16 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
    * @return
    *   String
    */
-  std::string Str(const Transition& rTrans) const;
+  virtual std::string Str(const Transition& rTrans) const;
+
+  /**
+   * Return pretty printable string representation.
+   * Primary meant for debugging messages.
+   *
+   * @return
+   *   String
+   */
+   virtual std::string Str(void) const;
 
 
   /** @} doxygen group */
@@ -1267,6 +1276,26 @@ public:
 
 };
 
+
+
+/**
+ * Apply relable map to nameset
+ *
+ * This implementation tries to keep the attributes from the
+ * domain elements.
+ *
+ * @param rMap
+ *  map to apply
+ * @param rSet
+ *  set to apply the map to
+ * @param rRes
+ *  relabled set
+ * @exceptions
+ *  - symboltable must match
+ */
+extern FAUDES_API void ApplyRelabelMap(const RelabelMap& rMap, const TransSet& rSet, TransSet& rRes);
+  
+
 /** @} doxygen group*/
 
 
@@ -1560,7 +1589,7 @@ TEMP bool THIS::Erase(Idx x1, Idx ev, Idx x2) {
 
 // Erase(it)
 TEMP typename THIS::Iterator THIS::Erase(const Iterator& it) {
-  FD_DC("TTransSet(" << this << ")::Erase(" << this->Str(*it)  << " [it])");
+  FD_DC("TTransSet(" << this << ")::Erase(" << this->EStr(*it)  << " [it])");
   return BASE::Erase(it);
 }
 
@@ -1980,10 +2009,24 @@ TEMP EventSet THIS::ActiveEvents(Idx x1, SymbolTable* pSymTab) const {
   return result;
 }
 
-// Prettz printable sring
+// Pretty printable string
 TEMP std::string THIS::Str(const Transition& rTrans) const { 
   return rTrans.Str();
 } 
+
+// Pretty printable string 
+TEMP std::string THIS::Str(void) const { 
+  std::stringstream str;
+  str << "[" << THIS::Name() << "]" << std::endl;
+  Iterator eit=Begin();
+  Iterator eit_end=End();
+  if(THIS::Size()>0) while(true) {
+    str << Str(*(eit++));
+    if(eit==eit_end) break;
+    str << std::endl;
+  }
+  return str.str();
+}
 
 
 

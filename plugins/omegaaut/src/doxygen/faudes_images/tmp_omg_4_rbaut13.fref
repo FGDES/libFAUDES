@@ -1,0 +1,89 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_omg_4_rbaut13.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_omg_4_rbaut13.svg">
+<a class="faudes_image" href="tmp_omg_4_rbaut13.svg">
+<img src="tmp_omg_4_rbaut13.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator ftype="RabinAutomaton"&gt;
+
+% 
+%  Statistics for Generator
+% 
+%  States:        8
+%  Init/Marked:   1/2
+%  Events:        4
+%  Transitions:   16
+%  StateSymbols:  8
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+a             b             c             d            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+A|I           A|R           B|R           B|F           dump|R        dump|I       
+dump|F        A|F          
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+A|I           a             A|R          
+A|I           b             B|R          
+A|R           c             A|I          
+A|R           d             A|F          
+B|R           c             A|I          
+B|R           d             B|F          
+B|F           a             dump|R       
+B|F           b             B|R          
+dump|R        c             dump|I       
+dump|R        d             dump|F       
+dump|I        a             dump|R       
+dump|I        b             dump|R       
+dump|F        a             dump|R       
+dump|F        b             dump|R       
+A|F           a             A|R          
+A|F           b             B|R          
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+A|I          
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+A|I           dump|I       
+&lt;/MarkedStates&gt;
+
+&lt;RabinAcceptance&gt;
+&lt;RabinPair name="RabinPair"&gt;
+&lt;R&gt;
+B|R           B|F          
+&lt;/R&gt;
+&lt;I&gt;
+A|I           A|R           B|R           B|F           A|F          
+&lt;/I&gt;
+&lt;/RabinPair&gt;
+&lt;/RabinAcceptance&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

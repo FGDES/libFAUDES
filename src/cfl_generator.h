@@ -3337,6 +3337,23 @@ extern FAUDES_API void SetUnion(const GeneratorVector& rGenVec, EventSet& rRes);
 extern FAUDES_API void SetDifference(const vGenerator& rGenA, const vGenerator& rGenB, EventSet& rRes);
 
 
+/**
+ * Apply relable map to generator
+ *
+ * This implementation tries to keep the atributtes from the
+ * domain elements.
+ *
+ * @param rMap
+ *  map to apply
+ * @param rGen
+ *  generator to apply the map to
+ * @param rRes
+ *  relabled generator
+ * @exceptions
+ *  - symboltable must match
+ */
+extern FAUDES_API void ApplyRelabelMap(const RelabelMap& rMap, const vGenerator& rGen, vGenerator& rRes);
+  
 
 
 } // namespace faudes

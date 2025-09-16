@@ -56,9 +56,7 @@ performance issues with the default algorithm.
 
 <fexample/>
 
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes with
 <ffnct>Project</ffnct>(G, {<tt>a</tt>, <tt>c</tt>, <tt>g</tt>, <tt>e</tt>}, GRes) 
 </td> </tr>
@@ -67,8 +65,6 @@ performance issues with the default algorithm.
 <td> <fimage fsrc="tmp_project_prog"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 
 <fconditions/>
 <p> 

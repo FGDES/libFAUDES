@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-FullLanguage(NameSet) 
+&lt;Generator name="FullLanguage(NameSet)"&gt;
 
 % 
 %  Statistics for FullLanguage(NameSet)

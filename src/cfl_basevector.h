@@ -1,7 +1,7 @@
 /** @file cfl_basevector.h @brief Class TBaseVector */
 
 
-/* FAU Discrete Event Systems Library (libfaudes)
+/* FAU Discrete Event Systems Library (libFAUDES)
 
    Copyright (C) 2009, 2025  Thomas Moor
 
@@ -615,7 +615,7 @@ private:
  * parameter to specify the type of its entries. See vBaseVector for element access
  * methods.
  *
- * TVectorSet serves is used to implement the libFaudes vectors
+ * TBaseVector is used to implement the libFAUDES vectors
  * - GeneratorVector (vector or generators) 
  * - SytemVector     (vector or generators) 
  * - EventSetVector  (vector of event sets) 
@@ -786,7 +786,7 @@ public:
   virtual Iterator Erase(const Iterator& vit);
  
    /** 
-   * Iterator class, e add one layer of dereferencing.
+   * Iterator class, ie add one layer of dereferencing.
    */
    class Iterator : public std::vector<ElementRecord>::iterator {
      public:

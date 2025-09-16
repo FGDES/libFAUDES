@@ -1,0 +1,92 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_spec_opled.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_spec_opled.svg">
+<a class="faudes_image" href="tmp_elevator_spec_opled.svg">
+<img src="tmp_elevator_spec_opled.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example: operator specification (leds)
+
+&lt;Generator&gt;
+"operator leds spec"
+
+&lt;Alphabet&gt;
+"a_start"
+"a_done"
+"a_fail"
+"o_uplon"
+"o_uploff"
+"o_lwlon"
+"o_lwloff"
+"d_open"
+"d_close"
+"d_stp"
+"c_up"
+"c_down"
+"c_stp"
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Idle"
+"On1"
+"On2"
+"Busy"
+"Off1"
+"Off2"
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+
+% Idle, wait for command
+"Idle" "a_start"   "On1"
+
+% Turn on led
+"On1"  "o_uplon" "On2"
+"On2"  "o_lwlon" "Busy"
+
+% Execute
+"Busy" "c_up"  "Busy"
+"Busy" "c_down"  "Busy"
+"Busy" "c_stp"  "Busy"
+"Busy" "d_open"  "Busy"
+"Busy" "d_close"  "Busy"
+"Busy" "d_stp"  "Busy"
+"Busy" "a_done" "Off1"
+"Busy" "a_fail" "Off1"
+
+% Turn off led
+"Off1" "o_uploff" "Off2"
+"Off2" "o_lwloff" "Idle"
+
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"Idle"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+"Idle"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

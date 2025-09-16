@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-PrefixClosure(g) 
+&lt;Generator name="PrefixClosure(g)"&gt;
 
 % 
 %  Statistics for PrefixClosure(g)

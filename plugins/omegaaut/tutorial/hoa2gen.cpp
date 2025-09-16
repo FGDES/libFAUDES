@@ -65,6 +65,7 @@ void usage(std::string msg="") {
   std::cerr << "valid flags:" << std::endl;
   std::cerr << "  --resolve-aliases  resolve aliases" << std::endl;
   std::cerr << "  --trace            trace the function calls (debug/devel)" << std::endl;
+  std::cerr << "  --xmlout           generate strict XML output " << std::endl;
   std::cerr << std::endl;
   exit(0);
 }
@@ -79,6 +80,7 @@ int main(int argc, char* argv[]) {
   std::string genout;
   bool resolve = false;
   bool trace = false;
+  bool xmlout = false;
   // primitive command line parser 
   for(int i=1; i<argc; i++) {
     std::string option(argv[i]);
@@ -102,6 +104,11 @@ int main(int argc, char* argv[]) {
     // option: trace
     if(option=="--trace") {
       trace = true;
+      continue;
+    }
+    // option: trace
+    if(option=="--xmlout") {
+      xmlout = true;
       continue;
     }
     // option: unknown
@@ -138,10 +145,13 @@ int main(int argc, char* argv[]) {
     ImportHoa(hoain,mAut,&mSymTab,resolve,trace);
     
   // do output
-  if(genout.empty()) 
-    mAut.XWrite();
-  else 
-    mAut.XWrite(genout);
+  if(xmlout) {
+    if(genout.empty()) mAut.XWrite();
+    else mAut.XWrite(genout);
+  } else {
+    if(genout.empty()) mAut.Write();
+    else mAut.Write(genout);
+  }
 
   return 1;
 }

@@ -186,7 +186,15 @@ public:
    * @return
    *   String
    */
-  std::string Str(const Idx& rIndex) const {return ToStringInteger(rIndex); };
+  virtual std::string Str(const Idx& rIndex) const {return ToStringInteger(rIndex); };
+
+  /**
+   * Return pretty printable set. 
+   *
+   * @return
+   *   String
+   */
+  virtual std::string Str(void) const {return TBaseSet<Idx>::Str(); };
 
  protected:
 

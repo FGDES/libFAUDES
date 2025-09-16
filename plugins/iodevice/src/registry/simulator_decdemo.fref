@@ -214,7 +214,7 @@ With respect to the above events, the plant dynamics are modelled
 by the synchronous product of the below generators:
 </p>
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> <fimath>G_a</fimath> (processing of workpieces)  </td> </tr> 
 <tr>
 <td> <fimage fsrc="tmp_decdemo_planta"/> </td>
@@ -408,7 +408,7 @@ the intended semantics.
 </p>
 
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> <fimath>C_a</fimath> (Controller A)</td> </tr> 
 <tr>
 <td> <fimage fsrc="tmp_decdemo_contra"/> </td>
@@ -434,7 +434,7 @@ physical input-output signals.
 </p>
 
 
-<table class="plain"> 
+<table class="images"> 
 <tr> <td> <fimath>K</fimath> (closed loop)</td> </tr> 
 <tr><td> <fimage fsrc="tmp_decdemo_cloop"/> </td></tr>
 </table>

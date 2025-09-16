@@ -26,3 +26,80 @@ false
 % 
 % 
 
+%%% test mark: trim test 1 [at omg_3_rabin.cpp:175]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: trim [at omg_3_rabin.cpp:194]
+% 
+%  Statistics for G
+% 
+%  States:        8
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   10
+%  StateSymbols:  8
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: trim test 2 [at omg_3_rabin.cpp:195]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: simplify [at omg_3_rabin.cpp:222]
+% 
+%  Statistics for G
+% 
+%  States:        13
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   18
+%  StateSymbols:  13
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: trim test [at omg_3_rabin.cpp:223]
+<Boolean>
+false        
+</Boolean>
+% 
+% 
+% 
+
+%%% test mark: trim + simplify [at omg_3_rabin.cpp:245]
+% 
+%  Statistics for G
+% 
+%  States:        8
+%  Init/Marked:   1/0
+%  Events:        1
+%  Transitions:   10
+%  StateSymbols:  8
+%  Attrib. E/S/T: 0/0/0
+% 
+% 
+% 
+% 
+
+%%% test mark: trim test 3 [at omg_3_rabin.cpp:246]
+<Boolean>
+true         
+</Boolean>
+% 
+% 
+% 
+

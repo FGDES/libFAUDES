@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-GSigoCompleteC 
+&lt;Generator name="GSigoCompleteC"&gt;
 
 % 
 %  Statistics for GSigoCompleteC

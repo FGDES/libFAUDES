@@ -1,0 +1,62 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_elevator_plant_leds.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_elevator_plant_leds.svg">
+<a class="faudes_image" href="tmp_elevator_plant_leds.svg">
+<img src="tmp_elevator_plant_leds.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+% Elevator example, operator leds
+
+&lt;Generator&gt;
+"operator leds"	
+
+&lt;Alphabet&gt;
+"o_uplon"  +C+
+"o_uploff" +C+						
+"o_lwlon"  +C+
+"o_lwloff" +C+						
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+"Idle"	
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+"Idle" "o_uplon" "Idle"
+"Idle" "o_uploff" "Idle"
+"Idle" "o_lwlon" "Idle"
+"Idle" "o_lwloff" "Idle"
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+"Idle"
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;							
+"Idle"
+&lt;/MarkedStates&gt;
+
+&lt;/Generator&gt;
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

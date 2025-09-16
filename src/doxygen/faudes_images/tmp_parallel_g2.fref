@@ -18,8 +18,7 @@ Dot-processed graph as SVG-image
 Token IO 
 </h3>
 <pre>
-&lt;Generator&gt;
-G2           
+&lt;Generator name="G2"&gt;
 
 % 
 %  Statistics for G2

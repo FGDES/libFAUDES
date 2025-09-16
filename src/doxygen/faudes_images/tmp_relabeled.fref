@@ -1,0 +1,66 @@
+<ReferencePage chapter="images" section="none" title="Example Data">
+<h1>
+Example Data: tmp_relabeled.gen
+</h1>
+
+<h3>
+Dot-processed graph as SVG-image
+</h3>
+
+<object type="image/svg+xml" name="graph" data="tmp_relabeled.svg">
+<a class="faudes_image" href="tmp_relabeled.svg">
+<img src="tmp_relabeled.png" title="Click on image to download SVG formated file." />
+</a>
+</object>
+
+
+<h3>
+Token IO 
+</h3>
+<pre>
+&lt;Generator&gt;
+
+% 
+%  Statistics for Generator
+% 
+%  States:        3
+%  Init/Marked:   1/2
+%  Events:        3
+%  Transitions:   4
+%  StateSymbols:  3
+%  Attrib. E/S/T: 0/0/0
+% 
+
+&lt;Alphabet&gt;
+x             y             z            
+&lt;/Alphabet&gt;
+
+&lt;States&gt;
+s1            s2            s3           
+&lt;/States&gt;
+
+&lt;TransRel&gt;
+s1            x             s2           
+s2            x             s3           
+s3            y             s1           
+s3            z             s1           
+&lt;/TransRel&gt;
+
+&lt;InitStates&gt;
+s1           
+&lt;/InitStates&gt;
+
+&lt;MarkedStates&gt;
+s2            s3           
+&lt;/MarkedStates&gt;
+
+
+&lt;/Generator&gt;
+
+</pre>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</ReferencePage>
+

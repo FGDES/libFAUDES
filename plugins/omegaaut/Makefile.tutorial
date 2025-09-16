@@ -17,8 +17,10 @@ OMG_TUTORIAL_CPPFILES = \
 	omg_1_buechi.cpp \
 	omg_2_buechictrl.cpp \
 	omg_3_rabin.cpp \
-	omg_4_rabinctrl.cpp 
- 
+	omg_4_rabinctrl.cpp \
+	omg_5_rabindet.cpp \
+	omg_6_pobsctrl.cpp
+	
 # executables
 OMG_TUTORIAL_EXECUTABLES = $(OMG_TUTORIAL_CPPFILES:%.cpp=$(OMG_TUTORIAL_DIR)/%$(DOT_EXE))
 

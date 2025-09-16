@@ -39,7 +39,7 @@ The generated closed languages are ignored.
 
 <table class="plain"> 
 <tr> <td> 
-<table>
+<table class="images">
 <tr> <td> G1 </td> <td> G2 </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_concat_g5"/> </td> 
@@ -49,7 +49,7 @@ The generated closed languages are ignored.
 </td> </tr> 
 <tr><td><br/><br/></td></tr>
 <tr> <td> 
-<table width="100%">
+<table class="images">
 <tr> <td> <fimath>L_m(GRes) = L_m(G1)  \ L_mG(2)</fimath> </td> </tr>
 <tr> <td> <fimage fsrc="tmp_concat_g5g6"/> </td> </tr>
 </table> 
@@ -82,17 +82,13 @@ The generated language is not considered.
 
 <fexample/>
 
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_kleene_g"/> </td> 
 <td> <fimage fsrc="tmp_kleene_gRes"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 
 
 <fconditions/>

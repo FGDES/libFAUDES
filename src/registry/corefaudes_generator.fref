@@ -10,7 +10,7 @@ Generator
 
 <p>
 A generator is a finite representation of a (regular) formal language. 
-In the context of discrete event systems, generators are used to model the dynamic behaviour 
+In the context of discrete-event systems, generators are used to model the dynamic behaviour 
 in the sense that the corresponding language consists of all strings of events which 
 the system can exhibit. 
 </p>
@@ -93,7 +93,7 @@ languages <fimath>L(G)</fimath> and <fimath>Lm(G)</fimath>, respectively.
 </p>
 
 <p>
-Furthermore, We have chosen  Qm={<tt>idle</tt>}. In doing so, we consider
+Furthermore, we have chosen  Qm={<tt>idle</tt>}. In doing so, we consider
 only strings that run the machine into the idle state as relevant operations.
 The choice of <fimath>Q_m</fimath> only affects the marked language
 <fimath>Lm(G)</fimath>. The interpretation of the marked language as a model of
@@ -120,9 +120,8 @@ Token IO
 Token-IO example for a <ftype>Generator</ftype> that models the <i>simple machine</i>:
 </p>
 <pre>
-&lt;Generator&gt;
+&lt;Generator mame="simple machine"&gt;
 % libFAUDES Generator for the simple machine
-"simple machine"                   
 
 &lt;Alphabet&gt;                         
 alpha beta mue lambda      
@@ -299,9 +298,8 @@ The default amounts to <tt>+cOfA+</tt>, i.e.
 Token-IO example for a <ftype>System</ftype> that models the <i>simple machine</i>:
 </p>
 <pre>
-&lt;Generator&gt;
+&lt;Generator name="simple machine"&gt;
 % libFAUDES Generator for the simple machine with controllability attributes
-"simple machine"                   
 
 &lt;Alphabet&gt;                         
 alpha  +C+  % controllable event alpha

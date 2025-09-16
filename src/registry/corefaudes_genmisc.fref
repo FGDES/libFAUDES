@@ -48,24 +48,28 @@ The argument may be non-deterministic.
 <ffnct_reference name="Automaton">
 <fdetails/>
 <p>
-Converts the given generator G to a formal automaton that generates the
+Converts the given generator G to a formal automaton that marks the
 same marked language <fimath>L_m(G)</fimath> while accepting any 
 input string, i.e. <fimath>L(G)=\Sigma^*</fimath>. 
 This is achieved by introducing a dump state to represent 
 <fimath>\Sigma^* - \Closure{L_m(G)}</fimath>.
 </p>
+<p>
+<b>Note.</b>
+In libFAUDES pre 2.33, we used to preprocess by <ffnct>Trim</ffnct>
+in order to gain performance. This was dropped so you may want to invoke
+<ffnct>Trim</ffnct> explicitly. The rational was to become agnostic to
+alternative acceptance conditions.
+</p>  
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_automaton_g"/> </td> 
 <td> <fimage fsrc="tmp_automaton_gRes"/> </td> 
 </tr>
 </table> 
-</td> </tr> </table>
 
 
 <fconditions/>
@@ -101,16 +105,12 @@ sufficient and necessary. In general, it is only sufficient.
 </p>
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_prefixclosure_g"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 <p>
 The language <fimath>L_m(G)</fimath> marked by the above generator is not
 prefix-closed, since the states <tt>1</tt>, <tt>2</tt> and <tt>4</tt> are accessible
@@ -143,20 +143,45 @@ and then marking the remaining states.
 </p>
 
 <fexample/>
-<table class="plain"> 
-<tr> <td> 
-<table>
+<table class="images"> 
 <tr> <td> G </td> <td> GRes  </td> </tr>
 <tr>
 <td> <fimage fsrc="tmp_prefixclosure_g"/> </td> 
 <td> <fimage fsrc="tmp_prefixclosure_gRes"/> </td> 
 </tr>
 </table> 
-</td> </tr> 
-</table>
 
 </ffnct_reference>
 
+
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+<!-- ===================================================== -->
+
+<ffnct_reference name="ApplyRelabelMap">
+<fdetails/>
+<p>
+An <ftype>RelabelMap</ftype> is a set valued map with domain and range <ftype>EventSet</ftype>.
+It is used to represent re-labeling a scheme.
+To maintain an event, it must be excluded from the domain.
+To remove an event, it shall be mapped to the empty set.
+For a one-to-one replacement, use singleton target sets.
+Examples are given in the Lua-faudes tutorials <tt>1_containers.lua</tt> and
+<tt>2_generators.lua</tt>.
+</p>
+
+<fexample/>
+
+The figure shows the scheme  "a->x, b->{z,y} and c->{}".
+<table class="images"> 
+<tr> <td> G </td> <td> GRes  </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_toberelabeled"/> </td> 
+<td> <fimage fsrc="tmp_relabeled"/> </td> 
+</tr>
+</table> 
+
+</ffnct_reference>
 
 
 
