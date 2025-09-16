@@ -41,9 +41,9 @@ echo ===  copy to doc =====================================
 echo ======================================================
 
 #rm $DSTDIR/tmp_*
-cp -v tmp_*.png $DSTDIR
-cp -v tmp_*.svg $DSTDIR
-cp -v tmp_*.fref $DSTDIR
+#cp -v tmp_*.png $DSTDIR
+#cp -v tmp_*.svg $DSTDIR
+#cp -v tmp_*.fref $DSTDIR
 
 
 

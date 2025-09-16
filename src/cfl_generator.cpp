@@ -4134,6 +4134,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const vGenerator& rGen, vGenerator&
   TransSet* delta=rGen.TransRel().Copy();
   ApplyRelabelMap(rMap,*alph,*alph);
   ApplyRelabelMap(rMap,*delta,*delta);
+  rRes.Assign(rGen);
   rRes.InjectTransRel(*delta);
   rRes.InjectAlphabet(*alph);
   delete alph;

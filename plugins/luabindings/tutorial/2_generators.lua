@@ -192,6 +192,7 @@ end
 -- Generator: relabel events
 -- ------------------------------------------
 
+
 rlmap=faudes.RelabelMap()
 rlmap:Insert("alpha","alpha_2")
 rlmap:Insert("alpha","alpha_x")

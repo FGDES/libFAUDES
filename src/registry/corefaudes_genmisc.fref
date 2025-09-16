@@ -170,6 +170,17 @@ Examples are given in the Lua-faudes tutorials <tt>1_containers.lua</tt> and
 <tt>2_generators.lua</tt>.
 </p>
 
+<fexample/>
+
+The figure shows the scheme  "a->x, b->{z,y} and c->{}".
+<table class="images"> 
+<tr> <td> G </td> <td> GRes  </td> </tr>
+<tr>
+<td> <fimage fsrc="tmp_toberelabeled"/> </td> 
+<td> <fimage fsrc="tmp_relabeled"/> </td> 
+</tr>
+</table> 
+
 </ffnct_reference>
 
 
