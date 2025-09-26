@@ -55,7 +55,7 @@ on OS X 10.7 64-bit (x86 archiracture, dated approx
 Precompiled packages come as setup.exe-installers and can be found in
 the archive of the libFAUDES download page. They contain the HTML documentation,
 precompiled libFAUDES incl luafaudes and some examples. As of libFAUDES 2.32, the library
-is compiled with MS Visual C++ 2022 compilers for 64-bit environments with Windows 12
+is compiled with MS Visual C++ 2022 compilers for 64-bit environments with Windows 11
 as our test target. Allthough libFAUDES itself is not a Visual C++ project, 
 dependend applications can be developed with the community edition of MS Visual C++
 in that version. If you need to address legacy hardware, you may be lucky with
