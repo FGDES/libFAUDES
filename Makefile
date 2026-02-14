@@ -336,7 +336,7 @@ SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = cmd.exe /S /C echo wont strip 
+FNCT_POST_APP = cmd.exe /S /C "echo wont strip" 
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
