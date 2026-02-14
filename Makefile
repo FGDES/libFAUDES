@@ -1561,7 +1561,7 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot))
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
 # tools #verb
-VALFAUDES = ./bin/valfaudes  -q
+VALFAUDES = ./bin/valfaudes  
 
 # Conversion function target->protocol
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
