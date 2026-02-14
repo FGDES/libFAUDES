@@ -300,7 +300,7 @@ FNCT_POST_APP = strip $(1)
 #
 ifeq ($(FAUDES_MSHELL),cmdcom)
 SHELL = cmd.exe
-.SHELLFLAGS = 
+.SHELLFLAGS = /S /C
 CP  = copy /Y /B /V
 CPR = xcopy /E /I /Y /Q
 MV = echo WARNING CANNOT RUN MV ON 
@@ -549,7 +549,7 @@ endif
 # MSYS provided minge32-make from a windows command prompt to build
 # the configured libFAUDES by "mingw32-make FAUDES_PLATFORM=cl_win".
 #
-# -
+# 
 ifeq ($(FAUDES_PLATFORM),cl_win)
 CXX = cl /nologo
 CC = cl /nologo
