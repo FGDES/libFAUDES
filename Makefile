@@ -319,15 +319,15 @@ endif
 
 ### sensible/pwrsh defaults: external tools #########################
 # [this is finetuned to run as GitHub action; we run every exec
-# via cmd.exe and leave out he suffix ".exe"     
+# via cmd.exe and leave out the suffix ".exe"     
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
 .SHELLFLAGS=
-CP  = copy /Y /B /V
-CPR = echo ERROR CPR NOT CONFIGURED
+CP  = cmd.exe /S /C copy /Y /B /V
+CPR = cmd.exe /S /C xcopy /E /I /Y /Q 
 MV = echo ERROR MV NOT CONFIGURED
 RM = cmd.exe /S /C del /F /S /Q 
-MKDIR = cmd.exe /S /C echo WARNING MKDIR NOT CONFIGURED
+MKDIR = cmd.exe /S /C echo mkdir
 LSL = cmd.exe /S /C dir
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
@@ -1000,7 +1000,7 @@ package:
 
 # cmd.exe funny 8K limit
 LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES)) 
-# posix vs comd.exe, bont use shell wildcard
+# posix vs cmd.exe, dont use shell wildcard
 LSOBJ = $(wildcard $(OBJDIR)/*) 
 
 clean: $(CLEANTARGETS)
