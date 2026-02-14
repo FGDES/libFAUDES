@@ -551,10 +551,10 @@ endif
 #
 #
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cmd.exe /S /C cl /nologo
-CC = cmd.exe /S /C cl /nologo
-LXX = cmd.exe /S /C cl /nologo
-AR = cmd.exe /S /C lib /VERBOSE
+CXX = cl /nologo
+CC = cl /nologo
+LXX = cl /nologo
+AR = lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
