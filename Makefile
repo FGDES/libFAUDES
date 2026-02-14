@@ -314,7 +314,7 @@ SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = echo wont strip
+FNCT_POST_APP = echo wont_strip
 endif
 
 ### sensible/pwrsh defaults: external tools #########################
