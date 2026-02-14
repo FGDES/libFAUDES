@@ -76,10 +76,10 @@ jobs:
       run: |
         brew update
         brew install make
-        brew install swig  # why needed?
+        brew install swig  # why does make trigger swig? ...
     - name: Build Default Targets
       run: |
-        gmake --touch includes
+        gmake --touch includes  # ... aha
         gmake 
     - name: Build Tutorials
       run: gmake  tutorial
