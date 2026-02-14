@@ -314,7 +314,7 @@ SWIG = echo WARNING CANNOT RUN SWIG ON
 PYTHON = echo WARNING CANNOT RUN PYHTON ON 
 DOXYGEN = echo WARNING CANNOT RUN DOXYGEN ON
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = @echo wont strip $(1)
+FNCT_POST_APP = @echo wont strip
 endif
 
 ### sensible/pwrsh defaults: external tools #########################
@@ -336,7 +336,7 @@ SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = @echo wont strip $(1)
+FNCT_POST_APP = @echo wont strip
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
