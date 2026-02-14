@@ -29,6 +29,7 @@ void usage(const std::string& msg="") {
     std::cerr << "valfaudes: error: " << msg << std::endl;
     std::cerr << std::endl;
     std::flush(std::cerr);
+    std::flush(std::cout);
     exit(1);
   }
   std::cerr << "valfaudes --- run and validate testcases (" << faudes::VersionString() << ")" << std::endl;
@@ -148,7 +149,12 @@ int rundiff(const std::string& file1, const std::string& file2) {
 #endif 
   if(!mOptQ)
     std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
-  return std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  int res = std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  return
 }
 
 
