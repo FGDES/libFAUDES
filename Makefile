@@ -326,8 +326,8 @@ SHELL = cmd.exe
 CP  = cmd.exe /S /C copy /Y /B /V
 CPR = cmd.exe /S /C xcopy /E /I /Y /Q 
 MV = echo ERROR MV NOT CONFIGURED
-RM = cmd.exe /S /C del /F /S /Q 
-MKDIR = cmd.exe /S /C echo mkdir
+RM = - cmd.exe /S /C del /F /S /Q 
+MKDIR = cmd.exe /S /C mkdir
 LSL = cmd.exe /S /C dir
 ECHO = @cmd.exe /S /C echo
 ECHOE = echo ECHO-E NOT CONFIGURED
@@ -951,7 +951,7 @@ configure: prepare $(CONFIGURETARGETS)
 	$(ECHO) "libFAUDES-make: you may now compile the default targets by \"make -j\"" 
 	$(ECHO) " ============================== " 
 
-libfaudes: $(LIBFAUDES) includes
+libfaudes: $(LIBFAUDES) # includes TM 2026win
 
 binaries: $(EXECUTABLES) libfaudes
 
@@ -1001,12 +1001,12 @@ package:
 # cmd.exe funny 8K limit
 LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES)) 
 # posix vs cmd.exe, dont use shell wildcard
-LSOBJ = $(wildcard $(OBJDIR)/*) 
+#LSOBJ = $(wildcard $(OBJDIR)/*) 
 
 clean: $(CLEANTARGETS)
-	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) never_nothing_markA
-	$(RM) $(call FNCT_FIXDIRSEP,$(LSOBJ)) never_nothing_markB
-#	$(RM) tmp_valext
+	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) 
+	$(RM) $(call FNCT_FIXDIRSEP,$(OBJDIR)/*) 
+	$(RM) tmp_valext
 
 dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(CLEANFILES) 
