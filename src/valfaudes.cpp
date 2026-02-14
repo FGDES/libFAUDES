@@ -154,7 +154,7 @@ int rundiff(const std::string& file1, const std::string& file2) {
   int res = std::system(cmd.c_str());
   std::flush(std::cout);
   std::flush(std::cerr);
-  return
+  return res;
 }
 
 
