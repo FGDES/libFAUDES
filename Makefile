@@ -269,7 +269,7 @@ endif
 # figure type of shell available for make
 FAUDES_MSHELL = posix
 ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
-FAUDES_MSHELL = pwrsh
+FAUDES_MSHELL = cmdcom
 endif
 
 # set timestamp
@@ -301,18 +301,18 @@ FNCT_POST_APP = strip $(1)
 ifeq ($(FAUDES_MSHELL),cmdcom)
 SHELL = cmd.exe
 .SHELLFLAGS = 
-CP  = cmd /C copy /Y
-CPR = cmd /C echo ERROR CPR NOT CONFIGURED
-MV = cmd /C echo ERROR MV NOT CONFIGURED
-RM = cmd /C del /F /S /Q 
-MKDIR = cmd /C echo MKDIR NOT CONFIGURED
-LSL = cmd.exe /C dir 
-ECHO = @cmd /C echo
-ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
+CP  = copy /Y /B /V
+CPR = xcopy /E /I /Y /Q
+MV = echo ERROR MV NOT CONFIGURED
+RM = del /F /S /Q 
+MKDIR = mkdir
+LSL = dir 
+ECHO = @echo
+ECHOE = echo ECHO-E NOT CONFIGURED
 DIFF = fc /W
-SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
-PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
-DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
+SWIG = echo WARNING SWIG NOT CONFIGURED
+PYTHON = = echo WARNING PYHTON NOT CONFIGURED
+DOXYGEN = echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = echo wont strip $(1)
 endif
@@ -336,7 +336,7 @@ SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
 PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
 DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = echo wont strip $(1)
+FNCT_POST_APP = echo wont strip
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
