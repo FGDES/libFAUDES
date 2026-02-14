@@ -33,7 +33,7 @@ jobs:
 
   build:  
 
-    runs-on: macos-latest
+    runs-on: macos-14    # in July 2025 -latest became -15 and we became workflow-issues
     needs: [configure]
     
     steps:	
