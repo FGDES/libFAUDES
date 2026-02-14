@@ -28,6 +28,7 @@ void usage(const std::string& msg="") {
   if (msg != "") {
     std::cerr << "valfaudes: error: " << msg << std::endl;
     std::cerr << std::endl;
+    std::flush(std::cerr);
     exit(1);
   }
   std::cerr << "valfaudes --- run and validate testcases (" << faudes::VersionString() << ")" << std::endl;
