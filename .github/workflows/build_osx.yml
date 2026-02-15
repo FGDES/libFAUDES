@@ -22,12 +22,8 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-        touch -r ./*
         make -j configure
         make clean
-        date
-        ls -hl src/swig/*.i
-        ls -hl plugins/luabindings/obj
         tar -czf faudes.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -35,6 +31,7 @@ jobs:
         name: faudes.tgz
         path: ./faudes.tgz
         if-no-files-found: error
+	compression-level: 0
 
   build:  
 
@@ -50,18 +47,13 @@ jobs:
     - name: Extract Archive
       run: |
         tar -xzf faudes.tgz
-        ls -hl
     - name: Install Tools
       run: |
         brew update
         brew install make
-        brew install swig
     - name: Build Default Targets
       run: |
-        date
-        ls -hl src/swig/*.i
-        ls -hl plugins/luabindings/obj
-        gmake --debug=b -j1
+        gmake -j1
     - name: Build Tutorials
       run: gmake -j1 tutorial
     - name: Run Test Cases
