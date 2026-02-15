@@ -55,6 +55,7 @@ jobs:
       with:
         arch: x64
     - name: Install MSYS
+      uses: msys2/setup-msys2@v2
       id: msys2
       with:
         msystem: UCRT64
