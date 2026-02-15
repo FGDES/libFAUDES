@@ -45,7 +45,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: ./faudes.tgz
+        name: faudes.tgz
         path: ./	
     - name: Extract Archive
       run: |
