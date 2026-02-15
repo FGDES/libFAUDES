@@ -59,12 +59,12 @@ jobs:
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% --debug=b FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
     - name: Build Tools
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
+        %GNUMAKE% --debug=b FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
     - name: Build Tutorials
       shell: cmd
       run: |
@@ -81,4 +81,4 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win clean
         %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
+        %GNUMAKE% --debug=b FAUDES_PLATFORM=cl_win binaries
