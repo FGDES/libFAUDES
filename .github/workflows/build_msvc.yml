@@ -22,11 +22,13 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
+        dir
         make -j configure
         make clean
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
+        dir
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -61,6 +63,7 @@ jobs:
         dir
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
+        dir
     - name: Build Tools
       shell: cmd
       run: |
@@ -68,6 +71,7 @@ jobs:
         dir obj
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% --debug=b FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
+        dir
     - name: Build Tutorials
       shell: cmd
       run: |
