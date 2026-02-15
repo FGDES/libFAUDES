@@ -28,7 +28,7 @@ jobs:
         date
         ls -hl src/swig/*.i
         ls -hl plugins/luabindings/obj
-	tar -czf faudes.tgz ./
+        tar -czf faudes.tgz ./
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
