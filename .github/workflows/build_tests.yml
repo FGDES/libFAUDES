@@ -25,17 +25,19 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-        make configure
+        make -j configure
         make clean
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
+        tar -czf faudes.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: sources
-        path: ./
+        name: faudes.tgz
+        path: ./faudes.tgz
         if-no-files-found: error
+
 
   build-lx:
   
@@ -46,8 +48,10 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: sources
-        path: ./
+        name: faudes.tgz
+        path: ./	
+      run: |
+        tar -xzf faudes.tgz
     - name: Install Extra Libs 
       run: |
           sudo apt-get install libreadline-dev
@@ -70,16 +74,17 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: sources
-        path: ./
+        name: faudes.tgz
+        path: ./	
+    - name: Extract Archive
+      run: |
+        tar -xzf faudes.tgz
     - name: Install Tools
       run: |
         brew update
         brew install make
-        brew install swig  # why does make trigger swig? ...
     - name: Build Default Targets
       run: |
-        gmake --touch includes  # ... aha
         gmake 
     - name: Build Tutorials
       run: gmake  tutorial
@@ -96,9 +101,13 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: sources
+        name: faudes.tgz
         path: ./
-    - uses: msys2/setup-msys2@v2
+    - name: Extract Archive
+      run: |
+        tar -xzf faudes.tgz
+    - name: Install Tools	
+      uses: msys2/setup-msys2@v2
       with:
         msystem: UCRT64
         install: >-
@@ -112,7 +121,6 @@ jobs:
     - name: Build Default Targets
       shell: msys2 {0}
       run: |
-        make --touch includes
         make -j1
     - name: Build Tutorials
       shell: msys2 {0}
@@ -131,9 +139,13 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: sources
+        name: faudes.tgz
         path: ./
-    - uses: msys2/setup-msys2@v2
+    - name: Extract Archive
+      run: |
+        tar -xzf faudes.tgz
+    - name: Install Tools
+      uses: msys2/setup-msys2@v2
       id: msys2
       with:
         msystem: UCRT64
