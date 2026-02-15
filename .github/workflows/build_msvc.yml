@@ -58,8 +58,8 @@ jobs:
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch plugins/luabindings/obj/*.cpp
+        :: %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch includes
+        :: %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch plugins/luabindings/obj/*.cpp
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
     - name: Build Tools
       shell: cmd
@@ -81,6 +81,6 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win clean
-        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
+        :: %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
         %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
