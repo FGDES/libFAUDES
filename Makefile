@@ -317,19 +317,19 @@ FNCT_POST_APP = @echo wont strip
 endif
 
 ### sensible/pwrsh defaults: external tools #########################
-# [this is finetuned to run as GitHub action; we run every exec
-# via cmd.exe and leave out the suffix ".exe"     
+# this is finetuned to run as GitHub action in a mixed MSYS/MSCV setting
+# we run every exec via cmd.exe and leave out the suffix ".exe"     
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
 .SHELLFLAGS= /S /C
 CP  = cmd.exe /S /C xcopy.exe /I /-I /Y 
-CPR = cmd.exe /S /C xcopy /E /I /Y /Q 
+CPR = cmd.exe /S /C xcopy.exe /E /I /Y /Q 
 MV = @cmd.exe /S /C echo WARNING CANNOT MV
-RM = cmd.exe /S /C del /F /S /Q 
-MKDIR = cmd.exe /S /C mkdir
-LSL = cmd.exe /S /C dir
+RM = cmd.exe /S /C del.exe /F /S /Q 
+MKDIR = cmd.exe /S /C mkdir.exe
+LSL = cmd.exe /S /C dir.exe
 ECHO = @cmd.exe /S /C echo
-ECHOE = @cmd.exe /S /C echo WARNING ECHO-E 
+ECHOE = @cmd.exe /S /C echo WARNING CANNOT ECHO-E 
 DIFF = cmd.exe /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING CANNOT SWIG 
 PYTHON = = cmd.exe /S /C echo WARNING CANNOT PYHTON 
