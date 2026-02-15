@@ -22,14 +22,12 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-        dir
         make -j configure
         make clean
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
         tar -czf faudes.tgz ./*
-        dir	
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -43,16 +41,6 @@ jobs:
     needs: [configure]
     
     steps:	
-    - name: Install Toolchain
-      uses: msys2/setup-msys2@v2
-      id: msys2
-      with:
-        msystem: UCRT64
-        install: >-
-          make
-    - uses: TheMrMilchmann/setup-msvc-dev@v3
-      with:
-        arch: x64
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
@@ -62,6 +50,16 @@ jobs:
       run: |
         tar -xzf faudes.tgz
         dir
+    - name: Install Toolchain
+    - uses: TheMrMilchmann/setup-msvc-dev@v3
+      with:
+        arch: x64
+      uses: msys2/setup-msys2@v2
+      id: msys2
+      with:
+        msystem: UCRT64
+        install: >-
+          make
     - name: Build Static Libray 
       shell: cmd
       run: |
