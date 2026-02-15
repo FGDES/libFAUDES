@@ -24,6 +24,9 @@ jobs:
       run: |
         make -j configure
         make clean
+        date
+        ls -hl src/swig/*.i
+	ls -hl plugins/luabindings/*cpp
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -49,6 +52,9 @@ jobs:
         brew install swig
     - name: Build Default Targets
       run: |
+        date
+        ls -hl src/swig/*.i
+	ls -hl plugins/luabindings/*cpp
         gmake --debug=b -j1
     - name: Build Tutorials
       run: gmake -j1 tutorial
