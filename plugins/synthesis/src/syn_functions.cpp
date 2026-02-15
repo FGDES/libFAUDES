@@ -22,7 +22,6 @@
 //#define FAUDES_DEBUG_FUNCTION
    
 #include "syn_functions.h"
-#include "omg_buechifnct.h"
 
 
 namespace faudes {

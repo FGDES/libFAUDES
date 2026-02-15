@@ -50,7 +50,7 @@ jobs:
     - name: Build Default Targets
       run: |
         gmake --touch includes
-        gmake --touch plugins/luabindings/obj/*cpp
+        gmake --touch plugins/luabindings/obj/*.cpp
         gmake -j
     - name: Build Tutorials
       run: gmake -j tutorial

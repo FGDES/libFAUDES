@@ -186,14 +186,13 @@ endif
 
 
 # Include configure cache to recover FAUDES_PLUGINS, FAUDES_DEBUG, and FAUDES_OPTIONS
-
-FILE_CONFIG = Makefile.configuration
+CFGFILE = Makefile.configuration
 
 # if "configuration"/"dist-clean"/"package" are not the target, read make variables from file
 ifneq (configure,$(findstring configure,$(MAKECMDGOALS)))
 ifneq (dist-clean,$(findstring dist-clean,$(MAKECMDGOALS)))
 ifneq (package,$(findstring package,$(MAKECMDGOALS)))
-include $(FILE_CONFIG)
+include $(CFGFILE)
 endif
 endif
 endif
@@ -784,12 +783,15 @@ RTIFREF = reference_index.fref reference_types.fref reference_functions.fref ref
 
 EXECUTABLES = gen2dot fts2ftx  ref2html rti2code flxinstall valfaudes
 
-HEADERS = $(CPPFILES:.cpp=.h) libfaudes.h configuration.h corefaudes.h allplugins.h cfl_definitions.h  
+HEADERS = $(CPPFILES:.cpp=.h) libfaudes.h corefaudes.h cfl_definitions.h  
 SOURCES = $(CPPFILES:%=$(SRCDIR)/%)
 SOURCESMIN = $(CPPFILESMIN:%=$(SRCDIR)/%)
 OBJECTS = $(CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O)) 
 OBJECTSMIN = $(CPPFILESMIN:%.cpp=$(OBJDIR)/%_min$(DOT_O)) 
 EXECUTABLES := $(EXECUTABLES:%=$(BINDIR)/%$(DOT_EXE))
+
+CFGHEADERS = $(INCLUDEDIR)/configuration.h
+CFGHEADERS += $(INCLUDEDIR)/allplugins.h 
 
 RTIDEFS := $(RTIDEFS:%=$(SRCDIR)/registry/%)
 RTIFREF := $(RTIFREF:%=$(SRCDIR)/registry/%)
@@ -806,18 +808,18 @@ DEPEND = Makefile.depend
 
 CLEANFILES = $(OBJECTS) $(OBJECTSMIN) $(DEPEND) $(MINFAUDES)
 
-DISTCLEANFILES = $(DEPEND) $(FILE_CONFIG)
+DISTCLEANFILES = $(DEPEND) $(CFGFILE) $(CFGHEADERS)
 
 
 ####################################
 # Two stages of source configuraton
 # prepare: move files
-# configure: run rti
+# configure: construct files 
 ####################################
 
-PREPARETARGETS = $(FILE_CONFIG) includes tools/msvc/VERSION.bat
+PREPARETARGETS = $(CFGFILE) $(CFGHEADERS) tools/msvc/VERSION.bat
 
-CONFIGURETARGETS =  depend rtitools rticode reftools docs includes
+CONFIGURETARGETS =  depend includes rti docs  
 
 
 ####################################
@@ -916,7 +918,7 @@ default_after_include: $(DEFAULTTARGETS)
 # fix configuration variables (in particular FAUDES_OPTIONS)
 ifneq (dist-clean,$(findstring dist-clean,$(MAKECMDGOALS)))
 ifneq (configure,$(findstring configure,$(MAKECMDGOALS)))
-include $(FILE_CONFIG)
+include $(CFGFILE)
 endif
 endif
 
@@ -951,7 +953,7 @@ configure: prepare $(CONFIGURETARGETS)
 	$(ECHO) "libFAUDES-make: you may now compile the default targets by \"make -j\"" 
 	$(ECHO) " ============================== " 
 
-libfaudes: $(LIBFAUDES) # includes TM 2026win
+libfaudes: $(LIBFAUDES) 
 
 binaries: $(EXECUTABLES) libfaudes
 
@@ -1119,7 +1121,7 @@ ifeq (core_finterface ,$(findstring core_finterface,$(FAUDES_DEBUG)))
 endif
 	echo " " >> $(INCLUDEDIR)/configuration.h
 
-$(FILE_CONFIG):
+$(CFGFILE):
 	rm -f $@
 	touch $@
 	echo "# libFAUDES build configuration" >> $@
@@ -1135,7 +1137,7 @@ $(FILE_CONFIG):
 ####################################
 
 # run time interface target
-rti: rtitools rticode doc-reference doc-fref
+rti: rtitools rticode
 
 # tools 
 rtitools: $(BINDIR)/rti2code$(DOT_EXE) 
@@ -1448,7 +1450,7 @@ doc-clean:
 REF2HTMLCMD = ./bin/ref2html -rti $(REFSRCDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(REFSRCDIR)/faudes_navigation.include_fref -rel ../ -css doxygen.css 
 
 # build doc: run as script
-docs: reftools rtitools rticode doc-images doc-base doc-luafaudes doc-reference includes 
+docs: rti reftools doc-images doc-base doc-luafaudes doc-reference includes 
 	- mkdir -p $(DOXDOCDIR)
 	$(REF2HTMLCMD) -doxheader $(DOXDOCDIR)/doxygen_header.html
 	$(REF2HTMLCMD) -doxfooter $(DOXDOCDIR)/doxygen_footer.html

@@ -26,7 +26,6 @@
 #include "syn_supnorm.h"
 #include "syn_functions.h"
 
-#include "omg_include.h"
 
 namespace faudes {
 
