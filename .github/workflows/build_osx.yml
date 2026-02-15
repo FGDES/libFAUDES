@@ -46,11 +46,8 @@ jobs:
       run: |
         brew update
         brew install make
-        brew install swig  # why do we need this?
     - name: Build Default Targets
       run: |
-        #gmake --touch includes
-        #gmake --touch plugins/luabindings/obj/*.cpp
         gmake -j
     - name: Build Tutorials
       run: gmake -j tutorial

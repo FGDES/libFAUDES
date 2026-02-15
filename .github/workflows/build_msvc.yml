@@ -40,12 +40,8 @@ jobs:
     needs: [configure]
     
     steps:	
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: sources
-        path: ./
-    - uses: msys2/setup-msys2@v2
+    - name: Install Toolchain
+      uses: msys2/setup-msys2@v2
       id: msys2
       with:
         msystem: UCRT64
@@ -54,12 +50,15 @@ jobs:
     - uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: sources
+        path: ./
     - name: Build Static Libray 
       shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        :: %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch includes
-        :: %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch plugins/luabindings/obj/*.cpp
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
     - name: Build Tools
       shell: cmd
@@ -81,6 +80,5 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win clean
-        :: %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
         %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
         %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
