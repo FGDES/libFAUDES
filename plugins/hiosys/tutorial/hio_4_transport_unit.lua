@@ -71,9 +71,7 @@ print('hiosys: lua tutorial 4 - transport unit chain example')
 --read plant, spec and constraints:
 
   plantA=faudes.HioPlant('data/4_transport_unit/plantA.gen')
-  print( '=== Workflow issue?')
-  --plantA:Write('tmp_hio_tu_plantA.gen')
-  print( '=== Workflow issue? hmm')
+  plantA:Write('tmp_hio_tu_plantA.gen')
 
   specA=faudes.HioPlant('data/4_transport_unit/specA.gen')
   specA:Write('tmp_hio_tu_spec_A.gen')
