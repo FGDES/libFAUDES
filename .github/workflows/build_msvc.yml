@@ -28,12 +28,13 @@ jobs:
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
-        dir
+        tar -czf faudes.tgz ./*
+        dir	
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: sources
-        path: ./
+        name: faudes.tgz
+        path: ./faudes.tgz
         if-no-files-found: error
 
   build:  
@@ -55,8 +56,12 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: sources
+        name: faudes.tgz
         path: ./
+    - name: Extract Archive
+      run: |
+        tar -xzf faudes.tgz
+        dir
     - name: Build Static Libray 
       shell: cmd
       run: |
