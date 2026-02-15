@@ -268,7 +268,7 @@ endif
 # figure type of shell available for make
 FAUDES_MSHELL = posix
 ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
-FAUDES_MSHELL = cmdcom
+FAUDES_MSHELL = pwrsh
 endif
 
 # set timestamp
@@ -302,16 +302,16 @@ SHELL = cmd.exe
 .SHELLFLAGS = /S /C
 CP  = copy /Y /B /V
 CPR = xcopy /E /I /Y /Q
-MV = echo WARNING CANNOT RUN MV ON 
+MV = echo WARNING CANNOT MV
 RM = del /F /S /Q 
 MKDIR = mkdir
 LSL = dir 
 ECHO = @echo
-ECHOE = echo WARNING CANNOT RUN ECHO-E ON 
+ECHOE = echo WARNING CANNOT ECHO-E
 DIFF = fc /W
-SWIG = echo WARNING CANNOT RUN SWIG ON
-PYTHON = echo WARNING CANNOT RUN PYHTON ON 
-DOXYGEN = echo WARNING CANNOT RUN DOXYGEN ON
+SWIG = echo WARNING CANNOT SWIG 
+PYTHON = echo WARNING CANNOT PYHTON 
+DOXYGEN = echo WARNING CANNOT DOXYGEN
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = @echo wont strip
 endif
@@ -321,21 +321,21 @@ endif
 # via cmd.exe and leave out the suffix ".exe"     
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
-.SHELLFLAGS=
+.SHELLFLAGS= /S /C
 CP  = cmd.exe /S /C copy /Y /B /V
 CPR = cmd.exe /S /C xcopy /E /I /Y /Q 
-MV = echo ERROR MV NOT CONFIGURED
-RM = - cmd.exe /S /C del /F /S /Q 
+MV = @cmd.exe /S /C echo WARNING CANNOT MV
+RM = cmd.exe /S /C del /F /S /Q 
 MKDIR = cmd.exe /S /C mkdir
 LSL = cmd.exe /S /C dir
 ECHO = @cmd.exe /S /C echo
-ECHOE = echo ECHO-E NOT CONFIGURED
+ECHOE = @cmd.exe /S /C echo WARNING ECHO-E 
 DIFF = cmd.exe /S /C fc /W
-SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
-PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
-DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
+SWIG = cmd.exe /S /C echo WARNING CANNOT SWIG 
+PYTHON = = cmd.exe /S /C echo WARNING CANNOT PYHTON 
+DOXYGEN = cmd.exe /S /C echo WARNING CANNOT DOXYGEN 
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = @echo wont strip
+FNCT_POST_APP = @cmd.exe /S /C echo wont strip
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
