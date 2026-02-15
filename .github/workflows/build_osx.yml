@@ -31,7 +31,7 @@ jobs:
         name: faudes.tgz
         path: ./faudes.tgz
         if-no-files-found: error
-	compression-level: 0
+        compression-level: 0
 
   build:  
 
