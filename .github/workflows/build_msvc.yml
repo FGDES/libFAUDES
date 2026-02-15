@@ -61,8 +61,10 @@ jobs:
       shell: cmd
       run: |
         dir
+        echo bla > newfile
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
+        echo bla > extrafile
         dir
         dir obj
     - name: Build Tools
