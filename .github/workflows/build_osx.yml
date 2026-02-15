@@ -26,7 +26,7 @@ jobs:
         make clean
         date
         ls -hl src/swig/*.i
-        ls -hl plugins/luabindings/*cpp
+        ls -hl plugins/luabindings/obj
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
