@@ -50,6 +50,7 @@ jobs:
       with:
         name: faudes.tgz
         path: ./	
+    - name: Extract Archive
       run: |
         tar -xzf faudes.tgz
     - name: Install Extra Libs 
