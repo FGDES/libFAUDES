@@ -54,7 +54,7 @@ jobs:
       run: |
         date
         ls -hl src/swig/*.i
-        ls -hl plugins/luabindings/*cpp
+        ls -hl plugins/luabindings/obj
         gmake --debug=b -j1
     - name: Build Tutorials
       run: gmake -j1 tutorial
