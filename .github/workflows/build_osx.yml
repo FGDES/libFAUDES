@@ -48,8 +48,8 @@ jobs:
         brew install make
     - name: Build Default Targets
       run: |
-        gmake -j
+        gmake --debug=b -j1
     - name: Build Tutorials
-      run: gmake -j tutorial
+      run: gmake -j1 tutorial
     - name: Run Test Cases
-      run: gmake test
+      run: gmake -j1 test
