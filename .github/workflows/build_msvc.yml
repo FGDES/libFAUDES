@@ -50,11 +50,11 @@ jobs:
       run: |
         tar -xzf faudes.tgz
         dir
-    - name: Install Toolchain
+    - name: Install Cl
       uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-    - uses: msys2/setup-msys2@v2
+    - name: Install MSYS
       id: msys2
       with:
         msystem: UCRT64

@@ -322,7 +322,7 @@ endif
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
 .SHELLFLAGS= /S /C
-CP  = cmd.exe /S /C copy   #/Y /B /V
+CP  = cmd.exe /S /C xcopy.exe /I /-I /Y 
 CPR = cmd.exe /S /C xcopy /E /I /Y /Q 
 MV = @cmd.exe /S /C echo WARNING CANNOT MV
 RM = cmd.exe /S /C del /F /S /Q 
