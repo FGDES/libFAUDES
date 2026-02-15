@@ -54,7 +54,7 @@ jobs:
       uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
-      uses: msys2/setup-msys2@v2
+    - uses: msys2/setup-msys2@v2
       id: msys2
       with:
         msystem: UCRT64
