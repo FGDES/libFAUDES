@@ -134,8 +134,23 @@ jobs:
 
     runs-on: windows-latest
     needs: [configure]
+    defaults:
+      run:
+        shell: cmd
+
     
     steps:	
+    - name: Install MSVC	  
+      uses: TheMrMilchmann/setup-msvc-dev@v3
+      with:
+        arch: x64
+    - name: Install MSYS
+      uses: msys2/setup-msys2@v2
+      id: msys2
+      with:
+        msystem: UCRT64
+        install: >-
+          make
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
@@ -143,34 +158,21 @@ jobs:
         path: ./
     - name: Extract Archive
       run: |
-        tar -xzf faudes.tgz
-    - name: Install Tools
-      uses: msys2/setup-msys2@v2
-      id: msys2
-      with:
-        msystem: UCRT64
-        install: >-
-          make
-    - uses: TheMrMilchmann/setup-msvc-dev@v3
-      with:
-        arch: x64
+        tar -xzf faudes.tgz	  
     - name: Build Static Libray 
-      shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" libfaudes
     - name: Build Tools
-      shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" binaries
+        copy /Y /B plugins\luabindings\tutorial\luafaudes.exe bin\luafaudes.exe
     - name: Build Tutorial
-      shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug"  tutorial
     - name: Run Test Cases
-      shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" test

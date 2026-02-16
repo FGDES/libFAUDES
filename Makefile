@@ -320,8 +320,8 @@ endif
 # - this is finetuned to run as GitHub action in a mixed MSYS/MSCV setting
 # - most of this is actually not functional adn only fixed by the action file
 ifeq ($(FAUDES_MSHELL),pwrsh)
-#SHELL = cmd.exe
-#.SHELLFLAGS= /S /C
+SHELL = cmd.exe
+.SHELLFLAGS= /S /C
 CP  = cmd.exe /S /C copy /Y /B
 CPR = cmd.exe /S /C xcopy.exe /E /I /Y /Q 
 MV = echo WARNING CANNOT MV
