@@ -67,6 +67,7 @@ jobs:
     - name: Build Static Libray 
       run: |
         dir
+	set MAKESHELL=cmd.exe
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 show
@@ -77,7 +78,7 @@ jobs:
         dir obj
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% --debug=b FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
-        copy.exe /Y /B plugins\luabindings\tutorial\luafaudes.exe bin\luafaudes.exe
+        copy /Y /B plugins\luabindings\tutorial\luafaudes.exe bin\luafaudes.exe
         dir bin
     - name: Build Tutorials
       run: |
