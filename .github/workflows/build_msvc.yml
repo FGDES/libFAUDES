@@ -44,7 +44,7 @@ jobs:
         shell: cmd
 
     steps:	
-    - name: Install Cl
+    - name: Install MSVC
       uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
         arch: x64
@@ -77,6 +77,8 @@ jobs:
         dir obj
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% --debug=b FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
+	::fixme vvvvvv
+        copy.exe /Y /B plugins\luabindings\tutorial\luafaudes.exe bin\luafaudes.exe
         dir bin
     - name: Build Tutorials
       run: |

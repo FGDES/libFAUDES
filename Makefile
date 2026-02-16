@@ -300,7 +300,7 @@ FNCT_POST_APP = strip $(1)
 ifeq ($(FAUDES_MSHELL),cmdcom)
 SHELL = cmd.exe
 .SHELLFLAGS = /S /C
-CP  = copy /Y /B /V
+CP  = copy /Y /B
 CPR = xcopy /E /I /Y /Q
 MV = echo WARNING CANNOT MV
 RM = del /F /S /Q 
