@@ -324,18 +324,18 @@ SHELL = cmd.exe
 .SHELLFLAGS= /S /C
 CP  = cmd.exe /S /C copy /Y /B  
 CPR = cmd.exe /S /C xcopy.exe /E /I /Y /Q 
-MV = @cmd.exe /S /C echo WARNING CANNOT MV
+MV = cmd.exe /S /C echo WARNING CANNOT MV
 RM = cmd.exe /S /C del.exe /F /S /Q 
 MKDIR = cmd.exe /S /C mkdir.exe
 LSL = cmd.exe /S /C dir.exe
-ECHO = @cmd.exe /S /C echo
-ECHOE = @cmd.exe /S /C echo WARNING CANNOT ECHO-E 
+ECHO = cmd.exe /S /C echo
+ECHOE = cmd.exe /S /C echo WARNING CANNOT ECHO-E 
 DIFF = cmd.exe /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING CANNOT SWIG 
 PYTHON = = cmd.exe /S /C echo WARNING CANNOT PYHTON 
 DOXYGEN = cmd.exe /S /C echo WARNING CANNOT DOXYGEN 
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = @cmd.exe /S /C echo wont strip
+FNCT_POST_APP = cmd.exe /S /C echo wont strip
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
@@ -550,10 +550,10 @@ endif
 #
 # 
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cmd.exe /S /C cl /nologo
-CC = cmd.exe /S /C cl /nologo
-LXX = cmd.exe /S /C cl /nologo
-AR = cmd.exe /S /C lib /VERBOSE
+CXX = cl /nologo
+CC = cl /nologo
+LXX = cl /nologo
+AR = lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
