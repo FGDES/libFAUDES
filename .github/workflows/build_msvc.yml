@@ -95,3 +95,5 @@ jobs:
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
         copy /Y /B plugins\luabindings\tutorial\luafaudes.exe bin\luafaudes.exe
+        dir bin
+        dir 
