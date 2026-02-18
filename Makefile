@@ -1002,8 +1002,6 @@ package:
 
 # cmd.exe funny 8K limit
 LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES)) 
-# posix vs cmd.exe, dont use shell wildcard
-#LSOBJ = $(wildcard $(OBJDIR)/*) 
 
 clean: $(CLEANTARGETS)
 	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) 
