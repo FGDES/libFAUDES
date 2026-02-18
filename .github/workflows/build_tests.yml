@@ -166,7 +166,6 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
-        copy /Y /B plugins\luabindings\tutorial\luafaudes.exe bin\luafaudes.exe
     - name: Build Tutorials
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
@@ -181,7 +180,5 @@ jobs:
         del bin\*.exe
         del plugins\luabindings\obj\*.obj
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
-        copy /Y /B plugins\luabindings\tutorial\luafaudes.exe bin\luafaudes.exe
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 
 
