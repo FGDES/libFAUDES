@@ -130,7 +130,7 @@ jobs:
       run: make -j1 test
 
 
-  build:  
+  build-msvc:  
 
     runs-on: windows-latest
     needs: [configure]
