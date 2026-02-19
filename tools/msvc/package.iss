@@ -5,7 +5,10 @@
 
 
 [Setup]
-MinVersion=10.0.22000	
+; Win11
+;MinVersion=10.0.22000
+; Win10
+MinVersion=10.0.10240
 AppCopyright=Moor/FGDES
 AppName=libFAUDES
 AppVersion={#VMAJOR}.{#VMINOR}

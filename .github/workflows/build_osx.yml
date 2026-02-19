@@ -24,12 +24,14 @@ jobs:
       run: |
         make -j configure
         make clean
+        tar -czf faudes.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: sources
-        path: ./
+        name: faudes.tgz
+        path: ./faudes.tgz
         if-no-files-found: error
+        compression-level: 0
 
   build:  
 
@@ -40,18 +42,19 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: sources
-        path: ./
+        name: faudes.tgz
+        path: ./	
+    - name: Extract Archive
+      run: |
+        tar -xzf faudes.tgz
     - name: Install Tools
       run: |
         brew update
         brew install make
-        brew install swig  # why do we need this?
     - name: Build Default Targets
       run: |
-        gmake --touch includes
-        gmake -j
+        gmake -j1
     - name: Build Tutorials
-      run: gmake -j tutorial
+      run: gmake -j1 tutorial
     - name: Run Test Cases
-      run: gmake test
+      run: gmake -j1 test

@@ -31,6 +31,9 @@ LBP_OBJDIR= ./plugins/luabindings/obj
 LBP_CPPFILES = lbp_addons.cpp lbp_function.cpp
 LBP_INCLUDE  = lbp_include.h
 
+#
+# utility executable
+LBP_EXES = luafaudes
 
 #
 # std plug-in file lists
@@ -280,6 +283,7 @@ SOURCES += $(LBP_SOURCES)
 OBJECTS += $(LBP_OBJECTS) $(LBP_SWIGOBJECTS) $(LBP_LUAOBJECTS)
 HEADERS += $(LBP_HEADERS) 
 VPATH   += $(LBP_SRCDIR)
+EXECUTABLES += $(LBP_EXES:%=$(BINDIR)/%$(DOT_EXE))
 CLEANFILES += $(LBP_OBJECTS) $(LBP_SWIGOBJECTS) $(LBP_LUAOBJECTS)
 DISTCLEANFILES += $(LBP_LUADIR) $(LBP_SWIGCPPFILES) $(LBP_OBJDIR)/lbp_load.cpp
 PREPARETARGETS += luabindings-prepare

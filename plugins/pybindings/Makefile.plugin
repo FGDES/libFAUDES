@@ -167,7 +167,7 @@ OBJECTS += $(PBP_OBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper.o
 HEADERS += $(PBP_HEADERS) 
 LNKLIBS += $(PBP_PYTHON_LNK)
 VPATH   += $(PBP_SRCDIR)
-CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
+CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) 
 CONFIGURETARGETS += pybindings-configure pybindings-report
 
 #

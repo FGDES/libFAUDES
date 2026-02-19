@@ -41,7 +41,9 @@
 
 # allow user local configuration (unless building a distribution package)
 ifeq ($(FAUDES_NOUSER),)
+ifneq (package,$(findstring package,$(MAKECMDGOALS)))
 -include Makefile.user
+endif
 endif
 
 
@@ -184,16 +186,16 @@ endif
 
 
 # Include configure cache to recover FAUDES_PLUGINS, FAUDES_DEBUG, and FAUDES_OPTIONS
+CFGFILE = Makefile.configuration
 
-FILE_CONFIG = Makefile.configuration
-
-# if "configuration" or "dist-clean" are not the target, read make variables from file
+# if "configuration"/"dist-clean"/"package" are not the target, read make variables from file
 ifneq (configure,$(findstring configure,$(MAKECMDGOALS)))
 ifneq (dist-clean,$(findstring dist-clean,$(MAKECMDGOALS)))
-include $(FILE_CONFIG)
+ifneq (package,$(findstring package,$(MAKECMDGOALS)))
+include $(CFGFILE)
 endif
 endif
-
+endif
 
 
 ###############################################################################
@@ -297,43 +299,43 @@ FNCT_POST_APP = strip $(1)
 #
 ifeq ($(FAUDES_MSHELL),cmdcom)
 SHELL = cmd.exe
-.SHELLFLAGS = 
-CP  = cmd /C copy /Y
-CPR = cmd /C echo ERROR CPR NOT CONFIGURED
-MV = cmd /C echo ERROR MV NOT CONFIGURED
-RM = cmd /C del /F /S /Q 
-MKDIR = cmd /C echo MKDIR NOT CONFIGURED
-LSL = cmd.exe /C dir 
-ECHO = @cmd /C echo
-ECHOE = cmd /C echo ECHO-E NOT CONFIGURED
+.SHELLFLAGS = /S /C
+CP  = copy /Y /B
+CPR = xcopy /E /I /Y /Q
+MV = echo WARNING CANNOT MV
+RM = del /F /S /Q 
+MKDIR = mkdir
+LSL = dir 
+ECHO = @echo
+ECHOE = echo WARNING CANNOT ECHO-E
 DIFF = fc /W
-SWIG = cmd /C echo WARNING SWIG NOT CONFIGURED
-PYTHON = = cmd /C echo WARNING PYHTON NOT CONFIGURED
-DOXYGEN = cmd /C echo WARNING DOXYGEN NOT CONFIGURED
+SWIG = echo WARNING CANNOT SWIG 
+PYTHON = echo WARNING CANNOT PYHTON 
+DOXYGEN = echo WARNING CANNOT DOXYGEN
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = echo wont strip
+FNCT_POST_APP = @echo wont strip
 endif
 
 ### sensible/pwrsh defaults: external tools #########################
-# [this is finetuned to run as GitHub action; we run every exec
-# via cmd.exe and leave out he suffix ".exe"     
+# - this is finetuned to run as GitHub action in a mixed MSYS/MSCV setting
+# - most of this is actually not functional and only fixed by the action file
 ifeq ($(FAUDES_MSHELL),pwrsh)
 SHELL = cmd.exe
-.SHELLFLAGS=
-CP  = copy /Y /B /V
-CPR = echo ERROR CPR NOT CONFIGURED
-MV = echo ERROR MV NOT CONFIGURED
-RM = cmd.exe /S /C del /F /S /Q 
-MKDIR = cmd.exe /S /C echo WARNING MKDIR NOT CONFIGURED
-LSL = cmd.exe /S /C dir
-ECHO = @cmd.exe /S /C echo
-ECHOE = echo ECHO-E NOT CONFIGURED
+.SHELLFLAGS= /S /C
+CP  = cmd.exe /S /C copy /Y /B 
+CPR = cmd.exe /S /C xcopy.exe /E /I /Y /Q 
+MV = cmd.exe /S /C echo WARNING CANNOT MV
+RM = cmd.exe /S /C del.exe /F /S /Q 
+MKDIR = cmd.exe /S /C mkdir.exe
+LSL = cmd.exe /S /C dir.exe
+ECHO = cmd.exe /S /C echo
+ECHOE = cmd.exe /S /C echo WARNING CANNOT ECHO-E 
 DIFF = cmd.exe /S /C fc /W
-SWIG = cmd.exe /S /C echo WARNING SWIG NOT CONFIGURED
-PYTHON = = cmd.exe /S /C echo WARNING PYHTON NOT CONFIGURED
-DOXYGEN = cmd.exe /S /C echo WARNING DOXYGEN NOT CONFIGURED
+SWIG = cmd.exe /S /C echo WARNING CANNOT SWIG 
+PYTHON = cmd.exe /S /C echo WARNING CANNOT PYHTON 
+DOXYGEN = cmd.exe /S /C echo WARNING CANNOT DOXYGEN 
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
-FNCT_POST_APP = cmd.exe /S /C echo wont strip 
+FNCT_POST_APP = cmd.exe /S /C echo wont strip
 endif
 
 ### sensible/posix defaults: generic g++ compiler on a Unix system
@@ -546,7 +548,7 @@ endif
 # MSYS provided minge32-make from a windows command prompt to build
 # the configured libFAUDES by "mingw32-make FAUDES_PLATFORM=cl_win".
 #
-#
+# 
 ifeq ($(FAUDES_PLATFORM),cl_win)
 CXX = cmd.exe /S /C cl /nologo
 CC = cmd.exe /S /C cl /nologo
@@ -781,12 +783,15 @@ RTIFREF = reference_index.fref reference_types.fref reference_functions.fref ref
 
 EXECUTABLES = gen2dot fts2ftx  ref2html rti2code flxinstall valfaudes
 
-HEADERS = $(CPPFILES:.cpp=.h) libfaudes.h configuration.h corefaudes.h allplugins.h cfl_definitions.h  
+HEADERS = $(CPPFILES:.cpp=.h) libfaudes.h corefaudes.h cfl_definitions.h  
 SOURCES = $(CPPFILES:%=$(SRCDIR)/%)
 SOURCESMIN = $(CPPFILESMIN:%=$(SRCDIR)/%)
 OBJECTS = $(CPPFILES:%.cpp=$(OBJDIR)/%$(DOT_O)) 
 OBJECTSMIN = $(CPPFILESMIN:%.cpp=$(OBJDIR)/%_min$(DOT_O)) 
 EXECUTABLES := $(EXECUTABLES:%=$(BINDIR)/%$(DOT_EXE))
+
+CFGHEADERS = $(INCLUDEDIR)/configuration.h
+CFGHEADERS += $(INCLUDEDIR)/allplugins.h 
 
 RTIDEFS := $(RTIDEFS:%=$(SRCDIR)/registry/%)
 RTIFREF := $(RTIFREF:%=$(SRCDIR)/registry/%)
@@ -803,18 +808,18 @@ DEPEND = Makefile.depend
 
 CLEANFILES = $(OBJECTS) $(OBJECTSMIN) $(DEPEND) $(MINFAUDES)
 
-DISTCLEANFILES = $(DEPEND) $(FILE_CONFIG)
+DISTCLEANFILES = $(DEPEND) $(CFGFILE) $(CFGHEADERS)
 
 
 ####################################
 # Two stages of source configuraton
 # prepare: move files
-# configure: run rti
+# configure: construct files 
 ####################################
 
-PREPARETARGETS = $(FILE_CONFIG) includes tools/msvc/VERSION.bat
+PREPARETARGETS = $(CFGFILE) $(CFGHEADERS) tools/msvc/VERSION.bat
 
-CONFIGURETARGETS =  depend rtitools rticode reftools docs includes
+CONFIGURETARGETS =  depend includes rti docs  
 
 
 ####################################
@@ -913,7 +918,7 @@ default_after_include: $(DEFAULTTARGETS)
 # fix configuration variables (in particular FAUDES_OPTIONS)
 ifneq (dist-clean,$(findstring dist-clean,$(MAKECMDGOALS)))
 ifneq (configure,$(findstring configure,$(MAKECMDGOALS)))
-include $(FILE_CONFIG)
+include $(CFGFILE)
 endif
 endif
 
@@ -948,7 +953,7 @@ configure: prepare $(CONFIGURETARGETS)
 	$(ECHO) "libFAUDES-make: you may now compile the default targets by \"make -j\"" 
 	$(ECHO) " ============================== " 
 
-libfaudes: $(LIBFAUDES) includes
+libfaudes: $(LIBFAUDES) 
 
 binaries: $(EXECUTABLES) libfaudes
 
@@ -960,7 +965,7 @@ tutorial: $(TUTORIAL_EXECUTABLES) $(TUTORIALTARGETS) libfaudes
 
 package: 
 	$(ECHO) " ============================== " 
-	$(ECHO) "libFAUDES pacakge: prepare"
+	$(ECHO) "libFAUDES package: prepare"
 	$(RM) libFAUDES-$(FAUDES_FILEVERSION) 
 	$(RM) /tmp/libFAUDES_$(FAUDES_FILEVERSION) 
 	$(MKDIR) /tmp/libFAUDES_$(FAUDES_FILEVERSION)
@@ -975,8 +980,9 @@ package:
 	- $(CPR)  plugins/pybindings ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	$(ECHO) "#### libFAUDES package: dist-clean"
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
+	$(RM) ./libFAUDES_$(FAUDES_FILEVERSION)/Makefile.user
 	$(ECHO) "#### libFAUDES package: configure"
-	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION) -DFAUDES_NOUSER -j configure &> /dev/null
+	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION) -j configure FAUDES_NOUSER="yes" &> /dev/null
 	$(ECHO) "#### libFAUDES package: tar sources"  
 	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION)_source.tar.gz libFAUDES_$(FAUDES_FILEVERSION)
 	$(ECHO) "#### libFAUDES package: build"
@@ -996,13 +1002,11 @@ package:
 
 # cmd.exe funny 8K limit
 LESSCLEANFILES = $(patsubst obj/%,,$(CLEANFILES)) 
-# posix vs comd.exe, bont use shell wildcard
-LSOBJ = $(wildcard $(OBJDIR)/*) 
 
 clean: $(CLEANTARGETS)
-	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) never_nothing_markA
-	$(RM) $(call FNCT_FIXDIRSEP,$(LSOBJ)) never_nothing_markB
-#	$(RM) tmp_valext
+	$(RM) $(call FNCT_FIXDIRSEP,$(LESSCLEANFILES)) 
+	$(RM) $(call FNCT_FIXDIRSEP,$(OBJDIR)/*) 
+	$(RM) tmp_valext
 
 dist-clean: doc-clean $(DISTCLEANTARGETS)
 	rm -rf $(CLEANFILES) 
@@ -1115,7 +1119,7 @@ ifeq (core_finterface ,$(findstring core_finterface,$(FAUDES_DEBUG)))
 endif
 	echo " " >> $(INCLUDEDIR)/configuration.h
 
-$(FILE_CONFIG):
+$(CFGFILE):
 	rm -f $@
 	touch $@
 	echo "# libFAUDES build configuration" >> $@
@@ -1131,7 +1135,7 @@ $(FILE_CONFIG):
 ####################################
 
 # run time interface target
-rti: rtitools rticode doc-reference doc-fref
+rti: rtitools rticode
 
 # tools 
 rtitools: $(BINDIR)/rti2code$(DOT_EXE) 
@@ -1345,7 +1349,9 @@ doc-luafaudes: $(REFSRCDIR)/luafaudes
 	cp $(LBP_REPLDIR)/*.css $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*.lua $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/*min.js $(LUADOCDIR)
-	cp $(LBP_REPLDIR)/luafaudes_2_28a.js $(LUADOCDIR)/luafaudes.js
+#	cp $(LBP_REPLDIR)/luafaudes_2_28a.js $(LUADOCDIR)/luafaudes.js
+	cp $(LBP_REPLDIR)/luafaudes_2_33l.js $(LUADOCDIR)/luafaudes.js
+	cp $(LBP_REPLDIR)/luafaudes_2_33l.wasm $(LUADOCDIR)/luafaudes.wasm
 
 # if we dont have luabindings
 else
@@ -1442,7 +1448,7 @@ doc-clean:
 REF2HTMLCMD = ./bin/ref2html -rti $(REFSRCDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(REFSRCDIR)/faudes_navigation.include_fref -rel ../ -css doxygen.css 
 
 # build doc: run as script
-docs: reftools rtitools rticode doc-images doc-base doc-luafaudes doc-reference includes 
+docs: rti reftools doc-images doc-base doc-luafaudes doc-reference includes 
 	- mkdir -p $(DOXDOCDIR)
 	$(REF2HTMLCMD) -doxheader $(DOXDOCDIR)/doxygen_header.html
 	$(REF2HTMLCMD) -doxfooter $(DOXDOCDIR)/doxygen_footer.html
@@ -1554,8 +1560,8 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot))
 # Formal targets
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
-# tools #verb
-VALFAUDES = ./bin/valfaudes  -q
+# tools #verb -v/-q
+VALFAUDES = ./bin/valfaudes -q 
 
 # Conversion function target->protocol
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
@@ -1625,7 +1631,7 @@ show:
 	$(ECHO) "libFAUDES-make: core results" 
 	$(LSL) obj
 	$(LSL) bin
-	$(LSL) *faudes* 
+	$(LSL) *faudes*.*
 	$(ECHO) " ============================== " 
 
 test: binaries tutorial $(TESTTARGETS) 

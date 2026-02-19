@@ -39,12 +39,12 @@ please do not hesitate to report back to us.
 <p>
 Restrictions:
 
-- Although the build system allows for multiple bindings plug-ins, we recommend to either
+- Although the build system allows for multiple binding plug-ins, we recommend to either
   use Lua bindings or Python bindings, but not both for the same build.
 
-- For most plug-ins, bindings are automatically generated via SWIG based on so called
+- Bindings are automatically generated via SWIG based on so called
   interface files (residing in <tt>libfaudes/plugins/`*`/registry/`*`.i</tt>);
-  regarding Python, only the plug-ins Synthesis and Observer have been tested.
+  regarding Python, our regular test cases focus on the Synthesis and Observer plug-in.
   
 </p>
 
@@ -150,8 +150,8 @@ Notes:
   your test cases.
 
 
-- The build system is best supported on Linux and OS X. For Windows, we have
-  test pybindings within the MSYS2 enviroment and it works just fine. We did not
+- The build system is best supported on Linux and macOS. For Windows, we have
+  tested pybindings within the MSYS2 enviroment and it works just fine. We did not
   yet test with MSVC compilers and/or plain cmd.exe terminal.
 
 

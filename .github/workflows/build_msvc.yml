@@ -27,60 +27,70 @@ jobs:
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
+        tar -czf faudes.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: sources
-        path: ./
+        name: faudes.tgz
+        path: ./faudes.tgz
         if-no-files-found: error
 
   build:  
 
     runs-on: windows-latest
     needs: [configure]
-    
+    defaults:
+      run:
+        shell: cmd
+
     steps:	
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
+    - name: Install MSVC
+      uses: TheMrMilchmann/setup-msvc-dev@v3
       with:
-        name: sources
-        path: ./
-    - uses: msys2/setup-msys2@v2
+        arch: x64
+    - name: Install MSYS
+      uses: msys2/setup-msys2@v2
       id: msys2
       with:
         msystem: UCRT64
         install: >-
           make
-    - uses: TheMrMilchmann/setup-msvc-dev@v3
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
       with:
-        arch: x64
-    - name: Build Static Libray 
-      shell: cmd
+        name: faudes.tgz
+        path: ./
+    - name: Extract Archive
       run: |
+        tar -xzf faudes.tgz
+        dir
+    - name: Build Static Libray 
+      run: |
+        dir
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 --touch plugins/luabindings/obs/*.cpp
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 show
+        dir
+        dir obj
     - name: Build Tools
-      shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
+        dir bin
     - name: Build Tutorials
-      shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 tutorial
     - name: Run Test Cases
-      shell: cmd
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 test
     - name: Build DSO incl Tools
-      shell: cmd
       run: |
+        del obj\*.obj
+        del bin\*.exe
+        del plugins\luabindings\obj\*.obj
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win clean
-        %GNUMAKE% FAUDES_PLATFORM=cl_win --touch includes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1
+        dir bin
+        dir 

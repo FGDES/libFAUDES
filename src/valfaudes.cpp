@@ -28,6 +28,8 @@ void usage(const std::string& msg="") {
   if (msg != "") {
     std::cerr << "valfaudes: error: " << msg << std::endl;
     std::cerr << std::endl;
+    std::flush(std::cerr);
+    std::flush(std::cout);
     exit(1);
   }
   std::cerr << "valfaudes --- run and validate testcases (" << faudes::VersionString() << ")" << std::endl;
@@ -98,7 +100,12 @@ int runfexec(const std::string& command, const std::string& arguments="") {
 #endif 
   if(!mOptQ)
     std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
-  return std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  int res= std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  return res;
 }
 
 // helper: run system executable (o<>success)
@@ -119,7 +126,12 @@ int runsexec(const std::string& command, const std::string& arguments="") {
 #endif 
   if(!mOptQ)
     std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
-  return std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  int res= std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  return res;
 }
 
 // helper: diff (0<>match)
@@ -137,7 +149,12 @@ int rundiff(const std::string& file1, const std::string& file2) {
 #endif 
   if(!mOptQ)
     std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
-  return std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  int res = std::system(cmd.c_str());
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  return res;
 }
 
 
@@ -216,7 +233,7 @@ int main(int argc, char *argv[]) {
   
   //report
   if(!mOptQ)
-    std::cout << "varfaudes: input file: \"" << mArgFile <<"\"" << std::endl;
+    std::cout << "valfaudes: input file: \"" << mArgFile <<"\"" << std::endl;
 
   // derive config: test type
   mTestPath=ExtractDirectory(mArgFile);
@@ -274,7 +291,7 @@ int main(int argc, char *argv[]) {
   
   //report
   if(!mOptQ) {
-    std::cout << "varfaudes:" << std::endl;
+    std::cout << "valfaudes:" << std::endl;
     std::cout << "  test case: \"" << mTestCase <<"\"" << std::endl;
     std::cout << "  test working dir: \"" << mTestPath <<"\"" << std::endl;
     if(!mBinFile.empty())
@@ -292,7 +309,7 @@ int main(int argc, char *argv[]) {
 
   // is there nothing to test?
   if(mBinFile.empty() && mLuaFile.empty() && mFlxFile.empty() && mPyFile.empty()) {
-    std::cout << "varfaudes: error: nothing we can validate" << std::endl;
+    std::cout << "valfaudes: error: nothing we can validate" << std::endl;
     return 1;
   }
 
@@ -346,10 +363,10 @@ int main(int argc, char *argv[]) {
   // go back to original dir
   int pwdok=faudes_chdir(pwd);
   if(pwdok!=0) {
-    usage("could change back working dir");
+    usage("could nod change back working dir");
   }
 
-  // fail if no tests raun
+  // fail if no tests run
   if(testok!=0) {
     usage("test failed to run");
   }

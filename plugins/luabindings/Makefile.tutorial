@@ -13,13 +13,13 @@ LBP_TUTORIAL_DIR = ./plugins/luabindings/tutorial
 # source files
 
 LBP_TUTORIAL_CPPFILES = \
-	luafaudes.cpp lbp_1_extension.cpp
+	lbp_1_extension.cpp
  
 #
 # executables
 
 LBP_TUTORIAL_EXECUTABLES = \
-	luafaudes lbp_1_extension
+	lbp_1_extension
 
 LBP_TUTORIAL_EXECUTABLES := $(LBP_TUTORIAL_EXECUTABLES:%=$(LBP_TUTORIAL_DIR)/%$(DOT_EXE))
 
@@ -35,8 +35,6 @@ $(LBP_TUTORIAL_DIR)/%$(DOT_EXE): %.cpp $(LIBFAUDES)
 	$(call FNCT_LINK_APP,$(OBJDIR)/$(*)$(DOT_O),$@)
 	$(call FNCT_POST_APP,$@)
 
-$(BINDIR)/luafaudes$(DOT_EXE): $(LBP_TUTORIAL_DIR)/luafaudes$(DOT_EXE) | $(BINDIR)
-	$(call FNCT_COPY,$<,$@) 
 
 ###################################
 # advertise tutorial to main makefile
@@ -46,6 +44,5 @@ VPATH += $(LBP_TUTORIAL_DIR)
 TUTORIAL_EXECUTABLES += $(LBP_TUTORIAL_EXECUTABLES)
 CLEANFILES += $(LBP_TUTORIAL_EXECUTABLES)
 SOURCES += $(LBP_TUTORIAL_CPPFILES:%=$(LBP_TUTORIAL_DIR)/%)
-EXECUTABLES += $(BINDIR)/luafaudes$(DOT_EXE)
 
 
