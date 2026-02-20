@@ -113,6 +113,14 @@ std::string faudes_extpath(const std::string& rPath){
 
 // uniform get/set dir (use posix style interface)
 #ifdef FAUDES_POSIX
+// ... get PATH_MAX on some linux
+#ifdef __linux__
+#include <linux/limits.h>
+#endif
+// ... dont break for PATH_MAX
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
 std::string faudes_getwd(void) {
   std::string res;
   char buf[(PATH_MAX)+1];
