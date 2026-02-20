@@ -154,7 +154,7 @@ $(PBP_OBJDIR)/configuration.json:
 
 # project tree all sources
 PBP_PROJ_HEADERS = $(HEADERS:%=$(INCLUDEDIR)/%) $(CFGHEADERS)
-ifeq $(omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
+ifeq (omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
 PBP_PROJ_HEADERS += plugins/omegaaut/lib/cpphoafparser
 endif
 

@@ -22,7 +22,7 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-	FAUDES_PLUGINS = "synthesis omgegaaut pybindings"
+        FAUDES_PLUGINS = "synthesis omgegaaut pybindings"
         make -j configure
         make clean
 	make -j pyproj
