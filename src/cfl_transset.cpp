@@ -25,6 +25,8 @@
 namespace faudes {
 
 
+// register
+AutoRegisterType<TransSet> gRtiTransSet("TransSet");
 
 
 // apply a relabeling map to a TransSet 

@@ -339,8 +339,7 @@ void Deterministic(const Generator& rGen, std::vector<StateSet>& rPowerStates,
     FD_DF("Deterministic: fixing names...");
     // rPowerStates / rDetStates index "iterator"
     std::vector<StateSet>::size_type i;
-    // deterministic states iterator
-    std::vector<Idx>::const_iterator dit;
+    // iterate target states
     for (i = 0; i < rPowerStates.size(); ++i) {
       // temporary state name
       std::string name = "{";

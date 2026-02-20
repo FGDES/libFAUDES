@@ -43,7 +43,7 @@ namespace faudes {
 typedef TaNameSet<AttributeCFlags> Alphabet;
 
 /** Convenience typedef */
-typedef TBaseVector<Alphabet> AlphaberVector;  
+typedef TBaseVector<Alphabet> AlphabetVector;  
 
 /** Compatibility: pre 2.20b used cEventSet as C++ class name*/
 #ifdef FAUDES_COMPATIBILITY

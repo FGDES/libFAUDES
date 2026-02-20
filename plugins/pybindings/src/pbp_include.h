@@ -5,7 +5,7 @@
  Convenience header file that includes all headers
  relevant to the pybindings plug-in. 
 
- (c) Thomas Moor 2023 - 2025
+ (c) Thomas Moor 2023 - 2026
  ****************************************************
  */
 

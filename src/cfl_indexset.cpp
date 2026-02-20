@@ -41,6 +41,9 @@ namespace faudes {
 *********************************************************************************
 */
 
+// register
+AutoRegisterType<StateSet> gRtiStateSet("StateSet");
+
 // std faudes type 
 FAUDES_TYPE_IMPLEMENTATION(IndexSet,IndexSet,TBaseSet<Idx>)
 

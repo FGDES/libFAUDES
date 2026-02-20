@@ -88,26 +88,6 @@ FAUDES_TEST_DUMP("parallel incl. comp. map b", s1_3)
 FAUDES_TEST_DUMP("parallel incl. comp. map c", s2_3)
 
 ## ##########################################
-## Buechi parallel
-## ##########################################
-
-## Announce
-print("#################  parallel composition wrt Buechi acceptance(incl attributes)");
-
-
-## Compose overall plant
-omachines = faudes.System()
-faudes.BuechiParallel(machine1,machine2,omachines)
-
-## Report
-omachines.Write()
-omachines.GraphWrite("tmp_omachines.svg")
-
-## Record test case
-FAUDES_TEST_DUMP("omegaparallel incl. attr.",omachines)
-
-
-## ##########################################
 ## Std parallel, funny cases
 ## ##########################################
 

@@ -9,7 +9,7 @@
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="OmegaAut::RabinAutomaton" ctype="faudes::RabinAutomaton" autoregister="true"> 
+<TypeDefinition name="OmegaAut::RabinAutomaton" ctype="faudes::RabinAutomaton"> 
 
 <Documentation ref="omegaaut_index.html#RabinAutomaton"> 
 Automaton model RA=(Sigma,Q,delta,Qo,{(R_p,I_p)}).

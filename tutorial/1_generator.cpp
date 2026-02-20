@@ -645,11 +645,6 @@ int main() {
     std::cout << "trimness: ok [error]\n";
   else
     std::cout << "trimness: failed [expected]\n";
-  bool isotrim = IsBuechiTrim(greach);
-  if(isotrim) 
-    std::cout << "w-trimness: ok [error]\n";
-  else
-    std::cout << "w-trimness: failed [expected]\n";
   std::cout << "################################\n";
   
   // record test case
@@ -682,13 +677,6 @@ int main() {
   gtrim.Name("GTrim");
   bool bool_isnontrivial = gtrim.Trim();
 
-  // Make the Generator omega-trim by removing transitions and states. 
-  // The routine returns true if the generator has an initial state
-  // and a marked state.
-  Generator gotrim(greach);
-  gotrim.Name("GOmegaTrim");
-  BuechiTrim(gotrim);
-
   // show effect on console
   std::cout << "################################\n";
   std::cout << "# tutorial, reachability results \n";
@@ -696,7 +684,6 @@ int main() {
   gcoaccess.Write();
   gcompl.Write();
   gtrim.Write();
-  gotrim.Write();
   std::cout << "################################\n";
 
   // contribute to html docu
@@ -705,14 +692,12 @@ int main() {
   gcoaccess.Write("tmp_gcoaccess.gen");
   gcompl.Write("tmp_gcompl.gen");
   gtrim.Write("tmp_gtrim.gen");
-  gotrim.Write("tmp_gotrim.gen");
 
   // Test protocol
   FAUDES_TEST_DUMP("accessible",gaccess);
   FAUDES_TEST_DUMP("coaccessible",gcoaccess);
   FAUDES_TEST_DUMP("complete",gcompl);
   FAUDES_TEST_DUMP("trim",gtrim);
-  FAUDES_TEST_DUMP("omega trim",gotrim);
   
 
   ///////////////////////////////////

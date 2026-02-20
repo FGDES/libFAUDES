@@ -30,6 +30,9 @@
 
 namespace faudes {
 
+// register
+AutoRegisterType<GeneratorVector> gRtiGeneratorVector("GeneratorVector");
+AutoRegisterType<Generator> gRtiGenerator("Generator");
 
 // msObjectCount (static) 
 Idx vGenerator::msObjectCount = 0;

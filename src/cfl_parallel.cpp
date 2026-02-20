@@ -800,6 +800,9 @@ void CompositionMap2(
  * Rti wrapper class implementation
  */
 
+// register
+AutoRegisterType<ProductCompositionMap> gRtiProductCompositionMap("ProductCompositionMap");
+
 // std faudes type
 FAUDES_TYPE_IMPLEMENTATION(ProductCompositionMap,ProductCompositionMap,Type)
 

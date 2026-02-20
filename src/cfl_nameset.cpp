@@ -38,6 +38,9 @@ namespace faudes {
 *********************************************************************************
 */
 
+// register
+AutoRegisterType<EventSet> gRtiEventSet("EventSet");
+AutoRegisterType<EventSetVector> gRtiEventSetVector("EventSetVector");
 
 // std faudes type (cannot do New() with macro)
 FAUDES_TYPE_IMPLEMENTATION_COPY(EventSet,NameSet,TBaseSet<Idx>)

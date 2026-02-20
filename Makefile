@@ -768,7 +768,7 @@ CPPFILESMIN= \
   cfl_types.cpp cfl_functions.cpp cfl_registry.cpp cfl_elementary.cpp cfl_basevector.cpp  cfl_attributes.cpp
 
 CPPFILES = $(CPPFILESMIN) \
-  cfl_symboltable.cpp cfl_attributes.cpp cfl_attrmap.cpp \
+  cfl_symboltable.cpp cfl_attrmap.cpp \
   cfl_baseset.cpp cfl_indexset.cpp cfl_symbolset.cpp cfl_nameset.cpp cfl_transset.cpp \
   cfl_generator.cpp cfl_agenerator.cpp cfl_cgenerator.cpp cfl_localgen.cpp \
   cfl_graphfncts.cpp cfl_parallel.cpp cfl_determin.cpp cfl_project.cpp cfl_statemin.cpp\
@@ -1672,6 +1672,10 @@ report-test:
 	$(ECHO) "options   $(FAUDES_OPTIONS)"
 	$(ECHO) "debug     $(FAUDES_DEBUG)"
 	$(ECHO) "targets   $(DEFAULTTARGETS)"
+
+report-other:
+	$(ECHO) "headers  $(HEADERS)"
+	$(ECHO) "sources  $(SOURCES)"
 
 
 ### all phony targets

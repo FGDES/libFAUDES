@@ -34,5 +34,11 @@ template class FAUDES_API TaNameSet<AttributeCFlags>;
 template class FAUDES_TAPI TcGenerator<AttributeVoid, AttributeVoid, AttributeCFlags,AttributeVoid>; 
 */
 
+// register  
+AutoRegisterType<Alphabet> gRtiAlphabet("Alphabet");
+AutoRegisterType<AlphabetVector> gRtiAlphabetVector("AlphabetVector");
+AutoRegisterType<System> gRtiSystem("System");
+AutoRegisterType<SystemVector> gRtiSystemVector("SystemVector");
+  
 
 } // end namespace
