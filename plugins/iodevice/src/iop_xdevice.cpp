@@ -368,8 +368,6 @@ void xDevice::DoWriteConfiguration(TokenWriter& rTw, const std::string& rLabel, 
   FD_DHV("xDevice("<<mName<<")::DoWriteConfiguration()");
   // hard coded begin
   rTw.WriteBegin("Devices");
-  // define device-iterator
-  Iterator dit;
   //iterate over all devices 
   for(Idx i=0; i<Size(); i++) {
     //if device was read from an extra file

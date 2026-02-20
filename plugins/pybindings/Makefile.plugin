@@ -139,7 +139,7 @@ $(PBP_OBJDIR)/%$(DOT_O): $(PBP_OBJDIR)/%.cpp
 
 
 ########################################################
-# export configuration to python
+# pyproject to build wheel
 ########################################################
 
 # config as json (not used)
@@ -152,8 +152,13 @@ $(PBP_OBJDIR)/configuration.json:
 	echo "}" >> $@
 
 
-# project tree
+# project tree all sources
 PBP_PROJ_HEADERS = $(HEADERS:%=$(INCLUDEDIR)/%) $(CFGHEADERS)
+ifeq (omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
+PBP_PROJ_HEADERS += plugins/omegaaut/lib/cpphoafparser
+endif
+
+# project tree all populate
 PBP_PROJ_SOURCES = $(SOURCES) $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
 $(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES)
 	- rm -rf $(PBP_PROJ)
@@ -161,7 +166,7 @@ $(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES)
 	mkdir $(PBP_PROJ)/src
 	cp  $(PBP_OBJDIR)/faudes.py $(PBP_PROJ)
 	cp  $(PBP_PROJ_SOURCES) $(PBP_PROJ)/src  
-	cp  $(PBP_PROJ_HEADERS) $(PBP_PROJ)/src
+	cp  -R $(PBP_PROJ_HEADERS) $(PBP_PROJ)/src
 	cp  $(PBP_SRCDIR)/MANIFEST.in $(PBP_PROJ)
 	cp  $(PBP_SRCDIR)/pyproject.toml $(PBP_PROJ)
 	cp  $(PBP_SRCDIR)/setup.py $(PBP_PROJ)
@@ -169,8 +174,13 @@ $(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES)
 	cp  LICENSE $(PBP_PROJ)
 	python $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION_MAJOR).$(FAUDES_VERSION_MINOR) > $(PBP_PROJ)/VERSION 
 
-pybindings-distclean:
+pyproj: $(PBP_OBJDIR)/configuration.json $(PBP_PROJ)
+
+pyproj-clean:
 	- rm -rf $(PBP_PROJ)
+
+pyproj-build: pyproj
+	cd $(PBP_PROJ); python -m build
 
 ########################################################
 # faudes plugin infrastructure
@@ -191,7 +201,7 @@ endif
 
 #
 # explicit config targets
-pybindings-configure: $(PBP_OBJDIR)/libfaudes_pywrapper.cpp $(PBP_OBJDIR)/configuration.json $(PBP_PROJ)
+pybindings-configure: $(PBP_OBJDIR)/libfaudes_pywrapper.cpp 
 
 
 #
@@ -203,7 +213,7 @@ LNKLIBS += $(PBP_PYTHON_LNK)
 VPATH   += $(PBP_SRCDIR)
 CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) 
 CONFIGURETARGETS += pybindings-configure pybindings-report
-DISTCLEANTARGETS += pybindings-distclean
+DISTCLEANTARGETS += pyproj-clean
 
 #
 # include tutorial

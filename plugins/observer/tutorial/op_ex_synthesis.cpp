@@ -16,7 +16,7 @@ Lm-observer and OCC => Lm-observer and LCC => Lm-observer
 
 #include <stdio.h>
 #include <iostream>
-#include <libfaudes.h>
+#include "libfaudes.h"
 
 
 // make libFAUDES namespace available

@@ -53,7 +53,7 @@ bool IsIoSystem(const IoSystem& rIoSystem,
       errev.Insert(*eit);
   }
   if(!errev.Empty()) { 
-    FD_DIO("IsIoSystem("<< rIoSystem.Name() << ",...): not  a u-y partition of events");
+    FD_DIO("IsIoSystem("<< rIoSystem.Name() << ",...): not a u-y partition of events");
     TransSet::Iterator tit=rIoSystem.TransRelBegin();
     TransSet::Iterator tit_end=rIoSystem.TransRelEnd();
     for(; tit!=tit_end; tit++) 
@@ -86,8 +86,8 @@ bool IsIoSystem(const IoSystem& rIoSystem,
     sit_end= rIoSystem.InitStatesEnd(); 
     for(; sit != sit_end; ++sit) {
       rQErr.Insert(*sit);
-      return false;
     }
+    return false;
   }
   // io-alternation: process stack
   while(!todo.empty()) {
