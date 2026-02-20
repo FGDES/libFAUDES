@@ -27,3 +27,8 @@ archs = ["auto"]
 build = "cp3*"
 build-frontend = "build"
 
+[tool.cibuildwheel.linux]
+archs = ["x86_64","aarch64"]
+
+
+

@@ -154,7 +154,7 @@ $(PBP_OBJDIR)/configuration.json:
 
 # project tree all sources
 PBP_PROJ_HEADERS = $(HEADERS:%=$(INCLUDEDIR)/%) $(CFGHEADERS)
-ifeq (omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
+ifeq $(omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
 PBP_PROJ_HEADERS += plugins/omegaaut/lib/cpphoafparser
 endif
 
@@ -172,7 +172,7 @@ $(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES)
 	cp  $(PBP_SRCDIR)/setup.py $(PBP_PROJ)
 	cp  $(PBP_BASE)/README.md  $(PBP_PROJ)
 	cp  LICENSE $(PBP_PROJ)
-	python $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION_MAJOR).$(FAUDES_VERSION_MINOR) > $(PBP_PROJ)/VERSION 
+	python3 $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION_MAJOR).$(FAUDES_VERSION_MINOR) > $(PBP_PROJ)/VERSION 
 
 pyproj: $(PBP_OBJDIR)/configuration.json $(PBP_PROJ)
 
@@ -180,7 +180,7 @@ pyproj-clean:
 	- rm -rf $(PBP_PROJ)
 
 pyproj-build: pyproj
-	cd $(PBP_PROJ); python -m build
+	cd $(PBP_PROJ); python3 -m build
 
 ########################################################
 # faudes plugin infrastructure
