@@ -26,11 +26,9 @@
 # Specify which python to link to (where libpython.so is and Python.h resides)
 ########################################################
 
-# use explicit python3
-PYTHON=python3
-
 # figure automatically via Python sysconfig (Linux)
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
+PYTHON=python3
 PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
 PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
 PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
@@ -38,16 +36,27 @@ endif
 
 # figure automatically via Python sysconfig (OsX)
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
+PYTHON=python3
 PBP_PYTHON_LNK = $(shell $(PYTHON) -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
 PBP_PYTHON_INC = -I $(shell $(PYTHON) -c 'from distutils import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
 # figure automatically via Python sysconfig (MSYS)
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
+PYTHON=python3
 PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
 PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
 PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
+
+# figure automatically via Python sysconfig (Windows/VC))
+ifeq ($(FAUDES_PLATFORM),cl_win)
+PYTHON=py
+PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
+PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
+PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+endif
+
 
 # test: manual settings for OsX 11 Python 3.10 from macport 
 #PBP_PYTHON_LNK = /opt/local/Library/Frameworks/Python.framework/Versions/3.10/lib/libpython3.10.dylib
