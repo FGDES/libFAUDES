@@ -25,7 +25,7 @@ jobs:
         FAUDES_PLUGINS="synthesis omgegaaut pybindings"
         make -j configure
         make clean
-        make -j pyproj
+        make pyproj
         tar -czf faudes.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
