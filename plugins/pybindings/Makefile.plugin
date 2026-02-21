@@ -26,24 +26,27 @@
 # Specify which python to link to (where libpython.so is and Python.h resides)
 ########################################################
 
+# use explicit python3
+PYTHON=python3
+
 # figure automatically via Python sysconfig (Linux)
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
-PBP_PYTHON_LNK = -L$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
-PBP_PYTHON_LNK += $(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
-PBP_PYTHON_INC += -I$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
+PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
+PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
 # figure automatically via Python sysconfig (OsX)
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
-PBP_PYTHON_LNK = $(shell python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
-PBP_PYTHON_INC = -I $(shell python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+PBP_PYTHON_LNK = $(shell $(PYTHON) -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
+PBP_PYTHON_INC = -I $(shell $(PYTHON) -c 'from distutils import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
 # figure automatically via Python sysconfig (MSYS)
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
-PBP_PYTHON_LNK = -L$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
-PBP_PYTHON_LNK += $(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
-PBP_PYTHON_INC += -I$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
+PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
+PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
 # test: manual settings for OsX 11 Python 3.10 from macport 
@@ -172,15 +175,26 @@ $(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES)
 	cp  $(PBP_SRCDIR)/setup.py $(PBP_PROJ)
 	cp  $(PBP_BASE)/README.md  $(PBP_PROJ)
 	cp  LICENSE $(PBP_PROJ)
-	python3 $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION_MAJOR).$(FAUDES_VERSION_MINOR) > $(PBP_PROJ)/VERSION 
+	$(PYTHON) $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION_MAJOR).$(FAUDES_VERSION_MINOR) > $(PBP_PROJ)/VERSION 
 
 pyproj: $(PBP_OBJDIR)/configuration.json $(PBP_PROJ)
 
 pyproj-clean:
 	- rm -rf $(PBP_PROJ)
+	
+ifneq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 
 pyproj-build: pyproj
-	cd $(PBP_PROJ); python3 -m build
+	$(PYTHON) -m build $(PBP_PROJ) --wheel --outdir=./
+
+else
+
+pyproj-build:
+	@echo >&2 "cannot build python wheel with luabindings enabled"
+	false
+
+endif
+
 
 ########################################################
 # faudes plugin infrastructure
@@ -214,7 +228,7 @@ VPATH   += $(PBP_SRCDIR)
 CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) 
 CONFIGURETARGETS += pybindings-configure pybindings-report
 DISTCLEANTARGETS += pyproj-clean
-
+DISTCLEANFILES += faudes-*.whl
 #
 # include tutorial
 include $(PBP_BASE)/Makefile.tutorial
