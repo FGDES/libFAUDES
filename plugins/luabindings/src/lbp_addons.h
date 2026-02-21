@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
+#ifndef FAUDES_MUTE_LUA
+
 #ifndef FAUDES_LBP_ADDONS_H
 #define FAUDES_LBP_ADDONS_H
 
@@ -54,5 +56,4 @@ extern FAUDES_API char **faudes_complete(lua_State* pL, const char *text, int st
 
 }// namespace
 #endif
-
-
+#endif

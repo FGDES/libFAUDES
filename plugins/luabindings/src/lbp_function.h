@@ -19,6 +19,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 
 
+#ifndef FAUDES_MUTE_LUA
+
 #ifndef FAUDES_LBPFUNCTION_H
 #define FAUDES_LBPFUNCTION_H
 
@@ -885,3 +887,4 @@ class FAUDES_API LuaFunction : public Function {
 
 } // namespace
 #endif 
+#endif

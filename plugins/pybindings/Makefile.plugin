@@ -37,8 +37,9 @@ endif
 # figure automatically via Python sysconfig (OsX)
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
 PYTHON=python3
-PBP_PYTHON_LNK = $(shell $(PYTHON) -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
-PBP_PYTHON_INC = -I $(shell $(PYTHON) -c 'from distutils import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+#PBP_PYTHON_LNK = $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
+PBP_PYTHON_LNK =  -framework CoreFoundation -framework /Library/Frameworks/Python.framework/Versions/3.14/Python
+PBP_PYTHON_INC = -I $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
 # figure automatically via Python sysconfig (MSYS)
@@ -172,7 +173,7 @@ endif
 
 # project tree all populate
 PBP_PROJ_SOURCES = $(SOURCES) $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
-$(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES)
+$(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES) $(PBP_SRCDIR)/pyproject.toml $(PBP_SRCDIR)/pyproject.toml
 	- rm -rf $(PBP_PROJ)
 	mkdir $(PBP_PROJ)
 	mkdir $(PBP_PROJ)/src
@@ -191,18 +192,10 @@ pyproj: $(PBP_OBJDIR)/configuration.json $(PBP_PROJ)
 pyproj-clean:
 	- rm -rf $(PBP_PROJ)
 	
-ifneq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
-
 pyproj-build: pyproj
 	$(PYTHON) -m build $(PBP_PROJ) --wheel --outdir=./
 
-else
 
-pyproj-build:
-	@echo >&2 "cannot build python wheel with luabindings enabled"
-	false
-
-endif
 
 
 ########################################################

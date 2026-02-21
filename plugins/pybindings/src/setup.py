@@ -29,7 +29,8 @@ ext = Extension(
     ("FAUDES_BUILD_DSO","1"),
     ("FAUDES_MUTE_RTIAUTOLOAD","1"),
     ("FAUDES_BUILDENV",buildstr),
-    ("FAUDES_BUILTIME",nowstr)
+    ("FAUDES_BUILTIME",nowstr),
+    ("FAUDES_MUTE_LUA","1")
   ] 
 )
                    

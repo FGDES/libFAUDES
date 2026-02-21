@@ -10,10 +10,11 @@
  */
 
 
+#ifndef FAUDES_MUTE_LUA
+
 #ifndef FAUDES_LBP_INCLUDE_H
 #define FAUDES_LBP_INCLUDE_H
 
-#endif
 
 
 
@@ -266,5 +267,6 @@ extern FAUDES_API void faudes_debug(const std::string& message);
 #endif
 
 
-
+#endif
+#endif
 #endif

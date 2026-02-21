@@ -346,7 +346,7 @@ int main(int argc, char *argv[]) {
 
   // python tutorials
   if(!mPyFile.empty()) {
-    testok=runsexec("python",mPyFile);
+    testok=runsexec("python3",mPyFile);
   }
 
 

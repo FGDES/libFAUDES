@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
+#ifndef FAUDES_MUTE_LUA
 
 // my header
 #include "lbp_function.h"
@@ -1479,3 +1480,4 @@ std::list< std::string >  LuaState::Complete(lua_State* pLL, const std::string& 
 
 } // namespace
 
+#endif
