@@ -7,6 +7,7 @@ jobs:
 
   configure:
 
+    name: Configure
     runs-on: ubuntu-latest
 
     steps:
@@ -38,6 +39,7 @@ jobs:
     name: Build wheels on ${{ matrix.os }}
     needs: [configure]
     runs-on: ${{ matrix.runs-on }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -48,7 +50,8 @@ jobs:
         - {os: linux-arm,     runs-on: ubuntu-24.04-arm, arch: aarch64, build: "*musllinux*"}
         - {os: macos-arm,     runs-on: macos-latest,     arch: arm64, build: "*"}
         - {os: windows-arm,   runs-on: windows-11-arm,   arch: win_arm64, build: "*"}
-        - {os: windows-intel, runs-on: windows-latest,   arch: win_amd64, build: "*"}          
+        - {os: windows-intel, runs-on: windows-latest,   arch: win_amd64, build: "*"}
+
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v4
