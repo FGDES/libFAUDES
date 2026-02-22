@@ -64,7 +64,7 @@ jobs:
         package-dir: ./plugins/pybindings/pyproj
         output-dir: wheelhouse
         config-file: "{package}/pyproject.toml"
-	env:
+        env:
           CIBW_ARCHS: ${{ matrix.arch }}
           CIBW_BUILD: ${{ matrix.build }}
     - uses: actions/upload-artifact@v4
