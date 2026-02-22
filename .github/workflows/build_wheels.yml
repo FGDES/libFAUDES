@@ -36,39 +36,39 @@ jobs:
 
   build_wheels:
 
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.runs-on }}
     needs: [configure]
     runs-on: ${{ matrix.runs-on }}
     strategy:
       fail-fast: false
       matrix:
         inclucde:
-        - runs-on: ubuntu-latest
-          os: manlx-intel
+        - os: manylx-intel
+          runs-on: ubuntu-latest
           arch: x86_64
           build: "*manylinux*"
-        - runs-on: ubuntu-24.04-arm
-          os: manylx-arm
+        - os: manylx-arm
+          runs-on: ubuntu-24.04-arm
           arch: aarch64
           build: "*manylinux*"
-        - runs-on: ubuntu-latest
-          os: musllx-intel
+        - os: musllx-intel
+          runs-on: ubuntu-latest
           arch: x86_64
           build: "*musllinux*"
-        - runs-on: ubuntu-24.04-arm
-          os: musllx-arm
+        - os: musllx-arm
+          runs-on: ubuntu-24.04-arm
           arch: aarch64
           build: "*musllinux*"
-        - runs-on: macos-latest
-          os: macos-arm
+        - os: macos-arm
+          runs-on: macos-latest
           arch: arm64
           build: "*"
-        - runs-on: windows-11-arm
-          os: windows-arm
+        - os: windows-arm
+          runs-on: windows-11-arm
           arch: win_arm64
           build: "*"
-        - runs-on: windows-latest
-          os: windows-intel
+        - os: windows-intel
+          runs-on: windows-latest
           arch: win_amd64
           build: "*"
 
