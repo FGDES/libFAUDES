@@ -392,8 +392,8 @@ MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
 #MAINOPTS += -std=gnu++98 -D_GLIBCXX_USE_CXX11_ABI=0 
 #MAINOPTS += -std=gnu++11 -D_GLIBCXX_USE_CXX11_ABI=1 
 MAINOPTS += -std=gnu++11
-MAINOPTS += -DFAUDES_BUILDENV=gcc_linux
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_linux\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS = -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable
 LDFLAGS += -Wl,--as-needed  
 ifeq ($(DEBUG),yes)

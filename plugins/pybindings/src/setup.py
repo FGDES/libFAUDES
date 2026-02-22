@@ -10,10 +10,10 @@ srcfiles = [str(cppfile) for cppfile in Path("src/").glob("**/*.cpp")]
 # figure platform
 platform = sysconfig.get_platform()
 pyver = sysconfig.get_python_version()
-buildstr = platform + "-for-python-" + pyver
+buildstr = '"' + platform + '-for-python-' + pyver + '"'
 
 # figure time stamp
-nowstr = datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
+nowstr = datetime.now().strftime('"%Y-%m-%dT%H-%M-%S"')
 
 # figure relevant system  libraries
 syslibs=[]

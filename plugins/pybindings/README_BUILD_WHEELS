@@ -20,12 +20,10 @@ pyproj -+ pyproject.toml
 	+ README.md
 	+ LICENSE
 
-This can be be conveniently created by
-
-./libFAUDES> make pyproj
+This is currently included in "make configure"
 
 
-3) Run Python a local build for with the host as taget
+3) Run Python for a local build with the host as taget
 
 Get the Python packages "build" and "setuptools"
 
@@ -39,11 +37,20 @@ Publish result with
 
 python3 -m twine upload --repository testpypi dist/*
 
+Install test wheel
 
-4) Do it cross-platform
+python3 -m pip install --index-url https://test.pypi.org/simple/ faudes
+
+
+4) Prepare for  cross-platform
 
 Get the Python package "cibuildwheel" and test with e.g.
 
 ./pyproj> cibuildwheel --platform linux 
 
-On non-linux hosts this requires a docker daemon, e.g., DockerDesktop
+This requires a docker daemon, e.g., DockerDesktop
+
+
+5) Do all
+
+See build.wheels.yml

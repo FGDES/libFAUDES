@@ -7,7 +7,7 @@ of finite automata and algorithms for supervisory control within the framework
 originally proposed by P.J. Ramadge and W.M. Wonham. The library provides an
 implementation and evaluation basis for the further development of algorithms for
 the analysis and synthesis of DESs. This Python package provides access to
-libFAUDES data tyoes and function from eithin Python.
+libFAUDES data tyes and functions from within Python.
 
 
 ## Further Reading
