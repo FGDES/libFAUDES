@@ -63,13 +63,13 @@ jobs:
         tar -xzf faudes.tgz
     - name: Build wheels
       uses: pypa/cibuildwheel@v3.3.1
+      env:
+        CIBW_ARCHS: ${{ matrix.arch }}
+        CIBW_BUILD: ${{ matrix.build }}
       with:
         package-dir: ./plugins/pybindings/pyproj
         output-dir: wheelhouse
         config-file: "{package}/pyproject.toml"
-        env:
-          CIBW_ARCHS: ${{ matrix.arch }}
-          CIBW_BUILD: ${{ matrix.build }}
     - uses: actions/upload-artifact@v4
       with:
         name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
