@@ -164,7 +164,7 @@ std::string BuildString() {
   res = res + std::string("generic");
 #endif
 #ifdef FAUDES_BUILDTIME  
-  res = res + std::string(" ") + FAUDES_BUILDTIME;
+  res = res + std::string(" ") + std::string(FAUDES_BUILDTIME);
 #else
   res = res + std::string(" ") + std::string(FAUDES_CONFIG_TIMESTAMP);
 #endif  

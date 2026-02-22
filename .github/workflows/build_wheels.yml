@@ -41,17 +41,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-        - os: linux-intel
-          runs-on: ubuntu-latest
-        - os: linux-arm
-          runs-on: ubuntu-24.04-arm
-        - os: windows-intel
-          runs-on: windows-latest
-        - os: windows-arm
-          runs-on: windows-11-arm
-        - os: macos-arm
-          runs-on: macos-latest
+        inclucde:
+        - {os: linux-intel,   runs-on: ubuntu-latest,    arch: x86_64, build: "*manylinux*"}
+        - {os: linux-arm,     runs-on: ubuntu-24.04-arm, arch: aarch64, build: "*manylinux*"}
+        - {os: linux-intel,   runs-on: ubuntu-latest,    arch: x86_64, build: "*musllinux*"}
+        - {os: linux-arm,     runs-on: ubuntu-24.04-arm, arch: aarch64, build: "*musllinux*"}
+        - {os: macos-arm,     runs-on: macos-latest,     arch: arm64, build: "*"}
+        - {os: windows-arm,   runs-on: windows-11-arm,   arch: win_arm64, build: "*"}
+        - {os: windows-intel, runs-on: windows-latest,   arch: win_amd64, build: "*"}          
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v4
@@ -67,6 +64,9 @@ jobs:
         package-dir: ./plugins/pybindings/pyproj
         output-dir: wheelhouse
         config-file: "{package}/pyproject.toml"
+	env:
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_BUILD: ${{ matrix.build }}
     - uses: actions/upload-artifact@v4
       with:
         name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
