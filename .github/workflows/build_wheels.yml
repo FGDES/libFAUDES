@@ -44,14 +44,19 @@ jobs:
         include:
         - os: linux-intel
           runs-on: ubuntu-latest
+          arch: x86_64
         - os: linux-arm
           runs-on: ubuntu-24.04-arm
+          arch: aarch64
         - os: windows-intel
           runs-on: windows-latest
+          arch: win_amd64
         - os: windows-arm
           runs-on: windows-11-arm
+          arch: win_arm64
         - os: macos-arm
           runs-on: macos-latest
+          arch: arm64
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v4
@@ -63,6 +68,8 @@ jobs:
         tar -xzf faudes.tgz
     - name: Build wheels
       uses: pypa/cibuildwheel@v3.3.1
+      env:
+        CIBW_ARCHS: ${{ matrix.arch }}
       with:
         package-dir: ./plugins/pybindings/pyproj
         output-dir: wheelhouse
