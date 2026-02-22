@@ -35,6 +35,10 @@ Test the result with
 
 ./pyproj> pip install dist/XYZ.whl
 
+Publish result with
+
+python3 -m twine upload --repository testpypi dist/*
+
 
 4) Do it cross-platform
 

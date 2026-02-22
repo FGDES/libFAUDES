@@ -17,8 +17,6 @@
 # Make targets introduced by the luabindings pluging
 #
 # - pybindings-configure  generate loader, run SWIG to generate wrapper code (SWIG required!)
-# - pybindings-compile    compile all python and lbp sources 
-# - pybindings-clean      remove all SWIG generated wrapper code
 # - pybindings-report     report Python related compiler settings
 #
 
@@ -181,12 +179,8 @@ $(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_SOURCES) $(PBP_SRCDIR)/pyproject.tom
 	cp  LICENSE $(PBP_PROJ)
 	$(PYTHON) $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION_MAJOR).$(FAUDES_VERSION_MINOR) > $(PBP_PROJ)/VERSION 
 
-pyproj: $(PBP_OBJDIR)/configuration.json $(PBP_PROJ)
 
-pyproj-clean:
-	- rm -rf $(PBP_PROJ)
-	
-pyproj-build: pyproj
+pybindings-wheel: $(PBP_PROJ)
 	$(PYTHON) -m build $(PBP_PROJ) --wheel --outdir=./
 
 
@@ -221,10 +215,9 @@ OBJECTS += $(PBP_OBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper$(DOT_O)
 HEADERS += $(PBP_HEADERS) 
 LNKLIBS += $(PBP_PYTHON_LNK)
 VPATH   += $(PBP_SRCDIR)
-CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) 
-CONFIGURETARGETS += pybindings-configure pybindings-report
-DISTCLEANTARGETS += pyproj-clean
-DISTCLEANFILES += faudes-*.whl
+CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) $(PBP_PROJ) 
+CONFIGURETARGETS += pybindings-configure pybindings-report $(PBP_PROJ)
+DISTCLEANFILES += faudes-*.whl 
 #
 # include tutorial
 include $(PBP_BASE)/Makefile.tutorial
