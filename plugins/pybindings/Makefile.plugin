@@ -100,7 +100,7 @@ PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) -I$(PBP_OBJDIR) $(SWGINCLUDE) -c++ -python -DSW
 # c-flags for swig generated c-code
 PBP_SWIGOPTS = $(PBP_PYTHON_INC) #-Wno-misleading-indentation # MSVC wont like this
 ifeq ($(FAUDES_PLATFORM),cl_win)
-PBP_SWIGOPTIONS += /bigobj
+PBP_SWIGOPTS += /bigobj
 endif
 
 
