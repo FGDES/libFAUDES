@@ -1,6 +1,6 @@
 [project]
 name = "faudes"
-description = "A Discrete Event Systems Library""
+description = "A Discrete Event Systems Library"
 dynamic = ["version"]
 keywords = ["supervisory control"]
 license = "LGPL-2.1-or-later"
