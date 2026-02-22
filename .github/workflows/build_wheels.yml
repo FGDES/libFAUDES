@@ -42,8 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runs-on: []
-        os: []
+        runs-on: [ubuntu-latest]
         inclucde:
         - os: manylx-intel
           runs-on: ubuntu-latest
