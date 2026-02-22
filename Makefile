@@ -80,8 +80,8 @@ FAUDES_PLUGINS += simulator
 FAUDES_PLUGINS += iodevice
 #FAUDES_PLUGINS += pushdown      # out of maintenance
 #FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
-FAUDES_PLUGINS += luabindings    # Lua is our default scripting language ...
-#FAUDES_PLUGINS += pybindings    # ... but you may likewise opt for Python
+FAUDES_PLUGINS += luabindings
+FAUDES_PLUGINS += pybindings
 endif
 
 
