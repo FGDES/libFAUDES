@@ -90,7 +90,6 @@ jobs:
         packages: build
       - name: Build sdist
         run: |
-	  pip install build
           python3 -m build ./plugins/pybindings/pyproj --outdir=./ --sdist	
       - uses: actions/upload-artifact@v4
         with:
