@@ -97,7 +97,7 @@ PBP_OBJECTS = $(PBP_SOURCES:$(PBP_SRCDIR)/%.cpp=$(PBP_OBJDIR)/%$(DOT_O))
 PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) -I$(PBP_OBJDIR) $(SWGINCLUDE) -c++ -python -DSWIG_TYPE_TABLE=pyfaudes  
 ifeq ($(FAUDES_PLATFORM),cl_win)
 PBP_SWIGOPTIONS += /bigobj
-#endif
+endif
 
 #
 # c-flags for swig generated c-code
