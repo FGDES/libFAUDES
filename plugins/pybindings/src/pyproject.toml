@@ -28,7 +28,8 @@ build = "cp3*"
 build-frontend = "build"
 
 [tool.cibuildwheel.linux]
-archs = ["x86_64","aarch64"]
+archs = ["x86_64","aarch64"] #arm is broken on manylinux (2026/02)
+#archs = ["x86_64"]
 
 
 
