@@ -95,13 +95,13 @@ PBP_OBJECTS = $(PBP_SOURCES:$(PBP_SRCDIR)/%.cpp=$(PBP_OBJDIR)/%$(DOT_O))
 #
 # swig flags
 PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) -I$(PBP_OBJDIR) $(SWGINCLUDE) -c++ -python -DSWIG_TYPE_TABLE=pyfaudes  
-ifeq ($(FAUDES_PLATFORM),cl_win)
-PBP_SWIGOPTIONS += /bigobj
-endif
 
 #
 # c-flags for swig generated c-code
 PBP_SWIGOPTS = $(PBP_PYTHON_INC) #-Wno-misleading-indentation # MSVC wont like this
+ifeq ($(FAUDES_PLATFORM),cl_win)
+PBP_SWIGOPTIONS += /bigobj
+endif
 
 
 #
