@@ -1,4 +1,4 @@
-/** @file lbp_addons.cpp add-ons for Lua integration */
+/** @file lbp_addons.h add-ons for Lua integration */
 
 /* 
 FAU Discrete Event Systems Library (libfaudes)

@@ -201,7 +201,7 @@ void TokenWriter::Endl(bool on) {
   mEndl=on;
 }
 
-// DoFlush: write buffered token
+// DoFlush: write buffered token mpStream
 // Note: dont call Endl() since this calls DoFlush
 void TokenWriter::DoFlush(bool clf) {
   if(!mHasOutBuffer) return;
