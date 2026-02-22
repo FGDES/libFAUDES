@@ -108,8 +108,8 @@ jobs:
           merge-multiple: true
       - name: Show
         run: |
-	  ls
-	  ls dist      
+          ls
+          ls dist      
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
   	  verbose: true
