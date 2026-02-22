@@ -36,7 +36,7 @@ jobs:
 
   build_wheels:
 
-    name: Build wheels on ${{ matrix.runs-on }}
+    name: Build wheels on ${{ matrix.os }}
     needs: [configure]
     runs-on: ${{ matrix.runs-on }}
     strategy:
