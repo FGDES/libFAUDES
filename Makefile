@@ -417,7 +417,7 @@ endif
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux32)
 MAINOPTS = -m32 -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
-MAINOPTS += -DFAUDES_BUILDENV=gcc_linux32
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_linux32\"
 WARNINGS = -pedantic -Wall 
 LDFLAGS += -m32 -Wl,--as-needed  
 ifeq ($(DEBUG),yes)
@@ -450,7 +450,7 @@ CXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
 CC = /opt/lsb/bin/lsbcc   --lsb-target-version=4.1 --lsb-besteffort
 LXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
 MAINOPTS =  -fPIC -fstrict-aliasing -fmessage-length=0 -O3 -fno-stack-protector -std=gnu++98 
-MAINOPTS += -DFAUDES_BUILDENV=gcc_lsb
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_lsb\"
 WARNINGS = -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 LDFLAGS += -Wl,--as-needed
 ifeq ($(SHARED),yes)
@@ -494,8 +494,8 @@ CC = clang
 LXX = clang++
 #
 MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.11 -stdlib=libc++ 
-MAINOPTS += -DFAUDES_BUILDENV=gcc_osx
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_osx\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS =  -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
 DSOOPTS  =  -dynamiclib  -single_module
 DSOOPTS  += -install_name @rpath/$@
@@ -557,7 +557,7 @@ AR = cmd.exe /S /C lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
-MAINOPTS += /DFAUDES_BUILDENV=cl_win
+MAINOPTS += /DFAUDES_BUILDENV=\"cl_win\"
 COUTOPT = /Fo
 LOUTOPT = /Fe
 AOUTOPT = /OUT:
@@ -628,8 +628,8 @@ endif
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable
-MAINOPTS += -DFAUDES_BUILDENV=gcc_msys
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_msys\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols
 DSOOPTS += -Wl,--output-def,faudes.def -Wl,--out-implib,faudes.lib
 DOT_EXE = .exe
@@ -681,8 +681,8 @@ CC = emcc
 LXX = em++  
 AR = emar r
 MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0 
-MAINOPTS += -DFAUDES_BUILDENV=emcc_js
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"emcc_js\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS =
 DSOOPTS =
 DOT_O  = .o
