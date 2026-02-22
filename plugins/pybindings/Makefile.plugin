@@ -78,7 +78,7 @@ PBP_PROJ = ./plugins/pybindings/pyproj
 
 #
 # libfaudes source files (dummies)
-PBP_CPPFILES = 
+PBP_CPPFILES = # pbp_addons.cpp
 PBP_INCLUDE  = pbp_include.h
 
 #
@@ -136,9 +136,9 @@ $(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(PBP_OBJDIR)/r
 # compile section: compile to object files
 ########################################################
 
-# implicit rule .cpp -> .o for all std pbp-objects (aint any at the time)
+# implicit rule .cpp -> .o for all std pbp-objects (there is only one)
 $(PBP_OBJDIR)/%$(DOT_O): $(PBP_SRCDIR)/%.cpp 
-	$(CXX) -c -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+	$(CXX) -c $(PBP_PYTHON_INC) -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
 
 # implicit rule .cpp -> .o for all generated cpp sources (only the one at this time)
 $(PBP_OBJDIR)/%$(DOT_O): $(PBP_OBJDIR)/%.cpp 

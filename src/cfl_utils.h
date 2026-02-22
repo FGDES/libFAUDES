@@ -349,6 +349,7 @@ public:
   virtual void Write(const std::string& message,long int cntnow=0, long int cntdone=0, int verb=1);
   /** Redirect to file */
   void ToFile(const std::string& filename);
+  bool IsFile(void);
   /** Query filename */
   const std::string& Filename(void) { return mFilename;}; 
   /** Redirect */

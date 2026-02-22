@@ -471,6 +471,9 @@ void ConsoleOut::ToFile(const std::string& filename) {
   pStream = new std::ofstream();
   pStream->open(mFilename.c_str(),std::ios::app);
 }
+bool ConsoleOut::IsFile(void) {
+  return pStream!=NULL;
+}  
 void ConsoleOut::Write(const std::string& message,long int cntnow, long int cntdone, int verb) {
   DoWrite(message,cntnow,cntdone,verb);
 }
