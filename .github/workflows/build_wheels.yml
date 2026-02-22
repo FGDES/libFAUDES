@@ -23,8 +23,6 @@ jobs:
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
         make -j FAUDES_PLUGINS="synthesis omegaaut priorities observer diagnosis pybindings" configure
-        make clean
-        make pyproj
         tar -czf faudes.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
