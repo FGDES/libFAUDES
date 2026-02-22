@@ -35,8 +35,12 @@ endif
 # figure automatically via Python sysconfig (OsX)
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
 PYTHON=python3
+## ok with brew
 #PBP_PYTHON_LNK = $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
-PBP_PYTHON_LNK =  -framework CoreFoundation -framework /Library/Frameworks/Python.framework/Versions/3.14/Python
+## ok with official release
+PBP_PYTHON_LNKA = $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("PYTHONFRAMEWORKPREFIX"))')
+PBP_PYTHON_LNKB = $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INSTSONAME"))')
+PBP_PYTHON_LNK = -framework CoreFoundation -framework $(PBP_PYTHON_LNKA)/$(PBP_PYTHON_LNKB)
 PBP_PYTHON_INC = -I $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
@@ -78,7 +82,7 @@ PBP_PROJ = ./plugins/pybindings/pyproj
 
 #
 # libfaudes source files (dummies)
-PBP_CPPFILES = # pbp_addons.cpp
+PBP_CPPFILES = pbp_addons.cpp
 PBP_INCLUDE  = pbp_include.h
 
 #

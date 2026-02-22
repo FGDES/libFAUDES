@@ -2,7 +2,7 @@
 name = "faudes"
 description = "A Discrete Event Systems Library"
 dynamic = ["version"]
-keywords = ["control automata languages"]
+keywords = ["control", "automata", "languages"]
 license = "LGPL-2.1-or-later"
 license-files = ["LICENSE"]
 requires-python = ">=3.9"

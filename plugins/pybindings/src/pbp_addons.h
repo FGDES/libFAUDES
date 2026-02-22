@@ -29,10 +29,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 namespace faudes{
 
-  /*
-  // write to pythons sys.stdout
-extern FAUDES_API void faudes_pprint(const char*);
-  */
+// write to pythons sys.stdout
+extern FAUDES_API void faudes_pprint(const char* msg);
+  
+// explcit console re-direction
+extern FAUDES_API void faudes_redirect(bool on);
+
   
 }
 #endif

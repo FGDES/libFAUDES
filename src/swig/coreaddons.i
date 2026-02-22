@@ -128,6 +128,13 @@ void Print(int v, const std::string& message);
 void Verbosity(int v);
 int Verbosity();
 
+// Python console redirect
+#ifdef SWIGPYTHON
+// add to moduleloader
+%init %{
+   faudes_redirect(true);
+%}
+#endif
 
 /*
 **************************************************

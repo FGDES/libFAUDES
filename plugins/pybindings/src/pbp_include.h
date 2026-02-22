@@ -13,6 +13,8 @@
 #ifndef FAUDES_PBP_INCLUDE_H
 #define FAUDES_PBP_INCLUDE_H
 
+// include all headers for this plugin
+#include "pbp_addons.h"
 
 
 /**

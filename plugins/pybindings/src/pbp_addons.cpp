@@ -7,11 +7,10 @@
 
 namespace faudes {
 
-  /*
     
 // write to Python's sys.stdout
-void faudes_pprint(const char*) {
-  PySys_FormatStdout("THIS IS FAUDES\n");
+void faudes_pprint(const char* msg) {
+  PySys_FormatStdout(msg);
 }
 
   
@@ -36,7 +35,16 @@ protected:
 
 // static singleton incl construction
 PythonConsole* PythonConsole::mpVInstance = NULL;
-  //PythonConsole* gSinglRythonConsole=PythonConsole::G();
+
+//  explcit activation
+void faudes_redirect(bool on) {
+  static PythonConsole* gSinglRythonConsole=NULL;
+  if(on) {
+    gSinglRythonConsole=PythonConsole::G();
+  } else {
+    PythonConsole::Destruct();
+  }
+}
   
 // private construct
 PythonConsole::PythonConsole() : ConsoleOut() {
@@ -81,7 +89,6 @@ void PythonConsole::DoWrite(const std::string& message,long int cntnow, long int
   faudes_pprint(message.c_str());
 }
 
-  */
   
   
 
