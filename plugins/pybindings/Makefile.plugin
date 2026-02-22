@@ -53,9 +53,8 @@ endif
 # figure automatically via Python sysconfig (Windows/VC))
 ifeq ($(FAUDES_PLATFORM),cl_win)
 PYTHON=py
-PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
-PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
-PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+PBP_PYTHON_LNK = /link /LIBPATH:$(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var(\"LIBDIR\"))")
+PBP_PYTHON_INC = -I$(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var(\"INCLUDEPY\"))")
 endif
 
 
@@ -106,7 +105,7 @@ PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) -I$(PBP_OBJDIR) $(SWGINCLUDE) -c++ -python -DSW
 
 #
 # c-flags for swig generated c-code
-PBP_SWIGOPTS = $(PBP_PYTHON_INC) -Wno-misleading-indentation
+PBP_SWIGOPTS = $(PBP_PYTHON_INC) #-Wno-misleading-indentation MSVC wont take this
 
 
 #
@@ -142,12 +141,13 @@ $(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(PBP_OBJDIR)/r
 ########################################################
 
 # implicit rule .cpp -> .o for all std pbp-objects (aint any at the time)
-$(PBP_OBJDIR)/%$(DOT_O): $(PBP_SRCDIR)/%.cpp 
-	$(CXX) -c -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+#$(PBP_OBJDIR)/%$(DOT_O): $(PBP_SRCDIR)/%.cpp 
+	$(CXX) -c -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call F#NCT_FIXDIRSEP,$@)
 
 # implicit rule .cpp -> .o for all generated cpp sources (only the one at this time)
 $(PBP_OBJDIR)/%$(DOT_O): $(PBP_OBJDIR)/%.cpp 
 	$(CXX) -c $(CFLAGS) $(LIBOPTS) $(PBP_SWIGOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+
 
 
 
@@ -223,7 +223,7 @@ pybindings-configure: $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
 #
 # advertise plug-in
 SOURCES += $(PBP_SOURCES)
-OBJECTS += $(PBP_OBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper.o
+OBJECTS += $(PBP_OBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper$(DOT_O)
 HEADERS += $(PBP_HEADERS) 
 LNKLIBS += $(PBP_PYTHON_LNK)
 VPATH   += $(PBP_SRCDIR)
