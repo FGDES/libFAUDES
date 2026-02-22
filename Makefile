@@ -557,7 +557,7 @@ AR = cmd.exe /S /C lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
-MAINOPTS += /DFAUDES_BUILDENV=\"cl_win\"
+MAINOPTS += /DFAUDES_BUILDENV="cl_win"
 COUTOPT = /Fo
 LOUTOPT = /Fe
 AOUTOPT = /OUT:
@@ -1561,7 +1561,7 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot))
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
 # tools #verb -v/-q
-VALFAUDES = ./bin/valfaudes -v
+VALFAUDES = ./bin/valfaudes -q
 
 # Conversion function target->protocol
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
