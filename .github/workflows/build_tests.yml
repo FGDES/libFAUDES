@@ -118,7 +118,7 @@ jobs:
           doxygen 
           ncurses-devel 
           libreadline-devel
-	  mingw-w64-ucrt-x86_64-python
+          mingw-w64-ucrt-x86_64-python
     - name: Build Default Targets
       shell: msys2 {0}
       run: |
