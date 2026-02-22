@@ -51,7 +51,7 @@ jobs:
           runs-on: windows-latest
         - os: windows-arm
           runs-on: windows-11-arm
-	- os: macos-arm
+        - os: macos-arm
           runs-on: macos-latest
     steps:
     - uses: actions/checkout@v5
