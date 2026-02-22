@@ -68,8 +68,7 @@ jobs:
           os: windows-arm
           arch: win_arm64
           build: "*"
-        - runs-on:
-          windows-latest
+        - runs-on: windows-latest
           os: windows-intel
           arch: win_amd64
           build: "*"
