@@ -68,32 +68,32 @@ jobs:
     - name: Build Static Libray 
       run: |
         echo ghact %GITHUB_ACTION%
-        dir
+        set
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% report-test
-        %GNUMAKE% FAUDES_LINKING="static debug" -j1 libfaudes
-        %GNUMAKE% FAUDES_LINKING="static debug" -j1 show
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 show
         dir
         dir obj
     - name: Build Tools
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_LINKING="static debug" -j1 binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
         dir bin
     - name: Build Tutorials
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_LINKING="static debug" -j1 tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 tutorial
     - name: Run Test Cases
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_LINKING="static debug" -j1 test
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 test
     - name: Build DSO incl Tools
       run: |
         del obj\*.obj
         del bin\*.exe
         del plugins\luabindings\obj\*.obj
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% -j1
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1
         dir bin
         dir 
