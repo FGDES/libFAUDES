@@ -320,8 +320,8 @@ FNCT_POST_APP = @echo wont strip
 endif
 
 ### sensible/cmdcom defaults: external tools #########################
-# - this is finetuned to run as GitHub action in a mixed MSYS/MSCV setting
-# - most of this is actually not functional and only fixed by the action file
+# - what is going on when gnumake invokes commands in a github action?
+# - most of the below is actually not functional but survives a make cycle
 ifeq ($(FAUDES_MSHELL),cmdcom_gh)
 SHELL = cmd.exe
 .SHELLFLAGS= /S /C
