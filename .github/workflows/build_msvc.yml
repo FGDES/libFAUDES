@@ -87,9 +87,11 @@ jobs:
         dir bin
     - name: Build Wheel
       run: |
-        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 pybindings-wheel
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe
+        %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
+        %GNUMAKE% PYTHON=python FAUDES_PLATFORM=cl_win -j1 pybindings-wheel
         dir faudes.*
+	python --version
     - uses: actions/upload-artifact@v4
       with:
         name: faudes.whl
@@ -163,7 +165,7 @@ jobs:
         %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
         dir obj
-        dir faudes.*
+        dir 
     - name: Build Tools
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
