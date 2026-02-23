@@ -42,10 +42,11 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes_configures_src.tgz
+        name: faudes_configured_src.tgz
         path: ./	
     - name: Extract Archive
       run: |
+        ls
         tar -xzf faudes.tgz
     - name: Install Tools
       run: |
@@ -64,7 +65,7 @@ jobs:
         ls libfaudes_*.tgz
     - uses: actions/upload-artifact@v4
       with:
-        name: libfaudes-${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
+        name: libfaudes_${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
         path: ./libfaudes_*.tar.gz
         compression-level: 0
         if-no-files-found: error
