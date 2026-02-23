@@ -57,6 +57,12 @@ jobs:
         msystem: UCRT64
         install: >-
           make
+    - name: Setup Python
+      uses: actions/setup-python@v1
+    - name: Pip for build
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: build
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
@@ -84,6 +90,10 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 pybindings-wheel
         dir faudes.*
+    - uses: actions/upload-artifact@v4
+      with:
+        name: faudes.whl
+        path: faudes-*.whl
 
 
   configure-nopy:
