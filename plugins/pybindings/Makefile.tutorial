@@ -23,6 +23,5 @@ pybindings-copymodule: $(PBP_OBJDIR)/$(LIBFAUDES_PYDSO) $(PBP_OBJDIR)/faudes.py
 DISTCLEANFILES += $(PBP_TUTORIAL_DIR)/_faudes.* $(PBP_TUTORIAL_DIR)/faudes.py
 DISTCLEANFILES += $(PBP_TUTORIAL_DIR)/__pycache__
 TUTORIALTARGETS += pybindings-copymodule
-DEFAULTTARGETS += pybindings-copymodule
 
 
