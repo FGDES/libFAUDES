@@ -268,7 +268,10 @@ endif
 # figure type of shell available for make
 FAUDES_MSHELL = posix
 ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
-FAUDES_MSHELL = pwrsh
+FAUDES_MSHELL = cmdcom
+ifneq ($(GITHUB_ACTION),)
+FAUDES_MSHELL = cmdcom_gh
+endif
 endif
 
 # set timestamp
@@ -316,10 +319,10 @@ FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = @echo wont strip
 endif
 
-### sensible/pwrsh defaults: external tools #########################
+### sensible/cmdcom defaults: external tools #########################
 # - this is finetuned to run as GitHub action in a mixed MSYS/MSCV setting
 # - most of this is actually not functional and only fixed by the action file
-ifeq ($(FAUDES_MSHELL),pwrsh)
+ifeq ($(FAUDES_MSHELL),cmdcom_gh)
 SHELL = cmd.exe
 .SHELLFLAGS= /S /C
 CP  = cmd.exe /S /C copy /Y /B 
@@ -542,6 +545,7 @@ endif
 # - previous confirmatiom with with VC2012 and VC2015 compilers
 #   in their 64bit variant (libFAUDES 2.27)
 # - early validations with XP 32bit and Vista 32bit
+# - finetuning for github actions below
 # 
 # For user targets only, no configuration tools available. You can,
 # however, install MSYS2 for "make configure" and then use the
@@ -550,14 +554,14 @@ endif
 #
 # 
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cmd.exe /S /C cl /nologo
-CC = cmd.exe /S /C cl /nologo
-LXX = cmd.exe /S /C cl /nologo
-AR = cmd.exe /S /C lib /VERBOSE
+CXX = cl /nologo
+CC = cl /nologo
+LXX = cl /nologo
+AR = lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
-MAINOPTS += /DFAUDES_BUILDENV='cl_win'
+MAINOPTS += /DFAUDES_BUILDENV=\"cl_win\"
 COUTOPT = /Fo
 LOUTOPT = /Fe
 AOUTOPT = /OUT:
@@ -590,8 +594,16 @@ LIBFAUDES:=$(LIBFAUDES).lib
 IMPFAUDES:=$(IMPFAUDES).lib
 MINFAUDES:=$(MINFAUDES).lib
 endif
+#
+ifeq ($(FAUDES_MSHELL),cmdcom_gh)
+CXX = cmd.exe /S /C cl /nologo
+CC = cmd.exe /S /C cl /nologo
+LXX = cmd.exe /S /C cl /nologo
+AR = cmd.exe /S /C lib /VERBOSE
+MAINOPTS = /EHsc /O2
+MAINOPTS += /DFAUDES_BUILDENV="cl_win"
 endif
-
+endif
 
 ### platform "gcc_win" #############################
 #
