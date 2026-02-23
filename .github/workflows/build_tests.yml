@@ -181,5 +181,6 @@ jobs:
         del bin\*.exe
         del plugins\luabindings\obj\*.obj
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 libfaudes 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 binaries
 
