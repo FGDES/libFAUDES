@@ -132,9 +132,9 @@ int Verbosity();
 #ifdef SWIGPYTHON
 // add to moduleloader
 %init %{
-  int ini =  Py_IsInitialized();
-  std::cerr << "FAUDES_INIT with " << ini << std::endl;;
+  if(Py_IsInitialized()) {
    faudes_redirect(true);
+  }
 %}
 #endif
 

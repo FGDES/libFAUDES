@@ -557,7 +557,7 @@ AR = cmd.exe /S /C lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
-MAINOPTS += /DFAUDES_BUILDENV="cl_win"
+MAINOPTS += /DFAUDES_BUILDENV='cl_win'
 COUTOPT = /Fo
 LOUTOPT = /Fe
 AOUTOPT = /OUT:

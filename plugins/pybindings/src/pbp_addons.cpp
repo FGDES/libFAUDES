@@ -48,17 +48,14 @@ void faudes_redirect(bool on) {
   
 // private construct
 PythonConsole::PythonConsole() : ConsoleOut() {
-  FD_WARN("PythonConcole(): construct/install: violog at " << 
-     this << " faudes at " << faudes::ConsoleOut::G());
+  FD_WARN("faudes::ConsoleOut(): redirect to sys.stdout") 
   faudes::ConsoleOut::G()->Redirect(this);
 };
 // private destruct 
 PythonConsole::~PythonConsole()  {
-  FD_WARN("PythonConcole(): destruct: violog at " << 
-     this << " faudes at " << faudes::ConsoleOut::G());
+  FD_WARN("faudes::ConsoleOut(): redirect off"); 
   faudes::ConsoleOut::G()->Redirect(0);
   mpVInstance=NULL;
-  FD_WARN("PythonConcole(): destruct done: faudes at " << faudes::ConsoleOut::G());
 };
 // access/construct singleton
 PythonConsole* PythonConsole::G(void) { 
