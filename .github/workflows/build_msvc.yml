@@ -119,12 +119,12 @@ jobs:
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
-        tar -czf faudes.tgz ./*
+        tar -czf faudes-nopy.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: faudes-nopy.tgz
-        path: ./faudes.tgz
+        path: ./faudes-nopy.tgz
         if-no-files-found: error
 
 
