@@ -32,7 +32,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v6
       with:
-        name: faudes-configured-src.tgz
+        name: faudes_configured_src.tgz
         path: ./faudes.tgz
         if-no-files-found: error
 
@@ -66,7 +66,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes-configured-src.tgz
+        name: faudes_configured_src.tgz
         path: ./faudes.tgz
     - name: Extract Archive
       run: |
@@ -96,10 +96,10 @@ jobs:
         dir *
         python --version
         python -m build .\plugins\pybindings\pyproj --outdir=./ --wheel
-    - name: uploading artifact faudes-${{ env.VMAJOR }}.${{ env.VMINOR }}-msvc.whl
+    - name: uploading artifact faudes_${{ env.VMAJOR }}.${{ env.VMINOR }}_ghmsvc.whl
       uses: actions/upload-artifact@v4
       with:
-        name: faudes-${{ env.VMAJOR }}.${{ env.VMINOR }}-msvc.whl
+        name: faudes_${{ env.VMAJOR }}.${{ env.VMINOR }}_ghmsvc.whl
         path: faudes-*.whl
 
 
@@ -130,7 +130,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v6
       with:
-        name: faudes-configured-src-nopy.tgz
+        name: faudes_configured_src_nopy.tgz
         path: ./faudes.tgz
         if-no-files-found: error
 
@@ -158,7 +158,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes-configured-src-nopy.tgz
+        name: faudes_configured_src_nopy.tgz
         path: ./faudes.tgz
     - name: Extract Archive
       run: |

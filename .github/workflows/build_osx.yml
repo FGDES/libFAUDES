@@ -28,7 +28,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: faudes.tgz
+        name: faudes_configured_src.tgz
         path: ./faudes.tgz
         if-no-files-found: error
         compression-level: 0
@@ -42,7 +42,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
+        name: faudes_configures_src.tgz
         path: ./	
     - name: Extract Archive
       run: |
@@ -58,3 +58,13 @@ jobs:
       run: gmake -j1 tutorial
     - name: Run Test Cases
       run: gmake -j1 test
+    - name: Build Package
+      run: |
+        make package
+        ls libfaudes_*.tgz
+    - uses: actions/upload-artifact@v4
+      with:
+        name: libfaudes-${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
+        path: ./libfaudes_*.tar.gz
+        compression-level: 0
+        if-no-files-found: error
