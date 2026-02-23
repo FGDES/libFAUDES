@@ -271,9 +271,11 @@ endif
 
 # figure type of shell available for make
 FAUDES_MSHELL = posix
+ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
 ifneq ($(ComSpec),)
 FAUDES_MSHELL = cmdcom
-ifneq ($(GITHUB_ACTION),)
+endif
+ifeq ($(GITHUB_ACTION),)
 FAUDES_MSHELL = cmdcom_gh
 endif
 endif
