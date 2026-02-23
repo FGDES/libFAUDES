@@ -275,7 +275,7 @@ ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
 ifneq ($(ComSpec),)
 FAUDES_MSHELL = cmdcom
 endif
-ifeq ($(GITHUB_ACTION),)
+ifneq ($(GITHUB_ACTION),)
 FAUDES_MSHELL = cmdcom_gh
 endif
 endif
