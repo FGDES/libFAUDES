@@ -241,7 +241,7 @@ endif
 ###############################################################################
 
 
-### try to autoselect platform
+### try to autoselect platform: MA Windows
 ifeq ($(FAUDES_PLATFORM),)
 # MS Windows (as of libFAUDES 2.32a defaults to MSYS2)
 ifneq ($(findstring Windows,$(OS)),)
@@ -251,6 +251,10 @@ endif
 ifneq ($(ComSpec),)
 FAUDES_PLATFORM := cl_win
 endif
+endif
+
+### try to autoselect platform: Posix (have "uname")
+ifeq ($(FAUDES_PLATFORM),)
 # Mac OS X with g++ from the XCode toochain
 ifneq ($(findstring Darwin,$(shell uname -s)),)
 FAUDES_PLATFORM := gcc_osx
