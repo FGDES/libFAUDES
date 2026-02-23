@@ -319,14 +319,14 @@ ECHO = @echo
 ECHOE = echo WARNING CANNOT ECHO-E
 DIFF = fc /W
 SWIG = echo WARNING CANNOT SWIG 
-PYTHON = echo WARNING CANNOT PYHTON 
+PYTHON = py 
 DOXYGEN = echo WARNING CANNOT DOXYGEN
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = @echo wont strip
 endif
 
 ### sensible/cmdcom defaults: external tools #########################
-# - what is going on when gnumake invokes commands in a github action?
+# - mut be something utterly wrong with how we run win/make in on github
 # - most of the below is actually not functional but survives a make cycle
 ifeq ($(FAUDES_MSHELL),cmdcom_gh)
 SHELL = cmd.exe
@@ -341,7 +341,7 @@ ECHO = cmd.exe /S /C echo
 ECHOE = cmd.exe /S /C echo WARNING CANNOT ECHO-E 
 DIFF = cmd.exe /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING CANNOT SWIG 
-PYTHON = cmd.exe /S /C echo WARNING CANNOT PYHTON 
+PYTHON = cmd.exe /S /C pyhton
 DOXYGEN = cmd.exe /S /C echo WARNING CANNOT DOXYGEN 
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = cmd.exe /S /C echo wont strip

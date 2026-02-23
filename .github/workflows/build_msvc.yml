@@ -174,10 +174,10 @@ jobs:
     - name: Built Tutorial
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 tutorial
     - name: Run Test Cases
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 test
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 test
 
 

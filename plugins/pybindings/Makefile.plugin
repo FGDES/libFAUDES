@@ -28,7 +28,6 @@
 ########################################################
 
 # defaults Python 3.10 on Ubuntu 22.04 LTS 
-PYTHON=python3
 DOT_PSO=.so
 LIBFAUDES_PYDSO= _faudes.so
 PBP_PYTHON_LNK = /usr/lib/python3.10/config-3.10-x86_64-linux-gnu/libpython3.10.so
@@ -62,7 +61,6 @@ endif
 
 # figure automatically via Python sysconfig (Windows/VC))
 ifeq ($(FAUDES_PLATFORM),cl_win)
-PYTHON=py
 LIBFAUDES_PYDSO= _faudes.pyd
 PBP_PYTHON_LNK = /link /LIBPATH:$(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var(\"LIBDIR\"))")
 PBP_PYTHON_INC = -I$(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var(\"INCLUDEPY\"))")
