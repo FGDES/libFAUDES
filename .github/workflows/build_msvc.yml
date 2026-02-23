@@ -70,7 +70,8 @@ jobs:
         path: ./faudes-configured-src.tgz
     - name: Extract Archive
       run: |
-        tar -xzf faudes-configures-src.tgz
+        dir
+        tar -xzf faudes-configured-src.tgz
         tools\msvc\VERSION.bat
         echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
         echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
@@ -161,6 +162,7 @@ jobs:
         path: ./faudes-configured-src-nopy.tgz
     - name: Extract Archive
       run: |
+        dir
         tar -xzf faudes-configured-src-nopy.tgz
     - name: Build Static Libray 
       run: |
