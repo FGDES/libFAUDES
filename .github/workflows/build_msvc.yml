@@ -96,7 +96,7 @@ jobs:
         dir *
         python --version
         python -m build .\plugins\pybindings\pyproj --outdir=./ --wheel
-    - name uploading artifact faudes-${{ env.VMAJOR }}.${{ env.VMINOR }}-msvc.whl
+    - name: uploading artifact faudes-${{ env.VMAJOR }}.${{ env.VMINOR }}-msvc.whl
       uses: actions/upload-artifact@v4
       with:
         name: faudes-${{ env.VMAJOR }}.${{ env.VMINOR }}-msvc.whl
