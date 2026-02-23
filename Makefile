@@ -242,32 +242,32 @@ endif
 
 
 ### try to autoselect platform
-# as of libFAUDES 2.32a MS Windows defaults to MSYS2
 ifeq ($(FAUDES_PLATFORM),)
+# MS Windows (as of libFAUDES 2.32a defaults to MSYS2)
 ifneq ($(findstring Windows,$(OS)),)
 FAUDES_PLATFORM := gcc_msys
 endif
+# MS Windows running from cmd.exe (use MSVC toochain)
+ifneq ($(ComSpec),)
+FAUDES_PLATFORM := cl_win
 endif
 # Mac OS X with g++ from the XCode toochain
-ifeq ($(FAUDES_PLATFORM),)
 ifneq ($(findstring Darwin,$(shell uname -s)),)
 FAUDES_PLATFORM := gcc_osx
 endif
-endif
 # Linux with the system g++ compiler
-ifeq ($(FAUDES_PLATFORM),)
 ifneq ($(findstring Linux,$(shell uname -s)),)
 FAUDES_PLATFORM := gcc_linux
-endif
 endif
 # Fallback generix Unix environment with g++ compiler
 ifeq ($(FAUDES_PLATFORM),)
 FAUDES_PLATFORM := gcc_generic
 endif
+endif
 
 # figure type of shell available for make
 FAUDES_MSHELL = posix
-ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
+ifneq ($(ComSpec),)
 FAUDES_MSHELL = cmdcom
 ifneq ($(GITHUB_ACTION),)
 FAUDES_MSHELL = cmdcom_gh
@@ -1585,7 +1585,7 @@ FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(
 FNCT_RUNPYSCRIPT =  $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 
 # overwrtie non functionl variants
-ifeq (pwrsh,$(FAUDES_MSHELL)) 
+ifeq (cmdcom_ph,$(FAUDES_MSHELL)) 
 FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 endif
 ifeq (cmdcom,$(FAUDES_MSHELL))
