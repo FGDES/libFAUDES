@@ -1673,6 +1673,7 @@ report-platform:
 	$(ECHO) "libFAUDES-make: platform: $(FAUDES_PLATFORM)"
 	$(ECHO) "libFAUDES-make: shell:    $(FAUDES_MSHELL)"
 	$(ECHO) "libFAUDES-make: linking:  $(FAUDES_LINKING)"
+	$(ECHO) "libFAUDES-make: python:   $(PYTHON)"
 ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
 	$(ECHO) "libFAUDES-make: mingw shell: $(SHELL) $(.SHELLFLAGS)"
 endif

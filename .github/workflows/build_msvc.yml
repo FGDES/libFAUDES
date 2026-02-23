@@ -92,6 +92,7 @@ jobs:
         %GNUMAKE% PYTHON=python FAUDES_PLATFORM=cl_win -j1 pybindings-wheel
         dir *
         python --version
+        python -m build .\plugins\pybindings\pyproj --outdir=./ --wheel	
     - uses: actions/upload-artifact@v4
       with:
         name: faudes.whl
