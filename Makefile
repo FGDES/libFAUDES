@@ -40,7 +40,7 @@
 
 
 # allow user local configuration (unless building a distribution package)
-ifeq ($(FAUDES_NOUSER),)
+ifeq ($(FAUDES_PLUGINS),)
 ifneq (package,$(findstring package,$(MAKECMDGOALS)))
 -include Makefile.user
 endif
