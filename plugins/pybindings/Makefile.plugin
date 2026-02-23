@@ -20,7 +20,7 @@
 #
 # Further targets for development
 # - pybindings-report     report Python related compiler settings
-# - pyfindings-dso        libFAUDES shared object incl. Python bindings
+# - pybindings-dso        libFAUDES shared object incl. Python bindings
 # - pybindings-wheel      faudes module als Python wheel
 
 ########################################################
@@ -92,10 +92,11 @@ PBP_CPPFILES = pbp_addons.cpp
 PBP_INCLUDE  = pbp_include.h
 
 #
-# plug-in file lists --- they will mot go to libfaudes.so
+# plug-in file lists --- they will not go to libfaudes.so
 PBP_HEADERS = $(PBP_CPPFILES:.cpp=.h) $(PBP_INCLUDE)
 PBP_SOURCES = $(PBP_CPPFILES:%=$(PBP_SRCDIR)/%) 
 PBP_OBJECTS = $(PBP_SOURCES:$(PBP_SRCDIR)/%.cpp=$(PBP_OBJDIR)/%$(DOT_O)) 
+PBP_OBJECTS += $(PBP_OBJDIR)/libfaudes_pywrapper.o
 
 
 ########################################################
@@ -155,10 +156,12 @@ $(PBP_OBJDIR)/%$(DOT_O): $(PBP_OBJDIR)/%.cpp
 	$(CXX) -c $(CFLAGS) -I$(PBP_SRCDIR) $(LIBOPTS) $(PBP_SWIGOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
 
 # rule to build overall shared library
-$(PBP_OBJDIR)/LIBFAUDES_PYDSO: $(OBJECTS) $(OBJECTSEXT) $(PBP_OBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper.o
+$(PBP_OBJDIR)/$(LIBFAUDES_PYDSO): $(OBJECTS) $(OBJECTSEXT) $(PBP_OBJECTS)
 	$(ECHO) "linking _faudes python module dso"
 	$(LXX) $(DSOOPTS) $(call FNCT_FIXDIRSEP,$^) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$@) $(LNKLIBS) $(LDFLAGS) $(PBP_PYTHON_LNK)
 
+# user friendly target
+pybindings-dso: $(PBP_OBJDIR)/$(LIBFAUDES_PYDSO)
 
 ########################################################
 # pyproject to build wheel
@@ -228,9 +231,10 @@ pybindings-configure: $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
 #
 # advertise plug-in
 VPATH   += $(PBP_SRCDIR)
-CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) $(PBP_PROJ) 
+CLEANFILES += $(PBP_OBJECTS) $(PBP_OBJDIR)/*$(DOT_O) 
 CONFIGURETARGETS += pybindings-configure pybindings-report $(PBP_PROJ)
-DISTCLEANFILES += faudes-*.whl 
+DISTCLEANFILES += faudes-*.whl $(PBP_OBJDIR)/*
+DEFAULTTARGETS += pybindings-dso
 #
 # include tutorial
 include $(PBP_BASE)/Makefile.tutorial
