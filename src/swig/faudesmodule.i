@@ -44,9 +44,19 @@ the corefaudes interface definitions.
 // Extra C code in wrapper file (will NOT generate bindings)
 %{
 
-// include faudes headers (inc. also pbp_include.h, lbp_include.h etc)
+// include faudes headers
 #include "libfaudes.h"
 #include "swg_utils.h"
+
+// include non-std plugin headers
+#ifdef SWIGLUA
+#include "lbp_include.h"
+#endif  
+#ifdef SWIGPYTHON
+#include "pbp_include.h"
+#endif  
+  
+  
   
 
 // use libfaudes namespace
