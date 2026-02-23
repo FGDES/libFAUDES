@@ -67,11 +67,11 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: faudes-configured-src.tgz
-        path: ./faudes-configured-src.tgz
+        path: ./faudes.tgz
     - name: Extract Archive
       run: |
         dir
-        tar -xzf faudes-configured-src.tgz
+        tar -xzf faudes.tgz
         tools\msvc\VERSION.bat
         echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
         echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
@@ -159,11 +159,11 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: faudes-configured-src-nopy.tgz
-        path: ./faudes-configured-src-nopy.tgz
+        path: ./faudes.tgz
     - name: Extract Archive
       run: |
         dir
-        tar -xzf faudes-configured-src-nopy.tgz
+        tar -xzf faudes.tgz
     - name: Build Static Libray 
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
