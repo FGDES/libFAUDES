@@ -30,9 +30,9 @@ jobs:
         echo "notempty" > ./bin/notempty
         tar -czf faudes.tgz ./*
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
-        name: faudes.tgz
+        name: faudes-configured-src.tgz
         path: ./faudes.tgz
         if-no-files-found: error
 
@@ -66,12 +66,15 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
+        name: faudes-configured-src.tgz
         path: ./
     - name: Extract Archive
       run: |
-        tar -xzf faudes.tgz
+        tar -xzf faudes-configures-src.tgz
         dir
+        tools\msvc\VERSION.bat
+        echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
+        echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
     - name: Build DSO
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
@@ -92,10 +95,11 @@ jobs:
         %GNUMAKE% PYTHON=python FAUDES_PLATFORM=cl_win -j1 pybindings-wheel
         dir *
         python --version
-        python -m build .\plugins\pybindings\pyproj --outdir=./ --wheel	
-    - uses: actions/upload-artifact@v4
+        python -m build .\plugins\pybindings\pyproj --outdir=./ --wheel
+    - name uploading artifact faudes-${{ env.VMAJOR }}.${{ env.VMINOR }}-msvc.whl
+      uses: actions/upload-artifact@v6
       with:
-        name: faudes.whl
+        name: faudes-${{ env.VMAJOR }}.${{ env.VMINOR }}-msvc.whl
         path: faudes-*.whl
 
 
@@ -122,12 +126,12 @@ jobs:
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
         echo "notempty" > ./bin/notempty
-        tar -czf faudes-nopy.tgz ./*
+        tar -czf faudes.tgz ./*
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
-        name: faudes-nopy.tgz
-        path: ./faudes-nopy.tgz
+        name: faudes-configured-src-nopy.tgz
+        path: ./faudes.tgz
         if-no-files-found: error
 
 
@@ -154,8 +158,8 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes-nopy.tgz
-        path: ./
+        name: faudes-configured-src-nopy.tgz
+        path: ./faudes.tgz
     - name: Extract Archive
       run: |
         tar -xzf faudes-nopy.tgz
