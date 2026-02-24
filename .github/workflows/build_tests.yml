@@ -60,7 +60,7 @@ jobs:
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
         # all excep pybindings
-        export FAUDES_PLUGINS="omegaaut synthesis observer multitasking diagnosis hiosys iosystem coordinationcontrol prioritie timed simulator iodevice luabindings"
+        export FAUDES_PLUGINS="omegaaut synthesis observer multitasking diagnosis hiosys iosystem coordinationcontrol priorities timed simulator iodevice luabindings"
         make -j configure
         make clean
         rm -rf ./bin/*
