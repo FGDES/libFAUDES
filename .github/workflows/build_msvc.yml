@@ -145,8 +145,8 @@ jobs:
   build-nopy:  
 
     runs-on: windows-latest
-#    needs: [configure-nopy]
-    needs: [configure-full]
+    needs: [configure-nopy]
+#    needs: [configure-full]
     defaults:
       run:
         shell: cmd
@@ -166,8 +166,8 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes_configured_src.tgz
-#        name: faudes_configured_src_nopy.tgz
+#        name: faudes_configured_src.tgz
+        name: faudes_configured_src_nopy.tgz
         path: ./
     - name: Extract Archive
       run: |
@@ -184,11 +184,11 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 binaries
         dir bin
-    - name: Build Python Shared Object
-      run: |
-        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 pybindings-dso
-        dir 
+#    - name: Build Python Shared Object
+#      run: |
+#        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+#        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 pybindings-dso
+#        dir 
     - name: Built Tutorial
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
