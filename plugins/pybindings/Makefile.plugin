@@ -74,10 +74,6 @@ pybindings-report:
 	@echo " ============================== " 
 
 #
-# Print pybinding debug messages
-#FAUDES_DEBUG += pbp_debug
-
-#
 # set up paths relative to faudes path
 PBP_BASE =   ./plugins/pybindings
 PBP_SRCDIR = ./plugins/pybindings/src
@@ -215,14 +211,11 @@ pybindings: pybindings-wheel pybindings-dso
 
 #
 # append my plugin to configuration
-$(INCLUDEDIR)/$(PBP_INCLUDE): $(PBP_SRCDIR)/$(PBP_INCLUDE)  
-	cp -pR $< $@
-	echo "#include \"$(PBP_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+# special case: libFAUDES wont include php_include, but we'ld like to sense it exists
+$(INCLUDEDIR)/pbp_dummy.h: $(PBP_SRCDIR)/$(PBP_INCLUDE)  
+	echo "// dummy --- the pybindings are not accessible from libFAUDES" >> $@
 	echo "/* pybindings configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGIN_PYBINDINGS" >> $(INCLUDEDIR)/configuration.h
-ifeq (pbp_debug,$(findstring pbp_debug,$(FAUDES_DEBUG)))
-	echo "#define  FAUDES_DEBUG_PYBINDINGS" >> $(INCLUDEDIR)/configuration.h
-endif
 	echo " " >> $(INCLUDEDIR)/configuration.h
 
 #
@@ -233,6 +226,7 @@ pybindings-configure: $(PBP_OBJDIR)/pywrapper.cpp
 #
 # advertise plug-in
 VPATH   += $(PBP_SRCDIR)
+HEADERS += pbp_dummy.h
 CLEANFILES += $(PBP_OBJECTS) $(PBP_OBJDIR)/*$(DOT_O) 
 CONFIGURETARGETS += pybindings-configure pybindings-report $(PBP_PROJ)
 DISTCLEANFILES += faudes-*.whl $(PBP_OBJDIR)/*
