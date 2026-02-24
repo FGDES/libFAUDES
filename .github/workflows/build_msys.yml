@@ -21,7 +21,6 @@ jobs:
         install: >-
           base-devel
           mingw-w64-ucrt-x86_64-gcc
-          mingw-w64-ucrt_x86_64-python
           swig 
           perl 
           doxygen 
@@ -29,8 +28,10 @@ jobs:
           libreadline-devel 
     - name: Setup Python
       uses: actions/setup-python@v6
+      with:
+        python-version: '3.13'
     - name: Test Python
-      run: python my_script.py
+      run: python --version
     - name: Pip for build
       uses: BSFishy/pip-action@v1
       with:
