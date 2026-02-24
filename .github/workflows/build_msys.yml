@@ -1,10 +1,11 @@
 name: Build libFAUDES on MSYS2
 
+# pthon packes we've tried:
 # mingw-w64-i686-python
 # mingw-w64-x86_64-python
-# mingw-w64-ucrt-x86_64-python
+# mingw-w64-ucrt-x86_64-python << winner
 # mingw-w64-clang-x86_64-python
-# msys/python
+# python
          
 
 on:

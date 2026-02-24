@@ -1,5 +1,9 @@
 name: Build libFAUDES with MSVC
 
+# MSVC is special in the folloeing regatrds
+# - we currently can run Tests only with static linking
+# - 
+
 on:
   workflow_dispatch:
       
@@ -138,7 +142,8 @@ jobs:
   build-nopy:  
 
     runs-on: windows-latest
-    needs: [configure-nopy]
+#    needs: [configure-nopy]
+    needs: [configure-full]
     defaults:
       run:
         shell: cmd
@@ -158,7 +163,8 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes_configured_src_nopy.tgz
+        name: faudes_configured_src.tgz
+#        name: faudes_configured_src_nopy.tgz
         path: ./
     - name: Extract Archive
       run: |
@@ -168,21 +174,21 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 libfaudes
         dir obj
         dir 
     - name: Build Tools
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 binaries
         dir bin
     - name: Built Tutorial
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 tutorial
     - name: Run Test Cases
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 test
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 test
 
 
