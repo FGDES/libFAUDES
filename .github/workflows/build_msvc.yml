@@ -67,7 +67,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: faudes_configured_src.tgz
-        path: ./faudes.tgz
+        path: ./
     - name: Extract Archive
       run: |
         dir
@@ -159,7 +159,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: faudes_configured_src_nopy.tgz
-        path: ./faudes.tgz
+        path: ./
     - name: Extract Archive
       run: |
         dir
