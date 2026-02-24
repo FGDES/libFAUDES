@@ -32,10 +32,7 @@ jobs:
         python-version: '3.13'
     - name: Test Python
       run: |
-        echo ${{ steps.cp313.outputs.python-path }}
-        ${{ steps.cp313.outputs.python-path }} --version
         echo $PATH
-        python --version
     - name: Pip for build
       uses: BSFishy/pip-action@v1
       with:
