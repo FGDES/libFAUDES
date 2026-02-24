@@ -22,6 +22,10 @@ jobs:
           base-devel
           mingw-w64-ucrt-x86_64-gcc
           mingw-w64-i686-python
+          mingw-w64-x86_64-python
+	  mingw-w64-ucrt-x86_64-python
+          mingw-w64-clang-x86_64-python
+	  msys/python
           swig 
           perl 
           doxygen 
