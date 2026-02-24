@@ -1,8 +1,11 @@
 name: Build libFAUDES with MSVC
 
 # MSVC is special in the folloeing regatrds
-# - we currently can run Tests only with static linking
-# - 
+# - we can run tests only with static linking (because our EXEs wont find the DSO)
+# - on a dedicated machine, we can still build the Python DSO _faudes.pdl
+#   so we can do a full test run
+# - we cannot compile the Python wrappers GitHub runners because there we fail when
+#   running $(shell python -c " whatever ") to read out sysconfig
 
 on:
   workflow_dispatch:
