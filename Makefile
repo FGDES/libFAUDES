@@ -366,6 +366,7 @@ ifeq ($(SHARED),yes)
 LIBOPTS = -DFAUDES_BUILD_DSO
 APPOPTS = -DFAUDES_BUILD_APP
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)
 
 ### sensible/posix defaults: library target names  #################
 #
@@ -415,6 +416,7 @@ endif
 ifeq (core_threads,$(findstring core_threads,$(FAUDES_OPTIONS)))
 LNKLIBS += -lpthread 
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_lx
 endif
 
 ### platform "gcc_linux32" #######################
@@ -539,6 +541,7 @@ LIBFAUDES := $(LIBFAUDES).dylib
 IMPFAUDES := $(IMPFAUDES).dylib
 MINFAUDES := $(MINFAUDES).a
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_osx
 endif
 
 
@@ -609,6 +612,7 @@ AR = cmd.exe /S /C lib /VERBOSE
 MAINOPTS = /EHsc /O2
 MAINOPTS += /DFAUDES_BUILDENV="cl_win"
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_win
 endif
 
 ### platform "gcc_win" #############################
@@ -681,6 +685,7 @@ endif
 ifeq ($(SHARED),yes)
 FNCT_POST_APP = strip $(1); $(CP) $(LIBFAUDES) $(dir $(1))
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_msys
 endif
 
 
@@ -995,7 +1000,6 @@ package:
 	- $(CPR)  $(pluginstringC) ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	- $(CPR)  plugins/example ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	- $(CPR)  plugins/hybrid ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/pybindings ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	$(ECHO) "#### libFAUDES package: dist-clean"
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
 	$(RM) ./libFAUDES_$(FAUDES_FILEVERSION)/Makefile.user
@@ -1008,7 +1012,7 @@ package:
 	$(ECHO) "#### libFAUDES  package: clean" 
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  clean &> /dev/null 
 	$(ECHO) "#### libFAUDES package: tar build"  
-	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION)_lx.tar.gz libFAUDES_$(FAUDES_FILEVERSION)
+	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION_PLATFORM).tar.gz libFAUDES_$(FAUDES_FILEVERSION)
 	$(ECHO) "#### libFAUDES package: clean"
 	$(RM) libFAUDES_$(FAUDES_FILEVERSION) 
 	$(ECHO) " ============================== " 
