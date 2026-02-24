@@ -26,7 +26,7 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-        export FAUDES_PLUGINS="synthesis luabindings pybindings"
+        #export FAUDES_PLUGINS="synthesis luabindings pybindings"
         make -j configure
         make clean
         rm -rf ./bin/*
@@ -59,7 +59,8 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-        export FAUDES_PLUGINS="synthesis luabindings"
+        # all excep pybindings
+        export FAUDES_PLUGINS="omegaaut synthesis observer multitasking diagnosis hiosys iosystem coordinationcontrol prioritie timed simulator iodevice luabindings"
         make -j configure
         make clean
         rm -rf ./bin/*
