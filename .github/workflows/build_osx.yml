@@ -52,7 +52,11 @@ jobs:
       run: |
         brew update
         brew install make
-        brew install python
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.13' 
+    - run: python --version 
     - name: Build Default Targets
       run: |
         gmake -j1
@@ -62,7 +66,7 @@ jobs:
       run: gmake -j1 test
     - name: Build Package
       run: |
-        make package
+        make PYTHON=python package
         ls libfaudes_*.*
     - uses: actions/upload-artifact@v4
       with:
