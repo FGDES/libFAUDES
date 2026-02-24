@@ -52,6 +52,7 @@ jobs:
       run: |
         brew update
         brew install make
+        brew install python3
     - name: Build Default Targets
       run: |
         gmake -j1
