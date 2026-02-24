@@ -39,9 +39,10 @@ jobs:
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
-          echo | gcc -dM -E -
+	  which python
+	  which python3	  
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
-      run: make -j1 configure
+      run: make -j1 configure PYTHON=python
     - name: Build Default Targets
       run: make -j1
     - name: Build Tutorials
