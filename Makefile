@@ -1591,9 +1591,9 @@ FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(
 FNCT_RUNPYSCRIPT =  $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 
 # overwrtie non functionl variants 
-ifeq (cmdcom_ph,$(FAUDES_MSHELL)) 
-FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
-endif
+#ifeq (cmdcom_ph,$(FAUDES_MSHELL)) 
+#FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+#endif
 #ifeq (cmdcom,$(FAUDES_MSHELL))
 #FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
 #endif

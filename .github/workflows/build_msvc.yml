@@ -175,13 +175,17 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 libfaudes
-        dir obj
         dir 
     - name: Build Tools
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 binaries
         dir bin
+    - name: Build Python Shared Object
+      run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 pybindings-dso
+        dir 
     - name: Built Tutorial
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
