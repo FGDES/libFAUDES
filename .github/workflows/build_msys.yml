@@ -27,7 +27,7 @@ jobs:
           ncurses-devel 
           libreadline-devel 
     - name: Setup Python
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v6
     - name: Pip for build
       uses: BSFishy/pip-action@v1
       with:
@@ -39,8 +39,6 @@ jobs:
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
-          #which python
-          which python3	  
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: make -j1 configure PYTHON=python
     - name: Build Default Targets
@@ -51,7 +49,7 @@ jobs:
       run: make -j1 test
     - name: Build Package
       run: |
-        make package
+        make package PYTHON=python
         ls -hl libfaudes_*.*
     - uses: actions/upload-artifact@v4
       with:
