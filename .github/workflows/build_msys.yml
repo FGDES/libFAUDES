@@ -20,8 +20,8 @@ jobs:
         update: true
         install: >-
           base-devel
-          mingw-w64-ucrt_x86_64_gcc
-          mingw-w64-ucrt_x86_64_python
+          mingw-w64-ucrt-x86_64-gcc
+          mingw-w64-ucrt_x86_64-python
           swig 
           perl 
           doxygen 
