@@ -83,7 +83,7 @@ jobs:
         echo A      
         type tools\msvc\VERSION.bat 
         echo B
-        tools\msvc\VERSION
+        cmd /S /C tools\msvc\VERSION.bat
         echo "found VMAJOR=%FAUDES_VERSION_MAJOR%"
         echo "found VMAINOR=%FAUDES_VERSION_MINOR%"
         echo C    
