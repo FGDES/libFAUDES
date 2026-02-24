@@ -52,13 +52,14 @@ jobs:
       run: make -j1 tutorial
     - name: Run Test Cases
       run: make -j1 test
-    - name: Build Package
-      run: |
-        make package
-        ls -hl libfaudes_*.*
-    - uses: actions/upload-artifact@v4
-      with:
-        name: libfaudes_${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
-        path: ./libfaudes_*.tar.gz
-        compression-level: 0
-        if-no-files-found: error
+#### packgage fails because "make configure" needs python ... and this we did not get fixed      
+#    - name: Build Package
+#      run: |
+#        make package
+#        ls -hl libfaudes_*.*
+#    - uses: actions/upload-artifact@v4
+#      with:
+#        name: libfaudes_${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
+#        path: ./libfaudes_*.tar.gz
+#        compression-level: 0
+#        if-no-files-found: error
