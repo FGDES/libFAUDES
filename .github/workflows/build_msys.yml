@@ -21,7 +21,7 @@ jobs:
         install: >-
           base-devel
           mingw-w64--gcc
-	  mingw-w64-python
+          mingw-w64-python
           swig 
           perl 
           doxygen 
