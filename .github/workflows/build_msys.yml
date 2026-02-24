@@ -21,12 +21,17 @@ jobs:
         install: >-
           base-devel
           mingw-w64-ucrt-x86_64-gcc
-          mingw-w64-ucrt-x86_64-gcc-python
           swig 
           perl 
           doxygen 
           ncurses-devel 
           libreadline-devel 
+    - name: Setup Python
+      uses: actions/setup-python@v1
+    - name: Pip for build
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: build
     - name: Figure Version
       run: |
           uname -a
