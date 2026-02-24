@@ -135,10 +135,9 @@ jobs:
         merge-multiple: true
     - name: Show
       run: |
-        ls
         ls dist      
-    - uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        verbose: true
-        repository-url: https://test.pypi.org/legacy/
+#    - uses: pypa/gh-action-pypi-publish@release/v1
+#      with:
+#        verbose: true
+#        repository-url: https://test.pypi.org/legacy/
 
