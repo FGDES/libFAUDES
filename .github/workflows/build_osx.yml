@@ -53,6 +53,8 @@ jobs:
         brew update
         brew install make
         brew install swig
+        brew install perl
+        brew install doxygen
     - name: Setup Python
       uses: actions/setup-python@v6
       with:
