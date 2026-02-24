@@ -374,7 +374,7 @@ int main(int argc, char *argv[]) {
     if(!findpython()) {
       usage("could not find python");
     }
-    testok=runsexec("python3",mPyFile);
+    testok=runsexec(mPython,mPyFile);
 #endif    
   }
 
