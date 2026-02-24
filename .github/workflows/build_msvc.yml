@@ -78,16 +78,15 @@ jobs:
     - name: Extract Archive
       run: |
         tar -xzf faudes.tgz
-        tools\msvc\VERSION.bat
-        echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
-        echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
-        echo passed version to runner env	
     - name: Retrieve Version
       run: |
+        echo A      
         type tools\msvc\VERSION.bat 
+        echo B
         tools\msvc\VERSION.bat
         echo "found VMAJOR=%FAUDES_VERSION_MAJOR%"
-        echo "found VMINOR=%FAUDES_VERSION_MINOR%"
+        echo "found VMAINOR=%FAUDES_VERSION_MINOR%"
+        echo C    
         echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
         echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
         echo passed version to runner env	
