@@ -20,7 +20,8 @@ jobs:
         update: true
         install: >-
           base-devel
-          mingw-w64-ucrt-x86_64-gcc
+          mingw-w64--gcc
+	  mingw-w64-python
           swig 
           perl 
           doxygen 
@@ -49,7 +50,7 @@ jobs:
       run: make -j1 test
     - name: Build Package
       run: |
-        make package PYTHON=python
+        make package
         ls -hl libfaudes_*.*
     - uses: actions/upload-artifact@v4
       with:
