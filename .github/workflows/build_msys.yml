@@ -21,24 +21,12 @@ jobs:
         install: >-
           base-devel
           mingw-w64-ucrt-x86_64-gcc
+          mingw-w64-i686-python
           swig 
           perl 
           doxygen 
           ncurses-devel 
           libreadline-devel 
-    - name: Setup Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: '3.13'
-    - name: Test Python
-      run: |
-        echo $PATH
-        ls /ucrt64/bin
-        pacman -Ss python
-    - name: Pip for build
-      uses: BSFishy/pip-action@v1
-      with:
-        packages: build
     - name: Figure Version
       run: |
           uname -a
@@ -46,6 +34,7 @@ jobs:
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+	  which python
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: make -j1 configure PYTHON=python
     - name: Build Default Targets
