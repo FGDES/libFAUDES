@@ -48,6 +48,11 @@ jobs:
       run: |
         ls
         tar -xzf faudes.tgz
+    - name: Figure Version
+      run: |
+        . ./VERSION
+        echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+        echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Install Tools
       run: |
         brew update

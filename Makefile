@@ -326,7 +326,7 @@ FNCT_POST_APP = @echo wont strip
 endif
 
 ### sensible/cmdcom defaults: external tools #########################
-# - mut be something utterly wrong with how we run win/make in on github
+# - must be something utterly wrong with how we run win/make in on github ????
 # - most of the below is actually not functional but survives a make cycle
 ifeq ($(FAUDES_MSHELL),cmdcom_gh)
 SHELL = cmd.exe
