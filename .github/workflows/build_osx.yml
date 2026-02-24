@@ -52,11 +52,13 @@ jobs:
       run: |
         brew update
         brew install make
+        brew install swig
     - name: Setup Python
       uses: actions/setup-python@v6
       with:
-        python-version: '3.13' 
-    - run: python --version 
+        python-version: '3.13'
+    - name: Test Python
+      run: python --version 
     - name: Build Default Targets
       run: |
         gmake -j1
