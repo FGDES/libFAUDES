@@ -77,12 +77,19 @@ jobs:
         path: ./
     - name: Extract Archive
       run: |
-        dir
         tar -xzf faudes.tgz
         tools\msvc\VERSION.bat
         echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
         echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
-    - name: Build DSO
+        echo passed version to runner env	
+    - name: Retrieve Version
+      run: |
+        type tools\msvc\VERSION.bat 
+        tools\msvc\VERSION.bat
+        echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
+        echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
+        echo passed version to runner env	
+    - name: Build libFAUDES DSO
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
@@ -100,7 +107,6 @@ jobs:
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe
         %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
         %GNUMAKE% PYTHON=python FAUDES_PLATFORM=cl_win -j1 pybindings-wheel
-        dir *
         python --version
         python -m build .\plugins\pybindings\pyproj --outdir=./ --wheel
     - name: uploading artifact faudes_${{ env.VMAJOR }}.${{ env.VMINOR }}_ghmsvc.whl
