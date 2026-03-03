@@ -112,7 +112,7 @@ class FAUDES_TAPI THioPlant : public TaGenerator<GlobalAttr, StateAttr, EventAtt
      * @return 
      *   new Generator 
      */
-    virtual THioPlant* Copy(void) const;
+    virtual THioPlant* NewCpy(void) const;
 
     /**
      * Create empty HioPlant with same symboltable as this
@@ -931,7 +931,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy()
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

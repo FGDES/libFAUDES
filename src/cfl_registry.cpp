@@ -33,8 +33,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 #include <utility>
 #include <limits>
 #include "allplugins.h"
-#include "rtiautoload.h"
-#include "rtiautoload.cpp"
+#include "rtiloader.h"
+#include "rtiloader.cpp"
 #include "rtiwrapper.h"
 #include "rtiwrapper.cpp"
 #endif

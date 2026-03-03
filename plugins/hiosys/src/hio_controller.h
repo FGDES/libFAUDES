@@ -113,7 +113,7 @@ class FAUDES_TAPI THioController : public TaGenerator<GlobalAttr, StateAttr, Eve
      * @return 
      *   new Generator 
      */
-    virtual THioController* Copy(void) const;
+    virtual THioController* NewCpy(void) const;
 
     /**
      * Create empty HioController with same symboltable as this
@@ -1008,7 +1008,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy()
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

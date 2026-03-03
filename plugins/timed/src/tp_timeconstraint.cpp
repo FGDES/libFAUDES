@@ -24,7 +24,7 @@ namespace faudes {
 
 
 // std faudes type (cannot do New() with macro)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,ClockSet,NameSet)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,ClockSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,ClockSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,ClockSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,ClockSet,NameSet)

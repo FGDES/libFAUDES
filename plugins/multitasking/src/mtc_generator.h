@@ -116,7 +116,7 @@ class FAUDES_TAPI TmtcGenerator : public TcGenerator<GlobalAttr, StateAttr, Even
      * @return 
      *   New Generator 
      */
-    virtual TmtcGenerator* Copy(void) const;
+    virtual TmtcGenerator* NewCpy(void) const;
 
 
     /**
@@ -841,7 +841,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done

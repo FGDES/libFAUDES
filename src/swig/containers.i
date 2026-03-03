@@ -47,7 +47,13 @@ BaseSet: Template declaration for swig
   SET(const SET& rOtherSet);
   SET(const std::string& rFilename, const std::string& rLabel="");
   virtual SET* New(void);
-  virtual SET* Copy(void);
+  %rename(Copy) NewCpy;
+  virtual SET* NewCpy(void);
+/*
+  %extend {  
+    SET Copy(void) const { return *($self->NewCpy());}; // fix swig ownership flag
+  }
+*/
   virtual ~SET(void);
 
 %enddef
@@ -440,7 +446,8 @@ public:
   ~TransSet ## ORDER(void);
   // New & Copy constructors
   virtual TransSet ## ORDER* New(void);
-  virtual TransSet ## ORDER* Copy(void);
+  %rename(Copy) NewCpy;
+  virtual TransSet ## ORDER* NewCpy(void);
   // TBaseSet members (excl constructors)
   SwigBaseSetMembers(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator)
   // component access

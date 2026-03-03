@@ -1368,7 +1368,7 @@ void Project(const Generator& rGen, const EventSet& rProjectAlphabet, Generator&
   if(gd->Size() < 20)
     StateMin(*gd,rResGen);
   else
-    gd->Move(rResGen);
+    rResGen.Move(*gd);
   delete gd;
   // restore state names
   rResGen.StateNamesEnabled(se);
@@ -1389,7 +1389,7 @@ void Project(const Generator& rGen, const EventSet& rProjectAlphabet, Generator&
   FD_WARN("Project(...): make det #" << gref.Size());
   FAUDES_TIMER_LAP("");
   Deterministic(gref, g3);
-  g3.Move(gref);
+  gref.Move(*g3);
   FAUDES_TIMER_LAP("");
   // compare
   FD_WARN("Project(...): compare #" << gref.Size());
@@ -1426,7 +1426,7 @@ void aProject(const Generator& rGen, const EventSet& rProjectAlphabet, Generator
   pResGen->EventAttributes(rGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }

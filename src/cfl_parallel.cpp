@@ -42,7 +42,7 @@ void Parallel(const Generator& rGen1, const Generator& rGen2, Generator& rResGen
   Parallel(rGen1, rGen2, cmap, *pResGen);
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -125,7 +125,7 @@ void aParallel(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -199,7 +199,7 @@ void aParallel(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -548,7 +548,7 @@ void aProduct(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -582,7 +582,7 @@ void aProduct(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 

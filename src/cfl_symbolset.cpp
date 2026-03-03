@@ -37,6 +37,13 @@ SymbolSet::SymbolSet(void) :
 }
 
 // SymbolSet(rOtherSet)
+SymbolSet::SymbolSet(const SymbolSet& rOtherSet) : 
+  TBaseSet<std::string>(rOtherSet) 
+{
+  FD_DC("SymbolSet(" << this << ")::SymbolSet(rOtherSet " << &rOtherSet << ")");
+}
+
+// SymbolSet(rOtherSet)
 SymbolSet::SymbolSet(const TBaseSet<std::string>& rOtherSet) : 
   TBaseSet<std::string>(rOtherSet) 
 {

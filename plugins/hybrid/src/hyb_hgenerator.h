@@ -282,7 +282,7 @@ class TlhaGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, Trans
     * @return 
     *   new Generator 
     */
-    TlhaGenerator* Copy(void) const;
+    TlhaGenerator* NewCpy(void) const;
 
 
     /**
@@ -719,7 +719,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done

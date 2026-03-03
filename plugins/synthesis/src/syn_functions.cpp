@@ -323,7 +323,7 @@ void SupRelativelyClosedUnchecked(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 

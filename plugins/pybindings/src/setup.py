@@ -7,6 +7,10 @@ from datetime import datetime
 # figure source files
 srcfiles = [str(cppfile) for cppfile in Path("src/").glob("**/*.cpp")]
 
+# rtiloader/rtiwrapper are formally not sources
+srcfiles.remove("src/rtiloader.cpp")
+srcfiles.remove("src/rtiwrapper.cpp")
+
 # figure platform
 platform = sysconfig.get_platform()
 pyver = sysconfig.get_python_version()
@@ -27,7 +31,6 @@ ext = Extension(
   libraries=syslibs,
   define_macros=[
     ("FAUDES_BUILD_DSO","1"),
-    ("FAUDES_MUTE_RTIAUTOLOAD","1"),
     ("FAUDES_BUILDENV",buildstr),
     ("FAUDES_BUILTIME",nowstr),
     ("FAUDES_MUTE_LUA","1")

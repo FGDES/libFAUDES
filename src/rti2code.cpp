@@ -33,6 +33,19 @@ using namespace faudes;
 // ******************************************************************
 
 void usage(const std::string& rMessage="") {
+
+    // testing
+  /*
+  TaNameSet< AttributeCFlags > al1;
+  TaNameSet< AttributeCFlags > al2;
+  al2.Insert("alpha");
+  al1=al2;
+  */
+ NameSet al1;
+ NameSet al2;
+  al2.Insert("alpha");
+  al1=al2;
+
   // UI hints
   if(rMessage!="") {
     std::cerr << rMessage << std::endl;
@@ -509,7 +522,8 @@ int main(int argc, char *argv[]) {
     std::vector< std::string > lfdefs;
     std::vector< std::string > lrtypes;
     std::vector< std::string > lhelp;
-    // Process per signature
+
+    // Process per signature (nominal wrappers)
     for(unsigned int i=0; i<cparams.size(); i++) {
       // Create function declaration: return value
       std::string lrtype="void";
@@ -614,27 +628,26 @@ int main(int argc, char *argv[]) {
       }
       // Std no function body
       lfdefs.push_back("");
-      // Test whether we shall generate a wrapper with faudes return value
+    }
+    
+    // Test whether we generate convenience wrappers: dont so if we have in-situ parameters
+    bool xwrp=true;
+    for(unsigned int i=0; i<cparams.size(); i++) {
+      for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+        if(cattrib.at(i).at(j)==Parameter::InOut)
+	  xwrp=false;
+      }
+    }
+
+    // Test whether we generate convenience wrappers: for signatures, with exactly one out parameter
+    for(unsigned int i=0; i<cparams.size() && xwrp; i++) {
       int fret=-1;
       for(unsigned int j=0; j<cparams.at(i).size(); j++) {
-        // Dont do so if we have a C return value
+        // No extra wrapper if we have a C return value
         if(cretval.at(i).at(j)) {
           fret=-1;
           break;
         }
-	// Dont do so if we have other special cases
-        if(cparams.at(i).at(j) == "Boolean" || cparams.at(i).at(j) == "String" 
-           || cparams.at(i).at(j) == "Integer") {
-	  if(cattrib.at(i).at(j)==Parameter::Out) {
-  	    fret=-1;
-	    break;
-	  }
-	}
-	// Insist in no input-output parameters
-	if(cattrib.at(i).at(j)==Parameter::InOut) {
-  	    fret=-1;
-	    break;
-	}
 	// Insist in exactly one faudes output parameter
 	if(cattrib.at(i).at(j)==Parameter::Out) {
 	  if(fret>=0) {
@@ -643,12 +656,19 @@ int main(int argc, char *argv[]) {
 	  };
 	  fret=j;
 	}
+	// No extra wrapper if we have an elementary type as the only output
+        if(cparams.at(i).at(j) == "Boolean" || cparams.at(i).at(j) == "String" 
+           || cparams.at(i).at(j) == "Integer") {
+	  if(cattrib.at(i).at(j)==Parameter::Out) {
+  	    fret=-1;
+	    break;
+	  }
+	}
       }
-      fret=-1;
       // Do generate extra wrapper with faudes return value
       if(fret>=0) {             
         // record return type
-        lrtype = cparams.at(i).at(fret);
+	std::string lrtype = cparams.at(i).at(fret);
         lrtypes.push_back(lrtype);
         // Create ctype function declaration: function body
         std::string lfdec = ctype + "(";
@@ -783,5 +803,6 @@ int main(int argc, char *argv[]) {
     wrpheader << "} // namespace" << std::endl;
     wrpcode << "} // namespace" << std::endl;
   }
+
   return(0);
 }

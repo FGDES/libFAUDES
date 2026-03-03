@@ -86,7 +86,7 @@ void aDeterministic(const Generator& rGen, Generator& rResGen) {
   pResGen->EventAttributes(rGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -138,7 +138,7 @@ void Deterministic(const Generator& rGen, std::vector<StateSet>& rPowerStates,
   // bail out on empty input 
   if(rGen.InitStatesEmpty()) {
     if(pResGen != &rResGen) {
-      pResGen->Move(rResGen);
+      rResGen.Move(*pResGen);
       delete pResGen;
     }
     FD_DF("Deterministic(): done (empty)"); 
@@ -357,7 +357,7 @@ void Deterministic(const Generator& rGen, std::vector<StateSet>& rPowerStates,
   
   // move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 

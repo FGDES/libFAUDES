@@ -483,7 +483,7 @@ void HioFreeInput(
     }
    // if necessary, move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -666,7 +666,7 @@ void HioFreeInput(
 
    // if necessary, move pResGen to rResGen
   if(pResController != &rResController) {
-    pResController->Move(rResController);
+    rResController.Move(*pResController);
     delete pResController;
   }	
    // restore event attributes
@@ -792,7 +792,7 @@ void HioFreeInput(
     }
    // if necessary, move pResGen to rResGen
   if(pResEnvironment != &rResEnvironment) {
-    pResEnvironment->Move(rResEnvironment);
+    rResEnvironment.Move(*pResEnvironment);
     delete pResEnvironment;
   }
      // restore event attributes

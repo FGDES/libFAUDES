@@ -260,7 +260,6 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
   /**
    * Copy-constructor
    */
-  //TTransSet(const TBaseSet<Transition,Cmp>& rOtherSet);
   TTransSet(const TTransSet<Cmp>& rOtherSet);
 
   /**

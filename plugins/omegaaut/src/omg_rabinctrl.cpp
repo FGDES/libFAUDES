@@ -618,7 +618,7 @@ void RabinCtrlPfx(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -686,7 +686,7 @@ void SupRabinCon(
   pRes->Name(CollapsString("SupRabinCon(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }
@@ -711,7 +711,7 @@ void SupRabinCon(
   pRes->EventAttributes(rBPlant.Alphabet());
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }
@@ -802,7 +802,7 @@ void RabinCtrl(
 
   // execute: polish
   gcand.Accessible();
-  gcand.Move(rRes);
+  rRes.Move(gcand);
   rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
 }
 
@@ -932,7 +932,7 @@ void RabinCtrl(
   pRes->EventAttributes(rBPlant.Alphabet());
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }
@@ -957,7 +957,7 @@ void RabinCtrl(
   pRes->EventAttributes(rBPlant.Alphabet());
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }

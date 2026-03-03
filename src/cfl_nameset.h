@@ -382,7 +382,7 @@ public:
    * @exception Exception
    *   - symboltable mismatch (id 67) 
    */
-  NameSet operator + (const NameSet& rOtherSet) const;
+  NameSet operator+ (const NameSet& rOtherSet) const;
 
   /**
    * Set difference operator
@@ -393,7 +393,7 @@ public:
    * @exception Exception
    *   - symboltable mismatch (id 67) 
    */
-  NameSet operator - (const NameSet& rOtherSet) const;
+  NameSet operator- (const NameSet& rOtherSet) const;
 
   /**
    * Set intersection operator
@@ -404,7 +404,7 @@ public:
    * @exception Exception
    *   - symboltable mismatch (id 67) 
    */
-  NameSet operator * (const NameSet& rOtherSet) const;
+  NameSet operator* (const NameSet& rOtherSet) const;
 
 
   /** Test for subset  */
@@ -1137,9 +1137,10 @@ extern FAUDES_API void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rS
 
 
 // std faudes type (cannot do New() with macro)
-FAUDES_TYPE_TIMPLEMENTATION_COPY(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
+FAUDES_TYPE_TIMPLEMENTATION_NEWCOPY(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 FAUDES_TYPE_TIMPLEMENTATION_CAST(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
+FAUDES_TYPE_TIMPLEMENTATION_MOVE(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 FAUDES_TYPE_TIMPLEMENTATION_EQUAL(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 
 // empty constructor 
@@ -1229,6 +1230,12 @@ TaNameSet<Attr>& TaNameSet<Attr>::Assign(const TBaseSet<Idx>& rSourceSet) {
   // done
   return *this;
 }
+
+// op missing?
+//template<class Attr>
+//TaNameSet<Attr>& TaNameSet<Attr>::operator=(TaNameSet&& rSourceSet) {
+//  FD_WARN("TaNameSet: move operator missing");
+//}
 
 // Insert(index)
 template<class Attr>

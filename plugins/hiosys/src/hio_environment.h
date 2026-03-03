@@ -112,7 +112,7 @@ class FAUDES_TAPI THioEnvironment : public TaGenerator<GlobalAttr, StateAttr, Ev
      * @return 
      *   new Generator 
      */
-    virtual THioEnvironment* Copy(void) const;
+    virtual THioEnvironment* NewCpy(void) const;
 
     /**
      * Create empty HioEnvironment with same symboltable as this
@@ -1007,7 +1007,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy()
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

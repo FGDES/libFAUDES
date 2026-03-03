@@ -1157,18 +1157,19 @@ $(CFGFILE):
 ####################################
 
 # run time interface target
-rti: rtitools rticode
+rti: rti-tools rti-code
 
 # tools 
-rtitools: $(BINDIR)/rti2code$(DOT_EXE) 
+rti-tools: $(BINDIR)/rti2code$(DOT_EXE) 
 
 # generated code
-rticode: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload.h $(INCLUDEDIR)/rtiwrapper.h
+rti-code: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
 
 # clean
 rti-clean:
 	- rm -rf $(REFSRCDIR)  
-	- rm -rf $(INCLUDEDIR)/rtiautoload*
+	- rm -rf $(INCLUDEDIR)/rtiloader.*
+	- rm -rf $(INCLUDEDIR)/rtiwrapper.*
 	- rm -rf $(INCLUDEDIR)/libfaudes.rti
 
 # have those dirs 
@@ -1192,12 +1193,17 @@ $(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)
 	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -merge $(RTIDEFS) $@
 
 # have my auto register tools to produce factory instances (.h and .cpp)
-$(INCLUDEDIR)/rtiautoload.h: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
-	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -loader $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload)
+$(INCLUDEDIR)/rtiloader.h: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -loader $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiloader)
 
 # have my auto register tools to produce wrappers (.h and .cpp)
 $(INCLUDEDIR)/rtiwrapper.h: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
 	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -wrapper $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiwrapper)
+
+# tell make how to generate the C wrappers are generated
+$(INCLUDEDIR)/rtiloader.cpp: $(INCLUDEDIR)/rtiloader.h
+$(INCLUDEDIR)/rtiwrapper.cpp: $(INCLUDEDIR)/rtiwrapper.h
+
 
 
 ####################################
@@ -1502,8 +1508,8 @@ docs: rti reftools doc-images doc-base doc-luafaudes doc-reference includes
 
 # explicit target
 depend: $(SOURCES) includes
-	touch $(INCLUDEDIR)/rtiautoload.h
-	touch $(INCLUDEDIR)/rtiautoload.cpp
+	touch $(INCLUDEDIR)/rtiloader.h
+	touch $(INCLUDEDIR)/rtiloader.cpp
 	touch $(INCLUDEDIR)/rtiwrapper.h
 	touch $(INCLUDEDIR)/rtiwrapper.cpp
 	$(ECHO) update dependencies

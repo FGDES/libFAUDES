@@ -276,7 +276,7 @@ implementation of condition set
 */
 
 // std faudes type (except new)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)

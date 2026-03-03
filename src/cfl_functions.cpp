@@ -142,9 +142,10 @@ Implementation of class Signature
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,Signature,Type)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,Signature,Type)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,Signature,Type)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,Signature,Type)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,Signature,Type)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,Signature,Type)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,Signature,Type)
 
 // constructor
@@ -346,8 +347,9 @@ Implementation of class FunctionDefinition
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,FunctionDefinition,Documentation)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,FunctionDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,FunctionDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,FunctionDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,FunctionDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,FunctionDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,FunctionDefinition,Documentation)
 

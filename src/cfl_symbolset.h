@@ -85,6 +85,11 @@ public:
   /**
    * Copy-constructor. 
    */
+  SymbolSet(const SymbolSet& rOtherSet);
+
+  /**
+   * Copy-constructor. 
+   */
   SymbolSet(const TBaseSet<std::string>& rOtherSet);
 
   /**

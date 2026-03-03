@@ -150,8 +150,8 @@ To have your C++ class participate in the libFAUDES run-time interface:
 
 -# derive your class from faudes::Type;
 -# make sure your class has a public default constructor and a public copy constructor;
--# use the provided macros to reimplement the virtual functions New(), Copy(), Cast(), 
-   Assign(), Equal(), and the acording operators =, == and !=;
+-# use the provided macros to reimplement the virtual functions New(), NewCpy(), Cast(), 
+   Assign(), Equal(), and the according operators =, == and !=;
 -# reimplement the virtual functions DoAssign(), DoEqual(), DoRead(), DoWrite() and Clear();
 -# optionally, reimplement the alternative output formats DoDWrite(), DoSWrite(), DoXWrite()
 -# provide an .rti file for the formal TypeDefinition; 
@@ -219,10 +219,11 @@ class TypeDefinition;
  * - Clear() to reset all configuration data default,
  * - IsDefault() test for default configuration data,
  * - New() to construct an object of identical type on heap (factory method),
- * - Copy() to construct an object of identical type and configuration on heap (factory method),
+ * - NewCpy() to construct an object of identical type and configuration on heap (factory method),
  * - Cast() to dynamically cast another object to this type (type check method)
  * - Assign() to do an assignment from any castable Type derivate
  * - DoAssign(), or the operator "=", to assign from an object with identical type.
+ * - DoMove(), or the operator "=", for a destructive copy from an object with identical type.
  * - Equal() to test relaxed equality with any castable Type derivate
  * - DoEqual(), or the operators "==" and "!=", to test exact equality of configuration data
  * 
@@ -273,7 +274,7 @@ class FAUDES_API Type {
   /**
    * Construct on heap. 
    * Technically not a constructor, this function creates an object with the
-   * same type Type and the same configuration. Copy() is defined as a virtual function and derived
+   * same type Type and the same configuration. NewCpy() is defined as a virtual function and derived
    * classes are meant to re-implement with the appropiate copy constructor.
    * This can be done via the provided macros FAUDES_TYPE_DECLARATION and
    * FAUDES_TYPE_IMPLEMENTATION.
@@ -282,7 +283,7 @@ class FAUDES_API Type {
    * @return 
    *   Pointer to new Type object
    */
-  virtual Type* Copy(void) const;
+  virtual Type* NewCpy(void) const;
 
   /**
    * Cast other object to this type.
@@ -320,8 +321,7 @@ class FAUDES_API Type {
    * function DoAssign is invoked to perform the actual assignment. If the cast fails,
    * the Assign method of the parent class is called. Thus, faudes
    * objects are up- and downcatsed for assignment, maintaining as much of
-   * the source data as digestable by the destination object. On the downside,
-   * there is no sensible typechecking at compile-time.
+   * the source data as digestable by the destination object.
    *
    * Re-implementation can be done via the convenience macros
    * FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION.
@@ -334,16 +334,29 @@ class FAUDES_API Type {
 
 
   /**
-   * Assign configurationdata from other object. 
-   * Derived classes should implement the operator form for the assignment
-   * for each source type which allows for a non-trivial assignment. This includes
-   * the particular case were the source and destination types match exactly. In the
-   * latter case the DoAssign method should be invoked. In contrast to
-   * the Assign function, the operator form must not be reimplemented for
-   * missmatched source types: the operator form only accepts sensible source types.
-   * This allows for compiletime typeckecking. However, the downside is that
-   * when the type is not known at compiletime, configuration is not properly
-   * assigned.
+   * Move configuration data from other object (destructive)
+   * Derived classes should reimplement this method to first try to cast
+   * the source to the respective class. If successful, the protected 
+   * function DoMove is invoked to perform the actual assignment. If the cast fails,
+   * the Move method of the parent class is called. Thus, faudes
+   * objects are up- and downcatsed for assignment, maintaining as much of
+   * the source data as digestable by the destination object.
+   *
+   * Re-implementation can be done via the convenience macros
+   * FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION.
+   * 
+   * @param rSrc 
+   *    Source to copy from
+   * @return Reference to this object.
+   */
+  virtual Type& Move(Type& rSrc);
+
+
+  /**
+   * Copy configuration data from other object. 
+   * Derived classes should implement at least the signature with matching source
+   * and destination types via the DoAssign method. Additionally, one may implement
+   * variants with a base class as source, as mong as meaningul assigment is possible.
    *
    * Re-implementation can be done via the convenience macros
    * FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION.
@@ -353,6 +366,21 @@ class FAUDES_API Type {
    * @return Reference to this object.
    */
   Type& operator=(const Type& rSrc);
+
+  /**
+   * Copy configuration data from other object (destructive)
+   * Derived classes should implement at least the signature with matching source
+   * and destination types via the DoAssign method. Additionally, one may implement
+   * variants with a base class as source, as mong as meaningul assigment is possible.
+   *
+   * Re-implementation can be done via the convenience macros
+   * FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION.
+   * 
+   * @param rSrc 
+   *    Source to copy from
+   * @return Reference to this object.
+   */
+  Type& operator=(Type&& rSrc);
 
   /**
    * Test equality of configuration data.
@@ -378,7 +406,7 @@ class FAUDES_API Type {
    * if the type is not known at compiletime.
    * The object name or id  is not considered in the test.
    *
-   * This methoc calls the virtual method DoEqual(). Re-implementation can 
+   * This operator calls DoEqual(). Re-implementation can 
    * be done via the convenience macros
    * FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION.
    * 
@@ -394,7 +422,7 @@ class FAUDES_API Type {
    * Test equality of configuration data.
    * See operator==(const Type&).
    *
-   * This method calls the virtual method DoEqual(). Re-implementation can 
+   * This operator calls DoEqual(). Re-implementation can 
    * be done via the convenience macros
    * FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION.
    * 
@@ -735,6 +763,17 @@ class FAUDES_API Type {
   void DoAssign(const Type& rSrc);
 
   /**
+   * Copy configuration data from other object (destructive)
+   *
+   * Reimplement this function to copy implement a destructive copy. If not reimplemented,
+   * defaults to DoAssign();
+   *
+   * @param rSrc 
+   *    Source to copy from
+   */
+  void DoMove(Type& rSrc);
+
+  /**
    * Test equality of configuration data.
    * Derived classes should reimplement this method to compare all relevant 
    * configuration, except the name.
@@ -878,48 +917,60 @@ private:
 /** faudes type declaration macro */
 #define FAUDES_TYPE_DECLARATION(ftype,ctype,cbase)   \
   public: virtual ctype* New(void) const;             \
-  public: virtual ctype* Copy(void) const;            \
+  public: virtual ctype* NewCpy(void) const;            \
   public: virtual const Type* Cast(const Type* pOther) const; \
   public: virtual ctype& Assign(const Type& rSrc);      \
+  public: virtual ctype& Move(Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
   public: ctype& operator=(const ctype& rSrc);	  \
+  public: ctype& operator=(ctype&& rSrc);	  \
   public: bool operator==(const ctype& rOther) const; \
   public: bool operator!=(const ctype& rOther) const; 
 
 /** faudes type declaration macro, template version */
 #define FAUDES_TYPE_TDECLARATION(ftype,ctype,cbase)   \
   public: virtual ctype* New(void) const;             \
-  public: virtual ctype* Copy(void) const;            \
+  public: virtual ctype* NewCpy(void) const;            \
   public: virtual const Type* Cast(const Type* pOther) const; \
   public: virtual ctype& Assign(const Type& rSrc);      \
+  public: virtual ctype& Move(Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
   public: ctype& operator=(const ctype& rSrc);      \
+  public: ctype& operator=(ctype&& rSrc);      \
   public: bool operator==(const ctype& rOther) const; \
   public: bool operator!=(const ctype& rOther) const; 
 
 /** faudes type implementation macros */
 #define FAUDES_TYPE_IMPLEMENTATION_NEW(ftype,ctype,cbase)	\
   ctype* ctype::New(void) const { return new ctype(); } 
-#define FAUDES_TYPE_IMPLEMENTATION_COPY(ftype,ctype,cbase)	\
-  ctype* ctype::Copy(void) const { return new ctype(*this); } 
+#define FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(ftype,ctype,cbase)	\
+  ctype* ctype::NewCpy(void) const { return new ctype(*this); } 
 #define FAUDES_TYPE_IMPLEMENTATION_CAST(ftype,ctype,cbase)	\
   const Type* ctype::Cast(const Type* pOther) const { \
     return dynamic_cast< const ctype * >(pOther); } 
 #define FAUDES_TYPE_IMPLEMENTATION_ASSIGN(ftype,ctype,cbase)	\
   ctype& ctype::Assign(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      /* this->Clear(); */ DoAssign(*csattr);}				\
+      DoAssign(*csattr);}				\
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) { /* this->Clear() */; DoAssign(rSrc); return *this; }
+  ctype& ctype::operator=(const ctype& rSrc) { DoAssign(rSrc); return *this; }
+#define FAUDES_TYPE_IMPLEMENTATION_MOVE(ftype,ctype,cbase)	\
+  ctype& ctype::Move(Type& rSrc) {					\
+    if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
+      DoMove(*csattr);}				\
+    else {    \
+      cbase::Move(rSrc);};  \
+    return *this;} \
+  ctype& ctype::operator=(ctype&& rSrc) { DoMove(rSrc); return *this; }
 #define FAUDES_TYPE_IMPLEMENTATION_EQUAL(ftype,ctype,cbase)	\
   bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
     if(typeid(rOther) != typeid(*this)) return false; \
     const ctype* csattr=dynamic_cast<const ctype*>(&rOther); \
     if(!csattr) return false; \
-    if(!DoEqual(*csattr)) return false;		\
+    if(!DoEqual(*csattr)) return false;	\
     return true;} \
   bool ctype::operator==(const ctype& rOther) const { return DoEqual(rOther); } \
   bool ctype::operator!=(const ctype& rOther) const { return !DoEqual(rOther); }
@@ -928,8 +979,8 @@ private:
 #define FAUDES_TYPE_TIMPLEMENTATION_NEW(ftype,ctype,cbase,ctemp)	\
   ctemp ctype* ctype::New(void) const {			\
     return new ctype(); } 
-#define FAUDES_TYPE_TIMPLEMENTATION_COPY(ftype,ctype,cbase,ctemp)	\
-  ctemp ctype* ctype::Copy(void) const {			\
+#define FAUDES_TYPE_TIMPLEMENTATION_NEWCOPY(ftype,ctype,cbase,ctemp)	\
+  ctemp ctype* ctype::NewCpy(void) const {			\
     return new ctype(*this); } 
 #define FAUDES_TYPE_TIMPLEMENTATION_CAST(ftype,ctype,cbase,ctemp)	\
   ctemp const Type* ctype::Cast(const Type* pOther) const { \
@@ -937,11 +988,19 @@ private:
 #define FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(ftype,ctype,cbase,ctemp)	\
   ctemp ctype& ctype::Assign(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      /* this->Clear(); */ DoAssign(*csattr);}				\
+      DoAssign(*csattr);}				\
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { /* this->Clear(); */ DoAssign(rSrc); return *this; }
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { DoAssign(rSrc); return *this; }
+#define FAUDES_TYPE_TIMPLEMENTATION_MOVE(ftype,ctype,cbase,ctemp)	\
+  ctemp ctype& ctype::Move(Type& rSrc) { \
+    if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
+      DoMove(*csattr);}				\
+    else {    \
+      cbase::Move(rSrc);};  \
+    return *this;} \
+  ctemp ctype& ctype::operator=(ctype&& rSrc) { DoMove(rSrc); return *this; }
 #define FAUDES_TYPE_TIMPLEMENTATION_EQUAL(ftype,ctype,cbase,ctemp)	\
   ctemp bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
@@ -958,17 +1017,24 @@ private:
 #define FAUDES_TYPE_IMPLEMENTATION(ftype,ctype,cbase)	\
   ctype* ctype::New(void) const {			\
     return new ctype(); }  \
-  ctype* ctype::Copy(void) const {			\
+  ctype* ctype::NewCpy(void) const {			\
     return new ctype(*this); } \
   const Type* ctype::Cast(const Type* pOther) const { \
     return dynamic_cast< const ctype * >(pOther); } \
   ctype& ctype::Assign(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      /* this->Clear(); */ this->DoAssign(*csattr);}			\
+      this->DoAssign(*csattr);}			\
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) { /* this->Clear(); */ this->DoAssign(rSrc); return *this; } \
+  ctype& ctype::operator=(const ctype& rSrc) { this->DoAssign(rSrc); return *this; } \
+  ctype& ctype::Move(Type& rSrc) { \
+    if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
+      this->DoMove(*csattr);}			\
+    else {    \
+      cbase::Move(rSrc);};  \
+    return *this;} \
+  ctype& ctype::operator=(ctype&& rSrc) { this->DoMove(rSrc); return *this; } \
   bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
     if(typeid(rOther) != typeid(*this)) return false; \
@@ -984,7 +1050,7 @@ private:
 #define FAUDES_TYPE_TIMPLEMENTATION(ftype,ctype,cbase,ctemp)	\
   ctemp ctype* ctype::New(void) const {			\
     return new ctype(); }  \
-  ctemp ctype* ctype::Copy(void) const {			\
+  ctemp ctype* ctype::NewCpy(void) const {			\
     return new ctype(*this); } \
   ctemp const Type* ctype::Cast(const Type* pOther) const { \
     return dynamic_cast< const ctype * >(pOther); } \
@@ -994,7 +1060,14 @@ private:
     else {    \
       cbase::Assign(rSrc);};  \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { /* this->Clear(); */ this->DoAssign(rSrc); return *this; } \
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->DoAssign(rSrc); return *this; } \
+  ctemp ctype& ctype::Move(Type& rSrc) {				\
+    if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
+      this->DoMove(*csattr);}			\
+    else {    \
+      cbase::Move(rSrc);};  \
+    return *this;} \
+  ctemp ctype& ctype::operator=(ctype&& rSrc) { this->DoMove(rSrc); return *this; } \
   ctemp bool ctype::Equal(const Type& rOther) const { \
     if(&rOther==this) return true; \
     if(typeid(rOther) != typeid(*this)) return false; \

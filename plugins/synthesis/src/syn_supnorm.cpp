@@ -652,7 +652,7 @@ void SupNorm(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -674,7 +674,7 @@ void SupNormClosed(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -697,7 +697,7 @@ void SupConNormClosed(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -720,7 +720,7 @@ void SupConNorm(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }

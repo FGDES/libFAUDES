@@ -188,8 +188,8 @@ vGenerator* vGenerator::New(void) const {
 }
 
 // construct on heap
-vGenerator* vGenerator::Copy(void) const {
-  FD_DG("vGenerator(" << this << ")::Copy()");
+vGenerator* vGenerator::NewCpy(void) const {
+  FD_DG("vGenerator(" << this << ")::NewCpy()");
   // copy construct
   vGenerator* res = new vGenerator(*this);
   return res;
@@ -286,7 +286,7 @@ void vGenerator::DoAssign(const vGenerator& rGen) {
   GlobalAttributeTry(*rGen.mpGlobalAttribute);
 #ifdef FAUDES_DEBUG_CODE
   if(!Valid()) {
-    FD_DG("vGenerator()::Copy(): invalid generator");
+    FD_DG("vGenerator()::DoAssign(): invalid generator");
     DWrite(); 
     abort();
   }
@@ -331,7 +331,7 @@ vGenerator& vGenerator::AssignWithoutAttributes(const vGenerator& rGen) {
   mpTransRel->AssignWithoutAttributes(rGen.TransRel());
 #ifdef FAUDES_DEBUG_CODE
   if(!Valid()) {
-    FD_DG("vGenerator()::Copy(): invalid generator");
+    FD_DG("vGenerator()::NewCpy(): invalid generator");
     DWrite(); 
     abort();
   }
@@ -341,8 +341,24 @@ vGenerator& vGenerator::AssignWithoutAttributes(const vGenerator& rGen) {
 
 
 // Move(gen) destructive copy 
-void vGenerator::Move(vGenerator& rGen) {
-  FD_DG("vGenerator(" << this << ")::Move(" << &rGen << ")");
+vGenerator& vGenerator::Move(Type& rSrc) {
+  FD_DG("vGenerator(" << this << ")::Move([type] " << &rSrc << ")");
+  // bail out on match
+  if(&rSrc==this) return *this;
+  // run DoMove if object casts to a generator
+  vGenerator* vgen=dynamic_cast<vGenerator*>(&rSrc);
+  if(vgen) {
+    DoMove(*vgen);
+    return *this;
+  }  
+  // clear to default
+  Clear();
+  return *this;
+}
+  
+// Move(gen) destructive copy 
+void vGenerator::DoMove(vGenerator& rGen) {
+  FD_DG("vGenerator(" << this << ")::DoMove(" << &rGen << ")");
   // test types
   bool tmm=false;
   const Type* pt;
@@ -362,49 +378,55 @@ void vGenerator::Move(vGenerator& rGen) {
   // use copy on mismatch to convert   
   if(tmm) { 
     FD_DG("vGenerator(" << this << ")::Move(" << &rGen << "): using std copy");
-    rGen.DoAssign(*this);
-    Clear();
+    DoAssign(rGen);
+    rGen.Clear();
     return;
   }
   // prepare result (call clear for virtual stuff)
-  rGen.Clear();
-  // have same event symboltable
-  rGen.EventSymbolTablep(mpEventSymbolTable);
-  // copy state symboltable (todo: make this pointer based?)
-  rGen.StateSymbolTable(mStateSymbolTable);
-  // copy members
-  rGen.Name(Name());
-  rGen.StateNamesEnabled(StateNamesEnabled());
-  rGen.ReindexOnWrite(ReindexOnWrite());
-  rGen.InjectInitStates(InitStates());
-  rGen.InjectMarkedStates(MarkedStates());
-  // delete destination core
-  if(rGen.mpStates) delete rGen.mpStates;
-  if(rGen.mpAlphabet) delete rGen.mpAlphabet;
-  if(rGen.mpTransRel) delete rGen.mpTransRel;
-  if(rGen.mpGlobalAttribute) delete rGen.mpGlobalAttribute;
-  // move and invalidate core members
-  rGen.mpStates=mpStates;
-  rGen.mpAlphabet=mpAlphabet;
-  rGen.mpTransRel=mpTransRel;
-  rGen.mpGlobalAttribute=mpGlobalAttribute;
-  mpStates=0;
-  mpAlphabet=0;
-  mpTransRel=0;
-  mpGlobalAttribute=0;
-  // register core update
-  rGen.UpdateCore();
-  // install new empty core members
-  NewCore();
-  // clear myself (incl derived classes members)
   Clear();
+  // have same event symboltable
+  EventSymbolTablep(rGen.mpEventSymbolTable);
+  // copy state symboltable (todo: make this pointer based?)
+  StateSymbolTable(rGen.mStateSymbolTable);
+  // copy members
+  Name(rGen.Name());
+  StateNamesEnabled(rGen.StateNamesEnabled());
+  ReindexOnWrite(rGen.ReindexOnWrite());
+  InjectInitStates(rGen.InitStates());
+  InjectMarkedStates(rGen.MarkedStates());
+  // delete my core
+  if(mpStates) delete mpStates;
+  if(mpAlphabet) delete mpAlphabet;
+  if(mpTransRel) delete mpTransRel;
+  if(mpGlobalAttribute) delete mpGlobalAttribute;
+  // move and invalidate core members
+  mpStates=rGen.mpStates;
+  mpAlphabet=rGen.mpAlphabet;
+  mpTransRel=rGen.mpTransRel;
+  mpGlobalAttribute=rGen.mpGlobalAttribute;
+  rGen.mpStates=0;
+  rGen.mpAlphabet=0;
+  rGen.mpTransRel=0;
+  rGen.mpGlobalAttribute=0;
+  // register my core update
+  UpdateCore();
+  // install new empty core members & Clear
+  rGen.NewCore();
+  rGen.Clear();
 }
 
 // operator =
 vGenerator& vGenerator::operator = (const vGenerator& rOtherGen) {
-  FD_DG("vGenerator(" << this << ")::operator = " << &rOtherGen);
-  FD_DG("vGenerator(" << this << ")::operator =  types " << typeid(*this).name() << " <= " << typeid(rOtherGen).name());
+  FD_DG("vGenerator(" << this << ")::operator= " << &rOtherGen);
+  FD_DG("vGenerator(" << this << ")::operator=  types " << typeid(*this).name() << " <= " << typeid(rOtherGen).name());
   return Assign(rOtherGen);
+}
+
+// operator =
+vGenerator& vGenerator::operator = (vGenerator&& rOtherGen) {
+  FD_DG("vGenerator(" << this << ")::operator= [rval] " << &rOtherGen);
+  FD_DG("vGenerator(" << this << ")::operator= [rval]  types " << typeid(*this).name() << " <= " << typeid(rOtherGen).name());
+  return Move(rOtherGen);
 }
 
 // Version(idx)
@@ -4133,8 +4155,8 @@ void SetDifference(const vGenerator& rGenA, const vGenerator& rGenB, EventSet& r
 
 // rti convenience function
 void ApplyRelabelMap(const RelabelMap& rMap, const vGenerator& rGen, vGenerator& rRes) {
-  EventSet* alph=rGen.Alphabet().Copy();
-  TransSet* delta=rGen.TransRel().Copy();
+  EventSet* alph=rGen.Alphabet().NewCpy();
+  TransSet* delta=rGen.TransRel().NewCpy();
   ApplyRelabelMap(rMap,*alph,*alph);
   ApplyRelabelMap(rMap,*delta,*delta);
   rRes.Assign(rGen);

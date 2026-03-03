@@ -110,9 +110,9 @@ endif
 
 
 #
-# use rti2code to generate rtiautoload.i
-$(PBP_OBJDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
-	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -swig -flat $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti) $(call FNCT_FIXDIRSEP,$(PBP_OBJDIR)/rtiautoload)
+# use rti2code to generate rtiloader.i
+$(PBP_OBJDIR)/rtiloader.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -swig -flat $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti) $(call FNCT_FIXDIRSEP,$(PBP_OBJDIR)/rtiloader)
 
 #
 # build overall interface 
@@ -127,12 +127,12 @@ $(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
 	echo " " >> $@
 	echo " " >> $@
 	echo "// ##### load all rti definied functions " >> $@
-	echo "%include \"rtiautoload.i\" " >> $@
+	echo "%include \"rtiloader.i\" " >> $@
 	echo " " >> $@
 
 #
 # run swig for faudes.py and pywrapper.cpp
-$(PBP_OBJDIR)/pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(PBP_OBJDIR)/rtiautoload.i
+$(PBP_OBJDIR)/pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(PBP_OBJDIR)/rtiloader.i
 	$(SWIG) $(PBP_SWIGOPTIONS) -o $(call FNCT_FIXDIRSEP,$@) $(call FNCT_FIXDIRSEP,$<)
 
 # hmm .. tell make how faudes.py is generated
@@ -175,18 +175,20 @@ $(PBP_OBJDIR)/configuration.json:
 
 # project tree files
 PBP_PROJ_CINC =  $(HEADERS:%=$(INCLUDEDIR)/%) $(CFGHEADERS)
+PBP_PROJ_CINC += $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
 PBP_PROJ_CINC += $(PBP_HEADERS:%=$(PBP_SRCDIR)/%)
 ifeq (omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
 PBP_PROJ_CINC += plugins/omegaaut/lib/cpphoafparser
 endif
 PBP_PROJ_CSRC =  $(SOURCES)
 PBP_PROJ_CSRC += $(PBP_SOURCES) $(PBP_OBJDIR)/pywrapper.cpp
+PBP_PROJ_CSRC += $(INCLUDEDIR)/rtiloader.cpp $(INCLUDEDIR)/rtiwrapper.cpp
 PBP_PROJ_DATA =  $(PBP_OBJDIR)/faudes.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/pyproject.toml $(PBP_SRCDIR)/setup.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/MANIFEST.in $(PBP_BASE)/README.md LICENSE
 
 # populate project
-$(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_CSRC) $(PBP_PROJ_DATA) VERSION
+$(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_CSRC) $(PBP_PROJ_DATA) VERSION rti-code
 	- rm -rf $(PBP_PROJ)
 	mkdir $(PBP_PROJ)
 	cp  $(PBP_PROJ_DATA) $(PBP_PROJ)  

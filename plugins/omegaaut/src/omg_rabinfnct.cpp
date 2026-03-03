@@ -263,7 +263,7 @@ void RabinBuechiAutomaton(const RabinAutomaton& rRAut, const Generator& rBAut,  
   }
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }
@@ -445,7 +445,7 @@ void RabinBuechiProduct(const RabinAutomaton& rRAut, const Generator& rBAut, Rab
 
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }

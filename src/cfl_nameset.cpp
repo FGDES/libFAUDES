@@ -43,9 +43,10 @@ AutoRegisterType<EventSet> gRtiEventSet("EventSet");
 AutoRegisterType<EventSetVector> gRtiEventSetVector("EventSetVector");
 
 // std faudes type (cannot do New() with macro)
-FAUDES_TYPE_IMPLEMENTATION_COPY(EventSet,NameSet,TBaseSet<Idx>)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(EventSet,NameSet,TBaseSet<Idx>)
 FAUDES_TYPE_IMPLEMENTATION_CAST(EventSet,NameSet,TBaseSet<Idx>)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(EventSet,NameSet,TBaseSet<Idx>)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(EventSet,NameSet,TBaseSet<Idx>)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(EventSet,NameSet,TBaseSet<Idx>)
 
 
@@ -460,7 +461,7 @@ NameSet::Iterator NameSet::Find(const std::string& rName) const {
 
 
 // operator +
-NameSet NameSet::operator + (const NameSet& rOtherSet) const {
+NameSet NameSet::operator+ (const NameSet& rOtherSet) const {
   FD_DC("NameSet(" << this << ")::operator + (" << &rOtherSet << ")");
 #ifdef FAUDES_CHECKED
   if(rOtherSet.mpSymbolTable!=mpSymbolTable) {
@@ -607,9 +608,10 @@ AutoRegisterElementTag<RelabelMap> gRtiRelabelMapETag("RelabelMap","Label");
 
 // std faudes type
 FAUDES_TYPE_IMPLEMENTATION_NEW(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
-FAUDES_TYPE_IMPLEMENTATION_COPY(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
 FAUDES_TYPE_IMPLEMENTATION_CAST(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(RelabelMap,RelabelMap,TaNameSet<NameSet>)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(RelabelMap,RelabelMap,TaNameSet<NameSet>)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(RelabelMap,RelabelMap,TaNameSet<NameSet>)
 
 
@@ -776,7 +778,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rSet, NameSet& rRes)
     if(!rMap.Exists(*dit)) continue;
     delelem.Insert(*dit);
     const NameSet& target=rMap.Target(*dit);
-    AttributeVoid* attrp = rSet.Attribute(*dit).Copy();
+    AttributeVoid* attrp = rSet.Attribute(*dit).NewCpy();
     tit=target.Begin();
     tit_end=target.End();
     for(;tit!=tit_end;++tit) {

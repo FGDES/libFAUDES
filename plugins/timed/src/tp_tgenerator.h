@@ -156,7 +156,7 @@ class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventA
     * @return 
     *   new Generator 
     */
-    TtGenerator* Copy(void) const;
+    TtGenerator* NewCpy(void) const;
 
     /**
      * Type test.
@@ -847,7 +847,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done

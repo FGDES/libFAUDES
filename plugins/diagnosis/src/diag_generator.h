@@ -78,7 +78,7 @@ class FAUDES_TAPI TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, Ev
      * @return 
      *   new Generator 
      */
-    virtual TdiagGenerator* Copy(void) const;
+    virtual TdiagGenerator* NewCpy(void) const;
 
     /** Default destructor. */
     ~TdiagGenerator(void) {
@@ -86,7 +86,7 @@ class FAUDES_TAPI TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, Ev
     }
 
     /**
-     * Assignment operator (uses copy )
+     * Assignment operator (uses copy)
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -266,7 +266,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy()
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done

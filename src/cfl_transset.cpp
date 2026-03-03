@@ -44,7 +44,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const TransSet& rSet, TransSet& rRe
     tit_end=target.End();
     for(;tit!=tit_end;++tit) {
       Transition trans=*dit;
-      AttributeVoid* attrp = rSet.Attribute(*dit).Copy();
+      AttributeVoid* attrp = rSet.Attribute(*dit).NewCpy();
       trans.Ev= *tit;
       inselem.Insert(trans);
       inselem.Attribute(trans,*attrp);

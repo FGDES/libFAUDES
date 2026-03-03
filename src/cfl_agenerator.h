@@ -135,7 +135,7 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
    * @return 
    *   new Generator 
    */
-  virtual TaGenerator* Copy(void) const;
+  virtual TaGenerator* NewCpy(void) const;
 
   /**
    * Construct on stack.
@@ -145,7 +145,7 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
    * @return 
    *   new Generator 
    */
-  virtual TaGenerator NewAGen(void) const;
+  //virtual TaGenerator NewAGen(void) const; /* legacy as of v2.33 */
 
   /**
    * Type test.
@@ -192,26 +192,15 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
   
 
   /**
-   * Destructive copy to other TaGenerator 
-   * Copy method with increased performance at the cost of invalidating
-   * the source data. This version will copy attributes 1:1.
-   * 
-   *
-   * @param rGen
-   *   Destination for copy operation.
-   */
-  virtual void Move(TaGenerator& rGen); 
-
-  /**
-   * Destructive copy to other Generator. 
+   * Destructive copy from other Generator. 
    * Copy method with increased performance at the cost of invalidating
    * the source data. Convert attributes if possible.
    * 
    *
    * @param rGen
-   *   Destination for copy operation.
+   *   Source  for copy operation.
    */
-  virtual void Move(Generator& rGen); 
+  virtual TaGenerator& Move(Type& rSrc); 
 
 
   /** @} doxygen group */
@@ -983,19 +972,14 @@ TEMP THIS& THIS::Assign(const Type& rSrc) {
 
 
 // Move(gen) destructive copy
-TEMP void THIS::Move(TaGenerator& rGen) {
-  FD_DG("TaGenerator(" << this << ")::Move(" << &rGen << ")");
+TEMP THIS& THIS::Move(Type& rSrc) {
+  FD_DG("TaGenerator(" << this << ")::Move(" << &rSrc << ")");
   // call base
-  BASE::Move(rGen);
+  BASE::Move(rSrc);
+  return *this;
 }
 
 
-// Move(gen) destructive copy
-TEMP void THIS::Move(Generator& rGen) {
-  FD_DG("TaGenerator(" << this << ")::Move([v]" << &rGen << ")");
-  // call base
-  BASE::Move(rGen);
-}
 
 // TaGenerator::~Generator
 TEMP THIS::~TaGenerator(void) {
@@ -1013,8 +997,8 @@ TEMP THIS* THIS::New(void) const {
   return res;
 }
 
-// Copy
-TEMP THIS* THIS::Copy(void) const {
+// NewCpy
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done
@@ -1022,6 +1006,7 @@ TEMP THIS* THIS::Copy(void) const {
 }
 
 // NewAGen()
+/*
 TEMP THIS THIS::NewAGen(void) const {
   THIS res;
   // fix base data
@@ -1030,7 +1015,7 @@ TEMP THIS THIS::NewAGen(void) const {
   res.ReindexOnWrite(BASE::mReindexOnWrite);  
   return res;
 }
-
+*/
 
 // CAST
 TEMP const Type* THIS::Cast(const Type* pOther) const {

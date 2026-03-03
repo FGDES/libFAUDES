@@ -102,7 +102,7 @@ public:
      * @return 
      *   new Generator 
      */
-    virtual THioConstraint* Copy(void) const;
+    virtual THioConstraint* NewCpy(void) const;
 
     /**
      * Create empty HioConstraint with same symboltable as this
@@ -569,7 +569,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy()
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

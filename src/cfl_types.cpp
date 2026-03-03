@@ -57,8 +57,8 @@ Type* Type::New(void) const {
 }
 
 // pointer copy constructor
-Type* Type::Copy(void) const { 
-  FD_WARN("Type(" << this << ")::Copy(): not reimplemented for " << typeid(*this).name());
+Type* Type::NewCpy(void) const { 
+  FD_WARN("Type(" << this << ")::NewCpy(): not reimplemented for " << typeid(*this).name());
   return new Type(*this); 
 }
 
@@ -85,6 +85,13 @@ Type& Type::Assign(const Type& rSource) {
   return *this;
 }
 
+// move
+Type& Type::Move(Type& rSource) {
+  FD_DC("Type(" << this << ")::Move(" << &rSource << ")");
+  Clear();
+  return *this;
+}
+
 // equality (relaxed)
 bool Type::Equal(const Type& rOther) const { 
   return true;
@@ -103,14 +110,28 @@ bool Type::operator!=(const Type& rOther) const {
 // assign
 Type& Type::operator=(const Type& rSource) {
   FD_DC("Type(" << this << ")::AssignementOperator(" << &rSource << ")");
-  Clear();
   DoAssign(rSource);
   return *this;
 }
 
 // assign
+Type& Type::operator=(Type&& rSource) {
+  FD_DC("Type(" << this << ")::AssignementOperator(" << &rSource << ")");
+  DoMove(rSource);
+  return *this;
+}
+
+// assign
 void Type::DoAssign(const Type& rSource) {
-  FD_DC("Type(" << this << ")::DoAssign(" << &rSource << ")");
+  FD_DC("Type(" << this << ")::DoAssign(" << &rSource << ") [not implemented]");
+  Clear();
+}
+
+// assign
+void Type::DoMove(Type& rSource) {
+  FD_DC("Type(" << this << ")::DoMove(" << &rSource << "): [fallback to DoAssign()]");
+  DoAssign(rSource);
+  rSource.Clear(); 
 }
 
 // equality
@@ -512,9 +533,10 @@ Implementation of class Documentation
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,Documentation,Type)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,Documentation,Type)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,Documentation,Type)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,Documentation,Type)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,Documentation,Type)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,Documentation,Type)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,Documentation,Type)
 
 // construct
@@ -530,6 +552,8 @@ Documentation::Documentation(const Documentation& rOther) : Type() {
 
 // std faudes type
 void Documentation::DoAssign(const Documentation& rSrc) {
+  // call base (inkl virt Clear())
+  Type::DoAssign(rSrc);
   // assign my members
   mName=rSrc.mName;
   mPlugIn=rSrc.mPlugIn;
@@ -869,8 +893,9 @@ Implementation of class TypeDefinition
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,TypeDefinition,Documentation)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,TypeDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,TypeDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,TypeDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,TypeDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,TypeDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,TypeDefinition,Documentation)
 

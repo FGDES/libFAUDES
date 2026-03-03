@@ -229,6 +229,9 @@ FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
    */
   AttributeCFlags(void) : AttributeFlags() { mFlags=mDefCFlags; };
 
+  /** Copy constructor */
+  AttributeCFlags(const AttributeCFlags& rOther) : AttributeFlags(rOther) {};
+
   /** Destructor */
   virtual ~AttributeCFlags(void) {};
 

@@ -35,7 +35,7 @@ AutoRegisterType<ColorSet> gRtiColorset("ColorSet");
 
   
 // std faudes type (cannot do New() with macro)
-FAUDES_TYPE_IMPLEMENTATION_COPY(ColorSet,ColorSet,NameSet)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_CAST(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(ColorSet,ColorSet,NameSet)

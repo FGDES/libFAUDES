@@ -92,20 +92,12 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TrGenerator* New(void) const;
 
     /**
-     * Construct on stack
-     *
-     * @return 
-     *   new Generator 
-     */
-     TrGenerator NewRGen(void) const;
-
-    /**
      * Construct copy on heap
      *
      * @return 
      *   new Generator 
      */
-     TrGenerator* Copy(void) const;
+     TrGenerator* NewCpy(void) const;
 
     /**
      * Type test.
@@ -308,17 +300,10 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done
-  return res;
-}
-
-// NewPGen
-TEMP THIS THIS::NewRGen(void) const {
-  // call base (fixes by assignment constructor)
-  THIS res= BASE::NewCGen();
   return res;
 }
 

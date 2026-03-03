@@ -101,7 +101,7 @@ class FAUDES_TAPI TioGenerator : public TaGenerator<GlobalAttr,StateAttr,EventAt
      * @return 
      *   new Generator 
      */
-    virtual TioGenerator* Copy(void) const;
+    virtual TioGenerator* NewCpy(void) const;
 
 
     /**
@@ -821,7 +821,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy()
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

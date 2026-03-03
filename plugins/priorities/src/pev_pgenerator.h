@@ -201,7 +201,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @return 
      *   new Generator 
      */
-     TpGenerator* Copy(void) const;
+     TpGenerator* NewCpy(void) const;
 
     /**
      * Type test.
@@ -507,7 +507,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done

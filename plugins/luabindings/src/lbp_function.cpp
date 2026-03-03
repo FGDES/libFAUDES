@@ -1396,7 +1396,7 @@ Type* LuaState::Pop(lua_State* pLL) {
     throw Exception("LuaState::Pop()", errstr.str(), 49);
   }
   // copy data
-  res=((Type*)fptr)->Copy();
+  res=((Type*)fptr)->NewCpy();
   // stack: [fobject]
   lua_pop(pLL,1);
   FD_DLB("LuaFunction::Pop(): done");

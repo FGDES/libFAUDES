@@ -1155,7 +1155,7 @@ void SetDifference(const TBaseSet<T,Cmp>& rSetA, const TBaseSet<T,Cmp>& rSetB, T
   if(&rSetA==&rRes) {rRes.EraseSet(rSetB); rRes.Name(name); return;};
   // b and res the same, a different ... need buffer?
   if(&rSetB==&rRes) {
-    TBaseSet<T,Cmp>* buffb=rSetB.Copy();
+    TBaseSet<T,Cmp>* buffb=rSetB.NewCpy();
     rRes.Assign(rSetA);
     rRes.EraseSet(*buffb); 
     rRes.Name(name); 
@@ -1226,7 +1226,7 @@ Implementation of TBaseSet
 
 // faudes type std: new and cast
 FAUDES_TYPE_TIMPLEMENTATION_NEW(Void,THIS,ExtType,TEMP)
-FAUDES_TYPE_TIMPLEMENTATION_COPY(Void,THIS,ExtType,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_NEWCOPY(Void,THIS,ExtType,TEMP)
 FAUDES_TYPE_TIMPLEMENTATION_CAST(Void,THIS,ExtType,TEMP)
 
 // faudes type std: assignemnt (break cast)
@@ -1235,6 +1235,7 @@ FAUDES_TYPE_TIMPLEMENTATION_CAST(Void,THIS,ExtType,TEMP)
 
 // faudes type std: assignemnt (keep cast)
 FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(Void,THIS,ExtType,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_MOVE(Void,THIS,ExtType,TEMP)
 FAUDES_TYPE_TIMPLEMENTATION_EQUAL(Void,THIS,ExtType,TEMP)
 
 
@@ -1412,7 +1413,7 @@ TEMP void THIS::DoAssign(const THIS& rSourceSet) {
     mpAttributes = new std::map<T,AttributeVoid*>();
     if(typeid(*this->AttributeType()) != typeid(const AttributeVoid)) {
       for(aiterator ait=rSourceSet.pAttributes->begin(); ait!=rSourceSet.pAttributes->end(); ++ait) {
-        AttributeVoid* attr= ait->second->Copy();
+        AttributeVoid* attr= ait->second->NewCpy();
         (*mpAttributes)[ait->first]=attr;
       }
     }
@@ -1476,7 +1477,7 @@ TEMP void THIS::Detach(DetachMode flag) const {
   std::map<T,AttributeVoid*>* acopy = new std::map<T,AttributeVoid*>();
   if(flag==AttrIncl) {
     for(aiterator ait=pAttributes->begin(); ait!=pAttributes->end(); ++ait) {
-      AttributeVoid* attr= ait->second->Copy();
+      AttributeVoid* attr= ait->second->NewCpy();
       (*acopy)[ait->first]=attr;
     }
   }
@@ -2549,7 +2550,7 @@ TEMP AttributeVoid* THIS::DoAttributeExplicit(const T& rElem) {
   if(ait!=this->pAttributes->end())
   return ait->second;
   // instantiate explicit default
-  AttributeVoid* attr = this->AttributeType()->Copy();
+  AttributeVoid* attr = this->AttributeType()->NewCpy();
   FD_DC("TBaseSet::DoAttributeExplicit(Elem): inserting explicit default " << attr << " type " << typeid(*attr).name());
   (*this->pAttributes)[rElem]=attr;
   return attr;
