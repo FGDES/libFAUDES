@@ -519,7 +519,7 @@ FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,Documentation,Type)
 
 // construct
 Documentation::Documentation(void) : Type() {
- mAutoRegistered=false;
+ mAutoRegistered=true;
  mApplicationRegistered=false;
 }
 
@@ -557,7 +557,7 @@ void Documentation::Clear(void){
   mHtmlDoc="";
   mTextDoc="";
   mKeywords="";
-  mAutoRegistered=false;
+  mAutoRegistered=true;
   mApplicationRegistered=false;
 }
 
@@ -823,8 +823,8 @@ void Documentation::DoWrite(TokenWriter& rTw,  const std::string& rLabel, const 
     btag.InsAttribute("name",mName);
   if(mCType!="")
     btag.InsAttribute("ctype",mCType);
-  if(mAutoRegistered)
-    btag.InsAttributeBoolean("autoregister",true);
+  if(!mAutoRegistered)
+    btag.InsAttributeBoolean("autoregister",false);
   rTw << btag;
   // data
   DoWriteCore(rTw);

@@ -41,7 +41,7 @@ Synthesis interface preface
 #ifdef SWIGLUA
 %luacode {
 -- Copy synthesis to faudes name space
-for k,v in pairs(synthesis) do faudes[k]=v end
+for k,v in pairs(synthesis) do faudes[k]=v end				 
 }
 #endif				 
 
@@ -80,5 +80,16 @@ Synthesis interface: extra interface SWIG only
 **************************************************
 */
 
+
+// extra wrapper
 bool IsControllable(const Generator&, const EventSet&, const Generator&, StateSet& rCritical);
 SwigHelpEntry("Synthesis", "Controllability", "Boolean IsControllable(+In+ Generator GPlant, +In+ EventSet ACntrl, +In+ Generator GCand, +Out+ StateSet Critical)");
+
+// legacy interface for pre 2.33 Lua scripts
+#ifdef SWIGLUA
+%luacode %{
+faudes.SupConNB = faudes.SupCon
+faudes.SupTconNB = faudes.SupTcon
+faudes.SupRelativelyPrefixClosed = faudes.SupRelativelyClosed
+%}
+#endif

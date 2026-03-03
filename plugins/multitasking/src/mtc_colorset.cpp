@@ -30,7 +30,10 @@ Implements color sets for multitasking automata
 
 namespace faudes {
 
+// register
+AutoRegisterType<ColorSet> gRtiColorset("ColorSet");
 
+  
 // std faudes type (cannot do New() with macro)
 FAUDES_TYPE_IMPLEMENTATION_COPY(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_CAST(ColorSet,ColorSet,NameSet)

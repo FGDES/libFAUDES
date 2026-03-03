@@ -47,6 +47,7 @@ the corefaudes interface definitions.
 // include faudes headers
 #include "libfaudes.h"
 #include "swg_utils.h"
+#include "rtiwrapper.h"
 
 // include non-std plugin headers
 #ifdef SWIGLUA
@@ -56,9 +57,6 @@ the corefaudes interface definitions.
 #include "pbp_include.h"
 #endif  
   
-  
-  
-
 // use libfaudes namespace
 using namespace faudes;
 

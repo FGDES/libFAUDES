@@ -4,6 +4,8 @@ namespace faudes {
 
 
 
+// register  
+AutoRegisterType<IoSystem> gRtiIoSystem("IoSystem");
 
 
 				     

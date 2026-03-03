@@ -95,7 +95,7 @@ public:
   void RestrictStates(const StateSet& rDomain);
 };
 
-// Rabin automaton extrqa menbers
+// Rabin automaton extra menbers
 %define SwigTrGeneratorMembers(GEN,G_ATTR,S_ATTR,E_ATTR,T_ATTR)
   void RabinAcceptance(const RabinAcceptance& rRabAcc);
   //const RabinAcceptance&  RabinAcceptance(void) const; // mute const access
