@@ -1446,6 +1446,7 @@ TEMP void THIS::DoCopy(const THIS& rSourceSet) {
 
 // fake copy
 TEMP void THIS::DoMove(THIS& rSourceSet) {
+  // it would be worth implementing this
   FD_DF("TBaseSet(" << this << ")::DoMove(void): fallback to DoCopy()");
   DoCopy(rSourceSet);
 }

@@ -1365,9 +1365,9 @@ TEMP void THIS::DoCopy(const TTransSet& rSourceSet) {
 
 // assignment  (maintain attributes)
 TEMP void THIS::DoMove(TTransSet& rSourceSet) {
-  FD_WARN("TTransSet(" << this << ")::DoMove(..): not implemented");
+  FD_DC("TTransSet(" << this << ")::DoMove(..): not implemented");
   // call base (incl attributes if they have identical type)
-  BASE::DoCopy(rSourceSet);
+  BASE::DoMove(rSourceSet);
 } 
 
 // iterator Begin() const
