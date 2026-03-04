@@ -815,7 +815,7 @@ ProductCompositionMap::ProductCompositionMap(void) : Type() {
 
 // construct
 ProductCompositionMap::ProductCompositionMap(const ProductCompositionMap& rOther) : Type() {
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
 // destruct
@@ -831,7 +831,7 @@ void ProductCompositionMap::Clear(void) {
 }
 
 // assignment
-void ProductCompositionMap::DoAssign(const ProductCompositionMap& rSrc) {
+void ProductCompositionMap::DoCopy(const ProductCompositionMap& rSrc) {
   mCompositionMap=rSrc.mCompositionMap;
   mCompiled=rSrc.mCompiled;
   mArg1Map=rSrc.mArg1Map; 

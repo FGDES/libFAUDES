@@ -1350,7 +1350,7 @@ void Project(const Generator& rGen, const EventSet& rProjectAlphabet, Generator&
   FD_DF("Project(...): #" << rGen.TransRelSize());
   //FAUDES_TIMER_START("");
   // initialize result with argument generator
-  if(&rResGen != &rGen) rResGen.Assign(rGen);
+  if(&rResGen != &rGen) rResGen.Copy(rGen);
   // turn off state names
   bool se= rResGen.StateNamesEnabled();
   rResGen.StateNamesEnabled(false);
@@ -1440,7 +1440,7 @@ void Project(const Generator& rGen, const EventSet& rProjectAlphabet,
   // temporary entry state map
   std::map<Idx,StateSet> tmp_entrystatemap;
   // temporarily assign rGen to rResGen
-  if(&rResGen != &rGen) rResGen.Assign(rGen); 
+  if(&rResGen != &rGen) rResGen.Copy(rGen); 
   // project tmp with respect to palphabet
   ProjectNonDet_ref(rResGen, rProjectAlphabet);  // must use a version that does not add states
   // put deterministic result into tmp
@@ -1526,7 +1526,7 @@ void aInvProject(
   const EventSet& rProjectAlphabet,
   Generator& rResGen)
 {
-  rResGen.Assign(rGen);
+  rResGen.Copy(rGen);
   aInvProject(rResGen, rProjectAlphabet);
 }
 

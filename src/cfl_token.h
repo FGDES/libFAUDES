@@ -73,7 +73,7 @@ public:
    */
   ~Token(void);
 
-  /** Assignment operator */
+  /** Copyment operator */
   Token& operator= (const Token& rOther);
 
   /**

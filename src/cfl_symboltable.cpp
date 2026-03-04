@@ -41,11 +41,11 @@ SymbolTable:: SymbolTable(void) :
 
 // constructor
 SymbolTable:: SymbolTable(const SymbolTable& rSrc) {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
 
 // asignment
-void SymbolTable::DoAssign(const SymbolTable& rSrc) {
+void SymbolTable::DoCopy(const SymbolTable& rSrc) {
   mMyName=rSrc.mMyName;
   mIndexMap=rSrc.mIndexMap;
   mNameMap=rSrc.mNameMap;

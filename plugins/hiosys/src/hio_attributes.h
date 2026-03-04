@@ -176,12 +176,12 @@ public:
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const HioEventFlags& rSrcAttr);
+  void DoCopy(const HioEventFlags& rSrcAttr);
 
   /**
    * Reads attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -489,12 +489,12 @@ FAUDES_TYPE_DECLARATION(Void,HioStateFlags,AttributeFlags)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const HioStateFlags& rSrcAttr);
+  void DoCopy(const HioStateFlags& rSrcAttr);
 
   /**
    * Reads attribute from TokenReader, see AttributeVoid for public wrappers.

@@ -151,8 +151,8 @@ To have your C++ class participate in the libFAUDES run-time interface:
 -# derive your class from faudes::Type;
 -# make sure your class has a public default constructor and a public copy constructor;
 -# use the provided macros to reimplement the virtual functions New(), NewCpy(), Cast(), 
-   Assign(), Equal(), and the according operators =, == and !=;
--# reimplement the virtual functions DoAssign(), DoEqual(), DoRead(), DoWrite() and Clear();
+   Copy(), Equal(), and the according operators =, == and !=;
+-# reimplement the virtual functions DoCopy(), DoEqual(), DoRead(), DoWrite() and Clear();
 -# optionally, reimplement the alternative output formats DoDWrite(), DoSWrite(), DoXWrite()
 -# provide an .rti file for the formal TypeDefinition; 
 -# supplement your .rti file by an HTML formated documentation text;  
@@ -203,7 +203,7 @@ class TypeDefinition;
  * attributes) by dropping the extra features. Vice versa, when a System is assigned
  * from a plain Generator, any extra features take their respective default values.
  * This relaxed interpretation of assignments is implemented by the method
- * Assign().  The token format for file IO is organised in a similar fashion: any generator 
+ * Copy().  The token format for file IO is organised in a similar fashion: any generator 
  * derivate can be configured from the token stream produced by any other generator class. 
  * In contrast, faudes-typed objects also implement an assignment operator
  * that uses the standard C++ conventions.
@@ -221,13 +221,13 @@ class TypeDefinition;
  * - New() to construct an object of identical type on heap (factory method),
  * - NewCpy() to construct an object of identical type and configuration on heap (factory method),
  * - Cast() to dynamically cast another object to this type (type check method)
- * - Assign() to do an assignment from any castable Type derivate
- * - DoAssign(), or the operator "=", to assign from an object with identical type.
+ * - Copy() to do an assignment from any castable Type derivate
+ * - DoCopy(), or the operator "=", to assign from an object with identical type.
  * - DoMove(), or the operator "=", for a destructive copy from an object with identical type.
  * - Equal() to test relaxed equality with any castable Type derivate
  * - DoEqual(), or the operators "==" and "!=", to test exact equality of configuration data
  * 
- * In most cases, only DoRead(), DoWrite(), DoAssign(), DoEqual() and Clear() need to be implemented
+ * In most cases, only DoRead(), DoWrite(), DoCopy(), DoEqual() and Clear() need to be implemented
  * manualy. The other methods can be declared and implemented by macros
  * FAUDES_TYPE_DELARATION and FAUDES_TYPE_IMPLEMENTATION, respectively. The various
  * attribute classes illustrate their ussage; see e.g. AttributeFlags.
@@ -315,11 +315,11 @@ class FAUDES_API Type {
   virtual bool IsDefault(void) const;
 
   /**
-   * Assign configuration data from other object. 
+   * Copy configuration data from other object. 
    * Derived classes should reimplement this method to first try to cast
    * the source to the respective class. If successful, the protected 
-   * function DoAssign is invoked to perform the actual assignment. If the cast fails,
-   * the Assign method of the parent class is called. Thus, faudes
+   * function DoCopy is invoked to perform the actual assignment. If the cast fails,
+   * the Copy method of the parent class is called. Thus, faudes
    * objects are up- and downcatsed for assignment, maintaining as much of
    * the source data as digestable by the destination object.
    *
@@ -330,7 +330,7 @@ class FAUDES_API Type {
    *    Source to copy from
    * @return Reference to this object.
    */
-  virtual Type& Assign(const Type& rSrc);
+  virtual Type& Copy(const Type& rSrc);
 
 
   /**
@@ -355,7 +355,7 @@ class FAUDES_API Type {
   /**
    * Copy configuration data from other object. 
    * Derived classes should implement at least the signature with matching source
-   * and destination types via the DoAssign method. Additionally, one may implement
+   * and destination types via the DoCopy method. Additionally, one may implement
    * variants with a base class as source, as mong as meaningul assigment is possible.
    *
    * Re-implementation can be done via the convenience macros
@@ -370,7 +370,7 @@ class FAUDES_API Type {
   /**
    * Copy configuration data from other object (destructive)
    * Derived classes should implement at least the signature with matching source
-   * and destination types via the DoAssign method. Additionally, one may implement
+   * and destination types via the DoCopy method. Additionally, one may implement
    * variants with a base class as source, as mong as meaningul assigment is possible.
    *
    * Re-implementation can be done via the convenience macros
@@ -751,22 +751,22 @@ class FAUDES_API Type {
  protected:
 
   /**
-   * Assign configuration data from other object. 
+   * Copy configuration data from other object. 
    *
    * Reimplement this function to copy all configuration data from
    * another faudes object. Typically, you will first call the base class'
-   * DoAssign, which includes a Clear(). Then, you will set up any additional members.
+   * DoCopy, which includes a Clear(). Then, you will set up any additional members.
    *
    * @param rSrc 
    *    Source to copy from
    */
-  void DoAssign(const Type& rSrc);
+  void DoCopy(const Type& rSrc);
 
   /**
    * Copy configuration data from other object (destructive)
    *
    * Reimplement this function to copy implement a destructive copy. If not reimplemented,
-   * defaults to DoAssign();
+   * defaults to DoCopy();
    *
    * @param rSrc 
    *    Source to copy from
@@ -919,7 +919,7 @@ private:
   public: virtual ctype* New(void) const;             \
   public: virtual ctype* NewCpy(void) const;            \
   public: virtual const Type* Cast(const Type* pOther) const; \
-  public: virtual ctype& Assign(const Type& rSrc);      \
+  public: virtual ctype& Copy(const Type& rSrc);      \
   public: virtual ctype& Move(Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
   public: ctype& operator=(const ctype& rSrc);	  \
@@ -932,7 +932,7 @@ private:
   public: virtual ctype* New(void) const;             \
   public: virtual ctype* NewCpy(void) const;            \
   public: virtual const Type* Cast(const Type* pOther) const; \
-  public: virtual ctype& Assign(const Type& rSrc);      \
+  public: virtual ctype& Copy(const Type& rSrc);      \
   public: virtual ctype& Move(Type& rSrc);      \
   public: virtual bool Equal(const Type& rOther) const; \
   public: ctype& operator=(const ctype& rSrc);      \
@@ -949,13 +949,13 @@ private:
   const Type* ctype::Cast(const Type* pOther) const { \
     return dynamic_cast< const ctype * >(pOther); } 
 #define FAUDES_TYPE_IMPLEMENTATION_ASSIGN(ftype,ctype,cbase)	\
-  ctype& ctype::Assign(const Type& rSrc) { \
+  ctype& ctype::Copy(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      DoAssign(*csattr);}				\
+      DoCopy(*csattr);}				\
     else {    \
-      cbase::Assign(rSrc);};  \
+      cbase::Copy(rSrc);};  \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) { DoAssign(rSrc); return *this; }
+  ctype& ctype::operator=(const ctype& rSrc) { DoCopy(rSrc); return *this; }
 #define FAUDES_TYPE_IMPLEMENTATION_MOVE(ftype,ctype,cbase)	\
   ctype& ctype::Move(Type& rSrc) {					\
     if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
@@ -986,13 +986,13 @@ private:
   ctemp const Type* ctype::Cast(const Type* pOther) const { \
     return dynamic_cast< const ctype * >(pOther); } 
 #define FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(ftype,ctype,cbase,ctemp)	\
-  ctemp ctype& ctype::Assign(const Type& rSrc) { \
+  ctemp ctype& ctype::Copy(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      DoAssign(*csattr);}				\
+      DoCopy(*csattr);}				\
     else {    \
-      cbase::Assign(rSrc);};  \
+      cbase::Copy(rSrc);};  \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { DoAssign(rSrc); return *this; }
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { DoCopy(rSrc); return *this; }
 #define FAUDES_TYPE_TIMPLEMENTATION_MOVE(ftype,ctype,cbase,ctemp)	\
   ctemp ctype& ctype::Move(Type& rSrc) { \
     if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
@@ -1021,13 +1021,13 @@ private:
     return new ctype(*this); } \
   const Type* ctype::Cast(const Type* pOther) const { \
     return dynamic_cast< const ctype * >(pOther); } \
-  ctype& ctype::Assign(const Type& rSrc) { \
+  ctype& ctype::Copy(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      this->DoAssign(*csattr);}			\
+      this->DoCopy(*csattr);}			\
     else {    \
-      cbase::Assign(rSrc);};  \
+      cbase::Copy(rSrc);};  \
     return *this;} \
-  ctype& ctype::operator=(const ctype& rSrc) { this->DoAssign(rSrc); return *this; } \
+  ctype& ctype::operator=(const ctype& rSrc) { this->DoCopy(rSrc); return *this; } \
   ctype& ctype::Move(Type& rSrc) { \
     if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
       this->DoMove(*csattr);}			\
@@ -1054,13 +1054,13 @@ private:
     return new ctype(*this); } \
   ctemp const Type* ctype::Cast(const Type* pOther) const { \
     return dynamic_cast< const ctype * >(pOther); } \
-  ctemp ctype& ctype::Assign(const Type& rSrc) { \
+  ctemp ctype& ctype::Copy(const Type& rSrc) { \
     if(const ctype* csattr=dynamic_cast< const ctype * >(&rSrc)) {	\
-      /* this->Clear(); */ this->DoAssign(*csattr);}			\
+      /* this->Clear(); */ this->DoCopy(*csattr);}			\
     else {    \
-      cbase::Assign(rSrc);};  \
+      cbase::Copy(rSrc);};  \
     return *this;} \
-  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->DoAssign(rSrc); return *this; } \
+  ctemp ctype& ctype::operator=(const ctype& rSrc) { this->DoCopy(rSrc); return *this; } \
   ctemp ctype& ctype::Move(Type& rSrc) {				\
     if(ctype* csattr=dynamic_cast< ctype * >(&rSrc)) {	\
       this->DoMove(*csattr);}			\
@@ -1110,10 +1110,10 @@ public:
  * To derive a class from faudes::AttrType you should reimplement the virtual
  * interface
  * - virtual methods DoRead and DoWrite for token io (as in faudes::Type)
- * - virtual methods for DoAssign() (as in faudes::Type) 
+ * - virtual methods for DoCopy() (as in faudes::Type) 
  * - the factory method New() (use provided macro from faudes::Type)
  * - the rti typecast method Cast() (use provided macro from faudes::Type)
- * - user level Assign() method (use provided macro from faudes::Type)
+ * - user level Copy() method (use provided macro from faudes::Type)
  * Use the FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION macros to generate
  * the API methods. 
  *
@@ -1163,8 +1163,8 @@ public:
 
 protected:
 
-  /** Assign (no members, dummy) */
-  void DoAssign(const AttrType& rSrc) { (void) rSrc; };
+  /** Copy (no members, dummy) */
+  void DoCopy(const AttrType& rSrc) { (void) rSrc; };
 
   /** Test (no members, dummy) */
   bool DoEqual(const AttrType& rOther) const { (void) rOther; return true; }
@@ -1538,7 +1538,7 @@ public:
    * @param rSrc 
    *    Source to copy from
    */
-  void DoAssign(const Documentation& rSrc);
+  void DoCopy(const Documentation& rSrc);
 
   /**
    * Std faudes type interface: test equality
@@ -1825,7 +1825,7 @@ protected:
    * @param rSrc 
    *    Source to copy from
    */
-  void DoAssign(const TypeDefinition& rSrc);
+  void DoCopy(const TypeDefinition& rSrc);
 
   /**
    * Std faudes type interface: test equality

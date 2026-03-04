@@ -30,7 +30,7 @@ DeviceExecutor::DeviceExecutor(void) : ProposingExecutor() , pDevice(0) {
 DeviceExecutor::DeviceExecutor(const DeviceExecutor& rOther) : ProposingExecutor() , pDevice(0) { 
   mMaxSyncGap=10*Time::Step();
   mSyncMode=0x0;
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
 // destructor
@@ -39,13 +39,13 @@ DeviceExecutor::~DeviceExecutor(void) {
 
 
 
-// DoAssign(other)
-void DeviceExecutor::DoAssign(const DeviceExecutor& rOther) {
-  FD_DX("LoggingExecutor(" << this << ")::DoAssign(other)");
+// DoCopy(other)
+void DeviceExecutor::DoCopy(const DeviceExecutor& rOther) {
+  FD_DX("LoggingExecutor(" << this << ")::DoCopy(other)");
   // my members
   Devicep(NULL);
   // base
-  ProposingExecutor::DoAssign(rOther);
+  ProposingExecutor::DoCopy(rOther);
 }
 
 // set io device

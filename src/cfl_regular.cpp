@@ -544,7 +544,7 @@ void LanguageDifference(
 
   // incl. all-empty case
   if(IsEmptyLanguage(rGen2)) {
-    rResGen.Assign(rGen1);
+    rResGen.Copy(rGen1);
     rResGen.Name(CollapsString("LanguageDifference(" + rGen1.Name() + "," + rGen2.Name() + ")"));
     return;
   }

@@ -35,10 +35,10 @@ function faudes.Sigma_Gen(gen,sig)
 -- Function reports on execution
 print(string.format('ExtractAlphabet: sz=%d',gen:Alphabet():Size()))
 
--- Perform extraction
+-- Perform extraction by reference
 gensig = gen:Alphabet()
 
--- Assign to parameter reference
+-- Assign to result rreference
 sig:Assign(gensig)
 
 -- Done

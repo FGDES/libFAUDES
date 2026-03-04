@@ -58,9 +58,9 @@ SymbolSet::SymbolSet(const std::string& rFilename, const std::string& rLabel) :
   Read(rFilename, rLabel);
 }
 
-// DoAssign
-void SymbolSet::DoAssign(const SymbolSet& rSourceSet) {
-  TBaseSet<std::string>DoAssign(rSourceSet);
+// DoCopy
+void SymbolSet::DoCopy(const SymbolSet& rSourceSet) {
+  TBaseSet<std::string>DoCopy(rSourceSet);
 }
 
 

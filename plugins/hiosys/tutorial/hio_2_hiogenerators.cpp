@@ -43,19 +43,19 @@ int main() {
   // Create a HioPlant by reading a plain Generator file (no event attributes)
   g1.Read("data/2_hiogenerators/simplemachine_A.gen");
 
-  // Assign/copy a plain Generator to a HioPlant (no event attributes)
+  // Copy/copy a plain Generator to a HioPlant (no event attributes)
   Generator g4("data/2_hiogenerators/simplemachine_A.gen");
   HioPlant g3=g4;
   HioPlant g5(g4);
 
-  // Assign/copy a HioPlant to a HioPlant (no event attributes)
+  // Copy/copy a HioPlant to a HioPlant (no event attributes)
   HioPlant g6=g2;
   FAUDES_TEST_DUMP("HioPlant = operator",g6);
   HioPlant g7(g2);
   FAUDES_TEST_DUMP("HioPlant construct from HioPlant",g7);
   HioPlant g8;
-  g8.Assign(g2);
-  FAUDES_TEST_DUMP("HioPlant::Assign()",g8);
+  g8.Copy(g2);
+  FAUDES_TEST_DUMP("HioPlant::Copy()",g8);
   
   // Construct HioPlant from plain generator and event sets
   EventSet ypEvents,upEvents,yeEvents,ueEvents;

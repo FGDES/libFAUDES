@@ -120,15 +120,15 @@ class FAUDES_TAPI TmtcGenerator : public TcGenerator<GlobalAttr, StateAttr, Even
 
 
     /**
-     * Assignment
+     * Copyment
      *
      * @param rSrc
      *   MtcSystem to copy from
      */
-    virtual TmtcGenerator& Assign(const Type& rSrc);
+    virtual TmtcGenerator& Copy(const Type& rSrc);
 
     /**
-     * Assignment operator (uses Assign)
+     * Copyment operator (uses Copy)
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -136,7 +136,7 @@ class FAUDES_TAPI TmtcGenerator : public TcGenerator<GlobalAttr, StateAttr, Even
      * @param rOtherGen
      *   Other generator
      */
-    /*virtual*/ TmtcGenerator& operator= (const TmtcGenerator& rOtherGen) {return this->Assign(rOtherGen);};
+    /*virtual*/ TmtcGenerator& operator= (const TmtcGenerator& rOtherGen) {return this->Copy(rOtherGen);};
     //using TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
  
 
@@ -722,8 +722,8 @@ class FAUDES_TAPI TmtcGenerator : public TcGenerator<GlobalAttr, StateAttr, Even
      */
     SymbolTable *mpColorSymbolTable;
 
-    /** Assignment */
-    void DoAssign(const TmtcGenerator& rSrc);
+    /** Copyment */
+    void DoCopy(const TmtcGenerator& rSrc);
 
   /**
    * Token output, see Type::SWrite for public wrappers.
@@ -809,14 +809,14 @@ TEMP THIS::TmtcGenerator(const TmtcGenerator& rOtherGen) : BASE() {
   if (rOtherGen.ColorSymbolTablep() != ColorSet::StaticSymbolTablep()) 
     NewColorSymbolTable();
   else ColorSymbolTable(GlobalColorSymbolTablep());
-  DoAssign(rOtherGen);
+  DoCopy(rOtherGen);
 }
 
 // TmtcGenerator(rOtherGen)
 TEMP THIS::TmtcGenerator(const vGenerator& rOtherGen) : BASE() {
   FD_DG("MtcSystem(" << this << ")::MtcSystem(rOtherGen)");
   ColorSymbolTable(GlobalColorSymbolTablep());
-  Assign(rOtherGen);
+  Copy(rOtherGen);
 }
 
 // TmtcGenerator(rFilename)
@@ -851,11 +851,11 @@ TEMP THIS* THIS::NewCpy(void) const {
 
 
 
-// DoAssign(gen)
-TEMP void THIS::DoAssign(const TmtcGenerator& rSrc) {
-  FD_DG("MtcSystem(" << this << ")::DoAssign(gen&)");
+// DoCopy(gen)
+TEMP void THIS::DoCopy(const TmtcGenerator& rSrc) {
+  FD_DG("MtcSystem(" << this << ")::DoCopy(gen&)");
   // call base method
-  BASE::DoAssign(rSrc);
+  BASE::DoCopy(rSrc);
   // my members
   ColorSymbolTable(rSrc.ColorSymbolTablep());
   // fix non std symboltable (broken)
@@ -876,8 +876,8 @@ TEMP void THIS::DoAssign(const TmtcGenerator& rSrc) {
 }
 
 // copy from other faudes type
-TEMP THIS& THIS::Assign(const Type& rSrc) {
-  FD_DG("TmtcGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
+TEMP THIS& THIS::Copy(const Type& rSrc) {
+  FD_DG("TmtcGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
   // bail out on match
   if(&rSrc==static_cast<Type*>(this)) return *this;
   // clear to default
@@ -885,11 +885,11 @@ TEMP THIS& THIS::Assign(const Type& rSrc) {
   // try to cast to this class
   const TmtcGenerator* mtcgen=dynamic_cast<const TmtcGenerator*>(&rSrc);
   if(mtcgen) {
-    DoAssign(*mtcgen);
+    DoCopy(*mtcgen);
     return *this;
   }  
   // pass on to base
-  BASE::Assign(rSrc);
+  BASE::Copy(rSrc);
   return *this;
 }
 

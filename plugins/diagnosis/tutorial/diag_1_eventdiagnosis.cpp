@@ -21,7 +21,7 @@ int main(void) {
   // Declare diagnoser 
   Diagnoser d1, d2;
 
-  // Assign name to diagnoser d1
+  // Copy name to diagnoser d1
   d1.Name("Diagnoser");
   
   // Insert some states in diagnoser d1

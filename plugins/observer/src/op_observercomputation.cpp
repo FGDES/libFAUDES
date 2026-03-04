@@ -1951,7 +1951,7 @@ EventRelabelMap::~EventRelabelMap(void) {}
 void EventRelabelMap::Clear(void) { mMap.clear(); }
 
 // assignment/equality
-void EventRelabelMap::DoAssign(const EventRelabelMap& rSrc) {mMap=rSrc.mMap;}
+void EventRelabelMap::DoCopy(const EventRelabelMap& rSrc) {mMap=rSrc.mMap;}
 bool EventRelabelMap::DoEqual(const EventRelabelMap& rOther) const { return mMap==rOther.mMap;}
 
 // access

@@ -288,7 +288,7 @@ class FAUDES_API vGenerator : public ExtType  {
    *****************************************
    *****************************************/
 
-  /** @name Copy and Assignment */
+  /** @name Copy and Copyment */
   /** @{ doxygen group */
 
 
@@ -301,7 +301,7 @@ class FAUDES_API vGenerator : public ExtType  {
    * @param rSrc
    *   Source to copy from.
    */
-  virtual vGenerator& Assign(const Type& rSrc); 
+  virtual vGenerator& Copy(const Type& rSrc); 
 
   /**
    * Copy from other vGenerator, ignore attributes. 
@@ -309,7 +309,7 @@ class FAUDES_API vGenerator : public ExtType  {
    * @param rGen
    *   Source to copy from.
    */
-  virtual vGenerator& AssignWithoutAttributes(const vGenerator& rGen); 
+  virtual vGenerator& CopyWithoutAttributes(const vGenerator& rGen); 
 
   /**
    * Destructive copy from other vGenerator. 
@@ -324,7 +324,7 @@ class FAUDES_API vGenerator : public ExtType  {
   virtual vGenerator&  Move(Type& rGen); 
 
   /**
-   * Assignment operator (uses DoAssign method)
+   * Copyment operator (uses DoCopy method)
    *
    * Note: you must reimplement this operator in derived 
    * classes in order to handle internal pointers correctly.
@@ -336,7 +336,7 @@ class FAUDES_API vGenerator : public ExtType  {
     
 
   /**
-   * Assignment operator (uses DoMove method)
+   * Copyment operator (uses DoMove method)
    *
    * Note: you must reimplement this operator in derived 
    * classes in order to handle internal pointers correctly.
@@ -777,7 +777,7 @@ class FAUDES_API vGenerator : public ExtType  {
   void StateNamesEnabled(bool flag);
 
   /**
-   * Assign each state a default name based on its index.
+   * Copy each state a default name based on its index.
    */
   void SetDefaultStateNames(void);
 
@@ -2986,10 +2986,10 @@ class FAUDES_API vGenerator : public ExtType  {
     const StateSet* pNewStatesPrototype, const EventSet* pNewAlphabetPrototype, 
     const TransSet* pNewTransRelPrototype);
 
-  /** Assignment for matching type */
-  void DoAssign(const vGenerator& rSrc); 
+  /** Copyment for matching type */
+  void DoCopy(const vGenerator& rSrc); 
 
-  /** Assignment for matching type (destructive) */
+  /** Copyment for matching type (destructive) */
   void DoMove(vGenerator& rSrc); 
 
  /**

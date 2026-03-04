@@ -63,7 +63,7 @@ NameSet::NameSet(const NameSet& rOtherSet) : TBaseSet<Idx>() {
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << ")");
   mpSymbolTable = rOtherSet.mpSymbolTable;
   mElementTagDef="Event";
-  Assign(rOtherSet);
+  Copy(rOtherSet);
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << "): done");
 }
 
@@ -89,12 +89,12 @@ NameSet* NameSet::New(void) const {
 
 
 // copy (attributes to default)
-void NameSet::DoAssign(const NameSet& rSourceSet) {
-  FD_DC("NameSet(" << this << ")::DoAssign(from " << &rSourceSet <<")");
+void NameSet::DoCopy(const NameSet& rSourceSet) {
+  FD_DC("NameSet(" << this << ")::DoCopy(from " << &rSourceSet <<")");
   // fix my symboltable
   mpSymbolTable=rSourceSet.mpSymbolTable;
   // call base 
-  TBaseSet<Idx>::DoAssign(rSourceSet);
+  TBaseSet<Idx>::DoCopy(rSourceSet);
 } 
 
 // copy (attributes to default)
@@ -576,7 +576,7 @@ void SetIntersection(const EventSetVector& rSetVec, EventSet& rRes) {
   // ignore empty
   if(rSetVec.Size()==0) return;
   // copy first
-  rRes.Assign(rSetVec.At(0));
+  rRes.Copy(rSetVec.At(0));
   // perform intersecttion 
   for(EventSetVector::Position i=1; i<rSetVec.Size(); i++) 
     SetIntersection(rSetVec.At(i),rRes,rRes);
@@ -590,7 +590,7 @@ void SetUnion(const EventSetVector& rSetVec, EventSet& rRes) {
   // ignore empty
   if(rSetVec.Size()==0) return;
   // copy first
-  rRes.Assign(rSetVec.At(0));
+  rRes.Copy(rSetVec.At(0));
   // perform union
   for(EventSetVector::Position i=1; i<rSetVec.Size(); i++) 
     SetUnion(rSetVec.At(i),rRes,rRes);
@@ -634,7 +634,7 @@ RelabelMap::RelabelMap(void) : TaNameSet<NameSet>(){
 // constructor from RelabelMap
 RelabelMap::RelabelMap(const RelabelMap& rOtherMap) : TaNameSet<NameSet>() {
   FD_DC("RelabelMap(" << this << ")::RelabelMap(rOtherMap " << &rOtherMap << ")");
-  Assign(rOtherMap);
+  Copy(rOtherMap);
   FD_DC("RelabelMap(" << this << ")::RelabelMap(rOtherSet " << &rOtherSet << "): done");
   Lock();
 }
@@ -796,7 +796,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rSet, NameSet& rRes)
     }
     delete attrp;      
   }
-  rRes.Assign(rSet);
+  rRes.Copy(rSet);
   rRes.EraseSet(delelem);
   rRes.InsertSet(inselem);
   delete &inselem;

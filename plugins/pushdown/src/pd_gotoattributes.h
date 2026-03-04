@@ -63,12 +63,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributeGotoTransition,AttributeVoid)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeGotoTransition& rSrcAttr);
+  void DoCopy(const AttributeGotoTransition& rSrcAttr);
 
   /**
    * Test equality. 
@@ -169,12 +169,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributeGotoState,AttributeFlags)
    
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeGotoState& rSrcAttr);
+  void DoCopy(const AttributeGotoState& rSrcAttr);
 
 
   /**

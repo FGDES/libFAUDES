@@ -147,7 +147,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TcGenerator NewCGen(void) const;
 
     /**
-     * Assignment operator (uses Assign)
+     * Copyment operator (uses Copy)
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -158,7 +158,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TcGenerator& operator= (const TcGenerator& rOtherGen);
   
     /**
-     * Assignment operator (uses Move)
+     * Copyment operator (uses Move)
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -169,7 +169,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TcGenerator& operator= (TcGenerator&& rOtherGen);
   
     /**
-     * Assignment method
+     * Copyment method
      *
      * Note: you must reimplement this method in derived 
      * classes in order to handle internal pointers correctly
@@ -177,7 +177,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @param rSource
      *   Other generator
      */
-     virtual TcGenerator& Assign(const Type& rSource);
+     virtual TcGenerator& Copy(const Type& rSource);
    
     /**
      * Move method
@@ -794,7 +794,7 @@ TEMP THIS::TcGenerator(const std::string& rFileName) : BASE(rFileName) {
 // operator=
 TEMP THIS& THIS::operator= (const TcGenerator& rOtherGen) {
   FD_DG("TcGenerator(" << this << ")::operator = [v]" << &rOtherGen);
-  return Assign(rOtherGen);
+  return Copy(rOtherGen);
 }
 
 // operator=
@@ -804,36 +804,36 @@ TEMP THIS& THIS::operator= (TcGenerator&& rOtherGen) {
 }
 
 // copy from other faudes type
-TEMP THIS& THIS::Assign(const Type& rSrc) {
-  FD_DG("TcGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
+TEMP THIS& THIS::Copy(const Type& rSrc) {
+  FD_DG("TcGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
   // bail out on match
   if(&rSrc==static_cast<const Type*>(this)) return *this;
 
   // cast tests (clang 8.0.0 issues, 2017)
   /*
   const THIS* cgen=dynamic_cast<const THIS*>(&rSrc);
-  FD_WARN("TcGenerator(" << this << ")::Assign(..): cgen " << cgen);
+  FD_WARN("TcGenerator(" << this << ")::Copy(..): cgen " << cgen);
   const BASE* agen=dynamic_cast<const BASE*>(&rSrc);
-  FD_WARN("TcGenerator(" << this << ")::Assign(..): agen " << agen);
+  FD_WARN("TcGenerator(" << this << ")::Copy(..): agen " << agen);
   const vGenerator* vgen=dynamic_cast<const vGenerator*>(&rSrc);
-  FD_WARN("TcGenerator(" << this << ")::Assign(..): vgen " << vgen);
+  FD_WARN("TcGenerator(" << this << ")::Copy(..): vgen " << vgen);
   const BASE* agen2=dynamic_cast<const BASE*>(cgen);
-  FD_WARN("TcGenerator(" << this << ")::Assign(..): agen2 " << agen);
+  FD_WARN("TcGenerator(" << this << ")::Copy(..): agen2 " << agen);
   */
 
   // pass on to base
-  FD_DG("TcGenerator(" << this << ")::Assign([type] " << &rSrc << "): call base");
-  BASE::Assign(rSrc);  
+  FD_DG("TcGenerator(" << this << ")::Copy([type] " << &rSrc << "): call base");
+  BASE::Copy(rSrc);  
   return *this;
 }
 
 // copy from other faudes type
 TEMP THIS& THIS::Move(Type& rSrc) {
-  FD_DG("TcGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
+  FD_DG("TcGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
   // bail out on match
   if(&rSrc==static_cast<Type*>(this)) return *this;
   // pass on to base
-  FD_DG("TcGenerator(" << this << ")::Assign([type] " << &rSrc << "): call base");
+  FD_DG("TcGenerator(" << this << ")::Copy([type] " << &rSrc << "): call base");
   BASE::Move(rSrc);  
   return *this;
 }

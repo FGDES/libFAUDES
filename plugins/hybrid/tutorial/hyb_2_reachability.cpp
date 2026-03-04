@@ -71,7 +71,7 @@ int main() {
     else evstr="south";
     Idx ev = lha.EventIndex(evstr);
     if(sstates.find(ev)==sstates.end()) break;
-    istates.Assign(*sstates[ev]);    
+    istates.Copy(*sstates[ev]);    
   }
 
   // done

@@ -50,7 +50,7 @@ public:
    * Copy constructor.
    */
   AttributePriority(const AttributePriority& rSrc) : AttributeCFlags() { 
-    DoAssign(rSrc); } 
+    DoCopy(rSrc); } 
 
   /** Destructor */
   virtual ~AttributePriority(void) {}
@@ -88,12 +88,12 @@ protected:
   Idx mPriority = 0;
 
   /**
-   * Assignment method.
+   * Copyment method.
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributePriority& rSrcAttr);
+  void DoCopy(const AttributePriority& rSrcAttr);
   
   /**
    * Test equality of configuration data.

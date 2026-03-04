@@ -60,7 +60,7 @@ AttributePGenGl::AttributePGenGl(void) : AttributeVoid() {
   
 // copy construct  
 AttributePGenGl::AttributePGenGl(const AttributePGenGl& rSrcAttr) : AttributePGenGl() {
-  DoAssign(rSrcAttr);
+  DoCopy(rSrcAttr);
 }
   
 // token io

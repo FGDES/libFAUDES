@@ -119,14 +119,14 @@ class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventA
     TtGenerator(const vGenerator& rOtherGen);
 
     /**
-     * Assignment operator (uses Assign)
+     * Copyment operator (uses Copy)
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
      *
      * @param rOtherGen
      *   Other generator
      */
-    TtGenerator& operator= (const TtGenerator& rOtherGen) {this->Assign(rOtherGen); return *this;};
+    TtGenerator& operator= (const TtGenerator& rOtherGen) {this->Copy(rOtherGen); return *this;};
     
 
    /**

@@ -45,10 +45,10 @@ FAUDES_TYPE_IMPLEMENTATION_EQUAL(ColorSet,ColorSet,NameSet)
 // msColorSymbolTable (static)
 SymbolTable ColorSet::msSymbolTable;
 
-// DoAssign()
-void ColorSet::DoAssign(const ColorSet& rSourceSet) {
+// DoCopy()
+void ColorSet::DoCopy(const ColorSet& rSourceSet) {
   // call base
-  NameSet::DoAssign(rSourceSet);
+  NameSet::DoCopy(rSourceSet);
 }
 
 // DoMove()
@@ -79,7 +79,7 @@ void ColorSet::ColorSymbolTablep(SymbolTable *pSymTab) {
 ColorSet ColorSet::operator * (const ColorSet& rOtherSet) const {
   FD_DC("ColorSet(" << this << ")::operator * (" << &rOtherSet << ")");
   ColorSet res;
-  res.Assign( NameSet::operator * (rOtherSet) );
+  res.Copy( NameSet::operator * (rOtherSet) );
   return res;
 }
 
@@ -87,7 +87,7 @@ ColorSet ColorSet::operator * (const ColorSet& rOtherSet) const {
 ColorSet ColorSet::operator + (const ColorSet& rOtherSet) const {
   FD_DC("ColorSet(" << this << ")::operator + (" << &rOtherSet << ")");
   ColorSet res;
-  res.Assign( NameSet::operator + (rOtherSet) );
+  res.Copy( NameSet::operator + (rOtherSet) );
   return res;
 }
 
@@ -95,7 +95,7 @@ ColorSet ColorSet::operator + (const ColorSet& rOtherSet) const {
 ColorSet ColorSet::operator - (const ColorSet& rOtherSet) const {
   FD_DC("ColorSet(" << this << ")::operator - (" << &rOtherSet << ")");
   ColorSet res;
-  res.Assign( NameSet::operator - (rOtherSet) );
+  res.Copy( NameSet::operator - (rOtherSet) );
   return res;
 }
 

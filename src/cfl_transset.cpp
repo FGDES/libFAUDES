@@ -51,7 +51,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const TransSet& rSet, TransSet& rRe
       delete attrp;      
     }
   }
-  rRes.Assign(rSet);
+  rRes.Copy(rSet);
   rRes.EraseSet(delelem);
   rRes.InsertSet(inselem);
   delete &inselem;

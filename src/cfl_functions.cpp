@@ -154,11 +154,11 @@ Signature::Signature(void) : Type() {}
 // copy constructor
 Signature::Signature(const Signature& rSrc) : Type()
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
 
 // std faudes type
-void Signature::DoAssign(const Signature& rSrc) {
+void Signature::DoCopy(const Signature& rSrc) {
   // assign my members
   mName=rSrc.mName;
   mParameters=rSrc.mParameters;
@@ -367,13 +367,13 @@ FunctionDefinition::FunctionDefinition(const FunctionDefinition& rSrc) :
   Documentation(), 
   mpFunction(NULL) 
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
 
 // std faudes type
-void FunctionDefinition::DoAssign(const FunctionDefinition& rSrc) {
+void FunctionDefinition::DoCopy(const FunctionDefinition& rSrc) {
   // assign base members
-  Documentation::DoAssign(rSrc);
+  Documentation::DoCopy(rSrc);
   // assign my members
   mVariants=rSrc.mVariants;
   mVariantIndexMap=rSrc.mVariantIndexMap;

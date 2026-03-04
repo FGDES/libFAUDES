@@ -81,7 +81,7 @@ int main() {
   // ... with assignment method, or assignement operator
 
   Generator g2;
-  g2.Assign(g1);
+  g2.Copy(g1);
   Generator g3=g2;
 
   // create a Generator copy with versioned events (for testing algorithms):

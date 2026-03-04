@@ -57,7 +57,7 @@ Integer* Integer::New() const{
   return(new Integer());
 }
 
-Integer* Integer::Copy() const{
+Integer* Integer::NewCpy() const{
   return(new Integer(mCInteger));
 }
 
@@ -146,7 +146,7 @@ String* String::New() const{
 }
 
 // factory constructor
-String* String::Copy() const{
+String* String::NewCpy() const{
   return new String(mCString);
 }
 
@@ -235,7 +235,7 @@ Boolean* Boolean::New() const{
 }
 
 // factory constructor
-Boolean* Boolean::Copy() const{
+Boolean* Boolean::NewCpy() const{
   return new Boolean(mCBool);
 }
 

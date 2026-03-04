@@ -354,10 +354,10 @@ DesCompatibleStates::~DesCompatibleStates(void) {
 
 // Optional initialisation
 void DesCompatibleStates::InitialiseFull(void) {
-  mpStates->Assign(rGen.States());
+  mpStates->Copy(rGen.States());
 }
 void DesCompatibleStates::InitialiseConstraint(void) {
-  mpStates->Assign(rGen.InitStates());
+  mpStates->Copy(rGen.InitStates());
 }
 
 // do the job

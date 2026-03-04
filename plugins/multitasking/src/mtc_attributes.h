@@ -126,16 +126,16 @@ protected:
     SymbolTable* mpColorSymbolTable;
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-   virtual void DoAssign(const AttributeColoredState& rSrcAttr);
+   virtual void DoCopy(const AttributeColoredState& rSrcAttr);
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from

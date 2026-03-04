@@ -64,7 +64,7 @@ FAUDES_TYPE_DECLARATION(ColorSet,ColorSet,NameSet)
      * Copy-onstructor for ColorSet
      */
     ColorSet(const ColorSet& rSourceSet) : NameSet() {
-      DoAssign(rSourceSet);
+      DoCopy(rSourceSet);
       FD_DC("ColorSet("<<this<<")::ColorSet(rSourceSetr) with colorsymtab "<< SymbolTablep()); 
     };
 
@@ -138,15 +138,15 @@ FAUDES_TYPE_DECLARATION(ColorSet,ColorSet,NameSet)
     static SymbolTable msSymbolTable;
 
   /**
-   * Assign from other color set.
+   * Copy from other color set.
    *
    * @param rSourceSet
    *   Destination to copy from
    */
-  void DoAssign(const ColorSet& rSourceSet);
+  void DoCopy(const ColorSet& rSourceSet);
 
   /**
-   * Assign from other color set.
+   * Copy from other color set.
    *
    * @param rSourceSet
    *   Destination to copy from

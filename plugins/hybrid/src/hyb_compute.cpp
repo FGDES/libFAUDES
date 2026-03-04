@@ -161,7 +161,7 @@ void PolyDWrite(const Polyhedron& fpoly){
 /** copy method */  
 void PolyCopy(const Polyhedron& src, Polyhedron& dst) {
   // copy faudes data
-  dst.Assign(src);
+  dst.Copy(src);
   // bail out if there is no user data
   pdata_t* spdata= dynamic_cast<pdata_t*>(src.UserData());
   if(!spdata) return;  

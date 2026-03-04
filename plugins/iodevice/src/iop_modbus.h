@@ -307,7 +307,7 @@ protected:
   int  MbSendResponse(int mastersock);
 
 
-}; //class spiDevice
+}; //class mbDevice
 
 } //namespace 
 

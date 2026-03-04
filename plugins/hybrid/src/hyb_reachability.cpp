@@ -31,7 +31,7 @@ HybridStateSet::HybridStateSet(void) {}
 /** copy constrcutor */
 HybridStateSet::HybridStateSet(const  HybridStateSet& rOther) 
 {  
-  Assign(rOther);
+  Copy(rOther);
 }
 
 /** destructor */
@@ -47,7 +47,7 @@ HybridStateSet::~HybridStateSet(void) {
 }
 
 /** assignment */  
-void HybridStateSet::Assign(const  HybridStateSet& rOther) {
+void HybridStateSet::Copy(const  HybridStateSet& rOther) {
   /* delete all polyhedra */
   IndexSet::Iterator qit=LocationsBegin();
   IndexSet::Iterator qit_end=LocationsEnd();

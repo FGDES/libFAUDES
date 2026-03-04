@@ -437,15 +437,15 @@ FAUDES_TYPE_DECLARATION(Executor,Executor,TimedGenerator)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const Executor& rSrc);
+  void DoCopy(const Executor& rSrc);
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrc
    *    Source to assign from

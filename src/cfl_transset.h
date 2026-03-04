@@ -988,15 +988,15 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
 
 
   /**
-   * Assign my members. 
+   * Copy my members. 
    *
    * @param rSource 
    *    Source to copy from
    */
-  void DoAssign(const TTransSet& rSource);
+  void DoCopy(const TTransSet& rSource);
 
   /**
-   * Assign my members. 
+   * Copy my members. 
    *
    * @param rSource 
    *    Source to copy from
@@ -1099,7 +1099,7 @@ public:
    * @return
    *    Ref to this set
    */
-  virtual TaTransSet& Assign(const TBaseSet<Transition,TransSort::X1EvX2>& rSrc);
+  virtual TaTransSet& Copy(const TBaseSet<Transition,TransSort::X1EvX2>& rSrc);
 
   /** Relaxed assignment operator. 
    *
@@ -1108,7 +1108,7 @@ public:
    * @return
    *    Ref to this set
    */
-  virtual TaTransSet& operator=(const TransSet& rSrc) {return Assign(rSrc);}
+  virtual TaTransSet& operator=(const TransSet& rSrc) {return Copy(rSrc);}
 
   /** @} doxygen group */
 
@@ -1274,12 +1274,12 @@ public:
  protected:
 
   /**
-   * Assign my members. Maintain attributes.
+   * Copy my members. Maintain attributes.
    *
    * @param rSource 
    *    Source to copy from
    */
-  void DoAssign(const TaTransSet& rSource);
+  void DoCopy(const TaTransSet& rSource);
 
   
   /**
@@ -1344,7 +1344,7 @@ TEMP THIS::TTransSet(void) : BASE()
   BASE()
 {
   FD_DC("TTransSet(" << this << ")::TTransSet(rOtherSet "<< &rOtherSet <<")");
-  Assign(rOtherSet);
+  Copy(rOtherSet);
 }
 
 // TTransSet(othertransrel othersort)
@@ -1357,17 +1357,17 @@ THIS::TTransSet(const TTransSet<OtherCmp>& rOtherSet) :
 }
 
 // assignment  (maintain attributes)
-TEMP void THIS::DoAssign(const TTransSet& rSourceSet) {
-  FD_DC("TTransSet(" << this << ")::DoAssign(..)");
+TEMP void THIS::DoCopy(const TTransSet& rSourceSet) {
+  FD_DC("TTransSet(" << this << ")::DoCopy(..)");
   // call base (incl attributes if they have identical type)
-  BASE::DoAssign(rSourceSet);
+  BASE::DoCopy(rSourceSet);
 } 
 
 // assignment  (maintain attributes)
 TEMP void THIS::DoMove(TTransSet& rSourceSet) {
   FD_WARN("TTransSet(" << this << ")::DoMove(..): not implemented");
   // call base (incl attributes if they have identical type)
-  BASE::DoAssign(rSourceSet);
+  BASE::DoCopy(rSourceSet);
 } 
 
 // iterator Begin() const
@@ -2089,7 +2089,7 @@ TEMP THIS::TaTransSet(const TaTransSet& rOtherSet) :
   ABASE(this)
 {
   FD_DC("TaTransSet(" << this << ")::TaTransSet(rOtherSet "<< &rOtherSet <<")");
-  DoAssign(rOtherSet);
+  DoCopy(rOtherSet);
 }
 
 
@@ -2099,39 +2099,39 @@ TEMP THIS::TaTransSet(const BASE& rOtherSet) :
   ABASE(this) 
 {
   FD_DC("TaTransSet(" << this << ")::TaTransSet(rOtherSet "<< &rOtherSet <<")");
-  Assign(rOtherSet);
+  Copy(rOtherSet);
 }
 
 
 // copy to known same attributes
-TEMP void THIS::DoAssign(const THIS& rSourceSet) {  
+TEMP void THIS::DoCopy(const THIS& rSourceSet) {  
   // call base incl attributes
-  BASE::DoAssign(rSourceSet);
+  BASE::DoCopy(rSourceSet);
 }
 
 // move to known same attributes
 TEMP void THIS::DoMove(THIS& rSourceSet) {  
-  FD_WARN("TaTransSet(" << this << ")::DoMove(" << &rSourceSet<<"): fallback to DoAssign");
+  FD_WARN("TaTransSet(" << this << ")::DoMove(" << &rSourceSet<<"): fallback to DoCopy");
   // call base incl attributes
-  BASE::DoAssign(rSourceSet);
+  BASE::DoCopy(rSourceSet);
 }
 
-// Relaxed Assign()
-TEMP THIS& THIS::Assign(const TBaseSet<Transition,TransSort::X1EvX2>& rSourceSet) {
-  FD_DC("TaTransSet(" << this << ")::Assign([v] " << &rSourceSet<<")");
+// Relaxed Copy()
+TEMP THIS& THIS::Copy(const TBaseSet<Transition,TransSort::X1EvX2>& rSourceSet) {
+  FD_DC("TaTransSet(" << this << ")::Copy([v] " << &rSourceSet<<")");
 #ifdef FAUDES_CHECKED
-  FD_DC("TaTransSet(" << this << ")::Assign(): src at " << &rSourceSet);
-  FD_DC("TaTransSet(" << this << ")::Assign(): src type " << typeid(rSourceSet).name());
-  FD_DC("TaTransSet(" << this << ")::Assign(): dst type " << typeid(*this).name());
+  FD_DC("TaTransSet(" << this << ")::Copy(): src at " << &rSourceSet);
+  FD_DC("TaTransSet(" << this << ")::Copy(): src type " << typeid(rSourceSet).name());
+  FD_DC("TaTransSet(" << this << ")::Copy(): dst type " << typeid(*this).name());
   const TransSet* tset = dynamic_cast<const TransSet*>(&rSourceSet);
   if(!tset) {
     std::stringstream errstr;
     errstr << "cannot cast " << typeid(rSourceSet).name() << " to TransSet" << std::endl;
-    throw Exception("TaTransSet::Assign", errstr.str(), 67);
+    throw Exception("TaTransSet::Copy", errstr.str(), 67);
   }
 #endif
   // call attribute smart base
-  ABASE::AssignWithAttributes(rSourceSet);
+  ABASE::CopyWithAttributes(rSourceSet);
   // done
   return *this;
 }

@@ -23,7 +23,7 @@ AttributeDiagnoserState::AttributeDiagnoserState(void) : AttributeFlags() {
   AttributeDiagnoserState::AttributeDiagnoserState(const AttributeDiagnoserState& rSrcAttr)
     : AttributeDiagnoserState()
 {
-  AttributeFlags::DoAssign(rSrcAttr); 
+  AttributeFlags::DoCopy(rSrcAttr); 
   mDiagnoserStateMap=rSrcAttr.mDiagnoserStateMap;
 }
   
@@ -32,14 +32,14 @@ AttributeDiagnoserState::~AttributeDiagnoserState(void) {}
 
 
 // copy my members
-void AttributeDiagnoserState::DoAssign(const AttributeDiagnoserState& rSrcAttr) {
-  AttributeFlags::DoAssign(rSrcAttr); 
+void AttributeDiagnoserState::DoCopy(const AttributeDiagnoserState& rSrcAttr) {
+  AttributeFlags::DoCopy(rSrcAttr); 
   mDiagnoserStateMap=rSrcAttr.mDiagnoserStateMap;
 }
 
 // copy my members
   void AttributeDiagnoserState::DoMove(AttributeDiagnoserState& rSrcAttr) {
-  AttributeFlags::DoAssign(rSrcAttr); 
+  AttributeFlags::DoCopy(rSrcAttr); 
   mDiagnoserStateMap.Move(rSrcAttr.mDiagnoserStateMap);
 }
 

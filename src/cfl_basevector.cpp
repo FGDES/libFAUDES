@@ -74,7 +74,7 @@ vBaseVector::vBaseVector(const vBaseVector& rOtherVector) :
   ExtType()
 {
   FD_DC("vBaseVector(" << this << ")::vBaseVector(rOtherVector " << &rOtherVector << "): copy construct");
-  DoAssign(rOtherVector);
+  DoCopy(rOtherVector);
 }
 
 // destructor
@@ -110,8 +110,8 @@ bool vBaseVector::ElementTry(const Type& rElement) const {
 }
 
 // assignment (here, we know the type to match)
-void vBaseVector::DoAssign(const vBaseVector& rSourceVector) {
-  FD_DC("vBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << ")");
+void vBaseVector::DoCopy(const vBaseVector& rSourceVector) {
+  FD_DC("vBaseVector(" << this << ")::DoCopy(rOtherVector " << &rSourceVector << ")");
   // bail out on selfref
   if(this==&rSourceVector) return;
   // virtual clear
@@ -129,12 +129,12 @@ void vBaseVector::DoAssign(const vBaseVector& rSourceVector) {
     mVector[pos].mFileName="";
   }
   // done
-  FD_DC("vBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << "): done");
+  FD_DC("vBaseVector(" << this << ")::DoCopy(rOtherVector " << &rSourceVector << "): done");
 }
 
 // assignment (here, we know the type to match)
-void vBaseVector::AssignByReference(vBaseVector& rSourceVector) {
-  FD_DC("vBaseVector(" << this << ")::AssignByReference(rOtherVector " << &rSourceVector << ")");
+void vBaseVector::CopyByReference(vBaseVector& rSourceVector) {
+  FD_DC("vBaseVector(" << this << ")::CopyByReference(rOtherVector " << &rSourceVector << ")");
   // bail out on selfref
   if(this==&rSourceVector) return;
   // virtual clear
@@ -151,7 +151,7 @@ void vBaseVector::AssignByReference(vBaseVector& rSourceVector) {
     mVector[pos].mFileName="";
   }
   // done
-  FD_DC("vBaseVector(" << this << ")::AssignByReference(rOtherVector " << &rSourceVector << "): done");
+  FD_DC("vBaseVector(" << this << ")::CopyByReference(rOtherVector " << &rSourceVector << "): done");
 }
 
 // clear

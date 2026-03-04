@@ -157,12 +157,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributeIosEvent,AttributeFlags )
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeIosEvent& rSrcAttr);
+  void DoCopy(const AttributeIosEvent& rSrcAttr);
 
 
   /**
@@ -401,12 +401,12 @@ class FAUDES_API AttributeIosState : public AttributeFlags
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeIosState& rSrcAttr);
+  void DoCopy(const AttributeIosState& rSrcAttr);
 
   /**
    * Reads attribute from TokenReader, see AttributeVoid for public wrappers.

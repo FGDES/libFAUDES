@@ -79,8 +79,8 @@ bool Type::IsDefault(void) const {
 }
 
 // assign
-Type& Type::Assign(const Type& rSource) {
-  FD_DC("Type(" << this << ")::Assign(" << &rSource << ")");
+Type& Type::Copy(const Type& rSource) {
+  FD_DC("Type(" << this << ")::Copy(" << &rSource << ")");
   Clear();
   return *this;
 }
@@ -109,28 +109,28 @@ bool Type::operator!=(const Type& rOther) const {
 
 // assign
 Type& Type::operator=(const Type& rSource) {
-  FD_DC("Type(" << this << ")::AssignementOperator(" << &rSource << ")");
-  DoAssign(rSource);
+  FD_DC("Type(" << this << ")::CopyementOperator(" << &rSource << ")");
+  DoCopy(rSource);
   return *this;
 }
 
 // assign
 Type& Type::operator=(Type&& rSource) {
-  FD_DC("Type(" << this << ")::AssignementOperator(" << &rSource << ")");
+  FD_DC("Type(" << this << ")::CopyementOperator(" << &rSource << ")");
   DoMove(rSource);
   return *this;
 }
 
 // assign
-void Type::DoAssign(const Type& rSource) {
-  FD_DC("Type(" << this << ")::DoAssign(" << &rSource << ") [not implemented]");
+void Type::DoCopy(const Type& rSource) {
+  FD_DC("Type(" << this << ")::DoCopy(" << &rSource << ") [not implemented]");
   Clear();
 }
 
 // assign
 void Type::DoMove(Type& rSource) {
-  FD_DC("Type(" << this << ")::DoMove(" << &rSource << "): [fallback to DoAssign()]");
-  DoAssign(rSource);
+  FD_DC("Type(" << this << ")::DoMove(" << &rSource << "): [fallback to DoCopy()]");
+  DoCopy(rSource);
   rSource.Clear(); 
 }
 
@@ -547,13 +547,13 @@ Documentation::Documentation(void) : Type() {
 
 // construct
 Documentation::Documentation(const Documentation& rOther) : Type() {
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
 // std faudes type
-void Documentation::DoAssign(const Documentation& rSrc) {
+void Documentation::DoCopy(const Documentation& rSrc) {
   // call base (inkl virt Clear())
-  Type::DoAssign(rSrc);
+  Type::DoCopy(rSrc);
   // assign my members
   mName=rSrc.mName;
   mPlugIn=rSrc.mPlugIn;
@@ -924,9 +924,9 @@ void TypeDefinition::Clear(){
 
 
 // std faudes type
-void TypeDefinition::DoAssign(const TypeDefinition& rSrc) {
+void TypeDefinition::DoCopy(const TypeDefinition& rSrc) {
   // assign base members
-  Documentation::DoAssign(rSrc);
+  Documentation::DoCopy(rSrc);
   // assign my members
   mElementTag=rSrc.mElementTag;
   mElementType=rSrc.mElementType;

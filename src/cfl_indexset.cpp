@@ -81,10 +81,10 @@ IndexSet::IndexSet(const std::string& rFilename, const std::string& rLabel) :
 }
 
 // assignment (attributes to default)
-void IndexSet::DoAssign(const IndexSet& rSourceSet) {
-  FD_DC("IndexSet(" << this << ")::DoAssign(..)");
+void IndexSet::DoCopy(const IndexSet& rSourceSet) {
+  FD_DC("IndexSet(" << this << ")::DoCopy(..)");
   // call base 
-  TBaseSet<Idx>::DoAssign(rSourceSet);
+  TBaseSet<Idx>::DoCopy(rSourceSet);
 } 
 
 // assignment (attributes to default)

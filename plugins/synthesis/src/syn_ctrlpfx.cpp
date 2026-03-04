@@ -154,17 +154,17 @@ void CtrlPfxOperator::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
   /*
   // variant 1: by the book  
   StateSet lhs;
-  lhs.Assign(mRevTransRel.PredecessorStates(X));
+  lhs.Copy(mRevTransRel.PredecessorStates(X));
   lhs.InsertSet(rGen.MarkedStates());
   StateSet rhs;
   StateSet Ycmp= rGen.States() - Y;
-  rhs.Assign(rGen.States());
+  rhs.Copy(rGen.States());
   rhs.EraseSet(mRevTransRel.PredecessorStates(Ycmp,mSigmaUc) );
   rRes=lhs * rhs;
   */
   
   // variant 2: perhaps gain some performance
-  rRes.Assign(mRevTransRel.PredecessorStates(X));
+  rRes.Copy(mRevTransRel.PredecessorStates(X));
   rRes.InsertSet(rGen.MarkedStates());
   StateSet::Iterator sit=rRes.Begin();
   StateSet::Iterator sit_end=rRes.End();
@@ -235,14 +235,14 @@ void MuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
   rRes.Clear();
   // actual implementation comes here
   StateSetVector xargs;
-  xargs.AssignByReference(rArgs);  
+  xargs.CopyByReference(rArgs);  
   xargs.PushBack(&rRes);
   StateSet R;
   while(true) {
     Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
     FD_DF("MuIteration::DoEvaluate(): " << Indent() << xsz << "# -> #" << R.Size());
-    rRes.Assign(R);
+    rRes.Copy(R);
     if(rRes.Size()==xsz) break;  
     FD_WPC(1,2,prog);
   }
@@ -274,7 +274,7 @@ void MuIteration::Rank(StateSetVector& rArgs, std::map<Idx,int>& rRMap) const {
   StateSet res;
   // actual implementation comes here
   StateSetVector xargs;
-  xargs.AssignByReference(rArgs);  
+  xargs.CopyByReference(rArgs);  
   xargs.PushBack(&res);
   StateSet R;
   StateSet N;
@@ -284,7 +284,7 @@ void MuIteration::Rank(StateSetVector& rArgs, std::map<Idx,int>& rRMap) const {
     mrOp.Evaluate(xargs,R);
     N=R-res;
     FD_DF("MuIteration::DoEvaluate(): " << Indent() << res.size() << "# -> #" << R.Size());
-    res.Assign(R);
+    res.Copy(R);
     if(N.Empty()) break;
     for(sit=N.Begin();sit!=N.End();++sit)
       rRMap[*sit]=rank;
@@ -361,7 +361,7 @@ void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
   rRes.Clear();
   // actual implementation comes here
   StateSetVector xargs;
-  xargs.AssignByReference(rArgs);  
+  xargs.CopyByReference(rArgs);  
   xargs.PushBack(&rRes);
   rRes=Domain();
   StateSet R;
@@ -369,7 +369,7 @@ void NuIteration::DoEvaluate(StateSetVector& rArgs, StateSet& rRes) {
     Idx xsz=rRes.Size();
     mrOp.Evaluate(xargs,R);
     FD_DF("NuIteration::DoEvaluate(): " << Indent() << xsz << "# -> #" << R.Size());
-    rRes.Assign(R);
+    rRes.Copy(R);
     if(rRes.Size()==xsz) break;  
     FD_WPC(1,2,prog);
   }

@@ -36,7 +36,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedTrans,AttributeFlags)
 
   /** Copy Constructor */
   AttributeTimedTrans(const AttributeTimedTrans& rSrcAttr) : AttributeTimedTrans() {
-    DoAssign(rSrcAttr);
+    DoCopy(rSrcAttr);
   }
  
   /** 
@@ -56,15 +56,15 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedTrans,AttributeFlags)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeTimedTrans& rSrcAttr);
+  void DoCopy(const AttributeTimedTrans& rSrcAttr);
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
@@ -144,7 +144,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedState,AttributeFlags)
 
   /** Copy Constructor */
   AttributeTimedState(const AttributeTimedState& rSrcAttr) : AttributeTimedState() {
-     DoAssign(rSrcAttr);
+     DoCopy(rSrcAttr);
   };
 
   /** 
@@ -162,16 +162,16 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedState,AttributeFlags)
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeTimedState& rSrcAttr);
+  void DoCopy(const AttributeTimedState& rSrcAttr);
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
@@ -250,7 +250,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedGlobal,AttributeVoid)
 
   /** Copy Construct */
   AttributeTimedGlobal(const AttributeTimedGlobal& rSrcAttr) : AttributeTimedGlobal() {
-    DoAssign(rSrcAttr);
+    DoCopy(rSrcAttr);
   }
 
   /** 
@@ -270,15 +270,15 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedGlobal,AttributeVoid)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeTimedGlobal& rSrcAttr);
+  void DoCopy(const AttributeTimedGlobal& rSrcAttr);
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from

@@ -353,12 +353,12 @@ FAUDES_TYPE_DECLARATION(DeviceExecutor,DeviceExecutor,LoggingExecutor)
   vDevice* pDevice;
 
   /**
-   * Assignment method
+   * Copyment method
    *
    * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const DeviceExecutor& rSrc);
+  void DoCopy(const DeviceExecutor& rSrc);
 
 
 

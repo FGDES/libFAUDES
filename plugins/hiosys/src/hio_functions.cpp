@@ -571,7 +571,7 @@ void HioFreeInput(
   Idx errIdx1, errIdx2;
   
   // prepare result, preserve StateNamesEnabled of rGen
-  pResController->Assign(rController);
+  pResController->Copy(rController);
   //*pResController=rController; // didn't work (should work ... check!!)
   //pResController=&rController; // didn't work (cannot work anyway)
   pResController->StateNamesEnabled(StateNamesEnabled);
@@ -698,7 +698,7 @@ void HioFreeInput(
   Idx errIdx1, errIdx2;
   
   // prepare result, preserve StateNamesEnabled of rGen
-  pResEnvironment->Assign(rEnvironment);
+  pResEnvironment->Copy(rEnvironment);
   //*pResEnvironment=rEnvironment; // didn't work
   //pResEnvironment=&rEnvironment; // didn't work
   pResEnvironment->StateNamesEnabled(StateNamesEnabled);

@@ -26,7 +26,7 @@ ProposingExecutor::ProposingExecutor(void) : LoggingExecutor() {
 ProposingExecutor::ProposingExecutor(const ProposingExecutor& rOther) : LoggingExecutor() 
 { 
   mPValid=false;
-  Assign(rOther);
+  Copy(rOther);
 }
 
 // clear static data
@@ -36,13 +36,13 @@ void ProposingExecutor::Clear(void){
   mPValid=false;
 }
 
-// DoAssign(other)
-void ProposingExecutor::DoAssign(const ProposingExecutor& rOther) {
-  FD_DX("ProposingExecutor(" << this << ")::DoAssign(other)");
+// DoCopy(other)
+void ProposingExecutor::DoCopy(const ProposingExecutor& rOther) {
+  FD_DX("ProposingExecutor(" << this << ")::DoCopy(other)");
   // my members
-  mSimEvents.Assign(rOther.mSimEvents);
+  mSimEvents.Copy(rOther.mSimEvents);
   // base
-  LoggingExecutor::DoAssign(rOther);
+  LoggingExecutor::DoCopy(rOther);
 }
 
 // lookup event attribute

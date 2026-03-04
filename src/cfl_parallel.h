@@ -63,7 +63,7 @@ public:
   Idx Arg2State(Idx s12) const;
 protected:
   // std faudes type
-  void DoAssign(const ProductCompositionMap& rSrc);
+  void DoCopy(const ProductCompositionMap& rSrc);
   bool DoEqual(const ProductCompositionMap& rOther) const;
   // my data (primary)
   std::map< std::pair<Idx,Idx> , Idx > mCompositionMap; 

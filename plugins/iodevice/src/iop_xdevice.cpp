@@ -47,11 +47,12 @@ xDevice::xDevice(void) : vDevice() {
   // have appropriate default label
   mDefaultLabel="DeviceContainer";
 
-  // auto register fix: 
+  // auto register fix (old compilers 2010; fine with C++11) 
   // for some reasons the global register objects do not work properly.
   // since the xdevice is autoregeistered by the rti, we ask the constructor
   // to register the other devices
 
+  /*
 #ifdef FAUDES_IODEVICE_SIMPLENET
   volatile static AutoRegisterType<nDevice> gRtiIORegisterSimplenetDevice("SimplenetDevice");
 #endif
@@ -73,6 +74,7 @@ xDevice::xDevice(void) : vDevice() {
 #ifdef FAUDES_IODEVICE_D3RIP_DART
   volatile static AutoRegisterType<d3ripDARTDevice> gRtiIORegisterD3ripDartDevice("D3RipDartDevice");
 #endif
+  */
 
 }
 

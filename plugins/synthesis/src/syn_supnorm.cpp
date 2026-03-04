@@ -432,7 +432,7 @@ bool SupClosed(
     return false;
   }
 
-  rResult.Assign(rK);  
+  rResult.Copy(rK);  
   
   // erase all transitions not leading to a marked state
   // todo: depth-first-search could be faster

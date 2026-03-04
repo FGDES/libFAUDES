@@ -117,15 +117,15 @@ public:
 protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeFlags& rSrcAttr);
+  void DoCopy(const AttributeFlags& rSrcAttr);
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
@@ -335,15 +335,15 @@ FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeCFlags& rSrcAttr);
+  void DoCopy(const AttributeCFlags& rSrcAttr);
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from

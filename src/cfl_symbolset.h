@@ -161,12 +161,12 @@ public:
 
 
   /**
-   * Assign my members. This method calls the base class to assign its members.
+   * Copy my members. This method calls the base class to assign its members.
    *
    * @param rSource 
    *    Source to copy from
    */
-  void DoAssign(const SymbolSet& rSource);
+  void DoCopy(const SymbolSet& rSource);
 
   /** 
    * Write to TokenWriter, see TBaseSet for public wrappers.

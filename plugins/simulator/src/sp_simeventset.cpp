@@ -15,10 +15,10 @@ namespace faudes {
 FAUDES_TYPE_IMPLEMENTATION(Void,SimEventAttribute,AttributeCFlags)
 
 
-// Assign my members
-void SimEventAttribute::DoAssign(const SimEventAttribute& rSrcAttr) { 
+// Copy my members
+void SimEventAttribute::DoCopy(const SimEventAttribute& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeCFlags::DoAssign(rSrcAttr);
+  AttributeCFlags::DoCopy(rSrcAttr);
   // my additional members
   mStochastic=rSrcAttr.mStochastic;
   mPriority=rSrcAttr.mPriority;

@@ -62,7 +62,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFailureEvents,AttributeFlags)
    *  @param rSrcAttr 
    *    Source to copy from
    */
-  void DoAssign(const AttributeFailureEvents& rSrcAttr); 
+  void DoCopy(const AttributeFailureEvents& rSrcAttr); 
 
   /**
    *  Copy attribute members

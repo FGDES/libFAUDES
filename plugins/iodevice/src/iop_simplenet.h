@@ -104,7 +104,7 @@ public:
 
   /** Copy constructor */
   AttributeSimplenetOutput(const AttributeSimplenetOutput& rSrcAttr) : AttributeSimplenetOutput()
-    {DoAssign(rSrcAttr);}; 
+    {DoCopy(rSrcAttr);}; 
 
   /** Test for default value (always, since we have no data) */
   virtual bool IsDefault(void) const {return true;};
@@ -119,7 +119,7 @@ protected:
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeSimplenetOutput& rSrcAttr) 
+  void DoCopy(const AttributeSimplenetOutput& rSrcAttr) 
     {(void) rSrcAttr;};
 
   /** Copy method 
@@ -191,7 +191,7 @@ public:
 
   /** Copy constructor */
   AttributeSimplenetInput(const AttributeSimplenetInput& rSrcAttr) : AttributeSimplenetInput()
-    {DoAssign(rSrcAttr);}; 
+    {DoCopy(rSrcAttr);}; 
 
 
   /** Test for default value (always, since we have no data) */
@@ -207,7 +207,7 @@ protected:
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeSimplenetInput& rSrcAttr) 
+  void DoCopy(const AttributeSimplenetInput& rSrcAttr) 
   {(void) rSrcAttr;};
 
 
@@ -298,9 +298,9 @@ public:
 
 protected:
 
-  /** DoAssign */
-  void DoAssign(const AttributeSimplenetEvent& rSrc)  
-    { AttributeDeviceEvent::DoAssign(rSrc);};
+  /** DoCopy */
+  void DoCopy(const AttributeSimplenetEvent& rSrc)  
+    { AttributeDeviceEvent::DoCopy(rSrc);};
 
   /** DoMove */
   void DoMove(AttributeSimplenetEvent& rSrc)  
@@ -619,15 +619,15 @@ FAUDES_TYPE_DECLARATION(SimplenetDevice,nDevice,vDevice)
 protected:
 
   /**
-   * Assignment 
+   * Copyment 
    *
    * @param rSrc
    *   Source to copy from
    */
-  void DoAssign(const nDevice& rSrc);
+  void DoCopy(const nDevice& rSrc);
 
   /**
-   * Assignment 
+   * Copyment 
    *
    * @param rSrc
    *   Source to copy from

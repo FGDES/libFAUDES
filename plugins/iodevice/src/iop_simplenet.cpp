@@ -212,7 +212,7 @@ AttributeSimplenetEvent::AttributeSimplenetEvent(const AttributeSimplenetEvent& 
   FD_DHV("AttributeSimplenetEvent(" << this << "): form other attr " <<  &rOtherAttr);
   pOutputPrototype=OutputPrototypep();
   pInputPrototype=InputPrototypep();
-  DoAssign(rOtherAttr);
+  DoCopy(rOtherAttr);
 }
 
 
@@ -294,8 +294,8 @@ nDevice::~nDevice(void) {
 }
 
 // assign configuration
-void nDevice::DoAssign(const nDevice& rOther) {
-  FD_DHV("nDevice(" << this << ")::DoAssign()");
+void nDevice::DoCopy(const nDevice& rOther) {
+  FD_DHV("nDevice(" << this << ")::DoCopy()");
   // call base, incl stop
   vDevice::Clear();
   // copy my config data members
@@ -310,7 +310,7 @@ void nDevice::DoAssign(const nDevice& rOther) {
 
 // assign configuration
 void nDevice::DoMove(nDevice& rOther) {
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
   
 // clear all configuration

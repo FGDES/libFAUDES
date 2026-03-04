@@ -30,7 +30,7 @@ int main() {
 
 
   ////////////////////////////////////////////
-  // Constructors & Assignment Operator
+  // Constructors & Copyment Operator
   ////////////////////////////////////////////
 
   // Create an empty System object

@@ -68,15 +68,15 @@ public:
 
 protected:
     /**
-    * Assignment method.
+    * Copyment method.
     *
     * @param rSrcAttr
     *    Source to assign from
     */
-    void DoAssign(const AttributePGenGl& rSrcAttr) {mFairCons = rSrcAttr.mFairCons;}
+    void DoCopy(const AttributePGenGl& rSrcAttr) {mFairCons = rSrcAttr.mFairCons;}
 
     /**
-    * Assignment method.
+    * Copyment method.
     *
     * @param rSrcAttr
     *    Source to assign from
@@ -240,7 +240,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TpGenerator NewPGen(void) const;
 
     /**
-     * Assignment operator (uses Assign)
+     * Copyment operator (uses Copy)
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -251,7 +251,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TpGenerator& operator= (const TpGenerator& rOtherGen);
   
     /**
-     * Assignment method
+     * Copyment method
      *
      * Note: you must reimplement this method in derived 
      * classes in order to handle internal pointers correctly
@@ -259,7 +259,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @param rSource
      *   Other generator
      */
-     virtual TpGenerator& Assign(const Type& rSource);
+     virtual TpGenerator& Copy(const Type& rSource);
    
     /**
     * Clear (mandatory for serialisation)
@@ -382,7 +382,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 protected:
 
     /** need to reimplement to care about additional members */
-    void DoAssign(const TpGenerator& rSrc);
+    void DoCopy(const TpGenerator& rSrc);
  
     /** need to reimplement to care about additional members */
     bool DoEqual(const TpGenerator& rOther) const;
@@ -451,7 +451,7 @@ TEMP THIS::TpGenerator(const TpGenerator& rOtherGen) : BASE() {
   mPLowest = 0;
   mPHighest = 0;
   // full assign
-  DoAssign(rOtherGen);
+  DoCopy(rOtherGen);
 }
 
 // TpGenerator(rOtherGen)
@@ -461,7 +461,7 @@ TEMP THIS::TpGenerator(const vGenerator& rOtherGen) : BASE() {
   mPLowest = 0;
   mPHighest = 0;
   // try best
-  Assign(rOtherGen);
+  Copy(rOtherGen);
 }
 
 // TpGenerator(rFilename)
@@ -474,10 +474,10 @@ TEMP THIS::TpGenerator(const std::string& rFileName) : BASE() {
 }
 
 // full assign of matching type (not virtual)
-TEMP void THIS::DoAssign(const TpGenerator& rSrc) {
+TEMP void THIS::DoCopy(const TpGenerator& rSrc) {
   FD_DG("TpGenerator(" << this << ")::operator = [v]" << &rOtherGen);
   // recursive call base, incl virtual clear  
-  BASE::DoAssign(rSrc);
+  BASE::DoCopy(rSrc);
   // my members
   mPLowest = rSrc.mPLowest;
   mPHighest = rSrc.mPHighest; 
@@ -486,25 +486,25 @@ TEMP void THIS::DoAssign(const TpGenerator& rSrc) {
 // operator= 
 TEMP THIS& THIS::operator= (const TpGenerator& rOtherGen) {
   FD_DG("TpGenerator(" << this << ")::operator = [v]" << &rOtherGen);
-  DoAssign(rOtherGen);
+  DoCopy(rOtherGen);
   return *this;
 }
 
 // copy from other faudes type
-TEMP THIS& THIS::Assign(const Type& rSrc) {
-  FD_DG("TpGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
+TEMP THIS& THIS::Copy(const Type& rSrc) {
+  FD_DG("TpGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
   // bail out on match
   if(&rSrc==static_cast<const Type*>(this))
     return *this;
   // dot if we can
   const THIS* pgen=dynamic_cast<const THIS*>(&rSrc);
   if(pgen!=nullptr) {
-    DoAssign(*pgen);
+    DoCopy(*pgen);
     return *this;
   }
   // pass on to base
-  FD_DG("TpGenerator(" << this << ")::Assign([type] " << &rSrc << "): call base");
-  BASE::Assign(rSrc);  
+  FD_DG("TpGenerator(" << this << ")::Copy([type] " << &rSrc << "): call base");
+  BASE::Copy(rSrc);  
   return *this;
 }
 

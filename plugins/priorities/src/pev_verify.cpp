@@ -106,14 +106,14 @@ Candidate::~Candidate(){
     mtau = 0;
 }
 
-void SynchCandidates::DoAssign(SynchCandidates synchcands){
+void SynchCandidates::DoCopy(SynchCandidates synchcands){
     mCandidates.clear();
     SynchCandidates::Iterator scit = synchcands.CandidatesBegin();
     for (;scit!=synchcands.CandidatesEnd();scit++)
         mCandidates.push_back(*scit);
 }
 
-void Candidate::DoAssign(Candidate cand){
+void Candidate::DoCopy(Candidate cand){
     mGenRaw = cand.mGenRaw;
     mGenHidden = cand.mGenHidden;
     mGenMerged = cand.mGenMerged;
@@ -125,7 +125,7 @@ void Candidate::DoAssign(Candidate cand){
     mDecomposedPair.second = cand.mDecomposedPair.second;
 }
 
-void PCandidate::DoAssign(PCandidate cand){
+void PCandidate::DoCopy(PCandidate cand){
     mGenRaw = cand.mGenRaw;
     mGenHidden = cand.mGenHidden;
     mGenMerged = cand.mGenMerged;

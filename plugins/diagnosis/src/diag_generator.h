@@ -31,7 +31,7 @@ class FAUDES_TAPI TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, Ev
 
  public:  
  
-    /** @name Constructor, Destructor */ // and Copy-Methods */
+    /** @name Constructor, Destructor */
     /** @{ doxygen group */
 
     /**
@@ -86,7 +86,7 @@ class FAUDES_TAPI TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, Ev
     }
 
     /**
-     * Assignment operator (uses copy)
+     * Copyment operator (uses copy)
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -94,7 +94,7 @@ class FAUDES_TAPI TdiagGenerator : public TcGenerator <GlobalAttr, StateAttr, Ev
      * @param rOtherGen
      *   Other generator
      */
-    /*virtual*/ TdiagGenerator& operator= (const Generator& rOtherGen) {this->Assign(rOtherGen); return *this;};
+    /*virtual*/ TdiagGenerator& operator= (const Generator& rOtherGen) {this->Copy(rOtherGen); return *this;};
     //using TcGenerator<GlobalAttr, StateAttr, EventAttr, TransAttr>::operator=;
      
     /** @} doxygen group */
@@ -265,7 +265,7 @@ TEMP THIS* THIS::New(void) const {
   return res;
 }
 
-// Copy()
+// NewCpy()
 TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);

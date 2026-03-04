@@ -24,19 +24,19 @@ AttributeFailureEvents::AttributeFailureEvents(void) {
 
 // Copy Construct
 AttributeFailureEvents::AttributeFailureEvents(const AttributeFailureEvents& rSrc)  : AttributeFailureEvents() {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
 
-// DoAssign()
-void AttributeFailureEvents::DoAssign(const AttributeFailureEvents& rSrcAttr){
-  AttributeFlags::DoAssign(rSrcAttr); 
+// DoCopy()
+void AttributeFailureEvents::DoCopy(const AttributeFailureEvents& rSrcAttr){
+  AttributeFlags::DoCopy(rSrcAttr); 
   mFailureEvents = rSrcAttr.mFailureEvents; 
   mIndicatorEvents = rSrcAttr.mIndicatorEvents;
 }
 
-// DoAssign()
+// DoCopy()
 void AttributeFailureEvents::DoMove(AttributeFailureEvents& rSrcAttr){
-  AttributeFlags::DoAssign(rSrcAttr); 
+  AttributeFlags::DoCopy(rSrcAttr); 
   mFailureEvents.Move(rSrcAttr.mFailureEvents); 
   mIndicatorEvents.Move(rSrcAttr.mIndicatorEvents);
 }

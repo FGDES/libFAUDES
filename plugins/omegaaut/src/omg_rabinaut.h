@@ -118,7 +118,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 
 
     /**
-     * Assignment operator (uses Assign)
+     * Copyment operator (uses Copy)
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -129,7 +129,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      TrGenerator& operator= (const TrGenerator& rOtherGen);
   
     /**
-     * Assignment method
+     * Copyment method
      *
      * Note: you must reimplement this method in derived 
      * classes in order to handle internal pointers correctly
@@ -137,7 +137,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @param rSource
      *   Other generator
      */
-     virtual TrGenerator& Assign(const Type& rSource);
+     virtual TrGenerator& Copy(const Type& rSource);
    
     /**
      * Set Rabin acceptance Condition
@@ -205,7 +205,7 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
  protected:
 
     /** need to reimplement to care about Additional members */
-    void DoAssign(const TrGenerator& rSrc);
+    void DoCopy(const TrGenerator& rSrc);
 
 
 
@@ -258,33 +258,33 @@ TEMP THIS::TrGenerator(const std::string& rFileName) : BASE(rFileName) {
 }
 
 // full assign of matching type (not virtual)
-TEMP void THIS::DoAssign(const TrGenerator& rSrc) {
+TEMP void THIS::DoCopy(const TrGenerator& rSrc) {
   FD_DG("TrGenerator(" << this << ")::operator = " << &rOtherGen);
   // recursive call base, incl virtual clear  
-  BASE::DoAssign(rSrc);
+  BASE::DoCopy(rSrc);
 }
 
 // operator=
 TEMP THIS& THIS::operator= (const TrGenerator& rSrc) {
   FD_DG("TrGenerator(" << this << ")::operator = " << &rSrc);
-  DoAssign(rSrc);
+  DoCopy(rSrc);
   return *this;
 }
 
 // copy from other faudes type
-TEMP THIS& THIS::Assign(const Type& rSrc) {
+TEMP THIS& THIS::Copy(const Type& rSrc) {
   // bail out on match
   if(&rSrc==static_cast<const Type*>(this))
     return *this;
   // dot if we can
   const THIS* pgen=dynamic_cast<const THIS*>(&rSrc);
   if(pgen!=nullptr) {
-    DoAssign(*pgen);
+    DoCopy(*pgen);
     return *this;
   }
   // pass on to base
-  FD_DG("TrGenerator(" << this << ")::Assign([type] " << &rSrc << "): call base");
-  BASE::Assign(rSrc);  
+  FD_DG("TrGenerator(" << this << ")::Copy([type] " << &rSrc << "): call base");
+  BASE::Copy(rSrc);  
   return *this;
 }
 

@@ -121,7 +121,7 @@ public:
    *  @param rSrc 
    *    Source to copy from
    */
-  void DoAssign(const AttributeDiagnoserState& rSrc); 
+  void DoCopy(const AttributeDiagnoserState& rSrc); 
 
   /**
    *  Move attribute members

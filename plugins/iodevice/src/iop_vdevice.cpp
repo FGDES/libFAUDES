@@ -63,7 +63,7 @@ AttributeDeviceEvent::AttributeDeviceEvent(const AttributeDeviceEvent& rOtherAtt
   FD_DHV("AttributeDeviceEvent(" << this << "): form other attr " <<  &rOtherAttr);
   pOutputPrototype= FallbackAttributep(); 
   pInputPrototype= FallbackAttributep();
-  DoAssign(rOtherAttr);
+  DoCopy(rOtherAttr);
 }
 
 // Destructor    
@@ -86,19 +86,19 @@ void AttributeDeviceEvent::Clear(void) {
   mpInputAttribute=0;
 }
 
-// Assignement
-void AttributeDeviceEvent::DoAssign(const AttributeDeviceEvent& rSrcAttr) {
-  FD_DHV("AttributeDeviceEvent(" << this << "):DoAssign(): " 
+// Copyement
+void AttributeDeviceEvent::DoCopy(const AttributeDeviceEvent& rSrcAttr) {
+  FD_DHV("AttributeDeviceEvent(" << this << "):DoCopy(): " 
     << typeid(*this).name() << " from " << typeid(rSrcAttr).name());
   Clear();
   if(rSrcAttr.IsInput())   Input(*rSrcAttr.Inputp());
   if(rSrcAttr.IsOutput()) Output(*rSrcAttr.Outputp());
 }
 
-// Assignement
+// Copyement
 void AttributeDeviceEvent::DoMove(AttributeDeviceEvent& rSrcAttr) {
  // not supported
- DoAssign(rSrcAttr);
+ DoCopy(rSrcAttr);
 }
 
 

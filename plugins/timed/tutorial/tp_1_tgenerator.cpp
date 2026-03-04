@@ -43,7 +43,7 @@ int main() {
   // Copy a Generator to a TimedGenerator (no timing, no control)
   TimedGenerator g4;
   Generator g5("data/simplemachine.gen");
-  g4.Assign(g5);
+  g4.Copy(g5);
 
   // Write the TimedGenerator to a files 
   g1.Write("tmp_tsimplemachine1.gen");

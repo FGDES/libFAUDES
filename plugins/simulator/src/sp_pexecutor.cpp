@@ -26,7 +26,7 @@ ParallelExecutor::ParallelExecutor(void) : Type() {
 // ParallelExecutor(other)
 ParallelExecutor::ParallelExecutor(const ParallelExecutor& rOther) : Type() {
   FD_DX("ParallelExecutor(" << this << ")::ParallelExecutor(other)");
-  Assign(rOther);
+  Copy(rOther);
 }
 
 // ParallelExecutor(rFileName)
@@ -40,9 +40,9 @@ ParallelExecutor::~ParallelExecutor(void) {
   FD_DX("ParallelExecutor(" << this << ")::~ParallelExecutor()");
 }
 
-// DoAssign(other)
-void ParallelExecutor::DoAssign(const ParallelExecutor& rOther) {
-  FD_DX("ParallelExecutor(" << this << ")::DoAssign(other)");
+// DoCopy(other)
+void ParallelExecutor::DoCopy(const ParallelExecutor& rOther) {
+  FD_DX("ParallelExecutor(" << this << ")::DoCopy(other)");
   mExecutors=rOther.mExecutors;
   mExecutorNames=rOther.mExecutorNames;
   Compile();

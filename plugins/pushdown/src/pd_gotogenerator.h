@@ -124,7 +124,7 @@ public:
     TgotoGenerator(const vGenerator& rOtherGen);
     
     /**
-     * Assignment operator (uses copy)
+     * Copyment operator (uses copy)
      *
      *  Note: you must reimplement this operator in derived 
      *  classes in order to handle internal pointers correctly
@@ -132,9 +132,9 @@ public:
      * @param rOtherGen
      *   Other generator
      */
-    virtual TgotoGenerator& operator= (const TgotoGenerator& rOtherGen) {this->Assign(rOtherGen); return *this;};
+    virtual TgotoGenerator& operator= (const TgotoGenerator& rOtherGen) {this->Copy(rOtherGen); return *this;};
 
-    /* Assignment method
+    /* Copyment method
      *
      * Note: you must reimplement this method in derived 
      * classes in order to handle internal pointers correctly
@@ -142,7 +142,7 @@ public:
      * @param rOtherGen
      *   Other generator
      */
-     virtual TgotoGenerator& Assign(const Type& rSource);
+     virtual TgotoGenerator& Copy(const Type& rSource);
   
     
     /**
@@ -172,7 +172,7 @@ public:
      * @return 
      *   new Generator 
      */
-    TgotoGenerator* Copy(void) const;
+    TgotoGenerator* NewCpy(void) const;
     
     /**
      * Type test.
@@ -316,12 +316,12 @@ TEMPGOTO THISGOTO::TgotoGenerator(const std::string& rFileName) : BASEGOTO(rFile
 
 
 // copy from other faudes type
-TEMPGOTO THISGOTO& THISGOTO::Assign(const Type& rSrc) {
-  FD_DG("TgotoGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
+TEMPGOTO THISGOTO& THISGOTO::Copy(const Type& rSrc) {
+  FD_DG("TgotoGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
   // bail out on match
   if(&rSrc==static_cast<const Type*>(this)) return *this;
   // pass on to base
-  BASEGOTO::Assign(rSrc);  
+  BASEGOTO::Copy(rSrc);  
   return *this;
 }
 
@@ -337,8 +337,8 @@ TEMPGOTO THISGOTO* THISGOTO::New(void) const {
   return res;
 }
 
-// Copy
-TEMPGOTO THISGOTO* THISGOTO::Copy(void) const {
+// NewCpy
+TEMPGOTO THISGOTO* THISGOTO::NewCpy(void) const {
   // allocate
   THISGOTO* res = new THISGOTO(*this);
   // done

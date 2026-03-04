@@ -170,7 +170,7 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
    *****************************************
    *****************************************/
 
-  /** @name Copy and Assignment */
+  /** @name Copy and Copyment */
   /** @{ doxygen group */
 
 
@@ -180,10 +180,10 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
    * @param rSrc
    *   Source for copy operation.
    */
-  virtual TaGenerator& Assign(const Type& rSrc); 
+  virtual TaGenerator& Copy(const Type& rSrc); 
 
   /**
-   * Assignment operator (uses DoAssign(Generator&) )
+   * Copyment operator (uses DoCopy(Generator&) )
    *
    * @param rOtherGen
    *   Other generator
@@ -784,8 +784,8 @@ class FAUDES_TAPI TaGenerator : public vGenerator {
   /** Update my secondary pointers for new core */
   virtual void UpdateCore(void);
 
-  /** Assignment */
-  void DoAssign(const TaGenerator& rGen); 
+  /** Copyment */
+  void DoCopy(const TaGenerator& rGen); 
 
 
 };
@@ -838,7 +838,7 @@ TEMP THIS::TaGenerator(const TaGenerator& rOtherGen) :
   ConfigureAttributeTypes(&GlobalTaGen(),&StatesTaGen(),&AlphabetTaGen(),&TransRelTaGen());
   NewCore();
   // have  a 1:1 copy (incl sym tables)
-  DoAssign(rOtherGen);
+  DoCopy(rOtherGen);
 }
 
 
@@ -852,7 +852,7 @@ TEMP THIS::TaGenerator(const vGenerator& rOtherGen) :
   ConfigureAttributeTypes(&GlobalTaGen(),&StatesTaGen(),&AlphabetTaGen(),&TransRelTaGen());
   NewCore();
   // have  a 1:1 copy (incl sym tables)
-  Assign(rOtherGen);
+  Copy(rOtherGen);
   FD_DG("TaGenerator(" << this << ")::TaGenerator([v]" << &rOtherGen << "): ok");
 }
 
@@ -915,10 +915,10 @@ TEMP void THIS::UpdateCore(void) {
 }
 
 
-// Copy(gen) from identical type
-TEMP void THIS::DoAssign(const TaGenerator& rGen) {
-  FD_DG("TaGenerator(" << this << ")::DoAssign(" << &rGen << ")");
-  FD_DG("TaGenerator(" << this << ")::DoAssign(..): types " << typeid(*this).name() << " <= " << typeid(rGen).name());
+// DoCopy(gen) from identical type
+TEMP void THIS::DoCopy(const TaGenerator& rGen) {
+  FD_DG("TaGenerator(" << this << ")::DoCopy(" << &rGen << ")");
+  FD_DG("TaGenerator(" << this << ")::DoCopy(..): types " << typeid(*this).name() << " <= " << typeid(rGen).name());
   // prepare result (call clear for virtual stuff)
   Clear();
   // have same event symboltable
@@ -939,34 +939,34 @@ TEMP void THIS::DoAssign(const TaGenerator& rGen) {
   mMinStateIndexMap=rGen.mMinStateIndexMap;
 #ifdef FAUDES_DEBUG_CODE
   if(!Valid()) {
-    FD_DG("TaGenerator()::DoAssign(): invalid generator");
+    FD_DG("TaGenerator()::DoCopy(): invalid generator");
     DWrite(); 
     abort();
   }
 #endif
-  FD_DG("TaGenerator(" << this << ")::DoAssign(" << &rGen << "): done");
+  FD_DG("TaGenerator(" << this << ")::DoCopy(" << &rGen << "): done");
 } 
 
 // copy from other faudes type
-TEMP THIS& THIS::Assign(const Type& rSrc) {
-  FD_DG("TaGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
-  FD_DG("TaGenerator(" << this << ")::Assign(..): types \n" << typeid(*this).name() << " <= \n" << typeid(rSrc).name());
-  FD_DG("TaGenerator(" << this << ")::Assign(..): match str " << (typeid(*this).name() == typeid(rSrc).name()));
-  FD_DG("TaGenerator(" << this << ")::Assign(..): match id  " << (typeid(*this) == typeid(rSrc)));
+TEMP THIS& THIS::Copy(const Type& rSrc) {
+  FD_DG("TaGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
+  FD_DG("TaGenerator(" << this << ")::Copy(..): types \n" << typeid(*this).name() << " <= \n" << typeid(rSrc).name());
+  FD_DG("TaGenerator(" << this << ")::Copy(..): match str " << (typeid(*this).name() == typeid(rSrc).name()));
+  FD_DG("TaGenerator(" << this << ")::Copy(..): match id  " << (typeid(*this) == typeid(rSrc)));
   // cast to this class  
   const TaGenerator* agen=dynamic_cast<const THIS*>(&rSrc);
-  FD_DG("TaGenerator(" << this << ")::Assign(..): agen " << agen);
+  FD_DG("TaGenerator(" << this << ")::Copy(..): agen " << agen);
   // bail out on object match
   if(this==agen) return *this;
   // assign on type match
   if(agen) {
-    FD_DG("TaGenerator(" << this << ")::Assign([type] " << &rSrc << "):: call aGenerator DoAssign");
-    DoAssign(*agen);
+    FD_DG("TaGenerator(" << this << ")::Copy([type] " << &rSrc << "):: call aGenerator DoCopy");
+    DoCopy(*agen);
     return *this;
   }
-  FD_DG("TaGenerator(" << this << ")::Assign([type] " << &rSrc << "):: call vGenerator base");
+  FD_DG("TaGenerator(" << this << ")::Copy([type] " << &rSrc << "):: call vGenerator base");
   // pass on to base
-  BASE::Assign(rSrc);
+  BASE::Copy(rSrc);
   return *this;
 }
 
@@ -1026,7 +1026,7 @@ TEMP const Type* THIS::Cast(const Type* pOther) const {
 // operator=
 TEMP TaGenerator<GlobalAttr,StateAttr,EventAttr,TransAttr>& THIS::operator= (const TaGenerator& rOtherGen) {
   FD_DG("TaGenerator(" << this << ")::operator = [v]" << &rOtherGen);
-  return Assign(rOtherGen);
+  return Copy(rOtherGen);
 }
 
 // Valid()

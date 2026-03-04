@@ -108,13 +108,13 @@ public:
   /** Set output attribute */
   virtual void Output(const AttributeVoid&  rOutputAttribute) {
     DefaultOutput();
-    mpOutputAttribute->Assign(rOutputAttribute);
+    mpOutputAttribute->Copy(rOutputAttribute);
   };
 
   /** Set input attribute */
   virtual void Input(const AttributeVoid&  rInputAttribute) {
     DefaultInput();
-    mpInputAttribute->Assign(rInputAttribute);
+    mpInputAttribute->Copy(rInputAttribute);
   };
 
   /** Read output attribute */
@@ -154,15 +154,15 @@ protected:
   static const AttributeVoid* FallbackAttributep(void);
 
   /**
-   * Assignment 
+   * Copyment 
    *
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeDeviceEvent& rSrcAttr);
+  void DoCopy(const AttributeDeviceEvent& rSrcAttr);
 
   /**
-   * Assignment 
+   * Copyment 
    *
    * @param rSrcAttr
    *   Source to copy from
@@ -259,7 +259,7 @@ protected:
  *
  * The vDevice derived classes implement std faudes type semantics for 
  * token IO plus the New() factory function to support type registration required for 
- * XML formated files. Assignment and comparison are, however, not implemented.
+ * XML formated files. Copyment and comparison are, however, not implemented.
  *
  * @ingroup IODevicePlugin
  */

@@ -73,7 +73,7 @@ public:
     return muLevel == 0 && nuLevel == 0 && branchType == 0;
   }
   
-  // Assignment operator
+  // Copyment operator
   StateRanking& operator=(const StateRanking& other) {
     if (this != &other) {
       muLevel = other.muLevel;

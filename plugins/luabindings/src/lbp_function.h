@@ -120,7 +120,7 @@ class LuaState;
  * - Parameters other than elementary (integer, boolean and string) are passed to 
  *   the Lua function by reference. However, Lua will consistently interpret the reference itself 
  *   as a parameter value. Thus, to assign a value to an <tt>access="Out"</tt> or <tt>access="InOut"</tt>
- *   parameter, you must use the assigment memberfunction Assign (as opposed to the assignment operator "=").
+ *   parameter, you must use the assigment memberfunction Copy (as opposed to the assignment operator "=").
  * - Elementary types (i.e. integers, booleans and strings) are passed to the Lua function by value.
  *   Thus, it would be pointless to have an elementary typed parameter with access attribute other than 
  *   <tt>access="In"</tt>. In order to implement elementary typed return values, the respective 
@@ -298,7 +298,7 @@ protected:
    * @param rSrc 
    *    Source to copy from
    */
-  virtual void DoAssign(const LuaFunctionDefinition& rSrc);
+  virtual void DoCopy(const LuaFunctionDefinition& rSrc);
 
   /**
    * Std faudes type interface: test equality
@@ -376,7 +376,7 @@ protected:
 
 
   /**
-   * Assign prototype object
+   * Copy prototype object
    *
    * @param pFunc
    * 	Function instance
@@ -495,7 +495,7 @@ public:
    *
    * This method uses SWIG generated constructors to instantiate new Lua userdata 
    * object of the same type as the specified data. It than invokes
-   * the faudes Assign method to assign a copy. 
+   * the faudes Copy method to assign a copy. 
    *
    * @param fdata
    *  Data to push
@@ -526,7 +526,7 @@ public:
    *
    * This method uses SWIG generated type casts to retrieve the
    * faudes object from the userdata on the top of the stack.
-   * It then uses the faudes Copy() method to instantiate a copy,
+   * It then uses the faudes NewCpy() method to instantiate a copy,
    * to be owned by the caller.
    *
    *

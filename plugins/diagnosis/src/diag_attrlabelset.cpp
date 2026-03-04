@@ -44,19 +44,19 @@ DiagLabelSet::DiagLabelSet(SymbolTable *pSymTab) : AttributeFlags() {
 
 // copy construct
 DiagLabelSet::DiagLabelSet(const DiagLabelSet& rSrcAttr) : DiagLabelSet() {
-  DoAssign(rSrcAttr);
+  DoCopy(rSrcAttr);
 }
 
 
 // copy my members
-void DiagLabelSet::DoAssign(const DiagLabelSet& rSrcAttr) {
-  AttributeFlags::DoAssign(rSrcAttr); 
+void DiagLabelSet::DoCopy(const DiagLabelSet& rSrcAttr) {
+  AttributeFlags::DoCopy(rSrcAttr); 
   mDiagLabels=rSrcAttr.mDiagLabels; 
 }
 
 // copy my members
 void DiagLabelSet::DoMove(DiagLabelSet& rSrcAttr) {
-  AttributeFlags::DoAssign(rSrcAttr); 
+  AttributeFlags::DoCopy(rSrcAttr); 
   mDiagLabels.Move(rSrcAttr.mDiagLabels); 
 }
 

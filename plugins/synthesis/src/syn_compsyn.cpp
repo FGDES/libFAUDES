@@ -328,7 +328,7 @@ ComSyn::ComSyn(const GeneratorVector& rPlantGenVec,
   pSupGenVec = &rSupGenVec;
 
   // construct global controllable events
-  GConAlph.Assign(rConAlph);
+  GConAlph.Copy(rConAlph);
 
   // construct global events
   EventSet GAlph;
@@ -588,7 +588,7 @@ void ComSyn::comsyn_ComputeBisimulation(faudes::Generator& rGen)
 {
   // prepare data for interface ComputeBisimulation of libfaudes
   faudes::Generator OrigGen;
-  OrigGen.Assign(rGen);
+  OrigGen.Copy(rGen);
   std::map<faudes::Idx,faudes::Idx> MapStateToPartition;
 
   // run interface 
@@ -606,7 +606,7 @@ void SingleTransSpec(const Generator& rSpecGen,
 		     Generator& rResGen) {
 
   // copy the particular specification generator to rResGen
-  rResGen.Assign(rSpecGen);
+  rResGen.Copy(rSpecGen);
 
   // construct local uncontrollable alphabet
   EventSet UncAlph;
@@ -1073,7 +1073,7 @@ void SelectSubsystem_V1(GeneratorVector& rGenVec,
 
   // *parallel composition 
 
-  rResGen.Assign(rGenVec.At(PosTarget->at(0)));
+  rResGen.Copy(rGenVec.At(PosTarget->at(0)));
   std::vector<GeneratorVector::Position>::iterator vit=PosTarget->begin();
   for(std::advance(vit,1); vit!=PosTarget->end();++vit)
     Parallel(rResGen, rGenVec.At(*vit), rResGen);
@@ -1228,7 +1228,7 @@ void ComputeHSupCon(const Generator& rOrigGen,
 		   Generator& rHSupGen) {
 
   // initialize rHSupGen
-  rHSupGen.Assign(rOrigGen);
+  rHSupGen.Copy(rOrigGen);
 
   // initialize blockingstates 
   StateSet blockingstates;

@@ -110,10 +110,10 @@ void AttributePushdownState::SetMerge(const MergeAbstract* pMerge){
   return;
 }
 
-// Assign my members
-void AttributePushdownState::DoAssign(const AttributePushdownState& rSrcAttr) { 
+// Copy my members
+void AttributePushdownState::DoCopy(const AttributePushdownState& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   this->SetMerge(rSrcAttr.mpMerge);
   this->DfaState(rSrcAttr.DfaState());
@@ -186,10 +186,10 @@ bool AttributePushdownTransition::ClrPopPush(const std::vector<Idx>& rPop, const
   return false;
 }
 
-// Assign my members
-void AttributePushdownTransition::DoAssign(const AttributePushdownTransition& rSrcAttr) { 
+// Copy my members
+void AttributePushdownTransition::DoCopy(const AttributePushdownTransition& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeVoid::DoAssign(rSrcAttr);
+  AttributeVoid::DoCopy(rSrcAttr);
   // my additional members
   mPopPush=rSrcAttr.mPopPush;
 }
@@ -347,11 +347,11 @@ void AttributePushdownTransition::DoRead(TokenReader& rTr, const std::string& rL
   // faudes type std
   FAUDES_TYPE_IMPLEMENTATION(Void,AttributePushdownGlobal,AttributeVoid)
 
-  // Assign my members
-  void AttributePushdownGlobal::DoAssign(const AttributePushdownGlobal& rSrcAttr) {
-    FD_DG("AttributePushdownGlobal::DoAssign("<<this<<"): src " << &rSrcAttr << " type " << typeid(rSrcAttr).name());
+  // Copy my members
+  void AttributePushdownGlobal::DoCopy(const AttributePushdownGlobal& rSrcAttr) {
+    FD_DG("AttributePushdownGlobal::DoCopy("<<this<<"): src " << &rSrcAttr << " type " << typeid(rSrcAttr).name());
     // call base (incl. virtual clear)
-    AttributeVoid::DoAssign(rSrcAttr);
+    AttributeVoid::DoCopy(rSrcAttr);
     // my additional members
      mStackSymbols=rSrcAttr.mStackSymbols;
      mpStackSymbolTable=rSrcAttr.mpStackSymbolTable;

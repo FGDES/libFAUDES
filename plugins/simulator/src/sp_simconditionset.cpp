@@ -48,13 +48,13 @@ AttributeSimCondition::AttributeSimCondition(const AttributeSimCondition& rOther
   mStateCondition(false) 
 { 
   FD_DX("AttributeSimCondition::AttributeSimCondition(attr)");
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
-// Assign my members
-void AttributeSimCondition::DoAssign(const AttributeSimCondition& rSrcAttr) { 
+// Copy my members
+void AttributeSimCondition::DoCopy(const AttributeSimCondition& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   mEventCondition=rSrcAttr.mEventCondition;
   mStateCondition=rSrcAttr.mStateCondition;
@@ -67,10 +67,10 @@ void AttributeSimCondition::DoAssign(const AttributeSimCondition& rSrcAttr) {
   mSamplesDuration.Clear();
 }
 
-// Assign my members
+// Copy my members
 void AttributeSimCondition::DoMove(AttributeSimCondition& rSrcAttr) { 
   // not supported
-  DoAssign(rSrcAttr);
+  DoCopy(rSrcAttr);
 }
 
 

@@ -62,7 +62,7 @@ Matrix::Matrix(const Matrix& rSrc) :
   mCC(0),
   mpData(0)
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
   
 // Constructor
@@ -81,8 +81,8 @@ Matrix::~Matrix(void) {
 }
 
 
-// virtual Assignment method
-Matrix& Matrix::DoAssign(const Matrix& rSrc) {
+// virtual Copyment method
+Matrix& Matrix::DoCopy(const Matrix& rSrc) {
   mRC=rSrc.mRC;
   mCC=rSrc.mCC;
   if(mpData) delete mpData;
@@ -367,7 +367,7 @@ Vector::Vector(const Vector& rSrc) :
   mDim(0),
   mpData(0)
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
   
 // Constructor
@@ -385,8 +385,8 @@ Vector::~Vector(void) {
 }
 
 
-// virtual Assignment method
-Vector& Vector::DoAssign(const Vector& rSrc) {
+// virtual Copyment method
+Vector& Vector::DoCopy(const Vector& rSrc) {
   mDim=rSrc.mDim;
   if(mpData) delete mpData;
   mpData=0;
@@ -619,7 +619,7 @@ Polyhedron::Polyhedron(const Polyhedron& rSrc) :
   mB(0),
   mpUserData(0)
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
   
 // Constructor
@@ -639,8 +639,8 @@ Polyhedron::~Polyhedron(void) {
 }
 
 
-// virtual Assignment method
-Polyhedron& Polyhedron::DoAssign(const Polyhedron& rSrc) {
+// virtual Copyment method
+Polyhedron& Polyhedron::DoCopy(const Polyhedron& rSrc) {
   mName=rSrc.mName;
   mA=rSrc.mA;
   mB=rSrc.mB;
@@ -846,7 +846,7 @@ LinearRelation::LinearRelation(const LinearRelation& rSrc) :
   mD(0),
   mpUserData(0)
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
   
 // Constructor
@@ -870,8 +870,8 @@ LinearRelation::~LinearRelation(void) {
 }
 
 
-// virtual Assignment method
-LinearRelation& LinearRelation::DoAssign(const LinearRelation& rSrc) {
+// virtual Copyment method
+LinearRelation& LinearRelation::DoCopy(const LinearRelation& rSrc) {
   mName=rSrc.mName;
   mCase=rSrc.mCase;
   mA1=rSrc.mA1;

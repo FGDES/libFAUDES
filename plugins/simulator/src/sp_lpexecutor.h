@@ -432,12 +432,12 @@ protected:
   virtual void DoWrite(TokenWriter& rTw, const std::string& rLabel="", const Type* pContext=0) const;
 
   /**
-   * Assignment method
+   * Copyment method
    *
    * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const LoggingExecutor& rSrc);
+  void DoCopy(const LoggingExecutor& rSrc);
 
 
 private:

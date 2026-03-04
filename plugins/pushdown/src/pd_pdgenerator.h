@@ -59,16 +59,16 @@ public:
 	TpdGenerator(const vGenerator& rOtherGen);
 
 	/**
-	 * Assignment operator (uses Assign)
+	 * Copyment operator (uses Copy)
 	 * Note: you must reimplement this operator in derived 
 	 * classes in order to handle internal pointers correctly
 	 *
 	 * @param rOtherGen
 	 *   Other generator
 	 */
-	virtual TpdGenerator& operator= (const TpdGenerator& rOtherGen) {return this->Assign(rOtherGen);};
+	virtual TpdGenerator& operator= (const TpdGenerator& rOtherGen) {return this->Copy(rOtherGen);};
 	  
-	 /* Assignment method
+	 /* Copyment method
          *
          * Note: you must reimplement this method in derived 
          * classes in order to handle internal pointers correctly
@@ -76,7 +76,7 @@ public:
          * @param rOtherGen
          *   Other generator
          */
-        virtual TpdGenerator& Assign(const Type& rSource);
+        virtual TpdGenerator& Copy(const Type& rSource);
 
 	/**
 	 * Construct from file
@@ -105,7 +105,7 @@ public:
 	 * @return 
 	 *   new Generator 
 	 */
-	TpdGenerator* Copy(void) const;
+	TpdGenerator* NewCpy(void) const;
 
 	/**
 	 * Type test.
@@ -1484,24 +1484,24 @@ TEMP THIS::TpdGenerator(const std::string& rFileName) : BASE()  {
 }
 
 // copy from other faudes type
-TEMP THIS& THIS::Assign(const Type& rSrc) {
-  FD_DG("TpdGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
+TEMP THIS& THIS::Copy(const Type& rSrc) {
+  FD_DG("TpdGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
   // bail out on match
   if(&rSrc==static_cast<const Type*>(this)) return *this;
 
   // cast tests (clang 8.0.0 issues, 2017)
   /*
   const THIS* pgen=dynamic_cast<const THIS*>(&rSrc);
-  FD_WARN("TpdGenerator(" << this << ")::Assign(..): pgen " << pgen);
+  FD_WARN("TpdGenerator(" << this << ")::Copy(..): pgen " << pgen);
   const BASE* cgen=dynamic_cast<const BASE*>(&rSrc);
-  FD_WARN("TpdGenerator(" << this << ")::Assign(..): cgen " << cgen);
+  FD_WARN("TpdGenerator(" << this << ")::Copy(..): cgen " << cgen);
   const vGenerator* vgen=dynamic_cast<const vGenerator*>(&rSrc);
-  FD_WARN("TpdGenerator(" << this << ")::Assign(..): vgen " << vgen);
+  FD_WARN("TpdGenerator(" << this << ")::Copy(..): vgen " << vgen);
   */
 
   // pass on to base
-  FD_DG("TpdGenerator(" << this << ")::Assign([type] " << &rSrc << "): call base");
-  BASE::Assign(rSrc);  
+  FD_DG("TpdGenerator(" << this << ")::Copy([type] " << &rSrc << "): call base");
+  BASE::Copy(rSrc);  
   return *this;
 }
 
@@ -1569,7 +1569,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done

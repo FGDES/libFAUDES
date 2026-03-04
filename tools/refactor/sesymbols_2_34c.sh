@@ -1,6 +1,6 @@
 # elementary scripts to search and replace symbolic names
 #
-# this variant was used to rename synthesis functions in libFAUDES 2.33c
+# this variant was used to refaction Assign/Move/Copy in libFAUDES 2.34c
 #
 # note: this is recursive batch editing (!!!)
 # - have a dry run before
@@ -15,8 +15,10 @@ export here=$(pwd)
 processfile() {
   f=$(pwd)/$1
   echo ============= $f
-  sed -i "" -e s/NewCopy/NewCpy/g  $f
-  sed -i "" -e s/MoveX/Move/g  $f
+  # sed -i "" -e s/Copy/NewCpy/g  $f
+  # sed -i "" -e s/MoveX/Move/g  $f
+  # sed -i "" -e s/DoAssign/DoCopy/g  $f
+  sed -i "" -e s/Assign/Copy/g  $f
 }
 
 # recursion over all files incl subdirectories
@@ -54,9 +56,7 @@ processall() {
     ## insist in file types
     if [ $ext != "cpp" ]; then
     if [ $ext != "h" ]; then
-    if [ $ext != "i" ]; then
       continue
-    fi
     fi
     fi
 

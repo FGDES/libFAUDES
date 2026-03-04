@@ -36,9 +36,9 @@ namespace faudes {
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeD3ripURTOutput,AttributeVoid)
 
-//DoAssign(Src)
-void AttributeD3ripURTOutput::DoAssign(const AttributeD3ripURTOutput& rSrcAttr) {
-  FD_DHV("AttributeD3ripURTOutput(" << this << "):DoAssign(): assignment from " <<  &rSrcAttr);
+//DoCopy(Src)
+void AttributeD3ripURTOutput::DoCopy(const AttributeD3ripURTOutput& rSrcAttr) {
+  FD_DHV("AttributeD3ripURTOutput(" << this << "):DoCopy(): assignment from " <<  &rSrcAttr);
   mChannelToTransmit=rSrcAttr.mChannelToTransmit;
   mParameterRecords=rSrcAttr.mParameterRecords;
   mEventId=rSrcAttr.mEventId;
@@ -154,9 +154,9 @@ void AttributeD3ripURTOutput::DoRead(TokenReader& rTr, const std::string& rLabel
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeD3ripURTInput,AttributeVoid)
 
 
-//DoAssign(Src)
-void AttributeD3ripURTInput::DoAssign(const AttributeD3ripURTInput& rSrcAttr) {
-  FD_DHV("AttributeD3ripURTInput(" << this << "):DoAssign(): assignment from " <<  &rSrcAttr);
+//DoCopy(Src)
+void AttributeD3ripURTInput::DoCopy(const AttributeD3ripURTInput& rSrcAttr) {
+  FD_DHV("AttributeD3ripURTInput(" << this << "):DoCopy(): assignment from " <<  &rSrcAttr);
   mEventId=rSrcAttr.mEventId;
 }
 
@@ -222,7 +222,7 @@ AttributeD3ripURTEvent::AttributeD3ripURTEvent(const AttributeD3ripURTEvent& rOt
   FD_DHV("AttributeD3ripURTEvent(" << this << "): form other attr " <<  &rOtherAttr);
   pOutputPrototype=OutputPrototypep();
   pInputPrototype=InputPrototypep();
-  DoAssign(rOtherAttr);
+  DoCopy(rOtherAttr);
 }
 
 

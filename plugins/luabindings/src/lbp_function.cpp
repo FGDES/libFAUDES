@@ -194,23 +194,23 @@ LuaFunctionDefinition::LuaFunctionDefinition(const LuaFunctionDefinition& rSrc) 
   pDefaultL(0) 
 {
   FD_DLB("LuaFunctionDefinition::LuaFunctionDefinition(copy)");
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
 
 // std faudes type
-void LuaFunctionDefinition::DoAssign(const LuaFunctionDefinition& rSrc) {
-  FD_DLB("LuaFunctionDefinition::DoAssign()");
+void LuaFunctionDefinition::DoCopy(const LuaFunctionDefinition& rSrc) {
+  FD_DLB("LuaFunctionDefinition::DoCopy()");
   // assign base members
-  FunctionDefinition::DoAssign(rSrc);
+  FunctionDefinition::DoCopy(rSrc);
   // assign my members
   mLuaCode=rSrc.mLuaCode;
   mLuaFile=rSrc.mLuaFile;
   // special member
   pLuaFunction=dynamic_cast<LuaFunction*>(mpFunction);
   // report
-  FD_DLB("LuaFunctionDefinition::DoAssign("<<this<<"): name   " << mName);
-  FD_DLB("LuaFunctionDefinition::DoAssign("<<this<<"): proto   " << mpFunction);
-  FD_DLB("LuaFunctionDefinition::DoAssign("<<this<<"): has def " << mpFunction->Definition())
+  FD_DLB("LuaFunctionDefinition::DoCopy("<<this<<"): name   " << mName);
+  FD_DLB("LuaFunctionDefinition::DoCopy("<<this<<"): proto   " << mpFunction);
+  FD_DLB("LuaFunctionDefinition::DoCopy("<<this<<"): has def " << mpFunction->Definition())
 }
 
 // std faudes type
@@ -951,7 +951,7 @@ void LuaFunction::DoExecuteC(void) {
     FD_DLB("LuaFunction::DoExecuteB(): faudes::Type converted ptr " << fptr);
     if(Variant()->At(i).Attribute()!=Parameter::Out) {
       FD_DLB("LuaFunction::DoExecuteB(): copy parameter value");
-      ((Type*)fptr)->Assign(*ParamValue(i));
+      ((Type*)fptr)->Copy(*ParamValue(i));
     }
     */
     // variant b: use references
@@ -1093,7 +1093,7 @@ void LuaFunction::DoExecuteE(void) {
         FD_DLB("LuaFunction::DoExecuteD(): swig usrdata ptr faudes::Type converted " << fptr);
         FD_DLB("LuaFunction::DoExecuteD(): parameter value " << ParamValue(i));
         FD_DLB("LuaFunction::DoExecuteD(): copy parameter value");
-        ParamValue(i)->Assign(*((Type*)fptr));
+        ParamValue(i)->Copy(*((Type*)fptr));
         // pop
         lua_pop(pLL, 1); 
         continue;
@@ -1307,7 +1307,7 @@ void LuaState::Push(lua_State* pLL, const Type* fdata) {
       lua_settop(pLL,savetop);
       throw Exception("LuaState::Push()", errstr.str(), 49);
     }
-    ((Type*)fptr)->Assign(*fdata);
+    ((Type*)fptr)->Copy(*fdata);
   }
   // stack: [faudes, fdata]
   lua_replace(pLL,-2);

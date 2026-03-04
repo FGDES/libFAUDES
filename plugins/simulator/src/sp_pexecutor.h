@@ -539,15 +539,15 @@ protected:
 
 
   /**
-   * Assignment method
+   * Copyment method
    *
    * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const ParallelExecutor& rSrc);
+  void DoCopy(const ParallelExecutor& rSrc);
 
   /**
-   * Assignment method
+   * Copyment method
    *
    * @param rSrc
    *    Source to assign from

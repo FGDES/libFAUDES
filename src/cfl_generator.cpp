@@ -131,7 +131,7 @@ vGenerator::vGenerator(const vGenerator& rOtherGen) :
   // allocate core members
   NewCore();
   // perform copy
-  DoAssign(rOtherGen);
+  DoCopy(rOtherGen);
 }
 
 // construct from file
@@ -263,8 +263,8 @@ void vGenerator::DeleteCore(void) {
 
 
 // copy from other vGenerator (try to convert attributes)
-void vGenerator::DoAssign(const vGenerator& rGen) {
-  FD_DG("vGenerator(" << this << ")::DoAssign(" << &rGen << ")");
+void vGenerator::DoCopy(const vGenerator& rGen) {
+  FD_DG("vGenerator(" << this << ")::DoCopy(" << &rGen << ")");
   // bail out on match
   if(&rGen==this) return;
   // prepare result (call clear for virtual stuff)
@@ -286,23 +286,23 @@ void vGenerator::DoAssign(const vGenerator& rGen) {
   GlobalAttributeTry(*rGen.mpGlobalAttribute);
 #ifdef FAUDES_DEBUG_CODE
   if(!Valid()) {
-    FD_DG("vGenerator()::DoAssign(): invalid generator");
+    FD_DG("vGenerator()::DoCopy(): invalid generator");
     DWrite(); 
     abort();
   }
 #endif
-  FD_DG("vGenerator(" << this << ")::DoAssign(" << &rGen << "): done");
+  FD_DG("vGenerator(" << this << ")::DoCopy(" << &rGen << "): done");
 } 
 
 // copy from other vGenerator (try to convert attributes)
-vGenerator& vGenerator::Assign(const Type& rSrc) {
-  FD_DG("vGenerator(" << this << ")::Assign([type] " << &rSrc << ")");
+vGenerator& vGenerator::Copy(const Type& rSrc) {
+  FD_DG("vGenerator(" << this << ")::Copy([type] " << &rSrc << ")");
   // bail out on match
   if(&rSrc==this) return *this;
-  // run DoAssign if object casts to a generator
+  // run DoCopy if object casts to a generator
   const vGenerator* vgen=dynamic_cast<const vGenerator*>(&rSrc);
   if(vgen) {
-    DoAssign(*vgen);
+    DoCopy(*vgen);
     return *this;
   }  
   // clear to default
@@ -311,8 +311,8 @@ vGenerator& vGenerator::Assign(const Type& rSrc) {
 }
 
 // copy from other vGenerator (clear attributes)
-vGenerator& vGenerator::AssignWithoutAttributes(const vGenerator& rGen) {
-  FD_DG("vGenerator(" << this << ")::Assign(" << &rGen << ")");
+vGenerator& vGenerator::CopyWithoutAttributes(const vGenerator& rGen) {
+  FD_DG("vGenerator(" << this << ")::Copy(" << &rGen << ")");
   // prepare result (call clear for virtual stuff)
   Clear();
   // have same event symboltable
@@ -326,9 +326,9 @@ vGenerator& vGenerator::AssignWithoutAttributes(const vGenerator& rGen) {
   InjectInitStates(rGen.mInitStates);
   InjectMarkedStates(rGen.mMarkedStates);
   // core members, ignore attributes
-  mpStates->AssignWithoutAttributes(rGen.States());
-  mpAlphabet->AssignWithoutAttributes(rGen.Alphabet());
-  mpTransRel->AssignWithoutAttributes(rGen.TransRel());
+  mpStates->CopyWithoutAttributes(rGen.States());
+  mpAlphabet->CopyWithoutAttributes(rGen.Alphabet());
+  mpTransRel->CopyWithoutAttributes(rGen.TransRel());
 #ifdef FAUDES_DEBUG_CODE
   if(!Valid()) {
     FD_DG("vGenerator()::NewCpy(): invalid generator");
@@ -378,7 +378,7 @@ void vGenerator::DoMove(vGenerator& rGen) {
   // use copy on mismatch to convert   
   if(tmm) { 
     FD_DG("vGenerator(" << this << ")::Move(" << &rGen << "): using std copy");
-    DoAssign(rGen);
+    DoCopy(rGen);
     rGen.Clear();
     return;
   }
@@ -419,7 +419,7 @@ void vGenerator::DoMove(vGenerator& rGen) {
 vGenerator& vGenerator::operator = (const vGenerator& rOtherGen) {
   FD_DG("vGenerator(" << this << ")::operator= " << &rOtherGen);
   FD_DG("vGenerator(" << this << ")::operator=  types " << typeid(*this).name() << " <= " << typeid(rOtherGen).name());
-  return Assign(rOtherGen);
+  return Copy(rOtherGen);
 }
 
 // operator =
@@ -492,12 +492,12 @@ void vGenerator::Version(const std::string& rPattern, const std::string& rReplac
   }
   // ignore invalid pattern
   if(rPattern.empty()) {
-    rResGen.Assign(*this);
+    rResGen.Copy(*this);
     return;
   }
   // trivial case
   if(rPattern==rReplacement) {
-    rResGen.Assign(*this);
+    rResGen.Copy(*this);
     return;
   }
   // prepare Empty generator
@@ -4118,7 +4118,7 @@ void SetIntersection(const GeneratorVector& rGenVec, EventSet& rRes) {
   // ignore empty
   if(rGenVec.Size()==0) return;
   // copy first
-  rRes.Assign(rGenVec.At(0).Alphabet());
+  rRes.Copy(rGenVec.At(0).Alphabet());
   // perform intersecttion 
   for(GeneratorVector::Position i=1; i<rGenVec.Size(); i++) 
     SetIntersection(rGenVec.At(i).Alphabet(),rRes,rRes);
@@ -4132,7 +4132,7 @@ void SetUnion(const GeneratorVector& rGenVec, EventSet& rRes) {
   // ignore empty
   if(rGenVec.Size()==0) return;
   // copy first
-  rRes.Assign(rGenVec.At(0).Alphabet());
+  rRes.Copy(rGenVec.At(0).Alphabet());
   // perform intersecttion 
   for(GeneratorVector::Position i=1; i<rGenVec.Size(); i++) 
     SetUnion(rGenVec.At(i).Alphabet(),rRes,rRes);
@@ -4159,7 +4159,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const vGenerator& rGen, vGenerator&
   TransSet* delta=rGen.TransRel().NewCpy();
   ApplyRelabelMap(rMap,*alph,*alph);
   ApplyRelabelMap(rMap,*delta,*delta);
-  rRes.Assign(rGen);
+  rRes.Copy(rGen);
   rRes.InjectTransRel(*delta);
   rRes.InjectAlphabet(*alph);
   delete alph;

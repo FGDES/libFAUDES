@@ -253,7 +253,7 @@ FAUDES_TYPE_DECLARATION(Void,DiagLabelSet,AttributeFlags)
    *  @param rSrcAttr 
    *    Source to copy from
    */
-  void DoAssign(const DiagLabelSet& rSrcAttr); 
+  void DoCopy(const DiagLabelSet& rSrcAttr); 
   
   /**
    *  Copy attribute members

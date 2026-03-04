@@ -60,7 +60,7 @@ void UniqueInit(Generator& rGen) {
 
 // UniqueInit(rGen&,rResGen&)
 void UniqueInit(const Generator& rGen, Generator& rResGen) {
-  rResGen.Assign(rGen);
+  rResGen.Copy(rGen);
   UniqueInit(rResGen);
 }
 

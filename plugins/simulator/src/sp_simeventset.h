@@ -163,7 +163,7 @@ FAUDES_TYPE_DECLARATION(Void,SimEventAttribute,AttributeCFlags)
    * Copy constructor.
    */
   SimEventAttribute(const SimEventAttribute& rSrc) : AttributeCFlags() { 
-    DoAssign(rSrc); }
+    DoCopy(rSrc); }
 
   /** 
    * Test for default value 
@@ -279,12 +279,12 @@ protected:
   SimStochasticEventAttribute mStochasticAttribute;
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const SimEventAttribute& rSrcAttr);
+  void DoCopy(const SimEventAttribute& rSrcAttr);
 
   /**
    * Test equality

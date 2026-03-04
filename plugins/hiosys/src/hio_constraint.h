@@ -113,12 +113,12 @@ public:
     THioConstraint NewHioConstraint(void) const;
 	
     /**
-     * Assignment operator (uses copy)
+     * Copyment operator (uses copy)
      *
      * @param rOtherGen
      *   Other generator
      */
-     virtual THioConstraint& operator= (const THioConstraint& rOtherGen) {this->Assign(rOtherGen); return *this;};
+     virtual THioConstraint& operator= (const THioConstraint& rOtherGen) {this->Copy(rOtherGen); return *this;};
     
     
 //**************** I/O constraint event attributes ********************/
@@ -568,7 +568,7 @@ TEMP THIS* THIS::New(void) const {
   return res;
 }
 
-// Copy()
+// NewCpy()
 TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }

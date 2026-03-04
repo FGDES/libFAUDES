@@ -21,10 +21,10 @@ namespace faudes {
   // faudes type std
   FAUDES_TYPE_IMPLEMENTATION(Void,AttributeGotoTransition,AttributeVoid)
 
-  // Assign my members
-  void AttributeGotoTransition::DoAssign(const AttributeGotoTransition& rSrcAttr) { 
+  // Copy my members
+  void AttributeGotoTransition::DoCopy(const AttributeGotoTransition& rSrcAttr) { 
     // call base (incl. virtual clear)
-    AttributeVoid::DoAssign(rSrcAttr);
+    AttributeVoid::DoCopy(rSrcAttr);
     // my additional members
     mpGrammarSymbol = rSrcAttr.mpGrammarSymbol;
   }
@@ -74,10 +74,10 @@ namespace faudes {
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeGotoState,AttributeFlags)
 
-// Assign my members
-void AttributeGotoState::DoAssign(const AttributeGotoState& rSrcAttr) { 
+// Copy my members
+void AttributeGotoState::DoCopy(const AttributeGotoState& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   mConfigSet=rSrcAttr.mConfigSet;
 }

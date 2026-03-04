@@ -41,7 +41,7 @@ public:
 
   /** Copy - constructor */
   AttributeSignalOutput(const AttributeSignalOutput& rOtherAttr) : AttributeVoid() 
-      { DoAssign(rOtherAttr); };
+      { DoCopy(rOtherAttr); };
 
   /** Test for default value (never) */
   virtual bool IsDefault(void) const {return false;};
@@ -71,7 +71,7 @@ public:
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeSignalOutput& rSrcAttr);
+  void DoCopy(const AttributeSignalOutput& rSrcAttr);
 
   /**
    * Reads the attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -138,7 +138,7 @@ public:
 
   /** Copy constructor */
   AttributeSignalInput (const AttributeSignalInput& rOtherAttr) : AttributeVoid() 
-      { DoAssign(rOtherAttr); };
+      { DoCopy(rOtherAttr); };
 
   /** Test for default value (never) */
   virtual bool IsDefault(void) const {return false;};
@@ -166,7 +166,7 @@ public:
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeSignalInput& rSrcAttr);
+  void DoCopy(const AttributeSignalInput& rSrcAttr);
 
   /**
    * Reads the attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -253,9 +253,9 @@ FAUDES_TYPE_DECLARATION(Void,AttributeSignalEvent,AttributeDeviceEvent)
 
  protected:
 
-  /** DoAssign */
-  void DoAssign(const AttributeSignalEvent& rSrc)  
-  { AttributeDeviceEvent::DoAssign(rSrc);};
+  /** DoCopy */
+  void DoCopy(const AttributeSignalEvent& rSrc)  
+  { AttributeDeviceEvent::DoCopy(rSrc);};
 
   /** Prototype, input (construct on first use static) */
   static const AttributeSignalInput* InputPrototypep(void);

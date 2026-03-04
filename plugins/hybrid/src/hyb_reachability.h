@@ -39,7 +39,7 @@ class FAUDES_API HybridStateSet {
   HybridStateSet(void);
   ~HybridStateSet(void);
   HybridStateSet(const  HybridStateSet& rOther);
-  void Assign(const  HybridStateSet& rOther);
+  void Copy(const  HybridStateSet& rOther);
 
   /** access to locations */
   const IndexSet& Locations(void);

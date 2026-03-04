@@ -32,7 +32,7 @@ LoggingExecutor::LoggingExecutor(const LoggingExecutor& rOther)
 {
   FD_DX("LoggingExecutor(" << this << ")::LoggingExecutor()");
   TraceClear(0);
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
 // LoggingExecutor(rFileName)
@@ -50,13 +50,13 @@ LoggingExecutor::~LoggingExecutor(void) {
   LogClose();
 }
 
-// DoAssign(other)
-void LoggingExecutor::DoAssign(const LoggingExecutor& rOther) {
-  FD_DX("LoggingExecutor(" << this << ")::DoAssign(other)");
+// DoCopy(other)
+void LoggingExecutor::DoCopy(const LoggingExecutor& rOther) {
+  FD_DX("LoggingExecutor(" << this << ")::DoCopy(other)");
   // my members
-  mConditions.Assign(rOther.mConditions);
+  mConditions.Copy(rOther.mConditions);
   // base
-  ParallelExecutor::DoAssign(rOther);
+  ParallelExecutor::DoCopy(rOther);
 }
 
 // Compile()

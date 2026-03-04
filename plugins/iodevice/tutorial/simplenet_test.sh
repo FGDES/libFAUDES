@@ -36,15 +36,15 @@ read
 
 echo 1. Connect to simulator device to report output events 
 
-( sleep 5 ; xterm -T "Demo: Output Event Monitor" -e $NETCAT localhost  40000 ; )  &
+( sleep 5 ; xterm -T "Demo: Output Event Monitor" -e $NETCAT localhost  40000  )  &
 
 echo 2. Open an input event server on a xterm
 
-xterm -T "Demo: Kbd Input Event Server" -e $NETCAT -l -p 40001 &
+( sleep 5; xterm -T "Demo: Input Event Server" -e $NETCAT -l 40001 ) &
 
 echo 3. Advertise my input event server 
 
-( sleep 10 ; echo "<Advert> \"SimpleLoop\" \"SimpleSupervisor\" \"localhost:40001\"  </Advert>" | $NETCAT -u localhost 35000 ; echo Simplenet_Test.sh: Advert sent; ) &
+( sleep 10 ; echo "<Advert> \"SimpleLoop\" \"SimpleSupervisor\" \"localhost:40001\"  </Advert>" | $NETCAT -u localhost 35000 ; echo Simplenet_Test.sh: Advert sent ) &
 
 echo 4. Start simulation
 $SIMFAUDES -d data/machine_simplenet.dev data/machine.sim   

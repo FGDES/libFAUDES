@@ -59,13 +59,13 @@ ClockSet* ClockSet::New(void) const {
   return res;
 }
 
-// DoAssign()
-void ClockSet::DoAssign(const ClockSet& rSourceSet) {
+// DoCopy()
+void ClockSet::DoCopy(const ClockSet& rSourceSet) {
   // call base
-  NameSet::DoAssign(rSourceSet);
+  NameSet::DoCopy(rSourceSet);
 }
 
-// DoAssign()
+// DoCopy()
 void ClockSet::DoMove(ClockSet& rSourceSet) {
   // call base
   NameSet::DoMove(rSourceSet);
