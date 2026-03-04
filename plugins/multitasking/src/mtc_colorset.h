@@ -143,7 +143,15 @@ FAUDES_TYPE_DECLARATION(ColorSet,ColorSet,NameSet)
    * @param rSourceSet
    *   Destination to copy from
    */
-  virtual void DoAssign(const ColorSet& rSourceSet);
+  void DoAssign(const ColorSet& rSourceSet);
+
+  /**
+   * Assign from other color set.
+   *
+   * @param rSourceSet
+   *   Destination to copy from
+   */
+  void DoMove(ColorSet& rSourceSet);
 
 }; // end class ColorSet
 

@@ -207,6 +207,15 @@ public:
    */
   void DoAssign(const IndexSet& rSource);
 
+  /**
+   * Move my members. This method maintains attributes
+   * provided that the type can be appropriately casted.
+   *
+   * @param rSource 
+   *    Source to copy from
+   */
+  void DoMove(IndexSet& rSource);
+
   /** 
    * Write to TokenWriter, see Type::Write for public wrappers.
    * Appends the IndexSet to 

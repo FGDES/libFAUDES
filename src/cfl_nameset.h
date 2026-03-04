@@ -454,6 +454,15 @@ public:
 
 
   /**
+   * Move from other name set. Performs a fake copy, see TBaseSet.
+   *
+   * @param rSourceSet
+   *   Source to copy from
+   */
+  void DoMove(NameSet& rSourceSet);
+
+
+  /**
    * Test equality of configuration data.
    * Ignore name of the set, insist in matching symboltables.
    *

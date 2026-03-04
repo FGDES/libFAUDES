@@ -22,12 +22,23 @@ AttributeFailureEvents::AttributeFailureEvents(void) {
   mIndicatorEvents.ElementTag("Event");
 }
 
+// Copy Construct
+AttributeFailureEvents::AttributeFailureEvents(const AttributeFailureEvents& rSrc)  : AttributeFailureEvents() {
+  DoAssign(rSrc);
+}
 
 // DoAssign()
 void AttributeFailureEvents::DoAssign(const AttributeFailureEvents& rSrcAttr){
   AttributeFlags::DoAssign(rSrcAttr); 
   mFailureEvents = rSrcAttr.mFailureEvents; 
   mIndicatorEvents = rSrcAttr.mIndicatorEvents;
+}
+
+// DoAssign()
+void AttributeFailureEvents::DoMove(AttributeFailureEvents& rSrcAttr){
+  AttributeFlags::DoAssign(rSrcAttr); 
+  mFailureEvents.Move(rSrcAttr.mFailureEvents); 
+  mIndicatorEvents.Move(rSrcAttr.mIndicatorEvents);
 }
 
 

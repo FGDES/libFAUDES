@@ -38,6 +38,7 @@ AutoRegisterType<ColorSet> gRtiColorset("ColorSet");
 FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_CAST(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(ColorSet,ColorSet,NameSet)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(ColorSet,ColorSet,NameSet)
 
 
@@ -48,6 +49,12 @@ SymbolTable ColorSet::msSymbolTable;
 void ColorSet::DoAssign(const ColorSet& rSourceSet) {
   // call base
   NameSet::DoAssign(rSourceSet);
+}
+
+// DoMove()
+void ColorSet::DoMove(ColorSet& rSourceSet) {
+  // call base
+  NameSet::DoMove(rSourceSet);
 }
 
 // Colorset::New()

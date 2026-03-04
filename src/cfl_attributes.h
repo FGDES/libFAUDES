@@ -125,6 +125,14 @@ protected:
   void DoAssign(const AttributeFlags& rSrcAttr);
 
   /**
+   * Assignment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeFlags& rSrcAttr);
+
+  /**
    * Test equality of configuration data.
    *
    * @param rOther 
@@ -333,6 +341,14 @@ FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
    *    Source to assign from
    */
   void DoAssign(const AttributeCFlags& rSrcAttr);
+
+  /**
+   * Assignment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeCFlags& rSrcAttr);
 
   /**
    * Test equality of configuration data.

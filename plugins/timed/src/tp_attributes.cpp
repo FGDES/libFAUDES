@@ -31,6 +31,12 @@ void AttributeTimedTrans::DoAssign(const AttributeTimedTrans& rSrcAttr) {
   mResets=rSrcAttr.mResets;
 }
 
+// Assign my members
+void AttributeTimedTrans::DoMove(AttributeTimedTrans& rSrcAttr) { 
+  // we dont support mive
+  DoAssign(rSrcAttr);
+}
+
 // Equality
 bool AttributeTimedTrans::DoEqual(const AttributeTimedTrans& rOther) const {
   // base
@@ -119,6 +125,12 @@ void AttributeTimedState::DoAssign(const AttributeTimedState& rSrcAttr) {
   mInvariant=rSrcAttr.mInvariant;
 }
 
+// Assign my members
+void AttributeTimedState::DoMove(AttributeTimedState& rSrcAttr) { 
+  // we dont support move
+  DoAssign(rSrcAttr);
+}
+
 // Equality
 bool AttributeTimedState::DoEqual(const AttributeTimedState& rOther) const {
   // base
@@ -178,6 +190,15 @@ void AttributeTimedGlobal::DoAssign(const AttributeTimedGlobal& rSrcAttr) {
   AttributeVoid::DoAssign(rSrcAttr);
   // my additional members
   mClocks=rSrcAttr.mClocks;
+  mpClockSymbolTable=rSrcAttr.mpClockSymbolTable;
+}
+
+// Assign my members
+void AttributeTimedGlobal::DoMove(AttributeTimedGlobal& rSrcAttr) { 
+  // call base (incl. virtual clear)
+  AttributeVoid::DoAssign(rSrcAttr);
+  // my additional members
+  mClocks.Move(rSrcAttr.mClocks);
   mpClockSymbolTable=rSrcAttr.mpClockSymbolTable;
 }
 

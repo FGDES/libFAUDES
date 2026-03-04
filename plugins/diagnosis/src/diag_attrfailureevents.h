@@ -35,6 +35,9 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFailureEvents,AttributeFlags)
   /** Default constructor. */
   AttributeFailureEvents(void);
 
+  /** Copy constructor. */
+  AttributeFailureEvents(const AttributeFailureEvents& rSrcAttr);
+
   /** Default destructor. */
   ~AttributeFailureEvents(void) {};
 
@@ -59,7 +62,15 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFailureEvents,AttributeFlags)
    *  @param rSrcAttr 
    *    Source to copy from
    */
-  virtual void DoAssign(const AttributeFailureEvents& rSrcAttr); 
+  void DoAssign(const AttributeFailureEvents& rSrcAttr); 
+
+  /**
+   *  Copy attribute members
+   *
+   *  @param rSrcAttr 
+   *    Source to copy from
+   */
+  void DoMove(AttributeFailureEvents& rSrcAttr); 
 
   /**
    *  Test equality
@@ -67,7 +78,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFailureEvents,AttributeFlags)
    *  @param rAttr 
    *    Source to copy from
    */
-   virtual bool DoEuqal(const AttributeFailureEvents& rAttr) const; 
+   bool DoEuqal(const AttributeFailureEvents& rAttr) const; 
 
   /**
    *  Write failure and indicator events.

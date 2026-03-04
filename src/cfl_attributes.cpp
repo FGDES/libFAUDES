@@ -45,6 +45,11 @@ void AttributeFlags::DoAssign(const AttributeFlags& rSrcAttr) {
   mFlags=rSrcAttr.mFlags; 
 }
 
+// Assign my members (dont bother about moving)
+void AttributeFlags::DoMove(AttributeFlags& rSrcAttr) { 
+  DoAssign(rSrcAttr);
+}
+
 // Test my members for equality
 bool AttributeFlags::DoEqual(const AttributeFlags& rOther) const { 
   return ( mFlags==rOther.mFlags ); 
@@ -116,6 +121,11 @@ FAUDES_TYPE_IMPLEMENTATION(Void,AttributeCFlags,AttributeFlags)
 void AttributeCFlags::DoAssign(const AttributeCFlags& rSrcAttr) { 
   // call base
   AttributeFlags::DoAssign(rSrcAttr);
+}
+
+// Assign my members (dont bother about moving)
+void AttributeCFlags::DoMove(AttributeCFlags& rSrcAttr) { 
+  DoAssign(rSrcAttr);
 }
 
 // Test my members

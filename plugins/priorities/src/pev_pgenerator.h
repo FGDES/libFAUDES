@@ -44,6 +44,11 @@ public:
     */
     AttributePGenGl(void);
  
+    /**
+    * Copy constructor
+    */
+    AttributePGenGl(const AttributePGenGl& rSrcAttr);
+ 
     /** Destructor */
     virtual ~AttributePGenGl(void) {}
 
@@ -69,6 +74,14 @@ protected:
     *    Source to assign from
     */
     void DoAssign(const AttributePGenGl& rSrcAttr) {mFairCons = rSrcAttr.mFairCons;}
+
+    /**
+    * Assignment method.
+    *
+    * @param rSrcAttr
+    *    Source to assign from
+    */
+    void DoMove(AttributePGenGl& rSrcAttr) {mFairCons.Move(rSrcAttr.mFairCons);}
 
     /**
     * Test equality of configuration data.

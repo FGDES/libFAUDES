@@ -857,18 +857,15 @@ TEMP THIS* THIS::NewCpy(void) const {
   return res;
 }
 
+/* legacy
 // NewCGen
 TEMP THIS THIS::NewCGen(void) const {
   // call base (fixes by assignment constructor)
   THIS res= BASE::NewAGen();
   return res;
 }
+*/
 
-
-// CAST
-//TEMP const Type* THIS::Cast(const Type* pOther) const {
-//  return dynamic_cast< const THIS* > (pOther);
-//}
 
 
 

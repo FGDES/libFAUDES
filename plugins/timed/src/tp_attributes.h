@@ -34,6 +34,11 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedTrans,AttributeFlags)
   /** Constructor */
   AttributeTimedTrans(void) : AttributeFlags() { mGuard.Name("Guard"); mResets.Name("Resets"); };
 
+  /** Copy Constructor */
+  AttributeTimedTrans(const AttributeTimedTrans& rSrcAttr) : AttributeTimedTrans() {
+    DoAssign(rSrcAttr);
+  }
+ 
   /** 
    * Test for default value (ie empty constraint and default flags)
    *
@@ -57,6 +62,14 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedTrans,AttributeFlags)
    *    Source to assign from
    */
   void DoAssign(const AttributeTimedTrans& rSrcAttr);
+
+  /**
+   * Assignment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeTimedTrans& rSrcAttr);
 
   /**
    * Test eaulity. 
@@ -130,9 +143,8 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedState,AttributeFlags)
   };
 
   /** Copy Constructor */
-  AttributeTimedState(const AttributeTimedState& rSrcAttr) : AttributeFlags() {
-    mInvariant.Name("Invariant");
-    DoAssign(rSrcAttr);
+  AttributeTimedState(const AttributeTimedState& rSrcAttr) : AttributeTimedState() {
+     DoAssign(rSrcAttr);
   };
 
   /** 
@@ -156,6 +168,15 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedState,AttributeFlags)
    *    Source to assign from
    */
   void DoAssign(const AttributeTimedState& rSrcAttr);
+
+
+  /**
+   * Assignment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeTimedState& rSrcAttr);
 
 
   /**
@@ -227,6 +248,11 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedGlobal,AttributeVoid)
   AttributeTimedGlobal(void) {
     mpClockSymbolTable=mClocks.SymbolTablep(); };
 
+  /** Copy Construct */
+  AttributeTimedGlobal(const AttributeTimedGlobal& rSrcAttr) : AttributeTimedGlobal() {
+    DoAssign(rSrcAttr);
+  }
+
   /** 
    * Test for default value (ie empty clockset)
    *
@@ -250,6 +276,14 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedGlobal,AttributeVoid)
    *    Source to assign from
    */
   void DoAssign(const AttributeTimedGlobal& rSrcAttr);
+
+  /**
+   * Assignment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeTimedGlobal& rSrcAttr);
 
   /**
    * Test eaulity. 

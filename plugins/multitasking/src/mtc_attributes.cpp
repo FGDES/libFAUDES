@@ -40,6 +40,15 @@ void AttributeColoredState::DoAssign(const AttributeColoredState& rSrcAttr) {
   mColors=rSrcAttr.mColors;
 }
 
+// assignment
+void AttributeColoredState::DoMove(AttributeColoredState& rSrcAttr) { 
+  // call base (incl virtual clear)
+  AttributeFlags::DoAssign(rSrcAttr);
+  // no additional members
+  ColorSymTab(rSrcAttr.mpColorSymbolTable); 
+  mColors.Move(rSrcAttr.mColors);
+}
+
 bool AttributeColoredState::DoEqual(const AttributeColoredState& rOther) const {
   // call base
   if(!AttributeFlags::DoEqual(rOther)) return false;

@@ -58,6 +58,11 @@ AttributePGenGl::AttributePGenGl(void) : AttributeVoid() {
   mFairCons.Name("FairnessConstraints");
 }
   
+// copy construct  
+AttributePGenGl::AttributePGenGl(const AttributePGenGl& rSrcAttr) : AttributePGenGl() {
+  DoAssign(rSrcAttr);
+}
+  
 // token io
 void AttributePGenGl::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
   std::string label=rLabel;

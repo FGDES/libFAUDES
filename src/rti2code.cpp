@@ -34,18 +34,6 @@ using namespace faudes;
 
 void usage(const std::string& rMessage="") {
 
-    // testing
-  /*
-  TaNameSet< AttributeCFlags > al1;
-  TaNameSet< AttributeCFlags > al2;
-  al2.Insert("alpha");
-  al1=al2;
-  */
- NameSet al1;
- NameSet al2;
-  al2.Insert("alpha");
-  al1=al2;
-
   // UI hints
   if(rMessage!="") {
     std::cerr << rMessage << std::endl;

@@ -9,7 +9,7 @@ using namespace std;
 
 namespace faudes {
 
-  // my statics
+// my statics
 SymbolTable DiagLabelSet::msLabelSymbolTable;
 Idx DiagLabelSet::msLabelN = DiagLabelSet::msLabelSymbolTable.InsEntry("N");
 Idx DiagLabelSet::msLabelA = DiagLabelSet::msLabelSymbolTable.InsEntry("A");
@@ -21,7 +21,7 @@ FAUDES_TYPE_IMPLEMENTATION(Void,DiagLabelSet,AttributeFlags)
 
 
 // construct
-DiagLabelSet::DiagLabelSet(void) { 
+DiagLabelSet::DiagLabelSet(void) : AttributeFlags() { 
   // set my static table
   mDiagLabels.SymbolTablep(&msLabelSymbolTable);
   FD_DC("DiagLabelSet("<<this<<")::DiagLabelSet() with LabelSymbolTable "<< mDiagLabels.SymbolTablep());
@@ -32,7 +32,7 @@ DiagLabelSet::DiagLabelSet(void) {
 }
 
 // construct and set symbol table
-DiagLabelSet::DiagLabelSet(SymbolTable *pSymTab) {
+DiagLabelSet::DiagLabelSet(SymbolTable *pSymTab) : AttributeFlags() {
   // set specified table
   mDiagLabels.SymbolTablep(pSymTab);
   FD_DC("DiagLabelSet("<<this<<")::DiagLabelSet() with LabelSymbolTable "<< mDiagLabels.SymbolTablep()); 
@@ -42,11 +42,22 @@ DiagLabelSet::DiagLabelSet(SymbolTable *pSymTab) {
   mDiagLabels.ElementTag("Label");
 }
 
+// copy construct
+DiagLabelSet::DiagLabelSet(const DiagLabelSet& rSrcAttr) : DiagLabelSet() {
+  DoAssign(rSrcAttr);
+}
+
 
 // copy my members
 void DiagLabelSet::DoAssign(const DiagLabelSet& rSrcAttr) {
   AttributeFlags::DoAssign(rSrcAttr); 
   mDiagLabels=rSrcAttr.mDiagLabels; 
+}
+
+// copy my members
+void DiagLabelSet::DoMove(DiagLabelSet& rSrcAttr) {
+  AttributeFlags::DoAssign(rSrcAttr); 
+  mDiagLabels.Move(rSrcAttr.mDiagLabels); 
 }
 
 // equality 

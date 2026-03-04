@@ -97,6 +97,15 @@ void NameSet::DoAssign(const NameSet& rSourceSet) {
   TBaseSet<Idx>::DoAssign(rSourceSet);
 } 
 
+// copy (attributes to default)
+void NameSet::DoMove(NameSet& rSourceSet) {
+  FD_DF("NameSet(" << this << ")::DoMove(from " << &rSourceSet <<")");
+  // fix my symboltable
+  mpSymbolTable=rSourceSet.mpSymbolTable;
+  // call base 
+  TBaseSet<Idx>::DoMove(rSourceSet);
+} 
+
 // Compare
 bool NameSet::DoEqual(const NameSet& rOtherSet) const {
   FD_DC("NameSet::DoEqual()");

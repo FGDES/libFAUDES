@@ -33,6 +33,9 @@ public:
   /** Default constructor. */
   AttributeDiagnoserState(void);
   
+  /** Copy constructor. */
+  AttributeDiagnoserState(const AttributeDiagnoserState& rSrcAttr);
+  
   /** Destructor. */
   ~AttributeDiagnoserState(void);
 
@@ -119,6 +122,13 @@ public:
    *    Source to copy from
    */
   void DoAssign(const AttributeDiagnoserState& rSrc); 
+
+  /**
+   *  Move attribute members
+   *  @param rSrc 
+   *    Source to tahe from
+   */
+  void DoMove(AttributeDiagnoserState& rSrc); 
 
   /**
    *  Test equality

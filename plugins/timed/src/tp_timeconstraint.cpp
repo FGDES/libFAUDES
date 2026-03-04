@@ -27,6 +27,7 @@ namespace faudes {
 FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,ClockSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,ClockSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,ClockSet,NameSet)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,ClockSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,ClockSet,NameSet)
 
 // ClockSet(void);
@@ -64,6 +65,12 @@ void ClockSet::DoAssign(const ClockSet& rSourceSet) {
   NameSet::DoAssign(rSourceSet);
 }
 
+// DoAssign()
+void ClockSet::DoMove(ClockSet& rSourceSet) {
+  // call base
+  NameSet::DoMove(rSourceSet);
+}
+  
 // DoEqual()
 bool ClockSet::DoEqual(const ClockSet& rOtherSet) const {
   // call base

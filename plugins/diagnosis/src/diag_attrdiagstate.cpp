@@ -12,11 +12,19 @@ namespace faudes {
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeDiagnoserState,AttributeFlags)
 
 // consruct
-AttributeDiagnoserState::AttributeDiagnoserState(void) {
+AttributeDiagnoserState::AttributeDiagnoserState(void) : AttributeFlags() {
   // our map type is not in the registry, so we need to configure manually
   mDiagnoserStateMap.ElementTag("TargetState"); 
   mDiagnoserStateMap.Name("TargetStateEstimates"); 
   mDiagnoserStateMap.TypeName("TargetStateEstimates"); 
+}
+  
+// copy consruct
+  AttributeDiagnoserState::AttributeDiagnoserState(const AttributeDiagnoserState& rSrcAttr)
+    : AttributeDiagnoserState()
+{
+  AttributeFlags::DoAssign(rSrcAttr); 
+  mDiagnoserStateMap=rSrcAttr.mDiagnoserStateMap;
 }
   
 // destruct
@@ -27,6 +35,12 @@ AttributeDiagnoserState::~AttributeDiagnoserState(void) {}
 void AttributeDiagnoserState::DoAssign(const AttributeDiagnoserState& rSrcAttr) {
   AttributeFlags::DoAssign(rSrcAttr); 
   mDiagnoserStateMap=rSrcAttr.mDiagnoserStateMap;
+}
+
+// copy my members
+  void AttributeDiagnoserState::DoMove(AttributeDiagnoserState& rSrcAttr) {
+  AttributeFlags::DoAssign(rSrcAttr); 
+  mDiagnoserStateMap.Move(rSrcAttr.mDiagnoserStateMap);
 }
 
 // IsDefault()

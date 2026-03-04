@@ -47,14 +47,6 @@ AutoRegisterType<StateSet> gRtiStateSet("StateSet");
 // std faudes type 
 FAUDES_TYPE_IMPLEMENTATION(IndexSet,IndexSet,TBaseSet<Idx>)
 
-/*
-FAUDES_TYPE_IMPLEMENTATION_NEW(IndexSet,IndexSet,TBaseSet<Idx>)
-FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(IndexSet,IndexSet,TBaseSet<Idx>)
-FAUDES_TYPE_IMPLEMENTATION_CAST(IndexSet,IndexSet,TBaseSet<Idx>)
-FAUDES_TYPE_IMPLEMENTATION_ASSIGN(IndexSet,IndexSet,TBaseSet<Idx>)
-FAUDES_TYPE_IMPLEMENTATION_EQUAL(IndexSet,IndexSet,TBaseSet<Idx>)
-FAUDES_TYPE_IMPLEMENTATION_REGISTER(IndexSet,IndexSet,TBaseSet<Idx>)
-*/
 
 
 
@@ -90,9 +82,16 @@ IndexSet::IndexSet(const std::string& rFilename, const std::string& rLabel) :
 
 // assignment (attributes to default)
 void IndexSet::DoAssign(const IndexSet& rSourceSet) {
-  FD_DC("NameSet(" << this << ")::DoAssign(..)");
+  FD_DC("IndexSet(" << this << ")::DoAssign(..)");
   // call base 
   TBaseSet<Idx>::DoAssign(rSourceSet);
+} 
+
+// assignment (attributes to default)
+void IndexSet::DoMove(IndexSet& rSourceSet) {
+  FD_DF("IndexSet(" << this << ")::DoMove(..)");
+  // call base 
+  TBaseSet<Idx>::DoMove(rSourceSet);
 } 
 
 // DoWrite(rTw&)

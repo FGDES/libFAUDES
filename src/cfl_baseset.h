@@ -978,6 +978,9 @@ protected:
   /** assign my members */
   void DoAssign(const TBaseSet& rSourceSet);
 
+  /** assign my members */
+  void DoMove(TBaseSet& rSourceSet);
+
   /** test equality */
   bool DoEqual(const TBaseSet& rOtherSet) const;
 
@@ -1441,7 +1444,13 @@ TEMP void THIS::DoAssign(const THIS& rSourceSet) {
   FD_DC("TBaseSet(" << this << ")::DoAssign(rOtherSet " << &rSourceSet << "): fake copy -- done with attr# " << pAttributes->size());
 }
 
-// Detach()
+// fake copy
+TEMP void THIS::DoMove(THIS& rSourceSet) {
+  FD_DF("TBaseSet(" << this << ")::DoMove(void): fallback to DoAssign()");
+  DoAssign(rSourceSet);
+}
+
+ // Detach()
 TEMP void THIS::Detach(DetachMode flag) const {
   FD_DC("TBaseSet(" << this << ")::Detach(void)");
 #ifdef FAUDES_DEBUG_CODE

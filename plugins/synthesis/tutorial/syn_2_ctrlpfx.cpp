@@ -87,7 +87,7 @@ int main() {
 
   // take controllability prefix
   std::cout << "################################\n";
-  std::cout << "# computing controllability prefix\n"; 
+  std::cout << "# elevator computing controllability prefix\n"; 
   std::cout << "# state count: " << sup.Size() << std::endl;
   CtrlPfxOperator xcfxop_Y_X(sup,sigctrl);
   MuIteration xcfxop_Y_muX(xcfxop_Y_X);

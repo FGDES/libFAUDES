@@ -90,6 +90,7 @@ void ParallelLive(
   rResGen.StateNamesEnabled(rnames);
   // run parallel 
   for(GeneratorVector::Position i=1; i<rGenVec.Size(); i++) {
+    FD_DF("ParallelLive() cnt " << i << " current trans #" << rResGen.TransRel().Size());
     RemoveNonCoaccessibleOut(rResGen);
     FD_DF("ParallelLive() cnt " << i << " certconf trans #" << rResGen.TransRel().Size());
     ParallelLive(rResGen,rGenVec.At(i),rResGen);
@@ -322,7 +323,7 @@ void Parallel(
     gen1live=rGen1.CoaccessibleSet();
     gen2live=rGen2.CoaccessibleSet();
   }
-  
+
   // shared events
   EventSet sharedalphabet = rGen1.Alphabet() * rGen2.Alphabet();
   FD_DF("Parallel: shared events: " << sharedalphabet.ToString());
@@ -483,9 +484,10 @@ void Parallel(
 
   // copy result
   if(pResGen != &rResGen) {
-    rResGen = *pResGen;
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
+  
   // set statenames
   if(rGen1.StateNamesEnabled() && rGen2.StateNamesEnabled() && rResGen.StateNamesEnabled()) 
     SetComposedStateNames(rGen1, rGen2, rCompositionMap, rResGen); 

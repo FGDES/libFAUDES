@@ -995,6 +995,14 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
    */
   void DoAssign(const TTransSet& rSource);
 
+  /**
+   * Assign my members. 
+   *
+   * @param rSource 
+   *    Source to copy from
+   */
+  void DoMove(TTransSet& rSource);
+
   /** 
    * Write to TokenWriter, see Type::Write for public wrappers.
    *
@@ -1273,6 +1281,15 @@ public:
    */
   void DoAssign(const TaTransSet& rSource);
 
+  
+  /**
+   * Move my members. Maintain attributes.
+   *
+   * @param rSource 
+   *    Source to copy from
+   */
+  void DoMove(TaTransSet& rSource);
+
 };
 
 
@@ -1342,7 +1359,14 @@ THIS::TTransSet(const TTransSet<OtherCmp>& rOtherSet) :
 // assignment  (maintain attributes)
 TEMP void THIS::DoAssign(const TTransSet& rSourceSet) {
   FD_DC("TTransSet(" << this << ")::DoAssign(..)");
-  // call base (incl attributes if the have identival type)
+  // call base (incl attributes if they have identical type)
+  BASE::DoAssign(rSourceSet);
+} 
+
+// assignment  (maintain attributes)
+TEMP void THIS::DoMove(TTransSet& rSourceSet) {
+  FD_WARN("TTransSet(" << this << ")::DoMove(..): not implemented");
+  // call base (incl attributes if they have identical type)
   BASE::DoAssign(rSourceSet);
 } 
 
@@ -2081,6 +2105,13 @@ TEMP THIS::TaTransSet(const BASE& rOtherSet) :
 
 // copy to known same attributes
 TEMP void THIS::DoAssign(const THIS& rSourceSet) {  
+  // call base incl attributes
+  BASE::DoAssign(rSourceSet);
+}
+
+// move to known same attributes
+TEMP void THIS::DoMove(THIS& rSourceSet) {  
+  FD_WARN("TaTransSet(" << this << ")::DoMove(" << &rSourceSet<<"): fallback to DoAssign");
   // call base incl attributes
   BASE::DoAssign(rSourceSet);
 }
