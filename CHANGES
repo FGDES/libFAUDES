@@ -25,11 +25,12 @@ shared object libfaudes.so/dll will no longer include any Python bindings
 
 ***
 
-On the way of implementing copy/move/assign in a C++11 fashion. This suggested
-tje following refactoring
+On the way of implementing copy/move for faudes types in a C++11 fashion.
+This suggested the following refactoring
 
-"Copy()" becomes "NewCopy()"   (create copy on heap)
-"Move(other)" moves form other to this (reverse direction)
+"Copy()" becomes "NewCpy()"   (create copy on heap)
+"Move(to other)" becomes Move(from other) (reverse direction to match C++11 style))
+"Assign(from other)" becomes Copy(from other) (new name to match C++11 style))
 
 
 

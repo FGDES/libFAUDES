@@ -64,6 +64,11 @@ FAUDES_TYPE_DECLARATION(DeviceContainer,xDevice,vDevice)
   xDevice(void);
 
   /**
+   * Copy constructor
+   */
+  xDevice(const xDevice& rOther);
+
+  /**
    * Construct on heap from token reader.
    *
    * This constructor examines the token strean, determines the coressponding

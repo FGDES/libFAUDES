@@ -332,6 +332,14 @@ protected:
   void DoAssign(const AttributeSimCondition& rSrcAttr);
 
   /**
+   * Assignment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeSimCondition& rSrcAttr);
+
+  /**
    * Equality method. 
    *
    * @param rAttr
@@ -438,6 +446,15 @@ protected:
   */
  void DoAssign(const SimConditionSet& rSourceSet) {
    TaNameSet<AttributeSimCondition>::DoAssign(rSourceSet); };
+
+ /**
+  * Assign from other condition set. 
+  *
+  * @param rSourceSet
+  *   Destination to copy from
+  */
+ void DoMove(SimConditionSet& rSourceSet) {
+   TaNameSet<AttributeSimCondition>::DoMove(rSourceSet); };
 
 
  

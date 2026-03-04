@@ -76,6 +76,19 @@ xDevice::xDevice(void) : vDevice() {
 
 }
 
+
+//copy constructor
+xDevice::xDevice(const xDevice& rOther) : xDevice() {
+  /* my configuration */
+  Iterator dit;
+  for(dit=rOther.Begin();dit!=rOther.End();dit++){
+    mDevices.push_back((*dit)->NewCpy());
+  }
+  mDeviceNames = rOther.mDeviceNames;
+  /* compile */
+  DoCompile();  
+}
+
 // destructor
 xDevice::~xDevice(void) {
   FD_DHV("xDevice(" << mName << ")::~xDevice()");
@@ -196,7 +209,6 @@ void xDevice::Reset(void){
 // Clear(void)
 void xDevice::Clear(void){
   //clear static data
-
   FD_DHV("xDevice(" << mName << ")::Clear()");
   // Stop running devices
   Stop();

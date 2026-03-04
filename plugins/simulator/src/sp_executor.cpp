@@ -25,6 +25,13 @@ Executor::Executor(void) : TimedGenerator() {
   Compile();
 }
 
+// Executor(Executor)
+Executor::Executor(const Executor& rOther) : Executor() {
+  FD_DX("Executor(" << this << ")::Executor(other)");
+  DoAssign(rOther);
+  Compile();
+}
+
 // Exector(rGen)
 Executor::Executor(const TimedGenerator& rGen) : TimedGenerator() {
   FD_DX("Executor(" << this << ")::Executor(rGen)");
@@ -128,6 +135,14 @@ void Executor::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* p
 void Executor::DoAssign(const Executor& rSrc) {
   // call base
   TimedGenerator::DoAssign(rSrc);
+  // fix my data
+  Compile();
+}
+
+// DoMove
+void Executor::DoMove(Executor& rSrc) {
+  // call base
+  TimedGenerator::DoMove(rSrc);
   // fox my data
   Compile();
 }

@@ -67,6 +67,12 @@ void AttributeSimCondition::DoAssign(const AttributeSimCondition& rSrcAttr) {
   mSamplesDuration.Clear();
 }
 
+// Assign my members
+void AttributeSimCondition::DoMove(AttributeSimCondition& rSrcAttr) { 
+  // not supported
+  DoAssign(rSrcAttr);
+}
+
 
 // Test for equality
 bool AttributeSimCondition::DoEqual(const AttributeSimCondition& rAttr) const { 
@@ -279,6 +285,7 @@ implementation of condition set
 FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 
 

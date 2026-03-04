@@ -95,6 +95,11 @@ void AttributeDeviceEvent::DoAssign(const AttributeDeviceEvent& rSrcAttr) {
   if(rSrcAttr.IsOutput()) Output(*rSrcAttr.Outputp());
 }
 
+// Assignement
+void AttributeDeviceEvent::DoMove(AttributeDeviceEvent& rSrcAttr) {
+ // not supported
+ DoAssign(rSrcAttr);
+}
 
 
 // DoWrite(rTw,rLabel,pContext)

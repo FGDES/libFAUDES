@@ -48,6 +48,14 @@ void ParallelExecutor::DoAssign(const ParallelExecutor& rOther) {
   Compile();
 }
 
+// DoMove(other)
+void ParallelExecutor::DoMove(ParallelExecutor& rOther) {
+  FD_DX("ParallelExecutor(" << this << ")::DoMove(other)");
+  mExecutors=std::move(rOther.mExecutors);
+  mExecutorNames=std::move(rOther.mExecutorNames);
+  Compile();
+}
+
 //UpdateParallelTimedState()
 void ParallelExecutor::UpdateParallelTimedState(void) {
   mCurrentParallelTimedState.State.clear();

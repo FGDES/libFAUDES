@@ -69,7 +69,7 @@ class FAUDES_API AttributeDeviceEvent : public AttributeVoid {
 
   FAUDES_TYPE_DECLARATION(Void,AttributeDeviceEvent,AttributeVoid)
 
-    public:
+public:
 
   /** Default constructor (no attributes, aka undefined) */
 
@@ -160,6 +160,14 @@ protected:
    *   Source to copy from
    */
   void DoAssign(const AttributeDeviceEvent& rSrcAttr);
+
+  /**
+   * Assignment 
+   *
+   * @param rSrcAttr
+   *   Source to copy from
+   */
+  void DoMove(AttributeDeviceEvent& rSrcAttr);
 
 
   /**
@@ -271,6 +279,12 @@ class FAUDES_API vDevice : public Type {
    * Default constructor
    */
   vDevice(void);
+
+  /**
+   * Factories
+   */
+  virtual vDevice* New(void) = 0;
+  virtual vDevice* NewCpy(void) = 0;
 
   /**
    * Construct on heap from token reader.

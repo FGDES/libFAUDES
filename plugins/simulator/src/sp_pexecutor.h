@@ -546,6 +546,14 @@ protected:
    */
   void DoAssign(const ParallelExecutor& rSrc);
 
+  /**
+   * Assignment method
+   *
+   * @param rSrc
+   *    Source to assign from
+   */
+  void DoMove(ParallelExecutor& rSrc);
+
   /** compile internal data (eg overall alphabet) */
   virtual void Compile();
 
