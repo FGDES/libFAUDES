@@ -2,7 +2,15 @@
 
 # netcat or nc executable
 NETCAT=netcat
+if [[ ! $(which $NETCAT) ]] ; then
+ NETCAT=nc ;
+fi
+if [[ ! $(which $NETCAT) ]] ; then
+  echo netcat not found
+  return
+fi
 
+     
 # faudes simulator executable
 SIMFAUDES=../../../bin/simfaudes
 
@@ -20,6 +28,8 @@ echo enabled to inspect network connection interna.
 echo
 echo To stop the simulation, cancel this script via ctrl-C,
 echo and close the xterm windows
+echo
+echo [using  $NETCAT]
 echo
 echo Press Return to continue
 read

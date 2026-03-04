@@ -279,6 +279,11 @@ nDevice::nDevice(void) : vDevice() {
   mBroadcastSocket=-1;
 }
 
+// copy construct
+nDevice::nDevice(const nDevice& rOther) : nDevice() {
+
+}
+  
 // destructor
 nDevice::~nDevice(void) {
   FD_DHV("nDevice(" << this << ")::~nDevice()");
@@ -288,10 +293,30 @@ nDevice::~nDevice(void) {
   faudes_mutex_destroy(&mMutex);
 }
 
+// assign configuration
+void nDevice::DoAssign(const nDevice& rOther) {
+  FD_DHV("nDevice(" << this << ")::DoAssign()");
+  // call base, incl stop
+  vDevice::Clear();
+  // copy my config data members
+  *pConfiguration= *(rOther.pConfiguration);
+  mNetwork = rOther.mNetwork;
+  mListenAddress = rOther.mListenAddress;
+  mBroadcastAddress = rOther.mBroadcastAddress;;
+  mEffectiveListenAddress = rOther.mEffectiveListenAddress;
+  // compiled data
+  Compile();
+}
+
+// assign configuration
+void nDevice::DoMove(nDevice& rOther) {
+  DoAssign(rOther);
+}
+  
 // clear all configuration
 void nDevice::Clear(void) {
   FD_DHV("nDevice(" << this << ")::Clear()");
-  // call base, incl stop
+  // call base, incl virtial Stop and Reset
   vDevice::Clear();
   // clear compiled data
   mInputSubscriptions.clear();

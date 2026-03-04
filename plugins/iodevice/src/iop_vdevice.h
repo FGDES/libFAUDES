@@ -281,10 +281,10 @@ class FAUDES_API vDevice : public Type {
   vDevice(void);
 
   /**
-   * Factories
+   * Factorie methods
    */
-  virtual vDevice* New(void) = 0;
-  virtual vDevice* NewCpy(void) = 0;
+  virtual vDevice* New(void) const = 0;
+  virtual vDevice* NewCpy(void) const = 0;
 
   /**
    * Construct on heap from token reader.

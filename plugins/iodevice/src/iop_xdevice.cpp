@@ -86,7 +86,7 @@ xDevice::xDevice(const xDevice& rOther) : xDevice() {
   }
   mDeviceNames = rOther.mDeviceNames;
   /* compile */
-  DoCompile();  
+  Compile();  
 }
 
 // destructor
