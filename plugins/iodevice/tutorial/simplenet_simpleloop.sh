@@ -21,7 +21,7 @@ xterm -T "Demo: Simplemachine Plant Model" -e $SIMFAUDES -d data/machine_simplen
 
 echo 2. Wait to make sure the plant is ready
 
-sleep 5
+sleep 10
 
 echo 3. Start the supervisor on a separate xterm
 

@@ -9,7 +9,6 @@ if [[ ! $(which $NETCAT) ]] ; then
   echo netcat not found
   return
 fi
-
      
 # faudes simulator executable
 SIMFAUDES=../../../bin/simfaudes
@@ -45,7 +44,7 @@ xterm -T "Demo: Kbd Input Event Server" -e $NETCAT -l -p 40001 &
 
 echo 3. Advertise my input event server 
 
-( sleep 10 ; echo "<Advert> \"simpleloop\" \"simplesupervisor\" \"localhost:40001\"  </Advert>" | $NETCAT -u localhost 40000 ; ) &
+( sleep 10 ; echo "<Advert> \"SimpleLoop\" \"SimpleSupervisor\" \"localhost:40001\"  </Advert>" | $NETCAT -u localhost 35000 ; echo Simplenet_Test.sh: Advert sent; ) &
 
 echo 4. Start simulation
 $SIMFAUDES -d data/machine_simplenet.dev data/machine.sim   
