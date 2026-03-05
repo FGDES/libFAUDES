@@ -8,8 +8,9 @@ from datetime import datetime
 srcfiles = [str(cppfile) for cppfile in Path("src/").glob("**/*.cpp")]
 
 # rtiloader/rtiwrapper are formally not sources
-srcfiles.remove("src/rtiloader.cpp")
-srcfiles.remove("src/rtiwrapper.cpp")
+srcfiles = [file for file in srcfiles if "rtiwrapper" not in file]
+srcfiles = [file for file in srcfiles if "rtiloader" not in file]
+
 
 # figure platform
 platform = sysconfig.get_platform()
