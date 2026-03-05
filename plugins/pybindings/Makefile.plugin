@@ -175,27 +175,26 @@ $(PBP_OBJDIR)/configuration.json:
 
 # project tree files
 PBP_PROJ_CINC =  $(HEADERS:%=$(INCLUDEDIR)/%) $(CFGHEADERS)
-PBP_PROJ_CINC += $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
+#PBP_PROJ_CINC += $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
 PBP_PROJ_CINC += $(PBP_HEADERS:%=$(PBP_SRCDIR)/%)
 ifeq (omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
-PBP_PROJ_CINC += plugins/omegaaut/lib/cpphoafparser
+#PBP_PROJ_CINC += plugins/omegaaut/lib/cpphoafparser
 endif
 PBP_PROJ_CSRC =  $(SOURCES)
 PBP_PROJ_CSRC += $(PBP_SOURCES) $(PBP_OBJDIR)/pywrapper.cpp
-PBP_PROJ_CSRC += $(INCLUDEDIR)/rtiloader.cpp $(INCLUDEDIR)/rtiwrapper.cpp
+#PBP_PROJ_CSRC += $(INCLUDEDIR)/rtiloader.cpp $(INCLUDEDIR)/rtiwrapper.cpp
 PBP_PROJ_DATA =  $(PBP_OBJDIR)/faudes.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/pyproject.toml $(PBP_SRCDIR)/setup.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/MANIFEST.in $(PBP_BASE)/README.md LICENSE
 
 # populate project
-$(PBP_PROJ): $(PBP_PROJ_HEADERS) $(PBP_PROJ_CSRC) $(PBP_PROJ_DATA) VERSION 
+$(PBP_PROJ): | $(PBP_PROJ_DATA) VERSION $(PBP_PROJ_CINC) $(PBP_PROJ_CSRC) 
 	- rm -rf $(PBP_PROJ)
 	mkdir $(PBP_PROJ)
 	cp  $(PBP_PROJ_DATA) $(PBP_PROJ)  
 	mkdir $(PBP_PROJ)/src
 	cp  $(PBP_PROJ_CSRC) $(PBP_PROJ)/src  
 	cp  -R $(PBP_PROJ_CINC) $(PBP_PROJ)/src
-	cp  $(PBP_PROJ_DATA) $(PBP_PROJ)
 	#$(PYTHON) $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION) > $(PBP_PROJ)/VERSION 
 	perl $(PBP_SRCDIR)/fixversion.pl $(FAUDES_VERSION) > $(PBP_PROJ)/VERSION 
 
