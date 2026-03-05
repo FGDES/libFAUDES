@@ -175,14 +175,14 @@ $(PBP_OBJDIR)/configuration.json:
 
 # project tree files
 PBP_PROJ_CINC =  $(HEADERS:%=$(INCLUDEDIR)/%) $(CFGHEADERS)
-#PBP_PROJ_CINC += $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
+PBP_PROJ_CINC += $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
 PBP_PROJ_CINC += $(PBP_HEADERS:%=$(PBP_SRCDIR)/%)
 ifeq (omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
-#PBP_PROJ_CINC += plugins/omegaaut/lib/cpphoafparser
+PBP_PROJ_CINC += plugins/omegaaut/lib/cpphoafparser
 endif
 PBP_PROJ_CSRC =  $(SOURCES)
 PBP_PROJ_CSRC += $(PBP_SOURCES) $(PBP_OBJDIR)/pywrapper.cpp
-#PBP_PROJ_CSRC += $(INCLUDEDIR)/rtiloader.cpp $(INCLUDEDIR)/rtiwrapper.cpp
+PBP_PROJ_CSRC += $(INCLUDEDIR)/rtiloader.cpp $(INCLUDEDIR)/rtiwrapper.cpp
 PBP_PROJ_DATA =  $(PBP_OBJDIR)/faudes.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/pyproject.toml $(PBP_SRCDIR)/setup.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/MANIFEST.in $(PBP_BASE)/README.md LICENSE
@@ -230,7 +230,7 @@ VPATH   += $(PBP_SRCDIR)
 HEADERS += pbp_dummy.h
 CLEANFILES += $(PBP_OBJECTS) $(PBP_OBJDIR)/*$(DOT_O) 
 CONFIGURETARGETS += pybindings-configure pybindings-report $(PBP_PROJ)
-DISTCLEANFILES += faudes-*.whl $(PBP_OBJDIR)/*
+DISTCLEANFILES += faudes-*.whl $(PBP_OBJDIR)/* $(PBP_PROJ)
 DEFAULTTARGETS += pybindings-dso
 #
 # include tutorial

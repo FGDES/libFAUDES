@@ -65,7 +65,7 @@ INCLUDES+=-I$(call FNCT_FIXDIRSEP,$(OMG_BASE)/lib)
 # have rule to unzip cpphoafparser
 
 OMG_CPPHOAF_SRC=cpphoafparser-0.99.2
-$(OMG_BASE)/lib/cpphoafparser: $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC).tgz
+$(OMG_BASE)/lib/cpphoafparser: | $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC).tgz
 	- rm -rf $(OMG_BASE)/lib/$(OMG_CPPHOAF_SRC)
 	- rm -rf $(OMG_BASE)/lib/cpphoafparser
 	cd $(OMG_BASE)/lib ; tar -xzf $(OMG_CPPHOAF_SRC).tgz
