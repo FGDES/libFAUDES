@@ -39,6 +39,7 @@ plugins/iodevice/libwpc/bin/*
 
 # ignore dist packages
 libfaudes-2*
+faudes-*.whl
 
 # local archive
 local

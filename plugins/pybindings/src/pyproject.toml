@@ -28,6 +28,9 @@ Homepage = "https://fgdes.tf.fau.de/faudes"
 file = "README.md"
 content-type = "text/markdown"
 
+[project.optional-dependencies]
+test = ["pytest"]
+
 [build-system]
 requires = ["setuptools>=80"]
 build-backend = "setuptools.build_meta"
@@ -39,8 +42,5 @@ version = {file = ["VERSION"]}
 before-all = "uname -a"
 archs = ["auto"]
 build = "cp3*"
-build-frontend = "build"
-
-
-
+test-command = "pytest {package}/tests"
 

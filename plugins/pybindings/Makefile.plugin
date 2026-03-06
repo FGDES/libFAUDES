@@ -200,9 +200,9 @@ $(PBP_PROJ): | $(PBP_PROJ_DATA) VERSION $(PBP_PROJ_CINC) $(PBP_PROJ_CSRC)
 	perl $(PBP_SRCDIR)/fixversion.pl $(FAUDES_VERSION) > $(PBP_PROJ)/VERSION 
 	mkdir $(PBP_PROJ)/tests
 	mkdir $(PBP_PROJ)/tests/data
-	cp PBP_PROJ_TESTS $(PBP_PROJ)/tests
+	cp $(PBP_PROJ_TESTS) $(PBP_PROJ)/tests
 	cp $(PBP_BASE)/tutorial/*.py $(PBP_PROJ)/tests
-	cp $(PBP_BASE)/tutorial/data $(PBP_PROJ)/tests/data
+	cp $(PBP_BASE)/tutorial/data/* $(PBP_PROJ)/tests/data
 
 
 pybindings-wheel: $(PBP_PROJ)
@@ -236,7 +236,7 @@ VPATH   += $(PBP_SRCDIR)
 HEADERS += pbp_dummy.h
 CLEANFILES += $(PBP_OBJECTS) $(PBP_OBJDIR)/*$(DOT_O) 
 CONFIGURETARGETS += pybindings-configure pybindings-report $(PBP_PROJ)
-DISTCLEANFILES += faudes-*.whl $(PBP_OBJDIR)/* $(PBP_PROJ)
+DISTCLEANFILES += $(PBP_OBJDIR)/* $(PBP_PROJ)
 DEFAULTTARGETS += pybindings-dso
 #
 # include tutorial

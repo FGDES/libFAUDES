@@ -12,3 +12,5 @@ wago/kbusDemo
 wago/libuio.a
 wago/libkbus.a
 wago/wago_ipc_*
+libfaudes-2*
+faudes-*.whl 

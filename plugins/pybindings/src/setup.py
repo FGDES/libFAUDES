@@ -41,5 +41,5 @@ ext = Extension(
 setup(
   name="faudes",
   ext_modules=[ext],
-  py_modules=["faudes"]
+  py_modules=["faudes"],
 )
