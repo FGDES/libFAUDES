@@ -39,7 +39,6 @@ build-backend = "setuptools.build_meta"
 version = {file = ["VERSION"]}
 
 [tool.cibuildwheel]
-before-all = "uname -a"
 archs = ["auto"]
 build = "cp3*"
 test-command = "pytest {package}/tests"
