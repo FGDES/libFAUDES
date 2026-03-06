@@ -1,5 +1,7 @@
 include src/*.h
 include src/*.cpp
 graft src/cpphoafparser
+graft tests
 include VERSION
 include LICENSE
+include README.md

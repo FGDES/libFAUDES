@@ -186,6 +186,7 @@ PBP_PROJ_CSRC += $(INCLUDEDIR)/rtiloader.cpp $(INCLUDEDIR)/rtiwrapper.cpp
 PBP_PROJ_DATA =  $(PBP_OBJDIR)/faudes.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/pyproject.toml $(PBP_SRCDIR)/setup.py
 PBP_PROJ_DATA += $(PBP_SRCDIR)/MANIFEST.in $(PBP_BASE)/README.md LICENSE
+PBP_PROJ_TESTS = $(PBP_SRCDIR)/test_all.py
 
 # populate project
 $(PBP_PROJ): | $(PBP_PROJ_DATA) VERSION $(PBP_PROJ_CINC) $(PBP_PROJ_CSRC) 
@@ -197,6 +198,11 @@ $(PBP_PROJ): | $(PBP_PROJ_DATA) VERSION $(PBP_PROJ_CINC) $(PBP_PROJ_CSRC)
 	cp  -R $(PBP_PROJ_CINC) $(PBP_PROJ)/src
 	#$(PYTHON) $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION) > $(PBP_PROJ)/VERSION 
 	perl $(PBP_SRCDIR)/fixversion.pl $(FAUDES_VERSION) > $(PBP_PROJ)/VERSION 
+	mkdir $(PBP_PROJ)/tests
+	mkdir $(PBP_PROJ)/tests/data
+	cp PBP_PROJ_TESTS $(PBP_PROJ)/tests
+	cp $(PBP_BASE)/tutorial/*.py $(PBP_PROJ)/tests
+	cp $(PBP_BASE)/tutorial/data $(PBP_PROJ)/tests/data
 
 
 pybindings-wheel: $(PBP_PROJ)

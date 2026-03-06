@@ -139,14 +139,6 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
 
 
     /**
-     * Construct on stack
-     *
-     * @return 
-     *   new Generator 
-     */
-     TcGenerator NewCGen(void) const;
-
-    /**
      * Copyment operator (uses Copy)
      *
      * Note: you must reimplement this operator in derived 
@@ -856,16 +848,6 @@ TEMP THIS* THIS::NewCpy(void) const {
   // done
   return res;
 }
-
-/* legacy
-// NewCGen
-TEMP THIS THIS::NewCGen(void) const {
-  // call base (fixes by assignment constructor)
-  THIS res= BASE::NewAGen();
-  return res;
-}
-*/
-
 
 
 

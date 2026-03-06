@@ -171,16 +171,6 @@ class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventA
 
 
    /**
-    * Construct on stack.
-    * Constructs a TtGenerator on stack with the same attribute types and the same event- and clock-symboltable.
-    *
-    * @return 
-    *   new Generator 
-    */
-    TtGenerator NewTGen(void) const;
-
-
-   /**
     * Get Pointer to mpClockSymbolTable.
     *
     * @return Pointer mpClockSymbolTable
@@ -854,14 +844,6 @@ TEMP THIS* THIS::NewCpy(void) const {
   return res;
 }
 
-// NewTGen
-TEMP THIS THIS::NewTGen(void) const {
-  // call base (fixes by assignment constructor)
-  THIS res= BASE::NewCGen();
-  // fix my data
-  res.ClockSymbolTablep(ClockSymbolTablep());
-  return res;
-}
 
 // ClockSize() const
 TEMP Idx THIS::ClocksSize(void) const {
