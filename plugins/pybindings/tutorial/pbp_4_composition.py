@@ -39,7 +39,7 @@ faudes.Parallel(machine1,machine2,machines)
 machines.Write()
 
 ## Record test case
-FAUDES_TEST_DUMP("parallel",machines)
+faudes.TestDump("parallel",machines)
 
 ## ##########################################
 ## Std parallel with attributes
@@ -57,7 +57,7 @@ faudes.Parallel(machine1,machine2,cmachines)
 cmachines.Write()
 
 ## Record test case
-FAUDES_TEST_DUMP("parallel incl. attr.",cmachines)
+faudes.TestDump("parallel incl. attr.",cmachines)
 
 ## ##########################################
 ## Std parallel with composition map 
@@ -83,9 +83,9 @@ print("Composed state 3 corresponds to machine1 state",s1_3)
 print("Composed state 3 corresponds to machine2 state",s2_3)
 
 ## Record test case
-FAUDES_TEST_DUMP("parallel incl. comp. map a", sc_21)
-FAUDES_TEST_DUMP("parallel incl. comp. map b", s1_3)
-FAUDES_TEST_DUMP("parallel incl. comp. map c", s2_3)
+faudes.TestDump("parallel incl. comp. map a", sc_21)
+faudes.TestDump("parallel incl. comp. map b", s1_3)
+faudes.TestDump("parallel incl. comp. map c", s2_3)
 
 ## ##########################################
 ## Std parallel, funny cases
@@ -106,7 +106,7 @@ faudes.Parallel(machine1,machine2,machines)
 machines.Write()
 
 ## Record test case
-FAUDES_TEST_DUMP("parallel empty alphabet a",machines)
+faudes.TestDump("parallel empty alphabet a",machines)
 
 ## Intentionally break machine1 even worse
 machine1.ClearMarkedStates();
@@ -119,5 +119,9 @@ faudes.Parallel(machine1,machine2,machines)
 machines.Write()
 
 ## Record test case
-FAUDES_TEST_DUMP("parallel empty alphabet b",machines)
+faudes.TestDump("parallel empty alphabet b",machines)
+
+## validate test case
+faudes.TestDiff()
+
 

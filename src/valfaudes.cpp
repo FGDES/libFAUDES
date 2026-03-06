@@ -66,6 +66,7 @@ std::string mPyFile;
 std::string mTmpProtFile;
 std::string mTmpDir;
 std::string mPython="";
+std::string mPythonPath="";
 
 // helper: exe suffix
 #ifdef FAUDES_POSIX
@@ -176,31 +177,56 @@ bool findlua(void) {
 
 // helper: find python (true <> success)
 bool findpython(void) {
+  bool res=false;
 #ifdef FAUDES_POSIX
   if(runshell("python3 --version")==0) {
     mPython="python3";
-    return true;
-  }
-  if(runshell("python --version")==0) {
-    mPython="python";
-    return true;
+    res=true;
+  } else {
+    if(runshell("python --version")==0) {
+      mPython="python";
+      res=true;
+    }
   }
 #endif
 #ifdef FAUDES_WINDOWS
   if(runshell("python3 --version")==0) {
     mPython="python3";
-    return true;
-  }
-  if(runshell("py.exe --version")==0) {
-    mPython="py.exe";
-    return true;
+    res=true;
+  } else {
+    if(runshell("py.exe --version")==0) {
+      mPython="py.exe";
+      res=true;
+    }
   }
 #endif
+  // we are lost
+  if(!res) {
+    if(!mOptQ) {
+      std::cout << "valfaudes: could not find python" <<std::endl;
+    }
+    return false;
+  }
+  // test for faudes module
+  if(FileExists("faudes.py")) {
+    if(!mOptQ) {
+      std::cout << "valfaudes: using faudes module in current directory" <<std::endl;
+    }
+    return true;
+  }
+  // test for faudes module
+  if(FileExists("../../pybindings/obj/faudes.py")) {
+    if(!mOptQ) {
+      std::cout << "valfaudes: using faudes module from pybindings plug-in" <<std::endl;
+    }
+    mPythonPath="../../pybindings/obj";
+    return true;
+  }
   // were lost
   if(!mOptQ) {
-    std::cout << "valfaudes: could not find python" <<std::endl;
+    std::cout << "valfaudes: failed to locate faudes module" <<std::endl;
   }
-  return false;
+  return false;  
 }
 
 
@@ -374,7 +400,17 @@ int main(int argc, char *argv[]) {
     if(!findpython()) {
       usage("could not find python");
     }
-    testok=runsexec(mPython,mPyFile);
+    if(mPythonPath=="") {
+      testok=runsexec(mPython,mPyFile);
+    } else {
+      std::string args= "-c ";
+      args += "\"";
+      args += "import sys; sys.path.append('" + mPythonPath +"'); ";
+      args += "import faudes; faudes.FAUDES_TEST_NAME='" + mPyFile +"'; ";
+      args += " exec(open('" + mPyFile + "').read()); ";
+      args += "\"";
+      testok=runsexec(mPython,args);
+    }
 #endif    
   }
 

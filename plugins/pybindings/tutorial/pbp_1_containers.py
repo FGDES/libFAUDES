@@ -53,10 +53,10 @@ print(i3set)
 print(isetR)
 
 ## Record test case
-FAUDES_TEST_DUMP("iset orig",iset)
-FAUDES_TEST_DUMP("iset ref",isetR)
-FAUDES_TEST_DUMP("iset copy 2",i2set)
-FAUDES_TEST_DUMP("iset copy 3",i3set)
+faudes.TestDump("iset orig",iset)
+faudes.TestDump("iset ref",isetR)
+faudes.TestDump("iset copy 2",i2set)
+faudes.TestDump("iset copy 3",i3set)
 
 
 ## ##########################################
@@ -233,13 +233,13 @@ print("AlphabetDifference(...) maintains attributes");
 print(difference)
 
 ## Record test case
-FAUDES_TEST_DUMP("union with attrib.",union)
-FAUDES_TEST_DUMP("intersection with attrib.",intersection)
-FAUDES_TEST_DUMP("difference with attrib.",difference)
-FAUDES_TEST_DUMP("inclusion with attrib.",sle1)
-FAUDES_TEST_DUMP("equality with attrib.",seq1)
-FAUDES_TEST_DUMP("inclusion with attrib.",sle2)
-FAUDES_TEST_DUMP("equality with attrib.",seq2)
+faudes.TestDump("union with attrib.",union)
+faudes.TestDump("intersection with attrib.",intersection)
+faudes.TestDump("difference with attrib.",difference)
+faudes.TestDump("inclusion with attrib.",sle1)
+faudes.TestDump("equality with attrib.",seq1)
+faudes.TestDump("inclusion with attrib.",sle2)
+faudes.TestDump("equality with attrib.",seq2)
 
 ## ##########################################
 ## Transitions relations
@@ -324,7 +324,7 @@ avec.Size(8)
 avec.Write()
 
 ## Record test case
-FAUDES_TEST_DUMP("vect test",avec)
+faudes.TestDump("vect test",avec)
 
 ## Validate
-FAUDES_TEST_DIFF()
+faudes.TestDiff()

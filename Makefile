@@ -1701,17 +1701,11 @@ report-stats:
 	$(ECHO) "libFAUDES-make: statistics" 
 	$(ECHO) " ============================== "
 
-report-test:
-	$(ECHO) "platform  $(FAUDES_PLATFORM)"
-	$(ECHO) "plug-ins  $(FAUDES_PLUGINS)"
-	$(ECHO) "options   $(FAUDES_OPTIONS)"
-	$(ECHO) "debug     $(FAUDES_DEBUG)"
-	$(ECHO) "targets   $(DEFAULTTARGETS)"
+export PYTHONPATH="$(shell pwd)/plugins/pybindings/obj"
 
-report-other:
-	$(ECHO) "headers  $(HEADERS)"
-	$(ECHO) "sources  $(SOURCES)"
-
+testenv:
+	echo $(PYTHONPATH)
+	python3 -c "import faudes; print('ok')"
 
 ### all phony targets
 .PHONY : doc rti clean dist-clean package configure configts
