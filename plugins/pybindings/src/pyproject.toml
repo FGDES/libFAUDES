@@ -41,5 +41,6 @@ version = {file = ["VERSION"]}
 [tool.cibuildwheel]
 archs = ["auto"]
 build = "cp3*"
+skip = "cp3??t-*"
 test-command = "pytest {package}/tests"
 test-requires = "pytest"

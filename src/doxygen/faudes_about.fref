@@ -121,7 +121,7 @@ as a masters project
 <a href="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/archive/thesis_opitz.pdf">[thesis]</a>, and since then was extended by numerous plug-ins, including external contributions.
 </p>
 <p>
-As of September 2025, the following people have contributed 
+As of March 2026, the following people have contributed 
 to the development of the core library and its plug-ins:
 </p>
 
@@ -138,7 +138,7 @@ for contact write to
 <p>
 Copyright (C) 2006 Bernd Opitz<br/>
 Copyright (C) 2008 - 2010 Thomas Moor, Klaus Schmidt, Sebastian Perk<br/>
-Copyright (C) 2011 - 2025 Thomas Moor, Klaus Schmidt<br/>
+Copyright (C) 2011 - 2026 Thomas Moor, Klaus Schmidt<br/>
 </p>
 
 
@@ -146,13 +146,11 @@ Copyright (C) 2011 - 2025 Thomas Moor, Klaus Schmidt<br/>
 
 <p>
   <table class="vtop" width="100%"  border="0">
-  <!--  we are not quite there yet	
   <tr>
-    <td>10.09.2025</td>
-    <td>libFAUDES 2.34a</td>
+    <td>01.03.2026</td>
+    <td>libFAUDES 2.34c</td>
     <td>omega-automata plug-in</td>
   </tr>
-  -->
   <tr>
     <td>01.05.2025</td>
     <td>libFAUDES 2.33a</td>
