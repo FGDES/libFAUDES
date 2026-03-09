@@ -9,7 +9,7 @@
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="OmegaAut::RabinAutomaton" ctype="faudes::RabinAutomaton" autoregister="true"> 
+<TypeDefinition name="OmegaAut::RabinAutomaton" ctype="faudes::RabinAutomaton"> 
 
 <Documentation ref="omegaaut_index.html#RabinAutomaton"> 
 Automaton model RA=(Sigma,Q,delta,Qo,{(R_p,I_p)}).
@@ -862,30 +862,3 @@ OmegaAut    "pseudo-determinization"    "Rabin automata"    determinization    "
 </FunctionDefinition> 
 
 
-<!-- =================================================== -->
-<!-- =================================================== -->
-<!-- Faudes Function RabinCtrlPartialObs (System version) -->
-<!-- =================================================== -->
-<!-- =================================================== -->
-
-<FunctionDefinition name="OmegaAut::RabinCtrlPartialObsSys" ctype="faudes::RabinCtrlPartialObs"> 
-
-<Documentation ref="omegaaut_rabinctrlpartialobs.html#RabinCtrlPartialObs"> 
-Rabin control synthesis under partial observation using System interface.
-</Documentation> 
-<Keywords> 
-OmegaAut    "control synthesis"    "partial observation"    "Rabin automata"    System    controllability    "omega languages"        
-</Keywords> 
-
-<VariantSignatures> 
-<Signature name="RabinCtrlPartialObs(SysPlant,GSpec,GSupervisor)"> 
-<Parameter name="SysPlant" ftype="System" access="In"/> 
-<Parameter name="GSpec" ftype="RabinAutomaton" access="In"/> 
-<Parameter name="GSupervisor" ftype="RabinAutomaton" access="Out"/> 
-</Signature> 
-</VariantSignatures> 
-
-</FunctionDefinition> 
-
-
-</Registry>

@@ -20,7 +20,7 @@ deter_nondet.Write();
 deter_det.Write();
 
 ## Record test case
-FAUDES_TEST_DUMP("deterministic",deter_det)
+faudes.TestDump("deterministic",deter_det)
 
 ## ##########################################
 ## State Minimisation
@@ -39,7 +39,7 @@ minimal_nonmin.Write();
 minimal_min.Write();
 
 ## Record test case
-FAUDES_TEST_DUMP("statemin",minimal_min)
+faudes.TestDump("statemin",minimal_min)
 
 ## ##########################################
 ## Natural Projection
@@ -63,7 +63,7 @@ alph_proj.Write();
 project_prog.Write();
 
 ## Record test case
-FAUDES_TEST_DUMP("project",project_prog)
+faudes.TestDump("project",project_prog)
 
 ## ##########################################
 ## Boolean Operations
@@ -100,10 +100,10 @@ boolean_complement_g1.Write("tmp_complement_g1.gen");
 boolean_complement2_g1.Write("tmp_complement2_g1.gen");
 
 ## Record test case
-FAUDES_TEST_DUMP("lang. union",boolean_union)
-FAUDES_TEST_DUMP("lang. intersection",boolean_intersection)
-FAUDES_TEST_DUMP("lang. complement",boolean_complement_g1)
-FAUDES_TEST_DUMP("lang. complement2",boolean_complement2_g1)
+faudes.TestDump("lang. union",boolean_union)
+faudes.TestDump("lang. intersection",boolean_intersection)
+faudes.TestDump("lang. complement",boolean_complement_g1)
+faudes.TestDump("lang. complement2",boolean_complement2_g1)
 
 ## Inspect on console
 
@@ -132,9 +132,9 @@ else:
 
 ## Record test case
 
-FAUDES_TEST_DUMP("lang. inclusion",faudes.LanguageInclusion(boolean_g1,boolean_union))
-FAUDES_TEST_DUMP("lang. disjoint",faudes.LanguageDisjoint(boolean_complement_g1,boolean_g1))
-FAUDES_TEST_DUMP("lang. equality",faudes.LanguageEquality(boolean_g1,boolean_complement2_g1))
+faudes.TestDump("lang. inclusion",faudes.LanguageInclusion(boolean_g1,boolean_union))
+faudes.TestDump("lang. disjoint",faudes.LanguageDisjoint(boolean_complement_g1,boolean_g1))
+faudes.TestDump("lang. equality",faudes.LanguageEquality(boolean_g1,boolean_complement2_g1))
 
 
 ## ##########################################
@@ -184,8 +184,11 @@ else:
 
 
 ## Record test case
-FAUDES_TEST_DUMP("lang. concat",concat_k_l_star_1)
-FAUDES_TEST_DUMP("lang. concat",concat_k_l_star_2)
-FAUDES_TEST_DUMP("lang. concat",concat_ok)
+faudes.TestDump("lang. concat",concat_k_l_star_1)
+faudes.TestDump("lang. concat",concat_k_l_star_2)
+faudes.TestDump("lang. concat",concat_ok)
+
+## validate test case
+faudes.TestDiff()
 
 

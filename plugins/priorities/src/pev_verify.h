@@ -19,6 +19,7 @@ public:
         FAUDES_TYPE_DECLARATION(Void,StateRef,AttribiteVoid)
     public:
         StateRef(void) : AttributeVoid() {}
+        StateRef(const StateRef& rSrcAttr) : AttributeVoid() {mref=rSrcAttr.mref;}
         virtual ~StateRef(void) {}
 
         // find state idx set begin via candidate

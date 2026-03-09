@@ -32,12 +32,21 @@ namespace faudes {
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeColoredState,AttributeFlags)
 
 // assignment
-void AttributeColoredState::DoAssign(const AttributeColoredState& rSrcAttr) { 
+void AttributeColoredState::DoCopy(const AttributeColoredState& rSrcAttr) { 
   // call base (incl virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // no additional members
   ColorSymTab(rSrcAttr.mpColorSymbolTable); 
   mColors=rSrcAttr.mColors;
+}
+
+// assignment
+void AttributeColoredState::DoMove(AttributeColoredState& rSrcAttr) { 
+  // call base (incl virtual clear)
+  AttributeFlags::DoCopy(rSrcAttr);
+  // no additional members
+  ColorSymTab(rSrcAttr.mpColorSymbolTable); 
+  mColors.Move(rSrcAttr.mColors);
 }
 
 bool AttributeColoredState::DoEqual(const AttributeColoredState& rOther) const {

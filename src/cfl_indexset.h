@@ -199,13 +199,22 @@ public:
  protected:
 
   /**
-   * Assign my members. This method maintains attributes
+   * Copy my members. This method maintains attributes
    * provided that the type can be appropriately casted.
    *
    * @param rSource 
    *    Source to copy from
    */
-  void DoAssign(const IndexSet& rSource);
+  void DoCopy(const IndexSet& rSource);
+
+  /**
+   * Move my members. This method maintains attributes
+   * provided that the type can be appropriately casted.
+   *
+   * @param rSource 
+   *    Source to copy from
+   */
+  void DoMove(IndexSet& rSource);
 
   /** 
    * Write to TokenWriter, see Type::Write for public wrappers.
@@ -399,7 +408,7 @@ public:
    * @return
    *    Ref to this set
    */
-  virtual TaIndexSet& Assign(const TBaseSet<Idx>& rSrc);
+  virtual TaIndexSet& Copy(const TBaseSet<Idx>& rSrc);
 
   /** Relaxed assignment operator. Maintain attributes provided they can be casted.
    *
@@ -408,7 +417,7 @@ public:
    * @return
    *    Ref to this set
    */
-  virtual TaIndexSet& operator=(const IndexSet& rSrc) { return Assign(rSrc); };
+  virtual TaIndexSet& operator=(const IndexSet& rSrc) { return Copy(rSrc); };
 
   /** 
    * Iterators on indexset. 
@@ -565,12 +574,12 @@ public:
  protected:
 
   /**
-   * Assign my members. This method maintains attributes.
+   * Copy my members. This method maintains attributes.
    *
    * @param rSource 
    *    Source to copy from
    */
-  void DoAssign(const TaIndexSet& rSource);
+  void DoCopy(const TaIndexSet& rSource);
 
 
 };
@@ -614,7 +623,7 @@ TaIndexSet<Attr>::TaIndexSet(const TaIndexSet& rOtherSet) :
 {
   FD_DC("TaIndexSet(" << this << ")::TaIndexSet(rOtherSet " << &rOtherSet << ")");
   // copy my members
-  DoAssign(rOtherSet);
+  DoCopy(rOtherSet);
 }
 
 // TaIndexSet(rOtherSet)
@@ -625,7 +634,7 @@ TaIndexSet<Attr>::TaIndexSet(const IndexSet& rOtherSet) :
 {
   FD_DC("TaIndexSet(" << this << ")::TaIndexSet(rOtherSet " << &rOtherSet << ")");
   // copy my members
-  Assign(rOtherSet);
+  Copy(rOtherSet);
 }
 
 
@@ -640,20 +649,20 @@ template<class Attr>
 }
 
 
-// DoAssign (attributes known and match)
+// DoCopy (attributes known and match)
 template<class Attr>
-void TaIndexSet<Attr>::DoAssign(const TaIndexSet<Attr>& rSourceSet) {
-  FD_DC("TaIndexSet(" << this << ")::DoAssign( [a] " << &rSourceSet<<")");
+void TaIndexSet<Attr>::DoCopy(const TaIndexSet<Attr>& rSourceSet) {
+  FD_DC("TaIndexSet(" << this << ")::DoCopy( [a] " << &rSourceSet<<")");
   // call base incl attributes
-  IndexSet::DoAssign(rSourceSet);
+  IndexSet::DoCopy(rSourceSet);
 }  
 
-// Relaxed Assign()
+// Relaxed Copy()
 template<class Attr>
-TaIndexSet<Attr>& TaIndexSet<Attr>::Assign(const TBaseSet<Idx>& rSourceSet) {
-  FD_DC("TaIndexSet(" << this << ")::Assign([v] " << &rSourceSet<<")");
-  FD_DC("TaIndexSet(" << this << ")::Assign(): src type " << typeid(rSourceSet).name());
-  FD_DC("TaIndexSet(" << this << ")::Assign(): dst type " << typeid(*this).name());
+TaIndexSet<Attr>& TaIndexSet<Attr>::Copy(const TBaseSet<Idx>& rSourceSet) {
+  FD_DC("TaIndexSet(" << this << ")::Copy([v] " << &rSourceSet<<")");
+  FD_DC("TaIndexSet(" << this << ")::Copy(): src type " << typeid(rSourceSet).name());
+  FD_DC("TaIndexSet(" << this << ")::Copy(): dst type " << typeid(*this).name());
 #ifdef FAUDES_CHECKED
   const IndexSet* iset = dynamic_cast<const IndexSet*>(&rSourceSet);
   if(!iset) {
@@ -663,7 +672,7 @@ TaIndexSet<Attr>& TaIndexSet<Attr>::Assign(const TBaseSet<Idx>& rSourceSet) {
   }
 #endif
   // call attribute smart base
-  TAttrMap<Idx,Attr>::AssignWithAttributes(rSourceSet);
+  TAttrMap<Idx,Attr>::CopyWithAttributes(rSourceSet);
   // done
   return *this;
 }

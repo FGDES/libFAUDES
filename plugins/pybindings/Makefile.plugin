@@ -15,44 +15,57 @@
 #
 #
 # Make targets introduced by the luabindings pluging
-#
 # - pybindings-configure  generate loader, run SWIG to generate wrapper code (SWIG required!)
-# - pybindings-compile    compile all python and lbp sources 
-# - pybindings-clean      remove all SWIG generated wrapper code
-# - pybindings-report     report Python related compiler settings
+# - pybindings            faudes module as plain shared object and as wheel
 #
+# Further targets for development
+# - pybindings-report     report Python related compiler settings
+# - pybindings-dso        libFAUDES shared object incl. Python bindings
+# - pybindings-wheel      faudes module als Python wheel
 
 ########################################################
-# Specify which python to link to (where libpython.so is and Python.h resides)
+# Specify which python to use
 ########################################################
 
-# figure automatically via Python sysconfig (Linux)
+# defaults Python 3.10 on Ubuntu 22.04 LTS 
+DOT_PSO=.so
+LIBFAUDES_PYDSO= _faudes.so
+PBP_PYTHON_LNK = /usr/lib/python3.10/config-3.10-x86_64-linux-gnu/libpython3.10.so
+PBP_PYTHON_INC = -I/usr/include/python3.10/
+
+# figure via Python sysconfig (Linux)
 ifeq ($(FAUDES_PLATFORM),gcc_linux)
-PBP_PYTHON_LNK = -L$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
-PBP_PYTHON_LNK += $(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
-PBP_PYTHON_INC += -I$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
+PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
+PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
-# figure automatically via Python sysconfig (OsX)
+# figure via Python sysconfig (OsX)
 ifeq ($(FAUDES_PLATFORM),gcc_osx)
-PBP_PYTHON_LNK = $(shell python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
-PBP_PYTHON_INC = -I $(shell python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+## ok with brew
+#PBP_PYTHON_LNK = $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LINKFORSHARED"))')
+## ok with official release
+PBP_PYTHON_LNKA = $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("PYTHONFRAMEWORKPREFIX"))')
+PBP_PYTHON_LNKB = $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INSTSONAME"))')
+PBP_PYTHON_LNK = -framework CoreFoundation -framework $(PBP_PYTHON_LNKA)/$(PBP_PYTHON_LNKB)
+PBP_PYTHON_INC = -I $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
 # figure automatically via Python sysconfig (MSYS)
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
-PBP_PYTHON_LNK = -L$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
-PBP_PYTHON_LNK += $(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
-PBP_PYTHON_INC += -I$(shell python3 -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
+LIBFAUDES_PYDSO= _faudes.pyd
+PBP_PYTHON_LNK = -L$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
+PBP_PYTHON_LNK += $(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("BLDLIBRARY"))')
+PBP_PYTHON_INC += -I$(shell $(PYTHON) -c 'import sysconfig; print(sysconfig.get_config_var("INCLUDEPY"))')
 endif
 
-# test: manual settings for OsX 11 Python 3.10 from macport 
-#PBP_PYTHON_LNK = /opt/local/Library/Frameworks/Python.framework/Versions/3.10/lib/libpython3.10.dylib
-#PBP_PYTHON_INC = -I/opt/local/Library/Frameworks/Python.framework/Headers
+# figure automatically via Python sysconfig (Windows/VC))
+ifeq ($(FAUDES_PLATFORM),cl_win)
+LIBFAUDES_PYDSO= _faudes.pyd
+PBP_PYTHON_LNK = /link /LIBPATH:$(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var(\"LIBDIR\"))")
+PBP_PYTHON_INC = -I$(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var(\"INCLUDEPY\"))")
+endif
 
-# test: manual settings for Ubuntu 22.04 LTS with Python 3.10
-#PBP_PYTHON_LNK = /usr/lib/python3.10/config-3.10-x86_64-linux-gnu/libpython3.10.so
-#PBP_PYTHON_INC = -I/usr/include/python3.10/
 
 pybindings-report:
 	@echo " ============================== " 
@@ -61,25 +74,23 @@ pybindings-report:
 	@echo " ============================== " 
 
 #
-# Print pybinding debug messages
-#FAUDES_DEBUG += pbp_debug
-
-#
 # set up paths relative to faudes path
 PBP_BASE =   ./plugins/pybindings
 PBP_SRCDIR = ./plugins/pybindings/src
 PBP_OBJDIR = ./plugins/pybindings/obj
+PBP_PROJ = ./plugins/pybindings/pyproj
 
 #
 # libfaudes source files (dummies)
-PBP_CPPFILES = 
+PBP_CPPFILES = pbp_addons.cpp
 PBP_INCLUDE  = pbp_include.h
 
 #
-# std plug-in file lists
+# plug-in file lists --- they will not go to libfaudes.so
 PBP_HEADERS = $(PBP_CPPFILES:.cpp=.h) $(PBP_INCLUDE)
 PBP_SOURCES = $(PBP_CPPFILES:%=$(PBP_SRCDIR)/%) 
 PBP_OBJECTS = $(PBP_SOURCES:$(PBP_SRCDIR)/%.cpp=$(PBP_OBJDIR)/%$(DOT_O)) 
+PBP_OBJECTS += $(PBP_OBJDIR)/pywrapper$(DOT_O)
 
 
 ########################################################
@@ -92,13 +103,16 @@ PBP_SWIGOPTIONS= -I$(PBP_SRCDIR) -I$(PBP_OBJDIR) $(SWGINCLUDE) -c++ -python -DSW
 
 #
 # c-flags for swig generated c-code
-PBP_SWIGOPTS = $(PBP_PYTHON_INC) -Wno-misleading-indentation
+PBP_SWIGOPTS = $(PBP_PYTHON_INC) #-Wno-misleading-indentation # MSVC wont like this
+ifeq ($(FAUDES_PLATFORM),cl_win)
+PBP_SWIGOPTS += /bigobj
+endif
 
 
 #
-# use rti2code to generate rtiautoload.i
-$(PBP_OBJDIR)/rtiautoload.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
-	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -swig -flat $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti) $(call FNCT_FIXDIRSEP,$(PBP_OBJDIR)/rtiautoload)
+# use rti2code to generate rtiloader.i
+$(PBP_OBJDIR)/rtiloader.i: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -swig -flat $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti) $(call FNCT_FIXDIRSEP,$(PBP_OBJDIR)/rtiloader)
 
 #
 # build overall interface 
@@ -113,28 +127,89 @@ $(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
 	echo " " >> $@
 	echo " " >> $@
 	echo "// ##### load all rti definied functions " >> $@
-	echo "%include \"rtiautoload.i\" " >> $@
+	echo "%include \"rtiloader.i\" " >> $@
 	echo " " >> $@
 
 #
-# run swig (incl. copy faudes.py to the tutorials)
-$(PBP_OBJDIR)/libfaudes_pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(PBP_OBJDIR)/rtiautoload.i
+# run swig for faudes.py and pywrapper.cpp
+$(PBP_OBJDIR)/pywrapper.cpp: $(PBP_OBJDIR)/libfaudes.i $(PBP_OBJDIR)/rtiloader.i
 	$(SWIG) $(PBP_SWIGOPTIONS) -o $(call FNCT_FIXDIRSEP,$@) $(call FNCT_FIXDIRSEP,$<)
 
-
+# hmm .. tell make how faudes.py is generated
+$(PBP_OBJDIR)/faudes.py: $(PBP_OBJDIR)/pywrapper.cpp
 
 
 ########################################################
 # compile section: compile to object files
 ########################################################
 
-# implicit rule .cpp -> .o for all std pbp-objects (aint any at the time)
+# implicit rule .cpp -> .o for all std pbp-objects (there is only one)
 $(PBP_OBJDIR)/%$(DOT_O): $(PBP_SRCDIR)/%.cpp 
-	$(CXX) -c -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+	$(CXX) -c $(PBP_PYTHON_INC) -I$(INCLUDEDIR) $(CFLAGS) $(LIBOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
 
 # implicit rule .cpp -> .o for all generated cpp sources (only the one at this time)
 $(PBP_OBJDIR)/%$(DOT_O): $(PBP_OBJDIR)/%.cpp 
-	$(CXX) -c $(CFLAGS) $(LIBOPTS) $(PBP_SWIGOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+	$(CXX) -c $(CFLAGS) -I$(PBP_SRCDIR) $(LIBOPTS) $(PBP_SWIGOPTS) $(call FNCT_FIXDIRSEP,$<) $(COUTOPT)$(call FNCT_FIXDIRSEP,$@)
+
+# rule to build overall shared library
+$(PBP_OBJDIR)/$(LIBFAUDES_PYDSO): $(OBJECTS) $(OBJECTSEXT) $(PBP_OBJECTS)
+	$(ECHO) "linking _faudes python module dso"
+	$(LXX) $(DSOOPTS) $(call FNCT_FIXDIRSEP,$^) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$@) $(LNKLIBS) $(LDFLAGS) $(PBP_PYTHON_LNK)
+
+# user friendly target
+pybindings-dso: $(PBP_OBJDIR)/$(LIBFAUDES_PYDSO)
+
+########################################################
+# pyproject to build wheel
+########################################################
+
+# config as json (not used)
+$(PBP_OBJDIR)/configuration.json: 
+	echo "{" > $@
+	echo "  \"comment\": \"libFAUDES configuration file -- autogenerated, do not edit\", " >> $@
+	echo "  \"headers\" : \"$(HEADERS)\"," >> $@
+	echo "  \"sources\" : \"$(SOURCES)\"," >> $@
+	echo "  \"wrapper\" : \"$(PBP_OBJDIR)/pywrapper.cpp\"" >> $@
+	echo "}" >> $@
+
+
+# project tree files
+PBP_PROJ_CINC =  $(HEADERS:%=$(INCLUDEDIR)/%) $(CFGHEADERS)
+PBP_PROJ_CINC += $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
+PBP_PROJ_CINC += $(PBP_HEADERS:%=$(PBP_SRCDIR)/%)
+ifeq (omegaaut,$(findstring omegaaut,$(FAUDES_PLUGINS)))
+PBP_PROJ_CINC += plugins/omegaaut/lib/cpphoafparser
+endif
+PBP_PROJ_CSRC =  $(SOURCES)
+PBP_PROJ_CSRC += $(PBP_SOURCES) $(PBP_OBJDIR)/pywrapper.cpp
+PBP_PROJ_CSRC += $(INCLUDEDIR)/rtiloader.cpp $(INCLUDEDIR)/rtiwrapper.cpp
+PBP_PROJ_DATA =  $(PBP_OBJDIR)/faudes.py
+PBP_PROJ_DATA += $(PBP_SRCDIR)/pyproject.toml $(PBP_SRCDIR)/setup.py
+PBP_PROJ_DATA += $(PBP_SRCDIR)/MANIFEST.in $(PBP_BASE)/README.md LICENSE
+PBP_PROJ_TESTS = $(PBP_SRCDIR)/test_all.py
+
+# populate project
+$(PBP_PROJ): | $(PBP_PROJ_DATA) VERSION $(PBP_PROJ_CINC) $(PBP_PROJ_CSRC) 
+	- rm -rf $(PBP_PROJ)
+	mkdir $(PBP_PROJ)
+	cp  $(PBP_PROJ_DATA) $(PBP_PROJ)  
+	mkdir $(PBP_PROJ)/src
+	cp  $(PBP_PROJ_CSRC) $(PBP_PROJ)/src  
+	cp  -R $(PBP_PROJ_CINC) $(PBP_PROJ)/src
+	#$(PYTHON) $(PBP_SRCDIR)/fixversion.py $(FAUDES_VERSION) > $(PBP_PROJ)/VERSION 
+	perl $(PBP_SRCDIR)/fixversion.pl $(FAUDES_VERSION) > $(PBP_PROJ)/VERSION 
+	mkdir $(PBP_PROJ)/tests
+	mkdir $(PBP_PROJ)/tests/data
+	cp $(PBP_PROJ_TESTS) $(PBP_PROJ)/tests
+	cp $(PBP_BASE)/tutorial/*.py $(PBP_PROJ)/tests
+	cp $(PBP_BASE)/tutorial/data/* $(PBP_PROJ)/tests/data
+
+
+pybindings-wheel: $(PBP_PROJ)
+	$(PYTHON) -m build $(PBP_PROJ) --wheel --outdir=./
+
+pybindings: pybindings-wheel pybindings-dso
+
 
 ########################################################
 # faudes plugin infrastructure
@@ -143,37 +218,29 @@ $(PBP_OBJDIR)/%$(DOT_O): $(PBP_OBJDIR)/%.cpp
 
 #
 # append my plugin to configuration
-$(INCLUDEDIR)/$(PBP_INCLUDE): $(PBP_SRCDIR)/$(PBP_INCLUDE)  
-	cp -pR $< $@
-	echo "#include \"$(PBP_INCLUDE)\"" >> $(INCLUDEDIR)/allplugins.h
+# special case: libFAUDES wont include php_include, but we'ld like to sense it exists
+$(INCLUDEDIR)/pbp_dummy.h: $(PBP_SRCDIR)/$(PBP_INCLUDE)  
+	echo "// dummy --- the pybindings are not accessible from libFAUDES" >> $@
 	echo "/* pybindings configuration */" >> $(INCLUDEDIR)/configuration.h
 	echo "#define  FAUDES_PLUGIN_PYBINDINGS" >> $(INCLUDEDIR)/configuration.h
-ifeq (pbp_debug,$(findstring pbp_debug,$(FAUDES_DEBUG)))
-	echo "#define  FAUDES_DEBUG_PYBINDINGS" >> $(INCLUDEDIR)/configuration.h
-endif
 	echo " " >> $(INCLUDEDIR)/configuration.h
 
-
-
 #
-# test targets
-pybindings-configure: $(PBP_OBJDIR)/libfaudes_pywrapper.cpp
+# explicit config targets
+pybindings-configure: $(PBP_OBJDIR)/pywrapper.cpp 
 
 
 #
 # advertise plug-in
-SOURCES += $(PBP_SOURCES)
-OBJECTS += $(PBP_OBJECTS) $(PBP_OBJDIR)/libfaudes_pywrapper.o
-HEADERS += $(PBP_HEADERS) 
-LNKLIBS += $(PBP_PYTHON_LNK)
 VPATH   += $(PBP_SRCDIR)
-CLEANFILES += $(PBP_OBJECTS) $(PBP_SWIGOBJECTS) 
-CONFIGURETARGETS += pybindings-configure pybindings-report
-
+HEADERS += pbp_dummy.h
+CLEANFILES += $(PBP_OBJECTS) $(PBP_OBJDIR)/*$(DOT_O) 
+CONFIGURETARGETS += pybindings-configure pybindings-report $(PBP_PROJ)
+DISTCLEANFILES += $(PBP_OBJDIR)/* $(PBP_PROJ)
+DEFAULTTARGETS += pybindings-dso
 #
 # include tutorial
 include $(PBP_BASE)/Makefile.tutorial
-
 
 
 

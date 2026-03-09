@@ -47,10 +47,10 @@ implementation AttributePriority
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributePriority,AttributeCFlags)
 
 
-// Assign my members
-void AttributePriority::DoAssign(const AttributePriority& rSrcAttr) { 
+// Copy my members
+void AttributePriority::DoCopy(const AttributePriority& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeCFlags::DoAssign(rSrcAttr);
+  AttributeCFlags::DoCopy(rSrcAttr);
   // my additional members
   mPriority = rSrcAttr.mPriority;
 }

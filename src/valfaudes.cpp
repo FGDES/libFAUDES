@@ -64,8 +64,9 @@ std::string mBinFile;
 std::string mLuaFile;
 std::string mPyFile;
 std::string mTmpProtFile;
-std::string mTmpDir;;
-
+std::string mTmpDir;
+std::string mPython="";
+std::string mPythonPath="";
 
 // helper: exe suffix
 #ifdef FAUDES_POSIX
@@ -78,6 +79,25 @@ std::string exesfx(void) { return ".exe";}
 std::string exesfx(void) { return "";}
 #endif  
 
+// helper: run system command with return code)
+int runshell(const std::string& command) {
+  std::string cmd=command;
+#ifdef FAUDES_POSIX
+  if(!mOptV)
+    cmd = cmd + " > /dev/null 2>&1 ";
+#endif 
+#ifdef FAUDES_WINDOWS
+  cmd=faudes_extpath(cmd);
+  if(!mOptV)
+    cmd = cmd + " > NUL 2>&1";
+#endif
+  if(!mOptQ)
+    std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  int res= std::system(cmd.c_str());
+  return res;
+}
 
 // helper: run faudes executable (0<>success)
 int runfexec(const std::string& command, const std::string& arguments="") {
@@ -88,24 +108,13 @@ int runfexec(const std::string& command, const std::string& arguments="") {
      cmd= "." + faudes_pathsep() + cmd;
   if(!arguments.empty())
     cmd += " " + arguments;
-  if(!mOptV)
-    cmd = cmd + " > /dev/null 2>&1 ";
 #endif 
 #ifdef FAUDES_WINDOWS
   cmd=faudes_extpath(cmd);
   if(!arguments.empty())
     cmd += " " + arguments;
-  if(!mOptV)
-    cmd = cmd + " > NUL 2>&1";
-#endif 
-  if(!mOptQ)
-    std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
-  std::flush(std::cout);
-  std::flush(std::cerr);
-  int res= std::system(cmd.c_str());
-  std::flush(std::cout);
-  std::flush(std::cerr);
-  return res;
+#endif
+  return runshell(cmd);
 }
 
 // helper: run system executable (o<>success)
@@ -114,51 +123,34 @@ int runsexec(const std::string& command, const std::string& arguments="") {
 #ifdef FAUDES_POSIX
   if(!arguments.empty())
     cmd += " " + arguments;
-  if(!mOptV)
-    cmd = cmd + " > /dev/null 2>&1 ";
 #endif 
 #ifdef FAUDES_WINDOWS
   cmd=faudes_extpath(cmd);
   if(!arguments.empty())
     cmd += " " + arguments;
-  if(!mOptV)
-    cmd = cmd + " > NUL 2>&1";
 #endif 
-  if(!mOptQ)
-    std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
-  std::flush(std::cout);
-  std::flush(std::cerr);
-  int res= std::system(cmd.c_str());
-  std::flush(std::cout);
-  std::flush(std::cerr);
-  return res;
+  return runshell(cmd);
 }
 
 // helper: diff (0<>match)
 int rundiff(const std::string& file1, const std::string& file2) {
   std::string cmd;
 #ifdef FAUDES_POSIX
-  if(!mOptV)
-    cmd = cmd + " > /dev/null 2>&1 ";
   cmd= "diff -w --context=3 --show-function-line=mark " + file1 + " " + file2;
 #endif 
 #ifdef FAUDES_WINDOWS
   cmd= "fc /W " + faudes_extpath(file1) + " " + faudes_extpath(file2);
-  if(!mOptV)
-    cmd = cmd + " > NUL 2>&1";
-#endif 
+#endif
+  
   if(!mOptQ)
     std::cout << "valfaudes: running: \"" << cmd << "\"" << std::endl;
   std::flush(std::cout);
   std::flush(std::cerr);
-  int res = std::system(cmd.c_str());
-  std::flush(std::cout);
-  std::flush(std::cerr);
-  return res;
+  return std::system(cmd.c_str());
 }
 
 
-// helper: find luafaudes
+// helper: find luafaudes (true <> success)
 bool findlua(void) {
   // is it right here?
   mLuaFaudes="luafaudes"+exesfx();
@@ -182,6 +174,61 @@ bool findlua(void) {
   }
   return false;
 }
+
+// helper: find python (true <> success)
+bool findpython(void) {
+  bool res=false;
+#ifdef FAUDES_POSIX
+  if(runshell("python3 --version")==0) {
+    mPython="python3";
+    res=true;
+  } else {
+    if(runshell("python --version")==0) {
+      mPython="python";
+      res=true;
+    }
+  }
+#endif
+#ifdef FAUDES_WINDOWS
+  if(runshell("python3 --version")==0) {
+    mPython="python3";
+    res=true;
+  } else {
+    if(runshell("py.exe --version")==0) {
+      mPython="py.exe";
+      res=true;
+    }
+  }
+#endif
+  // we are lost
+  if(!res) {
+    if(!mOptQ) {
+      std::cout << "valfaudes: could not find python" <<std::endl;
+    }
+    return false;
+  }
+  // test for faudes module
+  if(FileExists("faudes.py")) {
+    if(!mOptQ) {
+      std::cout << "valfaudes: using faudes module in current directory" <<std::endl;
+    }
+    return true;
+  }
+  // test for faudes module
+  if(FileExists("../../pybindings/obj/faudes.py")) {
+    if(!mOptQ) {
+      std::cout << "valfaudes: using faudes module from pybindings plug-in" <<std::endl;
+    }
+    mPythonPath="../../pybindings/obj";
+    return true;
+  }
+  // were lost
+  if(!mOptQ) {
+    std::cout << "valfaudes: failed to locate faudes module" <<std::endl;
+  }
+  return false;  
+}
+
 
 // runner
 int main(int argc, char *argv[]) {
@@ -330,23 +377,41 @@ int main(int argc, char *argv[]) {
 
   // lua tutorials
   if(!mLuaFile.empty()) {
+#ifndef FAUDES_PLUGIN_LUABINDINGS      
+    std::cout << "valfaudes: no luabindings, silently skipping test case" << std::endl;
+    testok=0;
+#else    
     if(!findlua()) {
-#ifdef FAUDES_PLUGIN_LUABUINDINGS      
       usage("could not find luafaudes");
-#endif
-      std::cout << "valfaudes: silently skipping test case" << std::endl;
-      testok=0;            
-    } else {
-      std::string arg=mLuaFile;
-      if(mOptV)
-	arg= "-d " + arg;
-      testok=runfexec(mLuaFaudes,arg);
     }
+    std::string arg=mLuaFile;
+    if(mOptV)
+      arg= "-d " + arg;
+    testok=runfexec(mLuaFaudes,arg);
+#endif    
   }
 
   // python tutorials
   if(!mPyFile.empty()) {
-    testok=runsexec("python",mPyFile);
+#ifndef FAUDES_PLUGIN_PYBINDINGS      
+    std::cout << "valfaudes: no pybindings, silently skipping test case" << std::endl;
+    testok=0;            
+#else
+    if(!findpython()) {
+      usage("could not find python");
+    }
+    if(mPythonPath=="") {
+      testok=runsexec(mPython,mPyFile);
+    } else {
+      std::string args= "-c ";
+      args += "\"";
+      args += "import sys; sys.path.append('" + mPythonPath +"'); ";
+      args += "import faudes; faudes.FAUDES_TEST_NAME='" + mPyFile +"'; ";
+      args += " exec(open('" + mPyFile + "').read()); ";
+      args += "\"";
+      testok=runsexec(mPython,args);
+    }
+#endif    
   }
 
 

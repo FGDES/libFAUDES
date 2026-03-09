@@ -37,12 +37,17 @@ namespace faudes {
 // faudes type
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeFlags,AttributeVoid)
 
-// Assign my members
-void AttributeFlags::DoAssign(const AttributeFlags& rSrcAttr) { 
+// Copy my members
+void AttributeFlags::DoCopy(const AttributeFlags& rSrcAttr) { 
   // call virtual clear: TODO: dont clear in virtual function
   Clear();
   // assign my members
   mFlags=rSrcAttr.mFlags; 
+}
+
+// Copy my members (dont bother about moving)
+void AttributeFlags::DoMove(AttributeFlags& rSrcAttr) { 
+  DoCopy(rSrcAttr);
 }
 
 // Test my members for equality
@@ -112,10 +117,15 @@ void AttributeFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const T
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeCFlags,AttributeFlags)
 
-// Assign my members
-void AttributeCFlags::DoAssign(const AttributeCFlags& rSrcAttr) { 
+// Copy my members
+void AttributeCFlags::DoCopy(const AttributeCFlags& rSrcAttr) { 
   // call base
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
+}
+
+// Copy my members (dont bother about moving)
+void AttributeCFlags::DoMove(AttributeCFlags& rSrcAttr) { 
+  DoCopy(rSrcAttr);
 }
 
 // Test my members

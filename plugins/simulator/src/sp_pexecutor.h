@@ -539,12 +539,20 @@ protected:
 
 
   /**
-   * Assignment method
+   * Copyment method
    *
    * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const ParallelExecutor& rSrc);
+  void DoCopy(const ParallelExecutor& rSrc);
+
+  /**
+   * Copyment method
+   *
+   * @param rSrc
+   *    Source to assign from
+   */
+  void DoMove(ParallelExecutor& rSrc);
 
   /** compile internal data (eg overall alphabet) */
   virtual void Compile();

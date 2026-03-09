@@ -297,8 +297,6 @@ void mtcDeterministic(const MtcSystem& rGen, std::vector<StateSet>& rPowerStates
     FD_DF("mtcDeterministic: fixing names...");
     // rPowerStates / rDetStates index "iterator"
     std::vector<StateSet>::size_type i;
-    // deterministic states iterator
-    std::vector<Idx>::const_iterator dit;
     for (i = 0; i < rPowerStates.size(); ++i) {
       // temporary state name
       std::string name = "{";

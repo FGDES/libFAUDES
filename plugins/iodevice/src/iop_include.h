@@ -61,7 +61,7 @@ Copyright (c) 2008, Thomas Moor.
 <br>
 Copyright (c) 2009, Thomas Moor, Thomas Wittmann.
 <br>
-Copyright (c) 2010-2013, Thomas Moor.
+Copyright (c) 2010-2013, 2026 Thomas Moor.
 </p>
 
 */

@@ -37,6 +37,13 @@ SymbolSet::SymbolSet(void) :
 }
 
 // SymbolSet(rOtherSet)
+SymbolSet::SymbolSet(const SymbolSet& rOtherSet) : 
+  TBaseSet<std::string>(rOtherSet) 
+{
+  FD_DC("SymbolSet(" << this << ")::SymbolSet(rOtherSet " << &rOtherSet << ")");
+}
+
+// SymbolSet(rOtherSet)
 SymbolSet::SymbolSet(const TBaseSet<std::string>& rOtherSet) : 
   TBaseSet<std::string>(rOtherSet) 
 {
@@ -51,9 +58,9 @@ SymbolSet::SymbolSet(const std::string& rFilename, const std::string& rLabel) :
   Read(rFilename, rLabel);
 }
 
-// DoAssign
-void SymbolSet::DoAssign(const SymbolSet& rSourceSet) {
-  TBaseSet<std::string>DoAssign(rSourceSet);
+// DoCopy
+void SymbolSet::DoCopy(const SymbolSet& rSourceSet) {
+  TBaseSet<std::string>DoCopy(rSourceSet);
 }
 
 

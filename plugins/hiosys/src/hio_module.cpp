@@ -951,7 +951,7 @@ HioModule::HioModule(void){
     Ye = (mPlant.YeEvents());
     Ue = (mPlant.UeEvents()); 
 	     
-    tmpHioGen.Assign(mPlant);
+    tmpHioGen.Copy(mPlant);
 	     
     //start the hio-synthesis 
     HioSynth_Musunoi(ioShCB12parEnv, mPlant, extConstr, locConstr, Yp, Up, tmpController);

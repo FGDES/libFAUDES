@@ -113,7 +113,7 @@ class FAUDES_TAPI THioController : public TaGenerator<GlobalAttr, StateAttr, Eve
      * @return 
      *   new Generator 
      */
-    virtual THioController* Copy(void) const;
+    virtual THioController* NewCpy(void) const;
 
     /**
      * Create empty HioController with same symboltable as this
@@ -124,12 +124,12 @@ class FAUDES_TAPI THioController : public TaGenerator<GlobalAttr, StateAttr, Eve
     THioController NewHioController(void) const;
 	
     /**
-     * Assignment operator (uses copy )
+     * Copyment operator (uses copy )
      *
      * @param rOtherGen
      *   Other generator
      */
-     virtual THioController& operator= (const THioController& rOtherGen) {this->Assign(rOtherGen); return *this;};
+     virtual THioController& operator= (const THioController& rOtherGen) {this->Copy(rOtherGen); return *this;};
     
 //**************** I/O controller event attributes ********************/
 
@@ -1007,8 +1007,8 @@ TEMP THIS* THIS::New(void) const {
   return res;
 }
 
-// Copy()
-TEMP THIS* THIS::Copy(void) const {
+// NewCpy()
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

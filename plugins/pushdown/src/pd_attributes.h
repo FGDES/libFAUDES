@@ -36,7 +36,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributePushdownState,AttributeFlags)
   AttributePushdownState(void) : AttributeFlags() { mpMerge = NULL; mDfaState = 0;};
   
   /** Exlicit copy-constructor to care pointer member (tmoor 2016-02 )*/
-  AttributePushdownState(const AttributePushdownState& rSrc) : AttributeFlags(rSrc), mpMerge(NULL) { DoAssign(rSrc);};
+  AttributePushdownState(const AttributePushdownState& rSrc) : AttributeFlags(rSrc), mpMerge(NULL) { DoCopy(rSrc);};
 
   /** Destructor 
    * 
@@ -97,12 +97,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributePushdownState,AttributeFlags)
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributePushdownState& rSrcAttr);
+  void DoCopy(const AttributePushdownState& rSrcAttr);
 
 
   /**
@@ -211,12 +211,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributePushdownTransition,AttributeVoid)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributePushdownTransition& rSrcAttr);
+  void DoCopy(const AttributePushdownTransition& rSrcAttr);
 
   /**
    * Test equality. 
@@ -309,12 +309,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributePushdownGlobal,AttributeVoid)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributePushdownGlobal& rSrcAttr);
+  void DoCopy(const AttributePushdownGlobal& rSrcAttr);
 
   /**
    * Test equality. 

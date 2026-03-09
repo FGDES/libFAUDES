@@ -122,12 +122,12 @@ protected:
   StateSet  mISet;
 
   /**
-   * Assignment method.
+   * Copyment method.
    *
    * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const RabinPair& rSrc);
+  void DoCopy(const RabinPair& rSrc);
   
   /**
    * Test equality of configuration data.

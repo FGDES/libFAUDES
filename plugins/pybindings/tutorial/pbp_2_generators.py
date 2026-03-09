@@ -53,7 +53,7 @@ gen.SetMarkedState("idle")
 gen.Write()
 
 ## Record test case
-FAUDES_TEST_DUMP("generator",gen)
+faudes.TestDump("generator",gen)
 
 
 ## ##########################################
@@ -94,7 +94,7 @@ sys.SetControllable("lambda")
 sys.Write()
 
 ## Record test case
-FAUDES_TEST_DUMP("system",sys)
+faudes.TestDump("system",sys)
 
 
 ## ##########################################
@@ -153,7 +153,7 @@ print("Expect 4 events with 2 attributes")
 sys.SWrite()
 
 ## Record test case
-FAUDES_TEST_DUMP("system",sys)
+faudes.TestDump("system",sys)
 
 ## ##########################################
 ## Generator: example algorithm reachable states
@@ -184,7 +184,7 @@ while not reach_prev.Empty():          ## iterate while new reachable states ide
 
 
 ## log test case
-FAUDES_TEST_DUMP("reach expect true", reach_acc == gen.AccessibleSet() )
+faudes.TestDump("reach expect true", reach_acc == gen.AccessibleSet() )
 
 ## show result (indices still refer to the generator)
 print("Reachable states")
@@ -192,4 +192,4 @@ reach_acc.Name("States")
 gen.WriteStateSet(reach_acc)
 
 ## validate test case
-FAUDES_TEST_DIFF()
+faudes.TestDiff()

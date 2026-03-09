@@ -181,9 +181,10 @@ bool TestMergibility(
 	statePair.insert(goalStateJ);
 	continueLoop = false;
 	for(unsigned int i = 0; i < rWaitList.size(); i++){
-	  if(rWaitList[i] == statePair)// the current goal state pair is already on the waiting list
-	  continueLoop = true;
-	  break;
+	  if(rWaitList[i] == statePair){ // the current goal state pair is already on the waiting list
+	    continueLoop = true;
+	    break;
+	  } //TM2026
 	}
 	if(continueLoop == true)// the current state pair is already on the waiting list
 	  continue;

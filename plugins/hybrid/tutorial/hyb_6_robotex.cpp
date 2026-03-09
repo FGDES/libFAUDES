@@ -678,7 +678,7 @@ int execute(LinearHybridAutomaton& plant, HybridStateSet& cstates) {
     } // end interactive
 
     // update states
-    cstates.Assign(*sit->second);
+    cstates.Copy(*sit->second);
 
     // report event
     return sit->first;
@@ -723,7 +723,7 @@ int robot2017() {
   
   // run interactively for manual inspection
   HybridStateSet cstates;
-  cstates.Assign(istates);
+  cstates.Copy(istates);
   while(true) {
     Idx ev=execute(lioha,cstates);
     if(ev==0) break;
@@ -974,7 +974,7 @@ int robot2018ti() {
   
   // run interactively for manual inspection
   HybridStateSet cstates;
-  cstates.Assign(istates);
+  cstates.Copy(istates);
   while(true) {
     Idx ev=execute(lioha,cstates);
     if(ev==0) break;
@@ -1180,7 +1180,7 @@ int marine2018() {
 
   // run interactively for manual inspection
   HybridStateSet cstates;
-  cstates.Assign(istates);
+  cstates.Copy(istates);
   while(true) {
     Idx ev=execute(lioha,cstates);
     if(ev==0) break;

@@ -282,7 +282,7 @@ class TlhaGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, Trans
     * @return 
     *   new Generator 
     */
-    TlhaGenerator* Copy(void) const;
+    TlhaGenerator* NewCpy(void) const;
 
 
     /**
@@ -298,22 +298,22 @@ class TlhaGenerator : public TaGenerator<GlobalAttr, StateAttr, EventAttr, Trans
 
 
     /**
-     * Assignment operator (uses copy)
+     * Copyment operator (uses copy)
      *  Note: you must reimplement this operator in derived 
      *  classes in order to handle internal pointers correctly
      *
      * @param rOtherGen
      *   Other generator
      */
-    virtual TlhaGenerator& operator= (const TlhaGenerator& rOtherGen) { this->Assign(rOtherGen); return *this;};
+    virtual TlhaGenerator& operator= (const TlhaGenerator& rOtherGen) { this->Copy(rOtherGen); return *this;};
 
     /**
-     * Assignment operator (uses copy)
+     * Copyment operator (uses copy)
      *
      * @param rOtherGen
      *   Other generator
      */
-     virtual TlhaGenerator& operator= (const vGenerator& rOtherGen) { this->Assign(rOtherGen); return *this;};
+     virtual TlhaGenerator& operator= (const vGenerator& rOtherGen) { this->Copy(rOtherGen); return *this;};
 
 
 
@@ -719,7 +719,7 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done

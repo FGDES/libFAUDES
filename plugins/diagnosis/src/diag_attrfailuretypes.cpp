@@ -45,13 +45,13 @@ AttributeFailureTypeMap::AttributeFailureTypeMap(const AttributeFailureTypeMap& 
   // always use static symbol table
   mFailureTypeMap.SymbolTablep(DiagLabelSet::StaticLabelSymbolTablep());
   // copy
-  DoAssign(rOtherAttr);
+  DoCopy(rOtherAttr);
 }
 
 
 // copy my members
-void AttributeFailureTypeMap::DoAssign(const AttributeFailureTypeMap& rSrcAttr) {
-  AttributeFlags::DoAssign(rSrcAttr); 
+void AttributeFailureTypeMap::DoCopy(const AttributeFailureTypeMap& rSrcAttr) {
+  AttributeFlags::DoCopy(rSrcAttr); 
   mFailureTypeMap = rSrcAttr.mFailureTypeMap; 
 }
 

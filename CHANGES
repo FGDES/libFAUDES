@@ -12,6 +12,30 @@ libFAUDES version.
 
 ##########
 
+Relative to 2.33*
+
+***
+
+Again the build system. We are running our test cases crossplatform via
+GitHub actions. In turn, some of the developper targets have been
+redesigned. A "std" build via "make dist-clean, configure, default" should
+still be fine. When using the pybindings plug-in, a dedicated shared object
+"_faudes.so/pdl" for import to Python will be generated. The libFaudes
+shared object libfaudes.so/dll will no longer include any Python bindings
+
+***
+
+On the way of implementing copy/move for faudes types in a C++11 fashion.
+This suggested the following refactoring
+
+"Copy()" becomes "NewCpy()"   (create copy on heap)
+"Move(to other)" becomes Move(from other) (reverse direction to match C++11 style))
+"Assign(from other)" becomes Copy(from other) (new name to match C++11 style))
+
+
+
+##########
+
 Relative to 2.32*
 
 ***

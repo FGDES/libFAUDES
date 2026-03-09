@@ -101,7 +101,7 @@ class FAUDES_TAPI TioGenerator : public TaGenerator<GlobalAttr,StateAttr,EventAt
      * @return 
      *   new Generator 
      */
-    virtual TioGenerator* Copy(void) const;
+    virtual TioGenerator* NewCpy(void) const;
 
 
     /**
@@ -115,12 +115,12 @@ class FAUDES_TAPI TioGenerator : public TaGenerator<GlobalAttr,StateAttr,EventAt
 
     /** @} */
 
-    /** @name Assignment */
+    /** @name Copyment */
     /** @{ doxygen group */
 
 
     /**
-     * Assignment operator 
+     * Copyment operator 
      *
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
@@ -128,7 +128,7 @@ class FAUDES_TAPI TioGenerator : public TaGenerator<GlobalAttr,StateAttr,EventAt
      * @param rOtherGen
      *   Other generator
      */
-    virtual TioGenerator& operator= (const TioGenerator& rOtherGen) {this->Assign(rOtherGen); return *this;};
+    virtual TioGenerator& operator= (const TioGenerator& rOtherGen) {this->Copy(rOtherGen); return *this;};
     
 
     /** @} */
@@ -820,8 +820,8 @@ TEMP THIS* THIS::New(void) const {
   return res;
 }
 
-// Copy()
-TEMP THIS* THIS::Copy(void) const {
+// NewCpy()
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

@@ -1,11 +1,18 @@
 name: Build libFAUDES with MSVC
 
+# MSVC is special in the folloeing regatrds
+# - we can run tests only with static linking (because our EXEs wont find the DSO)
+# - on a dedicated machine, we can still build the Python DSO _faudes.pdl
+#   so we can do a full test run
+# - we cannot compile the Python wrappers GitHub runners because there we fail when
+#   running $(shell python -c " whatever ") to read out sysconfig
+
 on:
   workflow_dispatch:
       
 jobs:
 
-  configure:
+  configure-full:
 
     runs-on: ubuntu-latest
 
@@ -22,6 +29,7 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
+        export FAUDES_PLUGINS="synthesis luabindings pybindings"
         make -j configure
         make clean
         rm -rf ./bin/*
@@ -29,16 +37,123 @@ jobs:
         echo "notempty" > ./bin/notempty
         tar -czf faudes.tgz ./*
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
-        name: faudes.tgz
+        name: faudes_configured_src.tgz
         path: ./faudes.tgz
         if-no-files-found: error
 
-  build:  
+
+  build-full:  
 
     runs-on: windows-latest
-    needs: [configure]
+    needs: [configure-full]
+    defaults:
+      run:
+        shell: cmd
+
+    steps:	
+    - name: Install MSVC
+      uses: TheMrMilchmann/setup-msvc-dev@v3
+      with:
+        arch: x64
+    - name: Install MSYS
+      uses: msys2/setup-msys2@v2
+      id: msys2
+      with:
+        msystem: UCRT64
+        install: >-
+          make
+    - name: Setup Python
+      uses: actions/setup-python@v1
+    - name: Pip for build
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: build
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: faudes_configured_src.tgz
+        path: ./
+    - name: Extract Archive
+      run: |
+        tar -xzf faudes.tgz
+    - name: Retrieve Version
+      run: |
+        echo A      
+        type tools\msvc\VERSION.bat 
+        echo B
+        tools\msvc\VERSION
+        echo "found VMAJOR=%FAUDES_VERSION_MAJOR%"
+        echo "found VMAINOR=%FAUDES_VERSION_MINOR%"
+        echo C    
+        echo "VMAJOR=%FAUDES_VERSION_MAJOR%" >> $ENV:GITHUB_ENV
+        echo "VMINOR=%FAUDES_VERSION_MINOR%" >> $ENV:GITHUB_ENV
+        echo passed version to runner env	
+    - name: Build libFAUDES DSO
+      run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 libfaudes
+        dir obj
+        dir faudes.*
+    - name: Build Tools
+      run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
+        %GNUMAKE% FAUDES_PLATFORM=cl_win -j1 binaries
+        dir bin
+    - name: Build Wheel
+      run: |
+        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe
+        %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
+        %GNUMAKE% PYTHON=python FAUDES_PLATFORM=cl_win -j1 pybindings-wheel
+        python --version
+        python -m build .\plugins\pybindings\pyproj --outdir=./ --wheel
+    - name: uploading artifact faudes_${{ env.VMAJOR }}.${{ env.VMINOR }}_ghmsvc.whl
+      uses: actions/upload-artifact@v4
+      with:
+        name: faudes_${{ env.VMAJOR }}.${{ env.VMINOR }}_ghmsvc.whl
+        path: faudes-*.whl
+
+
+  configure-nopy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Extra Libs
+      run: |
+          sudo apt-get install doxygen swig
+          sudo apt-get install libreadline-dev
+    - name: Figure Version
+      run: |
+        . ./VERSION
+        echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+        echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: |
+        export FAUDES_PLUGINS="synthesis luabindings"
+        make -j configure
+        make clean
+        rm -rf ./bin/*
+        echo "notempty" > ./obj/notempty
+        echo "notempty" > ./bin/notempty
+        tar -czf faudes.tgz ./*
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v6
+      with:
+        name: faudes_configured_src_nopy.tgz
+        path: ./faudes.tgz
+        if-no-files-found: error
+
+
+  build-nopy:  
+
+    runs-on: windows-latest
+    needs: [configure-nopy]
+#    needs: [configure-full]
     defaults:
       run:
         shell: cmd
@@ -58,39 +173,36 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
+#        name: faudes_configured_src.tgz
+        name: faudes_configured_src_nopy.tgz
         path: ./
     - name: Extract Archive
       run: |
-        tar -xzf faudes.tgz
         dir
+        tar -xzf faudes.tgz
     - name: Build Static Libray 
       run: |
-        dir
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 libfaudes
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 show
-        dir
-        dir obj
+        %GNUMAKE% FAUDES_PLATFORM=cl_win report-platform
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 libfaudes
+        dir 
     - name: Build Tools
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 binaries
         dir bin
-    - name: Build Tutorials
+#    - name: Build Python Shared Object
+#      run: |
+#        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
+#        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 pybindings-dso
+#        dir 
+    - name: Built Tutorial
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 tutorial
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 tutorial
     - name: Run Test Cases
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 test
-    - name: Build DSO incl Tools
-      run: |
-        del obj\*.obj
-        del bin\*.exe
-        del plugins\luabindings\obj\*.obj
-        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1
-        dir bin
-        dir 
+        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static" -j1 test
+
+

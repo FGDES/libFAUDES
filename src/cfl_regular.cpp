@@ -117,7 +117,7 @@ void LanguageUnionNonDet(const Generator& rGen1, const Generator& rGen2,
     
   // if necessary, move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
     
@@ -544,7 +544,7 @@ void LanguageDifference(
 
   // incl. all-empty case
   if(IsEmptyLanguage(rGen2)) {
-    rResGen.Assign(rGen1);
+    rResGen.Copy(rGen1);
     rResGen.Name(CollapsString("LanguageDifference(" + rGen1.Name() + "," + rGen2.Name() + ")"));
     return;
   }
@@ -578,7 +578,7 @@ void LanguageDifference(
 
   // if necessary, move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   } 
     
@@ -684,7 +684,7 @@ void LanguageConcatenateNonDet(const Generator& rGen1, const Generator& rGen2,
     
   // if necessary, move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
     
@@ -910,7 +910,7 @@ void KleeneClosure(const Generator& rGen, Generator& rResGen) {
   }
 
   // run nondet version with intermediate result
-  Generator* pgen=rGen.Copy();   
+  Generator* pgen=rGen.NewCpy();   
   KleeneClosureNonDet(*pgen);
   Deterministic(*pgen, rResGen);
   delete pgen;

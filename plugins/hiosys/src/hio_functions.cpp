@@ -483,7 +483,7 @@ void HioFreeInput(
     }
    // if necessary, move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -571,7 +571,7 @@ void HioFreeInput(
   Idx errIdx1, errIdx2;
   
   // prepare result, preserve StateNamesEnabled of rGen
-  pResController->Assign(rController);
+  pResController->Copy(rController);
   //*pResController=rController; // didn't work (should work ... check!!)
   //pResController=&rController; // didn't work (cannot work anyway)
   pResController->StateNamesEnabled(StateNamesEnabled);
@@ -666,7 +666,7 @@ void HioFreeInput(
 
    // if necessary, move pResGen to rResGen
   if(pResController != &rResController) {
-    pResController->Move(rResController);
+    rResController.Move(*pResController);
     delete pResController;
   }	
    // restore event attributes
@@ -698,7 +698,7 @@ void HioFreeInput(
   Idx errIdx1, errIdx2;
   
   // prepare result, preserve StateNamesEnabled of rGen
-  pResEnvironment->Assign(rEnvironment);
+  pResEnvironment->Copy(rEnvironment);
   //*pResEnvironment=rEnvironment; // didn't work
   //pResEnvironment=&rEnvironment; // didn't work
   pResEnvironment->StateNamesEnabled(StateNamesEnabled);
@@ -792,7 +792,7 @@ void HioFreeInput(
     }
    // if necessary, move pResGen to rResGen
   if(pResEnvironment != &rResEnvironment) {
-    pResEnvironment->Move(rResEnvironment);
+    rResEnvironment.Move(*pResEnvironment);
     delete pResEnvironment;
   }
      // restore event attributes

@@ -57,8 +57,8 @@ Type* Type::New(void) const {
 }
 
 // pointer copy constructor
-Type* Type::Copy(void) const { 
-  FD_WARN("Type(" << this << ")::Copy(): not reimplemented for " << typeid(*this).name());
+Type* Type::NewCpy(void) const { 
+  FD_WARN("Type(" << this << ")::NewCpy(): not reimplemented for " << typeid(*this).name());
   return new Type(*this); 
 }
 
@@ -79,8 +79,15 @@ bool Type::IsDefault(void) const {
 }
 
 // assign
-Type& Type::Assign(const Type& rSource) {
-  FD_DC("Type(" << this << ")::Assign(" << &rSource << ")");
+Type& Type::Copy(const Type& rSource) {
+  FD_DC("Type(" << this << ")::Copy(" << &rSource << ")");
+  Clear();
+  return *this;
+}
+
+// move
+Type& Type::Move(Type& rSource) {
+  FD_DC("Type(" << this << ")::Move(" << &rSource << ")");
   Clear();
   return *this;
 }
@@ -102,15 +109,29 @@ bool Type::operator!=(const Type& rOther) const {
 
 // assign
 Type& Type::operator=(const Type& rSource) {
-  FD_DC("Type(" << this << ")::AssignementOperator(" << &rSource << ")");
-  Clear();
-  DoAssign(rSource);
+  FD_DC("Type(" << this << ")::CopyementOperator(" << &rSource << ")");
+  DoCopy(rSource);
   return *this;
 }
 
 // assign
-void Type::DoAssign(const Type& rSource) {
-  FD_DC("Type(" << this << ")::DoAssign(" << &rSource << ")");
+Type& Type::operator=(Type&& rSource) {
+  FD_DC("Type(" << this << ")::CopyementOperator(" << &rSource << ")");
+  DoMove(rSource);
+  return *this;
+}
+
+// assign
+void Type::DoCopy(const Type& rSource) {
+  FD_DC("Type(" << this << ")::DoCopy(" << &rSource << ") [not implemented]");
+  Clear();
+}
+
+// assign
+void Type::DoMove(Type& rSource) {
+  FD_DC("Type(" << this << ")::DoMove(" << &rSource << "): [fallback to DoCopy()]");
+  DoCopy(rSource);
+  rSource.Clear(); 
 }
 
 // equality
@@ -512,24 +533,27 @@ Implementation of class Documentation
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,Documentation,Type)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,Documentation,Type)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,Documentation,Type)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,Documentation,Type)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,Documentation,Type)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,Documentation,Type)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,Documentation,Type)
 
 // construct
 Documentation::Documentation(void) : Type() {
- mAutoRegistered=false;
+ mAutoRegistered=true;
  mApplicationRegistered=false;
 }
 
 // construct
 Documentation::Documentation(const Documentation& rOther) : Type() {
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
 // std faudes type
-void Documentation::DoAssign(const Documentation& rSrc) {
+void Documentation::DoCopy(const Documentation& rSrc) {
+  // call base (inkl virt Clear())
+  Type::DoCopy(rSrc);
   // assign my members
   mName=rSrc.mName;
   mPlugIn=rSrc.mPlugIn;
@@ -557,7 +581,7 @@ void Documentation::Clear(void){
   mHtmlDoc="";
   mTextDoc="";
   mKeywords="";
-  mAutoRegistered=false;
+  mAutoRegistered=true;
   mApplicationRegistered=false;
 }
 
@@ -823,8 +847,8 @@ void Documentation::DoWrite(TokenWriter& rTw,  const std::string& rLabel, const 
     btag.InsAttribute("name",mName);
   if(mCType!="")
     btag.InsAttribute("ctype",mCType);
-  if(mAutoRegistered)
-    btag.InsAttributeBoolean("autoregister",true);
+  if(!mAutoRegistered)
+    btag.InsAttributeBoolean("autoregister",false);
   rTw << btag;
   // data
   DoWriteCore(rTw);
@@ -869,8 +893,9 @@ Implementation of class TypeDefinition
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,TypeDefinition,Documentation)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,TypeDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,TypeDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,TypeDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,TypeDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,TypeDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,TypeDefinition,Documentation)
 
@@ -899,9 +924,9 @@ void TypeDefinition::Clear(){
 
 
 // std faudes type
-void TypeDefinition::DoAssign(const TypeDefinition& rSrc) {
+void TypeDefinition::DoCopy(const TypeDefinition& rSrc) {
   // assign base members
-  Documentation::DoAssign(rSrc);
+  Documentation::DoCopy(rSrc);
   // assign my members
   mElementTag=rSrc.mElementTag;
   mElementType=rSrc.mElementType;

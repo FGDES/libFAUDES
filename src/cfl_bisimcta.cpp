@@ -90,7 +90,7 @@ protected:
     // encoded data structure
     struct State {
         Idx id;  // source state idx
-        std::vector< std::vector<Idx>> suc; // successors by event
+        std::vector< std::vector<Idx> > suc; // successors by event
         std::vector< Idx > pre; // predecessors (neglect event, only for figuring affected)
         std::vector< std::set<Idx> > cafter; // cafter by event (the std::set<Idx> is the set of c-values)
         std::vector< Idx > evs; // active event set, only for pre-partition. (indicates "delayed" active ev in case of daleyd- or weak-bisim)
@@ -176,8 +176,19 @@ private:
      */
     void ComputeChangedAfters(void);
 
+protected:
+  // TMoor 2026 --- explicit re;lations to avoid lambda expressions
+  bool order_evs_c(const Idx& state1, const Idx& state2) const {
+        if (mStates[state1].evs < mStates[state2].evs) return 1;
+	if (mStates[state1].evs > mStates[state2].evs) return 0;
+        if (mStates[state1].c < mStates[state2].c) return 1;
+        return 0;
+    };
+
 
 };
+
+  
 
 /*!
  * \brief The DelayedBisimulation class
@@ -504,12 +515,15 @@ void BisimulationCTA::EncodeData(){
 
 void BisimulationCTA::FirstStepApproximation(){
     // set up (modified) Phi as in the cited paper. pairs (state, (activeEvs,c-value)) by lex-sort
+    // v1: musing lambda expression (C++11, fails on old compilers
     std::sort(mPartition.begin(),mPartition.end(), [this](const Idx& state1, const Idx& state2){
         if (this->mStates[state1].evs < this->mStates[state2].evs) return 1;
         if (this->mStates[state1].evs > this->mStates[state2].evs) return 0;
         if (this->mStates[state1].c < this->mStates[state2].c) return 1;
         return 0;
     });
+    // v2: using explicit order (FAIL)
+    //std::sort(mPartition.begin(),mPartition.end(), order_evs_c);
     // assign new c_values
     std::vector<Idx> evs(1);
     evs[0] = 0; //initialize invalid active event set
@@ -589,8 +603,8 @@ void BisimulationCTA::RefineChanged(){
 
         // delete the largest set of states with the same cafter (line 28). c_value of these states are preserved
         std::list<Idx>::iterator eqclassit = eqclass.begin();
-        std::vector<std::set<Idx>> maxCafter; // cafter corresponding to most states in the current class
-        std::vector<std::set<Idx>> currentCafter; // initialize an invalid cafter for comparison
+        std::vector<std::set<Idx> > maxCafter; // cafter corresponding to most states in the current class
+        std::vector<std::set<Idx> > currentCafter; // initialize an invalid cafter for comparison
         Idx maxSize = 0;
         Idx currentSize = 0;
         for(;eqclassit!=eqclass.end();eqclassit++){

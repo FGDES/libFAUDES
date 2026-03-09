@@ -28,6 +28,11 @@ Methods for handling multitasking generators
 
 namespace faudes {
 
+// register
+AutoRegisterType<MtcSystem> gRtiMtcSystem("MtcSystem");
+
+  
+
 // rti wrapper
 bool IsStronglyCoaccessible(const MtcSystem& rGen) {
   return rGen.IsStronglyCoaccessible();

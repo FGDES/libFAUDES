@@ -74,7 +74,7 @@ vBaseVector::vBaseVector(const vBaseVector& rOtherVector) :
   ExtType()
 {
   FD_DC("vBaseVector(" << this << ")::vBaseVector(rOtherVector " << &rOtherVector << "): copy construct");
-  DoAssign(rOtherVector);
+  DoCopy(rOtherVector);
 }
 
 // destructor
@@ -110,8 +110,8 @@ bool vBaseVector::ElementTry(const Type& rElement) const {
 }
 
 // assignment (here, we know the type to match)
-void vBaseVector::DoAssign(const vBaseVector& rSourceVector) {
-  FD_DC("vBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << ")");
+void vBaseVector::DoCopy(const vBaseVector& rSourceVector) {
+  FD_DC("vBaseVector(" << this << ")::DoCopy(rOtherVector " << &rSourceVector << ")");
   // bail out on selfref
   if(this==&rSourceVector) return;
   // virtual clear
@@ -123,18 +123,18 @@ void vBaseVector::DoAssign(const vBaseVector& rSourceVector) {
   mVector.resize(rSourceVector.Size());
   // copy entries (incl name)
   for(Position pos=0; pos<mVector.size(); pos++) {
-    mVector[pos].pElement = rSourceVector.mVector[pos].pElement->Copy();
+    mVector[pos].pElement = rSourceVector.mVector[pos].pElement->NewCpy();
     mVector[pos].pElement->Name(rSourceVector.mVector[pos].pElement->Name());
     mVector[pos].mMine=true;
     mVector[pos].mFileName="";
   }
   // done
-  FD_DC("vBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << "): done");
+  FD_DC("vBaseVector(" << this << ")::DoCopy(rOtherVector " << &rSourceVector << "): done");
 }
 
 // assignment (here, we know the type to match)
-void vBaseVector::AssignByReference(vBaseVector& rSourceVector) {
-  FD_DC("vBaseVector(" << this << ")::AssignByReference(rOtherVector " << &rSourceVector << ")");
+void vBaseVector::CopyByReference(vBaseVector& rSourceVector) {
+  FD_DC("vBaseVector(" << this << ")::CopyByReference(rOtherVector " << &rSourceVector << ")");
   // bail out on selfref
   if(this==&rSourceVector) return;
   // virtual clear
@@ -151,7 +151,7 @@ void vBaseVector::AssignByReference(vBaseVector& rSourceVector) {
     mVector[pos].mFileName="";
   }
   // done
-  FD_DC("vBaseVector(" << this << ")::AssignByReference(rOtherVector " << &rSourceVector << "): done");
+  FD_DC("vBaseVector(" << this << ")::CopyByReference(rOtherVector " << &rSourceVector << "): done");
 }
 
 // clear
@@ -255,7 +255,7 @@ void vBaseVector::Replace(const Position& pos, const Type& rElem) {
   }
   iterator pit=mVector.begin()+pos;
   if(pit->mMine) delete pit->pElement;
-  pit->pElement=rElem.Copy();
+  pit->pElement=rElem.NewCpy();
   pit->mMine=true;
   pit->mFileName="";
 }
@@ -328,7 +328,7 @@ void vBaseVector::Insert(const Position& pos, const Type& rElem) {
     throw Exception("vBaseVector::Insert(pos,elem)", errstr.str(), 63);
   }
   ElementRecord elem;
-  elem.pElement = rElem.Copy();
+  elem.pElement = rElem.NewCpy();
   elem.mMine=true;
   elem.mFileName="";
   iterator pit=mVector.begin()+pos;
@@ -384,7 +384,7 @@ void vBaseVector::PushBack(const Type& rElem) {
     throw Exception("vBaseVector::PushBack(elem)", errstr.str(), 63);
   }
   ElementRecord elem;
-  elem.pElement = rElem.Copy();
+  elem.pElement = rElem.NewCpy();
   elem.mMine=true;
   elem.mFileName="";
   mVector.push_back(elem);
@@ -490,7 +490,7 @@ void vBaseVector::TakeCopies(void) {
   iterator pit=mVector.begin();
   for(;pit!=mVector.end();++pit) {
     if(pit->mMine) continue;
-    pit->pElement=pit->pElement->Copy();
+    pit->pElement=pit->pElement->NewCpy();
     pit->mMine=true;
   }
 }

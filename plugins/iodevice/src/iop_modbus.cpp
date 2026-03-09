@@ -3,7 +3,7 @@
 /*
    FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2011, Thomas Moor.
+   Copyright (C) 2011, 2026 Thomas Moor.
 
 */
 
@@ -480,7 +480,6 @@ int mbDevice::MbSendResponse(int mastersock) {
 void mbDevice::DoLoopCallback(void) {
 
   // master role: try to connect to remote slave
-
   if((mMasterRole) && (mState==StartUp) && (mSlaveSocket<0)) {
 
     // dont congest network / dont mess up console 
@@ -489,29 +488,29 @@ void mbDevice::DoLoopCallback(void) {
     if(ctimer< 1000000) return;
     ctimer=0;
     // report 
-    FD_DH("mbDevice::DoLoopCallBack(): connecting to remote slave " << mSlaveAddress.IpColonPort());    
+    FD_DH("mbDevice::LoopCallBack(): connecting to remote slave " << mSlaveAddress.IpColonPort());    
     // open a tcp port: create socket
     int slavesock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(slavesock<=0) {
-      FD_DH("mbDevice::DoLoopCallBack(): connection to slave failed: internal err A0");
+      FD_DH("mbDevice::LoopCallBack(): connection to slave failed: cannot create socket");
       return;
     }
     // open a tcp port: set up internet address
     unsigned long int slaveinaddr = INADDR_NONE;
     if(slaveinaddr==INADDR_NONE) {
-      FD_DHV("mbDevice::DoLoopCallBack(): using provided address literaly");
+      FD_DHV("mbDevice::LoopCallBack(): connecting to remote slave: using provided address literaly");
       slaveinaddr = inet_addr(mSlaveAddress.Ip().c_str());
     }
     if(slaveinaddr==INADDR_NONE) {
       struct hostent *host;
       host = gethostbyname(mSlaveAddress.Ip().c_str());
       if(host!=0) {
-        FD_DHV("mbDevice::DoLooCallBack(): retrieve alternative address by name-lookup");
+        FD_DHV("mbDevice::LooCallBack(): connecting to remote slave: retrieve address by name-lookup");
         slaveinaddr = *(unsigned long int*) host->h_addr;
       }
     }
     if(slaveinaddr==INADDR_NONE) {
-      FD_DH("mbDevice::DoLooCallBack():: connection to slave failed: invalid address " << mSlaveAddress.Ip());
+      FD_DH("mbDevice::DoLooCallBack():: connection to slave failed: no valid address " << mSlaveAddress.Ip());
       faudes_closesocket(slavesock);
       return;
     }
@@ -524,7 +523,7 @@ void mbDevice::DoLoopCallback(void) {
     // make my socket nonblocking
     int rc = faudes_setsocket_nonblocking(slavesock, true);
     if(rc<0) {
-      FD_DH("mbDevice::DoLoopCallBack():: connection to slave failed: internal error A1");
+      FD_DH("mbDevice::LoopCallBack():: connection to slave failed: socker error A1");
       faudes_closesocket(slavesock);
       return;
     }
@@ -534,9 +533,9 @@ void mbDevice::DoLoopCallback(void) {
 #ifdef FAUDES_POSIX
     if(rcc<0) {
       if(errno!=EINPROGRESS) {
-        FD_DH("mbDevice::DoLoopCallBack(): connection to slave failed: connect() errno " << errno);
+        FD_DH("mbDevice::LoopCallBack(): connection to slave failed: system errno " << errno);
       } else {
-        FD_DH("mbDevice::DoLoopCallBack(): connection to slave: wait for host to accept");
+        FD_DH("mbDevice::LoopCallBack(): connecting to slave: wait for slave to accept");
         // sense success via select befor timeout
         struct timeval tv;
         tv.tv_sec = 0;
@@ -546,7 +545,7 @@ void mbDevice::DoLoopCallback(void) {
         FD_SET(slavesock, &mysocks);
         rcc= select(slavesock+1, NULL, &mysocks, NULL, &tv);
         rcc--; // map 1 to no err aka 0 ;-)
-        if(rcc<0) FD_DH("mbDevice::DoLoopCallBack(): connection to slave failed: timeout");
+        if(rcc<0) FD_DH("mbDevice::LoopCallBack(): connection to slave failed: timeout");
       }
     }
 #endif
@@ -554,9 +553,9 @@ void mbDevice::DoLoopCallback(void) {
     if(rcc<0) {
       int lerr = WSAGetLastError();
       if(lerr!=WSAEWOULDBLOCK) {
-        FD_DH("mbDevice::DoLoopCallBack(): connection to slave failed: connect() errno " << lerr);
+        FD_DH("mbDevice::LoopCallBack(): connection to slave failed: system errno " << lerr);
       } else {
-        FD_DH("mbDevice::DoLoopCallBack(): wait for host to accept");
+        FD_DH("mbDevice::LoopCallBack(): connecting to slave: wait for slave to accept");
         // sense success via select befor timeout
         struct timeval tv;
         tv.tv_sec = 0;
@@ -566,37 +565,36 @@ void mbDevice::DoLoopCallback(void) {
         FD_SET(slavesock, &mysocks);
         rcc= select(slavesock+1, NULL, &mysocks, NULL, &tv);
         rcc--; // map 1 to no err aka 0 ;-)
-        if(rcc<0) FD_DH("mbDevice::DoLoopCallBack(): connection to slave failed: timeout");
+        if(rcc<0) FD_DH("mbDevice::LoopCallBack(): connection to slave failed: timeout");
       }
     }
 #endif
     // connection failed
     if(rcc<0) {
-      FD_DH("mbDevice::DoLoopCallBack():: connection to slave failed: host unreachable");
-      faudes_closesocket(slavesock);
+      FD_DH("mbDevice::LoopCallBack(): connection to slave failed: slave unreachable");
+      faudes_closesocket(slavesock); 
       return;
     }
     // sense errors on socket level
     if(faudes_getsocket_error(slavesock)<0) {
-      FD_DH("mbDevice::DoLoopCallBack():: connection to slave failed: internal error A2");
+      FD_DH("mbDevice::LoopCallBack(): connection to slave failed: socket error A2");
       faudes_closesocket(slavesock);
       return;
     }
     // restore blocking socket
     rc = faudes_setsocket_nonblocking(slavesock, false);
     if(rc<0) {
-      FD_DH("mbDevice::DoLoopCallBack():: connection to slave failed: internal error A3");
+      FD_DH("mbDevice::LoopCallBack():: connection to slave failed: socket error A3");
       faudes_closesocket(slavesock);
       return;
     }
     // record success
-    FD_DH("mbDevice::DoLoopCallBack(): connected to remote slave, using socket #" << slavesock);
+    FD_DH("mbDevice::LoopCallBack(): connected to remote slave: using socket #" << slavesock);
     mSlaveSocket=slavesock;
   }
 
 
   // slave role: accept remote master connection
-
   if((!mMasterRole) && (mState==Up)) {
 
     // sense connection requests
@@ -611,12 +609,12 @@ void mbDevice::DoLoopCallback(void) {
     // accept
     if(avail==1) 
     if(FD_ISSET(mSlaveSocket,&mysocks)) {
-      FD_DH("mbDevice::DoLoopCallBack(): accepting remote master to connect");
+      FD_DH("mbDevice::LoopCallBack(): accepting remote master to connect");
       struct sockaddr_in masteraddr;
       socklen_t masteraddr_len = sizeof(masteraddr);
       int mastersock=accept(mSlaveSocket, (struct sockaddr *) &masteraddr, &masteraddr_len );
       if(mastersock<0) {
-        FD_DH("mbDevice::DoLoopCallback(): failed to accept incomming connection");
+        FD_DH("mbDevice::LoopCallback(): failed to accept incomming connection");
       } else {
         mMasterSockets.push_back(mastersock);
       }
@@ -626,27 +624,38 @@ void mbDevice::DoLoopCallback(void) {
 
 
   // master role: sync image with remote slave
-
   if((mMasterRole) && (mSlaveSocket>0) && (mState!=Down) && (mState!=ShutDown) ) {
     FD_DHV("mbDevice::DoLooCallBack(): update image from remote slave");
     // read all inputs
     for(unsigned int i=0; i<mSlaveIoRanges.size(); i++) {
       const IoRange& ior=mSlaveIoRanges.at(i);
       if(!ior.mInputs) continue;
-      // assemble request<
+      // assemble request
       MB_SETBYTE(MB_PDUOFF,0x02); // read multiple digital inputs
       MB_SETINT(MB_PDUOFF+1,ior.mMbAddress); 
       MB_SETINT(MB_PDUOFF+3,ior.mCount); 
       mMessageLen=5;
       // send request
-      FD_DHV("mbDevice::DoLoopCallBack(): sending request");
-      if(MbSendRequest(ior.mMbId)!=0) {mState=StartUp; faudes_closesocket(mSlaveSocket); mSlaveSocket=-1; return;};
-      FD_DHV("mbDevice::DoLoopCallBack(): read response");
-      if(MbReceiveResponse()!=0)      {mState=StartUp; faudes_closesocket(mSlaveSocket); mSlaveSocket=-1; return;};
-      FD_DHV("mbDevice::DoLoopCallBack(): received responde #" << mMessageLen);
+      FD_DHV("mbDevice::LoopCallBack(): sending read request");
+      if(MbSendRequest(ior.mMbId)!=0) {
+        FD_DH("mbDevice::LoopCallBack(): sending read request to slave: failed");
+	mState=StartUp;
+	faudes_closesocket(mSlaveSocket);
+	mSlaveSocket=-1;
+	return;
+      };
+      FD_DHV("mbDevice::LoopCallBack(): read response");
+      if(MbReceiveResponse()!=0)   {
+        FD_DH("mbDevice::LoopCallBack(): reading reply to read request from slave: failed");
+	mState=StartUp;
+	faudes_closesocket(mSlaveSocket);
+	mSlaveSocket=-1;
+	return;
+      };
+      FD_DHV("mbDevice::LoopCallBack(): received responde #" << mMessageLen);
       // interpret response
       if(MB_GETBYTE(MB_PDUOFF)==0x02) { // no error
-        FD_DHV("mbDevice::DoLoopCallBack(): input image received");
+        FD_DHV("mbDevice::LoopCallBack(): input image received");
 	int count=MB_GETBYTE(MB_PDUOFF+1); // todo: verify
         count=ior.mCount;
         int src=MB_PDUOFF+2;
@@ -659,7 +668,7 @@ void mbDevice::DoLoopCallback(void) {
           if(shft==0x100) { shft=0x01; data=MB_GETBYTE(++src);};
         }
       } else {
-        FD_DH("mbDevice::DoLoopCallBack(): received error response on read inputs");
+        FD_DH("mbDevice::LoopCallBack(): received error when reading inputs");
       }
     }
     // write all outputs
@@ -685,11 +694,22 @@ void mbDevice::DoLoopCallback(void) {
       if(shft!=0x01) { MB_SETBYTE(dst,data);};
       mMessageLen=6+bcount;
       // send request
-      FD_DHV("mbDevice::DoLoopCallBack(): sending request");
-      if(MbSendRequest(ior.mMbId)!=0) {mState=StartUp; faudes_closesocket(mSlaveSocket); mSlaveSocket=-1; return;};
-      if(MbReceiveResponse()!=0)      {mState=StartUp; faudes_closesocket(mSlaveSocket); mSlaveSocket=-1; return;};
+      FD_DHV("mbDevice::LoopCallBack(): sending write request");
+      if(MbSendRequest(ior.mMbId)!=0) {
+        FD_DHV("mbDevice::LoopCallBack(): sending write  failed");
+ 	mState=StartUp;
+	faudes_closesocket(mSlaveSocket);
+	mSlaveSocket=-1;
+	return;
+      };
+      if(MbReceiveResponse()!=0) {
+        FD_DH("mbDevice::LoopCallBack(): reading reply to write request from slave: failed");
+	mState=StartUp;
+	faudes_closesocket(mSlaveSocket);
+	mSlaveSocket=-1; return;
+      };
       if(MB_GETBYTE(MB_PDUOFF)!=0x0f) { 
-        FD_DH("mbDevice::DoLoopCallBack(): received error response on write coils");
+        FD_DH("mbDevice::LoopCallBack(): received error response on write request");
       }
     }
   }
@@ -722,9 +742,9 @@ void mbDevice::DoLoopCallback(void) {
       int mastersock=mMasterSockets.at(i);
       if(mastersock<0) continue;
       if(!FD_ISSET(mastersock, &mysocks)) continue;
-      FD_DHV("mbDevice::DoLoopCallback(): received message on  sock " <<  mastersock);
+      FD_DHV("mbDevice::LoopCallback(): received message on  sock " <<  mastersock);
       if(MbReceiveRequest(mastersock)<0) {
-        FD_DH("mbDevice::DoLoopCallback(): receive error on sock " <<  mastersock);
+        FD_DH("mbDevice::LoopCallback(): receive error on sock " <<  mastersock);
         faudes_closesocket(mastersock);
         mMasterSockets.at(i)=-1; // todo: remove
         continue;
@@ -735,11 +755,11 @@ void mbDevice::DoLoopCallback(void) {
       int errcode = 0x01;
       // read inputs or coils
       if((fnct==0x01) || (fnct==0x02)) {
-        FD_DHV("mbDevice::DoLoopCallback(): coil-read or input read request");
+        FD_DHV("mbDevice::LoopCallback(): coil-read or input read request");
         int addr =  MB_GETINT(MB_PDUOFF+1);
         int count = MB_GETINT(MB_PDUOFF+3);
         int bcount= ((count-1)/8+1);
-        FD_DHV("mbDevice::DoLoopCallback(): address range: @" << addr << " #" << count);
+        FD_DHV("mbDevice::LoopCallback(): address range: @" << addr << " #" << count);
         // test validity
         errcode=0x00;
         if(addr+count>mImageSize) errcode=0x02;
@@ -763,10 +783,10 @@ void mbDevice::DoLoopCallback(void) {
       }
       // read input registers or holding registers
       if((fnct==0x03) || (fnct==0x04)) {
-        FD_DHV("mbDevice::DoLoopCallback(): register or holding register read request");
+        FD_DHV("mbDevice::LoopCallback(): register or holding register read request");
         int addr =  MB_GETINT(MB_PDUOFF+1);
         int count = MB_GETINT(MB_PDUOFF+3);
-        FD_DHV("mbDevice::DoLoopCallback(): address range: @" << addr << " #" << count);
+        FD_DHV("mbDevice::LoopCallback(): address range: @" << addr << " #" << count);
         // test validity
         errcode=0x00;
         if(16*addr+16*count>mImageSize) 
@@ -795,10 +815,10 @@ void mbDevice::DoLoopCallback(void) {
       }
       // write single coil
       if(fnct==0x05) {
-        FD_DHV("mbDevice::DoLoopCallback(): write single coil request");
+        FD_DHV("mbDevice::LoopCallback(): write single coil request");
         int addr =  MB_GETINT(MB_PDUOFF+1);
         bool val = ( ((unsigned char) MB_GETBYTE(MB_PDUOFF+3))==0xff);
-        FD_DHV("mbDevice::DoLoopCallback(): write single coil request: " << addr << " to " << val);
+        FD_DHV("mbDevice::LoopCallback(): write single coil request: " << addr << " to " << val);
         // test
         errcode=0x00;
         if(addr>=mImageSize) errcode=0x02;
@@ -810,10 +830,10 @@ void mbDevice::DoLoopCallback(void) {
       }
       // write single register
       if(fnct==0x06) {
-        FD_DHV("mbDevice::DoLoopCallback(): write holding register request");
+        FD_DHV("mbDevice::LoopCallback(): write holding register request");
         int addr =  MB_GETINT(MB_PDUOFF+1);
         int val = MB_GETINT(MB_PDUOFF+3);
-        FD_DHV("mbDevice::DoLoopCallback(): set  @" << addr << " to " << val);
+        FD_DHV("mbDevice::LoopCallback(): set  @" << addr << " to " << val);
         // test validity
         errcode=0x00;
         if(16*addr+16 >mImageSize) 
@@ -835,11 +855,11 @@ void mbDevice::DoLoopCallback(void) {
       }
       // write multiple coils
       if(fnct==0x0f) {
-        FD_DHV("mbDevice::DoLoopCallback(): write multiple coils request");
+        FD_DHV("mbDevice::LoopCallback(): write multiple coils request");
         int addr =  MB_GETINT(MB_PDUOFF+1);
         int count = MB_GETINT(MB_PDUOFF+3);
         int bcount= MB_GETBYTE(MB_PDUOFF+5);
-        FD_DHV("mbDevice::DoLoopCallback(): address range: @" << addr << " #" << count << "(" << bcount << ")");
+        FD_DHV("mbDevice::LoopCallback(): address range: @" << addr << " #" << count << "(" << bcount << ")");
         // test validity
         errcode=0x00;
         if(addr+count>mImageSize) errcode=0x02;
@@ -861,11 +881,11 @@ void mbDevice::DoLoopCallback(void) {
       }
       // write multiple holding registers
       if(fnct==0x10) {
-        FD_DHV("mbDevice::DoLoopCallback(): write multiple holding registers request");
+        FD_DHV("mbDevice::LoopCallback(): write multiple holding registers request");
         int addr =  MB_GETINT(MB_PDUOFF+1);
         int count = MB_GETINT(MB_PDUOFF+3);
         int bcount= MB_GETBYTE(MB_PDUOFF+5);
-        FD_DHV("mbDevice::DoLoopCallback(): address range: @" << addr << " #" << count << "(" << bcount << ")");
+        FD_DHV("mbDevice::LoopCallback(): address range: @" << addr << " #" << count << "(" << bcount << ")");
         // test validity
         errcode=0x00;
         if(16*addr+16*count>mImageSize) 
@@ -892,12 +912,12 @@ void mbDevice::DoLoopCallback(void) {
       }
       // send reply
       if(errcode==0x00) {
-        FD_DHV("mbDevice::DoLoopCallback(): sending reply #" << mMessageLen);
+        FD_DHV("mbDevice::LoopCallback(): sending reply #" << mMessageLen);
         MbSendResponse(mastersock);
       }
       // send error
       if(errcode!=0x00) {
-        FD_DH("mbDevice::DoLoopCallback(): sending error reply, code " << errcode);
+        FD_DH("mbDevice::LoopCallback(): sending error reply, code " << errcode);
         MB_SETBYTE(MB_PDUOFF,  fnct | 0x80);
         MB_SETBYTE(MB_PDUOFF+1, errcode);
         mMessageLen=2;

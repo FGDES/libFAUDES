@@ -91,14 +91,14 @@ class FAUDES_API StackSymbolSet : public NameSet {
   static SymbolTable msSymbolTable;
 
   /**
-   * Assign from other stack symbol set.
+   * Copy from other stack symbol set.
    *
    * @param rSourceSet
    *   Destination to copy from
    * @return
    *   ref to this set
    */
-  void DoAssign(const StackSymbolSet& rSourceSet);
+  void DoCopy(const StackSymbolSet& rSourceSet);
 
   /**
    * Test equality with other clock set.

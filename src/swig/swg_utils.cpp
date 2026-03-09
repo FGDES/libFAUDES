@@ -101,13 +101,15 @@ void faudes_help(void) {
     << "  faudes.StateNamesOn()              enable automatic state names" << std::endl
     << "  faudes.StateNamesOff()             disable automatic state names" << std::endl
     << "  faudes.DotExecPath(\"filename\")     path of dot executable" << std::endl
-    << "  faudes.Version()                   return libfaudes version string" << std::endl
+    << "  faudes.Version()                   return libFAUDES version string" << std::endl
+    << "  faudes.Build()                     return libFAUDES build string" << std::endl
     << std::endl
     << "Console Commands:" << std::endl
     << std::endl
+    << "  faudes.Verbosity(int)              set verbositry level " << std::endl
     << "  faudes.Print(\"message\")            print as faudes debugging message" << std::endl
-    << "  faudes.Error(\"message\")            abort script with error message" << std::endl
-    << "  faudes.Verbosity(int)              set verbositry level " << std::endl;
+    << "  faudes.Print(int,\"message\")            conditional debugging message" << std::endl
+    << "  faudes.Error(\"message\")            abort script with error message" << std::endl;
 
   // do print to stderr
   Print(0,sstr.str()); // verb 0 <> always

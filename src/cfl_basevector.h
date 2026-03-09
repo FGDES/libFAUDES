@@ -115,14 +115,14 @@ public:
   virtual ~vBaseVector(void);
 
   /**
-   * Assign by reference
+   * Copy by reference
    *
    * This method will take references from the source entry, i.e., it will not take
    * copies and will not attain ownership. The caller is hence responsible for the
-   * livetime of the elements. To obtain a full copy, use the copy constror or Assign()
+   * livetime of the elements. To obtain a full copy, use the copy constror or Copy()
    * instead.
    */
-  void AssignByReference(vBaseVector& rSourceVector);
+  void CopyByReference(vBaseVector& rSourceVector);
 
   /**
    * Prototype for vector entries.
@@ -551,8 +551,8 @@ protected:
    */
   virtual void DoRead(TokenReader& rTr, const std::string& rLabel = "", const Type* pContext=0);
 
-  /** Assignment method  (we will take copies and own all those thereafter) */
-  void DoAssign(const vBaseVector& rSourceVector);
+  /** Copyment method  (we will take copies and own all those thereafter) */
+  void DoCopy(const vBaseVector& rSourceVector);
 
   /**
    * Test equality of configuration data.
@@ -832,8 +832,8 @@ public:
 
  protected:
 
-  /** Assignment method  */
-  void DoAssign(const TBaseVector<T>& rSourceVector);
+  /** Copyment method  */
+  void DoCopy(const TBaseVector<T>& rSourceVector);
 
 
 };
@@ -887,7 +887,7 @@ TEMP THIS::TBaseVector(const TBaseVector& rOtherVector) :
   vBaseVector()
 {
   FD_DC("TBaseVector(" << this << ")::TBaseVector(rOtherVector " << &rOtherVector << "): copy construct");
-  DoAssign(rOtherVector);
+  DoCopy(rOtherVector);
 }
 
 // TBaseVector(rOtherSet)
@@ -895,7 +895,7 @@ TEMP THIS::TBaseVector(const vBaseVector& rOtherVector) :
   vBaseVector()
 {
   FD_DC("TBaseVector(" << this << ")::TBaseVector([v] rOtherVector " << &rOtherVector << "): copy construct");
-  Assign(rOtherVector);
+  Copy(rOtherVector);
 }
 
 // destructor
@@ -918,12 +918,12 @@ TEMP bool THIS::ElementTry(const Type& rElement) const {
 
 
 // assignment
-TEMP void THIS::DoAssign(const THIS& rSourceVector) {
-  FD_DC("TBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << ")");
+TEMP void THIS::DoCopy(const THIS& rSourceVector) {
+  FD_DC("TBaseVector(" << this << ")::DoCopy(rOtherVector " << &rSourceVector << ")");
   // base can do it
-  BASE::DoAssign(rSourceVector);
+  BASE::DoCopy(rSourceVector);
   // done
-  FD_DC("TBaseVector(" << this << ")::DoAssign(rOtherVector " << &rSourceVector << "): done");
+  FD_DC("TBaseVector(" << this << ")::DoCopy(rOtherVector " << &rSourceVector << "): done");
 }
 
 // At()

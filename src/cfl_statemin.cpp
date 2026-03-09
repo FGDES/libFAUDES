@@ -333,7 +333,7 @@ public:
     
     // resolve buffered result
     if(pResGen != &rResGen) {
-      pResGen->Move(rResGen);
+      rResGen.Move(*pResGen);
       delete pResGen;
     }
 
@@ -604,7 +604,7 @@ void StateMin_org(const Generator& rGen, Generator& rResGen,
     
   // if necessary, move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }

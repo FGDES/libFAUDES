@@ -66,7 +66,7 @@ int main() {
 
   // compute reachable states per event
   std::map< Idx, HybridStateSet > ystates;
-  istates.Assign(ustates[lha.EventIndex("u_north_west")]);
+  istates.Copy(ustates[lha.EventIndex("u_north_west")]);
   LhaReach(lha,istates,ystates); 
 
   // dump successor states
@@ -81,7 +81,7 @@ int main() {
   std::cout << "################################\n";
 
   // compute reachable states per event
-  istates.Assign(ystates[lha.EventIndex("y_north")]);
+  istates.Copy(ystates[lha.EventIndex("y_north")]);
   LhaReach(lha,istates,ustates); 
 
   // dump successor states
@@ -97,7 +97,7 @@ int main() {
 
 
   // compute reachable states per event
-  istates.Assign(ustates[lha.EventIndex("u_south_west")]);
+  istates.Copy(ustates[lha.EventIndex("u_south_west")]);
   LhaReach(lha,istates,ystates); 
 
   // dump successor states

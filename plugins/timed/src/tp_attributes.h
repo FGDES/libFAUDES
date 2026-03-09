@@ -34,6 +34,11 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedTrans,AttributeFlags)
   /** Constructor */
   AttributeTimedTrans(void) : AttributeFlags() { mGuard.Name("Guard"); mResets.Name("Resets"); };
 
+  /** Copy Constructor */
+  AttributeTimedTrans(const AttributeTimedTrans& rSrcAttr) : AttributeTimedTrans() {
+    DoCopy(rSrcAttr);
+  }
+ 
   /** 
    * Test for default value (ie empty constraint and default flags)
    *
@@ -51,12 +56,20 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedTrans,AttributeFlags)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeTimedTrans& rSrcAttr);
+  void DoCopy(const AttributeTimedTrans& rSrcAttr);
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeTimedTrans& rSrcAttr);
 
   /**
    * Test eaulity. 
@@ -130,9 +143,8 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedState,AttributeFlags)
   };
 
   /** Copy Constructor */
-  AttributeTimedState(const AttributeTimedState& rSrcAttr) : AttributeFlags() {
-    mInvariant.Name("Invariant");
-    DoAssign(rSrcAttr);
+  AttributeTimedState(const AttributeTimedState& rSrcAttr) : AttributeTimedState() {
+     DoCopy(rSrcAttr);
   };
 
   /** 
@@ -150,12 +162,21 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedState,AttributeFlags)
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeTimedState& rSrcAttr);
+  void DoCopy(const AttributeTimedState& rSrcAttr);
+
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeTimedState& rSrcAttr);
 
 
   /**
@@ -227,6 +248,11 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedGlobal,AttributeVoid)
   AttributeTimedGlobal(void) {
     mpClockSymbolTable=mClocks.SymbolTablep(); };
 
+  /** Copy Construct */
+  AttributeTimedGlobal(const AttributeTimedGlobal& rSrcAttr) : AttributeTimedGlobal() {
+    DoCopy(rSrcAttr);
+  }
+
   /** 
    * Test for default value (ie empty clockset)
    *
@@ -244,12 +270,20 @@ FAUDES_TYPE_DECLARATION(Void,AttributeTimedGlobal,AttributeVoid)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeTimedGlobal& rSrcAttr);
+  void DoCopy(const AttributeTimedGlobal& rSrcAttr);
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeTimedGlobal& rSrcAttr);
 
   /**
    * Test eaulity. 

@@ -22,13 +22,19 @@ namespace faudes {
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeTimedTrans,AttributeFlags)
 
-// Assign my members
-void AttributeTimedTrans::DoAssign(const AttributeTimedTrans& rSrcAttr) { 
+// Copy my members
+void AttributeTimedTrans::DoCopy(const AttributeTimedTrans& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   mGuard=rSrcAttr.mGuard;
   mResets=rSrcAttr.mResets;
+}
+
+// Copy my members
+void AttributeTimedTrans::DoMove(AttributeTimedTrans& rSrcAttr) { 
+  // we dont support mive
+  DoCopy(rSrcAttr);
 }
 
 // Equality
@@ -111,12 +117,18 @@ void AttributeTimedTrans::DoRead(TokenReader& rTr, const std::string& rLabel, co
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeTimedState,AttributeFlags)
 
-// Assign my members
-void AttributeTimedState::DoAssign(const AttributeTimedState& rSrcAttr) { 
+// Copy my members
+void AttributeTimedState::DoCopy(const AttributeTimedState& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   mInvariant=rSrcAttr.mInvariant;
+}
+
+// Copy my members
+void AttributeTimedState::DoMove(AttributeTimedState& rSrcAttr) { 
+  // we dont support move
+  DoCopy(rSrcAttr);
 }
 
 // Equality
@@ -172,12 +184,21 @@ void AttributeTimedState::DoRead(TokenReader& rTr, const std::string& rLabel, co
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeTimedGlobal,AttributeVoid)
 
-// Assign my members
-void AttributeTimedGlobal::DoAssign(const AttributeTimedGlobal& rSrcAttr) { 
+// Copy my members
+void AttributeTimedGlobal::DoCopy(const AttributeTimedGlobal& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeVoid::DoAssign(rSrcAttr);
+  AttributeVoid::DoCopy(rSrcAttr);
   // my additional members
   mClocks=rSrcAttr.mClocks;
+  mpClockSymbolTable=rSrcAttr.mpClockSymbolTable;
+}
+
+// Copy my members
+void AttributeTimedGlobal::DoMove(AttributeTimedGlobal& rSrcAttr) { 
+  // call base (incl. virtual clear)
+  AttributeVoid::DoCopy(rSrcAttr);
+  // my additional members
+  mClocks.Move(rSrcAttr.mClocks);
   mpClockSymbolTable=rSrcAttr.mpClockSymbolTable;
 }
 

@@ -42,7 +42,7 @@ void Parallel(const Generator& rGen1, const Generator& rGen2, Generator& rResGen
   Parallel(rGen1, rGen2, cmap, *pResGen);
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -90,6 +90,7 @@ void ParallelLive(
   rResGen.StateNamesEnabled(rnames);
   // run parallel 
   for(GeneratorVector::Position i=1; i<rGenVec.Size(); i++) {
+    FD_DF("ParallelLive() cnt " << i << " current trans #" << rResGen.TransRel().Size());
     RemoveNonCoaccessibleOut(rResGen);
     FD_DF("ParallelLive() cnt " << i << " certconf trans #" << rResGen.TransRel().Size());
     ParallelLive(rResGen,rGenVec.At(i),rResGen);
@@ -125,7 +126,7 @@ void aParallel(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -199,7 +200,7 @@ void aParallel(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -322,7 +323,7 @@ void Parallel(
     gen1live=rGen1.CoaccessibleSet();
     gen2live=rGen2.CoaccessibleSet();
   }
-  
+
   // shared events
   EventSet sharedalphabet = rGen1.Alphabet() * rGen2.Alphabet();
   FD_DF("Parallel: shared events: " << sharedalphabet.ToString());
@@ -483,9 +484,10 @@ void Parallel(
 
   // copy result
   if(pResGen != &rResGen) {
-    rResGen = *pResGen;
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
+  
   // set statenames
   if(rGen1.StateNamesEnabled() && rGen2.StateNamesEnabled() && rResGen.StateNamesEnabled()) 
     SetComposedStateNames(rGen1, rGen2, rCompositionMap, rResGen); 
@@ -548,7 +550,7 @@ void aProduct(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -582,7 +584,7 @@ void aProduct(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -800,6 +802,9 @@ void CompositionMap2(
  * Rti wrapper class implementation
  */
 
+// register
+AutoRegisterType<ProductCompositionMap> gRtiProductCompositionMap("ProductCompositionMap");
+
 // std faudes type
 FAUDES_TYPE_IMPLEMENTATION(ProductCompositionMap,ProductCompositionMap,Type)
 
@@ -810,7 +815,7 @@ ProductCompositionMap::ProductCompositionMap(void) : Type() {
 
 // construct
 ProductCompositionMap::ProductCompositionMap(const ProductCompositionMap& rOther) : Type() {
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
 // destruct
@@ -826,7 +831,7 @@ void ProductCompositionMap::Clear(void) {
 }
 
 // assignment
-void ProductCompositionMap::DoAssign(const ProductCompositionMap& rSrc) {
+void ProductCompositionMap::DoCopy(const ProductCompositionMap& rSrc) {
   mCompositionMap=rSrc.mCompositionMap;
   mCompiled=rSrc.mCompiled;
   mArg1Map=rSrc.mArg1Map; 

@@ -58,7 +58,7 @@
 % 
 % 
 
-%%% test mark: acc [at 1_generator.cpp:656]
+%%% test mark: acc [at 1_generator.cpp:651]
 % 
 %  Statistics for AccessibleSet
 % 
@@ -68,7 +68,7 @@
 % 
 % 
 
-%%% test mark: coacc [at 1_generator.cpp:657]
+%%% test mark: coacc [at 1_generator.cpp:652]
 % 
 %  Statistics for CoaccessibleSet
 % 
@@ -78,7 +78,7 @@
 % 
 % 
 
-%%% test mark: term [at 1_generator.cpp:658]
+%%% test mark: term [at 1_generator.cpp:653]
 % 
 %  Statistics for TerminalStates
 % 
@@ -88,7 +88,7 @@
 % 
 % 
 
-%%% test mark: accessible [at 1_generator.cpp:711]
+%%% test mark: accessible [at 1_generator.cpp:697]
 % 
 %  Statistics for GAccessible
 % 
@@ -103,7 +103,7 @@
 % 
 % 
 
-%%% test mark: coaccessible [at 1_generator.cpp:712]
+%%% test mark: coaccessible [at 1_generator.cpp:698]
 % 
 %  Statistics for GCoccessible
 % 
@@ -118,7 +118,7 @@
 % 
 % 
 
-%%% test mark: complete [at 1_generator.cpp:713]
+%%% test mark: complete [at 1_generator.cpp:699]
 % 
 %  Statistics for GComplete
 % 
@@ -133,7 +133,7 @@
 % 
 % 
 
-%%% test mark: trim [at 1_generator.cpp:714]
+%%% test mark: trim [at 1_generator.cpp:700]
 % 
 %  Statistics for GTrim
 % 
@@ -148,22 +148,7 @@
 % 
 % 
 
-%%% test mark: omega trim [at 1_generator.cpp:715]
-% 
-%  Statistics for GOmegaTrim
-% 
-%  States:        2
-%  Init/Marked:   1/1
-%  Events:        4
-%  Transitions:   2
-%  StateSymbols:  2
-%  Attrib. E/S/T: 0/0/0
-% 
-% 
-% 
-% 
-
-%%% test mark: iscmpl [at 1_generator.cpp:748]
+%%% test mark: iscmpl [at 1_generator.cpp:733]
 <Boolean>
 false        
 </Boolean>
@@ -171,7 +156,7 @@ false
 % 
 % 
 
-%%% test mark: gsigcomplB [at 1_generator.cpp:749]
+%%% test mark: gsigcomplB [at 1_generator.cpp:734]
 % 
 %  Statistics for GSigoCompleteB
 % 
@@ -186,7 +171,7 @@ false
 % 
 % 
 
-%%% test mark: gsigcomplC [at 1_generator.cpp:750]
+%%% test mark: gsigcomplC [at 1_generator.cpp:735]
 % 
 %  Statistics for GSigoCompleteC
 % 

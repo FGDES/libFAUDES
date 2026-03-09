@@ -1,0 +1,46 @@
+[project]
+name = "faudes"
+description = "A Discrete Event Systems Library"
+dynamic = ["version"]
+keywords = ["control", "automata", "languages"]
+license = "LGPL-2.1-or-later"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: MacOS :: MacOS X",
+  "Intended Audience :: Science/Research",
+  "Topic :: Education",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries",
+  "Programming Language :: Python",
+  "Programming Language :: C++",
+]
+
+[project.urls]
+Repository = "https://github.com/FGDES/libFAUDES"
+Homepage = "https://fgdes.tf.fau.de/faudes"
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = {file = ["VERSION"]}
+
+[tool.cibuildwheel]
+archs = ["auto"]
+build = "cp3*"
+skip = "cp3??t-*"
+test-command = "pytest {package}/tests"
+test-requires = "pytest"

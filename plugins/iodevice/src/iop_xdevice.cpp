@@ -47,11 +47,12 @@ xDevice::xDevice(void) : vDevice() {
   // have appropriate default label
   mDefaultLabel="DeviceContainer";
 
-  // auto register fix: 
+  // auto register fix (old compilers 2010; fine with C++11) 
   // for some reasons the global register objects do not work properly.
   // since the xdevice is autoregeistered by the rti, we ask the constructor
   // to register the other devices
 
+  /*
 #ifdef FAUDES_IODEVICE_SIMPLENET
   volatile static AutoRegisterType<nDevice> gRtiIORegisterSimplenetDevice("SimplenetDevice");
 #endif
@@ -73,7 +74,21 @@ xDevice::xDevice(void) : vDevice() {
 #ifdef FAUDES_IODEVICE_D3RIP_DART
   volatile static AutoRegisterType<d3ripDARTDevice> gRtiIORegisterD3ripDartDevice("D3RipDartDevice");
 #endif
+  */
 
+}
+
+
+//copy constructor
+xDevice::xDevice(const xDevice& rOther) : xDevice() {
+  /* my configuration */
+  Iterator dit;
+  for(dit=rOther.Begin();dit!=rOther.End();dit++){
+    mDevices.push_back((*dit)->NewCpy());
+  }
+  mDeviceNames = rOther.mDeviceNames;
+  /* compile */
+  Compile();  
 }
 
 // destructor
@@ -196,7 +211,6 @@ void xDevice::Reset(void){
 // Clear(void)
 void xDevice::Clear(void){
   //clear static data
-
   FD_DHV("xDevice(" << mName << ")::Clear()");
   // Stop running devices
   Stop();
@@ -368,8 +382,6 @@ void xDevice::DoWriteConfiguration(TokenWriter& rTw, const std::string& rLabel, 
   FD_DHV("xDevice("<<mName<<")::DoWriteConfiguration()");
   // hard coded begin
   rTw.WriteBegin("Devices");
-  // define device-iterator
-  Iterator dit;
   //iterate over all devices 
   for(Idx i=0; i<Size(); i++) {
     //if device was read from an extra file

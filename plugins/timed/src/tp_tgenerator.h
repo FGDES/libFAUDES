@@ -119,14 +119,14 @@ class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventA
     TtGenerator(const vGenerator& rOtherGen);
 
     /**
-     * Assignment operator (uses Assign)
+     * Copyment operator (uses Copy)
      * Note: you must reimplement this operator in derived 
      * classes in order to handle internal pointers correctly
      *
      * @param rOtherGen
      *   Other generator
      */
-    TtGenerator& operator= (const TtGenerator& rOtherGen) {this->Assign(rOtherGen); return *this;};
+    TtGenerator& operator= (const TtGenerator& rOtherGen) {this->Copy(rOtherGen); return *this;};
     
 
    /**
@@ -156,7 +156,7 @@ class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventA
     * @return 
     *   new Generator 
     */
-    TtGenerator* Copy(void) const;
+    TtGenerator* NewCpy(void) const;
 
     /**
      * Type test.
@@ -168,16 +168,6 @@ class FAUDES_TAPI TtGenerator : public TcGenerator<GlobalAttr, StateAttr, EventA
      */
      virtual const Type* Cast(const Type* pOther) const {
        return dynamic_cast< const TtGenerator* > (pOther); };
-
-
-   /**
-    * Construct on stack.
-    * Constructs a TtGenerator on stack with the same attribute types and the same event- and clock-symboltable.
-    *
-    * @return 
-    *   new Generator 
-    */
-    TtGenerator NewTGen(void) const;
 
 
    /**
@@ -847,21 +837,13 @@ TEMP THIS* THIS::New(void) const {
 }
 
 // Copy
-TEMP THIS* THIS::Copy(void) const {
+TEMP THIS* THIS::NewCpy(void) const {
   // allocate
   THIS* res = new THIS(*this);
   // done
   return res;
 }
 
-// NewTGen
-TEMP THIS THIS::NewTGen(void) const {
-  // call base (fixes by assignment constructor)
-  THIS res= BASE::NewCGen();
-  // fix my data
-  res.ClockSymbolTablep(ClockSymbolTablep());
-  return res;
-}
 
 // ClockSize() const
 TEMP Idx THIS::ClocksSize(void) const {

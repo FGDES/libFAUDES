@@ -8,13 +8,14 @@ on:
       
 jobs:
 
-  configure:
+  configure-full:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Install Extra Libs and Tools
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Install Extra Libs
       run: |
           sudo apt-get install doxygen swig
           sudo apt-get install libreadline-dev
@@ -25,6 +26,7 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
+        #export FAUDES_PLUGINS="synthesis luabindings pybindings"
         make -j configure
         make clean
         rm -rf ./bin/*
@@ -32,9 +34,43 @@ jobs:
         echo "notempty" > ./bin/notempty
         tar -czf faudes.tgz ./*
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
-        name: faudes.tgz
+        name: faudes_configured_src.tgz
+        path: ./faudes.tgz
+        if-no-files-found: error
+
+
+  configure-nopy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Install Extra Libs
+      run: |
+          sudo apt-get install doxygen swig
+          sudo apt-get install libreadline-dev
+    - name: Figure Version
+      run: |
+        . ./VERSION
+        echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+        echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
+    - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
+      run: |
+        # all excep pybindings
+        export FAUDES_PLUGINS="omegaaut synthesis observer multitasking diagnosis hiosys iosystem coordinationcontrol priorities timed simulator iodevice luabindings"
+        make -j configure
+        make clean
+        rm -rf ./bin/*
+        echo "notempty" > ./obj/notempty
+        echo "notempty" > ./bin/notempty
+        tar -czf faudes.tgz ./*
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v6
+      with:
+        name: faudes_configured_src_nopy.tgz
         path: ./faudes.tgz
         if-no-files-found: error
 
@@ -42,14 +78,14 @@ jobs:
   build-lx:
   
     runs-on: ubuntu-latest
-    needs: [configure]
+    needs: [configure-full]
     
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
-        path: ./	
+        name: faudes_configured_src.tgz
+        path: ./
     - name: Extract Archive
       run: |
         tar -xzf faudes.tgz
@@ -68,14 +104,14 @@ jobs:
   build-osx:
   
     runs-on: macos-latest
-    needs: [configure]
+    needs: [configure-full]
     
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
-        path: ./	
+        name: faudes_configured_src.tgz
+        path: ./
     - name: Extract Archive
       run: |
         tar -xzf faudes.tgz
@@ -95,13 +131,13 @@ jobs:
   build-msys:
   
     runs-on: windows-latest
-    needs: [configure]
+    needs: [configure-full]
     
     steps:	
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
+        name: faudes_configured_src.tgz
         path: ./
     - name: Extract Archive
       run: |
@@ -117,7 +153,8 @@ jobs:
           perl 
           doxygen 
           ncurses-devel 
-          libreadline-devel 
+          libreadline-devel
+          mingw-w64-ucrt-x86_64-python
     - name: Build Default Targets
       shell: msys2 {0}
       run: |
@@ -133,7 +170,7 @@ jobs:
   build-msvc:  
 
     runs-on: windows-latest
-    needs: [configure]
+    needs: [configure-nopy]
     defaults:
       run:
         shell: cmd
@@ -153,7 +190,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
+        name: faudes_configured_src_nopy.tgz
         path: ./
     - name: Extract Archive
       run: |
@@ -166,7 +203,7 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 binaries
-    - name: Build Tutorials
+    - name: Built Tutorial
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 tutorial
@@ -174,11 +211,6 @@ jobs:
       run: |
         set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe 
         %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 test
-    - name: Build DSO incl Tools
-      run: |
-        del obj\*.obj
-        del bin\*.exe
-        del plugins\luabindings\obj\*.obj
-        set GNUMAKE=${{ steps.msys2.outputs.msys2-location }}\usr\bin\make.exe
-        %GNUMAKE% FAUDES_PLATFORM=cl_win FAUDES_LINKING="static debug" -j1 
+
+
 

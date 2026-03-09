@@ -142,9 +142,10 @@ Implementation of class Signature
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,Signature,Type)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,Signature,Type)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,Signature,Type)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,Signature,Type)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,Signature,Type)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,Signature,Type)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,Signature,Type)
 
 // constructor
@@ -153,11 +154,11 @@ Signature::Signature(void) : Type() {}
 // copy constructor
 Signature::Signature(const Signature& rSrc) : Type()
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
 
 // std faudes type
-void Signature::DoAssign(const Signature& rSrc) {
+void Signature::DoCopy(const Signature& rSrc) {
   // assign my members
   mName=rSrc.mName;
   mParameters=rSrc.mParameters;
@@ -346,8 +347,9 @@ Implementation of class FunctionDefinition
 
 // faudes type (cannot do autoregister)
 FAUDES_TYPE_IMPLEMENTATION_NEW(Void,FunctionDefinition,Documentation)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,FunctionDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,FunctionDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,FunctionDefinition,Documentation)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,FunctionDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,FunctionDefinition,Documentation)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,FunctionDefinition,Documentation)
 
@@ -365,13 +367,13 @@ FunctionDefinition::FunctionDefinition(const FunctionDefinition& rSrc) :
   Documentation(), 
   mpFunction(NULL) 
 {
-  DoAssign(rSrc);
+  DoCopy(rSrc);
 }
 
 // std faudes type
-void FunctionDefinition::DoAssign(const FunctionDefinition& rSrc) {
+void FunctionDefinition::DoCopy(const FunctionDefinition& rSrc) {
   // assign base members
-  Documentation::DoAssign(rSrc);
+  Documentation::DoCopy(rSrc);
   // assign my members
   mVariants=rSrc.mVariants;
   mVariantIndexMap=rSrc.mVariantIndexMap;

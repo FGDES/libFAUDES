@@ -7,7 +7,7 @@
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::Alphabet" ctype="faudes::Alphabet" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::Alphabet" ctype="faudes::Alphabet"> 
 
 <Documentation ref="corefaudes_alphabet.html#Alphabet"> 
 Basic alphabet with controllability attributes.
@@ -45,7 +45,7 @@ CoreFaudes    "elementary type"  true          false
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::EventSet" ctype="faudes::EventSet" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::EventSet" ctype="faudes::EventSet"> 
 
 <Documentation ref="corefaudes_alphabet.html#EventSet"> 
 Basic alphabet.
@@ -65,7 +65,7 @@ CoreFaudes    events        alphabet
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::EventSetVector" ctype="faudes::EventSetVector" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::EventSetVector" ctype="faudes::EventSetVector"> 
 
 <Documentation ref="corefaudes_vector.html#EventSetVector"> 
 Vector of alphabets
@@ -86,7 +86,7 @@ CoreFaudes    vector        eventset      alphabet
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::Generator" ctype="faudes::Generator" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::Generator" ctype="faudes::Generator"> 
 
 <Documentation ref="corefaudes_generator.html#Generator"> 
 Basic generator model G=(Sigma,Q,delta,Qo,Qm).
@@ -104,7 +104,7 @@ CoreFaudes    generator     states        events        transitions
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::GeneratorVector" ctype="faudes::GeneratorVector" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::GeneratorVector" ctype="faudes::GeneratorVector"> 
 
 <Documentation ref="corefaudes_vector.html#GeneratorVector"> 
 Vector of generators
@@ -164,7 +164,7 @@ CoreFaudes    "elementary type"  vector        integer
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::StateSet" ctype="faudes::StateSet" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::StateSet" ctype="faudes::StateSet"> 
 <ElementTag value="State"/>
 </TypeDefinition> 
 
@@ -194,7 +194,7 @@ CoreFaudes    "elementary type"
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::System" ctype="faudes::System" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::System" ctype="faudes::System"> 
 
 <Documentation ref="corefaudes_generator.html#System"> 
 Generator model G=(Sigma,Q,delta,Qo,Qm) with controllability attributes.
@@ -213,7 +213,7 @@ transitions
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::SystemVector" ctype="faudes::SystemVector" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::SystemVector" ctype="faudes::SystemVector"> 
 
 <Documentation ref="corefaudes_vector.html#SystemVector"> 
 Vector of systems
@@ -234,7 +234,7 @@ CoreFaudes    vector        generator     system
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::TransSet" ctype="faudes::TransSet" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::TransSet" ctype="faudes::TransSet"> 
 <ElementTag value="Tr"/>
 </TypeDefinition> 
 
@@ -245,7 +245,7 @@ CoreFaudes    vector        generator     system
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::ProductCompositionMap" ctype="faudes::ProductCompositionMap" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::ProductCompositionMap" ctype="faudes::ProductCompositionMap"> 
 </TypeDefinition> 
 
 <!-- =================================================== -->
@@ -254,7 +254,7 @@ CoreFaudes    vector        generator     system
 <!-- =================================================== -->
 <!-- =================================================== -->
 
-<TypeDefinition name="CoreFaudes::RelabelMap" ctype="faudes::RelabelMap" autoregister="true"> 
+<TypeDefinition name="CoreFaudes::RelabelMap" ctype="faudes::RelabelMap"> 
 
 <Documentation ref="corefaudes_genmisc.html#ApplyRelabelMap"> 
 Set-valued map with domain and range EventSet

@@ -10,7 +10,7 @@
 
 
 #include "ios_attributes.h"
-#include <cfl_types.h>
+#include "cfl_types.h"
 
 namespace faudes {
 
@@ -32,10 +32,10 @@ Implementation: event attributes
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeIosEvent,AttributeFlags)
 
   
-// Assign my members
-void AttributeIosEvent::DoAssign(const AttributeIosEvent& rSrcAttr) { 
+// Copy my members
+void AttributeIosEvent::DoCopy(const AttributeIosEvent& rSrcAttr) { 
   // call base (incl virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
 }
 
 
@@ -176,10 +176,10 @@ Implementation: state attributes
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeIosState,AttributeFlags)
 
-//DoAssign( rSrcAttr )
-void AttributeIosState::DoAssign(const AttributeIosState& rSrcAttr) { 
+//DoCopy( rSrcAttr )
+void AttributeIosState::DoCopy(const AttributeIosState& rSrcAttr) { 
   // call base (incl virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
 }
 
 

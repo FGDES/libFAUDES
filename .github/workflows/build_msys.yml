@@ -1,5 +1,13 @@
 name: Build libFAUDES on MSYS2
 
+# pthon packes we've tried:
+# mingw-w64-i686-python
+# mingw-w64-x86_64-python
+# mingw-w64-ucrt-x86_64-python << winner
+# mingw-w64-clang-x86_64-python
+# python
+         
+
 on:
   workflow_dispatch:
 
@@ -21,6 +29,7 @@ jobs:
         install: >-
           base-devel
           mingw-w64-ucrt-x86_64-gcc
+          mingw-w64-ucrt-x86_64-python
           swig 
           perl 
           doxygen 
@@ -33,12 +42,22 @@ jobs:
           . ./VERSION
           echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
           echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
-          echo | gcc -dM -E -
+          python --version
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
-      run: make -j1 configure
+      run: make -j1 configure PYTHON=python
     - name: Build Default Targets
       run: make -j1
     - name: Build Tutorials
       run: make -j1 tutorial
     - name: Run Test Cases
       run: make -j1 test
+    - name: Build Package
+      run: |
+        make package
+        ls -hl libfaudes_*.*
+    - uses: actions/upload-artifact@v4
+      with:
+        name: libfaudes_${{ env.VMAJOR }}_${{ env.VMINOR }}_msys.tar.gz
+        path: ./libfaudes_*msys.tar.gz
+        compression-level: 0
+        if-no-files-found: error

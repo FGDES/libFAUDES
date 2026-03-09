@@ -26,6 +26,7 @@
 ********************************************************************
 */
 
+#ifndef FAUDES_MUTE_LUA
 
 // Lua keywords
 static const char *const faudes_rl_keywords[] = {
@@ -253,3 +254,4 @@ static std::list< std::string > faudes_rl_complete(lua_State *L, const std::stri
   return mlist;
 }
 
+#endif

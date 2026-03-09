@@ -1876,7 +1876,7 @@ void insertRelabeledEvents(Generator& rGenPlant, const map<Idx,set<Idx> >&  rMap
 	for(; tsIt != tsEndIt; tsIt++){
 		map<Idx,set<Idx> >::const_iterator reIt = rMapRelabeledEvents.find(tsIt->Ev);
 		if(reIt == reEndIt) continue;
-		AttributeVoid* attrp = rGenPlant.EventAttribute(tsIt->Ev).Copy(); 
+		AttributeVoid* attrp = rGenPlant.EventAttribute(tsIt->Ev).NewCpy(); 
 		set<Idx>::const_iterator rsEndIt = reIt->second.end();
 		set<Idx>::const_iterator rsIt = reIt->second.begin();
 		// if a transition with an event that gets new labels has been found, parallel transitions 
@@ -1951,7 +1951,7 @@ EventRelabelMap::~EventRelabelMap(void) {}
 void EventRelabelMap::Clear(void) { mMap.clear(); }
 
 // assignment/equality
-void EventRelabelMap::DoAssign(const EventRelabelMap& rSrc) {mMap=rSrc.mMap;}
+void EventRelabelMap::DoCopy(const EventRelabelMap& rSrc) {mMap=rSrc.mMap;}
 bool EventRelabelMap::DoEqual(const EventRelabelMap& rOther) const { return mMap==rOther.mMap;}
 
 // access

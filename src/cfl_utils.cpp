@@ -155,17 +155,16 @@ std::string ContributorsString() {
 
 #define XLITSTR(x) LITSTR(x)
 #define LITSTR(x) #x
-  
-// ContributorsString()
+
 std::string BuildString() {
   std::string res;
 #ifdef FAUDES_BUILDENV
-  res = res + std::string(XLITSTR(FAUDES_BUILDENV));
+  res = res + std::string(FAUDES_BUILDENV);
 #else  
   res = res + std::string("generic");
 #endif
 #ifdef FAUDES_BUILDTIME  
-  res = res + std::string(" ") + std::string(XLITSTR(FAUDES_BUILDTIME));
+  res = res + std::string(" ") + std::string(FAUDES_BUILDTIME);
 #else
   res = res + std::string(" ") + std::string(FAUDES_CONFIG_TIMESTAMP);
 #endif  
@@ -472,6 +471,9 @@ void ConsoleOut::ToFile(const std::string& filename) {
   pStream = new std::ofstream();
   pStream->open(mFilename.c_str(),std::ios::app);
 }
+bool ConsoleOut::IsFile(void) {
+  return pStream!=NULL;
+}  
 void ConsoleOut::Write(const std::string& message,long int cntnow, long int cntdone, int verb) {
   DoWrite(message,cntnow,cntdone,verb);
 }

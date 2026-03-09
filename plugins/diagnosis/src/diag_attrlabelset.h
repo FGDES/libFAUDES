@@ -48,6 +48,9 @@ FAUDES_TYPE_DECLARATION(Void,DiagLabelSet,AttributeFlags)
   /** Constructor for DiagLabelSet with specified SymbolTable. */
   DiagLabelSet(SymbolTable *pSymTab);
 
+  /** Copy Constructor*/
+  DiagLabelSet(const DiagLabelSet& rSrcAttr);
+
   /**
      Constructor for DiagLabelSet with static LabelSymbolTable.
      This version reads a file with given label to find the labels
@@ -250,7 +253,15 @@ FAUDES_TYPE_DECLARATION(Void,DiagLabelSet,AttributeFlags)
    *  @param rSrcAttr 
    *    Source to copy from
    */
-  void DoAssign(const DiagLabelSet& rSrcAttr); 
+  void DoCopy(const DiagLabelSet& rSrcAttr); 
+  
+  /**
+   *  Copy attribute members
+   *
+   *  @param rSrcAttr 
+   *    Source to copy from
+   */
+  void DoMove(DiagLabelSet& rSrcAttr); 
   
   /**
    *  Test equality

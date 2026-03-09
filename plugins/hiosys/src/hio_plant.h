@@ -112,7 +112,7 @@ class FAUDES_TAPI THioPlant : public TaGenerator<GlobalAttr, StateAttr, EventAtt
      * @return 
      *   new Generator 
      */
-    virtual THioPlant* Copy(void) const;
+    virtual THioPlant* NewCpy(void) const;
 
     /**
      * Create empty HioPlant with same symboltable as this
@@ -123,12 +123,12 @@ class FAUDES_TAPI THioPlant : public TaGenerator<GlobalAttr, StateAttr, EventAtt
     THioPlant NewHioPlant(void) const;
 
     /**
-     * Assignment operator (uses copy )
+     * Copyment operator (uses copy )
      *
      * @param rOtherGen
      *   Other generator
      */
-     virtual THioPlant& operator= (const THioPlant& rOtherGen) {this->Assign(rOtherGen); return *this;};
+     virtual THioPlant& operator= (const THioPlant& rOtherGen) {this->Copy(rOtherGen); return *this;};
     
 //**************** I/O plant event attributes ********************/
 
@@ -930,8 +930,8 @@ TEMP THIS* THIS::New(void) const {
   return res;
 }
 
-// Copy()
-TEMP THIS* THIS::Copy(void) const {
+// NewCpy()
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

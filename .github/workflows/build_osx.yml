@@ -28,7 +28,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: faudes.tgz
+        name: faudes_configured_src.tgz
         path: ./faudes.tgz
         if-no-files-found: error
         compression-level: 0
@@ -42,15 +42,30 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
-        name: faudes.tgz
+        name: faudes_configured_src.tgz
         path: ./	
     - name: Extract Archive
       run: |
+        ls
         tar -xzf faudes.tgz
+    - name: Figure Version
+      run: |
+        . ./VERSION
+        echo "VMAJOR=$FAUDES_VERSION_MAJOR" >> "$GITHUB_ENV"
+        echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Install Tools
       run: |
         brew update
         brew install make
+        brew install swig
+        brew install perl
+        brew install doxygen
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.13'
+    - name: Test Python
+      run: python --version 
     - name: Build Default Targets
       run: |
         gmake -j1
@@ -58,3 +73,13 @@ jobs:
       run: gmake -j1 tutorial
     - name: Run Test Cases
       run: gmake -j1 test
+    - name: Build Package
+      run: |
+        make PYTHON=python package
+        ls libfaudes_*.*
+    - uses: actions/upload-artifact@v4
+      with:
+        name: libfaudes_${{ env.VMAJOR }}_${{ env.VMINOR }}_osx.tar.gz
+        path: ./libfaudes_*osx.tar.gz
+        compression-level: 0
+        if-no-files-found: error

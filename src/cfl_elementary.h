@@ -84,7 +84,7 @@ class FAUDES_API Integer : public Type {
    * 	Pointer to Integer instance.
    *
    */
-  virtual Integer* Copy(void) const;
+  virtual Integer* NewCpy(void) const;
 
   /**
    * Cast the other object to Integer.
@@ -139,7 +139,7 @@ class FAUDES_API Integer : public Type {
   }
 
   /**
-   * Assignment operator.
+   * Copyment operator.
    */
   Integer& operator= (const Int& clint){
     CValue(clint);
@@ -147,7 +147,7 @@ class FAUDES_API Integer : public Type {
   }
 
   /**
-   * Assignment operator.
+   * Copyment operator.
    */
   Integer& operator= (const Integer& coint){
     CValue(coint.CValue());
@@ -155,7 +155,7 @@ class FAUDES_API Integer : public Type {
   }
 
   /**
-   * Assignment/Sum operator
+   * Copyment/Sum operator
    */
   Integer& operator+= (const Int& clint){
     Int litmp = CValue();
@@ -164,7 +164,7 @@ class FAUDES_API Integer : public Type {
   }
 
   /**
-   * Assignment/Sum operator
+   * Copyment/Sum operator
    */
   Integer& operator+= (const Integer& coint){
     Int litmp = CValue() + coint.CValue();
@@ -279,7 +279,7 @@ class FAUDES_API String : public Type{
    * 	Pointer to Integer instance.
    *
    */
-  virtual String* Copy(void) const;
+  virtual String* NewCpy(void) const;
 
   /**
    * Cast the other object to String.
@@ -318,7 +318,7 @@ class FAUDES_API String : public Type{
   std::string* CReference(void);
 
   /**
-   * Assignment operator.
+   * Copyment operator.
    */
   String& operator= (const String& costr){
     CValue(costr.CValue());
@@ -326,7 +326,7 @@ class FAUDES_API String : public Type{
   }
 
   /*
-   * Assignment operator, std::string source
+   * Copyment operator, std::string source
    */
   String& operator= (const std::string& cstr){
     CValue(cstr);
@@ -433,7 +433,7 @@ class FAUDES_API Boolean : public Type{
    * 	Pointer to Boolean instance.
    *
    */
-  virtual Boolean* Copy(void) const;
+  virtual Boolean* NewCpy(void) const;
 
   /**
    * Cast the other object to Boolean.
@@ -472,7 +472,7 @@ class FAUDES_API Boolean : public Type{
   bool* CReference(void);
 
   /**
-   * Assignment operator.
+   * Copyment operator.
    */
   Boolean& operator= (const bool& bbool){
     CValue(bbool);
@@ -480,7 +480,7 @@ class FAUDES_API Boolean : public Type{
   }
 
   /**
-   * Assignment operator.
+   * Copyment operator.
    */
   Boolean& operator= (const Boolean& cobool){
     CValue(cobool.CValue());

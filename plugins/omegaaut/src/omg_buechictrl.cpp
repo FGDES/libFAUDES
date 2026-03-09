@@ -1205,7 +1205,7 @@ void SupBuechiConUnchecked(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 
@@ -1325,7 +1325,7 @@ void SupBuechiConNormUnchecked(
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -1372,7 +1372,7 @@ void SupBuechiCon(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -1440,7 +1440,7 @@ void BuechiCon(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -1483,7 +1483,7 @@ void SupBuechiConNorm(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -1560,7 +1560,7 @@ void BuechiConNorm(
   pResGen->EventAttributes(rPlantGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }

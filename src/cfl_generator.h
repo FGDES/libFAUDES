@@ -256,7 +256,7 @@ class FAUDES_API vGenerator : public ExtType  {
   /**
    * Construct copy on heap. 
    * Technically not a constructor, this function creates a vGenerator with the
-   * same event symboltable. It is the callers responsebilty to delete the object 
+   * same event symboltable on heap. It is the callers responsebilty to delete the object 
    * when no longer needed. Derived classes must reimplement
    * this function to create an object of the same class and the same event 
    * symboltable. 
@@ -264,7 +264,7 @@ class FAUDES_API vGenerator : public ExtType  {
    * @return 
    *   New vGenerator 
    */
-  virtual vGenerator* Copy(void) const;
+  virtual vGenerator* NewCpy(void) const;
 
   /**
    * Type test.
@@ -288,7 +288,7 @@ class FAUDES_API vGenerator : public ExtType  {
    *****************************************
    *****************************************/
 
-  /** @name Copy and Assignment */
+  /** @name Copy and Copyment */
   /** @{ doxygen group */
 
 
@@ -301,7 +301,7 @@ class FAUDES_API vGenerator : public ExtType  {
    * @param rSrc
    *   Source to copy from.
    */
-  virtual vGenerator& Assign(const Type& rSrc); 
+  virtual vGenerator& Copy(const Type& rSrc); 
 
   /**
    * Copy from other vGenerator, ignore attributes. 
@@ -309,22 +309,22 @@ class FAUDES_API vGenerator : public ExtType  {
    * @param rGen
    *   Source to copy from.
    */
-  virtual vGenerator& AssignWithoutAttributes(const vGenerator& rGen); 
+  virtual vGenerator& CopyWithoutAttributes(const vGenerator& rGen); 
 
   /**
-   * Destructive copy to other vGenerator. 
+   * Destructive copy from other vGenerator. 
    * Copy method with increased performance at the cost of invalidating
    * the source data. If attribute types of source and destination differ,
    * a std copy is invoked.
    * 
    *
    * @param rGen
-   *   Destination for copy operation.
+   *   Source for copy operation.
    */
-  virtual void Move(vGenerator& rGen); 
+  virtual vGenerator&  Move(Type& rGen); 
 
   /**
-   * Assignment operator (uses Assign method)
+   * Copyment operator (uses DoCopy method)
    *
    * Note: you must reimplement this operator in derived 
    * classes in order to handle internal pointers correctly.
@@ -332,8 +332,19 @@ class FAUDES_API vGenerator : public ExtType  {
    * @param rOtherGen
    *   Other generator
    */
-  /*virtual*/ vGenerator& operator= (const vGenerator& rOtherGen);
-  //using Type::operator=;
+  vGenerator& operator= (const vGenerator& rOtherGen);
+    
+
+  /**
+   * Copyment operator (uses DoMove method)
+   *
+   * Note: you must reimplement this operator in derived 
+   * classes in order to handle internal pointers correctly.
+   *
+   * @param rOtherGen
+   *   Other generator
+   */
+  vGenerator& operator= (vGenerator&& rOtherGen);
     
 
   /**
@@ -766,7 +777,7 @@ class FAUDES_API vGenerator : public ExtType  {
   void StateNamesEnabled(bool flag);
 
   /**
-   * Assign each state a default name based on its index.
+   * Copy each state a default name based on its index.
    */
   void SetDefaultStateNames(void);
 
@@ -2975,8 +2986,11 @@ class FAUDES_API vGenerator : public ExtType  {
     const StateSet* pNewStatesPrototype, const EventSet* pNewAlphabetPrototype, 
     const TransSet* pNewTransRelPrototype);
 
-  /** Assignment for matching type */
-  void DoAssign(const vGenerator& rSrc); 
+  /** Copyment for matching type */
+  void DoCopy(const vGenerator& rSrc); 
+
+  /** Copyment for matching type (destructive) */
+  void DoMove(vGenerator& rSrc); 
 
  /**
    * Read generator object from TokenReader, see Type::Read for public wrappers.

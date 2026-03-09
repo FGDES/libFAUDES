@@ -102,7 +102,7 @@ public:
      * @return 
      *   new Generator 
      */
-    virtual THioConstraint* Copy(void) const;
+    virtual THioConstraint* NewCpy(void) const;
 
     /**
      * Create empty HioConstraint with same symboltable as this
@@ -113,12 +113,12 @@ public:
     THioConstraint NewHioConstraint(void) const;
 	
     /**
-     * Assignment operator (uses copy)
+     * Copyment operator (uses copy)
      *
      * @param rOtherGen
      *   Other generator
      */
-     virtual THioConstraint& operator= (const THioConstraint& rOtherGen) {this->Assign(rOtherGen); return *this;};
+     virtual THioConstraint& operator= (const THioConstraint& rOtherGen) {this->Copy(rOtherGen); return *this;};
     
     
 //**************** I/O constraint event attributes ********************/
@@ -568,8 +568,8 @@ TEMP THIS* THIS::New(void) const {
   return res;
 }
 
-// Copy()
-TEMP THIS* THIS::Copy(void) const {
+// NewCpy()
+TEMP THIS* THIS::NewCpy(void) const {
   return new THIS(*this);
 }
 

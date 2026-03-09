@@ -1110,7 +1110,7 @@ public:
   void StlMap(const std::map<Idx, std::set<Idx> >& rMap);
 protected:
   // std faudes type
-  virtual void DoAssign(const EventRelabelMap& rSrc);
+  virtual void DoCopy(const EventRelabelMap& rSrc);
   virtual bool DoEqual(const EventRelabelMap& rOther) const;
   // my data
   std::map<Idx, std::set<Idx> > mMap; 

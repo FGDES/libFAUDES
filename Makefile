@@ -40,7 +40,7 @@
 
 
 # allow user local configuration (unless building a distribution package)
-ifeq ($(FAUDES_NOUSER),)
+ifeq ($(FAUDES_PLUGINS),)
 ifneq (package,$(findstring package,$(MAKECMDGOALS)))
 -include Makefile.user
 endif
@@ -80,8 +80,8 @@ FAUDES_PLUGINS += simulator
 FAUDES_PLUGINS += iodevice
 #FAUDES_PLUGINS += pushdown      # out of maintenance
 #FAUDES_PLUGINS += hybrid        # requires libppl (enforces GPL)
-FAUDES_PLUGINS += luabindings    # Lua is our default scripting language ...
-#FAUDES_PLUGINS += pybindings    # ... but you may likewise opt for Python
+FAUDES_PLUGINS += luabindings
+FAUDES_PLUGINS += pybindings
 endif
 
 
@@ -241,34 +241,43 @@ endif
 ###############################################################################
 
 
-### try to autoselect platform
-# as of libFAUDES 2.32a MS Windows defaults to MSYS2
+### try to autoselect platform: MA Windows
 ifeq ($(FAUDES_PLATFORM),)
+# MS Windows (as of libFAUDES 2.32a defaults to MSYS2)
 ifneq ($(findstring Windows,$(OS)),)
 FAUDES_PLATFORM := gcc_msys
 endif
+# MS Windows running from cmd.exe (use MSVC toochain)
+ifneq ($(ComSpec),)
+FAUDES_PLATFORM := cl_win
 endif
-# Mac OS X with g++ from the XCode toochain
+endif
+
+### try to autoselect platform: Posix (have "uname")
 ifeq ($(FAUDES_PLATFORM),)
+# Mac OS X with g++ from the XCode toochain
 ifneq ($(findstring Darwin,$(shell uname -s)),)
 FAUDES_PLATFORM := gcc_osx
 endif
-endif
 # Linux with the system g++ compiler
-ifeq ($(FAUDES_PLATFORM),)
 ifneq ($(findstring Linux,$(shell uname -s)),)
 FAUDES_PLATFORM := gcc_linux
-endif
 endif
 # Fallback generix Unix environment with g++ compiler
 ifeq ($(FAUDES_PLATFORM),)
 FAUDES_PLATFORM := gcc_generic
 endif
+endif
 
 # figure type of shell available for make
 FAUDES_MSHELL = posix
-ifeq ($(findstring win,$(FAUDES_PLATFORM)),win)
-FAUDES_MSHELL = pwrsh
+ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
+ifneq ($(ComSpec),)
+FAUDES_MSHELL = cmdcom
+endif
+ifneq ($(GITHUB_ACTION),)
+FAUDES_MSHELL = cmdcom_gh
+endif
 endif
 
 # set timestamp
@@ -310,16 +319,16 @@ ECHO = @echo
 ECHOE = echo WARNING CANNOT ECHO-E
 DIFF = fc /W
 SWIG = echo WARNING CANNOT SWIG 
-PYTHON = echo WARNING CANNOT PYHTON 
+PYTHON = py 
 DOXYGEN = echo WARNING CANNOT DOXYGEN
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = @echo wont strip
 endif
 
-### sensible/pwrsh defaults: external tools #########################
-# - this is finetuned to run as GitHub action in a mixed MSYS/MSCV setting
-# - most of this is actually not functional and only fixed by the action file
-ifeq ($(FAUDES_MSHELL),pwrsh)
+### sensible/cmdcom defaults: external tools #########################
+# - must be something utterly wrong with how we run win/make in on github ????
+# - most of the below is actually not functional but survives a make cycle
+ifeq ($(FAUDES_MSHELL),cmdcom_gh)
 SHELL = cmd.exe
 .SHELLFLAGS= /S /C
 CP  = cmd.exe /S /C copy /Y /B 
@@ -332,7 +341,7 @@ ECHO = cmd.exe /S /C echo
 ECHOE = cmd.exe /S /C echo WARNING CANNOT ECHO-E 
 DIFF = cmd.exe /S /C fc /W
 SWIG = cmd.exe /S /C echo WARNING CANNOT SWIG 
-PYTHON = cmd.exe /S /C echo WARNING CANNOT PYHTON 
+PYTHON = cmd.exe /S /C py
 DOXYGEN = cmd.exe /S /C echo WARNING CANNOT DOXYGEN 
 FNCT_FIXDIRSEP = $(subst /,\,$(1))
 FNCT_POST_APP = cmd.exe /S /C echo wont strip
@@ -357,6 +366,7 @@ ifeq ($(SHARED),yes)
 LIBOPTS = -DFAUDES_BUILD_DSO
 APPOPTS = -DFAUDES_BUILD_APP
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)
 
 ### sensible/posix defaults: library target names  #################
 #
@@ -392,8 +402,8 @@ MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
 #MAINOPTS += -std=gnu++98 -D_GLIBCXX_USE_CXX11_ABI=0 
 #MAINOPTS += -std=gnu++11 -D_GLIBCXX_USE_CXX11_ABI=1 
 MAINOPTS += -std=gnu++11
-MAINOPTS += -DFAUDES_BUILDENV=gcc_linux
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_linux\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS = -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable
 LDFLAGS += -Wl,--as-needed  
 ifeq ($(DEBUG),yes)
@@ -406,6 +416,7 @@ endif
 ifeq (core_threads,$(findstring core_threads,$(FAUDES_OPTIONS)))
 LNKLIBS += -lpthread 
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_lx
 endif
 
 ### platform "gcc_linux32" #######################
@@ -417,7 +428,7 @@ endif
 #
 ifeq ($(FAUDES_PLATFORM),gcc_linux32)
 MAINOPTS = -m32 -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote
-MAINOPTS += -DFAUDES_BUILDENV=gcc_linux32
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_linux32\"
 WARNINGS = -pedantic -Wall 
 LDFLAGS += -m32 -Wl,--as-needed  
 ifeq ($(DEBUG),yes)
@@ -450,7 +461,7 @@ CXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
 CC = /opt/lsb/bin/lsbcc   --lsb-target-version=4.1 --lsb-besteffort
 LXX = /opt/lsb/bin/lsbc++ --lsb-target-version=4.1 --lsb-besteffort
 MAINOPTS =  -fPIC -fstrict-aliasing -fmessage-length=0 -O3 -fno-stack-protector -std=gnu++98 
-MAINOPTS += -DFAUDES_BUILDENV=gcc_lsb
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_lsb\"
 WARNINGS = -Wall -Wno-unused-variable -Wno-unused-but-set-variable
 LDFLAGS += -Wl,--as-needed
 ifeq ($(SHARED),yes)
@@ -494,10 +505,10 @@ CC = clang
 LXX = clang++
 #
 MAINOPTS =  -O2 -iquote  -mmacosx-version-min=10.11 -stdlib=libc++ 
-MAINOPTS += -DFAUDES_BUILDENV=gcc_osx
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_osx\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS =  -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable -Wno-zero-length-array
-DSOOPTS  =  -dynamiclib  -single_module
+DSOOPTS  =  -dynamiclib  # -single_module
 DSOOPTS  += -install_name @rpath/$@
 # 
 export MACOSX_DEPLOYMENT_TARGET = 10.9
@@ -530,6 +541,7 @@ LIBFAUDES := $(LIBFAUDES).dylib
 IMPFAUDES := $(IMPFAUDES).dylib
 MINFAUDES := $(MINFAUDES).a
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_osx
 endif
 
 
@@ -542,6 +554,7 @@ endif
 # - previous confirmatiom with with VC2012 and VC2015 compilers
 #   in their 64bit variant (libFAUDES 2.27)
 # - early validations with XP 32bit and Vista 32bit
+# - finetuning for github actions below
 # 
 # For user targets only, no configuration tools available. You can,
 # however, install MSYS2 for "make configure" and then use the
@@ -550,14 +563,14 @@ endif
 #
 # 
 ifeq ($(FAUDES_PLATFORM),cl_win)
-CXX = cmd.exe /S /C cl /nologo
-CC = cmd.exe /S /C cl /nologo
-LXX = cmd.exe /S /C cl /nologo
-AR = cmd.exe /S /C lib /VERBOSE
+CXX = cl /nologo
+CC = cl /nologo
+LXX = cl /nologo
+AR = lib /VERBOSE
 DOT_EXE = .exe
 DOT_O  = .obj
 MAINOPTS = /EHsc /O2
-MAINOPTS += /DFAUDES_BUILDENV=cl_win
+MAINOPTS += /DFAUDES_BUILDENV=\"cl_win\"
 COUTOPT = /Fo
 LOUTOPT = /Fe
 AOUTOPT = /OUT:
@@ -590,8 +603,17 @@ LIBFAUDES:=$(LIBFAUDES).lib
 IMPFAUDES:=$(IMPFAUDES).lib
 MINFAUDES:=$(MINFAUDES).lib
 endif
+#
+ifeq ($(FAUDES_MSHELL),cmdcom_gh)
+CXX = cmd.exe /S /C cl /nologo
+CC = cmd.exe /S /C cl /nologo
+LXX = cmd.exe /S /C cl /nologo
+AR = cmd.exe /S /C lib /VERBOSE
+MAINOPTS = /EHsc /O2
+MAINOPTS += /DFAUDES_BUILDENV="cl_win"
 endif
-
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_win
+endif
 
 ### platform "gcc_win" #############################
 #
@@ -628,8 +650,8 @@ endif
 ifeq ($(FAUDES_PLATFORM),gcc_msys)
 MAINOPTS = -fpic -fstrict-aliasing -fmessage-length=0 -O3 -iquote -std=gnu++11
 WARNINGS = -pedantic -Wall -Wfatal-errors -Wno-unused-variable -Wno-unused-but-set-variable
-MAINOPTS += -DFAUDES_BUILDENV=gcc_msys
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"gcc_msys\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 DSOOPTS = -shared -Wl,-enable-auto-import -Wl,-export-all-symbols
 DSOOPTS += -Wl,--output-def,faudes.def -Wl,--out-implib,faudes.lib
 DOT_EXE = .exe
@@ -663,6 +685,7 @@ endif
 ifeq ($(SHARED),yes)
 FNCT_POST_APP = strip $(1); $(CP) $(LIBFAUDES) $(dir $(1))
 endif
+FAUDES_FILEVERSION_PLATFORM = $(FAUDES_FILEVERSION)_msys
 endif
 
 
@@ -681,8 +704,8 @@ CC = emcc
 LXX = em++  
 AR = emar r
 MAINOPTS = -O2 -s DISABLE_EXCEPTION_CATCHING=0 
-MAINOPTS += -DFAUDES_BUILDENV=emcc_js
-MAINOPTS += -DFAUDES_BUILDTIME=$(MAKETIME)
+MAINOPTS += -DFAUDES_BUILDENV=\"emcc_js\"
+MAINOPTS += -DFAUDES_BUILDTIME=\"$(MAKETIME)\"
 WARNINGS =
 DSOOPTS =
 DOT_O  = .o
@@ -709,9 +732,9 @@ CFLAGS = $(MAINOPTS) $(WARNINGS) -I$(INCLUDEDIR) $(INCLUDES)
 ### convenience functions to invoke compiler/linker (1)-->(2)
 FNCT_COMP_LIB = $(CXX) -c $(CFLAGS) $(LIBOPTS) $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(1))
 FNCT_COMP_APP = $(CXX) -c $(CFLAGS) $(APPOPTS) $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(1))
-FNCT_LINK_APP = $(LXX) $(call FNCT_FIXDIRSEP,$(1)) $(IMPFAUDES) $(LDFLAGS) $(LNKLIBS) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) 
+FNCT_LINK_APP = $(LXX) $(call FNCT_FIXDIRSEP,$(1)) $(IMPFAUDES) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(LNKLIBS) $(LDFLAGS)
 FNCT_COMP_MIN = $(CXX) -c $(CFLAGS) -DFAUDES_MUTE_RTIAUTOLOAD $(COUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(1))
-FNCT_LINK_MIN = $(LXX) $(call FNCT_FIXDIRSEP,$(1)) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(MINFAUDES)) $(LDFLAGS) $(LNKLIBS)  
+FNCT_LINK_MIN = $(LXX) $(call FNCT_FIXDIRSEP,$(1)) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(MINFAUDES)) $(LNKLIBS) $(LDFLAGS)    
 FNCT_BUILD_MIN = $(CXX) $(CFLAGS) $(call FNCT_FIXDIRSEP,$(1)) $(LNKLIBS) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$(2)) $(call FNCT_FIXDIRSEP,$(MINFAUDES)) $(LDFLAGS)
 
 ### more convenience functions
@@ -768,7 +791,7 @@ CPPFILESMIN= \
   cfl_types.cpp cfl_functions.cpp cfl_registry.cpp cfl_elementary.cpp cfl_basevector.cpp  cfl_attributes.cpp
 
 CPPFILES = $(CPPFILESMIN) \
-  cfl_symboltable.cpp cfl_attributes.cpp cfl_attrmap.cpp \
+  cfl_symboltable.cpp cfl_attrmap.cpp \
   cfl_baseset.cpp cfl_indexset.cpp cfl_symbolset.cpp cfl_nameset.cpp cfl_transset.cpp \
   cfl_generator.cpp cfl_agenerator.cpp cfl_cgenerator.cpp cfl_localgen.cpp \
   cfl_graphfncts.cpp cfl_parallel.cpp cfl_determin.cpp cfl_project.cpp cfl_statemin.cpp\
@@ -977,7 +1000,6 @@ package:
 	- $(CPR)  $(pluginstringC) ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	- $(CPR)  plugins/example ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	- $(CPR)  plugins/hybrid ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
-	- $(CPR)  plugins/pybindings ./libFAUDES_$(FAUDES_FILEVERSION)/plugins
 	$(ECHO) "#### libFAUDES package: dist-clean"
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  dist-clean &> /dev/null
 	$(RM) ./libFAUDES_$(FAUDES_FILEVERSION)/Makefile.user
@@ -990,7 +1012,7 @@ package:
 	$(ECHO) "#### libFAUDES  package: clean" 
 	$(MAKE) -s -C ./libFAUDES_$(FAUDES_FILEVERSION)  clean &> /dev/null 
 	$(ECHO) "#### libFAUDES package: tar build"  
-	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION)_lx.tar.gz libFAUDES_$(FAUDES_FILEVERSION)
+	tar --create --gzip --exclude-from=$(SRCDIR)/TAR_EXCLUDES  --file=./libfaudes_$(FAUDES_FILEVERSION_PLATFORM).tar.gz libFAUDES_$(FAUDES_FILEVERSION)
 	$(ECHO) "#### libFAUDES package: clean"
 	$(RM) libFAUDES_$(FAUDES_FILEVERSION) 
 	$(ECHO) " ============================== " 
@@ -1135,18 +1157,19 @@ $(CFGFILE):
 ####################################
 
 # run time interface target
-rti: rtitools rticode
+rti: rti-tools rti-code
 
 # tools 
-rtitools: $(BINDIR)/rti2code$(DOT_EXE) 
+rti-tools: $(BINDIR)/rti2code$(DOT_EXE) 
 
 # generated code
-rticode: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload.h
+rti-code: $(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiloader.h $(INCLUDEDIR)/rtiwrapper.h
 
 # clean
 rti-clean:
 	- rm -rf $(REFSRCDIR)  
-	- rm -rf $(INCLUDEDIR)/rtiautoload*
+	- rm -rf $(INCLUDEDIR)/rtiloader.*
+	- rm -rf $(INCLUDEDIR)/rtiwrapper.*
 	- rm -rf $(INCLUDEDIR)/libfaudes.rti
 
 # have those dirs 
@@ -1169,9 +1192,18 @@ $(BINDIR)/rti2code$(DOT_EXE): $(OBJDIR)/rti2code_min$(DOT_O) $(MINFAUDES) | $(BI
 $(INCLUDEDIR)/libfaudes.rti: | $(BINDIR)/rti2code$(DOT_EXE)  
 	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -merge $(RTIDEFS) $@
 
-# have my auto register tools to produce includes (.h and .cpp)
-$(INCLUDEDIR)/rtiautoload.h: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
-	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -loader $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiautoload)
+# have my auto register tools to produce factory instances (.h and .cpp)
+$(INCLUDEDIR)/rtiloader.h: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -loader $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiloader)
+
+# have my auto register tools to produce wrappers (.h and .cpp)
+$(INCLUDEDIR)/rtiwrapper.h: $(INCLUDEDIR)/libfaudes.rti | $(BINDIR)/rti2code$(DOT_EXE) 
+	$(call FNCT_FIXDIRSEP,./bin/rti2code$(DOT_EXE)) -wrapper $(call FNCT_FIXDIRSEP,$(INCLUDEDIR)/libfaudes.rti $(INCLUDEDIR)/rtiwrapper)
+
+# tell make how to generate the C wrappers are generated
+$(INCLUDEDIR)/rtiloader.cpp: $(INCLUDEDIR)/rtiloader.h
+$(INCLUDEDIR)/rtiwrapper.cpp: $(INCLUDEDIR)/rtiwrapper.h
+
 
 
 ####################################
@@ -1476,8 +1508,10 @@ docs: rti reftools doc-images doc-base doc-luafaudes doc-reference includes
 
 # explicit target
 depend: $(SOURCES) includes
-	touch $(INCLUDEDIR)/rtiautoload.h
-	touch $(INCLUDEDIR)/rtiautoload.cpp
+	touch $(INCLUDEDIR)/rtiloader.h
+	touch $(INCLUDEDIR)/rtiloader.cpp
+	touch $(INCLUDEDIR)/rtiwrapper.h
+	touch $(INCLUDEDIR)/rtiwrapper.cpp
 	$(ECHO) update dependencies
 	$(ECHO) "# libFAUDES build dependencies" > $(DEPEND)
 	$(ECHO) "# - do not edit this file manually" >> $(DEPEND)
@@ -1515,7 +1549,7 @@ $(INCLUDEDIR)/%.h.gch: $(INCLUDEDIR)/%.h
 $(LIBFAUDES): $(OBJECTS) $(OBJECTSEXT)
 	$(ECHO) "linking full libfaudes" 
 ifeq ($(SHARED),yes)
-	$(LXX) $(DSOOPTS) $(call FNCT_FIXDIRSEP,$^) $(LDFLAGS) $(LNKLIBS) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$@)
+	$(LXX) $(DSOOPTS) $(call FNCT_FIXDIRSEP,$^) $(LOUTOPT)$(call FNCT_FIXDIRSEP,$@) $(LNKLIBS) $(LDFLAGS)
 else
 	$(AR) $(AOUTOPT)$@ $(call FNCT_FIXDIRSEP,$^)
 endif
@@ -1561,7 +1595,7 @@ PROTOCOLS += $(foreach dir,$(PROTODIRS),$(wildcard $(dir)/*_py.prot))
 TESTTARGETS = $(sort $(patsubst %,TESTCASE_%,$(PROTOCOLS)))
 
 # tools #verb -v/-q
-VALFAUDES = ./bin/valfaudes -q 
+VALFAUDES = ./bin/valfaudes -q
 
 # Conversion function target->protocol
 FNCT_PROTOCOL = $(patsubst TESTCASE_%,%,$(1))
@@ -1572,13 +1606,13 @@ FNCT_RUNCPPBIN =    $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(
 FNCT_RUNLUASCRIPT = $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 FNCT_RUNPYSCRIPT =  $(call FNCT_FIXDIRSEP,$(VALFAUDES)) $(call FNCT_FIXDIRSEP,$(call FNCT_PROTOCOL,$@))
 
-# overwrtie non functionl variants
-ifeq (pwrsh,$(FAUDES_MSHELL)) 
-FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
-endif
-ifeq (cmdcom,$(FAUDES_MSHELL))
-FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
-endif
+# overwrtie non functionl variants 
+#ifeq (cmdcom_ph,$(FAUDES_MSHELL)) 
+#FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+#endif
+#ifeq (cmdcom,$(FAUDES_MSHELL))
+#FNCT_RUNPYSCRIPT = $(ECHO) "skipping test case" $(call FNCT_PYSCRIPT,$@) "[no Python test cases on Windows]"
+#endif
 
 # validate lua extensions (currently posix only)
 TESTTARGETSX = $(patsubst %,TESTFLX_%,$(notdir $(wildcard stdflx/*.flx))) 
@@ -1655,6 +1689,7 @@ report-platform:
 	$(ECHO) "libFAUDES-make: platform: $(FAUDES_PLATFORM)"
 	$(ECHO) "libFAUDES-make: shell:    $(FAUDES_MSHELL)"
 	$(ECHO) "libFAUDES-make: linking:  $(FAUDES_LINKING)"
+	$(ECHO) "libFAUDES-make: python:   $(PYTHON)"
 ifneq ($(findstring win,$(FAUDES_PLATFORM)),)
 	$(ECHO) "libFAUDES-make: mingw shell: $(SHELL) $(.SHELLFLAGS)"
 endif
@@ -1665,13 +1700,6 @@ report-stats:
 	- wc src/*.cpp src/*.h */*/src/*.cpp */*/src/*.h */*/tutorial/*.cpp
 	$(ECHO) "libFAUDES-make: statistics" 
 	$(ECHO) " ============================== "
-
-report-test:
-	$(ECHO) "platform  $(FAUDES_PLATFORM)"
-	$(ECHO) "plug-ins  $(FAUDES_PLUGINS)"
-	$(ECHO) "options   $(FAUDES_OPTIONS)"
-	$(ECHO) "debug     $(FAUDES_DEBUG)"
-	$(ECHO) "targets   $(DEFAULTTARGETS)"
 
 
 ### all phony targets

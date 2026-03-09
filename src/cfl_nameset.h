@@ -382,7 +382,7 @@ public:
    * @exception Exception
    *   - symboltable mismatch (id 67) 
    */
-  NameSet operator + (const NameSet& rOtherSet) const;
+  NameSet operator+ (const NameSet& rOtherSet) const;
 
   /**
    * Set difference operator
@@ -393,7 +393,7 @@ public:
    * @exception Exception
    *   - symboltable mismatch (id 67) 
    */
-  NameSet operator - (const NameSet& rOtherSet) const;
+  NameSet operator- (const NameSet& rOtherSet) const;
 
   /**
    * Set intersection operator
@@ -404,7 +404,7 @@ public:
    * @exception Exception
    *   - symboltable mismatch (id 67) 
    */
-  NameSet operator * (const NameSet& rOtherSet) const;
+  NameSet operator* (const NameSet& rOtherSet) const;
 
 
   /** Test for subset  */
@@ -445,12 +445,21 @@ public:
   SymbolTable* mpSymbolTable;
 
   /**
-   * Assign from other name set. Performs a fake copy, see TBaseSet.
+   * Copy from other name set. Performs a fake copy, see TBaseSet.
    *
    * @param rSourceSet
    *   Source to copy from
    */
-  void DoAssign(const NameSet& rSourceSet);
+  void DoCopy(const NameSet& rSourceSet);
+
+
+  /**
+   * Move from other name set. Performs a fake copy, see TBaseSet.
+   *
+   * @param rSourceSet
+   *   Source to copy from
+   */
+  void DoMove(NameSet& rSourceSet);
 
 
   /**
@@ -643,7 +652,7 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
    * @return
    *    Ref to this set
    */
-  virtual TaNameSet& Assign(const TBaseSet<Idx>& rSrc);
+  virtual TaNameSet& Copy(const TBaseSet<Idx>& rSrc);
 
   /** Relaxed assignment operator (uses base class to maintain attributes)
    *
@@ -652,7 +661,7 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
    * @return
    *    Ref to this set
    */
-  TaNameSet& operator=(const NameSet& rSrc) { return Assign(rSrc); };
+  TaNameSet& operator=(const NameSet& rSrc) { return Copy(rSrc); };
 
   /** 
    * Iterators on nameset. 
@@ -898,7 +907,7 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
  protected:
 
   /**
-   * Assign to other name set. Performs a fake copy, see TBaseSet.
+   * Copy to other name set. Performs a fake copy, see TBaseSet.
    * This function maintains attributes.
    *
    * @param rSourceSet
@@ -906,7 +915,7 @@ class FAUDES_TAPI TaNameSet : public NameSet, public TAttrMap<Idx,Attr> {
    * @return
    *   ref to this set
    */
-  void DoAssign(const TaNameSet& rSourceSet);
+  void DoCopy(const TaNameSet& rSourceSet);
 
   /**
    * Test equality of configuration data, ignore attributes
@@ -1137,9 +1146,10 @@ extern FAUDES_API void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rS
 
 
 // std faudes type (cannot do New() with macro)
-FAUDES_TYPE_TIMPLEMENTATION_COPY(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
+FAUDES_TYPE_TIMPLEMENTATION_NEWCOPY(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 FAUDES_TYPE_TIMPLEMENTATION_CAST(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
+FAUDES_TYPE_TIMPLEMENTATION_MOVE(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 FAUDES_TYPE_TIMPLEMENTATION_EQUAL(Void,TaNameSet<Attr>,NameSet,template<class Attr>)
 
 // empty constructor 
@@ -1160,7 +1170,7 @@ TaNameSet<Attr>::TaNameSet(const TaNameSet& rOtherSet) :
   TAttrMap<Idx,Attr>(this)
 {
   FD_DC("TaNameSet(" << this << ")::TaNameSet(rOtherSet " << &rOtherSet << ")");
-  DoAssign(rOtherSet);
+  DoCopy(rOtherSet);
 }
 
 // constructor form other nameset
@@ -1170,7 +1180,7 @@ TaNameSet<Attr>::TaNameSet(const NameSet& rOtherSet) :
   TAttrMap<Idx,Attr>(this)
 {
   FD_DC("TaNameSet(" << this << ")::TaNameSet(rOtherSet " << &rOtherSet << ")");
-  Assign(rOtherSet);
+  Copy(rOtherSet);
 }
 
 
@@ -1193,12 +1203,12 @@ TaNameSet<Attr>* TaNameSet<Attr>::New(void) const {
   return res;
 }
 
-// DoAssign()
+// DoCopy()
 template<class Attr>
-void TaNameSet<Attr>::DoAssign(const TaNameSet<Attr>& rSourceSet) {
-  FD_DC("TaNameSet(" << this << ")::DoAssign( [a] " << &rSourceSet << ")");
+void TaNameSet<Attr>::DoCopy(const TaNameSet<Attr>& rSourceSet) {
+  FD_DC("TaNameSet(" << this << ")::DoCopy( [a] " << &rSourceSet << ")");
   // base does the job
-  NameSet::DoAssign(rSourceSet);
+  NameSet::DoCopy(rSourceSet);
 }
 
 // DoEqual()
@@ -1210,25 +1220,31 @@ bool TaNameSet<Attr>::DoEqual(const NameSet& rOtherSet) const {
 }
 
   
-// Relaxed Assign()
+// Relaxed Copy()
 template<class Attr>
-TaNameSet<Attr>& TaNameSet<Attr>::Assign(const TBaseSet<Idx>& rSourceSet) {
-  FD_DC("TaNameSet(" << this << ")::Assign( [v] " << &rSourceSet << ")");
+TaNameSet<Attr>& TaNameSet<Attr>::Copy(const TBaseSet<Idx>& rSourceSet) {
+  FD_DC("TaNameSet(" << this << ")::Copy( [v] " << &rSourceSet << ")");
   const NameSet* nset = dynamic_cast<const NameSet*>(&rSourceSet);
 #ifdef FAUDES_CHECKED
   if(!nset) {
     std::stringstream errstr;
     errstr << "cannot cast to nameset" << std::endl;
-    throw Exception("TaNameSet::Assign", errstr.str(), 67);
+    throw Exception("TaNameSet::Copy", errstr.str(), 67);
   }
 #endif
   // name set specific data
   mpSymbolTable=nset->mpSymbolTable;
   // attribute interface does relaxed assignment
-  TAttrMap<Idx,Attr>::AssignWithAttributes(rSourceSet);
+  TAttrMap<Idx,Attr>::CopyWithAttributes(rSourceSet);
   // done
   return *this;
 }
+
+// op missing?
+//template<class Attr>
+//TaNameSet<Attr>& TaNameSet<Attr>::operator=(TaNameSet&& rSourceSet) {
+//  FD_WARN("TaNameSet: move operator missing");
+//}
 
 // Insert(index)
 template<class Attr>

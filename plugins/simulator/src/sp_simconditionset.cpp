@@ -48,13 +48,13 @@ AttributeSimCondition::AttributeSimCondition(const AttributeSimCondition& rOther
   mStateCondition(false) 
 { 
   FD_DX("AttributeSimCondition::AttributeSimCondition(attr)");
-  DoAssign(rOther);
+  DoCopy(rOther);
 }
 
-// Assign my members
-void AttributeSimCondition::DoAssign(const AttributeSimCondition& rSrcAttr) { 
+// Copy my members
+void AttributeSimCondition::DoCopy(const AttributeSimCondition& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   mEventCondition=rSrcAttr.mEventCondition;
   mStateCondition=rSrcAttr.mStateCondition;
@@ -65,6 +65,12 @@ void AttributeSimCondition::DoAssign(const AttributeSimCondition& rSrcAttr) {
   mActivationTime=0;
   mSamplesPeriod.Clear();
   mSamplesDuration.Clear();
+}
+
+// Copy my members
+void AttributeSimCondition::DoMove(AttributeSimCondition& rSrcAttr) { 
+  // not supported
+  DoCopy(rSrcAttr);
 }
 
 
@@ -276,9 +282,10 @@ implementation of condition set
 */
 
 // std faudes type (except new)
-FAUDES_TYPE_IMPLEMENTATION_COPY(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_CAST(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 
 

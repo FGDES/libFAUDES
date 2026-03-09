@@ -60,7 +60,7 @@ void UniqueInit(Generator& rGen) {
 
 // UniqueInit(rGen&,rResGen&)
 void UniqueInit(const Generator& rGen, Generator& rResGen) {
-  rResGen.Assign(rGen);
+  rResGen.Copy(rGen);
   UniqueInit(rResGen);
 }
 
@@ -86,7 +86,7 @@ void aDeterministic(const Generator& rGen, Generator& rResGen) {
   pResGen->EventAttributes(rGen.Alphabet());
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -138,7 +138,7 @@ void Deterministic(const Generator& rGen, std::vector<StateSet>& rPowerStates,
   // bail out on empty input 
   if(rGen.InitStatesEmpty()) {
     if(pResGen != &rResGen) {
-      pResGen->Move(rResGen);
+      rResGen.Move(*pResGen);
       delete pResGen;
     }
     FD_DF("Deterministic(): done (empty)"); 
@@ -339,8 +339,7 @@ void Deterministic(const Generator& rGen, std::vector<StateSet>& rPowerStates,
     FD_DF("Deterministic: fixing names...");
     // rPowerStates / rDetStates index "iterator"
     std::vector<StateSet>::size_type i;
-    // deterministic states iterator
-    std::vector<Idx>::const_iterator dit;
+    // iterate target states
     for (i = 0; i < rPowerStates.size(); ++i) {
       // temporary state name
       std::string name = "{";
@@ -358,7 +357,7 @@ void Deterministic(const Generator& rGen, std::vector<StateSet>& rPowerStates,
   
   // move pResGen to rResGen
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 

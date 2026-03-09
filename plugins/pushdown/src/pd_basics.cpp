@@ -55,10 +55,10 @@ StackSymbolSet* StackSymbolSet::New(void) const {
   return res;
 }
 
-// DoAssign()
-void StackSymbolSet::DoAssign(const StackSymbolSet& rSourceSet) {
+// DoCopy()
+void StackSymbolSet::DoCopy(const StackSymbolSet& rSourceSet) {
   // call base
-  NameSet::DoAssign(rSourceSet);
+  NameSet::DoCopy(rSourceSet);
 }
 
 // DoEqual()

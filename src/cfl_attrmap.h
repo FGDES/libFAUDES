@@ -73,7 +73,7 @@ public:
    * @param rSourceSet 
    *    Set to copy from
    */
-  void AssignWithAttributes(const TBaseSet<T,Cmp>& rSourceSet);
+  void CopyWithAttributes(const TBaseSet<T,Cmp>& rSourceSet);
 
   /**
    * Attribute typeinfo.
@@ -289,33 +289,33 @@ TEMP THIS::~TAttrMap(void) {
 
 
 // assign, try attributes
-TEMP void THIS::AssignWithAttributes(const TBaseSet<T,Cmp>& rSourceSet) {
-  FD_DC("TAttrMap(" << pBaseSet << ")::Assign(..): dst map type " << typeid(*this).name());
-  FD_DC("TAttrMap(" << pBaseSet << ")::Assign(..): src type " << typeid(rSourceSet).name());
+TEMP void THIS::CopyWithAttributes(const TBaseSet<T,Cmp>& rSourceSet) {
+  FD_DC("TAttrMap(" << pBaseSet << ")::Copy(..): dst map type " << typeid(*this).name());
+  FD_DC("TAttrMap(" << pBaseSet << ")::Copy(..): src type " << typeid(rSourceSet).name());
   // call base (fake copy, this will incl attributes on exact type match or ref to empty attributes else)
-  pBaseSet->DoAssign(rSourceSet);
+  pBaseSet->DoCopy(rSourceSet);
   // sense the exact match and bail out
   if(pBaseSet->AttributesSize()==rSourceSet.AttributesSize()) return;
   // if we have void attributes, we can not cast 
-  FD_DC("TAttrMap(" << this << ")::Assign(..): dst attribute type " << typeid(*AttributeType()).name());
+  FD_DC("TAttrMap(" << this << ")::Copy(..): dst attribute type " << typeid(*AttributeType()).name());
   if( typeid(*AttributeType()) == typeid(const AttributeVoid) ) return;
   // if source has void attributes, we can not cast
-  FD_DC("TAttrMap(" << this << ")::Assign(..): src attribute type " << typeid(*rSourceSet.AttributeType()).name());
+  FD_DC("TAttrMap(" << this << ")::Copy(..): src attribute type " << typeid(*rSourceSet.AttributeType()).name());
   if( typeid(*rSourceSet.AttributeType()) == typeid(const AttributeVoid) ) return;
   // ifattributes cannot be casted, we dont need to loop either
-  FD_DC("TAttrMap(" << this << ")::Assign(..): try attribute cast");
+  FD_DC("TAttrMap(" << this << ")::Copy(..): try attribute cast");
   if(!AttributeType()->Cast(rSourceSet.AttributeType())) return;
   // detach, since we will write to attributes
   pBaseSet->Detach();
-  FD_DC("TAttrMap(" << this << ")::Assign(..): mind attributes");
+  FD_DC("TAttrMap(" << this << ")::Copy(..): mind attributes");
   const_aiterator ait=rSourceSet.pAttributes->begin();
   for(;ait!=rSourceSet.pAttributes->end(); ++ait) {
     Attr* attr= new Attr;
-    attr->Assign(*ait->second);
+    attr->Copy(*ait->second);
     (*pBaseSet->pAttributes)[ait->first]=attr;
   }
   // done
-  FD_DC("TAttrMap(" << pBaseSet << ")::Assign(..): done");
+  FD_DC("TAttrMap(" << pBaseSet << ")::Copy(..): done");
 }
 
 

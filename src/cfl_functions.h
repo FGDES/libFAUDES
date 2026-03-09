@@ -307,7 +307,7 @@ public:
    * @param rSrc 
    *    Source to copy from
    */
-  void DoAssign(const Signature& rSrc);
+  void DoCopy(const Signature& rSrc);
 
   /**
    * Std faudes type interface: test equality
@@ -586,7 +586,7 @@ protected:
    * @param rSrc 
    *    Source to copy from
    */
-  void DoAssign(const FunctionDefinition& rSrc);
+  void DoCopy(const FunctionDefinition& rSrc);
 
   /**
    * Std faudes type interface: test equality
@@ -663,7 +663,7 @@ protected:
   virtual void DoWriteCore(TokenWriter& rTw) const;
 
   /**
-   * Assign prototype object
+   * Copy prototype object
    *
    * @param pFunc
    * 	Function instance

@@ -258,7 +258,7 @@ public:
  protected:
    
   /** assign my members */
-  void DoAssign(const SymbolTable& rSrc);
+  void DoCopy(const SymbolTable& rSrc);
 
   /** Symboltable token io */
   void DoRead(TokenReader& rTr,  const std::string& rLabel = "", const Type* pContext=0);

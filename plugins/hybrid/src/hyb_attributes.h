@@ -54,12 +54,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributeLhaTrans,AttributeFlags)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  AttributeLhaTrans& DoAssign(const AttributeLhaTrans& rSrcAttr);
+  AttributeLhaTrans& DoCopy(const AttributeLhaTrans& rSrcAttr);
 
   /**
    * Test eaulity. 
@@ -171,12 +171,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributeLhaState,AttributeFlags)
 
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  AttributeLhaState& DoAssign(const AttributeLhaState& rSrcAttr);
+  AttributeLhaState& DoCopy(const AttributeLhaState& rSrcAttr);
 
 
   /**
@@ -281,12 +281,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributeLhaGlobal,AttributeVoid)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  AttributeLhaGlobal& DoAssign(const AttributeLhaGlobal& rSrcAttr);
+  AttributeLhaGlobal& DoCopy(const AttributeLhaGlobal& rSrcAttr);
 
   /**
    * Test eaulity. 

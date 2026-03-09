@@ -59,5 +59,5 @@ libFAUDES is distributed under terms of the LGPL v2.1. Over time, many students 
 
 - Copyright (C) 2006, Bernd Opitz.
 - Copyright (C) 2008 - 2010, Thomas Moor, Klaus Schmidt, Sebastian Perk. 
-- Copyright (C) 2011 - 2025, Thomas Moor, Klaus Schmidt
+- Copyright (C) 2011 - 2026, Thomas Moor, Klaus Schmidt
 

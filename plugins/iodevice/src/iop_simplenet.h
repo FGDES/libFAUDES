@@ -102,6 +102,10 @@ public:
   /** Default constructor */
   AttributeSimplenetOutput(void) : AttributeVoid() {}; 
 
+  /** Copy constructor */
+  AttributeSimplenetOutput(const AttributeSimplenetOutput& rSrcAttr) : AttributeSimplenetOutput()
+    {DoCopy(rSrcAttr);}; 
+
   /** Test for default value (always, since we have no data) */
   virtual bool IsDefault(void) const {return true;};
 
@@ -115,7 +119,15 @@ protected:
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeSimplenetOutput& rSrcAttr) 
+  void DoCopy(const AttributeSimplenetOutput& rSrcAttr) 
+    {(void) rSrcAttr;};
+
+  /** Copy method 
+   *
+   * @param rSrcAttr
+   *   Source to copy from
+   */
+   void DoMove(AttributeSimplenetOutput& rSrcAttr) 
   {(void) rSrcAttr;};
 
   /**
@@ -175,7 +187,12 @@ FAUDES_TYPE_DECLARATION(Void,AttributeSimplenetInput,AttributeVoid)
 public:
 
   /** Default constructor (no triggers) */
- AttributeSimplenetInput(void) : AttributeVoid() {}; 
+  AttributeSimplenetInput(void) : AttributeVoid() {};
+
+  /** Copy constructor */
+  AttributeSimplenetInput(const AttributeSimplenetInput& rSrcAttr) : AttributeSimplenetInput()
+    {DoCopy(rSrcAttr);}; 
+
 
   /** Test for default value (always, since we have no data) */
   virtual bool IsDefault(void) const {return true;};
@@ -190,7 +207,16 @@ protected:
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeSimplenetInput& rSrcAttr) 
+  void DoCopy(const AttributeSimplenetInput& rSrcAttr) 
+  {(void) rSrcAttr;};
+
+
+  /** Copy method 
+   *
+   * @param rSrcAttr
+   *   Source to copy from
+   */
+  void DoMove(const AttributeSimplenetInput& rSrcAttr) 
   {(void) rSrcAttr;};
 
 
@@ -272,9 +298,13 @@ public:
 
 protected:
 
-  /** DoAssign */
-  void DoAssign(const AttributeSimplenetEvent& rSrc)  
-  { AttributeDeviceEvent::DoAssign(rSrc);};
+  /** DoCopy */
+  void DoCopy(const AttributeSimplenetEvent& rSrc)  
+    { AttributeDeviceEvent::DoCopy(rSrc);};
+
+  /** DoMove */
+  void DoMove(AttributeSimplenetEvent& rSrc)  
+    { AttributeDeviceEvent::DoMove(rSrc);};
 
   /** Prototype, input (construct on first use static) */
   static const AttributeSimplenetInput* InputPrototypep(void);
@@ -444,6 +474,11 @@ FAUDES_TYPE_DECLARATION(SimplenetDevice,nDevice,vDevice)
   nDevice(void);
 
   /**
+   * Copy constructor
+   */
+  nDevice(const nDevice& rOther);
+
+  /**
    * Explicit destructor.
    */
   virtual ~nDevice(void);
@@ -582,6 +617,22 @@ FAUDES_TYPE_DECLARATION(SimplenetDevice,nDevice,vDevice)
 
 
 protected:
+
+  /**
+   * Copyment 
+   *
+   * @param rSrc
+   *   Source to copy from
+   */
+  void DoCopy(const nDevice& rSrc);
+
+  /**
+   * Copyment 
+   *
+   * @param rSrc
+   *   Source to copy from
+   */
+  void DoMove(nDevice& rSrcAttr);
 
   /**
    * Actual method to read device configuration from tokenreader.

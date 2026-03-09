@@ -48,7 +48,8 @@ Generator: introduce common base
   GEN(const std::string& rFileName);
   virtual ~GEN(void);
   virtual GEN* New(void);
-  virtual GEN* Copy(void);
+  %rename(Copy) NewCpy;
+  virtual GEN* NewCpy(void);
   %extend {
     GEN* Version(const std::string& pattern, const std::string& replace) const {
       GEN* res=$self->New();
@@ -375,7 +376,8 @@ aGenerator: parametrised attributes
   GEN<G_ATTR,S_ATTR,E_ATTR,T_ATTR>(const std::string& rFileName);
   virtual ~GEN<G_ATTR,S_ATTR,E_ATTR,T_ATTR>(void);
   virtual GEN<G_ATTR,S_ATTR,E_ATTR,T_ATTR>* New(void);
-  virtual GEN<G_ATTR,S_ATTR,E_ATTR,T_ATTR>* Copy(void);
+  %rename(Copy) NewCpy;
+  virtual GEN<G_ATTR,S_ATTR,E_ATTR,T_ATTR>* NewCpy(void);
   %extend {
     GEN<G_ATTR,S_ATTR,E_ATTR,T_ATTR>* Version(const std::string& pattern, const std::string& replace) const {
       GEN<G_ATTR,S_ATTR,E_ATTR,T_ATTR>* res=$self->New();

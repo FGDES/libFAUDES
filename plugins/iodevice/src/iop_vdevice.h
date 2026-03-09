@@ -69,7 +69,7 @@ class FAUDES_API AttributeDeviceEvent : public AttributeVoid {
 
   FAUDES_TYPE_DECLARATION(Void,AttributeDeviceEvent,AttributeVoid)
 
-    public:
+public:
 
   /** Default constructor (no attributes, aka undefined) */
 
@@ -108,13 +108,13 @@ class FAUDES_API AttributeDeviceEvent : public AttributeVoid {
   /** Set output attribute */
   virtual void Output(const AttributeVoid&  rOutputAttribute) {
     DefaultOutput();
-    mpOutputAttribute->Assign(rOutputAttribute);
+    mpOutputAttribute->Copy(rOutputAttribute);
   };
 
   /** Set input attribute */
   virtual void Input(const AttributeVoid&  rInputAttribute) {
     DefaultInput();
-    mpInputAttribute->Assign(rInputAttribute);
+    mpInputAttribute->Copy(rInputAttribute);
   };
 
   /** Read output attribute */
@@ -154,12 +154,20 @@ protected:
   static const AttributeVoid* FallbackAttributep(void);
 
   /**
-   * Assignment 
+   * Copyment 
    *
    * @param rSrcAttr
    *   Source to copy from
    */
-  void DoAssign(const AttributeDeviceEvent& rSrcAttr);
+  void DoCopy(const AttributeDeviceEvent& rSrcAttr);
+
+  /**
+   * Copyment 
+   *
+   * @param rSrcAttr
+   *   Source to copy from
+   */
+  void DoMove(AttributeDeviceEvent& rSrcAttr);
 
 
   /**
@@ -251,7 +259,7 @@ protected:
  *
  * The vDevice derived classes implement std faudes type semantics for 
  * token IO plus the New() factory function to support type registration required for 
- * XML formated files. Assignment and comparison are, however, not implemented.
+ * XML formated files. Copyment and comparison are, however, not implemented.
  *
  * @ingroup IODevicePlugin
  */
@@ -271,6 +279,12 @@ class FAUDES_API vDevice : public Type {
    * Default constructor
    */
   vDevice(void);
+
+  /**
+   * Factorie methods
+   */
+  virtual vDevice* New(void) const = 0;
+  virtual vDevice* NewCpy(void) const = 0;
 
   /**
    * Construct on heap from token reader.

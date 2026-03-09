@@ -38,11 +38,15 @@ namespace faudes {
 *********************************************************************************
 */
 
+// register
+AutoRegisterType<EventSet> gRtiEventSet("EventSet");
+AutoRegisterType<EventSetVector> gRtiEventSetVector("EventSetVector");
 
 // std faudes type (cannot do New() with macro)
-FAUDES_TYPE_IMPLEMENTATION_COPY(EventSet,NameSet,TBaseSet<Idx>)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(EventSet,NameSet,TBaseSet<Idx>)
 FAUDES_TYPE_IMPLEMENTATION_CAST(EventSet,NameSet,TBaseSet<Idx>)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(EventSet,NameSet,TBaseSet<Idx>)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(EventSet,NameSet,TBaseSet<Idx>)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(EventSet,NameSet,TBaseSet<Idx>)
 
 
@@ -59,7 +63,7 @@ NameSet::NameSet(const NameSet& rOtherSet) : TBaseSet<Idx>() {
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << ")");
   mpSymbolTable = rOtherSet.mpSymbolTable;
   mElementTagDef="Event";
-  Assign(rOtherSet);
+  Copy(rOtherSet);
   FD_DC("NameSet(" << this << ")::NameSet(rOtherSet " << &rOtherSet << "): done");
 }
 
@@ -85,12 +89,21 @@ NameSet* NameSet::New(void) const {
 
 
 // copy (attributes to default)
-void NameSet::DoAssign(const NameSet& rSourceSet) {
-  FD_DC("NameSet(" << this << ")::DoAssign(from " << &rSourceSet <<")");
+void NameSet::DoCopy(const NameSet& rSourceSet) {
+  FD_DC("NameSet(" << this << ")::DoCopy(from " << &rSourceSet <<")");
   // fix my symboltable
   mpSymbolTable=rSourceSet.mpSymbolTable;
   // call base 
-  TBaseSet<Idx>::DoAssign(rSourceSet);
+  TBaseSet<Idx>::DoCopy(rSourceSet);
+} 
+
+// copy (attributes to default)
+void NameSet::DoMove(NameSet& rSourceSet) {
+  FD_DF("NameSet(" << this << ")::DoMove(from " << &rSourceSet <<")");
+  // fix my symboltable
+  mpSymbolTable=rSourceSet.mpSymbolTable;
+  // call base 
+  TBaseSet<Idx>::DoMove(rSourceSet);
 } 
 
 // Compare
@@ -457,7 +470,7 @@ NameSet::Iterator NameSet::Find(const std::string& rName) const {
 
 
 // operator +
-NameSet NameSet::operator + (const NameSet& rOtherSet) const {
+NameSet NameSet::operator+ (const NameSet& rOtherSet) const {
   FD_DC("NameSet(" << this << ")::operator + (" << &rOtherSet << ")");
 #ifdef FAUDES_CHECKED
   if(rOtherSet.mpSymbolTable!=mpSymbolTable) {
@@ -563,7 +576,7 @@ void SetIntersection(const EventSetVector& rSetVec, EventSet& rRes) {
   // ignore empty
   if(rSetVec.Size()==0) return;
   // copy first
-  rRes.Assign(rSetVec.At(0));
+  rRes.Copy(rSetVec.At(0));
   // perform intersecttion 
   for(EventSetVector::Position i=1; i<rSetVec.Size(); i++) 
     SetIntersection(rSetVec.At(i),rRes,rRes);
@@ -577,7 +590,7 @@ void SetUnion(const EventSetVector& rSetVec, EventSet& rRes) {
   // ignore empty
   if(rSetVec.Size()==0) return;
   // copy first
-  rRes.Assign(rSetVec.At(0));
+  rRes.Copy(rSetVec.At(0));
   // perform union
   for(EventSetVector::Position i=1; i<rSetVec.Size(); i++) 
     SetUnion(rSetVec.At(i),rRes,rRes);
@@ -604,9 +617,10 @@ AutoRegisterElementTag<RelabelMap> gRtiRelabelMapETag("RelabelMap","Label");
 
 // std faudes type
 FAUDES_TYPE_IMPLEMENTATION_NEW(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
-FAUDES_TYPE_IMPLEMENTATION_COPY(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
 FAUDES_TYPE_IMPLEMENTATION_CAST(RelabelMap,RelabelMap,TaNameSet<NameSet>) 
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(RelabelMap,RelabelMap,TaNameSet<NameSet>)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(RelabelMap,RelabelMap,TaNameSet<NameSet>)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(RelabelMap,RelabelMap,TaNameSet<NameSet>)
 
 
@@ -620,7 +634,7 @@ RelabelMap::RelabelMap(void) : TaNameSet<NameSet>(){
 // constructor from RelabelMap
 RelabelMap::RelabelMap(const RelabelMap& rOtherMap) : TaNameSet<NameSet>() {
   FD_DC("RelabelMap(" << this << ")::RelabelMap(rOtherMap " << &rOtherMap << ")");
-  Assign(rOtherMap);
+  Copy(rOtherMap);
   FD_DC("RelabelMap(" << this << ")::RelabelMap(rOtherSet " << &rOtherSet << "): done");
   Lock();
 }
@@ -773,7 +787,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rSet, NameSet& rRes)
     if(!rMap.Exists(*dit)) continue;
     delelem.Insert(*dit);
     const NameSet& target=rMap.Target(*dit);
-    AttributeVoid* attrp = rSet.Attribute(*dit).Copy();
+    AttributeVoid* attrp = rSet.Attribute(*dit).NewCpy();
     tit=target.Begin();
     tit_end=target.End();
     for(;tit!=tit_end;++tit) {
@@ -782,7 +796,7 @@ void ApplyRelabelMap(const RelabelMap& rMap, const NameSet& rSet, NameSet& rRes)
     }
     delete attrp;      
   }
-  rRes.Assign(rSet);
+  rRes.Copy(rSet);
   rRes.EraseSet(delelem);
   rRes.InsertSet(inselem);
   delete &inselem;

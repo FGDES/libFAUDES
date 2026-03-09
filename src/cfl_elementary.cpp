@@ -25,7 +25,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA */
 namespace faudes{
 
 
+// register
+AutoRegisterType<Integer> gRtiInteger("Integer");
+AutoRegisterType<Boolean> gRtiBoolean("Boolean");
+AutoRegisterType<String> gRtiString("String");
 
+  
 /*
 ********************************************************************
 ********************************************************************
@@ -52,7 +57,7 @@ Integer* Integer::New() const{
   return(new Integer());
 }
 
-Integer* Integer::Copy() const{
+Integer* Integer::NewCpy() const{
   return(new Integer(mCInteger));
 }
 
@@ -141,7 +146,7 @@ String* String::New() const{
 }
 
 // factory constructor
-String* String::Copy() const{
+String* String::NewCpy() const{
   return new String(mCString);
 }
 
@@ -230,7 +235,7 @@ Boolean* Boolean::New() const{
 }
 
 // factory constructor
-Boolean* Boolean::Copy() const{
+Boolean* Boolean::NewCpy() const{
   return new Boolean(mCBool);
 }
 

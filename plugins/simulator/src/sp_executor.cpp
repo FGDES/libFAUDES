@@ -25,10 +25,17 @@ Executor::Executor(void) : TimedGenerator() {
   Compile();
 }
 
+// Executor(Executor)
+Executor::Executor(const Executor& rOther) : Executor() {
+  FD_DX("Executor(" << this << ")::Executor(other)");
+  DoCopy(rOther);
+  Compile();
+}
+
 // Exector(rGen)
 Executor::Executor(const TimedGenerator& rGen) : TimedGenerator() {
   FD_DX("Executor(" << this << ")::Executor(rGen)");
-  Assign(rGen);
+  Copy(rGen);
 }  
 
 // Exector(filename)
@@ -45,7 +52,7 @@ const TimedGenerator& Executor::Generator(void) const{
 // Generator(rGen)
 void Executor::Generator(const TimedGenerator& rGen) {
   FD_DX("Executor::Generator(" << &rGen << ")");
-  Assign(*this);
+  Copy(*this);
 }  
 
 
@@ -124,10 +131,18 @@ void Executor::DoWrite(TokenWriter& rTw,const std::string& rLabel, const Type* p
   TimedGenerator::DoWrite(rTw,rLabel,pContext);
 }
 
-// DoAssign
-void Executor::DoAssign(const Executor& rSrc) {
+// DoCopy
+void Executor::DoCopy(const Executor& rSrc) {
   // call base
-  TimedGenerator::DoAssign(rSrc);
+  TimedGenerator::DoCopy(rSrc);
+  // fix my data
+  Compile();
+}
+
+// DoMove
+void Executor::DoMove(Executor& rSrc) {
+  // call base
+  TimedGenerator::DoMove(rSrc);
   // fox my data
   Compile();
 }

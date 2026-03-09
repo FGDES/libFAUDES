@@ -22,10 +22,10 @@ namespace faudes {
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,HioEventFlags,AttributeFlags)
 
-// Assign my members
-void HioEventFlags::DoAssign(const HioEventFlags& rSrcAttr) { 
+// Copy my members
+void HioEventFlags::DoCopy(const HioEventFlags& rSrcAttr) { 
   // call base (incl virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
 }
 
 //DoWrite(rTw,rLabel,pContext);
@@ -118,10 +118,10 @@ void HioEventFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const Ty
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,HioStateFlags,AttributeFlags)
 
-// Assign my members
-void HioStateFlags::DoAssign(const HioStateFlags& rSrcAttr) { 
+// Copy my members
+void HioStateFlags::DoCopy(const HioStateFlags& rSrcAttr) { 
   // call base (incl virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
 }
 
 //DoWrite(rTw,rLabel,pContext);

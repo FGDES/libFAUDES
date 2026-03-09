@@ -64,11 +64,11 @@ RabinPair::RabinPair(const RabinPair& rRP) : ExtType()  {
   Name("RabinPair");
   mRSet.Name("R");
   mISet.Name("I");
-  DoAssign(rRP);
+  DoCopy(rRP);
 }
 
-// Assign my members
-void RabinPair::DoAssign(const RabinPair& rSrc) {
+// Copy my members
+void RabinPair::DoCopy(const RabinPair& rSrc) {
   mRSet=rSrc.mRSet;
   mISet=rSrc.mISet;
 }
@@ -199,7 +199,7 @@ RabinAcceptance::RabinAcceptance(void) : TBaseVector<RabinPair>()  {
 RabinAcceptance::RabinAcceptance(const RabinAcceptance& rRA) : TBaseVector<RabinPair>() {
   FD_DC("RabinAcceptance(" << this << ")::RabinAcceptance(other): " << rRA.Name());
   Name("RabinAcceptance");
-  DoAssign(rRA);
+  DoCopy(rRA);
 }
 
 // Condtruct from file

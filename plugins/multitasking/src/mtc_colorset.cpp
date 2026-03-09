@@ -30,21 +30,31 @@ Implements color sets for multitasking automata
 
 namespace faudes {
 
+// register
+AutoRegisterType<ColorSet> gRtiColorset("ColorSet");
 
+  
 // std faudes type (cannot do New() with macro)
-FAUDES_TYPE_IMPLEMENTATION_COPY(ColorSet,ColorSet,NameSet)
+FAUDES_TYPE_IMPLEMENTATION_NEWCOPY(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_CAST(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_ASSIGN(ColorSet,ColorSet,NameSet)
+FAUDES_TYPE_IMPLEMENTATION_MOVE(ColorSet,ColorSet,NameSet)
 FAUDES_TYPE_IMPLEMENTATION_EQUAL(ColorSet,ColorSet,NameSet)
 
 
 // msColorSymbolTable (static)
 SymbolTable ColorSet::msSymbolTable;
 
-// DoAssign()
-void ColorSet::DoAssign(const ColorSet& rSourceSet) {
+// DoCopy()
+void ColorSet::DoCopy(const ColorSet& rSourceSet) {
   // call base
-  NameSet::DoAssign(rSourceSet);
+  NameSet::DoCopy(rSourceSet);
+}
+
+// DoMove()
+void ColorSet::DoMove(ColorSet& rSourceSet) {
+  // call base
+  NameSet::DoMove(rSourceSet);
 }
 
 // Colorset::New()
@@ -69,7 +79,7 @@ void ColorSet::ColorSymbolTablep(SymbolTable *pSymTab) {
 ColorSet ColorSet::operator * (const ColorSet& rOtherSet) const {
   FD_DC("ColorSet(" << this << ")::operator * (" << &rOtherSet << ")");
   ColorSet res;
-  res.Assign( NameSet::operator * (rOtherSet) );
+  res.Copy( NameSet::operator * (rOtherSet) );
   return res;
 }
 
@@ -77,7 +87,7 @@ ColorSet ColorSet::operator * (const ColorSet& rOtherSet) const {
 ColorSet ColorSet::operator + (const ColorSet& rOtherSet) const {
   FD_DC("ColorSet(" << this << ")::operator + (" << &rOtherSet << ")");
   ColorSet res;
-  res.Assign( NameSet::operator + (rOtherSet) );
+  res.Copy( NameSet::operator + (rOtherSet) );
   return res;
 }
 
@@ -85,7 +95,7 @@ ColorSet ColorSet::operator + (const ColorSet& rOtherSet) const {
 ColorSet ColorSet::operator - (const ColorSet& rOtherSet) const {
   FD_DC("ColorSet(" << this << ")::operator - (" << &rOtherSet << ")");
   ColorSet res;
-  res.Assign( NameSet::operator - (rOtherSet) );
+  res.Copy( NameSet::operator - (rOtherSet) );
   return res;
 }
 

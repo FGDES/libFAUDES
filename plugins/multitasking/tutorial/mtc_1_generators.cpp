@@ -229,7 +229,7 @@ int main() {
     std::cout << "gen: Color name of c1 = " << gen.ColorName(c1) << std::endl;
     std::cout << "gen: Color index of first = " << gen.ColorIndex("first") << std::endl;
 
-    copygen.Assign(gen);
+    copygen.Copy(gen);
 
     gen.DelColor(c1);
 

@@ -483,7 +483,7 @@ public:
        return *this;
      };
 
-     /** Assign STL iterator only */
+     /** Copy STL iterator only */
      void  StlIterator(const typename std::set<T,Cmp>::const_iterator& sit) {
        std::set<T,Cmp>::const_iterator::operator= (sit);
      };
@@ -654,7 +654,7 @@ public:
        std::set<T,Cmp>::const_iterator(sit) 
      {};
 
-     /** Assign STL iterator only, compatibility */
+     /** Copy STL iterator only, compatibility */
      void  StlIterator(const typename std::set<T,Cmp>::const_iterator& sit) {
        std::set<T,Cmp>::const_iterator::operator= (sit);
      }; 
@@ -694,13 +694,13 @@ public:
   /**
    * Attribute access.
    * This virtual function provides an interface for derived classes with attributes eg TaIndexSet. 
-   * The current implementation uses the DoAssign method and clears any attributes afterwards.
+   * The current implementation uses the DoCopy method and clears any attributes afterwards.
    * Future implementations may be more efficient.
    *
    * @param rSourceSet 
    *    Set to copy from
    */
-  virtual TBaseSet& AssignWithoutAttributes(const TBaseSet& rSourceSet);
+  virtual TBaseSet& CopyWithoutAttributes(const TBaseSet& rSourceSet);
 
   /**
    * Attributes access. 
@@ -976,7 +976,10 @@ protected:
   virtual void DoRead(TokenReader& rTr, const std::string& rLabel = "", const Type* pContext=0);
 
   /** assign my members */
-  void DoAssign(const TBaseSet& rSourceSet);
+  void DoCopy(const TBaseSet& rSourceSet);
+
+  /** assign my members */
+  void DoMove(TBaseSet& rSourceSet);
 
   /** test equality */
   bool DoEqual(const TBaseSet& rOtherSet) const;
@@ -1094,13 +1097,13 @@ void SetUnion(const TBaseSet<T,Cmp>& rSetA, const TBaseSet<T,Cmp>& rSetB, TBaseS
   // all the same
   if(&rSetA==&rSetB && &rSetA==&rRes) {rRes.Name(name); return;}
   // a and b ths same, res different
-  if(&rSetA==&rSetB) {rRes.Assign(rSetA); rRes.Name(name); return;}
+  if(&rSetA==&rSetB) {rRes.Copy(rSetA); rRes.Name(name); return;}
   // a and res the same, b different 
   if(&rSetA==&rRes) {rRes.InsertSet(rSetB); rRes.Name(name); return;};
   // b and res the same, a different 
   if(&rSetB==&rRes) {rRes.InsertSet(rSetA); rRes.Name(name); return;};
   // else
-  rRes.Assign(rSetA);
+  rRes.Copy(rSetA);
   rRes.InsertSet(rSetB);
   rRes.Name(name); 
   FD_DC("FAUDES_DEBUG_CONTAINER: SetUnion(TBaseSet<T,Cmp>): done, res at " << &rRes << " #" << rRes.Size());
@@ -1123,13 +1126,13 @@ void SetIntersection(const TBaseSet<T,Cmp>& rSetA, const TBaseSet<T,Cmp>& rSetB,
   // all the same
   if(&rSetA==&rSetB && &rSetA==&rRes) {rRes.Name(name); return;}
   // a and b ths ame, res different
-  if(&rSetA==&rSetB) { rRes.Assign(rSetA); rRes.Name(name); return;}
+  if(&rSetA==&rSetB) { rRes.Copy(rSetA); rRes.Name(name); return;}
   // a and res the same, b different 
   if(&rSetA==&rRes) {rRes.RestrictSet(rSetB); rRes.Name(name); return;};
   // b and res the same, a different 
   if(&rSetB==&rRes) {rRes.RestrictSet(rSetA); rRes.Name(name); return;};
   // else
-  rRes.Assign(rSetA);
+  rRes.Copy(rSetA);
   rRes.RestrictSet(rSetB);
   rRes.Name(name); 
 }
@@ -1155,15 +1158,15 @@ void SetDifference(const TBaseSet<T,Cmp>& rSetA, const TBaseSet<T,Cmp>& rSetB, T
   if(&rSetA==&rRes) {rRes.EraseSet(rSetB); rRes.Name(name); return;};
   // b and res the same, a different ... need buffer?
   if(&rSetB==&rRes) {
-    TBaseSet<T,Cmp>* buffb=rSetB.Copy();
-    rRes.Assign(rSetA);
+    TBaseSet<T,Cmp>* buffb=rSetB.NewCpy();
+    rRes.Copy(rSetA);
     rRes.EraseSet(*buffb); 
     rRes.Name(name); 
     delete buffb;
     return;
   }; 
   // else: std
-  rRes.Assign(rSetA);
+  rRes.Copy(rSetA);
   rRes.EraseSet(rSetB);
   rRes.Name(name); 
 }
@@ -1226,15 +1229,16 @@ Implementation of TBaseSet
 
 // faudes type std: new and cast
 FAUDES_TYPE_TIMPLEMENTATION_NEW(Void,THIS,ExtType,TEMP)
-FAUDES_TYPE_TIMPLEMENTATION_COPY(Void,THIS,ExtType,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_NEWCOPY(Void,THIS,ExtType,TEMP)
 FAUDES_TYPE_TIMPLEMENTATION_CAST(Void,THIS,ExtType,TEMP)
 
 // faudes type std: assignemnt (break cast)
-//TEMP THIS& THIS::Assign(const Type& rSrc) { this->Clear(); return *this;};
-//TEMP THIS& THIS::Assign(const THIS& rSrc) { DoAssign(rSrc); return *this;};
+//TEMP THIS& THIS::Copy(const Type& rSrc) { this->Clear(); return *this;};
+//TEMP THIS& THIS::Copy(const THIS& rSrc) { DoCopy(rSrc); return *this;};
 
 // faudes type std: assignemnt (keep cast)
 FAUDES_TYPE_TIMPLEMENTATION_ASSIGN(Void,THIS,ExtType,TEMP)
+FAUDES_TYPE_TIMPLEMENTATION_MOVE(Void,THIS,ExtType,TEMP)
 FAUDES_TYPE_TIMPLEMENTATION_EQUAL(Void,THIS,ExtType,TEMP)
 
 
@@ -1332,7 +1336,7 @@ TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) :
   mElementTagDef="Element";
   mObjectName="BaseSet";
   // run assignment
-  DoAssign(rOtherSet);
+  DoCopy(rOtherSet);
 #ifdef FAUDES_DEBUG_CODE
   DValid("CopyConstruct");
 #endif
@@ -1363,15 +1367,15 @@ TEMP THIS::~TBaseSet(void) {
 
 
 // fake copy
-TEMP void THIS::DoAssign(const THIS& rSourceSet) {
-  FD_DC("TBaseSet(" << this << "[" << this->Name() << "])::DoAssign(rOtherSet " << &rSourceSet << "): shallow copy -- src attr# " << rSourceSet.pAttributes->size());
-  FD_DC("TBaseSet():DoAssign(): " << typeid(*this->AttributeType()).name()  << " <== "  << typeid(*rSourceSet.AttributeType()).name()); 
+TEMP void THIS::DoCopy(const THIS& rSourceSet) {
+  FD_DC("TBaseSet(" << this << "[" << this->Name() << "])::DoCopy(rOtherSet " << &rSourceSet << "): shallow copy -- src attr# " << rSourceSet.pAttributes->size());
+  FD_DC("TBaseSet():DoCopy(): " << typeid(*this->AttributeType()).name()  << " <== "  << typeid(*rSourceSet.AttributeType()).name()); 
 #ifdef FAUDES_DEBUG_CODE
-  DValid("PreFakeAssignment");
+  DValid("PreFakeCopyment");
 #endif
   // bail out on selfref
   if(this==&rSourceSet) {
-    FD_DC("TBaseSet():DoAssign(): bail out on identical objects"); 
+    FD_DC("TBaseSet():DoCopy(): bail out on identical objects"); 
     return;
   }
   // other members 
@@ -1412,7 +1416,7 @@ TEMP void THIS::DoAssign(const THIS& rSourceSet) {
     mpAttributes = new std::map<T,AttributeVoid*>();
     if(typeid(*this->AttributeType()) != typeid(const AttributeVoid)) {
       for(aiterator ait=rSourceSet.pAttributes->begin(); ait!=rSourceSet.pAttributes->end(); ++ait) {
-        AttributeVoid* attr= ait->second->Copy();
+        AttributeVoid* attr= ait->second->NewCpy();
         (*mpAttributes)[ait->first]=attr;
       }
     }
@@ -1435,12 +1439,19 @@ TEMP void THIS::DoAssign(const THIS& rSourceSet) {
     Lock();
   };
 #ifdef FAUDES_DEBUG_CODE
-  DValid("PostFakeAssignment");
+  DValid("PostFakeCopyment");
 #endif
-  FD_DC("TBaseSet(" << this << ")::DoAssign(rOtherSet " << &rSourceSet << "): fake copy -- done with attr# " << pAttributes->size());
+  FD_DC("TBaseSet(" << this << ")::DoCopy(rOtherSet " << &rSourceSet << "): fake copy -- done with attr# " << pAttributes->size());
 }
 
-// Detach()
+// fake copy
+TEMP void THIS::DoMove(THIS& rSourceSet) {
+  // it would be worth implementing this
+  FD_DF("TBaseSet(" << this << ")::DoMove(void): fallback to DoCopy()");
+  DoCopy(rSourceSet);
+}
+
+ // Detach()
 TEMP void THIS::Detach(DetachMode flag) const {
   FD_DC("TBaseSet(" << this << ")::Detach(void)");
 #ifdef FAUDES_DEBUG_CODE
@@ -1476,7 +1487,7 @@ TEMP void THIS::Detach(DetachMode flag) const {
   std::map<T,AttributeVoid*>* acopy = new std::map<T,AttributeVoid*>();
   if(flag==AttrIncl) {
     for(aiterator ait=pAttributes->begin(); ait!=pAttributes->end(); ++ait) {
-      AttributeVoid* attr= ait->second->Copy();
+      AttributeVoid* attr= ait->second->NewCpy();
       (*acopy)[ait->first]=attr;
     }
   }
@@ -2441,9 +2452,9 @@ TEMP bool THIS::EqualAttributes(const TBaseSet<T,Cmp>& rOtherSet) const {
 
 
 // public wrapper
-TEMP THIS& THIS::AssignWithoutAttributes(const TBaseSet<T,Cmp>& rSourceSet) {
+TEMP THIS& THIS::CopyWithoutAttributes(const TBaseSet<T,Cmp>& rSourceSet) {
   // call virtual (fake copy, will only copy attributes on type match)
-  this->DoAssign(rSourceSet);
+  this->DoCopy(rSourceSet);
   // detach, effectively clears attributes
   this->Detach(SetOnly);
   return *this;
@@ -2549,7 +2560,7 @@ TEMP AttributeVoid* THIS::DoAttributeExplicit(const T& rElem) {
   if(ait!=this->pAttributes->end())
   return ait->second;
   // instantiate explicit default
-  AttributeVoid* attr = this->AttributeType()->Copy();
+  AttributeVoid* attr = this->AttributeType()->NewCpy();
   FD_DC("TBaseSet::DoAttributeExplicit(Elem): inserting explicit default " << attr << " type " << typeid(*attr).name());
   (*this->pAttributes)[rElem]=attr;
   return attr;
@@ -2593,13 +2604,13 @@ TEMP void THIS::DoAttribute(const T& rElem, const Type* pAttr) {
   // prepare attribute and set
   if(oldattr==NULL) {
     AttributeVoid* attr = this->AttributeType()->New();
-    attr->Assign(*newattr);
+    attr->Copy(*newattr);
     (*this->pAttributes)[rElem]=attr;
     return;
   }
   // plain set     
   FD_DC("TBaseSet::DoAttribute([v] " << this->EStr(rElem) << ", ...): " << newattr->ToString());
-  oldattr->Assign(*newattr);
+  oldattr->Copy(*newattr);
 }
 
 // read STL

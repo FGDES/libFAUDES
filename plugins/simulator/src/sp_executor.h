@@ -109,6 +109,11 @@ FAUDES_TYPE_DECLARATION(Executor,Executor,TimedGenerator)
     */
     Executor(void);
 
+   /**
+    * Copy construct
+    */
+    Executor(const Executor& rOther);
+
    /** 
     * Construct from tgenerator. 
     *
@@ -432,12 +437,20 @@ FAUDES_TYPE_DECLARATION(Executor,Executor,TimedGenerator)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrc
    *    Source to assign from
    */
-  void DoAssign(const Executor& rSrc);
+  void DoCopy(const Executor& rSrc);
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrc
+   *    Source to assign from
+   */
+  void DoMove(Executor& rSrc);
 
   /**
    * Reads configuration from TokenReader, see Typefor public wrappers.

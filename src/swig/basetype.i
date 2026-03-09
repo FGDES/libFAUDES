@@ -83,9 +83,9 @@ Type: faudes base class
 %define SwigTypeMembers()
 
   // maintenance
-  virtual Type& Assign(const Type& rType);
-  %extend {  
-    Type Copy(void) const { return *($self->Copy());}; // fix swig ownership flag
+  %extend {
+    void Assign(const Type& rType) { $self->Copy(rType);};
+    Type Copy(void) const { return *($self->NewCpy());}; 
   }
   virtual void Clear(void);
 

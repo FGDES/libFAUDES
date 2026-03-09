@@ -55,7 +55,6 @@ void mtcStateMin(MtcSystem& rGen, MtcSystem& rResGen,
 
   if (rGen.Size() < 2) {
     FD_DF("statemin: generator size < 2. returning given generator");
-    //rGen.Copy(rResGen); changed !! test
     rResGen = rGen;
     rSubsets.push_back(rGen.States() );
     rNewIndices.push_back(*( rResGen.States().Begin() ) );

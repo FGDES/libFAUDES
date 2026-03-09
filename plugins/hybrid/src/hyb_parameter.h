@@ -296,14 +296,14 @@ public:
    Scalar::Type* mpData;
 
   /**
-   * Assign from other matrix.
+   * Copy from other matrix.
    *
    * @param rSrc
    *   source to copy from
    * @return
    *   ref to this matrix
    */
-  virtual Matrix& DoAssign(const Matrix& rSrc);
+  virtual Matrix& DoCopy(const Matrix& rSrc);
 
 
   /**
@@ -569,14 +569,14 @@ public:
    Scalar::Type* mpData;
 
   /**
-   * Assign from other vector
+   * Copy from other vector
    *
    * @param rSrc
    *   Source to copy from
    * @return
    *   Ref to this vector
    */
-  virtual Vector& DoAssign(const Vector& rSrc);
+  virtual Vector& DoCopy(const Vector& rSrc);
 
 
   /**
@@ -827,14 +827,14 @@ public:
    Type* mpUserData;
 
   /**
-   * Assign from other polyhedron
+   * Copy from other polyhedron
    *
    * @param rSrc
    *   Source to copy from
    * @return
    *   Ref to this polyhedron
    */
-  virtual Polyhedron& DoAssign(const Polyhedron& rSrc);
+  virtual Polyhedron& DoCopy(const Polyhedron& rSrc);
 
 
   /**
@@ -1199,14 +1199,14 @@ public:
    Type* mpUserData;
 
   /**
-   * Assign from other polyhedron
+   * Copy from other polyhedron
    *
    * @param rSrc
    *   Source to copy from
    * @return
    *   Ref to this polyhedron
    */
-  virtual LinearRelation& DoAssign(const LinearRelation& rSrc);
+  virtual LinearRelation& DoCopy(const LinearRelation& rSrc);
 
 
   /**

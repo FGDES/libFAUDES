@@ -77,7 +77,7 @@ public:
 
   /** Copy - constructor */
   AttributeD3ripURTOutput(const AttributeD3ripURTOutput& rOtherAttr) : AttributeVoid() 
-      { DoAssign(rOtherAttr); };
+      { DoCopy(rOtherAttr); };
 
   /** Test for default value (never) */
   virtual bool IsDefault(void) const {return false;};
@@ -106,7 +106,7 @@ public:
    * @return
    *   Ref to this attribute
    */
-  void DoAssign(const AttributeD3ripURTOutput& rSrcAttr);
+  void DoCopy(const AttributeD3ripURTOutput& rSrcAttr);
 
   /**
    * Reads the attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -173,7 +173,7 @@ public:
 
   /** Copy constructor */
   AttributeD3ripURTInput (const AttributeD3ripURTInput& rOtherAttr) : AttributeVoid() 
-      { DoAssign(rOtherAttr); };
+      { DoCopy(rOtherAttr); };
 
   /** Test for default value (never) */
   virtual bool IsDefault(void) const {return false;};
@@ -194,7 +194,7 @@ public:
    * @return
    *   Ref to this attribute
    */
-  void DoAssign(const AttributeD3ripURTInput& rSrcAttr);
+  void DoCopy(const AttributeD3ripURTInput& rSrcAttr);
 
   /**
    * Reads the attribute from TokenReader, see AttributeVoid for public wrappers.
@@ -277,9 +277,9 @@ FAUDES_TYPE_DECLARATION(Void,AttributeD3ripURTEvent,AttributeDeviceEvent)
 
  protected:
 
-  /** DoAssign */
-  void DoAssign(const AttributeD3ripURTEvent& rSrc)  
-  { AttributeDeviceEvent::DoAssign(rSrc);};
+  /** DoCopy */
+  void DoCopy(const AttributeD3ripURTEvent& rSrc)  
+  { AttributeDeviceEvent::DoCopy(rSrc);};
 
   /** Prototype, input (construct on first use static) */
   static const AttributeD3ripURTInput* InputPrototypep(void);
@@ -407,10 +407,10 @@ public:
   d3ripURTDevice(void);
 
   /**
-   * Copy constructor [not functional, since DoAssign is not implemented]
+   * Copy constructor [not functional, since DoCopy is not implemented]
    */
   d3ripURTDevice(const d3ripURTDevice& rSrc) : vDevice() 
-      { DoAssign(rSrc); };
+      { DoCopy(rSrc); };
 
   /**
    * Explicit destructor.
@@ -512,7 +512,7 @@ public:
   virtual void DoReadPreface(TokenReader& rTr,const std::string& rLabel="", const Type* pContext=0);
 
   // dummies
-  void DoAssign(const d3ripURTDevice& rSrcAttr){};
+  void DoCopy(const d3ripURTDevice& rSrcAttr){};
   virtual bool DoEqual(const d3ripURTDevice& rSrcAttr) const { return false;};
 
  private:

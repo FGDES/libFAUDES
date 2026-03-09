@@ -45,13 +45,20 @@ FAUDES_TYPE_DECLARATION(Void,AttributeColoredState,AttributeFlags)
 
   public:
 
-    /** Default constructor */
-   AttributeColoredState(void) : AttributeFlags() {
-      mpColorSymbolTable=mColors.SymbolTablep(); };
+   /** Default constructor */
+    AttributeColoredState(void) : AttributeFlags() {
+      mpColorSymbolTable=mColors.SymbolTablep();
+    };
+
+   /** Copy constructor */
+    AttributeColoredState(const AttributeColoredState& rSrc) : AttributeFlags(rSrc) {
+      mpColorSymbolTable=mColors.SymbolTablep();
+      mColors=rSrc.mColors;
+    };
 
     virtual ~AttributeColoredState(void) {};
 
-    /**
+   /**
     * Test for default value
     *
     * @return
@@ -119,12 +126,21 @@ protected:
     SymbolTable* mpColorSymbolTable;
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-   virtual void DoAssign(const AttributeColoredState& rSrcAttr);
+   virtual void DoCopy(const AttributeColoredState& rSrcAttr);
+
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+   virtual void DoMove(AttributeColoredState& rSrcAttr);
 
 
   /**

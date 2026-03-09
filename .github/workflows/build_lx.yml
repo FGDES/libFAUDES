@@ -28,10 +28,18 @@ jobs:
     - name: Run Test Cases
       run: make test
     - name: Build Package
-      run: make package
+      run: |
+        make package
+        ls -hl libfaudes_*.*
     - uses: actions/upload-artifact@v4
       with:
-        name: libfaudes-${{ env.VMAJOR }}_${{ env.VMINOR }}.tar.gz
-        path: ./libfaudes-*.tar.gz
+        name: libfaudes_${{ env.VMAJOR }}_${{ env.VMINOR }}_lx.tar.gz
+        path: ./libfaudes*lx.tar.gz
+        compression-level: 0
+        if-no-files-found: error
+    - uses: actions/upload-artifact@v4
+      with:
+        name: libfaudes_${{ env.VMAJOR }}_${{ env.VMINOR }}_source.tar.gz
+        path: ./libfaudes_*source.tar.gz
         compression-level: 0
         if-no-files-found: error

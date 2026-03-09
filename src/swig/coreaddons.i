@@ -128,6 +128,15 @@ void Print(int v, const std::string& message);
 void Verbosity(int v);
 int Verbosity();
 
+// Python console redirect
+#ifdef SWIGPYTHON
+// add to moduleloader
+%init %{
+  if(Py_IsInitialized()) {
+   faudes_redirect(true);
+  }
+%}
+#endif
 
 /*
 **************************************************
@@ -185,27 +194,33 @@ void TestProtocol(const std::string& rMessage, const std::string& data);
 %pythoncode %{
 
 import sys  
+import os
 
-def TEST_DUMP(m,d):
-  file = "faudes_console_dump"
-  if sys.argv[0] != "": 
-    file = sys.argv[0]
+def faudes_test_name():
+  if globals().get('FAUDES_TEST_NAME',None)!=None:
+    return(FAUDES_TEST_NAME)
+  if sys.argv[0] != "":
+    return(sys.argv[0])
+  return None
+
+def TestDump(m,d):
+  file = faudes_test_name()
+  if file==None:
+    return
   _faudes.TestProtocol(file)
-  _faudes.TestProtocol(m + " [at " + file + "]",d)
+  title = os.path.basename(file)
+  _faudes.TestProtocol(m + " [at " + title + "]",d)
 
-def TEST_DIFF(): 
+def TestDiff(): 
+  file = faudes_test_name()
+  if file==None:
+    return true
   res = _faudes.TestProtocol()
-  file = "faudes_console_dump"
-  if sys.argv[0] != "": 
-    file = sys.argv[0]
   if not res:
     print("FAUDES_TEST_DIFF: sensed test case error in " + file)
+  assert res, "Test case failed: '" + file + "'"
   return res
 
-import builtins
-
-builtins.FAUDES_TEST_DUMP = TEST_DUMP
-builtins.FAUDES_TEST_DIFF = TEST_DIFF
 
 %}
 #endif

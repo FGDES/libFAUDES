@@ -212,7 +212,7 @@ AttributeSimplenetEvent::AttributeSimplenetEvent(const AttributeSimplenetEvent& 
   FD_DHV("AttributeSimplenetEvent(" << this << "): form other attr " <<  &rOtherAttr);
   pOutputPrototype=OutputPrototypep();
   pInputPrototype=InputPrototypep();
-  DoAssign(rOtherAttr);
+  DoCopy(rOtherAttr);
 }
 
 
@@ -279,6 +279,11 @@ nDevice::nDevice(void) : vDevice() {
   mBroadcastSocket=-1;
 }
 
+// copy construct
+nDevice::nDevice(const nDevice& rOther) : nDevice() {
+
+}
+  
 // destructor
 nDevice::~nDevice(void) {
   FD_DHV("nDevice(" << this << ")::~nDevice()");
@@ -288,10 +293,30 @@ nDevice::~nDevice(void) {
   faudes_mutex_destroy(&mMutex);
 }
 
+// assign configuration
+void nDevice::DoCopy(const nDevice& rOther) {
+  FD_DHV("nDevice(" << this << ")::DoCopy()");
+  // call base, incl stop
+  vDevice::Clear();
+  // copy my config data members
+  *pConfiguration= *(rOther.pConfiguration);
+  mNetwork = rOther.mNetwork;
+  mListenAddress = rOther.mListenAddress;
+  mBroadcastAddress = rOther.mBroadcastAddress;;
+  mEffectiveListenAddress = rOther.mEffectiveListenAddress;
+  // compiled data
+  Compile();
+}
+
+// assign configuration
+void nDevice::DoMove(nDevice& rOther) {
+  DoCopy(rOther);
+}
+  
 // clear all configuration
 void nDevice::Clear(void) {
   FD_DHV("nDevice(" << this << ")::Clear()");
-  // call base, incl stop
+  // call base, incl virtial Stop and Reset
   vDevice::Clear();
   // clear compiled data
   mInputSubscriptions.clear();
@@ -718,15 +743,16 @@ void* NDeviceListen(void* arg){
       }
     }
 
-    // detect missing clients (extension 2.22i, trust by number, should ask nodename on subscription)
-    int clientmis= ndevice->mNetworkNodes.size()-1;
+    // detect missing clients (trust by number, should ask nodename on subscription)
+    int clientcnt=0;
     for(cit=ndevice->mOutputClientStates.begin(); cit!=ndevice->mOutputClientStates.end(); cit++) {
       if(cit->second.mClientSocket<0) continue;
-      if(cit->second.mConnected) clientmis--;
+      if(cit->second.mConnected) ++clientcnt;
     }
+    int clientmis = ndevice->mNetworkNodes.size() - (clientcnt +1); // +1 is myself
 #ifdef FAUDES_DEBUG_IODEVICE
-    if(clientmis!=servermis)
-      FD_DH("nDevice::Listen(): missing clients to subscribe: #"<< clientmis);
+    if( clientmis !=servermis)
+      FD_DH("nDevice::Listen(): subscribed clients #"<< clientcnt << "/" << ndevice->mNetworkNodes.size()-1);
 #endif
 
     // update state
@@ -847,7 +873,7 @@ void* NDeviceListen(void* arg){
       hello="<Cmd> Info </Cmd>\n";
       syncSend(serversock, hello.c_str(), hello.length(), 0);
       */
-      FD_DH("nDevice::Listen(): subscribing to " << sit->first << " via socket " << serversock << ": ok");
+      FD_DH("nDevice::Listen(): subscribing to " << sit->first << " via socket " << serversock << ": subscription requested sent");
     }
 
 
@@ -1113,12 +1139,18 @@ void* NDeviceListen(void* arg){
                 */
 	        continue;
               }
+              // its a subscription acknowledgement
+              if(token.Type()==Token::Begin && token.StringValue()=="Subscribed") {
+		EventSet sevents;
+                sevents.Read(tr,"Subscribed");
+                FD_DH("nDevice::Listen(): subscribed to " << sevents.ToString());
+	        continue;
+              }	      
               // skip other sections
               if(token.Type()==Token::Begin) {
-                FD_DH("nDevice::Listen(): ignore section " << token.StringValue());
+                FD_DH("nDevice::Listen(): ignore section <" << token.StringValue() <<">");
 		std::string section=token.StringValue();
                 tr.ReadBegin(section);
-	        while(!tr.Eos(section)) tr.Get(token);
                 tr.ReadEnd(section);
 	        continue;
 	      }
@@ -1173,11 +1205,13 @@ void* NDeviceListen(void* arg){
           try {
             Token token;
             while(tr.Peek(token)) {
+	      bool xmlok=false; 
               // its a command
               if(token.IsBegin("Cmd")) { 
   	        tr.ReadBegin("Cmd");
 	        std::string cmd = tr.ReadString();
   	        tr.ReadEnd("Cmd");
+		xmlok=true;
                 std::string response="<NAck> </NAck>\n";
                 FD_DH("nDevice::Reply(" <<  clientsock  << "): received cmd " << cmd);
                 // command: info
@@ -1193,7 +1227,7 @@ void* NDeviceListen(void* arg){
                   if(ndevice->mState==vDevice::StartUp) response="<Ack> StartUp </Ack>\n";
                   if(ndevice->mState==vDevice::ShutDown) response="<Ack> ShutDown </Ack>\n";
                   TUNLOCK_E;
-                }
+                } 
                 // its a reset request
                 if(cmd=="ResetRequest") {
                   FD_DH("nDevice::Reply(" <<  clientsock  << "): reset request");
@@ -1204,14 +1238,16 @@ void* NDeviceListen(void* arg){
                   response="";
    	        }
                 // send reply
+		FD_DHV("nDevice(" << ndevice << ")::Reply: reading client sock: send response");
                 syncSend(clientsock, response.c_str(), response.length(), 0);
-	      }
+	      } 
               // its a event subscription
               if(token.IsBegin("Subscribe")) {  
    	        EventSet sevents;
                 sevents.Read(tr,"Subscribe");
                 sevents.RestrictSet(ndevice->Outputs());
                 sevents.Name("Subscribed");
+		xmlok=true;
                 FD_DH("nDevice::Reply(" <<  clientsock  << "): providing events " << sevents.ToString());
                 TLOCK_E;
                 cit->second.mEvents.Clear();              
@@ -1220,12 +1256,19 @@ void* NDeviceListen(void* arg){
 	        std::string response=sevents.ToString()+"\n";
                 TUNLOCK_E;
                 // send reply
+		FD_DHV("nDevice(" << ndevice << ")::Reply(): reading client sock: send response");
                 syncSend(clientsock, response.c_str(), response.length(), 0);
 	      }
-	    }
+	      // cancle on xml hickup
+	      if(!xmlok) {
+                FD_DH("nDevice::Reply(" <<  clientsock  << "): invalid xml B");
+                break;
+	      }
+	    } 
           } catch (faudes::Exception&) {
-            FD_DH("nDevice::Reply(" <<  clientsock  << "): invalid cmd");
+            FD_DH("nDevice::Reply(" <<  clientsock  << "): invalid xml A");
           }
+	  FD_DHV("nDevice(" << ndevice << ")::Reply(): reading client sock: done");
           cit->second.mLineBuffer.clear();
   	}
       }

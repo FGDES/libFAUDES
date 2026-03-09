@@ -22,10 +22,10 @@ namespace faudes {
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeLhaTrans,AttributeFlags)
 
-// Assign my members
-AttributeLhaTrans& AttributeLhaTrans::DoAssign(const AttributeLhaTrans& rSrcAttr) { 
+// Copy my members
+AttributeLhaTrans& AttributeLhaTrans::DoCopy(const AttributeLhaTrans& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   mGuard=rSrcAttr.mGuard;
   mReset=rSrcAttr.mReset;
@@ -91,10 +91,10 @@ void AttributeLhaTrans::DoRead(TokenReader& rTr, const std::string& rLabel, cons
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeLhaState,AttributeFlags)
 
-// Assign my members
-AttributeLhaState& AttributeLhaState::DoAssign(const AttributeLhaState& rSrcAttr) { 
+// Copy my members
+AttributeLhaState& AttributeLhaState::DoCopy(const AttributeLhaState& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeFlags::DoAssign(rSrcAttr);
+  AttributeFlags::DoCopy(rSrcAttr);
   // my additional members
   mInvariant=rSrcAttr.mInvariant;
   mInitialConstraint=rSrcAttr.mInitialConstraint;
@@ -173,10 +173,10 @@ void AttributeLhaState::DoRead(TokenReader& rTr, const std::string& rLabel, cons
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeLhaGlobal,AttributeVoid)
 
-// Assign my members
-AttributeLhaGlobal& AttributeLhaGlobal::DoAssign(const AttributeLhaGlobal& rSrcAttr) { 
+// Copy my members
+AttributeLhaGlobal& AttributeLhaGlobal::DoCopy(const AttributeLhaGlobal& rSrcAttr) { 
   // call base (incl. virtual clear)
-  AttributeVoid::DoAssign(rSrcAttr);
+  AttributeVoid::DoCopy(rSrcAttr);
   // my additional members
   mStateSpace=rSrcAttr.mStateSpace;
   return *this;

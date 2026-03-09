@@ -293,7 +293,7 @@ protected:
     // if we have been asked to record, run mu again with nu-var set to fixpoint
     if(mRecCtrl) {
       StateSetVector args;
-      args.AssignByReference(rArgs);
+      args.CopyByReference(rArgs);
       args.PushBack(&rRes);
       mMuThetaCore.RecCtrl(true);
       StateSet dummy;
@@ -477,7 +477,7 @@ protected:
     // if we have been asked to record, nu-var set to fixpoint
     if(mRecCtrl) {
       StateSetVector args;
-      args.AssignByReference(rArgs);
+      args.CopyByReference(rArgs);
       args.PushBack(&rRes);
       mCtrlCore.RecCtrl(true);
       StateSet dummy;
@@ -592,7 +592,7 @@ void RabinCtrlPfx(
   // run
   StateSet ctrlpfx;
   ctrl.Evaluate(ctrlpfx);
-  rController.Assign(ctrl.Controller());
+  rController.Copy(ctrl.Controller());
 };
 
 
@@ -612,13 +612,13 @@ void RabinCtrlPfx(
   // do run
   StateSet ctrlpfx;
   RabinCtrlPfx(rRAut,rSigmaCtrl,ctrlpfx);
-  pResGen->Assign(rRAut);
+  pResGen->Copy(rRAut);
   pResGen->InjectMarkedStates(ctrlpfx);
   pResGen->Trim();
 
   // copy result
   if(pResGen != &rResGen) {
-    pResGen->Move(rResGen);
+    rResGen.Move(*pResGen);
     delete pResGen;
   }
 }
@@ -669,7 +669,7 @@ void SupRabinCon(
     pRes= rRes.New();
   }
   // execute: set up closed loop candidate
-  pRes->Assign(rRSpec);
+  pRes->Copy(rRSpec);
   pRes->ClearMarkedStates();
   Automaton(*pRes);
   RabinBuechiProduct(*pRes,rBPlant,*pRes);
@@ -686,7 +686,7 @@ void SupRabinCon(
   pRes->Name(CollapsString("SupRabinCon(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }
@@ -711,7 +711,7 @@ void SupRabinCon(
   pRes->EventAttributes(rBPlant.Alphabet());
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }
@@ -758,7 +758,7 @@ void RabinCtrl(
   // execute: set up closed loop candidate
   bool snames= rBPlant.StateNamesEnabled() &&  rRSpec.StateNamesEnabled() &&  rRes.StateNamesEnabled();    
   RabinAutomaton cand;
-  cand.Assign(rRSpec);
+  cand.Copy(rRSpec);
   cand.StateNamesEnabled(snames);
   cand.ClearMarkedStates();
   Automaton(cand);
@@ -802,7 +802,7 @@ void RabinCtrl(
 
   // execute: polish
   gcand.Accessible();
-  gcand.Move(rRes);
+  rRes.Move(gcand);
   rRes.Name(CollapsString("RabinCtrl(("+rBPlant.Name()+"),("+rRSpec.Name()+"))"));
 }
 
@@ -824,7 +824,7 @@ void RabinCtrl(
   // execute: set up ctrlpfx
   bool snames= false;
   RabinAutomaton cand;
-  cand.Assign(rRUSpec);
+  cand.Copy(rRUSpec);
   cand.StateNamesEnabled(snames);
   cand.ClearMarkedStates();
   Automaton(cand);
@@ -932,7 +932,7 @@ void RabinCtrl(
   pRes->EventAttributes(rBPlant.Alphabet());
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }
@@ -957,7 +957,7 @@ void RabinCtrl(
   pRes->EventAttributes(rBPlant.Alphabet());
   // copy result
   if(pRes != &rRes) {
-    pRes->Move(rRes);
+    rRes.Move(*pRes);
     delete pRes;
   }
 }

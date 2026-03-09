@@ -117,12 +117,20 @@ public:
 protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeFlags& rSrcAttr);
+  void DoCopy(const AttributeFlags& rSrcAttr);
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeFlags& rSrcAttr);
 
   /**
    * Test equality of configuration data.
@@ -229,6 +237,9 @@ FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
    */
   AttributeCFlags(void) : AttributeFlags() { mFlags=mDefCFlags; };
 
+  /** Copy constructor */
+  AttributeCFlags(const AttributeCFlags& rOther) : AttributeFlags(rOther) {};
+
   /** Destructor */
   virtual ~AttributeCFlags(void) {};
 
@@ -324,12 +335,20 @@ FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeCFlags& rSrcAttr);
+  void DoCopy(const AttributeCFlags& rSrcAttr);
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeCFlags& rSrcAttr);
 
   /**
    * Test equality of configuration data.

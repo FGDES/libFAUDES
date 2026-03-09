@@ -219,7 +219,7 @@ public:
     virtual void ConflictEquivalentAbstraction(EventSet &silent);
 
 protected:
-    void DoAssign(Candidate cand);
+    void DoCopy(Candidate cand);
     Generator mGenRaw; // input generator, not abstracted yet
     Generator mGenHidden; // generator after hiding private evs
     Generator mGenMerged; // generator after state merging abstraction
@@ -274,7 +274,7 @@ public:
     virtual void ConflictEquivalentAbstraction(EventSet &silent);
 
 private:
-    void DoAssign(PCandidate cand);
+    void DoCopy(PCandidate cand);
     EventSet mPevs;
     EventSet mPSilentevs;
 
@@ -298,7 +298,7 @@ public:
     Idx Size(){return mCandidates.size();}
 
 protected:
-    void DoAssign(SynchCandidates synchcands);
+    void DoCopy(SynchCandidates synchcands);
     std::list<Candidate*> mCandidates;
 };
 

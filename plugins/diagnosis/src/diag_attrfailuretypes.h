@@ -153,7 +153,7 @@ FAUDES_TYPE_DECLARATION(Void,AttributeFailureTypeMap,AttributeFlags)
    *  @param rSrcAttr 
    *    Source to copy from
    */
-  void DoAssign(const AttributeFailureTypeMap& rSrcAttr);   
+  void DoCopy(const AttributeFailureTypeMap& rSrcAttr);   
 
   /**
    *  Test equality

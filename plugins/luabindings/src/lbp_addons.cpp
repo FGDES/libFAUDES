@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
+#ifndef FAUDES_MUTE_LUA
 
 // my header
 #include "lbp_addons.h"
@@ -184,3 +185,4 @@ char **faudes_complete(lua_State* pL, const char *text, int start, int end) {
 
 
 } //namespace
+#endif

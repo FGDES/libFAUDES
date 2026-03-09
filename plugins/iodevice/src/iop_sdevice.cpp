@@ -31,9 +31,9 @@ namespace faudes {
 // faudes type std
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeSignalOutput,AttributeVoid)
 
-//DoAssign(Src)
-void AttributeSignalOutput::DoAssign(const AttributeSignalOutput& rSrcAttr) {
-  FD_DHV("AttributeSignalOutput(" << this << "):DoAssign(): assignment from " <<  &rSrcAttr);
+//DoCopy(Src)
+void AttributeSignalOutput::DoCopy(const AttributeSignalOutput& rSrcAttr) {
+  FD_DHV("AttributeSignalOutput(" << this << "):DoCopy(): assignment from " <<  &rSrcAttr);
   mActions=rSrcAttr.mActions;
 }
 
@@ -172,9 +172,9 @@ void AttributeSignalOutput::DoRead(TokenReader& rTr, const std::string& rLabel, 
 FAUDES_TYPE_IMPLEMENTATION(Void,AttributeSignalInput,AttributeVoid)
 
 
-//DoAssign(Src)
-void AttributeSignalInput::DoAssign(const AttributeSignalInput& rSrcAttr) {
-  FD_DHV("AttributeSignalInput(" << this << "):DoAssign(): assignment from " <<  &rSrcAttr);
+//DoCopy(Src)
+void AttributeSignalInput::DoCopy(const AttributeSignalInput& rSrcAttr) {
+  FD_DHV("AttributeSignalInput(" << this << "):DoCopy(): assignment from " <<  &rSrcAttr);
   mTriggers=rSrcAttr.mTriggers;
 }
 
@@ -339,7 +339,7 @@ AttributeSignalEvent::AttributeSignalEvent(const AttributeSignalEvent& rOtherAtt
   FD_DHV("AttributeSimplenetEvent(" << this << "): form other attr " <<  &rOtherAttr);
   pOutputPrototype=OutputPrototypep();
   pInputPrototype=InputPrototypep();
-  DoAssign(rOtherAttr);
+  DoCopy(rOtherAttr);
 }
 
 
@@ -778,7 +778,7 @@ void* SDeviceSynchro(void* arg){
 
   FD_DH("sDevice(" << sdevice->mName << ")::Synchro(" << sdevice << "): with ct " << sdevice->mCycleTime);
 
-#ifdef FAUDES_DEBUG_IOTIMING_X
+#ifdef FAUDES_DEBUG_IOPERF
 	/////////////////////////////////////////////////////
 	//  cyletime analysis
 	//  timeA: time consumed for an entire cycle
@@ -786,9 +786,9 @@ void* SDeviceSynchro(void* arg){
 	//  timeC: time left for usleep
         //
 	//  provide arrays for samples
-	faudes_systime_t* timeA = new faudes_systime_t[MAX_SAMPLES];
-	faudes_systime_t* timeB = new faudes_systime_t[MAX_SAMPLES];
-	faudes_systime_t* timeC = new faudes_systime_t[MAX_SAMPLES];
+	faudes_systime_t* timeA = new faudes_systime_t[FAUDES_DEBUG_IOPERF_SAMPLES];
+	faudes_systime_t* timeB = new faudes_systime_t[FAUDES_DEBUG_IOPERF_SAMPLES];
+	faudes_systime_t* timeC = new faudes_systime_t[FAUDES_DEBUG_IOPERF_SAMPLES];
         //  provide pointer to current sample
 	int itime=0;
 	//  take a sample
@@ -940,10 +940,10 @@ void* SDeviceSynchro(void* arg){
 	  // unlock global variables
 	  TUNLOCK_E;
 
-#ifdef FAUDES_DEBUG_IOTIMING_X
+#ifdef FAUDES_DEBUG_IOPERF
 	  //////////////////////////////////////
 	  //cycletime analysis: take a sample
-	  if(itime < MAX_SAMPLES) faudes_gettimeofday(timeB+itime);
+	  if(itime < FAUDES_DEBUG_IOPERF_SAMPLES) faudes_gettimeofday(timeB+itime);
 #endif
 
 	  // let time pass  
@@ -952,22 +952,30 @@ void* SDeviceSynchro(void* arg){
           long int delta = (timeL2.tv_nsec - timeL1.tv_nsec)/1000; 
           delta+= 1000000 * (timeL2.tv_sec - timeL1.tv_sec);
           if(delta < sdevice->mCycleTime) faudes_usleep(sdevice->mCycleTime-delta);
-          else {
-	    if(delta > sdevice->mCycleTime) 
-            if(sdevice->mState==sDevice::Up)
-	      FD_DH("sDevice::synchro: missed cycle time by "  <<  delta - sdevice->mCycleTime << " usec");
+
+	  //////////////////////////////////////
+	  // cycletime monitor and report every 5secs
+	  static long int maxmiss=0;
+	  if(delta > sdevice->mCycleTime) 
+	    if(maxmiss < delta - sdevice->mCycleTime) maxmiss = delta - sdevice->mCycleTime;
+	  static long long int timeRsec=timeL1.tv_sec;;
+	  if(timeL1.tv_sec - timeRsec > 5) {
+	    if(maxmiss>0)
+	      FD_DH("sDevice::synchro: missed cycle time by max "  <<  maxmiss	<< " usec");
+	    maxmiss=0;
+	    timeRsec = timeL1.tv_sec;
 	  }
 
 
-#ifdef FAUDES_DEBUG_IOTIMING_X
+#ifdef FAUDES_DEBUG_IOPERF
 	  //////////////////////////////////////
 	  // cycletime analysis
 
 	  // take a sample
-	  if(itime < MAX_SAMPLES) faudes_gettimeofday(timeC+itime);
+	  if(itime < FAUDES_DEBUG_IOPERF_SAMPLES) faudes_gettimeofday(timeC+itime);
           // increment pointer
 	  itime++;
-	  if(itime < MAX_SAMPLES)  faudes_gettimeofday(timeA+itime);
+	  if(itime < FAUDES_DEBUG_IOPERF_SAMPLES)  faudes_gettimeofday(timeA+itime);
 
 #endif
 	  // count cycles
@@ -975,7 +983,7 @@ void* SDeviceSynchro(void* arg){
 	} // loop while running
 
 
-#ifdef FAUDES_DEBUG_IOTIMING_X
+#ifdef FAUDES_DEBUG_IOPERF
 
 	/////////////////////////////////////////////
 	// cycletime analysis
@@ -1016,19 +1024,19 @@ void* SDeviceSynchro(void* arg){
 	  // by usleep(mCyleTime)
 	  faudes_diffsystime(timeC[ind],timeB[ind],&dCB);
 	  // time passed by until the next call of WaitInputs
-	  faudes_diffsystime(sdevice->mptimeBegin[ind+1],sdevice->mptimeEnd[ind],&dER);
+	  //faudes_diffsystime(sdevice->mptimeBegin[ind+1],sdevice->mptimeEnd[ind],&dER);
 	  // insert samples to density functions
 	  SamplesA.Sample(dAA.tv_sec*1000000 + dAA.tv_nsec/1000);
 	  SamplesB.Sample(dBA.tv_sec*1000000 + dBA.tv_nsec/1000);
 	  SamplesC.Sample(dCB.tv_sec*1000000 + dCB.tv_nsec/1000);
-	  SamplesWS.Sample(1000000*dER.tv_sec + dER.tv_nsec/1000);
+	  //SamplesWS.Sample(1000000*dER.tv_sec + dER.tv_nsec/1000);
 	}
 
 	// perform statistic computation
         SamplesA.Compile();
         SamplesB.Compile();
 	SamplesC.Compile();
-	SamplesWS.Compile();
+	//SamplesWS.Compile();
 
 	// token output
 	// SamplesA.Write();
@@ -1040,7 +1048,7 @@ void* SDeviceSynchro(void* arg){
         std::cout << SamplesA.Str() << std::endl;
         std::cout << SamplesB.Str() << std::endl;
         std::cout << SamplesC.Str() << std::endl;
-	std::cout << SamplesWS.Str() << std::endl;
+	//std::cout << SamplesWS.Str() << std::endl;
 #endif
 
   FD_DH("sDevice(" << sdevice->mName << ")::synchro: terminate background thread");

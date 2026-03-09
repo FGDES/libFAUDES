@@ -324,12 +324,20 @@ protected:
  protected:
 
   /**
-   * Assignment method. 
+   * Copyment method. 
    *
    * @param rSrcAttr
    *    Source to assign from
    */
-  void DoAssign(const AttributeSimCondition& rSrcAttr);
+  void DoCopy(const AttributeSimCondition& rSrcAttr);
+
+  /**
+   * Copyment method. 
+   *
+   * @param rSrcAttr
+   *    Source to assign from
+   */
+  void DoMove(AttributeSimCondition& rSrcAttr);
 
   /**
    * Equality method. 
@@ -431,13 +439,22 @@ FAUDES_TYPE_DECLARATION(Void,SimConditionSet,TaNameSet<AttributeSimCondition>)
 protected:
 
  /**
-  * Assign from other condition set. 
+  * Copy from other condition set. 
   *
   * @param rSourceSet
   *   Destination to copy from
   */
- void DoAssign(const SimConditionSet& rSourceSet) {
-   TaNameSet<AttributeSimCondition>::DoAssign(rSourceSet); };
+ void DoCopy(const SimConditionSet& rSourceSet) {
+   TaNameSet<AttributeSimCondition>::DoCopy(rSourceSet); };
+
+ /**
+  * Copy from other condition set. 
+  *
+  * @param rSourceSet
+  *   Destination to copy from
+  */
+ void DoMove(SimConditionSet& rSourceSet) {
+   TaNameSet<AttributeSimCondition>::DoMove(rSourceSet); };
 
 
  

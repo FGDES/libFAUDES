@@ -46,7 +46,7 @@ FAUDES_DEBUG += iop_threads
 #FAUDES_DEBUG += iop_verbose
 
 # Debug performance, ie generate and report timimg info
-FAUDES_DEBUG += iop_performance
+#AUDES_DEBUG += iop_performance
 
 
 #
