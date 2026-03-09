@@ -22,8 +22,10 @@ jobs:
         echo "VMINOR=$FAUDES_VERSION_MINOR" >> "$GITHUB_ENV"
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
-        make -j FAUDES_PLUGINS="synthesis omegaaut priorities observer diagnosis pybindings" configure
-        #make -j FAUDES_PLUGINS="synthesis pybindings" configure
+        FAUDES_PLUGINS = "synthesis omgegaaut pybindings"
+        make -j configure
+        make clean
+        make -j pyproj
         tar -czf faudes.tgz ./*
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -33,111 +35,25 @@ jobs:
         if-no-files-found: error
 
 
-  build_wheels:
-
-    name: Build wheels on ${{ matrix.os }}
-    needs: [configure]
-    runs-on: ${{ matrix.runs-on }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - os: lxmany-intel
-          runs-on: ubuntu-latest
-          arch: x86_64
-          build: "*manylinux*"
-        - os: lxmany-arm
-          runs-on: ubuntu-24.04-arm
-          arch: aarch64
-          build: "*manylinux*"
-        - os: lxmusl-intel
-          runs-on: ubuntu-latest
-          arch: x86_64
-          build: "*musllinux*"
-        - os: lxmusl-arm
-          runs-on: ubuntu-24.04-arm
-          arch: aarch64
-          build: "*musllinux*"
-        - os: windows-intel
-          runs-on: windows-latest
-          arch: AMD64
-        - os: windows-arm
-          runs-on: windows-11-arm
-          arch: ARM64
-        - os: macos-arm
-          runs-on: macos-latest
-          arch: arm64
-    steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: faudes.tgz
-        path: ./
-    - name: Extract Archive
-      run: |
-        tar -xzf faudes.tgz
-    - name: Build wheels
-      uses: pypa/cibuildwheel@v3.3.1
-      env:
-        CIBW_ARCHS: ${{ matrix.arch || 'auto'}}
-        CIBW_BUILD: ${{ matrix.build || '*'}}
-      with:
-        package-dir: ./plugins/pybindings/pyproj
-        output-dir: wheelhouse
-        config-file: "{package}/pyproject.toml"
-    - uses: actions/upload-artifact@v4
-      with:
-        name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-        path: ./wheelhouse/*.whl
-
-
-  build_sdist:
-
-    name: Build source distribution
-    needs: [configure]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: faudes.tgz
-        path: ./
-    - name: Extract Archive
-      run: |
-        tar -xzf faudes.tgz
-    - uses: actions/setup-python@v1
-      name: Setup Python
-    - uses: BSFishy/pip-action@v1
-      name: Pip for build
-      with:
-        packages: build
-    - name: Build sdist
-      run: |
-        python3 -m build ./plugins/pybindings/pyproj --outdir=./ --sdist	
-    - uses: actions/upload-artifact@v4
-      with:
-        name: cibw-sdist
-        path: faudes-*.tar.gz
-
-
-  publish:
+  build:
   
-    needs: [build_wheels, build_sdist]
-    runs-on: ubuntu-latest
-    environment: pypi
-    permissions:
-      id-token: write
-    steps:
-    - uses: actions/download-artifact@v5
-      with:
-        pattern: cibw-*
-        path: dist
-        merge-multiple: true
-    - name: Show
-      run: |
-        ls dist      
-    - uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        verbose: true
-        repository-url: https://test.pypi.org/legacy/
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
 
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.3.1
+        with:
+          package-dir: ./plugins/pybindings/pyproj
+          output-dir: wheelhouse
+          config-file: "{package}/pyproject.toml"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
