@@ -28,7 +28,7 @@
 This plug-in implements libFAUDES bindings for the scripting language Python; 
 see https://www.python.org. Relevant libFAUDES data types and functions
 can be accessed from the Python interpreter. The most convenient method
-to make the faudes module available is to install it via <tt>pip<\tt>; i.e., for
+to make the faudes module available is to install it via <tt>pip</tt>; i.e., for
 Linux, macOS and Windows/MSYS
 </p>
 
