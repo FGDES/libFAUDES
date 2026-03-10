@@ -8,7 +8,7 @@ SWIG interface for corefaudes library.
 **/
 
 // Set Modul name
-// (must be faude for corefaudes)
+// (must be faudes for corefaudes)
 %module faudes
 #ifndef SwigModule
 #define SwigModule "SwigCoreFaudes"

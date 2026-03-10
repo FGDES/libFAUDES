@@ -120,6 +120,7 @@ $(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
 	echo "// ###### auto-generated overall swig interface file" > $@
 	echo "#define SwigModule \"SwigLibFaudes\" " >> $@
 	echo "%module(docstring=\"libFAUDES Python bindings --- see https://fgdes.tf.fau.de\") faudes" >> $@
+	#echo "%feature(\"autodoc\", \"1\")" >> $@
 	echo " " >> $@
 	echo "// ###### merge all plugin interface files  " >> $@
 	echo " " >> $@

@@ -189,7 +189,7 @@ void TestProtocol(const std::string& rMessage, long int data);
 void TestProtocol(const std::string& rMessage, const std::string& data);
 
 
-// provide convenient interface (Python version)
+// provide convenience interface (Python version)
 #ifdef SWIGPYTHON
 %pythoncode %{
 

@@ -1785,8 +1785,9 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
       href = StringSubstitute(href,"FAUDES_CSOURCE/",mCsourceLink);
       href = StringSubstitute(href,"FAUDES_LUAFAUDES/",mLuafaudesLink);
       href = StringSubstitute(href,"FAUDES_ONLINE",mFaudesLink);
-      href = StringSubstitute(href,"FAUDES_GETLINUX",mDownloadLink+"#Packages");
-      href = StringSubstitute(href,"FAUDES_GETMSWIN",mDownloadLink+"#Packages");
+      href = StringSubstitute(href,"FAUDES_GETLX",mDownloadLink+"#Packages");
+      href = StringSubstitute(href,"FAUDES_GETOSX",mDownloadLink+"#Packages");
+      href = StringSubstitute(href,"FAUDES_GETWIN",mDownloadLink+"#Packages");
       href = StringSubstitute(href,"DESTOOL_ONLINE",mDestoolLink);
       token.InsAttributeString("href",href);
       token.ClrAttribute("fhref");
@@ -1801,8 +1802,9 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
       href = StringSubstitute(href,"FAUDES_CSOURCE/",mCsourcePrefix);
       href = StringSubstitute(href,"FAUDES_LUAFAUDES/",mLuafaudesPrefix);
       href = StringSubstitute(href,"FAUDES_ONLINE",mFaudesLink);
-      href = StringSubstitute(href,"FAUDES_GETLINUX",mDownloadLink+"#Packages");
-      href = StringSubstitute(href,"FAUDES_GETMSWIN",mDownloadLink+"#Packages");
+      href = StringSubstitute(href,"FAUDES_GETLX",mDownloadLink+"#Packages");
+      href = StringSubstitute(href,"FAUDES_GETOSX",mDownloadLink+"#Packages");
+      href = StringSubstitute(href,"FAUDES_GETWIN",mDownloadLink+"#Packages");
       href = StringSubstitute(href,"DESTOOL_ONLINE",mDestoolLink);
       token.InsAttributeString("href",href);
       token.ClrAttribute("fhref");

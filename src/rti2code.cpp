@@ -327,18 +327,21 @@ int main(int argc, char *argv[]) {
 
     
     // Interpret signatures: set up types array 
-    std::vector< std::vector<std::string> > cparams;
-    std::vector< std::vector<Parameter::ParamAttr> > cattrib;
+    std::vector< std::vector<std::string> > fparams;
+    std::vector< std::vector<std::string> > ctypes;
+    std::vector< std::vector<Parameter::ParamAttr> > fattrib;
     std::vector< std::vector<bool> > cretval;
     // Loop all signatures
     for(int i=0; i<fdef->VariantsSize(); i++) {
       const Signature& sigi=fdef->Variant(i);
-      std::vector<std::string> cparamsi;
-      std::vector<Parameter::ParamAttr> cattribi;
+      std::vector<std::string> fparamsi;
+      std::vector<std::string> ctypesi;
+      std::vector<Parameter::ParamAttr> fattribi;
       std::vector<bool> cretvali;
       int retcount=0;
       for(int j=0; j<sigi.Size(); j++) {
-        // Retrieve faudes type and attrib
+        // Retrieve faudes par, type and attrib
+        std::string fparam=sigi.At(j).Name();
         std::string ftype=sigi.At(j).Type();
 	Parameter::ParamAttr fattr=sigi.At(j).Attribute();
 	bool fcret=sigi.At(j).CReturn();   
@@ -361,24 +364,26 @@ int main(int argc, char *argv[]) {
         if(pos!=std::string::npos) 
           ctype=ctype.substr(std::string("faudes::").length());
         // Param ok
-        cparamsi.push_back(ctype);
-        cattribi.push_back(fattr);
+	fparamsi.push_back(fparam);
+        ctypesi.push_back(ctype);
+        fattribi.push_back(fattr);
         cretvali.push_back(fcret);
       } 
       // Test for signature error
-      if((int) cparamsi.size()!=sigi.Size()) {
+      if((int) ctypesi.size()!=sigi.Size()) {
         std::cout << "rti2code: function registration: " << fname << ": cannot interpret signature " 
 		  << sigi.Name() << std::endl;
         break;
       }
       // Record
-      cparams.push_back(cparamsi);
-      cattrib.push_back(cattribi);	
+      fparams.push_back(fparamsi);
+      ctypes.push_back(ctypesi);
+      fattrib.push_back(fattribi);	
       cretval.push_back(cretvali);	
     }
     // Report
     std::cout << "rti2code: generating rti wrapper for \"" << fdef->Name() << "\"" << 
-      " #" << cparams.size() << " variants" << std::endl;
+      " #" << ctypes.size() << " variants" << std::endl;
     std::string rtiname = std::string("Rti") + ToStringInteger(fcnt) + ctype;
 
     // Produce C++ code: register faudes function
@@ -397,21 +402,21 @@ int main(int argc, char *argv[]) {
     }
     // Produce C++ code: function class: have typed param
     if(loader) {
-      for(unsigned int i=0; i<cparams.size(); i++) 
-        for(unsigned int j=0; j<cparams.at(i).size(); j++) 
-          rtiheader << cparams.at(i).at(j) << "* " << "mP_" << i << "_" << j << ";" << std::endl;
+      for(unsigned int i=0; i<ctypes.size(); i++) 
+        for(unsigned int j=0; j<ctypes.at(i).size(); j++) 
+          rtiheader << ctypes.at(i).at(j) << "* " << "mP_" << i << "_" << j << ";" << std::endl;
     }
     // Produce C++ code: function class: do type check
     if(loader) {
       rtiheader << "virtual bool DoTypeCheck(int n) {" << std::endl;
       rtiheader << "  bool res=false;" << std::endl;
       rtiheader << "  switch(mVariantIndex) { "<< std::endl;
-      for(unsigned int i=0; i<cparams.size(); i++) {
+      for(unsigned int i=0; i<ctypes.size(); i++) {
         rtiheader << "  case " << i << ": { // variant " << fdef->Variant(i).Name() << std::endl;
         rtiheader << "    switch(n) { "<< std::endl;
-        for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+        for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
           rtiheader << "    case " << j << ": ";
-          rtiheader << "    res=DoTypeCast<" << cparams.at(i).at(j) << ">(" << j << ", mP_" << i <<"_" << j << "); ";
+          rtiheader << "    res=DoTypeCast<" << ctypes.at(i).at(j) << ">(" << j << ", mP_" << i <<"_" << j << "); ";
           rtiheader << "break; "<< std::endl;
         }
         rtiheader << "    default: break; " << std::endl;
@@ -431,22 +436,22 @@ int main(int argc, char *argv[]) {
     // Produce C++ code: do execute: switch variant
     if(loader) {
       rtiheader << "  switch(mVariantIndex) { "<< std::endl;
-      for(unsigned int i=0; i<cparams.size(); i++) {
+      for(unsigned int i=0; i<ctypes.size(); i++) {
         rtiheader << "  case " << i << ": { // variant " << fdef->Variant(i).Name() << std::endl;
         rtiheader << "    ";
         // Figure return value (if any)
-        for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+        for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
           if(!cretval.at(i).at(j)) continue;
           // Special case: integer
-          if(cparams.at(i).at(j) == "Integer") {
+          if(ctypes.at(i).at(j) == "Integer") {
             rtiheader << "*(mP_" << i << "_" << j << "->CReference()) = ";
           } else 
           // Special case: boolean
-	    if(cparams.at(i).at(j) == "Boolean") {
+	    if(ctypes.at(i).at(j) == "Boolean") {
             rtiheader << "*(mP_" << i << "_" << j << "->CReference()) = ";
           } else
           // Special case: integer
-          if(cparams.at(i).at(j) == "String") {
+          if(ctypes.at(i).at(j) == "String") {
             rtiheader << "*(mP_" << i << "_" << j << "->CReference()) = ";
           } else
           // Std case
@@ -456,19 +461,19 @@ int main(int argc, char *argv[]) {
         rtiheader << ctype <<"(";
         // Parameters
         int parpos=0;
-        for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+        for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
           if(cretval.at(i).at(j)) continue;
           if((parpos++)!=0) rtiheader << " ,";
           // Special case: integer
-          if(cparams.at(i).at(j) == "Integer") {
+          if(ctypes.at(i).at(j) == "Integer") {
             rtiheader << "*(mP_" << i << "_" << j << "->CReference())";
           } else 
           // Special case: boolean
-            if(cparams.at(i).at(j) == "Boolean") {
+            if(ctypes.at(i).at(j) == "Boolean") {
             rtiheader << "*(mP_" << i << "_" << j << "->CReference())";
           } else
           // Special case: integer
-          if(cparams.at(i).at(j) == "String") {
+          if(ctypes.at(i).at(j) == "String") {
             rtiheader << "*(mP_" << i << "_" << j << "->CReference())";
           } else
           // Std case
@@ -504,7 +509,7 @@ int main(int argc, char *argv[]) {
         swigheader << "%rename(" << fname << ") " << ctype << ";" << std::endl;
     }
 
-    // Prepare interfeces per signature
+    // Prepare interfaces per signature
     std::vector< std::string > lfsigs;
     std::vector< std::string > lfdecs;
     std::vector< std::string > lfdefs;
@@ -512,26 +517,26 @@ int main(int argc, char *argv[]) {
     std::vector< std::string > lhelp;
 
     // Process per signature (nominal wrappers)
-    for(unsigned int i=0; i<cparams.size(); i++) {
+    for(unsigned int i=0; i<ctypes.size(); i++) {
       // Create function declaration: return value
       std::string lrtype="void";
       // Special case: C++ function has a C++ return type
-      for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+      for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
         if(!cretval.at(i).at(j)) continue;
         // Special case: integer
-        if(cparams.at(i).at(j) == "Integer") {
+        if(ctypes.at(i).at(j) == "Integer") {
           lrtype="long int";
         } else 
         // Special case: boolean
-        if(cparams.at(i).at(j) == "Boolean") {
+        if(ctypes.at(i).at(j) == "Boolean") {
           lrtype="bool";
         } else
         // Special case: string
-        if(cparams.at(i).at(j) == "String") {
+        if(ctypes.at(i).at(j) == "String") {
           lrtype="std::string";
         } else
         // Std case ctype as refernce
-        lrtype = cparams.at(i).at(j);
+        lrtype = ctypes.at(i).at(j);
         // No more than one return value
         break;
       }
@@ -540,7 +545,7 @@ int main(int argc, char *argv[]) {
       std::string lfdec = ctype + "(";
       std::string lfsig = ctype + "-";
       int parpos=0;
-      for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+      for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
         // Skip C-return
         if(cretval.at(i).at(j)) continue;
         if(parpos!=0) {
@@ -548,30 +553,38 @@ int main(int argc, char *argv[]) {
 	  lfsig += "-";
 	}
 	// Effective signature
-	lfsig += cparams.at(i).at(j);
+	lfsig += ctypes.at(i).at(j);
         // Have const for +In+
-  	if(cattrib.at(i).at(j)==Parameter::In)
+  	if(fattrib.at(i).at(j)==Parameter::In)
           lfdec +=  "const ";
         // Special case: integer
-        if(cparams.at(i).at(j) == "Integer") {
+        if(ctypes.at(i).at(j) == "Integer") {
           lfdec += "long int&";
         } else 
         // Special case: boolean
-        if(cparams.at(i).at(j) == "Boolean") {
+        if(ctypes.at(i).at(j) == "Boolean") {
           lfdec += "bool&";
         } else
         // Special case: string
-        if(cparams.at(i).at(j) == "String") {
+        if(ctypes.at(i).at(j) == "String") {
           lfdec += "std::string&";
         } else
         // Std case ctype as refernce
-          lfdec += cparams.at(i).at(j) + "&";
+          lfdec += ctypes.at(i).at(j) + "&";
 	parpos++;
         // Mark elementary outputs
-        if(cparams.at(i).at(j) == "Boolean" || cparams.at(i).at(j) == "String" 
-           || cparams.at(i).at(j) == "Integer")
-        if(cattrib.at(i).at(j)==Parameter::Out)
-          lfdec += " OUTPUT";
+	bool marked;
+        if(ctypes.at(i).at(j) == "Boolean" || ctypes.at(i).at(j) == "String" 
+           || ctypes.at(i).at(j) == "Integer") {
+	  if(fattrib.at(i).at(j)==Parameter::Out) {
+             lfdec += " OUTPUT";
+	     marked=true;
+	  }
+	}
+	// give it a name
+	if(!marked) {
+          lfdec += " " + fparams.at(i).at(j);
+	}	
       }
       // End of function declaration
       lfdec += ")"; 
@@ -581,14 +594,14 @@ int main(int argc, char *argv[]) {
       std::string luasig = " " + fname + "(";
       bool leftcomma = false;
       bool rightcomma = false;
-      for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+      for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
         // Special case: elementary output
-        if(cparams.at(i).at(j) == "Boolean" || cparams.at(i).at(j) == "String" 
-           || cparams.at(i).at(j) == "Integer")
-        if(cattrib.at(i).at(j)==Parameter::Out) {
+        if(ctypes.at(i).at(j) == "Boolean" || ctypes.at(i).at(j) == "String" 
+           || ctypes.at(i).at(j) == "Integer")
+        if(fattrib.at(i).at(j)==Parameter::Out) {
           if(leftcomma) luasig = "," + luasig;
           // if(leftcomma) luasig = ", " + luasig; // need tab in help system?
-          luasig=cparams.at(i).at(j) + luasig;
+          luasig=ctypes.at(i).at(j) + luasig;
           leftcomma=true;
 	  continue;
 	}
@@ -620,24 +633,24 @@ int main(int argc, char *argv[]) {
     
     // Test whether we generate convenience wrappers: dont so if we have in-situ parameters
     bool xwrp=true;
-    for(unsigned int i=0; i<cparams.size(); i++) {
-      for(unsigned int j=0; j<cparams.at(i).size(); j++) {
-        if(cattrib.at(i).at(j)==Parameter::InOut)
+    for(unsigned int i=0; i<ctypes.size(); i++) {
+      for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
+        if(fattrib.at(i).at(j)==Parameter::InOut)
 	  xwrp=false;
       }
     }
 
     // Test whether we generate convenience wrappers: for signatures, with exactly one out parameter
-    for(unsigned int i=0; i<cparams.size() && xwrp; i++) {
+    for(unsigned int i=0; i<ctypes.size() && xwrp; i++) {
       int fret=-1;
-      for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+      for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
         // No extra wrapper if we have a C return value
         if(cretval.at(i).at(j)) {
           fret=-1;
           break;
         }
 	// Insist in exactly one faudes output parameter
-	if(cattrib.at(i).at(j)==Parameter::Out) {
+	if(fattrib.at(i).at(j)==Parameter::Out) {
 	  if(fret>=0) {
   	    fret=-1;
 	    break;
@@ -645,9 +658,9 @@ int main(int argc, char *argv[]) {
 	  fret=j;
 	}
 	// No extra wrapper if we have an elementary type as the only output
-        if(cparams.at(i).at(j) == "Boolean" || cparams.at(i).at(j) == "String" 
-           || cparams.at(i).at(j) == "Integer") {
-	  if(cattrib.at(i).at(j)==Parameter::Out) {
+        if(ctypes.at(i).at(j) == "Boolean" || ctypes.at(i).at(j) == "String" 
+           || ctypes.at(i).at(j) == "Integer") {
+	  if(fattrib.at(i).at(j)==Parameter::Out) {
   	    fret=-1;
 	    break;
 	  }
@@ -656,14 +669,14 @@ int main(int argc, char *argv[]) {
       // Do generate extra wrapper with faudes return value
       if(fret>=0) {             
         // record return type
-	std::string lrtype = cparams.at(i).at(fret);
+	std::string lrtype = ctypes.at(i).at(fret);
         lrtypes.push_back(lrtype);
         // Create ctype function declaration: function body
         std::string lfdec = ctype + "(";
         std::string lfsig = ctype + "-";
         // Create ctype function declaration: parameters
         int parpos=0;
-        for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+        for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
 	  // Skip C-return
           if(j==fret) continue;
           if(parpos!=0) {
@@ -671,27 +684,28 @@ int main(int argc, char *argv[]) {
 	    lfsig += "-";
 	  }
 	  // Effective signature
-	  lfsig += cparams.at(i).at(j);
+	  lfsig += ctypes.at(i).at(j);
           // Have const for +In+
-          if(cattrib.at(i).at(j)==Parameter::In)
+          if(fattrib.at(i).at(j)==Parameter::In)
             lfdec +=  "const ";
           // Special case: integer
-          if(cparams.at(i).at(j) == "Integer") {
+          if(ctypes.at(i).at(j) == "Integer") {
             lfdec += "long int&";
           } else 
           // Special case: boolean
-          if(cparams.at(i).at(j) == "Boolean") {
+          if(ctypes.at(i).at(j) == "Boolean") {
             lfdec += "bool&";
           } else
           // Special case: string
-          if(cparams.at(i).at(j) == "String") {
+          if(ctypes.at(i).at(j) == "String") {
             lfdec += "std::string&";
           } else {
           // Std case ctype as refernce
-            lfdec += cparams.at(i).at(j) + "&";
+            lfdec += ctypes.at(i).at(j) + "&";
           }
           // Name the parameter
-  	  lfdec += " p" + std::to_string(parpos++);
+          lfdec += " " + fparams.at(i).at(j);
+	  parpos++;
         }
         lfdec += ")";
 	// Record function definition
@@ -705,14 +719,14 @@ int main(int argc, char *argv[]) {
 	lfdef += ctype;
 	lfdef += "(";
 	parpos=0;
-        for(unsigned int j=0; j<cparams.at(i).size(); j++) {
+        for(unsigned int j=0; j<ctypes.at(i).size(); j++) {
           if(j!=0)
 	    lfdef += ", ";
           if(j==fret) {
 	    lfdef += "res";
 	    continue;
 	  }
-  	  lfdef += "p" + std::to_string(parpos++);
+          lfdef += fparams.at(i).at(j);
         }
 	lfdef += "); return res; }";
 	// Record function definition
@@ -746,6 +760,7 @@ int main(int argc, char *argv[]) {
       int lcount=0;
       for(unsigned int i=0; i<lfdecs.size(); i++) {
         if(lfdecs.at(i)=="") continue; 
+        swigheader << "%feature(\"autodoc\",\"1\");" << std::endl;
         swigheader << lrtypes.at(i) << " " << lfdecs.at(i) << ";" << std::endl;
         if(lhelp.at(i)!="")
           swigheader << lhelp.at(i) << ";" << std::endl;
