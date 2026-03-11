@@ -573,7 +573,7 @@ int main(int argc, char *argv[]) {
           lfdec += ctypes.at(i).at(j) + "&";
 	parpos++;
         // Mark elementary outputs
-	bool marked;
+	bool marked=false;
         if(ctypes.at(i).at(j) == "Boolean" || ctypes.at(i).at(j) == "String" 
            || ctypes.at(i).at(j) == "Integer") {
 	  if(fattrib.at(i).at(j)==Parameter::Out) {

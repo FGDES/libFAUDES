@@ -52,12 +52,6 @@ your own binary are below.
 </p>
 
 
-<p>
-Disclaimer: the primary scripting laguage for libFAUDES is Lua; see the Lua bindings plug-in.
-Specifically, Lua bindings provide a more comprehensive interface, which is systematically
-tested on a more regular basis. If you experience short commings of libFAUDES Python bindings,
-please do not hesitate to report back to us.
-</p>
 
 
 @subsection SecPybindingsIntro1 Example Script
@@ -158,7 +152,7 @@ faudes module from Python scripts in that folder.
 </p>
 
 <p>
-Example for the overall build process incl. copy/renbame:
+Example for the overall build process incl. copy/rename:
 <p>
 
 @code{.unparsed}
