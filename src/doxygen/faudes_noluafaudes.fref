@@ -1,10 +1,27 @@
-<ReferencePage chapter="luafaudes" section="none" title="luafaudes">
+<ReferencePage chapter="luafaudes" section="none" title="Lua API">
 
 <h1>luafaudes</h1>
 
 <div class="warning">
-This configuration of libFAUDES has no lua scripting support.
+<p>
+This configuration of libFAUDES has no Lua scripting support.
+</p>
 </div>
+
+<p>
+In order to access libFAUDES from within Lua you may:
+</p>
+<ul class="l1">
+<li><p>  
+use the precompiled executable <tt>luafaudes</tt> from a binary distribution
+of libFAUDES provided at <a fhref="FAUDES_DOWNLOAD">FGDES</a>;
+or
+</p></li>
+<li><p>
+re-configure and re-compile libFAUDES sources with the luabindings plug-in enabled;
+see the <a fhref="FAUDES_CHAPTERS/faudes_build.html">build-system documentation</a>.
+</p></li>
+</ul>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>

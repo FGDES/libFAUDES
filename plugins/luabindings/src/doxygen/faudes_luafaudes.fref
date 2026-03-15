@@ -183,8 +183,8 @@ To call a method for an EventSet, the method name is appended to the object by a
 </pre>
 <p>
 The integration with the native Lua commands (see Lua documentation) is seamless. 
-E.g. the Lua <tt>print(..)</tt> statement can be used to print the integer index of an individual
-event or the tokenized version of an event set to the screen:
+E.g. the Lua <tt>print(..)</tt> statement can be used to report the integer index of an individual
+event or the tokenized version of an event set:
 </p>
 <pre>
 &gt; print(alph1:Index(&quot;beta&quot;))

@@ -1057,6 +1057,14 @@ span.lua_string { color: #0000c0; }
 span.lua_keyword { color: #a00000; font-weight: bold; }
 span.lua_library { color: #a000a0; }
 
+/* python add-on */
+
+pre.lua_code {}
+span.py_comment { color: #00a000; }
+span.py_string { color: #0000c0; }
+span.py_keyword { color: #a00000; font-weight: bold; }
+span.py_library { color: #a000a0; }
+
 /* faudes doxygen addon ***/
 
 table.large_image_table {

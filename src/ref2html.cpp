@@ -112,20 +112,13 @@ std::string mImagePrefix="./images/";
 std::string mReferencePrefix="./reference/";
 std::string mCsourcePrefix="./csource/";
 std::string mLuafaudesPrefix="./luafaudes/";
-
-/*
-std::string mDownloadLink="http://www.rt.eei.uni-erlangen.de/FGdes/download.html";
-std::string mFaudesLink="http://www.rt.eei.uni-erlangen.de/FGdes/faudes";
-std::string mDestoolLink="http://www.rt.eei.uni-erlangen.de/FGdes/destool";
-std::string mLuafaudesLink="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/luafaudes/";
-std::string mCsourceLink="http://www.rt.eei.uni-erlangen.de/FGdes/faudes/csource/";
-std::string mCssFile="faudes.css";
-*/
+std::string mPythonmodPrefix="./pythonmod/";
 
 std::string mDownloadLink="http://fgdes.tf.fau.de/download.html";
 std::string mFaudesLink="http://fgdes.tf.fau.de/faudes";
 std::string mDestoolLink="http://fgdes.tf.fau.de/destool";
 std::string mLuafaudesLink="http://fgdes.tf.fau.de/faudes/luafaudes/";
+std::string mPythonmodLink="http://fgdes.tf.fau.de/faudes/pythonmod/";
 std::string mCsourceLink="http://fgdes.tf.fau.de/faudes/csource/";
 std::string mCssFile="faudes.css";
 
@@ -144,6 +137,7 @@ void ChaptersPrefix(const std::string& prefix) {
   mReferencePrefix=prefix+"reference/";
   mCsourcePrefix=prefix+"csource/";
   mLuafaudesPrefix=prefix+"luafaudes/";
+  mPythonmodPrefix=prefix+"pythonmod/";
   mCssFile=prefix+mCssFile;
 }
 
@@ -709,7 +703,7 @@ void RecordPages(TokenReader& rTr) {
     // read end
     rTr.ReadEnd("ReferencePage");
     // report
-    // std::cerr << "ref2html: found chapter \"" << mFrefChapter << "\" section \"" << mFrefSection << "\"" << std::endl;
+    //std::cerr << "ref2html: found chapter \"" << mFrefChapter << "\" section \"" << mFrefSection << "\"" << std::endl;
     // record
     PageRecord pagerec;
     pagerec.mChapter = mFrefChapter;
@@ -1559,6 +1553,41 @@ void LuafaudesIndexHtml(std::ostream* pIndexFile) {
 }
 
 // ******************************************************************
+// pythonmod index 
+// ******************************************************************
+
+void PythonmodIndexHtml(std::ostream* pIndexFile) {
+
+  // prepare list of all sections
+  std::map< std::string , std::string > pages;
+  std::vector< PageRecord >::iterator pit;
+  for(pit=mAllPages.begin(); pit != mAllPages.end(); pit++) {
+    // my chapter only
+    if(pit->mChapter!="pythonmod") continue;
+    if(pit->mSection=="none") continue;
+    if(pit->mSection=="") continue;
+    if(pit->mPage=="") continue;
+    // get nice name
+    std::string pname = pit->mPage;
+    // have link
+    std::string phtml = pit->mLink;
+    // record
+    pages[pname]=phtml;
+  }
+  // produce sorted index
+  std::map< std::string , std::string >::iterator sit;
+  for(sit=pages.begin(); sit!=pages.end(); sit++) {
+    // have entry
+    ListItemHtml(pIndexFile,sit->second, sit->first);
+  }
+  // empty
+  if(pages.size()==0) {
+    *pIndexFile << "<li class=\"registry_item\">" << "none" << "</li>" << std::endl;
+  }
+}
+
+
+// ******************************************************************
 // process current section
 // ******************************************************************
 
@@ -1784,7 +1813,9 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
       href = StringSubstitute(href,"FAUDES_REFERENCE/",mReferencePrefix);
       href = StringSubstitute(href,"FAUDES_CSOURCE/",mCsourceLink);
       href = StringSubstitute(href,"FAUDES_LUAFAUDES/",mLuafaudesLink);
+      href = StringSubstitute(href,"FAUDES_PYTHONMOD/",mPythonmodLink);
       href = StringSubstitute(href,"FAUDES_ONLINE",mFaudesLink);
+      href = StringSubstitute(href,"FAUDES_DOWNLOAD",mDownloadLink);
       href = StringSubstitute(href,"FAUDES_GETLX",mDownloadLink+"#Packages");
       href = StringSubstitute(href,"FAUDES_GETOSX",mDownloadLink+"#Packages");
       href = StringSubstitute(href,"FAUDES_GETWIN",mDownloadLink+"#Packages");
@@ -1801,7 +1832,9 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
       href = StringSubstitute(href,"FAUDES_REFERENCE/",mReferencePrefix);
       href = StringSubstitute(href,"FAUDES_CSOURCE/",mCsourcePrefix);
       href = StringSubstitute(href,"FAUDES_LUAFAUDES/",mLuafaudesPrefix);
+      href = StringSubstitute(href,"FAUDES_PYTHONMOD/",mPythonmodPrefix);
       href = StringSubstitute(href,"FAUDES_ONLINE",mFaudesLink);
+      href = StringSubstitute(href,"FAUDES_DOWNLOAD",mDownloadLink);
       href = StringSubstitute(href,"FAUDES_GETLX",mDownloadLink+"#Packages");
       href = StringSubstitute(href,"FAUDES_GETOSX",mDownloadLink+"#Packages");
       href = StringSubstitute(href,"FAUDES_GETWIN",mDownloadLink+"#Packages");
@@ -1815,6 +1848,7 @@ void ProcessSection(TokenWriter& rTw, TokenReader& rTr) {
       fsrc = StringSubstitute(fsrc,"FAUDES_IMAGES/",mImagePrefix);
       fsrc = StringSubstitute(fsrc,"FAUDES_CSOURCE/",mCsourcePrefix);
       fsrc = StringSubstitute(fsrc,"FAUDES_LUAFAUDES/",mLuafaudesPrefix);
+      fsrc = StringSubstitute(fsrc,"FAUDES_PYTHONMOD/",mPythonmodPrefix);
       token.InsAttributeString("src",fsrc);
       token.ClrAttribute("fsrc");
     }
@@ -1909,6 +1943,21 @@ void RefpageHtml(std::ostream* pOutFile, std::string inputfile) {
     *pOutFile << "<td id=\"registry_content\">" << std::endl;
   }
 
+  // include section level navigation, part 1
+  if(mFrefChapter=="pythonmod") {
+    *pOutFile << "<table id=\"registry_page\">" << std::endl;
+    *pOutFile << "<tr id=\"registry_row\">" << std::endl;
+    *pOutFile << "<td id=\"registry_index\">" << std::endl;
+    *pOutFile << "<ul class=\"registry_list\">" << std::endl;
+    *pOutFile << "<li class=\"registry_heading\">pythonmod</li>" << std::endl;
+    ListItemHtml(pOutFile,"index.html", "Introduction");   
+    *pOutFile << "<li class=\"registry_blanc\">&nbsp;</li>" << std::endl;
+    *pOutFile << "<li class=\"registry_heading\">Tutorials</li>" << std::endl;
+    PythonmodIndexHtml(pOutFile);
+    *pOutFile << "</ul></td>" << std::endl;
+    *pOutFile << "<td id=\"registry_content\">" << std::endl;
+  }
+
   // process src
   ProcessSection(dst,src);
   src.ReadEnd("ReferencePage");
@@ -1928,6 +1977,15 @@ void RefpageHtml(std::ostream* pOutFile, std::string inputfile) {
 
   // include section level navigation, part 2
   if(mFrefChapter=="luafaudes") {
+    BottomLineHtml(pOutFile);
+    bottom=true;
+    *pOutFile << "</td>" << std::endl;
+    *pOutFile << "</tr>" << std::endl;
+    *pOutFile << "</table>" << std::endl;
+  }
+
+  // include section level navigation, part 2
+  if(mFrefChapter=="pythonmod") {
     BottomLineHtml(pOutFile);
     bottom=true;
     *pOutFile << "</td>" << std::endl;
@@ -1959,6 +2017,20 @@ void RefpageHtml(std::ostream* pOutFile, std::string inputfile) {
     *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_luafaudes.html\">Introduction</a></li>" << std::endl;
     *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_luaext.html\">Lua-Extansions</a></li>" << std::endl;
     *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_luatech.html\">Techn. Details</a></li>" << std::endl;
+    *pOutFile << "<li class=\"registry_blanc\">&nbsp;</li>" << std::endl;
+    *pOutFile << "<li class=\"registry_item\"><a href=\"#\">Top of Page</a></li>" << std::endl;
+    *pOutFile << "</ul></div>" << std::endl;
+  }
+
+  // include section level navigation, part 3  
+  if(mFrefChapter=="pythonmod" && mFrefSection=="tutorials") {
+    *pOutFile << "</div>" << std::endl << "</div>" << std::endl;
+    *pOutFile << "<div id=\"cxwrapper1000\">" << std::endl;
+    *pOutFile << "<div id=\"dxwrapper1000\">"  << std::endl;
+    *pOutFile << "<div class=\"registry_trigger\"> <span>&gt;&gt;</span>"  << std::endl;
+    *pOutFile << "<ul class=\"registry_list\">" << std::endl;
+    *pOutFile << "<li class=\"registry_heading\">pythonmod</li>" << std::endl;
+    *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_pythonmod.html\">Introduction</a></li>" << std::endl;
     *pOutFile << "<li class=\"registry_blanc\">&nbsp;</li>" << std::endl;
     *pOutFile << "<li class=\"registry_item\"><a href=\"#\">Top of Page</a></li>" << std::endl;
     *pOutFile << "</ul></div>" << std::endl;

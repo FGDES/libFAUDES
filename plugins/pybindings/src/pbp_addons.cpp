@@ -38,9 +38,9 @@ PythonConsole* PythonConsole::mpVInstance = NULL;
 
 //  explcit activation
 void faudes_redirect(bool on) {
-  static PythonConsole* gSinglRythonConsole=NULL;
+  static PythonConsole* gSinglePythonConsole=NULL;
   if(on) {
-    gSinglRythonConsole=PythonConsole::G();
+    gSinglePythonConsole=PythonConsole::G();
   } else {
     PythonConsole::Destruct();
   }
@@ -48,12 +48,12 @@ void faudes_redirect(bool on) {
   
 // private construct
 PythonConsole::PythonConsole() : ConsoleOut() {
-  FD_WARN("faudes::ConsoleOut(): redirect to sys.stdout") 
+  //FD_WARN("faudes::ConsoleOut(): redirect to sys.stdout") 
   faudes::ConsoleOut::G()->Redirect(this);
 };
 // private destruct 
 PythonConsole::~PythonConsole()  {
-  FD_WARN("faudes::ConsoleOut(): redirect off"); 
+  //FD_WARN("faudes::ConsoleOut(): redirect off"); 
   faudes::ConsoleOut::G()->Redirect(0);
   mpVInstance=NULL;
 };

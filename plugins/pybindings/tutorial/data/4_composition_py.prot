@@ -1,4 +1,4 @@
-%%% test mark: parallel [at pbp_4_composition.py]
+%%% test mark: parallel [at 4_composition.py]
 % 
 %  Statistics for very simple machine_1||very simple machine_2
 % 
@@ -13,7 +13,7 @@
 % 
 % 
 
-%%% test mark: parallel incl. attr. [at pbp_4_composition.py]
+%%% test mark: parallel incl. attr. [at 4_composition.py]
 % 
 %  Statistics for very simple machine_1||very simple machine_2
 % 
@@ -28,7 +28,7 @@
 % 
 % 
 
-%%% test mark: parallel incl. comp. map a [at pbp_4_composition.py]
+%%% test mark: parallel incl. comp. map a [at 4_composition.py]
 <Integer>
 2             
 </Integer>
@@ -36,7 +36,7 @@
 % 
 % 
 
-%%% test mark: parallel incl. comp. map b [at pbp_4_composition.py]
+%%% test mark: parallel incl. comp. map b [at 4_composition.py]
 <Integer>
 1             
 </Integer>
@@ -44,7 +44,7 @@
 % 
 % 
 
-%%% test mark: parallel incl. comp. map c [at pbp_4_composition.py]
+%%% test mark: parallel incl. comp. map c [at 4_composition.py]
 <Integer>
 2             
 </Integer>
@@ -52,7 +52,7 @@
 % 
 % 
 
-%%% test mark: parallel empty alphabet a [at pbp_4_composition.py]
+%%% test mark: parallel empty alphabet a [at 4_composition.py]
 % 
 %  Statistics for very simple machine_1||very simple machine_2
 % 
@@ -67,7 +67,7 @@
 % 
 % 
 
-%%% test mark: parallel empty alphabet b [at pbp_4_composition.py]
+%%% test mark: parallel empty alphabet b [at 4_composition.py]
 % 
 %  Statistics for very simple machine_1||very simple machine_2
 % 

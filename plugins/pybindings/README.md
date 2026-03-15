@@ -16,10 +16,10 @@ libFAUDES documentation is available online at
 
 https://fgdes.tf.fau.de/faudes
 
-In large, the Python bindings follow the same pragmatic approach as the Luabindings.
-For libFAUDES torials specifically in Python, see
+In large, the Python bindings follow the same pragmatic approach as the Lua bindings.
+For libFAUDES tutorials specifically in Python, see
 
-libFAUDES/pugins/pybindings/tutorial
+https://fgdes.tf.fau.de/faudes/pythonmod
 
 
 ## Authors/Copyright
