@@ -1949,7 +1949,7 @@ void RefpageHtml(std::ostream* pOutFile, std::string inputfile) {
     *pOutFile << "<tr id=\"registry_row\">" << std::endl;
     *pOutFile << "<td id=\"registry_index\">" << std::endl;
     *pOutFile << "<ul class=\"registry_list\">" << std::endl;
-    *pOutFile << "<li class=\"registry_heading\">pythonmod</li>" << std::endl;
+    *pOutFile << "<li class=\"registry_heading\">Python Module</li>" << std::endl;
     ListItemHtml(pOutFile,"index.html", "Introduction");   
     *pOutFile << "<li class=\"registry_blanc\">&nbsp;</li>" << std::endl;
     *pOutFile << "<li class=\"registry_heading\">Tutorials</li>" << std::endl;
@@ -2029,7 +2029,7 @@ void RefpageHtml(std::ostream* pOutFile, std::string inputfile) {
     *pOutFile << "<div id=\"dxwrapper1000\">"  << std::endl;
     *pOutFile << "<div class=\"registry_trigger\"> <span>&gt;&gt;</span>"  << std::endl;
     *pOutFile << "<ul class=\"registry_list\">" << std::endl;
-    *pOutFile << "<li class=\"registry_heading\">pythonmod</li>" << std::endl;
+    *pOutFile << "<li class=\"registry_heading\">Python Module</li>" << std::endl;
     *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_pythonmod.html\">Introduction</a></li>" << std::endl;
     *pOutFile << "<li class=\"registry_blanc\">&nbsp;</li>" << std::endl;
     *pOutFile << "<li class=\"registry_item\"><a href=\"#\">Top of Page</a></li>" << std::endl;

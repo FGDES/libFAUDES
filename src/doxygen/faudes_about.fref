@@ -109,9 +109,9 @@ to make libFAUDES functionality available to Python users.</p>
 
 
 <li>
-<p><strong>Non-Restrictive Open-Source License</strong></p>
+<p><strong>Non-Restrictive License</strong></p>
 <p>
-libFAUDES sources are  distributed for free under conditions of the GNU Lesser General Public License 
+libFAUDES sources are distributed for free under conditions of the GNU Lesser General Public License 
 (<a href="http://www.gnu.org/copyleft/lesser.html" target="_top">LGPL</a>). 
 There are no prohibitive restrictions to use the library in non-open source and/or 
 commercial projects. 
@@ -119,8 +119,8 @@ libFAUDES comes with a <a href="faudes_algorithm_example.html">(compile-time-) p
 to extend the library in an organised manner. 
 In particular, plug-in developers are invited but not forced to
 contribute their code to libFAUDES.
-Finally, due to the LGPL licensing, plug-in developers will never depend on future design/licensing  decisions
-made by libFAUDES copyright holders.
+Finally, due to the LGPL licensing, plug-in developers do not depend on future design/licensing
+decisions made by libFAUDES copyright holders.
 </p>
 </li>
 </ul>
