@@ -109,8 +109,10 @@ jobs:
     - name: Extract Archive
       run: |
         tar -xzf faudes.tgz
-    - uses: actions/setup-python@v6
-      name: Setup Python
+    - name: Setup Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.14'
     - name: Pip for build
       run: |
         pip install build
