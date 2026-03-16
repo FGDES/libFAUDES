@@ -69,7 +69,7 @@ jobs:
           arch: arm64
         - os: pyodide
           runs-on: ubuntu-latest
-	  arch: pyodide
+          arch: pyodide
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v6
