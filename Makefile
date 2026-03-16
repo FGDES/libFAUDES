@@ -1220,7 +1220,7 @@ PYM2REF = $(CURDIR)/tools/py2ref/py2ref.pl
 #LUA2REF = $(CURDIR)/bin/luafaudes $(CURDIR)/tools/lua2ref/lua2ref.lua
 
 # fref processing command
-REF2HTMLCMD = ./bin/ref2html -rti $(INCLUDEDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(SRCDIR)/doxygen/faudes_navigation.include_fref -rel ../ 
+REF2HTMLCMD = ./bin/ref2html -rti $(INCLUDEDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(REF2HTML_CNAV) -rel ../ 
 
 # all base documenation
 BASEFREF = $(wildcard $(SRCDIR)/doxygen/*.fref)
