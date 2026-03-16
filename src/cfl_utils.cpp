@@ -418,9 +418,6 @@ std::set< std::string > ReadDirectory(const std::string& rDirectory) {
 }
 
 
-
-
-
 // Test file
 bool FileExists(const std::string& rFilename) {
   std::fstream fp;

@@ -769,6 +769,8 @@ DOXDOCDIR = doc/csource
 REFDOCDIR = doc/reference
 # where to luafaudes tutorials
 LUADOCDIR = doc/luafaudes
+# where to Python module tutorials
+PYMDOCDIR = doc/pythonmod
 # where to place images
 IMGDOCDIR = doc/images
 # where to place fref doc sources
@@ -1214,7 +1216,11 @@ $(INCLUDEDIR)/rtiwrapper.cpp: $(INCLUDEDIR)/rtiwrapper.h
 REF2HTML_CNAV ?= $(SRCDIR)/doxygen/faudes_navigation.include_fref
 REF2HTML_CSS  ?= faudes.css
 LUA2REF = $(CURDIR)/tools/lua2ref/lua2ref.pl
+PYM2REF = $(CURDIR)/tools/py2ref/py2ref.pl
 #LUA2REF = $(CURDIR)/bin/luafaudes $(CURDIR)/tools/lua2ref/lua2ref.lua
+
+# fref processing command
+REF2HTMLCMD = ./bin/ref2html -rti $(INCLUDEDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(REF2HTML_CNAV) -rel ../ 
 
 # all base documenation
 BASEFREF = $(wildcard $(SRCDIR)/doxygen/*.fref)
@@ -1324,7 +1330,7 @@ doc-images: $(REFSRCDIR)/images
 
 
 ####################################
-# Documentation lua tutorials
+# Documentation Lua tutorials
 ####################################
 
 # if we have luabindings
@@ -1374,7 +1380,7 @@ $(LUADOCDIR)/index.html: $(LUADOCDIR)/faudes_luafaudes.html
 	cp -f  $< $@
 
 # target: make fref source files
-doc-luafaudes: $(REFSRCDIR)/luafaudes 
+doc-luafaudes: $(REFSRCDIR)/luafaudes reftools 
 	make $(LUAFREF) 
 	cp $(LBP_REPLDIR)/luafaudes_repl.html $(LUADOCDIR)
 	cp $(LBP_REPLDIR)/LICENSE $(LUADOCDIR)
@@ -1388,44 +1394,113 @@ doc-luafaudes: $(REFSRCDIR)/luafaudes
 # if we dont have luabindings
 else
 
-# static dummies
-LUAFREF  = $(REFSRCDIR)/luafaudes/faudes_luafaudes.fref
-LUAFREF += $(REFSRCDIR)/luafaudes/faudes_luatech.fref
-LUAFREF += $(REFSRCDIR)/luafaudes/faudes_luaext.fref
-LUAHTML  = $(foreach file,$(LUAFREF),$(LUADOCDIR)/$(basename $(notdir $(file))).html)
-LUAHTML += $(LUADOCDIR)/index.html
+# targets
+LUAHTML += $(LUADOCDIR)/faudes_luafaudes.html $(LUADOCDIR)/index.html
 
 # have luafaudes doc dir: time stamp
 $(LUADOCDIR): $(LUADOCDIR)/.tstamp
 
-# have luafaudes doc dir: populate by defaults
+# have luafaudes doc dir
 $(LUADOCDIR)/.tstamp: 
 	- mkdir -p $(LUADOCDIR)
 	touch $@
 
-# have luafaudes fref source dir: time stamp
-$(REFSRCDIR)/luafaudes: $(REFSRCDIR)/luafaudes/.tstamp $(LUADOCDIR)
-
-# have luafaudes fref source dir: copy tutorials
-$(REFSRCDIR)/luafaudes/.tstamp: $(LUATUTS) 
-	- mkdir -p $(REFSRCDIR)/luafaudes
-	$(ECHO) copy tutorial
-	@ - cp -f $(LUATUTS) $(REFSRCDIR)/luafaudes
-	touch $@
-
-# copy static frefs
-$(REFSRCDIR)/luafaudes/faudes_%.fref: $(SRCDIR)/doxygen/faudes_noluafaudes.fref $(REFSRCDIR)/luafaudes  
-	cp -f  $< $@
+# process dummy
+$(LUADOCDIR)/faudes_luafaudes.html: $(SRCDIR)/doxygen/faudes_noluafaudes.fref $(LUADOCDIR) reftools
+	$(REF2HTMLCMD) $< $@
 
 # copy index
 $(LUADOCDIR)/index.html: $(LUADOCDIR)/faudes_luafaudes.html
 	cp -f  $< $@
 
-# target: copy fref source files
-doc-luafaudes: $(REFSRCDIR)/luafaudes 
-	make $(LUAFREF) 
+# target
+doc-luafaudes: $(LUAHTML)
 
 # end of luabindings dummy
+endif
+
+
+
+####################################
+# Documentation Python module tutorials
+####################################
+
+# if we have pybindings
+ifeq (pybindings,$(findstring pybindings,$(FAUDES_PLUGINS)))
+
+# all Python module tutorials
+PYMTUTS  = $(foreach dir,$(pluginstringT),$(wildcard $(dir)/*.py))
+PYMFREF  = $(foreach file,$(PYMTUTS),$(REFSRCDIR)/pythonmod/$(basename $(notdir $(file))).fref)
+PYMFREF  += $(REFSRCDIR)/pythonmod/faudes_pythonmod.fref
+PYMHTML  = $(foreach file,$(PYMFREF),$(PYMDOCDIR)/$(basename $(notdir $(file))).html)
+PYMHTML += $(PYMDOCDIR)/index.html
+
+# have Python module doc dir: time stamp
+$(PYMDOCDIR): $(PYMDOCDIR)/.tstamp
+
+# have Python module doc dir: populate by defaults
+$(PYMDOCDIR)/.tstamp: 
+	- mkdir -p $(PYMDOCDIR)
+	touch $@
+
+# have Python module fref source dir: time stamp
+$(REFSRCDIR)/pythonmod: $(REFSRCDIR)/pythonmod/.tstamp $(PYMDOCDIR)
+
+# have Puthon module fref source dir: copy tutorials
+$(REFSRCDIR)/pythonmod/.tstamp: $(REFSRCDIR) $(PYMTUTS) 
+	- mkdir -p $(REFSRCDIR)/pythonmod
+	$(ECHO) copy python tutorials
+	@ - cp -f $(PYMTUTS) $(REFSRCDIR)/pythonmod
+	touch $@
+
+# process Python code to fref source  (trigger en-block if needed)
+$(REFSRCDIR)/pythonmod/%.fref: $(REFSRCDIR)/pythonmod
+	$(PYM2REF) $(subst .fref,.py,$@) > $@
+
+# copy static frefs
+$(REFSRCDIR)/pythonmod/faudes_pythonmod.fref: plugins/pybindings/src/doxygen/faudes_pythonmod.fref
+	cp -f  $< $@
+
+# process
+#$(PYMDOCDIR)/%.html: $(REFSRCDIR)/pythonmod/%.fref $(PYMDOCDIR) reftools
+#	$(REF2HTMLCMD) $< $@
+
+# copy index
+$(PYMDOCDIR)/index.html: $(PYMDOCDIR)/faudes_pythonmod.html
+	cp -f  $< $@
+
+# my target
+#doc-pythonmod: $(PYMHTML)
+doc-pythonmod: $(REFSRCDIR)/pythonmod reftools 
+	make $(PYMFREF) 
+
+
+# if we dont have the Python module
+else
+
+# static dummies
+PYMHTML = $(PYMDOCDIR)/faudes_pythonmod.html $(PYMDOCDIR)/index.html
+
+# have Python module doc dir: time stamp
+$(PYMDOCDIR): $(PYMDOCDIR)/.tstamp
+
+# have Python module doc dir
+$(PYMDOCDIR)/.tstamp: 
+	- mkdir -p $(PYMDOCDIR)
+	touch $@
+
+# copy dummy
+$(PYMDOCDIR)/faudes_pythonmod.html: $(SRCDIR)/doxygen/faudes_nopythonmod.fref $(PYMDOCDIR) reftools
+	$(REF2HTMLCMD) $< $@
+
+# copy index
+$(PYMDOCDIR)/index.html: $(PYMDOCDIR)/faudes_pythonmod.html
+	cp -f  $< $@
+
+# my target
+doc-pythonmod: $(PYMHTML)
+
+# end of pybindings dummy
 endif
 
 
@@ -1453,17 +1528,16 @@ $(BINDIR)/ref2html$(DOT_EXE):  $(OBJDIR)/ref2html_min$(DOT_O) $(MINFAUDES) | $(B
 reftools: $(BINDIR)/ref2html$(DOT_EXE) $(BINDIR)/flxinstall$(DOT_EXE)
 
 
-# flxinstall command with luabindings
+# flxinstall command with/without luabindings
 ifeq (luabindings,$(findstring luabindings,$(FAUDES_PLUGINS)))
 FLXFILES = $(wildcard stdflx/*.flx)
 FLXCMD = bin/flxinstall -tcss $(REF2HTML_CSS) -i $(FLXFILES) .
-# flxinstall command without luabindings
 else
 FLXCMD = bin/flxinstall -tcss $(REF2HTML_CSS) -r .
 endif
 
 # user target
-doc-fref: reftools $(REFSRCDIR)/libfaudes.rti $(REFSRCDIR) $(REFSRCDIR)/images $(BASEFREF) $(LUAFREF) $(RTIFREF)
+doc-fref: reftools $(REFSRCDIR)/libfaudes.rti $(REFSRCDIR) $(REFSRCDIR)/images $(BASEFREF) $(LUAFREF) $(PYMFREF) $(RTIFREF)
 	$(FLXCMD)
 
 
@@ -1476,14 +1550,11 @@ doc-clean:
 	- rm -rf $(DOCDIR)
 	- mkdir $(DOCDIR)
 
-#convert command
-REF2HTMLCMD = ./bin/ref2html -rti $(REFSRCDIR)/libfaudes.rti -css $(REF2HTML_CSS) -cnav $(REFSRCDIR)/faudes_navigation.include_fref -rel ../ -css doxygen.css 
-
 # build doc: run as script
-docs: rti reftools doc-images doc-base doc-luafaudes doc-reference includes 
+docs: rti reftools doc-images doc-base doc-luafaudes doc-pythonmod doc-reference includes 
 	- mkdir -p $(DOXDOCDIR)
-	$(REF2HTMLCMD) -doxheader $(DOXDOCDIR)/doxygen_header.html
-	$(REF2HTMLCMD) -doxfooter $(DOXDOCDIR)/doxygen_footer.html
+	$(REF2HTMLCMD) -css doxygen.css -doxheader $(DOXDOCDIR)/doxygen_header.html
+	$(REF2HTMLCMD) -css doxygen.css -doxfooter $(DOXDOCDIR)/doxygen_footer.html
 	cp $(SRCDIR)/doxygen/doxygen.xml $(DOXDOCDIR)
 	$(ECHO) running doxygen
 	( cat $(SRCDIR)/doxygen/doxygen_1110.conf ; \
@@ -1700,6 +1771,7 @@ report-stats:
 	- wc src/*.cpp src/*.h */*/src/*.cpp */*/src/*.h */*/tutorial/*.cpp
 	$(ECHO) "libFAUDES-make: statistics" 
 	$(ECHO) " ============================== "
+
 
 
 ### all phony targets

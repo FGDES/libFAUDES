@@ -1,0 +1,29 @@
+<ReferencePage chapter="pythonmod" section="none" title="Python API">
+
+<h1>libFAUDES Python Module</h1>
+
+<div class="warning">
+<p>
+This configuration of libFAUDES does not provide the Python module <tt>faudes</tt>.
+</p>
+</div>
+
+<p>
+In order to access libFAUDES from within Python you may
+</p>
+<ul class="l1">
+<li><p>
+use the official Python distribution for your operating system and pip-install the precompiled
+module <a href="https://pypi.org/project/faudes">faudes</a>; or
+</p></li>
+<li><p>
+re-configure and re-compile libFAUDES sources with the pybindings plug-in enabled;
+see the <a href="faudes_build.html">build-system documentation</a>.
+</p></li>
+</ul>
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</ReferencePage>

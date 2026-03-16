@@ -28,8 +28,8 @@
 This plug-in implements libFAUDES bindings for the scripting language Python; 
 see https://www.python.org. Relevant libFAUDES data types and functions
 can be accessed from the Python interpreter. The most convenient method
-to make the faudes module available is to install it via <tt>pip<\tt>; i.e., for
-Linux, macOS and Windows/MSYS
+to make the faudes module available is to install it via <tt>pip</tt>; i.e., for
+Linux and macOS
 </p>
 
 @code{.unparsed}
@@ -52,12 +52,6 @@ your own binary are below.
 </p>
 
 
-<p>
-Disclaimer: the primary scripting laguage for libFAUDES is Lua; see the Lua bindings plug-in.
-Specifically, Lua bindings provide a more comprehensive interface, which is systematically
-tested on a more regular basis. If you experience short commings of libFAUDES Python bindings,
-please do not hesitate to report back to us.
-</p>
 
 
 @subsection SecPybindingsIntro1 Example Script
@@ -158,7 +152,7 @@ faudes module from Python scripts in that folder.
 </p>
 
 <p>
-Example for the overall build process incl. copy/renbame:
+Example for the overall build process incl. copy/rename:
 <p>
 
 @code{.unparsed}

@@ -49,10 +49,10 @@ faudes.InvProject(gE,sAll)
 gK=faudes.Generator()
 faudes.SupCon(gL,sCtrl,gE,gK)
 
-#show result on console
+# show result on console
 gK.Write()
  
-#export result as graphics
+# export result as graphics
 gK.GraphWrite("tmp_K.png")
 
 # record test case

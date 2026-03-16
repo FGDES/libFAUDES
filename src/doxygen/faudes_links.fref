@@ -10,7 +10,7 @@ items for this list.
 
 <!-------------------------------------------------------->
 <!-------------------------------------------------------->
-<h2>C++/STL</h2>
+<h2>C++</h2>
 
 <p>
 <ul class="l2">
@@ -23,9 +23,6 @@ items for this list.
 <li><p> 
 <a href="http://www.possibility.com/Cpp/CppCodingStandard.html" target="_top">A C++ Coding Standard</a>
 </p></li>
-<li><p> 
-<a href="http://www.sgi.com/tech/stl/" target="_top">SGI's STL Programmers Guide</a>
-</p></li>
 <li><p>
 <a href="http://www.doxygen.org" target="_top">Doxygen Homepage</a>
 </p></li>
@@ -35,7 +32,7 @@ items for this list.
 
 <!-------------------------------------------------------->
 <!-------------------------------------------------------->
-<h2>Lua Scripting</h2>
+<h2>Lua/Python Scripting</h2>
 
 <p>
 <ul class="l2">
@@ -47,6 +44,9 @@ items for this list.
 </p></li>
 <li><p>
 <a href="http://lua-users.org" target="_top">Lua Wiki</a>
+</p></li>
+<li><p>
+<a href="http://www.python.org" target="_top">Python Homepage</a>
 </p></li>
 <li><p>
 <a href="http://www.swig.org" target="_top">SWIG Homepage</a>
@@ -63,22 +63,25 @@ items for this list.
 <p>
 <ul class="l2">
 <li><p>
-<a href="http://www.eecs.umich.edu/umdes/toolboxes.html">UMDES, DESUMA</a>
+<a href="https://github.com/TCT-Wonham/TCT">TCT</a>
 </p></li>
 <li><p>
-<a href="http://www.supremica.org" target="_top">Supremica</a>
+<a href="https://spot.lre.epita.fr">Spot</a>
 </p></li>
 <li><p>
-<a href="http://altarica.labri.fr/Tools/synthesis/">Synthesis</a>
+<a href="https://gitlab.eecs.umich.edu/wikis/desuma">UMDES, DESUMA</a>
 </p></li>
 <li><p>
-<a href="http://qshare.queensu.ca/Users01/rudie/www/software.html">IDES</a>
+<a href="https://gitlab.eecs.umich.edu/M-DES-tools/desops">MDES</a>
 </p></li>
 <li><p>
-<a href="http://www.rt.eei.uni-erlangen.de/FGdes/destool/index.html">DESTool</a>
+<a href="https://github.com/robimalik/Waters">Supremica</a>
 </p></li>
 <li><p>
-<a href="http://www.disc-project.eu/software_platform.html">DISC Software Platform</a>
+<a href="https://qdes.engineering.queensu.ca/home/software/">IDES</a>
+</p></li>
+<li><p>
+<a href="https://fgdes.tf.fau.de/destool">DESTool</a>
 </p></li>
 <li><p>
 <a href="http://www.cas.mcmaster.ca/~leduc/DESpot.html">DESPot</a>

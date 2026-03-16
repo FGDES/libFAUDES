@@ -1,4 +1,4 @@
-%%% test mark: generator [at pbp_2_generators.py]
+%%% test mark: generator [at 2_generators.py]
 % 
 %  Statistics for simple machine
 % 
@@ -13,7 +13,7 @@
 % 
 % 
 
-%%% test mark: system [at pbp_2_generators.py]
+%%% test mark: system [at 2_generators.py]
 % 
 %  Statistics for simple machine plant model
 % 
@@ -28,7 +28,7 @@
 % 
 % 
 
-%%% test mark: system [at pbp_2_generators.py]
+%%% test mark: system [at 2_generators.py]
 % 
 %  Statistics for simple machine plant model
 % 
@@ -43,7 +43,7 @@
 % 
 % 
 
-%%% test mark: reach expect true [at pbp_2_generators.py]
+%%% test mark: reach expect true [at 2_generators.py]
 <Boolean>
 true         
 </Boolean>

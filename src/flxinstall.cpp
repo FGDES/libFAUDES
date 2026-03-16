@@ -90,6 +90,7 @@ std::string mFaudesBinLuaflx;
 std::string mFaudesBinRef2html;
 bool mFaudesStandalone = false;
 std::string mFaudesBinLua2ref;
+std::string mFaudesBinPy2ref;
 std::string mFaudesDoc;
 std::string mFaudesDocCss;
 std::string mFaudesDocToc;
@@ -97,6 +98,7 @@ std::string mFaudesDocNav;
 std::string mFaudesDocRti;
 std::string mFaudesDocReference;
 std::string mFaudesDocLuafaudes;
+std::string mFaudesDocPythonmod;
 std::string mFaudesDocImages;
 std::string mFaudesDocRefsrc;
 std::string mFaudesDocTemp;
@@ -174,6 +176,31 @@ void Lua2ref(const std::string& rLuaFile, const std::string& rRefFile="") {
   int sysret=SysCall(mFaudesBinLua2ref,rLuaFile + " > " + dst);
   if(sysret!=0) {
     std::cerr << "flxinstall: error while converting lua script \"" << rLuaFile << "\"" << std::endl;
+    usage_exit();
+  }
+    
+}
+
+// ******************************************************************
+// helper: python to ref process
+// ******************************************************************
+
+void Python2ref(const std::string& rPythonFile, const std::string& rRefFile="") {
+  // bail out 
+  if(mFaudesBinPy2ref=="") {
+    std::cerr << "flxinstall: ignoring python script \"" << rPythonFile << "\"" << std::endl;
+    return;
+  }
+  // set up target
+  std::string dst=rRefFile;
+  if(dst=="") {
+    dst=PrependPath(ExtractDirectory(rPythonFile),ExtractBasename(rPythonFile)+ ".fref");
+  }
+  // run 
+  std::cerr << "flxinstall: converting python script \"" << rPythonFile << "\"" << std::endl;
+  int sysret=SysCall(mFaudesBinPy2ref,rPythonFile + " > " + dst);
+  if(sysret!=0) {
+    std::cerr << "flxinstall: error while converting python script \"" << rPythonFile << "\"" << std::endl;
     usage_exit();
   }
     
@@ -790,12 +817,33 @@ void TestFaudesTarget(void) {
       mFaudesBinLua2ref = "";
     }
   }
+  // pythonmod doc (default: non-existent)
+  mFaudesDocPythonmod="";
+  if(docfiles.find("pythonmod")!= docfiles.end()) {
+    mFaudesDocPythonmod=PrependPath(mFaudesDoc,"pythonmod");
+  } else if(docfiles.find("PythonMod")!= docfiles.end()) {
+    mFaudesDocPythonmod=PrependPath(mFaudesDoc,"PythonMod");
+  } 
+  // py2ref (try perl on py2ref.pl)
+  if(mFaudesBinPy2ref=="") {
+    std::string script;
+    script=PrependPath(mFaudesTools,"py2ref");
+    script=PrependPath(script,"py2ref.pl");
+    mFaudesBinPy2ref = "perl " + script;
+    if(!FileExists(script)) {
+      std::cerr << "flxinstall: cannot find converter \"py2ref.pl\"" << std::endl;
+      mFaudesBinPy2ref = "";
+    }
+  }
   // report
   if(mFaudesBinLua2ref=="") {
     std::cerr << "flxinstall: cannot process lua tutorial sources: ERROR." << std::endl;
   }
   if(mFaudesBinLua2ref!="") {
     std::cerr << "flxinstall: using \"" << mFaudesBinLua2ref <<"\" to convert lua tutorials," << std::endl;
+  }
+  if(mFaudesBinPy2ref!="") {
+    std::cerr << "flxinstall: using \"" << mFaudesBinPy2ref <<"\" to convert python tutorials," << std::endl;
   }
   // images
   mFaudesDocImages="";
@@ -1301,7 +1349,7 @@ void InstallExtensionFiles(void) {
   std::set< std::string > docrefsrcref = ReadDirectory(PrependPath(mFaudesDocRefsrc,"reference"));
   for(std::set < std::string >::iterator fit=docrefsrcref.begin(); fit!=docrefsrcref.end(); fit++) {
     std::string ext=ExtractSuffix(*fit);
-    std::string bas=ExtractBasename(*fit);
+    std::string bas= "reference/"+ ExtractBasename(*fit);
     std::string ffile=PrependPath(PrependPath(mFaudesDocRefsrc,"reference"),*fit);
     if(ext!="fref") continue;
     if(frefbase.find(bas)!=frefbase.end()){
@@ -1315,7 +1363,7 @@ void InstallExtensionFiles(void) {
   std::set< std::string > doctmpdir = ReadDirectory(mFaudesDocTemp);
   for(std::set < std::string >::iterator fit=doctmpdir.begin(); fit!=doctmpdir.end(); fit++) {
     std::string ext=ExtractSuffix(*fit);
-    std::string bas=ExtractBasename(*fit);
+    std::string bas="reference/"+ExtractBasename(*fit);
     std::string ffile=PrependPath(mFaudesDocTemp,*fit);
     if(ext!="fref") continue;
     if(frefbase.find(bas)!=frefbase.end()){
@@ -1333,7 +1381,7 @@ void InstallExtensionFiles(void) {
   std::set< std::string > docrefsrclua = ReadDirectory(PrependPath(mFaudesDocRefsrc,"luafaudes"));
   for(std::set < std::string >::iterator fit=docrefsrclua.begin(); fit!=docrefsrclua.end(); fit++) {
     std::string ext=ExtractSuffix(*fit);
-    std::string bas=ExtractBasename(*fit);
+    std::string bas="luafaudes/"+ ExtractBasename(*fit);
     std::string ffile=PrependPath(PrependPath(mFaudesDocRefsrc,"luafaudes"),*fit);
     if(ext!="fref") continue;
     if(frefbase.find(bas)!=frefbase.end()){
@@ -1347,9 +1395,9 @@ void InstallExtensionFiles(void) {
   /*std::set< std::string > */tmpfiles = ReadDirectory(mFaudesDocTemp);
   for(std::set < std::string >::iterator fit=tmpfiles.begin(); fit!=tmpfiles.end(); fit++) {
     std::string ext=ExtractSuffix(*fit);
-    std::string bas=ExtractBasename(*fit);
+    std::string bas= "luafaudes/"+ ExtractBasename(*fit);
     std::string lfile=PrependPath(mFaudesDocTemp,*fit);
-    std::string ffile=PrependPath(mFaudesDocTemp,bas+".fref");
+    std::string ffile=PrependPath(mFaudesDocTemp,ExtractBasename(*fit)+".fref");
     // skip non-lua
     if(ext!="lua") continue;
     // test for corresponding fref file
@@ -1365,6 +1413,23 @@ void InstallExtensionFiles(void) {
     }
   }
 
+  // collect/generate all python tutorial files for processing to doc/pythonmod
+  std::set< std::string > docpythonsource;
+  std::set< std::string > docrefsrcpython = ReadDirectory(PrependPath(mFaudesDocRefsrc,"pythonmod"));
+  for(std::set < std::string >::iterator fit=docrefsrcpython.begin(); fit!=docrefsrcpython.end(); fit++) {
+    std::string ext=ExtractSuffix(*fit);
+    std::string bas="pythonmod/"+ExtractBasename(*fit);
+    std::string ffile=PrependPath(PrependPath(mFaudesDocRefsrc,"pythonmod"),*fit);
+    if(ext!="fref") continue;
+    if(frefbase.find(bas)!=frefbase.end()){
+      std::cerr << "flxinstall: reference file doublet \"" << *fit << "\" from python doc: ERROR." << std::endl;
+      exit(1);
+    }
+    docpythonsource.insert(ffile);
+    tocsource.insert(ffile);  // list of tutorials is required in toc
+    frefbase.insert(bas);
+  }
+  
   // convert/generate full generator images to fref (dest: doc/images)
   std::set< std::string > docimgsource;
   std::set< std::string > docrefsrcimg = ReadDirectory(PrependPath(mFaudesDocRefsrc,"images"));
@@ -1458,6 +1523,24 @@ void InstallExtensionFiles(void) {
     std::cerr << "flxinstall: processing lua tutorial: done" << std::endl;
   }
 
+  // process all pages to doc/pythonmod
+  if(mFaudesDocPythonmod!="" && docpythonsource.size()>0) {
+    std::string pysrcs;
+    for(std::set < std::string >::iterator fit=docpythonsource.begin(); fit!=docpythonsource.end(); fit++) {
+      pysrcs += " " + *fit;
+    }
+    std::string pyargs=  
+        "-rti " + mFaudesDocRti + " -cnav " + mFaudesDocNav
+      + " -css " + mFaudesDocCss + " -inc " + mFaudesDocToc + " -rel ../  " 
+      + pysrcs +  " " + mFaudesDocPythonmod; 
+    std::cerr << "flxinstall: processing python tutorial" << std::endl;
+    if(SysCall(mFaudesBinRef2html,pyargs)!=0) {
+      std::cerr << "flxinstall: error while processing python tutorial: ERROR." << std::endl;
+      exit(1);
+    }
+    std::cerr << "flxinstall: processing python tutorial: done" << std::endl;
+  }
+
   // process all pages to doc/images/
   if(mFaudesDocImages!="" && docimgsource.size()>0) {
     std::cerr << "flxinstall: processing image files" << std::endl;
@@ -1503,6 +1586,20 @@ void InstallExtensionFiles(void) {
         " -rti " + mFaudesDocRti + " -flx " + mFaudesBinLuaflx + " -cnav " + mFaudesDocNav
       + " -css " + mFaudesDocCss + " -inc " + mFaudesDocToc + " -rel ../  " 
       + PrependPath(mFaudesDocRefsrc,"luafaudes/faudes_luafaudes.fref") +  " " + dst;
+    std::cerr << "flxinstall: fix html index " << std::endl;
+    if(SysCall(mFaudesBinRef2html,procargs)!=0) {
+      std::cerr << "flxinstall: error when processing index.html: ERROR." <<std::endl;
+      exit(1);
+    }
+  }
+
+  // copy index file: pythonmod
+  if(mFaudesDocPythonmod!="" && DirectoryExists(PrependPath(mFaudesDocRefsrc,"pythonmod"))){
+    std::string dst=PrependPath(mFaudesDocPythonmod,"index.html");
+    std::string procargs=
+        " -rti " + mFaudesDocRti + " -cnav " + mFaudesDocNav
+      + " -css " + mFaudesDocCss + " -inc " + mFaudesDocToc + " -rel ../  " 
+      + PrependPath(mFaudesDocRefsrc,"pythonmod/faudes_pythonmod.fref") +  " " + dst;
     std::cerr << "flxinstall: fix html index " << std::endl;
     if(SysCall(mFaudesBinRef2html,procargs)!=0) {
       std::cerr << "flxinstall: error when processing index.html: ERROR." <<std::endl;

@@ -1,4 +1,4 @@
-%%% test mark: deterministic [at pbp_3_regular.py]
+%%% test mark: deterministic [at 3_regular.py]
 % 
 %  Statistics for Det(g_nondet)
 % 
@@ -13,7 +13,7 @@
 % 
 % 
 
-%%% test mark: statemin [at pbp_3_regular.py]
+%%% test mark: statemin [at 3_regular.py]
 % 
 %  Statistics for g_nonmin [minstate]
 % 
@@ -28,7 +28,7 @@
 % 
 % 
 
-%%% test mark: project [at pbp_3_regular.py]
+%%% test mark: project [at 3_regular.py]
 % 
 %  Statistics for Project(g)
 % 
@@ -43,7 +43,7 @@
 % 
 % 
 
-%%% test mark: lang. union [at pbp_3_regular.py]
+%%% test mark: lang. union [at 3_regular.py]
 % 
 %  Statistics for Union(g1,g2)
 % 
@@ -58,7 +58,7 @@
 % 
 % 
 
-%%% test mark: lang. intersection [at pbp_3_regular.py]
+%%% test mark: lang. intersection [at 3_regular.py]
 % 
 %  Statistics for Intersection(g1,g2)
 % 
@@ -73,7 +73,7 @@
 % 
 % 
 
-%%% test mark: lang. complement [at pbp_3_regular.py]
+%%% test mark: lang. complement [at 3_regular.py]
 % 
 %  Statistics for Complement(g1)
 % 
@@ -88,7 +88,7 @@
 % 
 % 
 
-%%% test mark: lang. complement2 [at pbp_3_regular.py]
+%%% test mark: lang. complement2 [at 3_regular.py]
 % 
 %  Statistics for Complement(Complement(g1))
 % 
@@ -103,7 +103,7 @@
 % 
 % 
 
-%%% test mark: lang. inclusion [at pbp_3_regular.py]
+%%% test mark: lang. inclusion [at 3_regular.py]
 <Boolean>
 true         
 </Boolean>
@@ -111,7 +111,7 @@ true
 % 
 % 
 
-%%% test mark: lang. disjoint [at pbp_3_regular.py]
+%%% test mark: lang. disjoint [at 3_regular.py]
 <Boolean>
 true         
 </Boolean>
@@ -119,7 +119,7 @@ true
 % 
 % 
 
-%%% test mark: lang. equality [at pbp_3_regular.py]
+%%% test mark: lang. equality [at 3_regular.py]
 <Boolean>
 true         
 </Boolean>
@@ -127,7 +127,7 @@ true
 % 
 % 
 
-%%% test mark: lang. concat [at pbp_3_regular.py]
+%%% test mark: lang. concat [at 3_regular.py]
 % 
 %  Statistics for Concatenate(gK,Det(ConcatenateNonDet(gK,KleeneClosure(gL)))) [minstate]
 % 
@@ -142,7 +142,7 @@ true
 % 
 % 
 
-%%% test mark: lang. concat [at pbp_3_regular.py]
+%%% test mark: lang. concat [at 3_regular.py]
 % 
 %  Statistics for Det(ConcatenateNonDet(gK,KleeneClosureNonDet(gL))) [minstate]
 % 
@@ -157,7 +157,7 @@ true
 % 
 % 
 
-%%% test mark: lang. concat [at pbp_3_regular.py]
+%%% test mark: lang. concat [at 3_regular.py]
 <Boolean>
 true         
 </Boolean>
