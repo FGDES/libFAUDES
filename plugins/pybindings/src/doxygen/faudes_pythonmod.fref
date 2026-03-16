@@ -54,7 +54,7 @@ As a basic test, the below Python commands will report the libFAUDES version:
 </pre>
 
 <p>
-The libFAUDES Python Module exports the help system compiled from the runtime interaface specification; i.e., <tt>faudes.Help()'</tt> will report along the lines of:
+The libFAUDES Python Module exports the help system compiled from the runtime interaface specification; i.e., '<tt>faudes.Help()'</tt> will report along the lines of:
 </p>
 
 <pre>
@@ -86,7 +86,9 @@ Console Commands:
 <p>
 You may specify a keyword by calling <tt>faudes.Help(&quot;keyword&quot;)</tt> 
 to obtain a list of relevant functions. Plug-ins that provide additional bindings will
-advertise themselves with their plug-in name as keyword.
+advertise themselves with their plug-in name as keyword;
+e.g., try '<tt>faudes.Help(&quot;Synthesis&quot;)'</tt> for functions related to
+classical supervisory control theory.
 </p>
 
 
@@ -97,7 +99,7 @@ The EventSet Data Type
 <p>
 The libFAUDES Python module  maps most libFAUDES C++ classes to Python user-data pointers with 
 corresponding access functions. The C++ class faudes::EventSet is used as the class
-to represent sets of events withinand you can create a variable of that type
+to represent sets of events. You can create a variable of that type
 by using the default constructor:
 </p>
 <pre>&gt;&gt;&gt; alph1 = faudes.EventSet()</pre>
@@ -243,16 +245,16 @@ As with the EventSet,  a method for a Generator object is called by appending th
 the object: 
 </p>
 <pre>
-&gt;&gt;&gt; gen1:InsEvent(&quot;alpha&quot;)
-&gt;&gt;&gt; gen1:InsEvent(&quot;beta&quot;)
-&gt;&gt;&gt; gen1:InsEvent(&quot;gamma&quot;)
-&gt;&gt;&gt; gen1:InsState(&quot;waiting&quot;)
-&gt;&gt;&gt; gen1:InsState(&quot;working&quot;)
-&gt;&gt;&gt; gen1:InsState(&quot;dump state&quot;)
-&gt;&gt;&gt; gen1:SetInitState(&quot;waiting&quot;)
-&gt;&gt;&gt; gen1:SetMarkedState(&quot;waiting&quot;)
-&gt;&gt;&gt; gen1:SetTransition(&quot;waiting&quot;, &quot;alpha&quot;, &quot;working&quot;)
-&gt;&gt;&gt; gen1:SetTransition(&quot;working&quot;, &quot;beta&quot;, &quot;waiting&quot;)
+&gt;&gt;&gt; gen1.InsEvent(&quot;alpha&quot;)
+&gt;&gt;&gt; gen1.InsEvent(&quot;beta&quot;)
+&gt;&gt;&gt; gen1.InsEvent(&quot;gamma&quot;)
+&gt;&gt;&gt; gen1.InsState(&quot;waiting&quot;)
+&gt;&gt;&gt; gen1.InsState(&quot;working&quot;)
+&gt;&gt;&gt; gen1.InsState(&quot;dump state&quot;)
+&gt;&gt;&gt; gen1.SetInitState(&quot;waiting&quot;)
+&gt;&gt;&gt; gen1.SetMarkedState(&quot;waiting&quot;)
+&gt;&gt;&gt; gen1.SetTransition(&quot;waiting&quot;, &quot;alpha&quot;, &quot;working&quot;)
+&gt;&gt;&gt; gen1.SetTransition(&quot;working&quot;, &quot;beta&quot;, &quot;waiting&quot;)
 
 ...
 </pre>
@@ -329,6 +331,9 @@ from the <tt>data</tt> subdirectory, relative to the location of the
 script. Thus, it is mandatory to <tt>cd</tt> to the location of the script.
 </p>
 
+<h2 id="dot">
+Graphical Output
+</h2>
 
 <p>
 For image output of generator graphs libFAUDES relies on the
@@ -358,6 +363,7 @@ specified within as follows:
 <li class="registry_item"><a href="#eventsets">EventSets</a></li>
 <li class="registry_item"><a href="#generators">Generators</a></li>
 <li class="registry_item"><a href="#functions">Functions</a></li>
+<li class="registry_item"><a href="#dot">Graphical Output</a></li>
 <li class="registry_blanc">&nbsp;</li>
 <li class="registry_item">
 <a href="#">Top of Page</a>
