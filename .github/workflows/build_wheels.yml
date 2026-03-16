@@ -72,7 +72,7 @@ jobs:
           platform: pyodide
     steps:
     - name: Download Artifact
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: faudes.tgz
         path: ./
@@ -80,7 +80,7 @@ jobs:
       run: |
         tar -xzf faudes.tgz
     - name: Build wheels
-      uses: pypa/cibuildwheel@v3.3.1
+      uses: pypa/cibuildwheel@v3.4
       env:
         CIBW_PLATFORM: ${{ matrix.platform || 'auto' }}
         CIBW_ARCHS: ${{ matrix.arch || 'auto'}}
@@ -102,14 +102,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download Artifact
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: faudes.tgz
         path: ./
     - name: Extract Archive
       run: |
         tar -xzf faudes.tgz
-    - uses: actions/setup-python@v1
+    - uses: actions/setup-python@v6
       name: Setup Python
     - uses: BSFishy/pip-action@v1
       name: Pip for build
@@ -132,7 +132,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-    - uses: actions/download-artifact@v6
+    - uses: actions/download-artifact@v8
       with:
         pattern: cibw-*
         path: dist
