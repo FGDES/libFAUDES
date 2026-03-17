@@ -12,10 +12,10 @@
 % 
 
 <Alphabet>
-t_modul3\cb4-mh1-d1\mh1d1  +C+           mh1ar+z       mh1ar-z       mh1end        mh1f         
-mh1lv+z       mh1lv-z       mh1mv+z       +C+           mh1mv-z       +C+          
-mh1start      +C+           mh1stp        +C+           d1run         +C+          
-d1stp        
+t_modul3\cb4-mh1-d1\mh1d1   +C+            mh1ar+z        mh1ar-z        mh1end         mh1f          
+mh1lv+z        mh1lv-z        mh1mv+z        +C+            mh1mv-z        +C+           
+mh1start       +C+            mh1stp         +C+            d1run          +C+           
+d1stp         
 </Alphabet>
 
 <States>
@@ -28,22 +28,22 @@ d1stp
 </States>
 
 <TransRel>
-1              mh1start      3             
-3              mh1mv-z       5             
-5              t_modul3\cb4-mh1-d1\mh1d1  6             
-6              mh1lv+z       7             
-7              t_modul3\cb4-mh1-d1\mh1d1  8             
-8              mh1ar-z       9             
-9              mh1stp        11            
-11             d1run         12            
-12             d1stp         13            
-13             mh1mv+z       14            
-14             t_modul3\cb4-mh1-d1\mh1d1  15            
-15             mh1lv-z       16            
-16             t_modul3\cb4-mh1-d1\mh1d1  17            
-17             mh1ar+z       18            
-18             mh1stp        20            
-20             mh1end        1             
+1              mh1start       3             
+3              mh1mv-z        5             
+5              t_modul3\cb4-mh1-d1\mh1d1   6             
+6              mh1lv+z        7             
+7              t_modul3\cb4-mh1-d1\mh1d1   8             
+8              mh1ar-z        9             
+9              mh1stp         11            
+11             d1run          12            
+12             d1stp          13            
+13             mh1mv+z        14            
+14             t_modul3\cb4-mh1-d1\mh1d1   15            
+15             mh1lv-z        16            
+16             t_modul3\cb4-mh1-d1\mh1d1   17            
+17             mh1ar+z        18            
+18             mh1stp         20            
+20             mh1end         1             
 </TransRel>
 
 <InitStates>

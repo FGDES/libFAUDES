@@ -12,10 +12,10 @@
 % 
 
 <Alphabet>
-cb11-7        +C+           cb7-11        +C+           cb11-4        +C+          
-cb4-11        +C+           cb11+y+x      +C+           cb11-y-x      +C+          
-cb11stp       +C+           cb11wpar      cb11wplv4     cb11wplv7     t_modul3\rt1-cb11\cb11 
-+C+          
+cb11-7         +C+            cb7-11         +C+            cb11-4         +C+           
+cb4-11         +C+            cb11+y+x       +C+            cb11-y-x       +C+           
+cb11stp        +C+            cb11wpar       cb11wplv4      cb11wplv7      t_modul3\rt1-cb11\cb11  
++C+           
 </Alphabet>
 
 <States>
@@ -24,16 +24,16 @@ cb11stp       +C+           cb11wpar      cb11wplv4     cb11wplv7     t_modul3\r
 </States>
 
 <TransRel>
-1              cb4-11        3             
-3              cb11-y-x      5             
-5              t_modul3\rt1-cb11\cb11  6             
-6              cb11wpar      7             
-7              cb11stp       8             
-8              cb11-7        10            
-10             cb11-y-x      19            
-19             t_modul3\rt1-cb11\cb11  20            
-20             cb11wplv7     21            
-21             cb11stp       1             
+1              cb4-11         3             
+3              cb11-y-x       5             
+5              t_modul3\rt1-cb11\cb11   6             
+6              cb11wpar       7             
+7              cb11stp        8             
+8              cb11-7         10            
+10             cb11-y-x       19            
+19             t_modul3\rt1-cb11\cb11   20            
+20             cb11wplv7      21            
+21             cb11stp        1             
 </TransRel>
 
 <InitStates>

@@ -12,9 +12,9 @@
 % 
 
 <Alphabet>
-rt3xy         +C+           rt3yx         +C+           rt3arx        rt3ary       
-rt3f          rt3lvx        rt3lvy        rt3mvx        +C+           rt3mvy       
-+C+           rt3stp        +C+           t_rt3-cb13\rt3  +C+          
+rt3xy          +C+            rt3yx          +C+            rt3arx         rt3ary        
+rt3f           rt3lvx         rt3lvy         rt3mvx         +C+            rt3mvy        
++C+            rt3stp         +C+            t_rt3-cb13\rt3   +C+           
 </Alphabet>
 
 <States>
@@ -25,20 +25,20 @@ rt3f          rt3lvx        rt3lvy        rt3mvx        +C+           rt3mvy
 </States>
 
 <TransRel>
-1              rt3yx         2             
-2              rt3mvx        3             
-3              t_rt3-cb13\rt3  4             
-4              rt3lvy        5             
-5              t_rt3-cb13\rt3  6             
-6              rt3arx        7             
-7              rt3stp        8             
-8              rt3xy         11            
-11             rt3mvy        12            
-12             t_rt3-cb13\rt3  13            
-13             rt3lvx        14            
-14             t_rt3-cb13\rt3  15            
-15             rt3ary        16            
-16             rt3stp        1             
+1              rt3yx          2             
+2              rt3mvx         3             
+3              t_rt3-cb13\rt3   4             
+4              rt3lvy         5             
+5              t_rt3-cb13\rt3   6             
+6              rt3arx         7             
+7              rt3stp         8             
+8              rt3xy          11            
+11             rt3mvy         12            
+12             t_rt3-cb13\rt3   13            
+13             rt3lvx         14            
+14             t_rt3-cb13\rt3   15            
+15             rt3ary         16            
+16             rt3stp         1             
 </TransRel>
 
 <InitStates>

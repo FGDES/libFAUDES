@@ -12,11 +12,11 @@
 % 
 
 <Alphabet>
-cb3-12        +C+           cb12-4        +C+           cb4-12        +C+          
-cb5-12        +C+           cb12-5        +C+           cb12+y+x      +C+          
-cb12-3        +C+           cb12-8        +C+           cb12-y-x      +C+          
-cb12stp       +C+           cb12wpar      cb12wplv3     cb12wplv4     cb12wplv5    
-cb12wplv8     cb8-12        +C+           t_rt2-cb12\cb12  +C+          
+cb3-12         +C+            cb12-4         +C+            cb4-12         +C+           
+cb5-12         +C+            cb12-5         +C+            cb12+y+x       +C+           
+cb12-3         +C+            cb12-8         +C+            cb12-y-x       +C+           
+cb12stp        +C+            cb12wpar       cb12wplv3      cb12wplv4      cb12wplv5     
+cb12wplv8      cb8-12         +C+            t_rt2-cb12\cb12   +C+           
 </Alphabet>
 
 <States>
@@ -26,24 +26,24 @@ cb12wplv8     cb8-12        +C+           t_rt2-cb12\cb12  +C+
 </States>
 
 <TransRel>
-1              cb3-12        2             
-1              cb5-12        4             
-2              cb12-y-x      31            
-4              cb12-y-x      8             
-8              t_rt2-cb12\cb12  9             
-9              cb12wpar      10            
-10             cb12stp       11            
-11             t_rt2-cb12\cb12  13            
-13             cb12-4        14            
-14             cb12-y-x      25            
-25             t_rt2-cb12\cb12  26            
-26             cb12wplv4     27            
-27             cb12stp       28            
-28             t_rt2-cb12\cb12  1             
-31             t_rt2-cb12\cb12  32            
-32             cb12wpar      33            
-33             cb12stp       34            
-34             t_rt2-cb12\cb12  13            
+1              cb3-12         2             
+1              cb5-12         4             
+2              cb12-y-x       31            
+4              cb12-y-x       8             
+8              t_rt2-cb12\cb12   9             
+9              cb12wpar       10            
+10             cb12stp        11            
+11             t_rt2-cb12\cb12   13            
+13             cb12-4         14            
+14             cb12-y-x       25            
+25             t_rt2-cb12\cb12   26            
+26             cb12wplv4      27            
+27             cb12stp        28            
+28             t_rt2-cb12\cb12   1             
+31             t_rt2-cb12\cb12   32            
+32             cb12wpar       33            
+33             cb12stp        34            
+34             t_rt2-cb12\cb12   13            
 </TransRel>
 
 <InitStates>

@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-cb2-13        +C+           sf-2          +C+           cb2-y         +C+          
-cb2stp        +C+           cb2wpar       cb2wplv13     t_cb2         +C+          
+cb2-13         +C+            sf-2           +C+            cb2-y          +C+           
+cb2stp         +C+            cb2wpar        cb2wplv13      t_cb2          +C+           
 </Alphabet>
 
 <States>
@@ -22,16 +22,16 @@ cb2stp        +C+           cb2wpar       cb2wplv13     t_cb2         +C+
 </States>
 
 <TransRel>
-1              sf-2          2             
-2              cb2-y         3             
-3              t_cb2         4             
-4              cb2wpar       5             
-5              cb2stp        6             
-6              cb2-13        8             
-8              cb2-y         9             
-9              t_cb2         10            
-10             cb2wplv13     11            
-11             cb2stp        1             
+1              sf-2           2             
+2              cb2-y          3             
+3              t_cb2          4             
+4              cb2wpar        5             
+5              cb2stp         6             
+6              cb2-13         8             
+8              cb2-y          9             
+9              t_cb2          10            
+10             cb2wplv13      11            
+11             cb2stp         1             
 </TransRel>
 
 <InitStates>

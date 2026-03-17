@@ -12,7 +12,7 @@
 % 
 
 <Alphabet>
-cb11-7        +C+           cb4-11        +C+           cb11stp       +C+          
+cb11-7         +C+            cb4-11         +C+            cb11stp        +C+           
 </Alphabet>
 
 <States>
@@ -20,10 +20,10 @@ cb11-7        +C+           cb4-11        +C+           cb11stp       +C+
 </States>
 
 <TransRel>
-1              cb4-11        2             
-2              cb11stp       3             
-3              cb11-7        4             
-4              cb11stp       1             
+1              cb4-11         2             
+2              cb11stp        3             
+3              cb11-7         4             
+4              cb11stp        1             
 </TransRel>
 
 <InitStates>

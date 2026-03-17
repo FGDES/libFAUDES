@@ -202,7 +202,7 @@ Synthesis   "supremal sublanguage" controllability   "prefix closed" "controller
 
 <FunctionDefinition name="Synthesis::SupConNormCmpl" ctype="faudes::SupConNormCmpl"> 
 
-<Documentation ref="synthesis_omega.html#SupConNormCmpl"> 
+<Documentation ref="synthesis_completeness.html#SupConNormCmpl"> 
 Computes the supremal controllable normal and complete sublanguage.
 </Documentation> 
 <Keywords> 
@@ -276,11 +276,11 @@ Synthesis     "supremal sublanguage" controllability  controllable  "controller 
 
 <FunctionDefinition name="Synthesis::SupConCmplClosed" ctype="faudes::SupConCmplClosed"> 
 
-<Documentation ref="synthesis_omega.html#SupConCmplClosed"> 
+<Documentation ref="synthesis_completeness.html#SupConCmplClosed"> 
 Computes the supremal controllable and complete sublanguage.
 </Documentation> 
 <Keywords> 
-Synthesis  "supremal sublanguage"  controllability  controllable  "controller synthesis"  "omega languages"  
+Synthesis  "supremal sublanguage"  controllability  controllable  "controller synthesis"  completeness complete  
 </Keywords> 
 
 <VariantSignatures> 
@@ -311,11 +311,11 @@ Synthesis  "supremal sublanguage"  controllability  controllable  "controller sy
 
 <FunctionDefinition name="Synthesis::SupConCmpl" ctype="faudes::SupConCmpl"> 
 
-<Documentation ref="synthesis_omega.html#SupConCmpl"> 
+<Documentation ref="synthesis_completeness.html#SupConCmpl"> 
 Computes the supremal controllable and complete sublanguage.
 </Documentation> 
 <Keywords> 
-Synthesis  "supremal sublanguage"  controllability  controllable  "controller synthesis"  "omega languages"  
+Synthesis  "supremal sublanguage"  controllability  controllable  "controller synthesis"  completeness complete 
 </Keywords> 
 
 <VariantSignatures> 
@@ -530,7 +530,7 @@ Synthesis  "supremal sublanguage"   normality     supremal    controllable obser
 Computes the supremal controllable sublanguage w.r.t. forcible/preemptyble events.
 </Documentation> 
 <Keywords> 
-Synthesis  "supremal sublanguage"  controllability  controllable  forcible preemtable "controller synthesis"  "omega languages"  
+Synthesis  "supremal sublanguage"  controllability  controllable  forcible preemtable "controller synthesis"  
 </Keywords> 
 
 <VariantSignatures> 

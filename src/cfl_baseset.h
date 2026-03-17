@@ -202,7 +202,7 @@ public:
   /** 
    * Iterator class for high-level api to TBaseSet.
    *
-   * This is a convenoience typedef --- faudes set iterators are const anyway.
+   * This is a convenience typedef --- faudes set iterators are const anyway.
    *
    */
   typedef Iterator CIterator;
@@ -390,7 +390,7 @@ public:
   enum DetachMode { SetOnly, AttrIncl };  
   void Detach(DetachMode flag=AttrIncl) const;
 
-  /** Detach and lock any further reallocation */
+  /** Detach and lock any further reallocation (not reversable)*/
   void Lock(void) const;
 
   /** 
@@ -829,6 +829,11 @@ public:
    */
    virtual void ToStl(std::set<T,Cmp>& rStlSet) const;
   
+  /** C++ naming convention (as pseudo aliases) */
+   typedef T value_type;
+   inline Iterator begin(void) const {return Begin();};
+   inline Iterator end(void) const {return End();};
+
 
 protected:
 
@@ -2030,7 +2035,7 @@ TEMP void THIS::DoSWrite(TokenWriter& rTw) const {
     rTw.WriteComment(" Attributes: " +ToStringInteger((Idx) pAttributes->size()));
   if(pAttributes->size()!=0) {
     AttributeVoid* attr = pAttributes->begin()->second;
-    rTw.WriteComment(" Attribute Type: " +FaudesTypeName(*attr));
+    rTw.WriteComment(" Attribute Type: " +faudes::TypeName(*attr));
   } 
 }
 

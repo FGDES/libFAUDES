@@ -8,7 +8,7 @@
 libFAUDES can be build as a Python C extension; i.e., a module to be imported
 from within the <a href="https://www.python.org">Python</a> scripting language and that
 provides access to relevant libFAUDES data types and functions as listed in
-the libFAUDES <a fhref="FAUDES_REFERNCE">user reference</a>. Technically, the libFAUDES
+the libFAUDES <a fhref="FAUDES_REFERENCE">user reference</a>. Technically, the libFAUDES
 Python module is implemented by the libFAUDES Plug-In
 <a fhref="FAUDES_CSOURCE/group__PybindingsPlugin.html">PyBindings</a>.
 </p>
@@ -56,11 +56,12 @@ As a basic test, the below Python commands will report the libFAUDES version:
 </pre>
 
 <p>
-  The libFAUDES Python Module exports the help system compiled from the runtime interaface specification; i.e.,
+The libFAUDES Python Module exports the help system compiled from the runtime interface
+specification; i.e.,
 </p>
 <pre>&gt;&gt;&gt; faudes.Help()'</pre>
 <p>
-will report:
+will report along the lines og:
 </p>
 
 <pre>
@@ -323,7 +324,8 @@ libFAUDES help topic: &quot;Functions&quot; [extract]
 <p>
 The tutorial section of the PyBindings plug-in provides 
 a <a href="3_regular.html">tutorial on regular expressions</a>, 
-to demonstrate access to libFAUDES functions.
+to demonstrate access to libFAUDES functions. For full list of provided functions,
+see the <a fhref="FAUDES_REFERENCE">user reference</a>.
 </p>
 
 <p>

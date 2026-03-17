@@ -98,14 +98,19 @@ Faudes global behaviour: statenames, dot path, ...
 
 // convenient interface
 %rename(StateNamesOn) faudes_statenames_on;
+%feature("autodoc","1");
 void faudes_statenames_on(void);
 %rename(StateNamesOff) faudes_statenames_off;
+%feature("autodoc","1");
 void faudes_statenames_off(void);
 %rename(DotExecPath) faudes_dotexecpath;
+%feature("autodoc","1");
 void faudes_dotexecpath(const std::string& filename);
 %rename(Version) faudes_version;
+%feature("autodoc","1");
 std::string  faudes_version(void);
 %rename(Build) faudes_build;
+%feature("autodoc","1");
 std::string  faudes_build(void);
 
  

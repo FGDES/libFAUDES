@@ -97,6 +97,24 @@ BaseSet: Template declaration for swig
   %extend{
     std::string __str__(void) { return $self->Str(); };
   };
+  // C++/STL variants
+  typedef TYPE value_type;
+  virtual ITERATOR begin(void) const;
+  virtual ITERATOR end(void) const;
+  // Python extensions
+  #ifdef SWIGPYTHON
+  %extend {
+    void append(value_type x) { self->Insert(x); }; 
+    void add(value_type x) { self->Insert(x); }
+    Idx __len__(void) { return self->Size(); };
+    bool __contains__(value_type x) { return self->Exists(x); };
+    //value_type __getitem__(difference_type i) const throw (std::out_of_range) {
+    //   return *(swig::cgetpos(self, i));
+    //}
+    void discard(value_type x) { self->Erase(x);}
+  }
+  #endif
+
 
 %enddef
 
@@ -183,7 +201,7 @@ public:
 };
 
 // Have StateSet alias
-typedef StateSetIterator IndexSetIterator;
+typedef IndexSetIterator StateSetIterator;
 
 // Plain index set: the set
 class IndexSet : public Type {
@@ -192,6 +210,10 @@ public:
   SwigBaseSetConstructors(IndexSet,Idx,IndexSetIterator);
   SwigBaseSetMembers(IndexSet,Idx,IndexSetIterator);
 };
+
+// This it what we want .. but it does not compile
+//%pythonabc(IndexSet, collections.abc.MutableSet);
+
 
 // Have StateSet alias (on Lua, somehow not funtional)
 typedef IndexSet StateSet;

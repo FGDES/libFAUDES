@@ -728,12 +728,25 @@ void ClearRegistry(void) {
   TypeRegistry::G()->ClearAll();
 }
 
-// conveience access to singleton 
-Type* NewFaudesObject(const std::string& rTypeName) { return TypeRegistry::G()->NewObject(rTypeName);}
-Function* NewFaudesFunction(const std::string& rFunctName) { return FunctionRegistry::G()->NewFunction(rFunctName);}
-const std::string& FaudesTypeName(const Type& rObject) { return TypeRegistry::G()->TypeName(rObject);}
-bool FaudesTypeTest(const std::string& rTypeName, const Type& rObject) { return TypeRegistry::G()->TypeTest(rTypeName,rObject);}
-const std::string& FaudesFunctionName(const Function& rObject) { return FunctionRegistry::G()->FunctionName(rObject);}
+// conveience access to singleton type registry
+Type* NewObject(const Type& rSample) { return rSample.New(); }
+Type* NewObject(const std::string& rTypeName) { return TypeRegistry::G()->NewObject(rTypeName);}
+Type* NewObjectFromString(const std::string& rTypeName, const std::string& rData) {
+  Type* obj = TypeRegistry::G()->NewObject(rTypeName);
+  obj->FromString(rData);
+  return obj;
+}
+Type* NewObjectFromFile(const std::string& rTypeName, const std::string& rFileName) {
+  Type* obj = TypeRegistry::G()->NewObject(rTypeName);
+  obj->Read(rFileName);
+  return obj;
+}
+const std::string& TypeName(const Type& rObject) { return TypeRegistry::G()->TypeName(rObject);}
+bool TypeTest(const std::string& rTypeName, const Type& rObject) { return TypeRegistry::G()->TypeTest(rTypeName,rObject);}
+
+// conveience access to singleton function registry
+Function* NewFunction(const std::string& rFunctName) { return FunctionRegistry::G()->NewFunction(rFunctName);}  
+const std::string& FunctionName(const Function& rObject) { return FunctionRegistry::G()->FunctionName(rObject);}
 
 
 } // namespace

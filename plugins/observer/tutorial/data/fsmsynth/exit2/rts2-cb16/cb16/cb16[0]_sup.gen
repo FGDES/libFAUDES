@@ -12,11 +12,11 @@
 % 
 
 <Alphabet>
-cb10-16       +C+           cb16-10       +C+           cb16+y        +C+          
-cb16-9        +C+           cb16-8        +C+           cb16-rc2      +C+          
-cb16-y        +C+           cb16f         cb16stp       +C+           cb16wpar     
-cb16wplv10    cb16wplv9     cb16wplv8     cb16wplvrc2   cb9-16        +C+          
-cb8-16        +C+           t_cb16        +C+          
+cb10-16        +C+            cb16-10        +C+            cb16+y         +C+           
+cb16-9         +C+            cb16-8         +C+            cb16-rc2       +C+           
+cb16-y         +C+            cb16f          cb16stp        +C+            cb16wpar      
+cb16wplv10     cb16wplv9      cb16wplv8      cb16wplvrc2    cb9-16         +C+           
+cb8-16         +C+            t_cb16         +C+           
 </Alphabet>
 
 <States>
@@ -25,14 +25,14 @@ cb8-16        +C+           t_cb16        +C+
 </States>
 
 <TransRel>
-1              cb10-16       2             
-2              cb16-y        3             
-3              cb16wpar      4             
-4              cb16stp       5             
-5              cb16-rc2      10            
-10             cb16+y        11            
-11             cb16wplvrc2   12            
-12             cb16stp       1             
+1              cb10-16        2             
+2              cb16-y         3             
+3              cb16wpar       4             
+4              cb16stp        5             
+5              cb16-rc2       10            
+10             cb16+y         11            
+11             cb16wplvrc2    12            
+12             cb16stp        1             
 </TransRel>
 
 <InitStates>

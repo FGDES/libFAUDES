@@ -73,12 +73,20 @@ int main() {
   std::cout << "################################\n";
 
 
-  // Iterator usage
+  // Iterator usage (C++98)
   EventSet::Iterator eit;
   std::cout << "################################\n";
-  std::cout << "# tutorial, iterators \n";
+  std::cout << "# tutorial, iterators (classic)\n";
   for (eit = alphabet1.Begin(); eit != alphabet1.End(); eit++) {
     std::cout << alphabet1.SymbolicName(*eit) << ": " << *eit << std::endl;
+  }
+  std::cout << "################################\n";
+
+  // Iterator usage (C++11)
+  std::cout << "################################\n";
+  std::cout << "# tutorial, iterators (modern)\n";
+  for (auto ev : alphabet1) {
+    std::cout << alphabet1.SymbolicName(ev) << ": " << ev << std::endl;
   }
   std::cout << "################################\n";
 
@@ -423,7 +431,7 @@ int main() {
   FAUDES_TEST_DUMP("deferred copy C - 3",setC);
 
   ////////////////////////////////////////////////////
-  // Developper internal: memory leak in BaseSet
+  // Developper internal: test for memory leaks
   ////////////////////////////////////////////////////
 
   /*

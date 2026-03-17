@@ -12,7 +12,7 @@
 % 
 
 <Alphabet>
-sf-2          +C+           cb1-3         +C+          
+sf-2           +C+            cb1-3          +C+           
 </Alphabet>
 
 <States>
@@ -20,9 +20,9 @@ sf-2          +C+           cb1-3         +C+
 </States>
 
 <TransRel>
-1              cb1-3         2             
-2              cb1-3         3             
-3              sf-2          1             
+1              cb1-3          2             
+2              cb1-3          3             
+3              sf-2           1             
 </TransRel>
 
 <InitStates>

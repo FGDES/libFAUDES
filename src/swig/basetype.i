@@ -141,12 +141,27 @@ public:
 
 
 // helper: report object type
-%rename(TypeName) FaudesTypeName;
-const std::string& FaudesTypeName(const Type& rObject);
+const std::string& TypeName(const Type& rObject);
 
 // helper: test faudes cast
-%rename(TypeTest) FaudesTypeTest;
-bool FaudesTypeTest(const std::string& rTypeName, const Type& rObject);
+%feature("autodoc","1");
+bool TypeTest(const std::string& rTypeName, const Type& rObject);
+
+// helper: instatiate by tpeanme
+%rename(New) NewObject;
+%feature("autodoc","1");
+Type*  NewObject(const std::string& rTypeName);
+
+// helper: instatiate from string
+%rename(NewFromString) NewObjectFromString;
+%feature("autodoc","1");
+Type*  NewObjectFromString(const std::string& rTypeName, const std::string& rData);
+
+// helper: instatiate from file
+%rename(NewFromFile) NewObjectFromFile;
+%feature("autodoc","1");
+Type*  NewObjectFromFile(const std::string& rTypeName, const std::string& rData);
+
 
 
 

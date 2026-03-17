@@ -12,7 +12,7 @@
 % 
 
 <Alphabet>
-cb10-16       +C+           cb16-rc2     
+cb10-16        +C+            cb16-rc2      
 </Alphabet>
 
 <States>
@@ -20,8 +20,8 @@ cb10-16       +C+           cb16-rc2
 </States>
 
 <TransRel>
-1              cb10-16       2             
-2              cb16-rc2      1             
+1              cb10-16        2             
+2              cb16-rc2       1             
 </TransRel>
 
 <InitStates>

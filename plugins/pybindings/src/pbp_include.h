@@ -59,9 +59,9 @@ your own binary are below.
 <p>
 In large, libFAUDES Python bindings follow the same conventions as the Lua bindingins.
 Thus, you may want to inspect the documentation of the latter;
-see https://fgdes.tf.fau.de/faudes/luafaudes/index.html.
-libFAUDES specific Python tutorial ship with the sourcse distribution;
-see <tt>./libFAUDES/pybindings/tutorial</tt>.
+see <a href="https://fgdes.tf.fau.de/faudes/luafaudes">here</a>.
+libFAUDES specific Python tutorials ship with the sourcse distribution
+in <tt>./libFAUDES/pybindings/tutorial</tt>.
 </p>
 
 <p>

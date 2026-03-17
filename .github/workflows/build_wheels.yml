@@ -67,9 +67,9 @@ jobs:
         - os: macos-arm
           runs-on: macos-latest
           arch: arm64
-        - os: pyodide
-          runs-on: ubuntu-latest
-          platform: pyodide
+#        - os: pyodide
+#          runs-on: ubuntu-latest
+#          platform: pyodide
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v8

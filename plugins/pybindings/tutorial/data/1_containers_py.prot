@@ -76,7 +76,7 @@
 
 %%% test mark: inclusion with attrib. [at 1_containers.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
@@ -84,7 +84,7 @@ true
 
 %%% test mark: equality with attrib. [at 1_containers.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
@@ -92,7 +92,7 @@ true
 
 %%% test mark: inclusion with attrib. [at 1_containers.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
@@ -100,7 +100,7 @@ true
 
 %%% test mark: equality with attrib. [at 1_containers.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 

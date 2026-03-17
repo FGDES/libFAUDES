@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-cb3-12        +C+           cb1-3         +C+           cb3-y         +C+          
-cb3stp        +C+           cb3wpar       cb3wplv12     t_cb3         +C+          
+cb3-12         +C+            cb1-3          +C+            cb3-y          +C+           
+cb3stp         +C+            cb3wpar        cb3wplv12      t_cb3          +C+           
 </Alphabet>
 
 <States>
@@ -22,16 +22,16 @@ cb3stp        +C+           cb3wpar       cb3wplv12     t_cb3         +C+
 </States>
 
 <TransRel>
-1              cb1-3         2             
-2              cb3-y         3             
-3              t_cb3         4             
-4              cb3wpar       5             
-5              cb3stp        6             
-6              cb3-12        8             
-8              cb3-y         9             
-9              t_cb3         10            
-10             cb3wplv12     11            
-11             cb3stp        1             
+1              cb1-3          2             
+2              cb3-y          3             
+3              t_cb3          4             
+4              cb3wpar        5             
+5              cb3stp         6             
+6              cb3-12         8             
+8              cb3-y          9             
+9              t_cb3          10            
+10             cb3wplv12      11            
+11             cb3stp         1             
 </TransRel>
 
 <InitStates>

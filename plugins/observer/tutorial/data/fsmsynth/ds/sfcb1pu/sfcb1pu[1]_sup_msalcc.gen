@@ -12,7 +12,7 @@
 % 
 
 <Alphabet>
-sf-cb1        +C+           sf-2          +C+           cb1-3         +C+          
+sf-cb1         +C+            sf-2           +C+            cb1-3          +C+           
 </Alphabet>
 
 <States>
@@ -22,14 +22,14 @@ sf-cb1        +C+           sf-2          +C+           cb1-3         +C+
 </States>
 
 <TransRel>
-1              sf-cb1        2             
-2              sf-cb1        3             
-2              cb1-3         4             
-3              cb1-3         5             
-4              sf-cb1        5             
-5              cb1-3         6             
-6              sf-cb1        7             
-7              sf-2          1             
+1              sf-cb1         2             
+2              sf-cb1         3             
+2              cb1-3          4             
+3              cb1-3          5             
+4              sf-cb1         5             
+5              cb1-3          6             
+6              sf-cb1         7             
+7              sf-2           1             
 </TransRel>
 
 <InitStates>

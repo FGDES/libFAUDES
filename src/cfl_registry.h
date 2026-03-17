@@ -831,16 +831,60 @@ extern FAUDES_API void ClearRegistry(void);
 
 
 /** 
+ * Instantiate faudes typed objects by sample.
+ * Convenience function to access registry singleton.
+ * 
+ * @param rSample
+ *  Type to instantiate
+ * @return
+ *  New object
+ *
+ * @ingroup RunTimeInterface
+ */
+extern FAUDES_API Type* NewObject(const Type& rType);
+
+/** 
  * Instantiate faudes typed objects by type name.
  * Convenience function to access registry singleton.
  * 
  * @param rTypeName
  *  Type to instantiate
+ * @return
+ *  New object
  *
  * @ingroup RunTimeInterface
  */
+extern FAUDES_API Type* NewObject(const std::string& rTypeName);
 
-extern FAUDES_API Type* NewFaudesObject(const std::string& rTypeName);
+/** 
+ * Instantiate faudes typed objects by type name and initialise
+ * from tokenised string
+ * 
+ * @param rTypeName
+ *  Type to instantiate
+ * @param rData
+ *  String to read
+ * @return
+ *  New object
+ *
+ * @ingroup RunTimeInterface
+ */
+extern FAUDES_API Type* NewObjectFromString(const std::string& rTypeName, const std::string& rData);
+
+/** 
+ * Instantiate faudes typed objects by type name and initialise
+ * from file
+ * 
+ * @param rTypeName
+ *  Type to instantiate
+ * @param rFileName
+ *  File to read from
+ * @return
+ *  New object
+ *
+ * @ingroup RunTimeInterface
+ */
+extern FAUDES_API Type* NewObjectFromFile(const std::string& rTypeName, const std::string& rFileName);
 
 /** 
  * Query type name.
@@ -854,7 +898,7 @@ extern FAUDES_API Type* NewFaudesObject(const std::string& rTypeName);
  * @ingroup RunTimeInterface
  */
 
-extern FAUDES_API const std::string& FaudesTypeName(const Type& rObject);
+extern FAUDES_API const std::string& TypeName(const Type& rObject);
 
 
 /** 
@@ -870,7 +914,7 @@ extern FAUDES_API const std::string& FaudesTypeName(const Type& rObject);
  *
  * @ingroup RunTimeInterface
  */
-extern FAUDES_API bool FaudesTypeTest(const std::string& rTypeName, const Type& rObject);
+extern FAUDES_API bool TypeTest(const std::string& rTypeName, const Type& rObject);
 
 
 /** 
@@ -882,7 +926,7 @@ extern FAUDES_API bool FaudesTypeTest(const std::string& rTypeName, const Type& 
  *
  * @ingroup RunTimeInterface
  */
-extern FAUDES_API Function* NewFaudesFunction(const std::string& rFunctName);
+extern FAUDES_API Function* NewFunction(const std::string& rFunctName);
 
 /** 
  * Query function name.
@@ -895,7 +939,7 @@ extern FAUDES_API Function* NewFaudesFunction(const std::string& rFunctName);
  *
  * @ingroup RunTimeInterface
  */
-extern FAUDES_API const std::string& FaudesFunctionName(const Type& rObject);
+extern FAUDES_API const std::string& FunctionName(const Type& rObject);
 
 
 

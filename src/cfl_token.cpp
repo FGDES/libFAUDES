@@ -846,6 +846,7 @@ void Token::WriteString(std::ostream* pStream, const std::string& delim) const {
   while(cc< FD_NAMELEN) {
     *pStream << " "; cc++;
   }  
+  *pStream << " ";
 }
 
 // ReadString(pStream, char)

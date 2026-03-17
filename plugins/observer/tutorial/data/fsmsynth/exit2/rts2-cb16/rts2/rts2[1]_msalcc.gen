@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-rts2_6        rts2_6-5      +C+           rts2_5        rts2_5-6      +C+          
-rts2_5-4      +C+           rts2stp       +C+           rts2_4-5      +C+          
+rts2_6         rts2_6-5       +C+            rts2_5         rts2_5-6       +C+           
+rts2_5-4       +C+            rts2stp        +C+            rts2_4-5       +C+           
 </Alphabet>
 
 <States>
@@ -21,12 +21,12 @@ rts2_5-4      +C+           rts2stp       +C+           rts2_4-5      +C+
 </States>
 
 <TransRel>
-1              rts2_5-6      6             
-2              rts2stp       5             
-3              rts2_6        4             
-4              rts2_6-5      2             
-5              rts2_5        1             
-6              rts2stp       3             
+1              rts2_5-6       6             
+2              rts2stp        5             
+3              rts2_6         4             
+4              rts2_6-5       2             
+5              rts2_5         1             
+6              rts2stp        3             
 </TransRel>
 
 <InitStates>

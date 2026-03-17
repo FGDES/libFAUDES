@@ -1250,7 +1250,7 @@ void LuaState::Push(lua_State* pLL, const Type* fdata) {
   lua_pop(pLL, 1); 
   // stack: [faudes]
   // construct my data in Lua
-  const std::string& ftype= FaudesTypeName(*fdata);
+  const std::string& ftype= faudes::TypeName(*fdata);
   // special case: int as lua number
   if(ftype=="Integer") {
     lua_pushnumber(pLL,((const Integer&)*fdata));

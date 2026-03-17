@@ -12,10 +12,10 @@
 % 
 
 <Alphabet>
-cb15-9        +C+           cb9-15        +C+           cb16-9        +C+          
-cb9-16        +C+           cb9-13        +C+           cb13-9        +C+          
-cb9+y         +C+           cb9-y         +C+           cb9stp        +C+          
-cb9wpar       cb9wplv13     cb9wplv15     cb9wplv16     t_cb9         +C+          
+cb15-9         +C+            cb9-15         +C+            cb16-9         +C+           
+cb9-16         +C+            cb9-13         +C+            cb13-9         +C+           
+cb9+y          +C+            cb9-y          +C+            cb9stp         +C+           
+cb9wpar        cb9wplv13      cb9wplv15      cb9wplv16      t_cb9          +C+           
 </Alphabet>
 
 <States>
@@ -24,18 +24,18 @@ cb9wpar       cb9wplv13     cb9wplv15     cb9wplv16     t_cb9         +C+
 </States>
 
 <TransRel>
-1              cb15-9        2             
-2              cb9+y         7             
-7              t_cb9         8             
-8              cb9wpar       9             
-9              cb9stp        10            
-10             t_cb9         12            
-12             cb9-13        15            
-15             cb9+y         16            
-16             t_cb9         17            
-17             cb9wplv13     18            
-18             cb9stp        19            
-19             t_cb9         1             
+1              cb15-9         2             
+2              cb9+y          7             
+7              t_cb9          8             
+8              cb9wpar        9             
+9              cb9stp         10            
+10             t_cb9          12            
+12             cb9-13         15            
+15             cb9+y          16            
+16             t_cb9          17            
+17             cb9wplv13      18            
+18             cb9stp         19            
+19             t_cb9          1             
 </TransRel>
 
 <InitStates>

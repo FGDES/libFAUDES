@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-sf-cb1        +C+           sfmv          +C+           sfnr          sfr          
-sfstp         +C+           sfwpar        sfwplv        t_sf          +C+          
+sf-cb1         +C+            sfmv           +C+            sfnr           sfr           
+sfstp          +C+            sfwpar         sfwplv         t_sf           +C+           
 </Alphabet>
 
 <States>
@@ -23,17 +23,17 @@ sfstp         +C+           sfwpar        sfwplv        t_sf          +C+
 </States>
 
 <TransRel>
-1              sfwpar        2             
-2              sf-cb1        3             
-3              sfmv          4             
-4              sfnr          5             
-5              sfwplv        6             
-6              sfr           7             
-6              sfwpar        8             
-7              sfstp         1             
-7              sfwpar        9             
-8              sfr           9             
-9              sfstp         2             
+1              sfwpar         2             
+2              sf-cb1         3             
+3              sfmv           4             
+4              sfnr           5             
+5              sfwplv         6             
+6              sfr            7             
+6              sfwpar         8             
+7              sfstp          1             
+7              sfwpar         9             
+8              sfr            9             
+9              sfstp          2             
 </TransRel>
 
 <InitStates>

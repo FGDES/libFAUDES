@@ -12,10 +12,10 @@
 % 
 
 <Alphabet>
-t_modul4\cb6-mh2-d2\mh2d2  +C+           mh2ar+z       mh2ar-z       mh2end        mh2f         
-mh2lv+z       mh2lv-z       mh2mv+z       +C+           mh2mv-z       +C+          
-mh2start      +C+           mh2stp        +C+           d2run         +C+          
-d2stp        
+t_modul4\cb6-mh2-d2\mh2d2   +C+            mh2ar+z        mh2ar-z        mh2end         mh2f          
+mh2lv+z        mh2lv-z        mh2mv+z        +C+            mh2mv-z        +C+           
+mh2start       +C+            mh2stp         +C+            d2run          +C+           
+d2stp         
 </Alphabet>
 
 <States>
@@ -28,22 +28,22 @@ d2stp
 </States>
 
 <TransRel>
-1              mh2start      3             
-3              mh2mv-z       5             
-5              t_modul4\cb6-mh2-d2\mh2d2  6             
-6              mh2lv+z       7             
-7              t_modul4\cb6-mh2-d2\mh2d2  8             
-8              mh2ar-z       9             
-9              mh2stp        11            
-11             d2run         12            
-12             d2stp         13            
-13             mh2mv+z       14            
-14             t_modul4\cb6-mh2-d2\mh2d2  15            
-15             mh2lv-z       16            
-16             t_modul4\cb6-mh2-d2\mh2d2  17            
-17             mh2ar+z       18            
-18             mh2stp        20            
-20             mh2end        1             
+1              mh2start       3             
+3              mh2mv-z        5             
+5              t_modul4\cb6-mh2-d2\mh2d2   6             
+6              mh2lv+z        7             
+7              t_modul4\cb6-mh2-d2\mh2d2   8             
+8              mh2ar-z        9             
+9              mh2stp         11            
+11             d2run          12            
+12             d2stp          13            
+13             mh2mv+z        14            
+14             t_modul4\cb6-mh2-d2\mh2d2   15            
+15             mh2lv-z        16            
+16             t_modul4\cb6-mh2-d2\mh2d2   17            
+17             mh2ar+z        18            
+18             mh2stp         20            
+20             mh2end         1             
 </TransRel>
 
 <InitStates>

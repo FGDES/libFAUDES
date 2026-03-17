@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-cb7-15        +C+           cb15-9        +C+           cb15-rc1      +C+          
-cb15stp       +C+          
+cb7-15         +C+            cb15-9         +C+            cb15-rc1       +C+           
+cb15stp        +C+           
 </Alphabet>
 
 <States>
@@ -21,11 +21,11 @@ cb15stp       +C+
 </States>
 
 <TransRel>
-1              cb7-15        2             
-2              cb15stp       3             
-3              cb15-9        4             
-3              cb15-rc1      4             
-4              cb15stp       1             
+1              cb7-15         2             
+2              cb15stp        3             
+3              cb15-9         4             
+3              cb15-rc1       4             
+4              cb15stp        1             
 </TransRel>
 
 <InitStates>
