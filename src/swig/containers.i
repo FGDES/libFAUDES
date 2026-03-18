@@ -76,6 +76,7 @@ BaseSet: Template declaration for swig
   virtual ITERATOR End(void) const;
   virtual ITERATOR Erase(const ITERATOR& pos); 
   virtual ITERATOR Find(const TYPE& rElem) const;
+  virtual bool IsEnd(const ITERATOR& pos) const;
   // Set operations 
   virtual void EraseSet(const SET& rOtherSet);
   virtual void InsertSet(const SET& rOtherSet);
@@ -106,12 +107,16 @@ BaseSet: Template declaration for swig
   %extend {
     void append(value_type x) { self->Insert(x); }; 
     void add(value_type x) { self->Insert(x); }
-    Idx __len__(void) { return self->Size(); };
-    bool __contains__(value_type x) { return self->Exists(x); };
-    //value_type __getitem__(difference_type i) const throw (std::out_of_range) {
-    //   return *(swig::cgetpos(self, i));
-    //}
     void discard(value_type x) { self->Erase(x);}
+    Idx __len__(void) const { return self->Size(); };
+    bool __contains__(value_type x) const { return self->Exists(x); };
+    ITERATOR __iter__(void) const { return self->Begin();}; 
+    value_type __next__(ITERATOR& it) const {
+      if(!self->IsEnd(it)) return *(it++);
+      PyErr_SetNone(PyExc_StopIteration);
+      SET::value_type x;
+      return x;
+    }
   }
   #endif
 

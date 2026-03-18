@@ -226,6 +226,19 @@ public:
   Iterator End(void) const;
 
   /**
+   * Test validty of an iterator
+   *
+   * This testwhether the provided iterator matches the end of
+   * the ake, whether it is the std "out of range" indicator.
+   *
+   * @param pos
+   *    Iterator to test
+   * @return
+   *    True if iterator is out of range
+   */
+  bool IsEnd(const Iterator& pos) const;
+  
+  /**
    * Test validty of candidate element.
    *
    * Reimplement this function for particular type T of elements,
@@ -237,8 +250,8 @@ public:
    *    True if element is valid
    */
   virtual bool Valid(const T& rElem) const;
-   
 
+  
   /** 
    * Erase element by reference
    *
@@ -248,7 +261,6 @@ public:
    *    True if element used to exist
    */
   virtual bool Erase(const T& rElem);
-
 
   /** 
    * Erase element by iterator 
@@ -505,6 +517,13 @@ public:
      }; 
 
 
+     /** Check validity (no exception)/abort*/
+     bool Valid(void) const {
+       if(pBaseSet==NULL) return false;
+       if(*this==pBaseSet->pSet->end()) return false;
+       return true;
+     }; 
+
      /** Check validity (provoke abort error) */
      void DValid(void) const {
       if(pBaseSet==NULL) {
@@ -515,7 +534,7 @@ public:
      }; 
 
      /** Reimplement dereference */ 
-      const T* operator-> (void) const {
+     const T* operator-> (void) const {
 #ifdef FAUDES_DEBUG_CODE
        if(pBaseSet==NULL) {
          FD_ERR("TBaseSet<T,Cmp>::Iterator(" << this << "):operator->: invalid iterator: no baseset");
@@ -525,7 +544,7 @@ public:
        return std::set<T,Cmp>::const_iterator::operator-> ();
      };
 
-     /** Reimplement derefernce */
+     /** Reimplement dereference */
      const T& operator* (void) const {
 #ifdef FAUDES_DEBUG_CODE
        if(pBaseSet==NULL) {
@@ -664,9 +683,11 @@ public:
        return *this;
      };
 
-     /** Invalidate, compatibility */
+     /** Invalidate (compatibility, not implemented) */
      void  Invalidate(void) {};
 
+     /** Check validity (compatibitity, cannot tell) */
+     bool Valid(void) const {return false;};
    };
 
 #endif
@@ -2168,7 +2189,7 @@ TEMP void THIS::Clear(void) {
 }
 
 
-//test for default configuration
+// test for default configuration
 TEMP bool THIS::IsDefault(void) const {
   return pSet->empty();
 }
@@ -2178,6 +2199,11 @@ TEMP inline bool  THIS::Valid(const T& rElem) const {
   (void) rElem;
   return true;
 }
+
+//Valid(pos) 
+TEMP inline bool THIS::IsEnd(const Iterator& pos) const {
+  return pos.StlIterator()==pSet->end();
+} 
 
 //Insert(elem)
 TEMP bool THIS::Insert(const T& rElem) {
