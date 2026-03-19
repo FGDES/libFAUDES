@@ -103,7 +103,7 @@ BaseSet: Template declaration for swig
   virtual ITERATOR begin(void) const;
   virtual ITERATOR end(void) const;
   // Python extensions
-  #ifdef SWIGPYTHON
+#ifdef SWIGPYTHON
   %extend {
     void append(value_type x) { self->Insert(x); }; 
     void add(value_type x) { self->Insert(x); }
@@ -111,15 +111,8 @@ BaseSet: Template declaration for swig
     Idx __len__(void) const { return self->Size(); };
     bool __contains__(value_type x) const { return self->Exists(x); };
     ITERATOR __iter__(void) const { return self->Begin();}; 
-    value_type __next__(ITERATOR& it) const {
-      if(!self->IsEnd(it)) return *(it++);
-      PyErr_SetNone(PyExc_StopIteration);
-      SET::value_type x;
-      return x;
-    }
   }
-  #endif
-
+#endif
 
 %enddef
 
@@ -147,7 +140,8 @@ BaseSet: Template declaration for swig
 
 // Members of set iterators
 // Note: we choose macros for the same reasones as above
-// Note: DeRef returns bad value, ok for primitive type only ie int/idx 
+// Note: DeRef returns by value, ok for primitive type only ie int/idx
+// Note: the Python __next__ will fail through on end of set. See below for the fix./
 %define SwigIteratorMembers(SET,TYPE,ITERATOR)
 
   // Construct/destruct
@@ -159,14 +153,36 @@ BaseSet: Template declaration for swig
     TYPE DeRef(void) const { return  ** $self; };
     void Inc(void) { ++ *$self; };
     void Dec(void) { -- *$self; };
-   };
-  // compatible c operators
+  };
+  // compatible c operators/functions
   bool operator == (const ITERATOR& rOther) const;
-
+  bool Valid(void);
+  // Python addons
+#ifdef SWIGPYTHON
+  %extend {
+    const TYPE& __next__(void) {
+      // vvvv not functional; see below fix
+      //if(!self->Valid()) {
+      //  PyErr_SetNone(PyExc_StopIteration);
+      //  static TYPE none;
+      //  return none;
+      //}
+      return *((*$self)++); 
+    }
+  }
+#endif
+      
 %enddef
 
-
-
+// The above __next__ fails on the end of the set because it cannot return a
+// "none" result. We fix this by testing validiy before runnig the wrapper. 
+%define SwigIteratorFixNext(SET,TYPE,ITERATOR)
+%pythonprepend ITERATOR::__next__() %{
+if not self.Valid():
+  raise StopIteration  
+  return none
+%}
+%enddef
 
 /*
 **************************************************
@@ -182,23 +198,24 @@ template parameters
 */
 
 
-// Extra c code to unwind nested class
+// Extra C code to unwind nested class
 %{
-
 // Typedefs for nested classes: index set iterator 
 namespace faudes {
 typedef IndexSet::Iterator IndexSetIterator;
 typedef IndexSet::Iterator StateSetIterator;
 }
-
 %}
 
 
+// Fix Python iterator (see containers.i; must preceed declaration)
+SwigIteratorFixNext(IndexSet,Idx,IndexSetIterator)
+   
 // Plain index set: iterator
 class IndexSetIterator {
 public: 
   // BaseSet iterator members/operators
-  SwigIteratorMembers(IndexSet,Idx,IndexSetIterator)
+  SwigIteratorMembers(IndexSet,Idx,IndexSetIterator);
   // Convenience deref
   %extend {
     Idx Index(void) const { return  ** $self; };
@@ -215,9 +232,6 @@ public:
   SwigBaseSetConstructors(IndexSet,Idx,IndexSetIterator);
   SwigBaseSetMembers(IndexSet,Idx,IndexSetIterator);
 };
-
-// This it what we want .. but it does not compile
-//%pythonabc(IndexSet, collections.abc.MutableSet);
 
 
 // Have StateSet alias (on Lua, somehow not funtional)
@@ -270,6 +284,9 @@ typedef NameSet::Iterator EventSetIterator;
 %}
 
 
+// Fix Python iterator (see containers.i; must preceed declaration)
+SwigIteratorFixNext(NameSet,Idx,NameSetIterator)
+
 // Set with symbolic names: iterator
 class NameSetIterator {
 public: 
@@ -317,7 +334,7 @@ public:
   };
 };
 
-// tell swig that our C Code may use EventSet as a synonym
+// Tell SWIG that our C Code may use EventSet as a synonym
 typedef NameSet EventSet;
 
 
@@ -349,12 +366,12 @@ public:
   } 
 };
 
-// Announce template to SWIG: Alphabet
-// Note: the target Alphabet is a faudes Alphabet. So we tell SWIG to provide
-// a class with target name Alphabet and that it is implemented as specified
-// by the above template with parameter AttributeCFlags. We also tell swig that
-// our C code may refer to the type as Alphabet.
 
+// Announce template to SWIG: Alphabet
+// Note: the target is a faudes Alphabet. So we tell SWIG to provide
+// a class with target name Alphabet and that it is implemented as specified
+// by the above template with parameter AttributeCFlags. We also tell SWIG that
+// our C code may refer to the type as Alphabet.
 %template(Alphabet) TaNameSet<AttributeCFlags>;
 typedef TaNameSet<AttributeCFlags> Alphabet;
 
@@ -395,8 +412,6 @@ TransSet: template declaration, derived from BaseSet
 **************************************************
 **************************************************
 */
-
-
 
 
 // Preface: rename std order 
@@ -444,6 +459,9 @@ SwigTransIterator(X2EvX1);
 SwigTransIterator(X2X1Ev);
 SwigTransIterator(EvX1X2);
 SwigTransIterator(EvX2X1);
+
+// Fix Python iterators (see containers.i; must preceed declaration)
+SwigIteratorFixNext(TransSetX1EvX2,Transition,TransSetX1EvX2Iterator)
 
 
 // Transition set: the set 

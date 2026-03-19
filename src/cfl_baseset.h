@@ -520,8 +520,7 @@ public:
      /** Check validity (no exception)/abort*/
      bool Valid(void) const {
        if(pBaseSet==NULL) return false;
-       if(*this==pBaseSet->pSet->end()) return false;
-       return true;
+       return !pBaseSet->IsEnd(*this);
      }; 
 
      /** Check validity (provoke abort error) */

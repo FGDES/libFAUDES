@@ -16,10 +16,10 @@ print("################# Set of indicees")
 ## Create plain set of indices
 iset = faudes.IndexSet()
 
-## Have a name
+## Give a name to the object
 iset.Name("PlainIndexContainer")
 
-## Insert some indicees
+## Insert some elements
 iset.Insert(2)
 iset.Insert(4)
 iset.Insert(8)
@@ -28,16 +28,19 @@ iset.Insert(10)
 ## Print the set via automatic string conversion
 print(iset)
 
-## Access via iterator
+## Access via Python iter/next protocol
+print("Iterating over IndexSet:",iset.Name())
+for q in iset:
+  print(q)
+
+## Access via C++ style iterator
 print("Iterating over IndexSet:",iset.Name())
 iit=iset.Begin()
 while iit!=iset.End():
-  ## Dereference iterator 
   print(iit.Index())
-  ## Increment iterator
   iit.Inc()
 
-## Simple assignment gives a reference, not a copy
+## Simple assignment gives a reference, ***not*** a copy
 isetR = iset
 
 ## To create a copy, use copy constructor or copy method
@@ -70,31 +73,36 @@ print("################# Set of symbols")
 nset = faudes.EventSet()
 
 ## Have a name
-nset.Name("SymbolicIndiceesContainer")
+nset.Name("SymbolicElementsContainer")
 
 ## Insert some elements
 nset.Insert("alpha")
 nset.Insert("beta")
+nset.Insert("gamma")
 
 ## Print the set
 print(nset)
 
 ## Symbol lookup
-idx=nset.Index("beta")
-name=nset.SymbolicName(idx)
-print(name, " has index ", idx)
+bidx=nset.Index("beta")
+bname=nset.SymbolicName(bidx)
+print(f'"{bname}" has index {bidx}')
 
-## Iterate
+## Iterate Python style
+print("Iterating over EventSet",nset.Name())
+for e in nset: 
+  print(f'Element: idx {e}  sym "{nset.SymbolicName(e)}" info "{nset.Str(e)}"')
+
+## Iterate C++ style
 print("Iterating over EventSet",nset.Name())
 nit=nset.Begin()
 while nit!=nset.End():
-  ## Variants of deref
-  print("Element: ", nit.Index(), nit.Name(), nset.SymbolicName(nit), nset.Str(nit))
-  ## Increment
+  print(f'Element: idx {nit.Index()}  sym "{nit.Name()}" info "{nset.Str(nit)}"')
   nit.Inc()
 
-## Erase an element
-nset.Erase("beta")
+## Erase an element by symbolic name or index
+nset.Erase("gamma")
+nset.Erase(bidx)
 
 ## Create a copy of the set
 n2set = nset.Copy()
