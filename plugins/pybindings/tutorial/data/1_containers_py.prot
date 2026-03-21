@@ -30,8 +30,10 @@
 
 %%% test mark: iset copy 3 [at 1_containers.py]
 % 
-%  Statistics for 
+%  Statistics for Q
 % 
+%  Size: 4
+%  Shared Data: #1 clients
 % 
 % 
 % 

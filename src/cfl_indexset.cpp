@@ -48,8 +48,6 @@ AutoRegisterType<StateSet> gRtiStateSet("StateSet");
 FAUDES_TYPE_IMPLEMENTATION(IndexSet,IndexSet,TBaseSet<Idx>)
 
 
-
-
 // IndexSet()
 IndexSet::IndexSet(void) : TBaseSet<Idx>() {
   FD_DC("IndexSet(" << this << ")::IndexSet()");
@@ -57,27 +55,26 @@ IndexSet::IndexSet(void) : TBaseSet<Idx>() {
 }
 
 // IndexSet(rOtherSet)
-IndexSet::IndexSet(const IndexSet& rOtherSet) : 
-  TBaseSet<Idx>(rOtherSet) 
-{
+IndexSet::IndexSet(const IndexSet& rOtherSet) : IndexSet() {
   FD_DC("IndexSet(" << this << ")::IndexSet(rOtherSet " << &rOtherSet << ")");
-  // copy my members (none)
+  TBaseSet<Idx>::DoCopy(rOtherSet);
 }
 
 // IndexSet(rOtherSet)
-IndexSet::IndexSet(const TBaseSet<Idx>& rOtherSet) : 
-  TBaseSet<Idx>(rOtherSet) 
-{
+IndexSet::IndexSet(const TBaseSet<Idx>& rOtherSet) : IndexSet() { 
   FD_DC("IndexSet(" << this << ")::IndexSet(rOtherSet " << &rOtherSet << ")");
-  // copy my members (none)
+  TBaseSet<Idx>::DoCopy(rOtherSet); 
 }
 
 // File constructor
-IndexSet::IndexSet(const std::string& rFilename, const std::string& rLabel) :
-  TBaseSet<Idx>() 
-{
+IndexSet::IndexSet(const std::string& rFilename, const std::string& rLabel) : IndexSet() {
   FD_DC("IndexSet(" << this << ")::IndexSet(" << rFilename << ")");
   Read(rFilename, rLabel);
+}
+
+// destruct
+IndexSet::~IndexSet(void) {
+  FD_DC("IndexSet(" << this << ")::~IndexSet()");
 }
 
 // assignment (attributes to default)

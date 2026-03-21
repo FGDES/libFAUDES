@@ -1302,6 +1302,19 @@ private:
 
 protected:  
 
+  /**
+   * Write statistical data as a comment to TokenWriter.
+   *
+   * An ExtType can at least report the object type and name
+   *
+   * @param rTw
+   *   Reference to TokenWriter
+   *
+   * @exception Exception 
+   *   - IO errors (id 2)
+   */
+  virtual void DoSWrite(TokenWriter& rTw) const;
+
   /** Current/cached name of elements (use protected accessor methods for caching) */
   std::string  mElementType;
 

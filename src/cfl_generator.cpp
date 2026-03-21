@@ -2978,7 +2978,7 @@ void vGenerator::XWriteTransRel(TokenWriter& rTw) const {
 // DoSWrite(rTw&)
 void vGenerator::DoSWrite(TokenWriter& rTw) const
 {
-  Type::DoSWrite(rTw);
+  ExtType::DoSWrite(rTw);
   rTw.WriteComment(" States:        " + ToStringInteger(Size()) );
   rTw.WriteComment(" Init/Marked:   " + ToStringInteger(mInitStates.Size()) 
 	      + "/" + ToStringInteger(mMarkedStates.Size()));

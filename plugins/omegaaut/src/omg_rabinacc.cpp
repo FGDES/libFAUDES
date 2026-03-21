@@ -213,7 +213,7 @@ RabinAcceptance::RabinAcceptance(const std::string& rFileName) : TBaseVector<Rab
 // DoSWrite()
 void RabinAcceptance::DoSWrite(TokenWriter& rTw) const {
   //TBaseVector::DoSWrite(rTw); // also use base?
-  Type::DoSWrite(rTw);
+  ExtType::DoSWrite(rTw);
   rTw.WriteComment(" RabinPairs: " + ToStringInteger(Size()));
   CIterator rit;
   for(rit=Begin();rit!=End();++rit)

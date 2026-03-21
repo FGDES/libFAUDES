@@ -46,13 +46,11 @@ BaseSet: Template declaration for swig
   SET(void);
   SET(const SET& rOtherSet);
   SET(const std::string& rFilename, const std::string& rLabel="");
-  virtual SET* New(void);
-  virtual SET* NewCpy(void);
   virtual ~SET(void);
-  // make Copy() available (implementad by NewCpy()) 
-  //%rename(Copy) NewCpy;
+  // make Copy() available
   %extend {  
-    SET Copy(void) const { return *($self->NewCpy());}; // fix swig ownership flag
+    %newobject Copy;
+    SET* Copy(void) const { return $self->NewCpy();}; 
   }
 
 %enddef
@@ -61,6 +59,7 @@ BaseSet: Template declaration for swig
 // Convenience Constructors: Construct from String
 %define SwigBaseSetConstructorFromString(SET,TYPE,ITERATOR)
 %extend {
+  %newobject NewFromString;
   static SET* NewFromString(const std::string& data) {
     SET* res=new SET();
     res->FromString(data);
@@ -91,6 +90,7 @@ BaseSet: Template declaration for swig
     }
   }
   // construct on heap
+  %newobject NewFromList;
   static SET* NewFromList(PyObject* list) {
     if(!PyList_Check(list)) {
       PyErr_SetString(PyExc_TypeError, "Expected argument: list");
@@ -637,11 +637,11 @@ public:
   TransSet ## ORDER(const TransSetEvX1X2& rOtherSet);
   TransSet ## ORDER(const TransSetEvX2X1& rOtherSet);
   ~TransSet ## ORDER(void);
-  // New & Copy constructors
-  virtual TransSet ## ORDER* New(void);
-  %rename(Copy) NewCpy;
-  virtual TransSet ## ORDER* NewCpy(void);
   // TBaseSet members (excl std constructors)
+  %extend {  
+    %newobject Copy;
+    TransSet ## ORDER* Copy(void) const { return $self->NewCpy();}; 
+  }
   SwigBaseSetConstructorFromString(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator);
   SwigBaseSetConstructorFromList(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator);
   SwigBaseSetMembers(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator);
@@ -926,12 +926,17 @@ SwigHelpEntry("TransSet","Set operations","bool operator<(TransSet)");
 SwigHelpEntry("TransSet","Set operations","bool operator==(TransSet)");
 
 SwigHelpEntry("TransSet","Misc","IndexSet States()");
+SwigHelpEntry("TransSet","Misc"," RestrictStates(IndexSet)");
+SwigHelpEntry("TransSet","Misc","EventSet ActiveEvents(x1)");
 SwigHelpEntry("TransSet","Misc","IndexSet SuccessorStates(x1)");
 SwigHelpEntry("TransSet","Misc","IndexSet SuccessorStates(IndexSet)");
 SwigHelpEntry("TransSet","Misc","IndexSet SuccessorStates(x1,ev)");
 SwigHelpEntry("TransSet","Misc","IndexSet SuccessorStates(IndexSet,EventSet)");
-SwigHelpEntry("TransSet","Misc"," RestrictStates(IndexSet)");
-SwigHelpEntry("TransSet","Misc","EventSet ActiveEvents(x1)");
+SwigHelpEntry("TransSet","Misc","EventSet IncommingEvents(x2)");
+SwigHelpEntry("TransSet","Misc","IndexSet PredecessorStates(x2)");
+SwigHelpEntry("TransSet","Misc","IndexSet PredecessorStates(IndexSet)");
+SwigHelpEntry("TransSet","Misc","IndexSet PredecessorStates(x2,ev)");
+SwigHelpEntry("TransSet","Misc","IndexSet PredecessorStates(IndexSet,EventSet)");
 
 
 

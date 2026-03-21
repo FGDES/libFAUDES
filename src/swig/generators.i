@@ -47,9 +47,10 @@ Generator: introduce common base
   GEN(const GEN& rOtherGen);
   GEN(const std::string& rFileName);
   virtual ~GEN(void);
-  virtual GEN* New(void);
-  %rename(Copy) NewCpy;
-  virtual GEN* NewCpy(void);
+  %extend {  
+    %newobject Copy;
+    GEN* Copy(void) const { return $self->NewCpy();}; 
+  }
   %extend {
     GEN* Version(const std::string& pattern, const std::string& replace) const {
       GEN* res=$self->New();

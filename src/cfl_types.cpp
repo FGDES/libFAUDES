@@ -326,7 +326,7 @@ void Type::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pCo
 void Type::DoSWrite(TokenWriter& rTw) const {
   FD_DC("Type::DoSWrite(): not re-implemented in " << typeid(*this).name());
   rTw.WriteComment("");
-  rTw.WriteComment(" Statistics for " + Name());
+  rTw.WriteComment(" Statistics not available " + Name());
   rTw.WriteComment("");
 }
 
@@ -361,7 +361,7 @@ Token Type::XBeginTag(const std::string& rLabel,const std::string& rFallbackLabe
 ********************************************************************
 ********************************************************************
 
-Implementation of class ExtType
+Implementation of class AttrType
 
 ********************************************************************
 ********************************************************************
@@ -521,6 +521,13 @@ const std::string& ExtType::ElementType(void) const {
 }
 
   
+//DoSWrite(rTr,rLabel,pContext)
+void ExtType::DoSWrite(TokenWriter& rTw) const {
+  FD_DC("ExtType::DoSWrite(): not re-implemented in " << typeid(*this).name());
+  rTw.WriteComment("");
+  rTw.WriteComment(" Statistics for " + Name());
+  rTw.WriteComment("");
+}
 
 
 

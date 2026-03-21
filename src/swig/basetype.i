@@ -82,11 +82,17 @@ Type: faudes base class
 // macro for universal faudes base class members
 %define SwigTypeMembers()
 
-  // maintenance
+  // make Copy() available
+  %extend {  
+    %newobject Copy;
+    Type* Copy(void) const { return $self->NewCpy();}; 
+  }
+  // legacy Assign() [from]
   %extend {
     void Assign(const Type& rType) { $self->Copy(rType);};
-    Type Copy(void) const { return *($self->NewCpy());}; 
   }
+
+  // clear
   virtual void Clear(void);
 
   // token output

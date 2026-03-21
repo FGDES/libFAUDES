@@ -3,7 +3,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2008  Thomas Moor
+   Copyright (C) 2008-2026  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -1249,7 +1249,7 @@ Implementation of TBaseSet
 /* convenience access to relevant scopes */
 #define THIS TBaseSet<T,Cmp> 
 #define TEMP template<class T, class Cmp>
-#define BASE Type
+#define BASE ExtType
 
 
 // faudes type std: new and cast
@@ -1318,43 +1318,8 @@ TEMP THIS::TBaseSet(void) :
 #endif
 }
 
-// TBaseSet(filename)
-TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
-  ExtType(),
-  pSet(GlobalEmptySet()),  
-  mpSet(NULL),
-  pAttributes(GlobalEmptyAttributes()),
-  mpAttributes(NULL),
-  pHostSet(this),
-  mpClients(new std::list< TBaseSet<T,Cmp>* >),
-  mDetached(false), 
-  mLocked(false),
-  pGes(GlobalEmptySet()),
-  pGea(GlobalEmptyAttributes())
-{
-  FAUDES_OBJCOUNT_INC("BaseSet");
-  FD_DC("TBaseSet(" << this << ")::TBaseSet()");
-  // other members
-  mElementTagDef="Element";
-  mObjectName="BaseSet";
-  // do read etc ... this is a dummy anyway
-  Read(rFileName,rLabel);  
-}
-
 // TBaseSet(rOtherSet)
-TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) : 
-  ExtType(rOtherSet),
-  pSet(GlobalEmptySet()),  
-  mpSet(NULL),
-  pAttributes(GlobalEmptyAttributes()),
-  mpAttributes(NULL),
-  pHostSet(this),
-  mpClients(new std::list< TBaseSet<T,Cmp>* >),
-  mDetached(false), 
-  mLocked(false),
-  pGes(GlobalEmptySet()),
-  pGea(GlobalEmptyAttributes())
-{
+TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) : TBaseSet() {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet(rOtherSet " << &rOtherSet << "): fake copy construct");
   // overwrite base defaults
@@ -1366,6 +1331,18 @@ TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) :
   DValid("CopyConstruct");
 #endif
 }
+
+// TBaseSet(filename)
+TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel) : TBaseSet() {
+  FAUDES_OBJCOUNT_INC("BaseSet");
+  FD_DC("TBaseSet(" << this << ")::TBaseSet()");
+  // other members
+  mElementTagDef="Element";
+  mObjectName="BaseSet";
+  // do read etc ... this is a dummy anyway
+  Read(rFileName,rLabel);  
+}
+
 
 // destructor
 TEMP THIS::~TBaseSet(void) {

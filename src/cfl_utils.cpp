@@ -534,17 +534,18 @@ void  ObjectCount::Dec(const std::string& rTypeName) {
 // debugging: report on exit function
 void ExitFunction(void){
 #ifdef FAUDES_DEBUG_CODE
-  FAUDES_WRITE_CONSOLE("faudes::ExitFunction():");
+  FAUDES_WRITE_DIRECT("faudes::ExitFunction():");
   // be sure its up and running
   ObjectCount::Init();
   // get rid of all registry prototypes
-  //TypeRegistry::G()->ClearAll();  
-  //FunctionRegistry::G()->Clear();  
+  FAUDES_WRITE_DIRECT("faudes::ExitFunction(): clear registry");
+  TypeRegistry::G()->ClearAll();  
+  FunctionRegistry::G()->Clear();  
   // prepare report
   std::map<std::string,long int>::iterator cit;
   cit=ObjectCount::mspCount->begin();
   for(;cit!=ObjectCount::mspCount->end();cit++) {
-    FAUDES_WRITE_CONSOLE( cit->first << ": #" << ToStringInteger(cit->second) <<
+    FAUDES_WRITE_DIRECT( cit->first << ": #" << ToStringInteger(cit->second) <<
      " (max #" << (*ObjectCount::mspMax)[cit->first] << ")");
   }
 #endif
