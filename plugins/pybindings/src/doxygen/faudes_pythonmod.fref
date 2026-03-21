@@ -54,39 +54,38 @@ As a basic test, the below Python commands will report the libFAUDES version:
 &gt;&gt;&gt; import faudes
 &gt;&gt;&gt; faudes.Version()
 </pre>
+<p>
+or, for "lazy" import to the current namespace  
+</p>
+<pre>
+&gt;&gt;&gt; from faudes import *
+&gt;&gt;&gt; Version()
+</pre>
 
 <p>
-The libFAUDES Python Module exports the help system compiled from the runtime interface
-specification; i.e.,
+We use assume lazy import for throughout this documententation.
+E.g. <tt>faudes.Help()</tt> is convenientliy accessed by plain 
 </p>
-<pre>&gt;&gt;&gt; faudes.Help()'</pre>
+<pre>&gt;&gt;&gt; Help()</pre>
 <p>
-will report along the lines og:
+and report along the lines of:
 </p>
 
 <pre>
-Interface:
-
+Interface [extract]:
   faudes.Help(&quot;EventSet&quot;)            EventSet methods
   faudes.Help(&quot;Generator&quot;)           Generator methods
   faudes.Help(&quot;System&quot;)              System methods
-  faudes.Help(&quot;IndexSet&quot;)            IndexSet methods
-  faudes.Help(&quot;TransSet&quot;)            TransSet methods
   faudes.Help(&quot;Synthesis&quot;)           Synthesis PlugIn
 
-Configuration:
-
-  faudes.StatenamesOn()              enable automatic state names
-  faudes.StatenamesOff()             disable automatic state names
+Configuration [extract]:
   faudes.DotExecPath(&quot;filename&quot;)     path of dot executable
   faudes.Version()                   report libFAUDES version string
 
-Console Commands:
-
+Console Commands [extract]:
   faudes.Print(&quot;message&quot;)            print as faudes debugging message
   faudes.Error(&quot;message&quot;)            abort script with error message
   faudes.Verbosity(int)              set verbosity level 
-  
 </pre>
 
 <p>
@@ -96,96 +95,121 @@ advertise themselves with their plug-in name as keyword;
 e.g., try
 </p>
 <pre>
-&gt;&gt;&gt;  faudes.Help(&quot;Synthesis&quot;)
+&gt;&gt;&gt; Help(&quot;Synthesis&quot;)
 </pre>
 <p>
-for functions related to
-classical supervisory control theory.
+for functions related to classical supervisory control theory.
 </p>
 
 
-<h2 id="eventsets">
-The EventSet Data Type
+<h2 id="objects">
+libFAUDES Typed Objects
 </h2>
 
 <p>
-The libFAUDES Python module  maps most libFAUDES C++ classes to Python user-data pointers with 
-corresponding access functions. The C++ class faudes::EventSet is used as the class
-to represent sets of events. You can create a variable of that type
-by using the default constructor:
+The Python module <tt>faudes</tt> maps most relevant libFAUDES C++ classes to
+Python classes via a proxy which in turn provides a sensible subset
+of the C++ member methods. Specifically, all relevant libFAUDES classes come with
+three constructors. Demo  for <tt>faudes::EventSet</tt>:
 </p>
-<pre>&gt;&gt;&gt; alph1 = faudes.EventSet()</pre>
-
-<p>
-<strong class="text_important">Note:</strong> A consequence of mapping to user-data pointers
-is that within Python
-the assignment operator <tt>=</tt> does <strong class="text_important">*not*</strong> 
-create a copy of the object, but only passes on the reference. 
-In order to create a copy of a libFAUDES object, you need to explicitly
-invoke the copy constructor or the copy method.
 <pre>
-&gt;&gt;&gt; alph2 = alph1.Copy()                   # construct a copy of alph1
-&gt;&gt;&gt; alph3 = faudes.EventSet(alph1)         # construct a copy of alph1
-&gt;&gt;&gt; alph4 = alph1                          # have another reference to alph1
+&gt;&gt;&gt; n1=EventSet()                # default constructor (empty set)
+&gt;&gt;&gt; n2=EventSet(n2)              # copy constructor from specified set
+&gt;&gt;&gt; n3=EventSet('filename.fts')  # constructor from .fts file
 </pre>
-</p>
-  
 <p>
-The available methods for EventSet objects are shown by the <tt>faudes.Help(&quot;EventSet&quot;)</tt> command. 
-The first column shows the return type, the second the method name and arguments. 
+The latter file format is documented with the respectice C++ class.
+libFAUDES classes support additionally initialisation from a string in the same
+<tt>.fts</tt> format, or, in the case of containers, from a Python list:
 </p>
+<pre>
+&gt;&gt;&gt; n1.FromString('&lt;N&gt; alpha beta &lt;/N&gt;')  # set data from string
+&gt;&gt;&gt; n2.FromList(['lambda', 'mue'])        # set data from string
+</pre>
+<p>
+Note that in the above example, <tt>n1</tt> and <tt>n2</tt> habe allready been instantiated;
+e.g., <tt>FromString(...)</tt> is a class member method. For new instantiation from string
+(or list) use the static variant
+</p>
+<pre>
+&gt;&gt;&gt n3=EventSet.NewFromString('&lt;N&gt; alpha beta &lt;/N&gt;')  # set data from string
+&gt;&gt;&gt n4=EventSet.NewFromList(['lambda', 'mue'])        # set data from string
+</pre>
+<p>
+Reading from a string and constructing from file are particular instances
+of libFAUDES serialisation. Other available methods in this regard by example for the class
+<tt>faudes::EventSet</tt> include:
+</p>
+<pre>
+&gt;&gt;&gt; n1.Write()                  # write to console in .fts forma
+&gt;&gt;&gt; n1.Write('filename.fts')    # ... to file in .fts format
+&gt;&gt;&gt; n1.XWrite('filename.xml')   # ... to strict XML to file
+&gt;&gt;&gt; n1.DWrite()                 # write with more details to console 
+&gt;&gt;&gt; n1.SWrite()                 # write statistical summary to console
+&gt;&gt;&gt; n1.Read('filename.fts/xml') # read back from file (fts or xml)
+</pre>
+<p>
+A list of those methods we balieve are most relevant is provided via the libFAUDES
+help system by <tt>Help('ClassName')</tt>. E.g., <tt>faudes.Help(&quot;EventSet&quot;)</tt>
+reports along the line of</p>
 <pre>
 Help topic: &quot;EventSet&quot; [extract]
 
-                 *** Constructors ***
-            EventSet EventSet()
-            EventSet EventSet(EventSet)
-                    
                  *** Maintenance ***
               string Name()
                      Name(string)
                  int Size()
                  int Index(string)
               string SymbolicName(int)
-                    
+		 
                  *** Element access ***
                 bool Empty()
                 bool Insert(string)
                 bool Erase(string)
-                bool Exists(string)
-                                        
+                bool Exists(string)                                        
 </pre>
+<p>
+This shows the general pattern that libFAUDES container classes provide an STL like interface.
+A complete list of methods exported via the proxy class can be accessed via the Python
+help system using <tt>help(ClassName)</tt> (lower case <tt>help</tt> and no quotes).
+Specifically, you will observe extra methods for the <i>iter/next</i> protocol
+for Python style iteraion; e.g. <tt>for item in container: print(item);> </tt>:
+</p>
 
 <p>
-Available methods directly correspond to their C++ counterpart.
-To invoke a method for an EventSet, the method name is appended to the object name, e.g. 
+For a better Pytghon experience we provide additional output suitable
+for human inspection and Python style iteration over container classes. E.g.:
 </p>
 <pre>
-&gt;&gt;&gt; alph1.Insert(&quot;alpha&quot;)   # add an event
-&gt;&gt;&gt; alph1.Insert(&quot;beta&quot;)    # add an event
-&gt;&gt;&gt; alph1.Insert(&quot;gamma&quot;)   # add an event
-&gt;&gt;&gt; alph1.Erase(&quot;beta&quot;)     # discard an event
-</pre>
-<p>
-Some effort has been taken for a friendly Python style experience.
-E.g., libFAUDES sets can be initialised from Python lists
-</p>
-<pre>
-alpha1.FromList([ "lambda", "mue", "rho" ])
-</pre>
-<p>
-and the Python <tt>print(...)</tt> statement does itd best to produce
-output suitable for human inspection
-</p>
-<pre>
-&gt;&gt;&gt; print(alph1)
-[EventSet]{ lambda#4, mue#5, rho#6 }
+&gt;&gt;&gt; print(f'May events are: {n2}'))
+My events are: [EventSet]{ lambda#3, mue#4 }
+&gt;&gt;&gt; for e in n2:
+&gt;&gt;&gt;   print(f'Event: at index {e} is {n2.SymbolicName(e)}')
+Event: at index 3 is lambda
+Event: at index 4 is mue
 </pre>
 <p>
 The tutorial section of the pybindings plug-in provides 
 a <a href="1_containers.html">tutorial on containers</a> to
 demonstrate basic access to events sets, state sets and transition relations.
 </p>
+
+
+
+<p>
+<strong class="text_important">Note:</strong> The way libFAUDES interacts with Python
+implies that the assignment operator <tt>=</tt> does <strong class="text_important">*not*</strong> 
+create a copy of the object, but only passes on the reference. 
+In order to create a copy of a libFAUDES object, you need to explicitly
+invoke the copy constructor or the copy method.
+</p>
+<pre>
+&gt;&gt;&gt; n5 = n1.Copy()                   # construct a copy of n1
+&gt;&gt;&gt; n6 = faudes.EventSet(n1)         # construct a copy of n1
+&gt;&gt;&gt; n7 = n1                          # have another reference to n1
+&gt;&gt;&gt; n7.Clear()                       # clear the set references by n1 and n7
+</pre>
+  
 
 
 
@@ -209,21 +233,13 @@ The first column shows the return type, the second the method name:
 
 <pre>
 libFAUDES help topic: &quot;Generator&quot; [extract]
-    
-                 *** Constructors ***
-           Generator Generator()
-           Generator Generator(gen)
-                    
-                 *** Maintenance ***
-                     Name(string)
-              string Name()
-                                        
+                                            
                  *** Alphabet ***
             EventSet Alphabet()
                 bool InsEvent(name)
                 bool DelEvent(name)
                 bool ExistsEvent(name)
-                    
+                
                  *** State set ***
             IndexSet States()
                  idx InsState(name)
@@ -233,7 +249,7 @@ libFAUDES help topic: &quot;Generator&quot; [extract]
                      ClrInitState(idx)
                      SetMarkedState(name)
                      ClrMarkedState(idx)
-                    
+		     
                  *** Transitions ***
             TransSet TransRel()
                 bool SetTransition(x1,ev,x2)
@@ -241,24 +257,31 @@ libFAUDES help topic: &quot;Generator&quot; [extract]
 </pre>
 
 <p>
-A method for a Generator object is called by appending the method to 
-the object name: 
+Example to instatiate a very simple machine:
 </p>
 <pre>
-&gt;&gt;&gt; gen1=faudes.Generator()                            # instantiacte generator  
-&gt;&gt;&gt; gen1.InsEvent(&quot;alpha&quot;)                             # add events
-&gt;&gt;&gt; gen1.InsEvent(&quot;beta&quot;)
-&gt;&gt;&gt; gen1.InsEvent(&quot;gamma&quot;)
-&gt;&gt;&gt; gen1.InsState(&quot;waiting&quot;)                           # add states
-&gt;&gt;&gt; gen1.InsState(&quot;working&quot;)
-&gt;&gt;&gt; gen1.SetInitState(&quot;waiting&quot;)                       # indicate init/marked states
-&gt;&gt;&gt; gen1.SetMarkedState(&quot;waiting&quot;)
-&gt;&gt;&gt; gen1.SetTransition(&quot;waiting&quot;, &quot;alpha&quot;, &quot;working&quot;)  # set transitions
-&gt;&gt;&gt; gen1.SetTransition(&quot;working&quot;, &quot;beta&quot;, &quot;waiting&quot;)
-
-...
+&gt;&gt;&gt; g1=Generator()                                   # instantiate generator  
+&gt;&gt;&gt; g1.InsEvent(&quot;alpha&quot;)                             # add events
+&gt;&gt;&gt; g1.InsEvent(&quot;beta&quot;)
+&gt;&gt;&gt; g1.InsState(&quot;waiting&quot;)                           # add states
+&gt;&gt;&gt; g1.InsState(&quot;working&quot;)
+&gt;&gt;&gt; g1.SetInitState(&quot;waiting&quot;)                       # indicate init/marked states
+&gt;&gt;&gt; g1.SetMarkedState(&quot;waiting&quot;)
+&gt;&gt;&gt; g1.SetTransition(&quot;waiting&quot;, &quot;alpha&quot;, &quot;working&quot;)  # set transitions
+&gt;&gt;&gt; g1.SetTransition(&quot;working&quot;, &quot;beta&quot;, &quot;waiting&quot;)
 </pre>
-
+<p>
+Likewise using initialisation from string:
+</p>
+<pre>
+&gt;&gt;&gt; g2=Generator()                                   # instantiate generator  
+&gt;&gt;&gt; g2.FromString("""
+&gt;&gt;&gt; &lt;G&gt;
+&gt;&gt;&gt;   &lt;T&gt; waiting alpha working    working beta waiting &lt;/T&gt;
+&gt;&gt;&gt;   &lt;I&gt; waiting &lt;/I&gt;
+&gt;&gt;&gt;   &lt;M&gt; waiting &lt;/M&gt;
+&gt;&gt;&gt; &lt;/G&gt;""")
+</pre>
 <p>
 The tutorial section of the PyBindings plug-in provides 
 a <a href="2_generators.html">tutorial on generators</a> to
@@ -299,7 +322,7 @@ libFAUDES help topic: &quot;Functions&quot; [extract]
                 bool IsCoAccessible(gen_arg)
                      Trim(gen)
                 bool IsTrim(gen_arg)
-
+		     
                  *** Misc ***
                 bool IsDeterministic(gen_arg)
                      Deterministic(gen_arg, gen_res)
@@ -346,11 +369,11 @@ the location of the  binary <tt>dot</tt> must either be in the <tt>PATH</tt> env
 specified within as follows:
 </p>
 <pre>
-&gt;&gt;&gt; faudes.DotExecPath("/usr/bin/dot")                                   # eg Linux  
-&gt;&gt;&gt; faudes.DotExecPath("c:\\Programs\Graphviz\dot")                      # eg Windows
-&gt;&gt;&gt; faudes.DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot"); # eg MacOS
-&gt;&gt;&gt; gen=faudes.Generator("data/simplemachine.gen")                       # read generator
-&gt;&gt;&gt; gen.GraphWrite("tmp_simplemachine.jpg");                             # write image 
+&gt;&gt;&gt; DotExecPath("/usr/bin/dot")                                   # eg Linux  
+&gt;&gt;&gt; DotExecPath("c:\\Programs\Graphviz\dot")                      # eg Windows
+&gt;&gt;&gt; DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot"); # eg MacOS
+&gt;&gt;&gt; gen=Generator("data/simplemachine.gen")                       # read generator
+&gt;&gt;&gt; gen.GraphWrite("tmp_simplemachine.png");                      # write image 
 </pre>
 
 
@@ -361,9 +384,9 @@ specified within as follows:
 <ul class="registry_list">
 <li class="registry_heading">Python Module</li>
 <li class="registry_item"><a href="#installation">Installation</a></li>
-<li class="registry_item"><a href="#eventsets">EventSets</a></li>
+<li class="registry_item"><a href="#objects">FAUDES Objects</a></li>
 <li class="registry_item"><a href="#generators">Generators</a></li>
-<li class="registry_item"><a href="#functions">Functions</a></li>
+<li class="registry_item"><a href="#functions">FAUDES Functions</a></li>
 <li class="registry_item"><a href="#dot">Graphical Output</a></li>
 <li class="registry_blanc">&nbsp;</li>
 <li class="registry_item">

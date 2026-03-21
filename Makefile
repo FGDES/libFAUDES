@@ -1429,7 +1429,8 @@ endif
 ifeq (pybindings,$(findstring pybindings,$(FAUDES_PLUGINS)))
 
 # all Python module tutorials
-PYMTUTS  = $(foreach dir,$(pluginstringT),$(wildcard $(dir)/*.py))
+PYMTUTSX  = $(foreach dir,$(pluginstringT),$(wildcard $(dir)/*.py))
+PYMTUTS  = $(patsubst %/faudes.py,,$(PYMTUTSX))
 PYMFREF  = $(foreach file,$(PYMTUTS),$(REFSRCDIR)/pythonmod/$(basename $(notdir $(file))).fref)
 PYMFREF  += $(REFSRCDIR)/pythonmod/faudes_pythonmod.fref
 PYMHTML  = $(foreach file,$(PYMFREF),$(PYMDOCDIR)/$(basename $(notdir $(file))).html)
