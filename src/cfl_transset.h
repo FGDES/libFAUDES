@@ -961,6 +961,24 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
   EventSet ActiveEvents(Idx x1, SymbolTable* pSymTab=NULL) const;
 
   /**
+   * Get set of events by which one can attend the specified successor state.
+   * This function requires sorting TransSort::X2EvX1 or TransSort::X2X1Ev  
+   * Since a transition set does not refer to a SymbolTable, this function
+   * returns a set of plain indices. In order to interpret the set as an EventSet, 
+   * the relevant SymbolTable must be supplied as second argument. If obmitting the second
+   * argument, the defult SymbolTable is used.
+   *
+   * @param x2
+   *   Target state
+   * @param pSymTab
+   *   SymbolTable to refer to
+   *
+   * @return 
+   *   Set of events. 
+   */
+  EventSet IncommingEvents(Idx x2, SymbolTable* pSymTab=NULL) const;
+
+  /**
    * Return pretty printable string representation.
    * Primary meant for debugging messages.
    *
@@ -1005,6 +1023,8 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
 
   /** 
    * Write to TokenWriter, see Type::Write for public wrappers.
+   * This method writes index triplets only. See vGenerator methods
+   * for symbolic names and attributes etc.
    *
    * @param rTw
    *   Reference to TokenWriter
@@ -1016,8 +1036,24 @@ FAUDES_TYPE_DECLARATION(TransSet,TTransSet,(TBaseSet<Transition,Cmp>))
    * @exception Exception
    *   - IO errors (id 2)
    */
-
   virtual void DoWrite(TokenWriter& rTw, const std::string& rLabel="", const Type* pContext=0) const;
+
+  /** 
+   * Read from TokenReader, see Type::Read for public wrappers.
+   * This method readsindex triplets only. See vGenerator methods
+   * for symbolic names and attributes etc.
+   *
+   * @param rTr
+   *   Reference to TokenReader
+   * @param rLabel
+   *   Label of section to read from, defaults to name of set
+   * @param pContext
+   *   Read context eg symboltables (not used)
+   *
+   * @exception Exception
+   *   - IO errors (id 2)
+   */
+  virtual void DoRead(TokenReader& rTr, const std::string& rLabel="", const Type* pContext=0);
 
 
 };
@@ -1570,9 +1606,59 @@ TEMP void THIS::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type*
   for (tit = Begin(); tit != End(); ++tit) {
     rTw << tit->X1; rTw << tit->Ev; rTw << tit->X2;
   }
-
+  
   rTw.WriteEnd(label);
   rTw.Columns(oldcolumns);
+}
+
+
+// DoRead(rw,label)
+TEMP void THIS::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  // set up defaults
+  std::string label=rLabel;
+  std::string ftype=BASE::TypeName();
+  // figure section
+  Token token;
+  if(label=="") {
+    rTr.Peek(token);
+    if(token.Type()==Token::Begin) label=token.StringValue();
+  }
+  if(label=="") label=ftype; 
+  BASE::Name(label);
+  // read begin
+  rTr.ReadBegin(label,token); 
+  if(token.ExistsAttributeString("name"))
+    BASE::Name(token.AttributeStringValue("name"));
+  FD_DC("TransSet(" << typeid(*this).name() << ")::DoRead(..): section " << label << " elements " << etstr);
+  // loop tokens
+  while(!rTr.Eos(label)) {
+    // peek to skip
+    Token token;
+    rTr.Peek(token);
+    if(token.Type()==Token::Begin) {
+      std::string skip=token.StringValue();
+      rTr.ReadBegin(skip);
+      rTr.ReadEnd(skip);
+      continue;
+    }
+    // error on non idx
+    if(token.Type()!=Token::Integer) {
+      std::stringstream errstr;
+      errstr << "Reading TransRel failed in " << rTr.FileLine() << ": invalid token " << token.Str();
+      throw Exception("TransRel::DoRead", errstr.str(), 50); 
+    }    
+    // read index triplets
+    Idx x1=rTr.ReadInteger();
+    Idx ev=rTr.ReadInteger();
+    Idx x2=rTr.ReadInteger();
+    // set transition
+    Insert(x1,ev,x2);
+  }
+  // read end token  
+  rTr.ReadEnd(label);   
+
+  // done
+  FD_DC("TransRel(" << this << ")::DoRead(\"" << rTr.FileName() << "\"): done");
 }
 
 
@@ -2024,6 +2110,18 @@ TEMP StateSet THIS::PredecessorStates(const StateSet&  rX2Set, const EventSet& r
 TEMP EventSet THIS::ActiveEvents(Idx x1, SymbolTable* pSymTab) const {
   Iterator it = Begin(x1);
   Iterator it_end = End(x1);
+  EventSet result;
+  if(pSymTab!=NULL) result.SymbolTablep(pSymTab);
+  for (; it != it_end; ++it) {
+    result.Insert(it->Ev);
+  }
+  return result;
+}
+
+// IncommingEvents(x2,pSymTab)
+TEMP EventSet THIS::IncommingEvents(Idx x2, SymbolTable* pSymTab) const {
+  Iterator it = BeginByX2(x2);
+  Iterator it_end = EndByX2(x2);
   EventSet result;
   if(pSymTab!=NULL) result.SymbolTablep(pSymTab);
   for (; it != it_end; ++it) {

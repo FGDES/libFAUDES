@@ -261,8 +261,8 @@ in <tt>./doc/reference</tt>
 </p></li>
 <li><p>
 <tt>configure</tt> to do an overall configuration
-(requires all of the above plus
-<a href="http://www.swig.org">SWIG</a> v1.3.36 or above
+(requires all of the above plus a recent version of 
+<a href="http://www.swig.org">SWIG</a> 
 for the luabindings/pybindings plug-ins), and
 </p></li>
 <li><p>
@@ -279,12 +279,8 @@ sudo apt install doxygen swig
 </pre>
 <p>
 Here, the particular versions can be crucial
---- we have positive confirmation for SWIG ranging from v1.3.36 up to v4.1.1;
-cross-configuration for Windows/VS-compiler requires at least 3.0.2,
-however, the early 3.x.z series seems to produce some spurious warnings
-with Linux/gcc. In the case you rely on older versions of SWIG, you may want to
-test the tweaked versions of <tt>typemaps.i</tt> archieved  as
-<tt>./plugins/luabindings/src/</tt> and taken from SWIG v2.0.10.
+--- for SWIG we have started in 2008 with v1.3.36 and moved out interface files
+along to v4.4.1 in 2006, allthough we try not to use the latest features.
 </p>
 <p>
 Likewise, doxygen is in continuous development and configuration/stylesheets are

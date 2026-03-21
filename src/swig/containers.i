@@ -47,19 +47,73 @@ BaseSet: Template declaration for swig
   SET(const SET& rOtherSet);
   SET(const std::string& rFilename, const std::string& rLabel="");
   virtual SET* New(void);
-  %rename(Copy) NewCpy;
   virtual SET* NewCpy(void);
-/*
+  virtual ~SET(void);
+  // make Copy() available (implementad by NewCpy()) 
+  //%rename(Copy) NewCpy;
   %extend {  
     SET Copy(void) const { return *($self->NewCpy());}; // fix swig ownership flag
   }
-*/
-  virtual ~SET(void);
 
 %enddef
 
-%define SwigBaseSetMembers(SET,TYPE,ITERATOR)
 
+// Convenience Constructors: Construct from String
+%define SwigBaseSetConstructorFromString(SET,TYPE,ITERATOR)
+%extend {
+  static SET* NewFromString(const std::string& data) {
+    SET* res=new SET();
+    res->FromString(data);
+    return res;
+  }
+}
+%enddef
+
+
+// Convenience Constructors: from Python list (this requires an inserter, see IndexSet for an example)
+%define SwigBaseSetConstructorFromList(SET,TYPE,ITERATOR)
+#ifdef SWIGPYTHON
+%extend {
+  // initialise existing object
+  void FromList(PyObject* list) {
+    if(!PyList_Check(list)) {
+      PyErr_SetString(PyExc_TypeError, "Expected argument: list");
+      return;
+    }
+    self->Clear();
+    Py_ssize_t size = PyList_Size(list);
+    for(Py_ssize_t i = 0; i < size; i++) {
+      PyObject* item = PyList_GetItem(list, i);
+      if(!InsertPyObject(self,item)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to insert item");
+        return;
+      }
+    }
+  }
+  // construct on heap
+  static SET* NewFromList(PyObject* list) {
+    if(!PyList_Check(list)) {
+      PyErr_SetString(PyExc_TypeError, "Expected argument: list");
+      return NULL;
+    }
+    SET* res=new SET();
+    Py_ssize_t size = PyList_Size(list);
+    for(Py_ssize_t i = 0; i < size; i++) {
+      PyObject* item = PyList_GetItem(list, i);
+      if(!InsertPyObject(res,item)) {
+        PyErr_SetString(PyExc_TypeError, "Failed to insert item");
+        delete res;
+        return NULL;
+      }
+    }
+    return res;
+  }
+}
+#endif
+%enddef
+
+
+%define SwigBaseSetMembers(SET,TYPE,ITERATOR)
   // Basic maintenance
   std::string Name(void) const;
   void Name(const std::string& rName);
@@ -98,12 +152,11 @@ BaseSet: Template declaration for swig
   %extend{
     std::string __str__(void) { return $self->Str(); };
   };
-  // C++/STL variants
+  // Python extensions
+#ifdef SWIGPYTHON
   typedef TYPE value_type;
   virtual ITERATOR begin(void) const;
   virtual ITERATOR end(void) const;
-  // Python extensions
-#ifdef SWIGPYTHON
   %extend {
     void append(value_type x) { self->Insert(x); }; 
     void add(value_type x) { self->Insert(x); }
@@ -113,12 +166,10 @@ BaseSet: Template declaration for swig
     ITERATOR __iter__(void) const { return self->Begin();}; 
   }
 #endif
-
 %enddef
 
 
 %define SwigBaseSetOperatorOverload(ASET,SET)
-
   SET operator + (const SET& rOtherSet) const;
   SET operator + (const ASET& rOtherSet) const;
   SET operator - (const SET& rOtherSet) const;
@@ -135,7 +186,6 @@ BaseSet: Template declaration for swig
   };
   bool operator == (const SET& rOtherSet) const;
   bool operator == (const ASET& rOtherSet) const;
-
 %enddef
 
 // Members of set iterators
@@ -143,7 +193,6 @@ BaseSet: Template declaration for swig
 // Note: DeRef returns by value, ok for primitive type only ie int/idx
 // Note: the Python __next__ will fail through on end of set. See below for the fix./
 %define SwigIteratorMembers(SET,TYPE,ITERATOR)
-
   // Construct/destruct
   ITERATOR(void);
   ITERATOR(const ITERATOR& rOther);
@@ -161,12 +210,17 @@ BaseSet: Template declaration for swig
 #ifdef SWIGPYTHON
   %extend {
     const TYPE& __next__(void) {
-      // vvvv not functional; see below fix
+      // vvvv not functional; see below fix;
       //if(!self->Valid()) {
       //  PyErr_SetNone(PyExc_StopIteration);
       //  static TYPE none;
       //  return none;
       //}
+      // vvvv shall not happen; but prefer errors explicit 
+      if(!self->Valid()) {
+	FD_ERR("libFAUDES: Python style iteration on an unsupported type");
+	abort();
+      }
       return *((*$self)++); 
     }
   }
@@ -175,14 +229,17 @@ BaseSet: Template declaration for swig
 %enddef
 
 // The above __next__ fails on the end of the set because it cannot return a
-// "none" result. We fix this by testing validiy before runnig the wrapper. 
+// "none" result. We fix this by testing validy in Python before runnig the wrapper. 
 %define SwigIteratorFixNext(SET,TYPE,ITERATOR)
+#ifdef SWIGPYTHON
 %pythonprepend ITERATOR::__next__() %{
 if not self.Valid():
   raise StopIteration  
   return none
 %}
+#endif
 %enddef
+
 
 /*
 **************************************************
@@ -207,8 +264,7 @@ typedef IndexSet::Iterator StateSetIterator;
 }
 %}
 
-
-// Fix Python iterator (see containers.i; must preceed declaration)
+// Fix Python iterator (see above; must preceed declaration)
 SwigIteratorFixNext(IndexSet,Idx,IndexSetIterator)
    
 // Plain index set: iterator
@@ -225,12 +281,35 @@ public:
 // Have StateSet alias
 typedef IndexSetIterator StateSetIterator;
 
+// Extra Python object inserter
+#ifdef SWIGPYTHON
+%inline %{
+// PyObject Inserter for IndexSet  
+bool InsertPyObject(IndexSet* set, PyObject* elem) {
+  if(!PyLong_Check(elem)) {
+    PyErr_SetString(PyExc_TypeError, "Can only insert integers");
+    return false;
+  }
+  long idx = PyLong_AsLong(elem);
+  if(idx <=0) {
+    PyErr_SetString(PyExc_TypeError, "Can only insert positive integers");
+    return false;
+  }
+  set->Insert((Idx) idx);
+  return true;
+}
+%}
+#endif  
+
 // Plain index set: the set
 class IndexSet : public Type {
 public:
-  // TBaseSet members
+  // BaseSet constructors
   SwigBaseSetConstructors(IndexSet,Idx,IndexSetIterator);
-  SwigBaseSetMembers(IndexSet,Idx,IndexSetIterator);
+  SwigBaseSetConstructorFromString(IndexSet,Idx,IndexSetIterator);
+  SwigBaseSetConstructorFromList(IndexSet,Idx,IndexSetIterator);
+  // BaseSet members
+  SwigBaseSetMembers(IndexSet,Idx,IndexSetIterator);  
 };
 
 
@@ -283,7 +362,6 @@ typedef NameSet::Iterator EventSetIterator;
 
 %}
 
-
 // Fix Python iterator (see containers.i; must preceed declaration)
 SwigIteratorFixNext(NameSet,Idx,NameSetIterator)
 
@@ -311,11 +389,36 @@ typedef EventSetIterator NameSetIterator;
 // access the name set as EventSet
 %rename(EventSet) NameSet;
 
+// Extra Python object inserter
+#ifdef SWIGPYTHON
+%inline %{
+// PyObject Inserter for NameSet  
+bool InsertPyObject(NameSet* set, PyObject* elem) {
+  if(PyLong_Check(elem)) {
+    long idx = PyLong_AsLong(elem);
+    if(idx >0) {
+      set->Insert((Idx) idx);
+      return true;
+    }
+  }
+  const char* sym = PyUnicode_AsUTF8(elem);
+  if(sym) {
+    set->Insert(std::string(sym));
+    return true;
+  }
+  PyErr_SetString(PyExc_TypeError, "Can only insert symbolic names or registered positive integers");
+  return false;
+}
+%}
+#endif  
+
 // Set with symbolic names: the set
 class NameSet : public Type {
 public:
   // TBaseSet members
   SwigBaseSetConstructors(NameSet,Idx,NameSetIterator)
+  SwigBaseSetConstructorFromString(NameSet,Idx,NameSetIterator)
+  SwigBaseSetConstructorFromList(NameSet,Idx,NameSetIterator)
   SwigBaseSetMembers(NameSet,Idx,NameSetIterator)
   // Name/index look up
   std::string SymbolicName(const Idx& rElem) const;
@@ -423,8 +526,7 @@ typedef TransSetX1EvX2 TransSet;
 typedef TransSetX1EvX2Iterator TransSetIterator;
 
 // Transition set: iterators
-// Note: yet another layer of macros to manually
-// unwind a nested faudes template
+// Note: yet another layer of macros to manually unwind a nested faudes template
 %define SwigTransIterator(ORDER)
 
 // Unwind faudes nested class definition
@@ -452,6 +554,9 @@ public:
 %enddef
 
 
+// Fix Python iterators (see IndexSet; must preceed declaration)
+SwigIteratorFixNext(TransSetX1EvX2,Transition,TransSetX1EvX2Iterator)
+
 // Run macro to have iterator type and interface
 SwigTransIterator(X1EvX2);
 SwigTransIterator(X1X2Ev);
@@ -460,14 +565,9 @@ SwigTransIterator(X2X1Ev);
 SwigTransIterator(EvX1X2);
 SwigTransIterator(EvX2X1);
 
-// Fix Python iterators (see containers.i; must preceed declaration)
-SwigIteratorFixNext(TransSetX1EvX2,Transition,TransSetX1EvX2Iterator)
-
-
 // Transition set: the set 
 // We again unwind the template definition via a macro.
 %define SwigTransSet(ORDER)
-
 
 // Unwind template definition
 %{
@@ -476,11 +576,59 @@ typedef TTransSet<ORDER> TransSet ## ORDER;
 }
 %}
 
+// extra Python object inserter
+#ifdef SWIGPYTHON
+%inline %{
+// inserter for TransSet of given oder  
+bool InsertPyObject(TransSet ## ORDER * set, PyObject* trans) {
+  if(!PyTuple_Check(trans)) {
+    PyErr_SetString(PyExc_TypeError, "Insert Transition: Expected a tuple");
+    return false;
+  }
+  if(PyTuple_Size(trans) != 3) {
+    PyErr_SetString(PyExc_ValueError, "Insert Transition: Expected a triplet");
+    return false;
+  }
+  PyObject* x1p = PyTuple_GetItem(trans, 0);
+  PyObject* evp = PyTuple_GetItem(trans, 1);
+  PyObject* x2p = PyTuple_GetItem(trans, 2);
+  if(!PyLong_Check(x1p)) {
+    PyErr_SetString(PyExc_TypeError, "Insert Transition: x1 must be an integer");
+    return false;
+  }
+  if(!PyLong_Check(evp)) {
+    PyErr_SetString(PyExc_TypeError, "Insert Transition: ev must be an integer");
+    return false;
+  }
+  if(!PyLong_Check(x2p)) {
+    PyErr_SetString(PyExc_TypeError, "Insert Transition: x2 must be an integer");
+    return false;
+  }
+  long x1f= (long)PyLong_AsLong(x1p);
+  long evf= (long)PyLong_AsLong(evp);
+  long x2f= (long)PyLong_AsLong(x2p);
+  if(x1f<=0) {
+    PyErr_SetString(PyExc_TypeError, "Insert Transition: x1 must be a positive integer");
+    return false;
+  }
+  if(evf<=0) {
+    PyErr_SetString(PyExc_TypeError, "Insert Transition: ev must be a positive integer");
+    return false;
+  }
+  if(x2f<=0) {
+    PyErr_SetString(PyExc_TypeError, "Insert Transition: x2 must be a positive integer");
+    return false;
+  }
+  set->Insert(x1f,evf,x2f);
+  return true;
+}
+%}
+#endif  
 
 // define interface for swig
 class TransSet ## ORDER : public Type {
 public: 
-  // Construct/destruct
+  // Construct/destruct and resort while doing so
   TransSet ## ORDER(void);
   TransSet ## ORDER(const TransSetX1EvX2& rOtherSet);
   TransSet ## ORDER(const TransSetX1X2Ev& rOtherSet);
@@ -493,8 +641,10 @@ public:
   virtual TransSet ## ORDER* New(void);
   %rename(Copy) NewCpy;
   virtual TransSet ## ORDER* NewCpy(void);
-  // TBaseSet members (excl constructors)
-  SwigBaseSetMembers(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator)
+  // TBaseSet members (excl std constructors)
+  SwigBaseSetConstructorFromString(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator);
+  SwigBaseSetConstructorFromList(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator);
+  SwigBaseSetMembers(TransSet ## ORDER,Transition,TransSet ## ORDER ## Iterator);
   // component access
   bool Insert(Idx x1, Idx ev, Idx x2);
   bool Erase(Idx x1, Idx ev, Idx x2);
@@ -551,11 +701,16 @@ public:
   void ReSort(TransSetEvX2X1& res) const;
   // misc
   StateSet States(void) const;
+  EventSet ActiveEvents(Idx x1, SymbolTable* pSymTab=NULL) const;
   StateSet SuccessorStates(Idx x1) const;
   StateSet SuccessorStates(const StateSet&  x1set) const;
   StateSet SuccessorStates(Idx x1, Idx ev) const;
   StateSet SuccessorStates(const StateSet&  x1set, const EventSet& evset) const;
-  EventSet ActiveEvents(Idx x1, SymbolTable* pSymTab=NULL) const;
+  EventSet IncommingEvents(Idx x2, SymbolTable* pSymTab=NULL) const;
+  StateSet PredecessorStates(Idx x2) const;
+  StateSet PredecessorStates(const StateSet&  x2set) const;
+  StateSet PredecessorStates(Idx x1, Idx ev) const;
+  StateSet PredecessorStates(const StateSet&  x1set, const EventSet& evset) const;
   // convenience string conversion
   std::string Str(const Transition& rTrans) const;
   // convenience string conversion via iterator

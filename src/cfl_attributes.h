@@ -107,6 +107,11 @@ public:
    */
   virtual bool IsDefault(void) const {return mFlags==mDefFlags;};
 
+  /**
+   * Pretty print.
+   */
+  virtual std::string Str(void) const;
+
   /** Flags (public access for convenience)  */
   fType mFlags;
 
@@ -294,24 +299,19 @@ FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
 
 
   /**
-   * Set abstraction flag 
+   * Set preemptible flag 
    */
-  void SetHighlevel(void) { mFlags |= mAbstractionFlag; }
+  void SetPreemptible(void) { mFlags |= mPreemptibleFlag; }
 
   /**
-   * Clear abstraction flag 
+   * Clear preemptible flag 
    */
-  void SetLowlevel(void) { mFlags &= ~mAbstractionFlag; };
+  void ClrPreemptible(void) { mFlags &= ~mPreemptibleFlag; };
      
   /**
    * Query abstaction flag
    */
-  bool Highlevel(void) const {return ( (mFlags & mAbstractionFlag) != 0 ); }
-
-  /**
-   * Query abstaction flag
-   */
-  bool Lowlevel(void) const {return ( (mFlags & mAbstractionFlag) == 0 ); }
+  bool Preemptible(void) const {return ( (mFlags & mPreemptibleFlag) != 0 ); }
 
 
   /** 
@@ -319,15 +319,20 @@ FAUDES_TYPE_DECLARATION(Void,AttributeCFlags,AttributeFlags)
    */
   virtual bool  IsDefault(void) const {return mFlags==mDefCFlags;};
 
+  /**
+   * Pretty print.
+   */
+  virtual std::string Str(void) const;
+
   // flag masks for the three properties
   const static fType mControllableFlag =0x01;
   const static fType mObservableFlag   =0x02;
   const static fType mForcibleFlag     =0x04;
-  const static fType mAbstractionFlag  =0x08;
+  const static fType mPreemptibleFlag  =0x08;
 
  private:
   /** Overall default value */
-  const static fType mDefCFlags         =0x0a;
+  const static fType mDefCFlags         =0x02;
 
   /** All flags used by CFlags */
   const static fType mAllCFlags         =0x0f;

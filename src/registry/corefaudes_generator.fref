@@ -150,7 +150,7 @@ idle
 
 
 <p><b>Technical Detail:</b> 
-Both, states and events are internaly represented as indices (non-negative integer).
+Both, states and events are internaly represented as indices (positive integer).
 The correspondance between indices and symbolic names is managed
 transparenty by symbol tables. 
 Valid symbolic names are strings of printable ASCII characters, excluding 
@@ -222,8 +222,7 @@ System
 <p>
 A <ftype>System</ftype> is a <ftype>Generator</ftype> with a controllability attribute attached 
 to each individual event. The attribute is used to indicate
-controllability, observability, forcibility and whether or not the respective event 
-is regarded a high-level event. 
+controllability, observability, forcibility and preemptibility. 
 Thus, attributes implement four disjoint union decompositions of the
 generator's alphabet <fimath>\Sigma</fimath>:
 </p>
@@ -238,7 +237,7 @@ generator's alphabet <fimath>\Sigma</fimath>:
 <fimath>\Sigma=\Sigma_f\ \cup\ \Sigma_{uf}</fimath> and
 </p></li>
 <li><p>
-<fimath>\Sigma=\Sigma_{hi}\ \cup\ \Sigma_{lo}</fimath>.
+<fimath>\Sigma=\Sigma_{p}\ \cup\ \Sigma_{up}</fimath>.
 </p></li>
 </ul>
 
@@ -280,8 +279,8 @@ each letter in <tt>xyz</tt> indicates membership in one of the above sets:
 </td>
 <td>
 <table class="small_table">
-<tr><td> high-level </td>   <td><tt>+A+</tt></td></tr>
-<tr><td> low-level </td> <td><tt>+a+</tt></td></tr>
+<tr><td> preemptible </td>   <td><tt>+P+</tt></td></tr>
+<tr><td> not preemptible </td> <td><tt>+p+</tt></td></tr>
 </table>
 </td>
 <td>&nbsp;</td>
@@ -290,8 +289,8 @@ each letter in <tt>xyz</tt> indicates membership in one of the above sets:
 </table>
 
 <p>
-The default amounts to <tt>+cOfA+</tt>, i.e. 
-<fimath>\sigma \in \Sigma_{uc} \ \cap\ \Sigma_o \ \cap\ \Sigma_{uf} \ \cap\ \Sigma_{hi}</fimath>.
+The default amounts to <tt>+cOfp+</tt>, i.e. 
+<fimath>\sigma \in \Sigma_{uc} \ \cap\ \Sigma_o \ \cap\ \Sigma_{uf} \ \cap\ \Sigma_{up}</fimath>.
 </p>
 
 <p> 
@@ -303,7 +302,7 @@ Token-IO example for a <ftype>System</ftype> that models the <i>simple machine</
 
 &lt;Alphabet&gt;                         
 alpha  +C+  % controllable event alpha
-beta        % default, i.e. +cOfA+
+beta        % default, i.e. +cOfp+
 mue 
 lambda +CO+ % controllable and observable, same as +C+ since +O+ is default    
 &lt;/Alphabet&gt;

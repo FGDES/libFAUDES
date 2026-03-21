@@ -69,7 +69,6 @@ void AttributeFlags::DoWrite(TokenWriter& rTw,const std::string& rLabel, const T
   }
 }
 
-
 //DoXWrite(rTw)
 void AttributeFlags::DoXWrite(TokenWriter& rTw,const std::string& rLabel, const Type* pContext) const {
   (void) rLabel; (void) pContext;
@@ -107,6 +106,11 @@ void AttributeFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const T
   mFlags=mDefFlags;
 }
 
+// Pretty print
+std::string AttributeFlags::Str(void) const {
+  return ToStringInteger16(mFlags);
+}
+  
 /***********************************************************************************
  *
  * implementation of AttributeCFlags 
@@ -160,9 +164,9 @@ void AttributeCFlags::DoWrite(TokenWriter& rTw, const std::string& rLabel, const
       if(Forcible()) option = option+"F";
       else option = option+"f";
     }
-    if((mDefCFlags & mAbstractionFlag) != (mFlags & mAbstractionFlag)) {
-      if(Highlevel()) option = option+"A";
-      else option = option+"a";
+    if((mDefCFlags & mPreemptibleFlag) != (mFlags & mPreemptibleFlag)) {
+      if(Preemptible()) option = option+"P";
+      else option = option+"p";
     }
     if(option!="") {
       token.SetOption(option);
@@ -203,9 +207,9 @@ void AttributeCFlags::DoXWrite(TokenWriter& rTw, const std::string& rLabel, cons
     if(!Forcible()) token.InsAttributeBoolean("value",0);
     rTw.Write(token);
   }
-  if((mDefCFlags & mAbstractionFlag) != (mFlags & mAbstractionFlag)) {
-    token.SetEmpty("HighLevel");
-    if(!Highlevel()) token.SetEmpty("LowLevel");
+  if((mDefCFlags & mPreemptibleFlag) != (mFlags & mPreemptibleFlag)) {
+    token.SetEmpty("Preemptible");
+    if(!Preemptible()) token.InsAttributeBoolean("value",0);
     rTw.Write(token);
   } 
 }
@@ -231,8 +235,8 @@ void AttributeCFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const 
     if(option.find( 'o', 0) != std::string::npos) ClrObservable();
     if(option.find( 'F', 0) != std::string::npos) SetForcible();
     if(option.find( 'f', 0) != std::string::npos) ClrForcible();
-    if(option.find( 'A', 0) != std::string::npos) SetHighlevel();
-    if(option.find( 'a', 0) != std::string::npos) SetLowlevel();
+    if(option.find( 'P', 0) != std::string::npos) SetPreemptible();
+    if(option.find( 'p', 0) != std::string::npos) ClrPreemptible();
     return;
   }
   // xml format 
@@ -271,20 +275,13 @@ void AttributeCFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const 
       rTr.ReadEnd("Forcible");
       continue;
     }
-    if(token.IsBegin("HighLevel")) {
-      rTr.ReadBegin("HighLevel",token);
-      SetHighlevel();
+    if(token.IsBegin("Preemptible")) {
+      rTr.ReadBegin("Preemptible",token);
+      SetPreemptible();
       if(token.ExistsAttributeInteger("value"))
 	if(token.AttributeIntegerValue("value")==false)
-          SetLowlevel();
-      continue;
-    }
-    if(token.IsBegin("LowLevel")) {
-      rTr.ReadBegin("LowLevel",token);
-      SetLowlevel();
-      if(token.ExistsAttributeInteger("value"))
-	if(token.AttributeIntegerValue("value")==false)
-          SetHighlevel();
+          ClrPreemptible();
+      rTr.ReadEnd("Preemptible");
       continue;
     }
     // stop at unknown tag
@@ -293,4 +290,28 @@ void AttributeCFlags::DoRead(TokenReader& rTr, const std::string& rLabel, const 
 }
 
 
+// Pretty print
+std::string AttributeCFlags::Str(void) const {
+  std::string str;
+  // do my named flags
+  if(Controllable()) str = str+"C";
+  else str = str+"c";
+  if(Observable()) str = str+"O";
+  else str = str+"o";
+  if((mDefCFlags & mForcibleFlag) != (mFlags & mForcibleFlag)) {
+    if(Forcible()) str = str+"F";
+    else str = str+"f";
+  }
+  if((mDefCFlags & mPreemptibleFlag) != (mFlags & mPreemptibleFlag)) {
+    if(Preemptible()) str = str+"P";
+    else str = str+"p";
+  }
+  // if other flags used, append hex
+  if( (mFlags & ~mAllCFlags) != 0 )
+    str=str + ToStringInteger16(mFlags);
+  return str;
+}
+
+
+  
 } // namespace

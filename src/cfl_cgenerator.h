@@ -566,17 +566,18 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      */
     EventSet UnforcibleEvents(void) const;
 
+
     /**
-     * Add an existing abstraction event to generator. 
+     * Add an existing preemptible event to generator. 
      * An entry in the global eventtable will be made.
      *
      * @param index
      *   Event index
      */
-    void InsHighlevelEvent(Idx index);
+    void InsPreemptibleEvent(Idx index);
 
     /**
-     * Add new named abstraction event to generator. 
+     * Add new named preemptible event to generator. 
      * An entry in the global eventtable will be made if event is new.
      *
      * @param rName
@@ -585,19 +586,19 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @return 
      *   New global unique index
      */
-    Idx InsHighlevelEvent(const std::string& rName);
+    Idx InsPreemptibleEvent(const std::string& rName);
     
     /**
-     * Add an existing low-level event to generator. 
+     * Add an existing unpreemptible event to generator. 
      * An entry in the global eventtable will be made.
      *
      * @param index
      *   Event index
      */
-    void InsLowlevelEvent(Idx index);
+    void InsUnpreemptibleEvent(Idx index);
 
     /**
-     * Add new named low-level event to generator. 
+     * Add new named unpreemptible event to generator. 
      * An entry in the global eventtable will be made if event is new.
      *
      * @param rName
@@ -606,58 +607,58 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @return 
      *   New global unique index
      */
-    Idx InsLowlevelEvent(const std::string& rName);
+    Idx InsUnpreemptibleEvent(const std::string& rName);
         
     /**
-     * Mark event as highlevel event (by index)
+     * Mark event preemptible (by index)
      *
      * @param index
      *   Event index
      */
-    void SetHighlevel(Idx index);
+    void SetPreemptible(Idx index);
 
     /** 
-     * Mark event as highlevel event (by name)
+     * Mark event preemptible (by name)
      *
      * @param rName
      *   Event name    
      */
-    void SetHighlevel(const std::string& rName);
+    void SetPreemptible(const std::string& rName);
 
     /**
-     * Mark set of events as high-level events
+     * Mark set of events preemptible
      *
      * @param rEvents
      *   EventSet
      */
-    void SetHighlevel(const EventSet& rEvents);
+    void SetPreemptible(const EventSet& rEvents);
         
     /**
-     * Mark event as low-level event (by index)
+     * Mark event unpreemptible (by index)
      * 
      * @param index
      *   Event index
      */
-    void SetLowlevel(Idx index);
+    void ClrPreemptible(Idx index);
 
     /**
-     * Mark event as low-level event (by name)
+     * Mark event unpreemptible (by name)
      * 
      * @param rName
      *   Event name
      */
-    void SetLowlevel(const std::string& rName);
+    void ClrPreemptible(const std::string& rName);
 
     /**
-     * Mark set of events as low-level events.
+     * Mark set of events unpreemptible 
      *
      * @param rEvents
      *   EventSet
      */
-    void SetLowlevel(const EventSet& rEvents);
+    void ClrPreemptible(const EventSet& rEvents);
           
     /**
-     * Test for high-level event  (by index)
+     * Is event preemptible (by index)
      *
      * @param index
      *   Event index
@@ -665,10 +666,10 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @return
      *   True / false
      */
-    bool Highlevel(Idx index) const;
+    bool Preemptible(Idx index) const;
 
     /**
-     * Test for high-level event  (by name)
+     * Is event preemptible (by name)
      *
      * @param rName
      *   Event name
@@ -676,45 +677,24 @@ template <class GlobalAttr, class StateAttr, class EventAttr, class TransAttr>
      * @return
      *   True / false
      */
-    bool Highlevel(const std::string& rName) const;
-
-    /**
-     * Test for low-level event  (by index)
-     *
-     * @param index
-     *   Event index
-     *
-     * @return
-     *   True / false
-     */
-    bool Lowlevel(Idx index) const;
-
-    /**
-     * Test for low-level event  (by name)
-     *
-     * @param rName
-     *   Event name
-     *
-     * @return
-     *   True / false
-     */
-    bool Lowlevel(const std::string& rName) const;
+    bool Preemptible(const std::string& rName) const;
 
     /** 
-     * Get EventSet of all high-level events
+     * Get EventSet with preemptible events
      *
      * @return
-     *   EventSet of high-level events
+     *   EventSet of preemptible events
      */
-    EventSet HighlevelEvents(void) const;
+    EventSet PreemptibleEvents(void) const;
 
     /**
-     * Get EventSet of all low-level events
+     * Get EventSet with unpreemptible events
      *
      * @return 
-     *   EventSet of low-level events
+     *   EventSet of unpreemptible events
      */
-    EventSet LowlevelEvents(void) const;
+    EventSet UnpreemptibleEvents(void) const;
+
 
 
   private:
@@ -1198,132 +1178,122 @@ TEMP THIS* THIS::NewCpy(void) const {
   }
   
 
-  //Highlevel(index)
-  TEMP bool THIS::Highlevel(Idx index) const {
+  //Preemptible(index)
+  TEMP bool THIS::Preemptible(Idx index) const {
     EventAttr attr=BASE::EventAttribute(index);
-    return attr.Highlevel();
+    return attr.Preemptible();
   } 
 	
-  // Highlevel(rName)
-  TEMP bool THIS::Highlevel(const std::string& rName) const {
+  // Preemptible(rName)
+  TEMP bool THIS::Preemptible(const std::string& rName) const {
     EventAttr attr=BASE::EventAttribute(rName);
-    return attr.Highlevel();
+    return attr.Preemptible();
   } 
 	
-  //Lowlevel(index)
-  TEMP bool THIS::Lowlevel(Idx index) const {
-    EventAttr attr=BASE::EventAttribute(index);
-    return attr.Lowlevel();
-  } 
-	
-  // Lowlevel(rName)
-  TEMP bool THIS::Lowlevel(const std::string& rName) const {
-    EventAttr attr=BASE::EventAttribute(rName);
-    return attr.Lowlevel();
-  } 
-	
-  // InsHighlevelEvent(index)
-  TEMP void THIS::InsHighlevelEvent(Idx index) {
-    FD_DG("TcGenerator(" << this << ")::InsHighlevelEvent(" << index << ")");
+  // InsPreemptibleEvent(index)
+  TEMP void THIS::InsPreemptibleEvent(Idx index) {
+    FD_DG("TcGenerator(" << this << ")::InsPreemptibleEvent(" << index << ")");
     EventAttr attr;
-    attr.SetHighlevel();
+    attr.SetPreemptible();
     BASE::InsEvent(index,attr);
   } 
 
-  // InsHighlevelEvent(rName)
-  TEMP Idx THIS::InsHighlevelEvent(const std::string& rName) {
-    FD_DG("TcGenerator(" << this << ")::InsHighlevelEvent(" << rName << ")");
+  // InsPreemptibleEvent(rName)
+  TEMP Idx THIS::InsPreemptibleEvent(const std::string& rName) {
+    FD_DG("TcGenerator(" << this << ")::InsPreemptibleEvent(" << rName << ")");
     EventAttr attr;
-    attr.SetHighlevel();
+    attr.SetPreemptible();
     return BASE::InsEvent(rName,attr);
   } 
 
-  // InsLowlevelEvent(index)
-  TEMP void THIS::InsLowlevelEvent(Idx index) {
-    FD_DG("TcGenerator(" << this << ")::InsLowlevelEvent(" << index << ")");
+  // InsUnpreemptibleEvent(index)
+  TEMP void THIS::InsUnpreemptibleEvent(Idx index) {
+    FD_DG("TcGenerator(" << this << ")::InsUnpreemptibleEvent(" << index << ")");
     EventAttr attr;
-    attr.SetLowlevel();
+    attr.ClrPreemptible();
     BASE::InsEvent(index,attr);
   } 
 
-  // InsLowlevelEvent(rName)
-  TEMP Idx THIS::InsLowlevelEvent(const std::string& rName) {
-    FD_DG("TcGenerator(" << this << ")::InsLowlevelEvent(" << rName << ")");
+  // InsUnpreemptibleEvent(rName)
+  TEMP Idx THIS::InsUnpreemptibleEvent(const std::string& rName) {
+    FD_DG("TcGenerator(" << this << ")::InsUnpreemptibleEvent(" << rName << ")");
     EventAttr attr;
-    attr.SetLowlevel();
+    attr.ClrPreemptible();
     return BASE::InsEvent(rName,attr);
   } 
     
-  // SetHighlevel(index)
-  TEMP void THIS::SetHighlevel(Idx index) {
-    FD_DG("TcGenerator(" << this << ")::SetHighlevel(" << index << ")");
+  // SetPreemptible(index)
+  TEMP void THIS::SetPreemptible(Idx index) {
+    FD_DG("TcGenerator(" << this << ")::SetPreemptible(" << index << ")");
     EventAttr attr=BASE::EventAttribute(index);
-    attr.SetHighlevel();
+    attr.SetPreemptible();
     BASE::pAlphabet->Attribute(index,attr);
   } 
 
-  // SetHighlevel(rName)
-  TEMP void THIS::SetHighlevel(const std::string& rName) {
-    FD_DG("TcGenerator(" << this << ")::SetHighlevel(" << rName << ")");
+  // SetPreemptible(rName)
+  TEMP void THIS::SetPreemptible(const std::string& rName) {
+    FD_DG("TcGenerator(" << this << ")::SetPreemptible(" << rName << ")");
     Idx index = BASE::EventIndex(rName);
-    SetHighlevel(index);
+    SetPreemptible(index);
   }
 
-  //SetHighlevel(rEvents)
-  TEMP void THIS::SetHighlevel(const EventSet& rEvents) {
-    FD_DG("TcGenerator(" << this << ")::SetHighlevel(rEvents)");
+  //SetPreemptible(rEvents)
+  TEMP void THIS::SetPreemptible(const EventSet& rEvents) {
+    FD_DG("TcGenerator(" << this << ")::SetPreemptible(rEvents)");
     EventSet::Iterator it;
     for(it=rEvents.Begin(); it!=rEvents.End(); it++) {
-      SetHighlevel(*it);
+      SetPreemptible(*it);
     }
   }
     
-  // SetLowlevel(index)
-  TEMP void THIS::SetLowlevel(Idx index) {
-    FD_DG("TcGenerator(" << this << ")::SetLowlevel(" << index << ")");
+  // ClrPreemptible(index)
+  TEMP void THIS::ClrPreemptible(Idx index) {
+    FD_DG("TcGenerator(" << this << ")::ClrPreemptible(" << index << ")");
     EventAttr attr=BASE::EventAttribute(index);
-    attr.SetLowlevel();
+    attr.ClrPreemptible();
     BASE::pAlphabet->Attribute(index,attr);
   } 
 
-  // SetLowlevel(rName)
-  TEMP void THIS::SetLowlevel(const std::string& rName) {
-    FD_DG("TcGenerator(" << this << ")::SetLowlevel(" << rName << ")");
+  // ClrPreemptible(rName)
+  TEMP void THIS::ClrPreemptible(const std::string& rName) {
+    FD_DG("TcGenerator(" << this << ")::ClrPreemptible(" << rName << ")");
     Idx index = BASE::EventIndex(rName);
-    SetLowlevel(index);
+    ClrPreemptible(index);
   }
 
-  //SetLowlevel(rEvents)
-  TEMP void THIS::SetLowlevel(const EventSet& rEvents) {
-    FD_DG("TcGenerator(" << this << ")::SetLowlevel(rEvents)");
+  //ClrPreemptible(rEvents)
+  TEMP void THIS::ClrPreemptible(const EventSet& rEvents) {
+    FD_DG("TcGenerator(" << this << ")::ClrPreemptible(rEvents)");
     EventSet::Iterator it;
     for(it=rEvents.Begin(); it!=rEvents.End(); it++) {
-      SetLowlevel(*it);
+      ClrPreemptible(*it);
     }
   }
 
-  //HighlevelEvents()
-  TEMP EventSet THIS::HighlevelEvents(void) const {
-    FD_DG("TcGenerator(" << this << ")::HighlevelEvents()");
+  //PreemptibleEvents()
+  TEMP EventSet THIS::PreemptibleEvents(void) const {
+    FD_DG("TcGenerator(" << this << ")::PreemptibleEvents()");
     EventSet res;
     EventSet::Iterator it;
     for(it=BASE::AlphabetBegin(); it!=BASE::AlphabetEnd(); it++) {
-      if(Highlevel(*it)) res.Insert(*it);
+      if(Preemptible(*it)) res.Insert(*it);
     }
     return res;
   }
   
-  //LowlevelEvents()
-  TEMP EventSet THIS::LowlevelEvents(void) const {
-    FD_DG("TcGenerator(" << this << ")::LowlevelEvents()");
+  //UnpreemptibleEvents()
+  TEMP
+    EventSet THIS::UnpreemptibleEvents(void) const {
+    FD_DG("TcGenerator(" << this << ")::UnpreemptibleEvents()");
     EventSet res;
     EventSet::Iterator it;
     for(it=BASE::AlphabetBegin(); it!=BASE::AlphabetEnd(); it++) {
-      if(Lowlevel(*it)) res.Insert(*it);
+      if(!Preemptible(*it)) res.Insert(*it);
     }
     return res;
   }
   
+
 
 
 #undef TEMP

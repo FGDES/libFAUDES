@@ -414,6 +414,11 @@ void AttrType::Skip(TokenReader& rTr) {
   }
 }
 
+//Skip(rTr)
+std::string AttrType::Str(void) const {
+  return std::string();
+}
+  
 
 /*
 ********************************************************************

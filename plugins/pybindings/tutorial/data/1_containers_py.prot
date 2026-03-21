@@ -1,6 +1,6 @@
 %%% test mark: iset orig [at 1_containers.py]
 % 
-%  Statistics for PlainIndexContainer
+%  Statistics for Q
 % 
 %  Size: 3
 %  Shared Data: #0 clients
@@ -10,7 +10,7 @@
 
 %%% test mark: iset ref [at 1_containers.py]
 % 
-%  Statistics for PlainIndexContainer
+%  Statistics for Q
 % 
 %  Size: 3
 %  Shared Data: #0 clients
@@ -20,7 +20,7 @@
 
 %%% test mark: iset copy 2 [at 1_containers.py]
 % 
-%  Statistics for PlainIndexContainer
+%  Statistics for Q
 % 
 %  Size: 4
 %  Shared Data: #1 clients
@@ -30,10 +30,8 @@
 
 %%% test mark: iset copy 3 [at 1_containers.py]
 % 
-%  Statistics for PlainIndexContainer
+%  Statistics for 
 % 
-%  Size: 4
-%  Shared Data: #1 clients
 % 
 % 
 % 

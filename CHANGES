@@ -32,6 +32,12 @@ This suggested the following refactoring
 "Move(to other)" becomes Move(from other) (reverse direction to match C++11 style))
 "Assign(from other)" becomes Copy(from other) (new name to match C++11 style))
 
+***
+
+We abandond the event attribute "Highlevel" in favor of "Preemptible". First, nobody seemed
+to have used "HighLevel" and, second,  "Preemptible" makes just more sense. If you are the
+one using the "HighLevel/LowLevel" flag --- let us know, we'll put it back in.
+
 
 
 ##########

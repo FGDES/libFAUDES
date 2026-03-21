@@ -228,8 +228,9 @@ public:
   /**
    * Test validty of an iterator
    *
-   * This testwhether the provided iterator matches the end of
-   * the ake, whether it is the std "out of range" indicator.
+   * This test whether the provided iterator matches the end of
+   * the set, aka, whether it is the std "out of range" indicator.
+   * The implementation is slightly more efficient the "pos==End()".
    *
    * @param pos
    *    Iterator to test
@@ -407,17 +408,16 @@ public:
 
   /** 
    * Iterator class for high-level API to TBaseSet.
-   * This class is derived from STL iterators to additionally provide
-   * a reference of the container to iterate on. This feature
-   * is used to adjust iterators when the actual set gets reallocated due to a Detach()
-   * operation. Inheritance is private to ensure that all high-level api functions maintain
-   * iteretor refernces consistently. Currently, high-level api iterators support
-   * the operators -&gt; ,*,  =, ++, --, ==, !=.
+   * This class is derived from STL iterators to additionally provide a reference of the
+   * container to iterate on. This feature is used to adjust iterators when the actual set
+   * gets reallocated due to a Detach() operation. Inheritance is private to ensure that
+   * all high-level API functions maintain iteretor refernces consistently. Currently,
+   * high-level API iterators support the operators -&gt; ,*,  =, ++, --, ==, !=.
    * 
-   * Technical detail: the private inheritance prohibits the direct use of stl algorithms on
-   * faudes Iterators. If you need direct access to stl algorithms from outside the faudes set
+   * Technical detail: the private inheritance prohibits the direct use of STL algorithms on
+   * faudes Iterators. If you need direct access to STL algorithms from outside the faudes set
    * class, you may turn to public inheritance. Make sure to Lock the relevant sets befor
-   * applying any stl algorithms.
+   * applying any STL algorithms.
    */
    class Iterator : private std::set<T,Cmp>::const_iterator {
      public: 
@@ -495,7 +495,7 @@ public:
        return *this;
      };
 
-     /** Copy STL iterator only */
+     /** Set STL iterator only */
      void  StlIterator(const typename std::set<T,Cmp>::const_iterator& sit) {
        std::set<T,Cmp>::const_iterator::operator= (sit);
      };
@@ -506,7 +506,7 @@ public:
      };
 
      /** Invalidate */
-     void  Invalidate(void) {
+     void Invalidate(void) {
        pBaseSet=NULL;
        mAttached=false;
      }; 
@@ -516,8 +516,7 @@ public:
        mAttached=false;
      }; 
 
-
-     /** Check validity (no exception)/abort*/
+     /** Check validity (no exception/abort*/
      bool Valid(void) const {
        if(pBaseSet==NULL) return false;
        return !pBaseSet->IsEnd(*this);
@@ -526,7 +525,7 @@ public:
      /** Check validity (provoke abort error) */
      void DValid(void) const {
       if(pBaseSet==NULL) {
-         FD_ERR("TBaseSet<T,Cmp>::Iterator(" << this << "):DValid(): invalid iterator: no baseset");
+         FD_ERR("TBaseSet<T,Cmp>::Iterator(" << this << "):DValid(): invalid iterator: no BaseSet");
          abort();
        }
        pBaseSet->DValid("Iterator");
@@ -646,6 +645,7 @@ public:
   /** 
    * Iterator class for high-level api to TBaseSet.
    * This version is a dummy and does not provide any additional features.
+   * Note: As of v2.34e Python bindings need the ityerator to at least track their BaseSet.
    */
    class Iterator : public std::set<T,Cmp>::const_iterator {
      public:
@@ -2113,7 +2113,7 @@ TEMP void THIS::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* 
     }
     // cannot process token
     std::stringstream errstr;
-    errstr << "Invalid token of type " << token.Type() << " at " << rTr.FileLine();
+    errstr << "Invalid token of type " << token.Str() << " at " << rTr.FileLine();
     throw Exception("BaseSet::DoRead", errstr.str(), 50);
   }
   rTr.ReadEnd(label);

@@ -3,7 +3,7 @@
 /* FAU Discrete Event Systems Library (libfaudes)
 
 Copyright (C) 2009 Ruediger Berndt
-Copyright (C) 2010, 2024 Thomas Moor
+Copyright (C) 2010-2026 Thomas Moor
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -55,8 +55,8 @@ namespace faudes {
 
 The libFAUDES run-time interface (RTI) facilitates the development 
 of applications that are transparent to libFAUDES extensions, e.g.,
-the libFAUDES version of the Lua interpreter luafaudes and the 
-graphical user interface  DESTool.
+the libFAUDES version of the Lua interpreter luafaudes, the Python module
+faudes and the graphical user interface  DESTool.
 
 The run-time interface  provides a TypeRegistry for the application 
 to instantiate objects by specifying their type as a std::string. 
@@ -109,7 +109,7 @@ to faudes-types. There is a base class faudes::Function from which to derive
 particular faudes-functions. The base class provides an interface to set
 function parameter values and to actually  execute the function on the parameters. 
 To derive a class from Function, you must reimplement the methods New(), DoTypeCheck(), 
-and DoExecute(). The DoTypeCheck method is supposed to use a dynamic cast
+and DoExecute(). The DoTypeCheck() method is supposed to use a dynamic cast
 to initialize typed references to the function parameters. The DoExecute method
 then executes the function, typically by invoking a function via its
 C++ API. Each Function class is accompanied by a faudes::FunctionDefinition instance
@@ -213,7 +213,7 @@ class TypeDefinition;
  * - DoRead() to read the defining data from a token stream
  * - DoWrite() to write the defining data to a token stream
  * - DoXWrite() to write the defining data to a token stream in an alternative XML format
- * - DoSWrite() and DoDWrite for alternative output formats (statistical summary and debugging)
+ * - DoSWrite() and DoDWrite() for alternative output formats (statistical summary and debugging)
  *
  * - Name() to get/set the name of an optional (and purely cosmetic) object name
  * - Clear() to reset all configuration data default,
@@ -227,8 +227,8 @@ class TypeDefinition;
  * - Equal() to test relaxed equality with any castable Type derivate
  * - DoEqual(), or the operators "==" and "!=", to test exact equality of configuration data
  * 
- * In most cases, only DoRead(), DoWrite(), DoCopy(), DoEqual() and Clear() need to be implemented
- * manualy. The other methods can be declared and implemented by macros
+ * In most cases, only Clear(), DoRead(), DoWrite(), DoCopy(), DoMove(), and DoEqual() need
+ * to be implemented manualy. The other methods can be declared and implemented by macros
  * FAUDES_TYPE_DELARATION and FAUDES_TYPE_IMPLEMENTATION, respectively. The various
  * attribute classes illustrate their ussage; see e.g. AttributeFlags.
  *
@@ -296,7 +296,7 @@ class FAUDES_API Type {
    * FAUDES_TYPE_DECLARATION and FAUDES_TYPE_IMPLEMENTATION.
    *
    * @return 
-   *   Typed pointer object
+   *   Typed pointer object (NULL if the cast failed)
    */
   virtual const Type* Cast(const Type* pOther) const;
 
@@ -310,7 +310,7 @@ class FAUDES_API Type {
    * Test for default configuration data.  Derived classes may reimplement this
    * conservatively, i.e., false negatives should be acceptable. 
    ^
-   * Note may refactor to IsClear[ed]()? 
+   * Note: should we  refactor to IsClear[ed]()? 
    */
   virtual bool IsDefault(void) const;
 
@@ -318,7 +318,7 @@ class FAUDES_API Type {
    * Copy configuration data from other object. 
    * Derived classes should reimplement this method to first try to cast
    * the source to the respective class. If successful, the protected 
-   * function DoCopy is invoked to perform the actual assignment. If the cast fails,
+   * function DoCopy() is invoked to perform the actual assignment. If the cast fails,
    * the Copy method of the parent class is called. Thus, faudes
    * objects are up- and downcatsed for assignment, maintaining as much of
    * the source data as digestable by the destination object.
@@ -713,23 +713,6 @@ class FAUDES_API Type {
   void Read(const std::string& rFileName, const std::string& rLabel = "", const Type* pContext=0);
 
   /**
-   * Read configuration data from a string.
-   * Note: this read function uses the virtual function DoRead(), to be 
-   * reimplemented by derived classes.
-   *
-   * @param rString
-   *   String to read from
-   * @param rLabel
-   *   Section to read
-   * @param pContext
-   *   Read context to provide contextual information
-   * @exception Exception
-   *   - IO errors (id 1)
-   *   - token mismatch from DoRead()
-   */
-  void FromString(const std::string& rString, const std::string& rLabel="", const Type* pContext=0);
-
-  /**
    * Read configuration data from TokenReader with label sepcified.
    * Note: all read functions use the virtual function DoRead(), to be 
    * reimplemented for by derived classes.
@@ -747,6 +730,23 @@ class FAUDES_API Type {
    */
   void Read(TokenReader& rTr, const std::string& rLabel = "", const Type* pContext=0);
 
+
+  /**
+   * Read configuration data from a string.
+   * Note: this read function uses the virtual function DoRead(), to be 
+   * reimplemented by derived classes.
+   *
+   * @param rString
+   *   String to read from
+   * @param rLabel
+   *   Section to read
+   * @param pContext
+   *   Read context to provide contextual information
+   * @exception Exception
+   *   - IO errors (id 1)
+   *   - token mismatch from DoRead()
+   */
+  void FromString(const std::string& rString, const std::string& rLabel="", const Type* pContext=0);
 
  protected:
 
@@ -1160,6 +1160,14 @@ public:
    *   - IO error (id 1)
    */
   static void Skip(TokenReader& rTr);
+
+  /**
+   * Pretty print.
+   *
+   * Reimplement for subclasses to produce concise human readable representation
+   *
+   */
+  virtual std::string Str(void) const;
 
 protected:
 
@@ -1947,7 +1955,7 @@ Implemention of template members functions
 **********************************************************************************************/
 
 
-// Typedefinition constructor function
+// Type definition constructor function (initialise with type name)
 template<class T>
 TypeDefinition* TypeDefinition::Constructor(const std::string& rTypeName){
   FD_DRTI("TypeDefinition::Construct<" << typeid(T).name() << ">(" << rTypeName << ")");
@@ -1960,7 +1968,7 @@ TypeDefinition* TypeDefinition::Constructor(const std::string& rTypeName){
 }
 
 
-// Type definition constructor function
+// Type definition constructor function (read from file) 
 template<class T>
 TypeDefinition* TypeDefinition::FromFile(const std::string& rFileName){
   FD_DRTI("TypeDefinition::FromFile<" << typeid(T).name() << ">()");

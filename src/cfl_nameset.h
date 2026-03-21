@@ -1446,7 +1446,7 @@ void TaNameSet<Attr>::Attributes(const TBaseSet<Idx>& rOtherSet) {
 // Str()
 template<class Attr>
 std::string TaNameSet<Attr>::Str(const Idx& rIndex) const {
-  return NameSet::Str(rIndex);
+  return NameSet::Str(rIndex) + ":" + Attribute(rIndex).Str();
 }
 
 // Str() 
