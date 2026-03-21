@@ -1614,6 +1614,7 @@ TEMP void THIS::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type*
 
 // DoRead(rw,label)
 TEMP void THIS::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* pContext) {
+  (void) pContext;
   // set up defaults
   std::string label=rLabel;
   std::string ftype=BASE::TypeName();
