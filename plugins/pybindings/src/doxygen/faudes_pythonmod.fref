@@ -1,18 +1,32 @@
 <ReferencePage chapter="pythonmod" section="none" title="Python API">
 
 
-<h1>libFAUDES Python Module</h1>
+<h1>Python Module <tt>faudes</tt></h1>
 
 
 <p>
 libFAUDES can be build as a Python C extension; i.e., a module to be imported
 from within the <a href="https://www.python.org">Python</a> scripting language and that
 provides access to relevant libFAUDES data types and functions as listed in
-the libFAUDES <a fhref="FAUDES_REFERENCE">user reference</a>. Technically, the libFAUDES
+the libFAUDES <a fhref="FAUDES_REFERENCE/">user reference</a>. Technically, the libFAUDES
 Python module is implemented by the libFAUDES Plug-In
 <a fhref="FAUDES_CSOURCE/group__PybindingsPlugin.html">PyBindings</a>.
 </p>
-
+<p>
+On this page, we provide information on how to install and validate
+the Python module <tt>faudes</tt>. Further instructions are organised as follows:
+</p>
+<ul class="l2">
+  <li><p>
+    access libFAUDES <a href="faudes_pythonobj.html">data types</a> from within Python
+  </p></li>
+  <li><p>
+    access libFAUDES <a href="faudes_pythonfnct.html">functions</a> from within Python
+  </p></li>
+</ul>
+<p>
+Also note the provided tutorials that demonstrate the intened usage.
+</p>
 
 <h2 id="installation">
 Installation
@@ -48,11 +62,12 @@ please let us know. Instructions on how to compile your own binary are provided
 </p>
 
 <p>
-As a basic test, the below Python commands will report the libFAUDES version:
+As a basic test, the below Python commands will report the libFAUDES version and available plug-ins:
 </p>
 <pre>
 &gt;&gt;&gt; import faudes
 &gt;&gt;&gt; faudes.Version()
+'libFAUDES 2.34d synthesis-observer-diagnosis-pybindings'
 </pre>
 <p>
 or, for "lazy" import to the current namespace  
@@ -60,15 +75,16 @@ or, for "lazy" import to the current namespace
 <pre>
 &gt;&gt;&gt; from faudes import *
 &gt;&gt;&gt; Version()
+'libFAUDES 2.34d synthesis-observer-diagnosis-pybindings'
 </pre>
 
 <p>
-We use assume lazy import for throughout this documententation.
+We use assume lazy import throughout this documententation.
 E.g. <tt>faudes.Help()</tt> is convenientliy accessed by plain 
 </p>
 <pre>&gt;&gt;&gt; Help()</pre>
 <p>
-and report along the lines of:
+and reports along the lines of:
 </p>
 
 <pre>
@@ -101,263 +117,52 @@ e.g., try
 for functions related to classical supervisory control theory.
 </p>
 
-
-<h2 id="objects">
-libFAUDES Typed Objects
+<h2 id="tests">
+Tests/Tutorials
 </h2>
 
 <p>
-The Python module <tt>faudes</tt> maps most relevant libFAUDES C++ classes to
-Python classes via a proxy which in turn provides a sensible subset
-of the C++ member methods. Specifically, all relevant libFAUDES classes come with
-three constructors. Demo  for <tt>faudes::EventSet</tt>:
+libFAUDES sources include tutorials that further demonstrate the intended ussage. They also
+serve as test cases to validate a libFAUDES installation.
+For the Python module, the tutorials are included in the Python project sources used to compile the
+pip-installable binary distribution aka wheel. You can download those sources
+manually from <a href="https://pypi.org/project/faudes">PyPI</a> or by <tt>pip</tt>, e.g.:
 </p>
 <pre>
-&gt;&gt;&gt; n1=EventSet()                # default constructor (empty set)
-&gt;&gt;&gt; n2=EventSet(n2)              # copy constructor from specified set
-&gt;&gt;&gt; n3=EventSet('filename.fts')  # constructor from .fts file
+$ pip download --no-deps --no-binary :all: faudes
 </pre>
-<p>
-The latter file format is documented with the respectice C++ class.
-libFAUDES classes support additionally initialisation from a string in the same
-<tt>.fts</tt> format, or, in the case of containers, from a Python list:
-</p>
+Then, extract the <tt>*.tar.gz</tt> file, e.g.
 <pre>
-&gt;&gt;&gt; n1.FromString('&lt;N&gt; alpha beta &lt;/N&gt;')  # set data from string
-&gt;&gt;&gt; n2.FromList(['lambda', 'mue'])        # set data from string
+$ tar -xzf faudes-2.xx.yy.tar.gz
 </pre>
+The archive is organised as follows.
+<pre>
+faudes-2.xx.yy -+- src/*              actual C++ sources
+                +- tests/*.py         tutorials/tests
+		+- tests/data/*       input data for the tests and test protocols
+                +- tests/test_all.py  wrapper to run all tests
+                +- *                  support files for the build process
+</pre>		
 <p>
-Note that in the above example, <tt>n1</tt> and <tt>n2</tt> habe allready been instantiated;
-e.g., <tt>FromString(...)</tt> is a class member method. For new instantiation from string
-(or list) use the static variant
+To run an individual tutorial/test you must <tt>cd</tt> to the <tt>tests</tt> folder so that
+the script can locate its input data. E.g.
 </p>
 <pre>
-&gt;&gt;&gt n3=EventSet.NewFromString('&lt;N&gt; alpha beta &lt;/N&gt;')  # set data from string
-&gt;&gt;&gt n4=EventSet.NewFromList(['lambda', 'mue'])        # set data from string
+$ cd faudes-2.xx.yy/tests  
+$ python3 1_containers.py
 </pre>
-<p>
-Reading from a string and constructing from file are particular instances
-of libFAUDES serialisation. Other available methods in this regard by example for the class
-<tt>faudes::EventSet</tt> include:
-</p>
+The results will be compared to an archived protocol file and an error will be shown to
+indicate any differences; in such case, please report back to us.
+To run all tests, you may use <tt>pytest</tt>:
 <pre>
-&gt;&gt;&gt; n1.Write()                  # write to console in .fts forma
-&gt;&gt;&gt; n1.Write('filename.fts')    # ... to file in .fts format
-&gt;&gt;&gt; n1.XWrite('filename.xml')   # ... to strict XML to file
-&gt;&gt;&gt; n1.DWrite()                 # write with more details to console 
-&gt;&gt;&gt; n1.SWrite()                 # write statistical summary to console
-&gt;&gt;&gt; n1.Read('filename.fts/xml') # read back from file (fts or xml)
+$ pip install pytest         # install if not already installed
+$ pytest faudes-2.xx.yy      # do run tests 
 </pre>
-<p>
-A list of those methods we balieve are most relevant is provided via the libFAUDES
-help system by <tt>Help('ClassName')</tt>. E.g., <tt>faudes.Help(&quot;EventSet&quot;)</tt>
-reports along the line of</p>
-<pre>
-Help topic: &quot;EventSet&quot; [extract]
-
-                 *** Maintenance ***
-              string Name()
-                     Name(string)
-                 int Size()
-                 int Index(string)
-              string SymbolicName(int)
-		 
-                 *** Element access ***
-                bool Empty()
-                bool Insert(string)
-                bool Erase(string)
-                bool Exists(string)                                        
-</pre>
-<p>
-This shows the general pattern that libFAUDES container classes provide an STL like interface.
-A complete list of methods exported via the proxy class can be accessed via the Python
-help system using <tt>help(ClassName)</tt> (lower case <tt>help</tt> and no quotes).
-Specifically, you will observe extra methods for the <i>iter/next</i> protocol
-for Python style iteraion; e.g. <tt>for item in container: print(item);> </tt>:
-</p>
-
-<p>
-For a better Pytghon experience we provide additional output suitable
-for human inspection and Python style iteration over container classes. E.g.:
-</p>
-<pre>
-&gt;&gt;&gt; print(f'May events are: {n2}'))
-My events are: [EventSet]{ lambda#3, mue#4 }
-&gt;&gt;&gt; for e in n2:
-&gt;&gt;&gt;   print(f'Event: at index {e} is {n2.SymbolicName(e)}')
-Event: at index 3 is lambda
-Event: at index 4 is mue
-</pre>
-<p>
-The tutorial section of the pybindings plug-in provides 
-a <a href="1_containers.html">tutorial on containers</a> to
-demonstrate basic access to events sets, state sets and transition relations.
-</p>
-
-
-
-<p>
-<strong class="text_important">Note:</strong> The way libFAUDES interacts with Python
-implies that the assignment operator <tt>=</tt> does <strong class="text_important">*not*</strong> 
-create a copy of the object, but only passes on the reference. 
-In order to create a copy of a libFAUDES object, you need to explicitly
-invoke the copy constructor or the copy method.
-</p>
-<pre>
-&gt;&gt;&gt; n5 = n1.Copy()                   # construct a copy of n1
-&gt;&gt;&gt; n6 = faudes.EventSet(n1)         # construct a copy of n1
-&gt;&gt;&gt; n7 = n1                          # have another reference to n1
-&gt;&gt;&gt; n7.Clear()                       # clear the set references by n1 and n7
-</pre>
-  
-
-
-
-<h2 id="generators">
-The Generator Data Type
-</h2>
-
-<p>
-The libFAUDES class faudes::vGenerator is used to represent generators.
-A Generator object is created by the statement
-</p>
-
-<pre>
-&gt;&gt;&gt; gen1 = faudes.Generator()
-</pre>
-
-<p>
-The available methods for Generator objects are shown by the <tt>faudes.Help(&quot;Generator&quot;)</tt> command. 
-The first column shows the return type, the second the method name:
-</p>
-
-<pre>
-libFAUDES help topic: &quot;Generator&quot; [extract]
-                                            
-                 *** Alphabet ***
-            EventSet Alphabet()
-                bool InsEvent(name)
-                bool DelEvent(name)
-                bool ExistsEvent(name)
-                
-                 *** State set ***
-            IndexSet States()
-                 idx InsState(name)
-                bool DelState(name)
-                bool ExistsState(name)
-                     SetInitState(name)
-                     ClrInitState(idx)
-                     SetMarkedState(name)
-                     ClrMarkedState(idx)
-		     
-                 *** Transitions ***
-            TransSet TransRel()
-                bool SetTransition(x1,ev,x2)
-                     ClrTransition(x1,ev,x2)
-</pre>
-
-<p>
-Example to instatiate a very simple machine:
-</p>
-<pre>
-&gt;&gt;&gt; g1=Generator()                                   # instantiate generator  
-&gt;&gt;&gt; g1.InsEvent(&quot;alpha&quot;)                             # add events
-&gt;&gt;&gt; g1.InsEvent(&quot;beta&quot;)
-&gt;&gt;&gt; g1.InsState(&quot;waiting&quot;)                           # add states
-&gt;&gt;&gt; g1.InsState(&quot;working&quot;)
-&gt;&gt;&gt; g1.SetInitState(&quot;waiting&quot;)                       # indicate init/marked states
-&gt;&gt;&gt; g1.SetMarkedState(&quot;waiting&quot;)
-&gt;&gt;&gt; g1.SetTransition(&quot;waiting&quot;, &quot;alpha&quot;, &quot;working&quot;)  # set transitions
-&gt;&gt;&gt; g1.SetTransition(&quot;working&quot;, &quot;beta&quot;, &quot;waiting&quot;)
-</pre>
-<p>
-Likewise using initialisation from string:
-</p>
-<pre>
-&gt;&gt;&gt; g2=Generator()                                   # instantiate generator  
-&gt;&gt;&gt; g2.FromString("""
-&gt;&gt;&gt; &lt;G&gt;
-&gt;&gt;&gt;   &lt;T&gt; waiting alpha working    working beta waiting &lt;/T&gt;
-&gt;&gt;&gt;   &lt;I&gt; waiting &lt;/I&gt;
-&gt;&gt;&gt;   &lt;M&gt; waiting &lt;/M&gt;
-&gt;&gt;&gt; &lt;/G&gt;""")
-</pre>
-<p>
-The tutorial section of the PyBindings plug-in provides 
-a <a href="2_generators.html">tutorial on generators</a> to
-demonstrate access to generator class members.
-</p>
-
-
-
-<h2 id="functions">
-Calling libFAUDES Functions
-</h2>
-
-<p> 
-Most algorithms implemented in libFAUDES are also available in the Python module.
-To get a list of the available algorithms from the libFAUDES core, type <tt>faudes.Help(&quot;Functions&quot;)</tt>:
-</p>
-<pre>
-libFAUDES help topic: &quot;Functions&quot; [extract]
-
-                 *** Regular expressions ***
-                bool LanguageEquality(gen1_arg, gen2_arg)
-                bool LanguageIncludion(gen1_arg, gen2_arg)
-                bool LanguageDisjoint(gen1_arg, gen2_arg)
-                     LanguageComplement(gen)
-                     LanguageConcatenate(gen1_arg, gen2_arg, gen_res)
-                     LanguageConcatenateNonDet(gen1_arg, gen2_arg, gen_res)
-                     LanguageUnion(gen1_arg, gen2_arg, gen_res)
-                     LanguageIntersection(gen1_arg, gen2_arg, gen_res)
-                     FullLanguage(alph_arg, gen_res)
-                     AlphabetLanguage(alph_arg, gen_res)
-                     KleeneClosure(gen)
-                     KleeneClosureNonDet(gen)
-
-                 *** Reachability ***
-                     Accessible(gen)
-                bool IsAccessible(gen_arg)
-                     CoAccessible(gen)
-                bool IsCoAccessible(gen_arg)
-                     Trim(gen)
-                bool IsTrim(gen_arg)
-		     
-                 *** Misc ***
-                bool IsDeterministic(gen_arg)
-                     Deterministic(gen_arg, gen_res)
-                     StateMin(gen_arg, gen_res
-                     Project(gen, alph)
-                     InvProject(gen, alph)
-                     PrefixClosure(gen)
-</pre>	
-
-<p>
-The tutorial section of the PyBindings plug-in provides 
-a <a href="3_regular.html">tutorial on regular expressions</a>, 
-to demonstrate access to libFAUDES functions. For full list of provided functions,
-see the <a fhref="FAUDES_REFERENCE">user reference</a>.
-</p>
-
-<p>
-To test the installation, run an example script from the pybindings tutorial:
-</p>
-<pre>
-$ cd ./libfaudes/plugins/pybindings/tutorial
-$ ls *.py
-1_containers.py 2_generators.py 3_regular.py
-$ python3 3_regular.py
-</pre>
-
-<p>
-By convention, the provided example scripts read input data
-from the <tt>data</tt> subdirectory, relative to the location of the
-script. Thus, it is mandatory to <tt>cd</tt> to the location of the script.
-</p>
 
 <h2 id="dot">
 Graphical Output
 </h2>
+
 
 <p>
 For image output of generator graphs libFAUDES relies on the
@@ -377,17 +182,16 @@ specified within as follows:
 </pre>
 
 
+
 <!-- experimental/fragile: hand crafted page navigation -->
 <div id="cxwrapper1000">
 <div id="dxwrapper1000">
 <div class="registry_trigger"> <span>&gt;&gt;</span>
 <ul class="registry_list">
 <li class="registry_heading">Python Module</li>
-<li class="registry_item"><a href="#installation">Installation</a></li>
-<li class="registry_item"><a href="#objects">FAUDES Objects</a></li>
-<li class="registry_item"><a href="#generators">Generators</a></li>
-<li class="registry_item"><a href="#functions">FAUDES Functions</a></li>
-<li class="registry_item"><a href="#dot">Graphical Output</a></li>
+<li class="registry_item"><a href="faudes_pythonmod.html">Installation</a></li>
+<li class="registry_item"><a href="faudes_pythonobj.html">FAUDES Types</a></li>
+<li class="registry_item"><a href="faudes_pythonfnct.html">FAUDES Functions</a></li>
 <li class="registry_blanc">&nbsp;</li>
 <li class="registry_item">
 <a href="#">Top of Page</a>

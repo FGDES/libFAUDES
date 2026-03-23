@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferencePage chapter="pythonmod" section="none" title="FAUDES Functions">
+
+
+<h1>Python Module <tt>faudes: Functions</tt></h1>
+
+
+<p>
+libFAUDES is organised in <i>functins</i> that operate on data of specific <i>types</i>,
+both registered with a run time interface and docuented by the <a fhref="FAUDES_REFERENCE/">User Reference</a>.
+In this section, we provide further information of how those functions can be accessed from within Python.
+</p>
+
+
+<h2 id="functions">
+Calling libFAUDES Functions
+</h2>
+
+<p> 
+Most algorithms implemented in libFAUDES are also available in the Python module.
+To get a list of the available algorithms from the libFAUDES core, type <tt>faudes.Help(&quot;Functions&quot;)</tt>:
+</p>
+<pre>
+libFAUDES help topic: &quot;Functions&quot; [extract]
+
+                 *** Regular expressions ***
+                bool LanguageEquality(gen1_arg, gen2_arg)
+                bool LanguageIncludion(gen1_arg, gen2_arg)
+                bool LanguageDisjoint(gen1_arg, gen2_arg)
+                     LanguageComplement(gen)
+                     LanguageConcatenate(gen1_arg, gen2_arg, gen_res)
+                     LanguageConcatenateNonDet(gen1_arg, gen2_arg, gen_res)
+                     LanguageUnion(gen1_arg, gen2_arg, gen_res)
+                     LanguageIntersection(gen1_arg, gen2_arg, gen_res)
+                     FullLanguage(alph_arg, gen_res)
+                     AlphabetLanguage(alph_arg, gen_res)
+                     KleeneClosure(gen)
+                     KleeneClosureNonDet(gen)
+
+                 *** Reachability ***
+                     Accessible(gen)
+                bool IsAccessible(gen_arg)
+                     CoAccessible(gen)
+                bool IsCoAccessible(gen_arg)
+                     Trim(gen)
+                bool IsTrim(gen_arg)
+		     
+                 *** Misc ***
+                bool IsDeterministic(gen_arg)
+                     Deterministic(gen_arg, gen_res)
+                     StateMin(gen_arg, gen_res
+                     Project(gen, alph)
+                     InvProject(gen, alph)
+                     PrefixClosure(gen)
+</pre>	
+
+<p>
+For full list of provided functions,
+see the <a fhref="FAUDES_REFERENCE/">user reference</a>.
+</p>
+
+<p>
+  As an exmple, lets consider the function <ffnct>LanguageUnion</ffnct>. This function
+  is advertised in the user reference as follows with the following two signatures
+</p>
+<pre>
+LanguageUnion(+In+ Generator G1, +In+ Generator G2, +Out+ Generator GRes)
+LanguageUnion(+In+ GeneratorVector GVec, +Out+ Generator GRes)
+</pre>
+<p>
+Referring to the first variant, we may invoke the function on two generator arguments as
+input data to compute a third generator as a result. Python example:
+</p>
+<pre>
+&gt;&gt;&gt; from faudes import *
+&gt;&gt;&gt; g1=Generator('./file1.gen')  
+&gt;&gt;&gt; g2=Generator('./file2.gen')
+&gt;&gt;&gt; gunion=Generator()
+&gt;&gt;&gt; LanguageUnion(g1,g2,gunion)
+&gt;&gt;&gt; gunion.Write()
+</pre>
+i.e., read two generators from file and compute a generator to realise the union of both
+associated languages.
+If there is only one argument in the role of a result (indicated by <tt>+OUT+</tt>), the libFAUDES
+build system will generate a convenience wrapper to instantiate the result.
+Our example then becomes more concise:
+<pre>
+&gt;&gt;&gt; from faudes import *
+&gt;&gt;&gt; g1=Generator('./file1.gen')  
+&gt;&gt;&gt; g2=Generator('./file2.gen')
+&gt;&gt;&gt; gunion=LanguageUnion(g1,g2)
+&gt;&gt;&gt; gunion.Write()
+</pre>
+
+<p>
+The tutorial section of the PyBindings plug-in provides 
+a <a href="3_regular.html">tutorial on regular expressions</a>, 
+to demonstrate access to libFAUDES functions. Other plug-ins provide
+additional tutorials. 
+</p>
+
+
+
+
+<!-- experimental/fragile: hand crafted page navigation -->
+<div id="cxwrapper1000">
+<div id="dxwrapper1000">
+<div class="registry_trigger"> <span>&gt;&gt;</span>
+<ul class="registry_list">
+<li class="registry_heading">Python Module</li>
+<li class="registry_item"><a href="faudes_pythonmod.html">Installation</a></li>
+<li class="registry_item"><a href="faudes_pythonobj.html">FAUDES Types</a></li>
+<li class="registry_item"><a href="faudes_pythonfnct.html">FAUDES Functions</a></li>
+<li class="registry_blanc">&nbsp;</li>
+<li class="registry_item">
+<a href="#">Top of Page</a>
+<a href="#" class="registry_blinda">&nbsp;</a>
+</li>
+</ul></div>
+</div>
+</div>
+
+
+</ReferencePage>
+
+
+
+

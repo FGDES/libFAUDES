@@ -1433,6 +1433,8 @@ PYMTUTSX  = $(foreach dir,$(pluginstringT),$(wildcard $(dir)/*.py))
 PYMTUTS  = $(patsubst %/faudes.py,,$(PYMTUTSX))
 PYMFREF  = $(foreach file,$(PYMTUTS),$(REFSRCDIR)/pythonmod/$(basename $(notdir $(file))).fref)
 PYMFREF  += $(REFSRCDIR)/pythonmod/faudes_pythonmod.fref
+PYMFREF  += $(REFSRCDIR)/pythonmod/faudes_pythonobj.fref
+PYMFREF  += $(REFSRCDIR)/pythonmod/faudes_pythonfnct.fref
 PYMHTML  = $(foreach file,$(PYMFREF),$(PYMDOCDIR)/$(basename $(notdir $(file))).html)
 PYMHTML += $(PYMDOCDIR)/index.html
 
@@ -1460,6 +1462,10 @@ $(REFSRCDIR)/pythonmod/%.fref: $(REFSRCDIR)/pythonmod
 
 # copy static frefs
 $(REFSRCDIR)/pythonmod/faudes_pythonmod.fref: plugins/pybindings/src/doxygen/faudes_pythonmod.fref
+	cp -f  $< $@
+$(REFSRCDIR)/pythonmod/faudes_pythonobj.fref: plugins/pybindings/src/doxygen/faudes_pythonobj.fref
+	cp -f  $< $@
+$(REFSRCDIR)/pythonmod/faudes_pythonfnct.fref: plugins/pybindings/src/doxygen/faudes_pythonfnct.fref
 	cp -f  $< $@
 
 # process

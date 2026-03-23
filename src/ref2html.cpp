@@ -1950,7 +1950,9 @@ void RefpageHtml(std::ostream* pOutFile, std::string inputfile) {
     *pOutFile << "<td id=\"registry_index\">" << std::endl;
     *pOutFile << "<ul class=\"registry_list\">" << std::endl;
     *pOutFile << "<li class=\"registry_heading\">Python Module</li>" << std::endl;
-    ListItemHtml(pOutFile,"index.html", "Introduction");   
+    ListItemHtml(pOutFile,"index.html", "Installation");   
+    ListItemHtml(pOutFile,"faudes_pythonobj.html", "FAUDES Types");   
+    ListItemHtml(pOutFile,"faudes_pythonfnct.html", "FAUDES Functions");   
     *pOutFile << "<li class=\"registry_blanc\">&nbsp;</li>" << std::endl;
     *pOutFile << "<li class=\"registry_heading\">Tutorials</li>" << std::endl;
     PythonmodIndexHtml(pOutFile);
@@ -2030,7 +2032,9 @@ void RefpageHtml(std::ostream* pOutFile, std::string inputfile) {
     *pOutFile << "<div class=\"registry_trigger\"> <span>&gt;&gt;</span>"  << std::endl;
     *pOutFile << "<ul class=\"registry_list\">" << std::endl;
     *pOutFile << "<li class=\"registry_heading\">Python Module</li>" << std::endl;
-    *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_pythonmod.html\">Introduction</a></li>" << std::endl;
+    *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_pythonmod.html\">Installation</a></li>" << std::endl;
+    *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_pythonobj.html\">FAUDES Types</a></li>" << std::endl;
+    *pOutFile << "<li class=\"registry_item\"><a href=\"faudes_pythonfnct.html\">FAUDES Functions</a></li>" << std::endl;
     *pOutFile << "<li class=\"registry_blanc\">&nbsp;</li>" << std::endl;
     *pOutFile << "<li class=\"registry_item\"><a href=\"#\">Top of Page</a></li>" << std::endl;
     *pOutFile << "</ul></div>" << std::endl;
