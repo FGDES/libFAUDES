@@ -7,7 +7,7 @@
 
 # initialise Generator or derived class from Python lists
 # (use faudes style return-by-reference to be type agnostic)
-def __ConvertListsToGenerator(Q,Sigma,delta,Q0,Qm,GRes):
+def __ConvertListsToGenerator(GRes,Q=[],Sigma=[],delta=[],Q0=[],Qm=[]):
     # prepare
     GRes.Clear()
     # insert explicit state indices
@@ -40,11 +40,13 @@ def __ConvertListsToGenerator(Q,Sigma,delta,Q0,Qm,GRes):
     for q in Q0:
         if type(q)==str:
             if not GRes.ExistsState(q):
-                GRes.InsInitState(q)
+                GRes.InsState(q)
+            GRes.SetInitState(q)
     for q in Qm:
         if type(q)==str:
             if not GRes.ExistsState(q):
-                GRes.InsMarkedState(q)
+                GRes.InsState(q)
+            GRes.SetMarkedState(q)    
     # traverse transition relation    
     for (x1, ev, x2) in delta:
         if type(x1)==str:
@@ -65,11 +67,12 @@ def __NewGeneratorFromLists(Q=[],Sigma=[],delta=[],Q0=[],Qm=[]):
     Generator.FromLists(Q=[],Sigma=[],delta=[],Q0=[],Qm=[])
     """
     g=Generator()
-    __ConvertListsToGenerator(Q,Sigma,delta,Q0,Qm,g)
+    __ConvertListsToGenerator(g,Q,Sigma,delta,Q0,Qm)
     return g
 
 # announce to user
-Generator.FromLists=__NewGeneratorFromLists
+Generator.FromLists=__ConvertListsToGenerator
+Generator.NewFromLists=__NewGeneratorFromLists
 
 # convert generator and derived classes to Python lists
 def __NewListsFromGenerator(g):
@@ -141,7 +144,7 @@ def __NewSystemFromLists(Q=[],Sigma=[],Sigmac=[],delta=[],Q0=[],Qm=[]):
     System.FromLists(Q=[],Sigma=[],Sigmac=[],delta=[],Q0=[],Qm=[])
     """
     g=System()
-    __ConvertListsToGenerator(Q,Sigma,delta,Q0,Qm,g)
+    __ConvertListsToGenerator(g,Q,Sigma,delta,Q0,Qm)
     for e in Sigmac:
       g.InsEvent(e)
       g.SetControllable(e)

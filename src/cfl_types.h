@@ -1187,7 +1187,7 @@ protected:
  * @ingroup RunTimeInterface
  */
 
-class FAUDES_API ExtType : public AttrType {
+  class FAUDES_API ExtType : public AttrType, public std::enable_shared_from_this<ExtType> {
 
 public:
 

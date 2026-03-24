@@ -11,7 +11,7 @@ import faudes
 print("################# Prepare two simple machines");
 
 ## Read original machine
-machine  = faudes.System("data/verysimplemachine.gen")
+machine  = faudes.System("data/vsmachine.gen")
 
 ## Prepare two copies
 machine1 = faudes.System()

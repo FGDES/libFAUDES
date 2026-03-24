@@ -1,59 +1,71 @@
 ## Test/demonstrate core faudes generators
 
-## import our module
-import faudes
+## import our module (lazy)
+from faudes import *
 
 ## ##########################################
-## Generator: construct
+## Generator: construct/edit
 ## ##########################################
 
 ## Announce
 print("################# Construct a generator")
 
 ## Create plain generator
-gen = faudes.Generator()
+g1 = Generator()                      # empty generator
+g2 = Generator(g1)                    # copy construct
+g3 = Generator('data/vsmachine.gen')  # construct from file
+
+
+## Instantiate from Python lists
+gen = Generator.NewFromLists(
+  delta=[
+    ['idle', 'alpha', 'busy'],
+    ['busy', 'beta',  'idle']],
+  Q0 =[ 'idle' ],
+  Qm =[ 'idle' ]
+)  
 
 ## Have a name
-gen.Name("simple machine")
+gen.Name('very simple machine');
 
-## Insert some states by name
-gen.InsState("idle")
-gen.InsState("busy")
+## Inspect
+gen.Write()
 
-## Insert anonymous states 
-didx = gen.InsState()
+## Report
+print()
+print("################# Extending the generator programmatically")
 
-## Set name of anonymous state
-gen.StateName(didx,"down")
+## Re-name
+gen.Name('simple machine incl one lost state');
 
-## Insert some events
-gen.InsEvent("alpha")
-gen.InsEvent("beta")
-gen.InsEvent("mue")
-gen.InsEvent("lambda")
+## Add individual states and events
+print('adding states and events')
+gen.InsState('down')        # named state
+q=gen.InsState()            # anonymous state
+gen.StateName(q,'lost')     # name the state
+gen.InsEvent('mue')         # event
+gen.InsEvent('lambda')      # another event
 
-## Insert some transitions by names
-gen.SetTransition("idle","alpha","busy")
-gen.SetTransition("busy","beta","idle")
-gen.SetTransition("busy","mue","down")
+## Set individual transitions by name
+print('setting additional transitions by symolic names')
+gen.SetTransition('idle','alpha','busy')
+gen.SetTransition('busy','beta','idle')
+gen.SetTransition('busy','mue','down')
 
-## Construct transition and insert
-trans=faudes.Transition()
-trans.X1=gen.StateIndex("down")
-trans.Ev=gen.EventIndex("lambda")
-trans.X2=gen.StateIndex("idle")
-print("Insert another transition: ",gen.TStr(trans))
-gen.SetTransition(trans)
+## Set individual transition as index triplet
+print('setting additional transition as index triplet')
+t=Transition()
+t.X1=gen.StateIndex('down')
+t.Ev=gen.EventIndex('lambda')
+t.X2=gen.StateIndex('idle')
+print(f'Transition {t} (index triplet, symbolic names via Generator {gen.TStr(t)})')
+gen.SetTransition(t)
 
-## Indicate initial and marked states
-gen.SetInitState("idle")
-gen.SetMarkedState("idle")
-
-## Print 
+## Report
 gen.Write()
 
 ## Record test case
-faudes.TestDump("generator",gen)
+TestDump('generator',gen)
 
 
 ## ##########################################
@@ -61,135 +73,129 @@ faudes.TestDump("generator",gen)
 ## ##########################################
 
 ## Announce graph output
-print("################# Running Graphviz/dot")
+print('################# Running Graphviz/dot')
+print()
 
 ## Set dot path (or specify in PATH environment variable)
-## eg MacOS ## faudes.DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot")
-## eg Linux ## faudes.DotExecPath("dot")
-## eg MsWin ## faudes.DotExecPath("c:\\Programs\Graphviz\dot")
+## eg MacOS ## DotExecPath('/Applications/Graphviz.app/Contents/MacOS/dot')
+## eg Linux ## DotExecPath('dot')
+## eg MsWin ## DotExecPath('c:\\Programs\Graphviz\dot')
 
 ## Run dot
-gen.GraphWrite("tmp_simplemachine.jpg")
+gen.GraphWrite('tmp_simplemachine.jpg')
 
 ## Comments: alternative output formats include <tt>*.png</tt>, <tt>*.svg</tt> 
-## and <tt>*.dot</tt>. The latter is particular useful to apply advanced dot-processing 
-## options to affect e.g. the font or resolution.
-
-## ##########################################
-## System: generator with contr. attributes
-## ##########################################
-
-## Announce
-print("################# Construct a system")
-
-## Initialize system from generator
-sys=faudes.System(gen)
-sys.Name("simple machine plant model")
-
-## Have some controllable events
-sys.SetControllable("alpha")
-sys.SetControllable("lambda")
-
-## Report
-sys.Write()
-
-## Record test case
-faudes.TestDump("system",sys)
+## and <tt>*.dot</tt>. The latter is particular useful to apply advanced
+## dot-processing options to affect e.g. the font or resolution.
 
 
 ## ##########################################
 ## Generator: inspect
 ## ##########################################
 
+
 ## Announce 
-print("################# Container access")
+print('################# Container access')
 
 ## Entire alphabet (retrieve reference)
-alph = gen.Alphabet()
-alph.Write()
-## alph:Clear() ## this will break the generator (!!!)
+sigr = gen.Alphabet()
+print(f'alphabet: {sigr}')
+## sigr.Clear() ## this will break the generator (!!!)
 
 ## Entire alphabet (retrieve copy)
-alph = gen.Alphabet().Copy()
-alph.Write()
-alph.Clear()    ## this is ok since alph is a copy
+sigc = gen.Alphabet().Copy()
+print(f'alphabet: {sigc} (copy)')
+sigc.Clear()    ## this is ok since sigc is a copy
 
 ## Inspect alphabet (iterate)
-print("Iterate over events")
-eit=gen.AlphabetBegin()
-while eit!=gen.AlphabetEnd():
-  print("Event:", gen.EStr(eit))
-  eit.Inc()
+print('Iterate over events')
+for e in gen.Alphabet():
+  print('Event:', e)
 
 ## Entire stateset (retrieve reference)
-states=gen.States()
-states.Write()
+sts=gen.States()
+print(f'States: {sts} (plain indicees)')
+print('States: show with optional symbiolic names via Generator:')
+gen.WriteStateSet(sts)
 
 ## Inspect states
-print("Iterate over states")
-sit=gen.StatesBegin()
-while sit!=gen.StatesEnd():
-  print("State:", gen.SStr(sit))
-  sit.Inc()
+print('Iterate over states')
+for q in sts:
+  print(f'State: {q} (index, optional symbilic name {gen.SStr(q)}')
 
 ## Inspect transitions
-print("Iterate over transitions")
-tit=gen.TransRelBegin()
-while tit!=gen.TransRelEnd():
-  print("Transition:", gen.TStr(tit))
-  tit.Inc()
+print('Iterate over transitions')
+for t in gen.TransRel():
+  print(f'Transition: {t} (with optional symbolic names {gen.TStr(t)}')
 
-## Entire alphabet with attributes (retrieve reference)
-print("Alphabet of system incl. attributes")
-alph=sys.Alphabet()
-alph.Write();
-
-## Entire alphabet with attributes (retrieve a copy)
-print("Alphabet of system incl. attributes (copy)")
-alph=sys.Alphabet().Copy()
-alph.Write()
-alph.Clear()  ## this is ok, since alph is a copy
-print("Expect 4 events with 2 attributes")
-sys.SWrite()
-
-## Record test case
-faudes.TestDump("system",sys)
 
 ## ##########################################
 ## Generator: example algorithm reachable states
 ## ##########################################
 
 ## say hello
-print("Computing reachable states for the simple machine")
+print('Computing reachable states for the simple machine')
 
-## initialize loop variable to accumulate the result
-reach_acc  = gen.InitStates().Copy()   ## copy required to keep generator (!)
+## initialize states to care and accumlated result
+todo  = gen.InitStates().Copy()        ## copy required to keep generator (!)
+reach = StateSet()                     ## nothing yet reached 
 
-## traverse newly identified states
-reach_prev = reach_acc.Copy()          ## copy by design pattern, not required here
-while not reach_prev.Empty():          ## iterate while new reachable states identified
-  reach_next = faudes.IndexSet()
-  sit=reach_prev.Begin()               ## test each newly identified state ...
-  while sit!=reach_prev.End():
-    q1=sit.Index()
-    tit=gen.TransRelBegin(q1) 
-    while tit!=gen.TransRelEnd(q1):    ## ... for successor states ...
-      q2=tit.X2()
-      if not reach_acc.Exists(q2):     ## ... that have not be identifies yet ...
-        reach_next.Insert(q2)          ## ... and accumulate newly identified successors
-      tit.Inc()
-    sit.Inc()
-  reach_acc.InsertSet(reach_next)      ## accumulate result
-  reach_prev=reach_next                ## pass on recent states by reference 
-
+## loop for new one-step successors
+while not todo.Empty():
+  print(f'iterating --- todo: {todo}')
+  reach.InsertSet(todo)
+  succ=gen.TransRel().SuccessorStates(todo)
+  print(f'iterating --- successors: {succ}')
+  todo = succ - reach
 
 ## log test case
-faudes.TestDump("reach expect true", reach_acc == gen.AccessibleSet() )
+TestDump('reach expect true', reach == gen.AccessibleSet() )
 
 ## show result (indices still refer to the generator)
-print("Reachable states")
-reach_acc.Name("States")
-gen.WriteStateSet(reach_acc)
+print('Reachable states')
+reach.Name('Reachable States')
+gen.WriteStateSet(reach)
 
-## validate test case
-faudes.TestDiff()
+## retrict generator to reachable state
+gen.RestrictStates(reach)
+
+## log
+TestDump('simple machine (accessible)',gen)
+
+
+
+## ##########################################
+## System: construct/edit
+## ##########################################
+
+## As with all libFAUDES, System objects can be instatiated empty
+## by the copy constructor or from file. For the sake of this tutorial
+## we take a copy of the above Generator; i.e., all event attributes
+## take default values, which we edit
+
+print('############# cronstruct System from Generator')
+sys=System(gen)
+sys.Name('simple machine plant model')
+sys.SetControllable('alpha')
+sys.SetControllable('lambda')
+
+
+## Entire alphabet with attributes 
+print('Alphabet of system incl. attributes')
+sig=sys.Alphabet()
+sig.Write();
+
+## Entire alphabet with attributes (retrieve a copy)
+print('Alphabet of system incl. attributes (copy)')
+sig=sys.Alphabet().Copy()
+sig.Write()
+sig.Clear()  ## this is ok, since sig is a copy
+print('Expect 4 events with 2 attributes')
+sys.SWrite()
+
+## Record test case
+TestDump('system',sys)
+
+
+## validate test cases
+TestDiff()

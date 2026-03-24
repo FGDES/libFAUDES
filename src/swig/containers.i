@@ -69,7 +69,8 @@ BaseSet: Template declaration for swig
 %enddef
 
 
-// Convenience Constructors: from Python list (this requires an inserter, see IndexSet for an example)
+// Convenience Constructors: from Python list
+// This requires an inserter InsertPyObject; see IndexSet for an example
 %define SwigBaseSetConstructorFromList(SET,TYPE,ITERATOR)
 #ifdef SWIGPYTHON
 %extend {
@@ -154,20 +155,31 @@ BaseSet: Template declaration for swig
   };
   // Python extensions
 #ifdef SWIGPYTHON
-  typedef TYPE value_type;
-  virtual ITERATOR begin(void) const;
-  virtual ITERATOR end(void) const;
   %extend {
-    void append(value_type x) { self->Insert(x); }; 
-    void add(value_type x) { self->Insert(x); }
-    void discard(value_type x) { self->Erase(x);}
+    void append(const TYPE& x) { self->Insert(x); }; 
+    void add(const TYPE&  x) { self->Insert(x); }
+    void discard(const TYPE& x) { self->Erase(x);}
     Idx __len__(void) const { return self->Size(); };
-    bool __contains__(value_type x) const { return self->Exists(x); };
-    ITERATOR __iter__(void) const { return self->Begin();}; 
-  }
+    bool __contains__ (const TYPE& x) const { return self->Exists(x); };
+    SET ## PyIterator __iter__fixme__(PyObject* pobj) const {
+      return SET ## PyIterator(pobj,$self);};
+    //std::shared_ptr<const SET ## PyIterator> __iter__(void) const {
+    //  return std::make_shared<const SET ## PyIterator>(self->shared_from_this()); };
+  };
 #endif
 %enddef
 
+// The above __iter__ needs some sugar
+%define SwigPyIteratorFix(SET)
+#ifdef SWIGPYTHON
+%pythoncode %{
+def __ ## SET ## __PyIter(self):
+    return self.__iter__fixme__(self)
+SET.__iter__ = __ ## SET ## __PyIter
+del __ ## SET ## __PyIter
+%}
+#endif
+%enddef
 
 %define SwigBaseSetOperatorOverload(ASET,SET)
   SET operator + (const SET& rOtherSet) const;
@@ -191,7 +203,7 @@ BaseSet: Template declaration for swig
 // Members of set iterators
 // Note: we choose macros for the same reasones as above
 // Note: DeRef returns by value, ok for primitive type only ie int/idx
-// Note: the Python __next__ will fail through on end of set. See below for the fix./
+// Note: the Python __next__ will fail on end of set. See below for the fix./
 %define SwigIteratorMembers(SET,TYPE,ITERATOR)
   // Construct/destruct
   ITERATOR(void);
@@ -206,39 +218,53 @@ BaseSet: Template declaration for swig
   // compatible c operators/functions
   bool operator == (const ITERATOR& rOther) const;
   bool Valid(void);
-  // Python addons
-#ifdef SWIGPYTHON
-  %extend {
-    const TYPE& __next__(void) {
-      // vvvv not functional; see below fix;
-      //if(!self->Valid()) {
-      //  PyErr_SetNone(PyExc_StopIteration);
-      //  static TYPE none;
-      //  return none;
-      //}
-      // vvvv shall not happen; but prefer errors explicit 
-      if(!self->Valid()) {
-	FD_ERR("libFAUDES: Python style iteration on an unsupported type");
-	abort();
-      }
-      return *((*$self)++); 
-    }
-  }
-#endif
-      
 %enddef
 
-// The above __next__ fails on the end of the set because it cannot return a
-// "none" result. We fix this by testing validy in Python before runnig the wrapper. 
-%define SwigIteratorFixNext(SET,TYPE,ITERATOR)
+
+// Python iterator
+// We could somehow integrate that with our STL itartor,
+// but separating things out seems cleaner
+%define SwigPyIterator(SET,TYPE)
 #ifdef SWIGPYTHON
-%pythonprepend ITERATOR::__next__() %{
-if not self.Valid():
-  raise StopIteration  
-  return none
-%}
+%exception SET ## PyIterator::__next__ {
+  try {
+    $action
+  } catch (std::out_of_range&) {
+    PyErr_SetNone(PyExc_StopIteration);
+    return NULL;
+  }
+}
+%inline %{
+class SET ## PyIterator {
+public:    
+  SET ## PyIterator(PyObject* obj, const SET* set) : pSet(set), pObj(NULL) {
+    Py_XINCREF(obj);
+    pObj=obj;
+    iti=pSet->Begin();
+  };   
+  SET ## PyIterator(const SET ## PyIterator& rOther) {
+    pObj=rOther.pObj;
+    pSet=rOther.pSet;
+    iti=pSet->Begin();
+    Py_XINCREF(pObj);
+  };   
+  ~SET ## PyIterator() {
+    Py_XDECREF(pObj);
+  };
+  const TYPE& __next__(void) {
+    if(!this->iti.Valid()) 
+       throw std::out_of_range("end");
+    return *((this->iti)++);
+  };
+protected:  
+  const SET* pSet;    // libFAUDES parent aka set
+  PyObject* pObj;     // Python parent aka wrapped set
+  SET ## Iterator iti;
+};
+%}    
 #endif
 %enddef
+
 
 
 /*
@@ -264,9 +290,6 @@ typedef IndexSet::Iterator StateSetIterator;
 }
 %}
 
-// Fix Python iterator (see above; must preceed declaration)
-SwigIteratorFixNext(IndexSet,Idx,IndexSetIterator)
-   
 // Plain index set: iterator
 class IndexSetIterator {
 public: 
@@ -280,6 +303,9 @@ public:
 
 // Have StateSet alias
 typedef IndexSetIterator StateSetIterator;
+
+// Plain index set: Python iterator
+SwigPyIterator(IndexSet,Idx)
 
 // Extra Python object inserter
 #ifdef SWIGPYTHON
@@ -312,14 +338,22 @@ public:
   SwigBaseSetMembers(IndexSet,Idx,IndexSetIterator);  
 };
 
+// Fix Python iterator 
+SwigPyIteratorFix(IndexSet)
+   
 
-// Have StateSet alias (on Lua, somehow not funtional)
+// have StateSet alias (this somehow does not find its way to the wrappers)
 typedef IndexSet StateSet;
 
-// Extra Lua functions: (introduce StateSet as a duplicat of IndexSet)
+// Introduce StateSet as a duplicat of IndexSet
 #ifdef SWIGLUA
 %luacode {
 faudes['StateSet']=faudes['IndexSet']  
+}				
+#endif
+#ifdef SWIGPYTHON
+%pythoncode {
+StateSet=IndexSet
 }				
 #endif
 
@@ -354,16 +388,11 @@ NameSet: declaration, derived from BaseSet
 
 // Extra c code to unwind nested class
 %{
-
 namespace faudes {
 typedef NameSet::Iterator NameSetIterator;
 typedef NameSet::Iterator EventSetIterator;
 }
-
 %}
-
-// Fix Python iterator (see containers.i; must preceed declaration)
-SwigIteratorFixNext(NameSet,Idx,NameSetIterator)
 
 // Set with symbolic names: iterator
 class NameSetIterator {
@@ -386,8 +415,9 @@ public:
 // Convenience typedef
 typedef EventSetIterator NameSetIterator;
 
-// access the name set as EventSet
-%rename(EventSet) NameSet;
+
+// Name set: Python iterator
+SwigPyIterator(NameSet,Idx)
 
 // Extra Python object inserter
 #ifdef SWIGPYTHON
@@ -437,9 +467,23 @@ public:
   };
 };
 
+// Fix Python iterator (see containers.i)
+SwigPyIteratorFix(NameSet)
+
 // Tell SWIG that our C Code may use EventSet as a synonym
 typedef NameSet EventSet;
 
+// Introduce EventSet as a duplicat of NameSet
+#ifdef SWIGLUA
+%luacode {
+faudes['EventSet']=faudes['NameSet']  
+}				
+#endif
+#ifdef SWIGPYTHON
+%pythoncode {
+EventSet=NameSet
+}				
+#endif
 
 // Set with symbolic names and attributes
 template<class Attr>
@@ -554,9 +598,6 @@ public:
 %enddef
 
 
-// Fix Python iterators (see IndexSet; must preceed declaration)
-SwigIteratorFixNext(TransSetX1EvX2,Transition,TransSetX1EvX2Iterator)
-
 // Run macro to have iterator type and interface
 SwigTransIterator(X1EvX2);
 SwigTransIterator(X1X2Ev);
@@ -564,6 +605,17 @@ SwigTransIterator(X2EvX1);
 SwigTransIterator(X2X1Ev);
 SwigTransIterator(EvX1X2);
 SwigTransIterator(EvX2X1);
+
+
+// Run macro to have Python iterators
+SwigPyIterator(TransSetX1EvX2,Transition)
+SwigPyIterator(TransSetX1X2Ev,Transition)
+SwigPyIterator(TransSetX2EvX1,Transition)
+SwigPyIterator(TransSetX2X1Ev,Transition)
+SwigPyIterator(TransSetEvX1X2,Transition)
+SwigPyIterator(TransSetEvX2X1,Transition)
+
+
 
 // Transition set: the set 
 // We again unwind the template definition via a macro.
@@ -728,6 +780,14 @@ SwigTransSet(X2EvX1);
 SwigTransSet(X2X1Ev);
 SwigTransSet(EvX1X2);
 SwigTransSet(EvX2X1);
+
+// Run macro to apply Python iterator fix
+SwigPyIteratorFix(TransSet)
+SwigPyIteratorFix(TransSetX1X2Ev)
+SwigPyIteratorFix(TransSetX2EvX1)
+SwigPyIteratorFix(TransSetX2X1Ev)
+SwigPyIteratorFix(TransSetEvX1X2)
+SwigPyIteratorFix(TransSetEvX2X1)
 
 
 /*

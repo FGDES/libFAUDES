@@ -50,11 +50,11 @@ print(f'Obtaining a Python list from an IndexSet: {i1l}')
 i1R = i1           # gives a reference, ***not*** a copy
 i2 = IndexSet(i1)  # use the copy contructor for an actual copy
 i3 = i1.Copy()     # use the copy method for an actual copy
+i1R.Name("Q'")
 
 ## Manipulate the original set ...
+print(f'Assignment vs. Copy:  erase one item affects the reference, not the copy')
 i1.Erase(10)
-
-## ... which affects i1R, but not i2set and i3set
 print(f'Assignment vs. Copy:  orig {i1} ref {i1R} copy {i2}')
 
 ## All faudes sets support STL style iteration (legacy)
@@ -76,10 +76,10 @@ TestDump("iset copy 3",i3)
 ## ##########################################
 
 ## Announce
-print("################# Set of symbols")
+print("################# Set of symbolic names")
 
 ## Create a NameSet (alias EventSet)
-n1 = EventSet()
+n1 = NameSet()
 
 ## Edit programmatically
 n1.Name("SetOfSymbols")   # give it a name
@@ -90,15 +90,15 @@ n1.Insert("mue")          # insert a symbol
 n1.Erase("lambda")        # remove a symbol
 
 ## Print a set
-print(f'An EventSet: {n1}')
+print(f'A NameSet: {n1}')
 
 ## Set from string (using static method as constructor, since "n2" does not yet exist))
-n2=EventSet.NewFromString('<S> "alpha" "beta" "mue" "lambda" </S>')
-print(f'An EventSet from a FAUDES token stream: {n2}')
+n2=NameSet.NewFromString('<S> "alpha" "beta" "mue" "lambda" </S>')
+print(f'A NameSet from a FAUDES token stream: {n2}')
 
 ## Set from Python list
-n3=EventSet.NewFromList(["wellcome", "to", "libFAUDES"])
-print(f'An EventSet from a Python list: {n3}')
+n3=NameSet.NewFromList(["wellcome", "to", "libFAUDES"])
+print(f'A NameSet from a Python list: {n3}')
 
 ## Symbol lookup
 bidx=n1.Index("beta")
@@ -106,7 +106,7 @@ bname=n1.SymbolicName(bidx)
 print(f'"{bname}" has index {bidx}')
 
 ## Iterate Python style (STL style is also available; see above IndexSet example))
-print(f'Iterating over EventSet "{n1.Name()}" (Python style)')
+print(f'Iterating over NameSet "{n1.Name()}" (Python style)')
 for e in n1: 
   print(f'Element: idx {e} symbol "{n1.SymbolicName(e)}" info "{n1.Str(e)}"')
 
@@ -128,8 +128,8 @@ n2.Write("tmp_nameset.fts")
 
 print("################# Boolean operations")
 
-aset=EventSet()
-bset=EventSet()
+aset=NameSet()
+bset=NameSet()
 aset.FromString('<A> "a" "b" "c" </A>')
 bset.FromString('<B> "c" "d" "e" </B>')
 print(f'Two sets A {aset} and B {bset}')
@@ -159,7 +159,7 @@ else:
 ## Announce
 print("################# Set of events with control-system attributes")
 
-## Create the Alphabet (eg from the an EventSet)
+## Create the Alphabet (eg from the an NameSet)
 eset = Alphabet(n1)
 
 ## Edit
@@ -222,10 +222,10 @@ if seq1:
 ## Set comparison methods (when types don't match)
 sle2 = AlphabetInclusion(aset, aset + bset)               
 if sle2:
-  print("A <= A + B ## OK (RHS is a plain EventSet)")
+  print("A <= A + B ## OK (RHS is a plain NameSet)")
 seq2 = AlphabetEquality(aset - bset + aset,aset)
 if seq2:
-  print("A - B + A == A ## OK (LHS is a plain EventSet)")
+  print("A - B + A == A ## OK (LHS is a plain NameSet)")
 
 
 ## Union, maintain attributes where possible
@@ -302,9 +302,9 @@ print(f'TransSet T2 as Python list: {t2l}')
 ## Iterate (Python Style)
 print(f'Iterating over transition set "{t1.Name()}"')
 for t in t1:
-  print(f'Transition: {t} [i.e. x1={t.X1} ev={t.Ev} x1={t.X2}]')
+  print(f'Transition: x1={t.X1} ev={t.Ev} x1={t.X2}')
 
-## Retrieve set of all states and inspect on per state bais
+## Retrieve set of all states and inspect on per state basis
 print(f'Inspecting transition set "{t1.Name()}" on a per state basis')
 xset=t1.States()
 for x1 in xset:
