@@ -156,7 +156,7 @@ print('Reachable states')
 reach.Name('Reachable States')
 gen.WriteStateSet(reach)
 
-## retrict generator to reachable state
+## retrict generator to reachable states
 gen.RestrictStates(reach)
 
 ## log

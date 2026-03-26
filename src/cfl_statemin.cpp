@@ -81,6 +81,7 @@ public:
      str << " ]";
      return str.str();
   }
+  
   /**
    * Hopcroft algorithm data structure: vector of blocks
    * [revision 201508 tmoor: use plain stl vectors and maintain sorting manually]

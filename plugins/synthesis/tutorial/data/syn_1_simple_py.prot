@@ -1,6 +1,6 @@
 %%% test mark: gK [at syn_1_simple.py]
 % 
-%  Statistics for SupCon((Generator||Generator),(Generator))
+%  Statistics for SupCon((M1||M2),(Spec))
 % 
 %  States:        6
 %  Init/Marked:   1/1

@@ -1,53 +1,59 @@
-# load libFAUDES bindings
-import faudes
+# Synthesis demo -- two simple machines with a bfufer of size one
+
+# import faudes module (lazy all global)
+from faudes import *
 
 # machine 1
-gL1=faudes.Generator()
-gL1.InsInitState("Idle")
-gL1.SetMarkedState("Idle")
-gL1.InsState("Busy")
-gL1.InsEvent("alpha1")
-gL1.InsEvent("beta1")
-gL1.SetTransition("Idle","alpha1","Busy")
-gL1.SetTransition("Busy","beta1","Idle")
-
+gL1=Generator.NewFromLists(
+  delta=[
+    ['Idle','alpha1','Busy'],
+    ['Busy','beta1','Idle']
+  ],
+  Q0=['Idle'],
+  Qm=['Idle']
+)
+gL1.Name("M1")
+      
 # machine 2
-gL2=faudes.Generator()
-gL2.InsInitState("Idle")
-gL2.SetMarkedState("Idle")
-gL2.InsState("Busy")
-gL2.InsEvent("alpha2")
-gL2.InsEvent("beta2")
-gL2.SetTransition("Idle","alpha2","Busy")
-gL2.SetTransition("Busy","beta2","Idle")
-
+gL2=Generator.NewFromLists(
+  delta=[
+    ['Idle','alpha2','Busy'],
+    ['Busy','beta2','Idle']
+  ],
+  Q0=['Idle'],
+  Qm=['Idle']
+)
+gL2.Name("M2")
+      
 # overall plant
-gL=faudes.Generator()
-faudes.Parallel(gL1,gL2,gL)
+gL=Parallel(gL1,gL2)
 
 # controllable events
-sCtrl=faudes.EventSet()
-sCtrl.Insert("alpha1")
-sCtrl.Insert("alpha2")
+sCtrl=EventSet.NewFromList(
+  ['alpha1', 'alpha2']
+)
 
 # specification aka buffer
-gE=faudes.Generator()
-gE.InsInitState("Empty")
-gE.SetMarkedState("Empty")
-gE.InsState("Full")
-gE.InsEvent("beta1")
-gE.InsEvent("alpha2")
-gE.SetTransition("Empty","beta1","Full")
-gE.SetTransition("Full","alpha2","Empty")
+gE=Generator.NewFromLists(
+  delta=[
+    ['Empty', 'beta1', 'Full'],
+    ['Full', 'alpha2', 'Empty']
+  ],
+  Q0=['Empty'],
+  Qm=['Empty']
+)
+gE.Name("Spec")
 
 # lift specification to overall eventset
-sAll=faudes.EventSet()
-sAll=gL.Alphabet()
-faudes.InvProject(gE,sAll)
+sAll=gL.Alphabet().Copy()
+InvProject(gE,sAll,gE)
+
+gL1.Write()
+gL2.Write()
+gE.Write()
 
 # supremal closed loop
-gK=faudes.Generator()
-faudes.SupCon(gL,sCtrl,gE,gK)
+gK=SupCon(gL,sCtrl,gE)
 
 # show result on console
 gK.Write()
@@ -56,8 +62,8 @@ gK.Write()
 gK.GraphWrite("tmp_K.png")
 
 # record test case
-faudes.TestDump("gK",gK)
+TestDump("gK",gK)
 
 # validate test 
-faudes.TestDiff()
+TestDiff()
 

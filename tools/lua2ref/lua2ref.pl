@@ -66,11 +66,14 @@ $fhead
 <p>
 To run the below Lua script, <tt>cd</tt> to the tutorial
 section of the respective plug-in and enter
-<tt>luafaudes 
-$fhead
-</tt>
+</p>
+<pre>
+&dollar; whereever_libfaudes_resides/bin/luafaudes $fhead
+</pre>
+<p>
 at the command prompt. The script will read input data
-from <tt>./tutorial/data/</tt>.
+from <tt>./tutorial/data/</tt> and write its output to
+<tt>./tutorial/tmp_*</tt>.
 </p>
 $txt
 

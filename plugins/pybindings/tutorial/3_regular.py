@@ -1,140 +1,129 @@
 ## Test/demonstrate core faudes generator functions
 
-## import our module
-import faudes
+## import our module (lazy all global)
+from faudes import *
 
 ## ##########################################
 ## Deterministic
 ## ##########################################
 
 ## Announce
-print("################# Deterministic");
+print("################# Deterministic")
 
 ## Convert nondeterministic generator
-deter_nondet = faudes.Generator("data/deterministic_nondet.gen");
-deter_det = faudes.Generator();
-faudes.Deterministic(deter_nondet,deter_det);
-
-## Report
-deter_nondet.Write();
-deter_det.Write();
+g   = Generator("data/deterministic_nondet.gen")
+g_d = Deterministic(g)
+g.Write()
+g_d.Write()
 
 ## Record test case
-faudes.TestDump("deterministic",deter_det)
+TestDump("deterministic",g_d)
 
 ## ##########################################
 ## State Minimisation
 ## ##########################################
 
 ## Announce
-print("################# State Minimisation");
+print("################# State Minimisation")
 
 ## Convert non minimal generator
-minimal_nonmin = faudes.Generator("data/minimal_nonmin.gen");
-minimal_min = faudes.Generator();
-faudes.StateMin(minimal_nonmin,minimal_min);
-
-## Report
-minimal_nonmin.Write();
-minimal_min.Write();
+g  = Generator("data/minimal_nonmin.gen")
+g.Write()
+StateMin(g)
+g.Write()
 
 ## Record test case
-faudes.TestDump("statemin",minimal_min)
+TestDump("statemin",g)
 
 ## ##########################################
 ## Natural Projection
 ## ##########################################
 
 ## Announce
-print("################# Projection");
+print("################# Projection")
 
-project_g = faudes.Generator("data/project_g.gen");
-project_prog = faudes.Generator();
-alph_proj = faudes.EventSet();
-alph_proj.Insert("a");
-alph_proj.Insert("c");
-alph_proj.Insert("e");
-alph_proj.Insert("g");
-faudes.Project(project_g,alph_proj,project_prog);
+g    = Generator("data/project_g.gen")
+sig0 = EventSet.NewFromList(['a', 'c', 'e', 'g'])
+g0   = Project(g,sig0)
 
 ## Report
-project_g.Write();
-alph_proj.Write();
-project_prog.Write();
+g.Write()
+sig0.Write()
+g0.Write()
 
 ## Record test case
-faudes.TestDump("project",project_prog)
+TestDump("project",g0)
 
 ## ##########################################
 ## Boolean Operations
 ## ##########################################
 
 ## Announce
-print("################# Boolean Operations");
+print("################# Boolean Operations")
 
 ## Union
-boolean_g1 = faudes.Generator("data/boolean_g1.gen");
-boolean_g2 = faudes.Generator("data/boolean_g2.gen");
-boolean_union = faudes.Generator();
-boolean_union.StateNamesEnabled(False);
-faudes.LanguageUnion(boolean_g1, boolean_g2, boolean_union);
+g1  = Generator("data/boolean_g1.gen")
+g2  = Generator("data/boolean_g2.gen")
+g_or = Generator()
+g_or.StateNamesEnabled(False)
+LanguageUnion(g1, g2, g_or)
   
 ## Intersection
-boolean_intersection = faudes.Generator();
-boolean_intersection.StateNamesEnabled(False);
-faudes.LanguageIntersection(boolean_g1, boolean_g2, boolean_intersection);
+g_and = Generator()
+g_and.StateNamesEnabled(False)
+LanguageIntersection(g1, g2, g_and)
   
 ## Test: perform complement twice
-boolean_complement_g1=faudes.Generator(boolean_g1); 
-boolean_complement_g1.StateNamesEnabled(False);
-faudes.LanguageComplement(boolean_complement_g1);
-boolean_complement2_g1=faudes.Generator(boolean_complement_g1); 
-faudes.LanguageComplement(boolean_complement2_g1);
+g1_not=g1.Copy() 
+g1_not.StateNamesEnabled(False)
+LanguageComplement(g1_not)
+g1_notnot=g1_not.Copy()
+LanguageComplement(g1_notnot)
   
 ##  Write results
-boolean_g1.Write("tmp_boolean_g1.gen");
-boolean_g2.Write("tmp_boolean_g2.gen");
-boolean_union.Write("tmp_union_g1g2.gen");
-boolean_intersection.Write("tmp_intersection_g1g2.gen");
-boolean_complement_g1.Write("tmp_complement_g1.gen");
-boolean_complement2_g1.Write("tmp_complement2_g1.gen");
+g1.Write("tmp_boolean_g1.gen")
+g2.Write("tmp_boolean_g2.gen")
+g_or.Write("tmp_union_g1g2.gen")
+g_and.Write("tmp_intersection_g1g2.gen")
+g1_not.Write("tmp_complement_g1.gen")
+g1_notnot.Write("tmp_complement2_g1.gen")
 
 ## Record test case
-faudes.TestDump("lang. union",boolean_union)
-faudes.TestDump("lang. intersection",boolean_intersection)
-faudes.TestDump("lang. complement",boolean_complement_g1)
-faudes.TestDump("lang. complement2",boolean_complement2_g1)
+TestDump("lang. union",g_or)
+TestDump("lang. intersection",g_and)
+TestDump("lang. complement",g1_not)
+TestDump("lang. complement2",g1_notnot)
 
 ## Inspect on console
 
-print("################# Results:");
-boolean_union.DWrite();
-boolean_intersection.DWrite();
-boolean_complement_g1.DWrite();
+print("################# Results:")
+g_or.DWrite()
+g_and.DWrite()
+g1_not.DWrite()
 
 ## Compare languages
 
-print("################# Compare:");
-if faudes.LanguageInclusion(boolean_g1,boolean_union):
-  print("Lm(g1) <= Lm(g1) v Lm(g2) : OK");
+print("################# Compare:")
+if LanguageInclusion(g1,g_or):
+  print("Lm(g1) <= Lm(g1) v Lm(g2) : OK")
 else:
-  print("Lm(g1) > Lm(g1) v Lm(g2) : ERR");
+  print("Lm(g1) > Lm(g1) v Lm(g2) : ERR")
 
-if faudes.LanguageDisjoint(boolean_complement_g1,boolean_g1):
-  print("Lm(g1) ^ ~Lm(g1) = empty : OK");
+if LanguageDisjoint(g1_not,g1):
+  print("Lm(g1) ^ ~Lm(g1) = empty : OK")
 else:
-  print("(Lm(g1) v Lm(g2)) ^ ~(Lm(g1) v Lm(g2)) != empty : ERR");
+  print("(Lm(g1) v Lm(g2)) ^ ~(Lm(g1) v Lm(g2)) != empty : ERR")
 
-if faudes.LanguageEquality(boolean_g1,boolean_complement2_g1):
-  print("Lm(g1) = ~~Lm(g1) : OK");
+if LanguageEquality(g1,g1_notnot):
+  print("Lm(g1) = ~~Lm(g1) : OK")
 else:
-  print("Lm(g1) != ~~Lm(g1) : ERR");
+  print("Lm(g1) != ~~Lm(g1) : ERR")
 
 ## Record test case
 
-faudes.TestDump("lang. inclusion",faudes.LanguageInclusion(boolean_g1,boolean_union))
-faudes.TestDump("lang. disjoint",faudes.LanguageDisjoint(boolean_complement_g1,boolean_g1))
-faudes.TestDump("lang. equality",faudes.LanguageEquality(boolean_g1,boolean_complement2_g1))
+TestDump("lang. inclusion",LanguageInclusion(g1,g_or))
+TestDump("lang. disjoint",LanguageDisjoint(g1_not,g1))
+TestDump("lang. equality",LanguageEquality(g1,g1_notnot))
 
 
 ## ##########################################
@@ -142,53 +131,53 @@ faudes.TestDump("lang. equality",faudes.LanguageEquality(boolean_g1,boolean_comp
 ## ##########################################
 
 ## Announce
-print("################# Concatenation/Kleene-Closure");
+print("################# Concatenation/Kleene-Closure")
 
 ## Read K and L
-concat_gk = faudes.Generator("data/concat_gk.gen")
-concat_gl = faudes.Generator("data/concat_gl.gen")
+gk = Generator("data/concat_gk.gen")
+gl = Generator("data/concat_gl.gen")
 
 ## Version 1: std functions
-concat_k_l_star_1 = faudes.Generator(concat_gl)
-faudes.KleeneClosure(concat_k_l_star_1)
-faudes.LanguageConcatenate(concat_gk,concat_k_l_star_1,concat_k_l_star_1)
-faudes.StateMin(concat_k_l_star_1,concat_k_l_star_1)
+k_l_star_1 = Generator(gl)
+KleeneClosure(k_l_star_1)
+LanguageConcatenate(gk,k_l_star_1,k_l_star_1)
+StateMin(k_l_star_1,k_l_star_1)
 
 ## Version 2: use non-deterministic intermediate results, disable state names
-concat_k_l_star_2 = faudes.Generator(concat_gl);
-concat_k_l_star_2.StateNamesEnabled(False);
-faudes.KleeneClosureNonDet(concat_k_l_star_2);
-faudes.LanguageConcatenateNonDet(concat_gk,concat_k_l_star_2,concat_k_l_star_2)
-faudes.Deterministic(concat_k_l_star_2,concat_k_l_star_2)
-faudes.StateMin(concat_k_l_star_2,concat_k_l_star_2)
+k_l_star_2 = Generator(gl)
+k_l_star_2.StateNamesEnabled(False)
+KleeneClosureNonDet(k_l_star_2)
+LanguageConcatenateNonDet(gk,k_l_star_2,k_l_star_2)
+Deterministic(k_l_star_2,k_l_star_2)
+StateMin(k_l_star_2,k_l_star_2)
 
 ## Compare results
-concat_ok = faudes.LanguageEquality(concat_k_l_star_1,concat_k_l_star_2)
+ok = LanguageEquality(k_l_star_1,k_l_star_2)
 
 ## Inspect on console
 
-print("################# Results:");
-concat_k_l_star_1.SWrite();
-concat_k_l_star_2.SWrite();
-if concat_ok:
+print("################# Results:")
+k_l_star_1.SWrite()
+k_l_star_2.SWrite()
+if ok:
   print("results match : OK")
 else:  
   print("results dont match : ERROR")
 
 ## Graphical output
-## concat_gk.GraphWrite("tmp_concat_gk.png");
-## concat_gl.GraphWrite("tmp_concat_gl.png");
-## concat_k_l_star_1.StateNamesEnabled(False);
-## concat_k_l_star_1.GraphWrite("tmp_concat_k_l_star_1.png");
-## concat_k_l_star_2.GraphWrite("tmp_concat_k_l_star_2.png");
+## gk.GraphWrite("tmp_concat_gk.png")
+## gl.GraphWrite("tmp_concat_gl.png")
+## k_l_star_1.StateNamesEnabled(False)
+## k_l_star_1.GraphWrite("tmp_concat_k_l_star_1.png")
+## k_l_star_2.GraphWrite("tmp_concat_k_l_star_2.png")
 
 
 ## Record test case
-faudes.TestDump("lang. concat",concat_k_l_star_1)
-faudes.TestDump("lang. concat",concat_k_l_star_2)
-faudes.TestDump("lang. concat",concat_ok)
+TestDump("lang. concat",k_l_star_1)
+TestDump("lang. concat",k_l_star_2)
+TestDump("lang. concat",ok)
 
 ## validate test case
-faudes.TestDiff()
+TestDiff()
 
 
