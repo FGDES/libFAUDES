@@ -93,14 +93,14 @@ gen.GraphWrite('tmp_simplemachine.jpg')
 ## gen.GraphShow()
 
 ## Comments: The method GraphShow() is meant for quick inspection e.g. in a
-## Jupyter notebool. It is implemented in Python an uses the modeul
+## Jupyter notebook. It is implemented in Python an uses the modeul
 ## mathplotlib to display an image rendered by GraphViz dot. You may inspect
 ## ./libFAUDES/plygins/pybindings/src/py_addons.py to derive alternive
-## variants
+## variants to best fit your needs
 
 
 ## ##########################################
-## Generator: inspect
+## Generator: inspect programmatically
 ## ##########################################
 
 
@@ -131,7 +131,7 @@ gen.WriteStateSet(sts)
 ## Inspect states
 print('Iterate over states')
 for q in sts:
-  print(f'State: {q} (index, optional symbilic name {gen.SStr(q)}')
+  print(f'State: {q} (index, optional symbilic name {gen.SStr(q)})')
 
 ## Inspect transitions
 print('Iterate over transitions')

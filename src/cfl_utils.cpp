@@ -231,13 +231,18 @@ void ProcessDot(const std::string& rDotFile,
 // test executable  
 bool DotReady(const std::string& rDotExec) {  
   // cache value
-  static bool ready=false;  
-  static bool known=false;
-  if(known) return ready;    
+  static std::string knowngood="";
+  static std::string knownbad="";
+  if(rDotExec=="") return false;
+  if(rDotExec==knowngood) return true;
+  if(rDotExec==knownbad) return false;
   // test for dot binary
   std::string testdot = rDotExec + " -V";
-  ready = (system(testdot.c_str()) == 0);
-  known = true;
+  bool ready = (system(testdot.c_str()) == 0);
+  if(ready)
+    knowngood=rDotExec;
+  else
+    knownbad=rDotExec;
   return ready;
 }
   

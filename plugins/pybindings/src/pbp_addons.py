@@ -197,11 +197,36 @@ from matplotlib import pyplot
 from PIL import Image
 import tempfile
 import subprocess
+from pathlib import PurePath
 
 # have my own dot runner
-# (the libFAUDES variant in not functional in IDLE)
-def __ProcessDotPng(dotfile,imgfile):
-  dotcmd= [DotExecPath(),'-Tpng',dotfile,'-o', imgfile]
+# (the libFAUDES implementation will fail in e.g. macOS/IDLE)
+def __ProcessDot(dotfile,imgfile, opts=[]):
+  # test dor dot
+  if not DotReady():
+    raise Exception("__ProcessDot: dot executable not found.")      
+  # figure output format from suffix and have some nice defaults  
+  if len(opts) == 0:
+    opts=['-Efontname=Arial', '-Nfontname=Arial', '-Gbgcolor=transparent'] 
+    suff=PurePath(imgfile).suffix
+    if suff=='.png':
+       opts+=['-Tpng']
+    elif suff=='.jpg':
+       opts+=['-Tjpeg']
+    elif suff=='.jpeg':
+       opts+=['-Tjpeg']
+    elif suff=='.svg':
+       opts+=['-Tsvg']
+    elif suff=='.eps':
+       opts+=['-Teps']
+    elif suff=='.pdf':
+       opts+=['-Tpdf']
+    else:
+      raise Exception("__ProcessDot: cannot figure image format.")
+  # assemble command and run
+  dotcmd= [DotExecPath()]
+  dotcmd += opts
+  dotcmd += [dotfile,'-o', imgfile]
   subprocess.run(dotcmd)
 
 
@@ -214,12 +239,12 @@ def __GeneratorGraphShow(g):
     imgfile = tmp.name
   # sproduce the dot file and run dot
   g.DotWrite(dotfile)
-  __ProcessDotPng(dotfile,imgfile)
+  __ProcessDot(dotfile,imgfile)
   # read back
   img = Image.open(imgfile)
   # organise plot
   w, h = img.size
-  pyplot.figure(figsize=(w/100, h/100), dpi=100)
+  pyplot.figure(figsize=(w/100, h/100+0.5), dpi=100)
   pyplot.imshow(img)
   pyplot.axis('off')
   pyplot.title(g.Name(),loc='left')
