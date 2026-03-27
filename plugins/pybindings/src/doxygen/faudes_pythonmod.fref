@@ -79,7 +79,7 @@ or, for "lazy" import to the current namespace
 </pre>
 
 <p>
-We use assume lazy import throughout this documententation.
+For the sake of concise esamples, we use lazy import throughout this documententation.
 E.g. <tt>faudes.Help()</tt> is convenientliy accessed by plain 
 </p>
 <pre>&gt;&gt;&gt; Help()</pre>
