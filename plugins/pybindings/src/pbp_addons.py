@@ -1,13 +1,21 @@
 # convenience addons (experimental, unstable)
 
+
+# #########################################################
+# #########################################################
 # #########################################################
 # Convert Generators from/to Python lists
+# #########################################################
+# #########################################################
 # #########################################################
 
 
 # initialise Generator or derived class from Python lists
 # (use faudes style return-by-reference to be type agnostic)
 def __ConvertListsToGenerator(GRes,Q=[],Sigma=[],delta=[],Q0=[],Qm=[]):
+    r"""                                                                                               
+    Generator.FromLists(Q=[],Sigma=[],delta=[],Q0=[],Qm=[])
+    """
     # prepare
     GRes.Clear()
     # insert explicit state indices
@@ -64,7 +72,7 @@ def __ConvertListsToGenerator(GRes,Q=[],Sigma=[],delta=[],Q0=[],Qm=[]):
 # wrapper to instantiate a Generator from Python listrs
 def __NewGeneratorFromLists(Q=[],Sigma=[],delta=[],Q0=[],Qm=[]):
     r"""                                                                                               
-    Generator.FromLists(Q=[],Sigma=[],delta=[],Q0=[],Qm=[])
+    Generator.NewFromLists(Q=[],Sigma=[],delta=[],Q0=[],Qm=[]) -> Generator
     """
     g=Generator()
     __ConvertListsToGenerator(g,Q,Sigma,delta,Q0,Qm)
@@ -135,7 +143,11 @@ Generator.ToLists=__NewListsFromGenerator
 
 
 # #########################################################
+# #########################################################
+# #########################################################
 # Convert Systems from/to Python lists
+# #########################################################
+# #########################################################
 # #########################################################
 
 # wrapper to instantiate a System from Python lists
@@ -174,4 +186,45 @@ def __NewListsFromSystem(g):
 System.ToLists=__NewListsFromSystem
 
 
+# #########################################################
+# #########################################################
+# Wrapper for graphical output
+# #########################################################
+# #########################################################
 
+# get what we need
+from matplotlib import pyplot
+from PIL import Image
+import tempfile
+import subprocess
+
+# have my own dot runner
+# (the libFAUDES variant in not functional in IDLE)
+def __ProcessDotPng(dotfile,imgfile):
+  dotcmd= [DotExecPath(),'-Tpng',dotfile,'-o', imgfile]
+  subprocess.run(dotcmd)
+
+
+# worker function
+def __GeneratorGraphShow(g):
+  # have a temp files    
+  with tempfile.NamedTemporaryFile(suffix=".dot", delete=False) as tmp:
+    dotfile = tmp.name
+  with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+    imgfile = tmp.name
+  # sproduce the dot file and run dot
+  g.DotWrite(dotfile)
+  __ProcessDotPng(dotfile,imgfile)
+  # read back
+  img = Image.open(imgfile)
+  # organise plot
+  w, h = img.size
+  pyplot.figure(figsize=(w/100, h/100), dpi=100)
+  pyplot.imshow(img)
+  pyplot.axis('off')
+  pyplot.title(g.Name(),loc='left')
+  pyplot.show()
+
+
+# advertise to user
+Generator.GraphShow=__GeneratorGraphShow

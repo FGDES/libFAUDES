@@ -81,12 +81,22 @@ print()
 ## eg Linux ## DotExecPath('dot')
 ## eg MsWin ## DotExecPath('c:\\Programs\Graphviz\dot')
 
-## Run dot
+## Run dot to create imgage file
 gen.GraphWrite('tmp_simplemachine.jpg')
 
-## Comments: alternative output formats include <tt>*.png</tt>, <tt>*.svg</tt> 
+## Comments: Alternative output formats include <tt>*.png</tt>, <tt>*.svg</tt> 
 ## and <tt>*.dot</tt>. The latter is particular useful to apply advanced
-## dot-processing options to affect e.g. the font or resolution.
+## dot-processing options to affect e.g. the font or resolution. See also
+## the shell script in ./libFAUDES/tools/imgproc
+
+## Inspect image interactively
+## gen.GraphShow()
+
+## Comments: The method GraphShow() is meant for quick inspection e.g. in a
+## Jupyter notebool. It is implemented in Python an uses the modeul
+## mathplotlib to display an image rendered by GraphViz dot. You may inspect
+## ./libFAUDES/plygins/pybindings/src/py_addons.py to derive alternive
+## variants
 
 
 ## ##########################################
