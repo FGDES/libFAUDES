@@ -242,7 +242,7 @@ def __ProcessDot(dotfile,imgfile, opts=[]):
     stup=subprocess.STARTUPINFO()
     stup.dwFlags |= subprocess.STARTF_USESHOWWINDOW 
   # run
-  subprocess.run(dotcmd,starupinfo=stup)
+  subprocess.run(dotcmd,startupinfo=stup)
 
 
 # worker function
