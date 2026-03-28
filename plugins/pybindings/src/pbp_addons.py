@@ -192,12 +192,20 @@ System.ToLists=__NewListsFromSystem
 # #########################################################
 # #########################################################
 
-# get what we need
-from matplotlib import pyplot
-from PIL import Image
+# from std library -- should be fine  
 import tempfile
 import subprocess
 from pathlib import PurePath
+  
+# graphics modules may not be present
+try:
+  from matplotlib import pyplot
+except:
+  print('ERROR: faudes cannot do graphics: module matplotlib missing')
+try:  
+  from PIL import Image
+except:
+  print('ERROR: faudes cannot do graphics: module pillow missing')
 
 # have my own dot runner
 # (the libFAUDES implementation will fail in e.g. macOS/IDLE)
