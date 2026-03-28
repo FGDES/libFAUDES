@@ -77,9 +77,9 @@ print('################# Running Graphviz/dot')
 print()
 
 ## Set dot path (or specify in PATH environment variable)
-## eg MacOS ## DotExecPath('/Applications/Graphviz.app/Contents/MacOS/dot')
+## eg macOS ## DotExecPath('/Applications/Graphviz.app/Contents/MacOS/dot')
 ## eg Linux ## DotExecPath('dot')
-## eg MsWin ## DotExecPath('c:\\Programs\Graphviz\dot')
+## eg MsWin ## DotExecPath('c:\\Programs\\Graphviz\\dot.exe')
 
 ## Run dot to create imgage file
 gen.GraphWrite('tmp_simplemachine.jpg')

@@ -2402,7 +2402,7 @@ bool vGenerator::ReindexOnWriteDefault(void) {
 
 // DoWrite()
 void vGenerator::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
-  std::cout << "vGenerator::DoWrite()" << std::endl;
+  std::cout << "vGenerator::DoWrite() to " << rTw.FileName() << std::endl;
   (void) pContext;
   // pre 2.20 behaviour: re-index on file output
   /*
