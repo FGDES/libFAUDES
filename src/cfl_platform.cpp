@@ -172,13 +172,13 @@ int faudes_system(const std::string& cmd) {
   std::flush(std::cout);
   std::flush(std::cerr);
   std::string xcmd= "cmd /c \"" + cmd + "\"";
-  std::system(xcmd.c_str());
+  return std::system(xcmd.c_str());
 }
 #else
 int faudes_system(const std::string& cmd) {
   std::flush(std::cout);
   std::flush(std::cerr);
-  std::system(cmd.c_str());
+  return std::system(cmd.c_str());
 }
 #endif
 
