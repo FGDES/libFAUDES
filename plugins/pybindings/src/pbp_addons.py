@@ -201,11 +201,11 @@ from pathlib import PurePath
 try:
   from matplotlib import pyplot
 except:
-  print('ERROR: faudes cannot do graphics: module matplotlib missing')
+  print('WARNING: wont do interactive graphics: module matplotlib missing')
 try:  
   from PIL import Image
 except:
-  print('ERROR: faudes cannot do graphics: module pillow missing')
+  print('WARNING: wont do interactive graphics: module pillow missing')
 
 # have my own dot runner
 # (the libFAUDES implementation will fail in e.g. macOS/IDLE)

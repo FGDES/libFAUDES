@@ -2402,6 +2402,7 @@ bool vGenerator::ReindexOnWriteDefault(void) {
 
 // DoWrite()
 void vGenerator::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
+  std::cout << "vGenerator::DoWrite()" << std::endl;
   (void) pContext;
   // pre 2.20 behaviour: re-index on file output
   /*
@@ -3998,7 +3999,7 @@ void vGenerator::GraphWrite(const std::string& rFileName, const std::string& rOu
   catch (faudes::Exception& exception) {  
     FileDelete(dotin);
     std::stringstream errstr;
-    errstr << "Exception processing dot file";
+    errstr << "Exception processing dot file: " << exception.What();
     throw Exception("vGenerator::GraphWrite", errstr.str(), 3);
   }
   FileDelete(dotin);

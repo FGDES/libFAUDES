@@ -222,8 +222,7 @@ void ProcessDot(const std::string& rDotFile,
   }
   std::string dotcommand = rDotExec + " -T"+format+" \""+rDotFile+"\" -o \""+rOutFile+"\"";
   if(system(dotcommand.c_str()) != 0) {
-    throw Exception("faudes::ProcessDot", 
-        "Error in running " + dotcommand, 3);
+    throw Exception("faudes::ProcessDot", "Error in running " + dotcommand, 3);
   }
 }
 
@@ -239,10 +238,13 @@ bool DotReady(const std::string& rDotExec) {
   // test for dot binary
   std::string testdot = rDotExec + " -V";
   bool ready = (system(testdot.c_str()) == 0);
-  if(ready)
+  if(ready) {
     knowngood=rDotExec;
-  else
+    knownbad="";
+  } else {
+    knowngood="";
     knownbad=rDotExec;
+  }  
   return ready;
 }
   
