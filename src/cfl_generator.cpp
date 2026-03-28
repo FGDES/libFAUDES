@@ -4172,6 +4172,15 @@ void ApplyRelabelMap(const RelabelMap& rMap, const vGenerator& rGen, vGenerator&
 } // name space
 
 
+// prevent Ms VC from removing my prototypes
+#include "cfl_cgenerator.h"
+namespace faudes {
+AutoRegisterType<Alphabet>* gRtiAlphabet_ref =&gRtiAlphabet;
+AutoRegisterType<System>* gRtiSystem_ref = &gRtiSystem;
+AutoRegisterType<AlphabetVector>* gRtiAlphabetVector_ref =&gRtiAlphabetVector;
+AutoRegisterType<SystemVector>* gRtiSystemVector_ref= &gRtiSystemVector;
+}
+
 /***** NOTES ****/
 
 /*

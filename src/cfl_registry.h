@@ -485,7 +485,7 @@ public:
  *   Specify the faudes-type name 
  */
 template<class T>
-class AutoRegisterType {
+class FAUDES_TAPI AutoRegisterType {
  public:
   AutoRegisterType(const std::string& rTypeName="Void") {
     if(rTypeName=="Void") return;
@@ -497,7 +497,7 @@ class AutoRegisterType {
 };
 
 template<class T>
-class AutoRegisterElementTag {
+class FAUDES_TAPI AutoRegisterElementTag {
  public:
   AutoRegisterElementTag(const std::string& rTypeName, const std::string& rTag) {
     static AutoRegisterType<T> srego(rTypeName);
@@ -506,7 +506,7 @@ class AutoRegisterElementTag {
 };
 
 template<class T>
-class AutoRegisterElementType {
+class FAUDES_TAPI AutoRegisterElementType {
  public:
   AutoRegisterElementType(const std::string& rTypeName, const std::string& rTag) {
     static AutoRegisterType<T> srego(rTypeName);

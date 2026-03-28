@@ -27,12 +27,12 @@ int main(){
   LoadRegistry("../include/libfaudes.rti");
 
   // report to console
-  std::cout << "################################\n";
+  std::cout << "#################################\n";
   std::cout << "# tutorial, faudes types \n";
 
   // instatiate an object by faudes type
   Type* fobject = NewObject("System");  
-
+  
   // query type of an object
   std::cout << " faudes type of object: " << TypeName(*fobject) << "\n";
 

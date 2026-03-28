@@ -195,6 +195,7 @@ System.ToLists=__NewListsFromSystem
 # from std library -- should be fine  
 import tempfile
 import subprocess
+import sys
 from pathlib import PurePath
   
 # graphics modules may not be present
@@ -235,7 +236,13 @@ def __ProcessDot(dotfile,imgfile, opts=[]):
   dotcmd= [DotExecPath()]
   dotcmd += opts
   dotcmd += [dotfile,'-o', imgfile]
-  subprocess.run(dotcmd)
+  # prevent console window
+  stup=None
+  if sys.platform == 'win32':
+    stup=subprocess.STARTUPINFO()
+    stup.dwFlags |= subprocess.STARTF_USESHOWWINDOW 
+  # run
+  subprocess.run(dotcmd,starupinfo=stup)
 
 
 # worker function

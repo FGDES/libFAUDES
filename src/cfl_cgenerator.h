@@ -1300,6 +1300,12 @@ TEMP THIS* THIS::NewCpy(void) const {
 #undef BASE
 #undef THIS
 
+// MsVC will remove my prototypes if we dont use them somehere else  
+extern FAUDES_API AutoRegisterType<Alphabet> gRtiAlphabet;
+extern FAUDES_API AutoRegisterType<AlphabetVector> gRtiAlphabetVector;
+extern FAUDES_API AutoRegisterType<System> gRtiSystem;
+extern FAUDES_API AutoRegisterType<SystemVector> gRtiSystemVector;
+
  
 } // namespace faudes
 

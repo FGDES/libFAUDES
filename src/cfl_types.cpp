@@ -1061,6 +1061,7 @@ void TypeDefinition::Prototype(faudes::Type* pType){
 // construct new object with faudes type
 Type* TypeDefinition::NewObject() const{
   FD_DRTI("TypeDefinition::NewObject()");
+  FD_WARN("TypeDefinition::NewObject(): type name " << Name() << " prototype " << mpType);
   // bail out 
   if(!mpType) return NULL;
   // use prototype

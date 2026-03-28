@@ -39,6 +39,7 @@ AutoRegisterType<Alphabet> gRtiAlphabet("Alphabet");
 AutoRegisterType<AlphabetVector> gRtiAlphabetVector("AlphabetVector");
 AutoRegisterType<System> gRtiSystem("System");
 AutoRegisterType<SystemVector> gRtiSystemVector("SystemVector");
-  
+
+
 
 } // end namespace
