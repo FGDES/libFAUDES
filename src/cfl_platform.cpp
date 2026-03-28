@@ -109,8 +109,8 @@ std::string faudes_extpath(const std::string& rPath){
   }
   // if the path begins with "\drive-letter+'\' it becomes 'drive-letter+':'
   if(res.size()>=3) {
-    if((res.at(0)=='\') && isalpha(res.at(1)) && (res.at(2)=='\')) {
-      res = std::string(res.at(1)) + ":" + substr(2,npos)
+    if((res.at(0)=='\\') && isalpha(res.at(1)) && (res.at(2)=='\\')) {
+      res = res.at(1) + ":" + res.substr(2,std::string::npos);
     }
   }
   // shell quote it if it contains space
@@ -182,7 +182,7 @@ int faudes_system(const std::string& cmd, const std::string& args) {
   std::flush(std::cout);
   std::flush(std::cerr);  
 #ifdef FAUDES_WINDOWS
-  std::string xcmd= "cmd /c \"" + cmd + "\"";
+  xcmd= "cmd /c \"" + xcmd + "\"";
 #endif
   int res = std::system(xcmd.c_str());
   if(res!=0){
