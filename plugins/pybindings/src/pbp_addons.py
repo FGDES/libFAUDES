@@ -235,7 +235,7 @@ def __ProcessDot(dotfile,imgfile, opts=[]):
   dotcmd= [DotExecPath()]
   dotcmd += opts
   dotcmd += [dotfile,'-o', imgfile]
-  print(dotcommand)
+  print(dotcmd)
   subprocess.run(dotcmd)
 
 
