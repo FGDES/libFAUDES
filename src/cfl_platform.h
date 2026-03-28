@@ -208,7 +208,7 @@ extern FAUDES_API std::string faudes_getwd(void);
 extern FAUDES_API int faudes_chdir(const std::string& nwd);
 
 // uniform sytem call
-extern FAUDES_API int faudes_system(const std::string& cmd);
+extern FAUDES_API int faudes_system(const std::string& cmd, const std::string& args);
 
 // Uniform exit-signalhandler for POSIX/Windows (see e.g. simfaudes.cpp)
 extern FAUDES_API void faudes_termsignal(void (*sighandler)(int));

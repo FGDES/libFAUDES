@@ -221,10 +221,9 @@ void ProcessDot(const std::string& rDotFile,
     errstr << "Dot output format \"" << format << "\" unknown";
     throw Exception("faudes::ProcessDot", errstr.str(), 3);
   }
-  std::string dotcommand = rDotExec + " -T"+format+" \""+rDotFile+"\" -o \""+rOutFile+"\"";
-  FD_WARN("ProcessDot(): running >>>" << dotcommand << "<<<");
-  if(faudes_system(dotcommand) != 0) {
-    throw Exception("faudes::ProcessDot", "Error in running " + dotcommand, 3);
+  std::string args = "-T"+format+" \""+rDotFile+"\" -o \""+rOutFile+"\"";
+  if(faudes_system(rDotExec,args) != 0) {
+    throw Exception("faudes::ProcessDot", "Error in running " + rDotExec + " " + args, 3);
   }
 }
 
@@ -238,9 +237,8 @@ bool DotReady(const std::string& rDotExec) {
   if(rDotExec==knowngood) return true;
   if(rDotExec==knownbad) return false;
   // test for dot binary
-  std::string testdot = rDotExec + " -V";
-  FD_WARN("DotReady(): testing >>>" << testdot << "<<<");
-  bool ready = (faudes_system(testdot) == 0);
+  std::string args = "-V";  
+  bool ready = (faudes_system(rDotExec,args) == 0);
   if(ready) {
     knowngood=rDotExec;
     knownbad="";

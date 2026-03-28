@@ -24,6 +24,7 @@
 // My header
 #include "cfl_definitions.h"
 #include "cfl_platform.h"
+#include "cfl_utils.h"
 
 // Extra header
 #include <csignal>
@@ -96,7 +97,9 @@ std::string faudes_normpath(const std::string& rPath){
 // note: this addresse windows cmd.exe only
 std::string faudes_extpath(const std::string& rPath){
   std::string res=rPath;
-#ifdef FAUDES_WINDOWS  
+#ifdef FAUDES_WINDOWS
+  // bail out on trivial
+  if(res.size()==0) return res;
   // all seps become cmd.exe-sep (aka \)
   size_t pos;
   for(pos=0; pos<res.size(); ++pos) {
@@ -105,8 +108,15 @@ std::string faudes_extpath(const std::string& rPath){
       res.at(pos)='\\';
   }
   // if the path begins with "\drive-letter+'\' it becomes 'drive-letter+':'
-  // TODO
-  //std::cerr << "faudes_extpath(): ---> " << res << std::endl;
+  if(res.size()>=3) {
+    if((res.at(0)=='\') && isalpha(res.at(1)) && (res.at(2)=='\')) {
+      res = std::string(res.at(1)) + ":" + substr(2,npos)
+    }
+  }
+  // shell quote it if it contains space
+  if(res.find(' ')!=std::string::npos) {
+    res = "\"" + res + "\"";
+  }
 #endif
   return res;
 }    
@@ -167,20 +177,19 @@ int faudes_chdir(const std::string& nwd) {
 #endif
 
 // uniform sytem call
+int faudes_system(const std::string& cmd, const std::string& args) {
+  std::string xcmd=faudes_extpath(cmd) + " " + args;
+  std::flush(std::cout);
+  std::flush(std::cerr);  
 #ifdef FAUDES_WINDOWS
-int faudes_system(const std::string& cmd) {
-  std::flush(std::cout);
-  std::flush(std::cerr);
   std::string xcmd= "cmd /c \"" + cmd + "\"";
-  return std::system(xcmd.c_str());
-}
-#else
-int faudes_system(const std::string& cmd) {
-  std::flush(std::cout);
-  std::flush(std::cerr);
-  return std::system(cmd.c_str());
-}
 #endif
+  int res = std::system(xcmd.c_str());
+  if(res!=0){
+    FD_WARN("Command '" << xcmd << "' returned non-zero");
+  }
+  return res;
+}
 
 
 // Uniform signalhandler on termination
