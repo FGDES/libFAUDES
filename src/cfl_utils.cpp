@@ -35,6 +35,7 @@
 
 // c++ file io
 #include <fstream>
+#include <cstdlib>
 
 
 namespace faudes {
@@ -222,7 +223,7 @@ void ProcessDot(const std::string& rDotFile,
   }
   std::string dotcommand = rDotExec + " -T"+format+" \""+rDotFile+"\" -o \""+rOutFile+"\"";
   FD_WARN("ProcessDot(): running >>>" << dotcommand << "<<<");
-  if(system(dotcommand.c_str()) != 0) {
+  if(faudes_system(dotcommand) != 0) {
     throw Exception("faudes::ProcessDot", "Error in running " + dotcommand, 3);
   }
 }
@@ -239,7 +240,7 @@ bool DotReady(const std::string& rDotExec) {
   // test for dot binary
   std::string testdot = rDotExec + " -V";
   FD_WARN("DotReady(): testing >>>" << testdot << "<<<");
-  bool ready = (system(testdot.c_str()) == 0);
+  bool ready = (faudes_system(testdot) == 0);
   if(ready) {
     knowngood=rDotExec;
     knownbad="";

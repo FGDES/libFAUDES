@@ -27,6 +27,7 @@
 
 // Extra header
 #include <csignal>
+#include <cstdlib>
 #include <exception>
 #include <ostream>
 
@@ -164,6 +165,23 @@ int faudes_chdir(const std::string& nwd) {
   return -1;
 }
 #endif
+
+// uniform sytem call
+#ifdef FAUDES_WINDOWS
+int faudes_system(const std::string& cmd) {
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  std::string xcmd= "\"" + cmd + "\"";
+  std::system(xcmd.c_str());
+}
+#else
+int faudes_system(const std::string& cmd) {
+  std::flush(std::cout);
+  std::flush(std::cerr);
+  std::system(cmd.c_str());
+}
+#endif
+
 
 // Uniform signalhandler on termination
 void faudes_termsignal(void (*sighandler)(int)) {

@@ -308,8 +308,8 @@ void Type::FromString(const std::string& rString, const std::string& rLabel, con
 //DoWrite(rTr,rLabel,pContext)
 void Type::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
   (void) rTw; (void) rLabel; (void) pContext;
-  rTw.WriteComment("serialisation not implemented for this type");
-  FD_WARN("Type::DoWrite(): not re-implemented in " << typeid(*this).name());
+  //rTw.WriteComment("serialisation not implemented for this type");
+  //FD_WARN("Type::DoWrite(): not re-implemented in " << typeid(*this).name());
 }
 
 //DoXWrite(rTr,rLabel,pContext)

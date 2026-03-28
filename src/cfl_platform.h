@@ -203,12 +203,12 @@ extern FAUDES_API const std::string& faudes_pathsep(void);
 extern FAUDES_API std::string faudes_normpath(const std::string& rExtPath);
 extern FAUDES_API std::string faudes_extpath(const std::string& rNormIntPath);
 
-
-
-
 // uniform get/set dir (use posix style interface)
 extern FAUDES_API std::string faudes_getwd(void);
 extern FAUDES_API int faudes_chdir(const std::string& nwd);
+
+// uniform sytem call
+extern FAUDES_API int faudes_system(const std::string& cmd);
 
 // Uniform exit-signalhandler for POSIX/Windows (see e.g. simfaudes.cpp)
 extern FAUDES_API void faudes_termsignal(void (*sighandler)(int));
