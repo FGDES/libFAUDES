@@ -171,7 +171,7 @@ int faudes_chdir(const std::string& nwd) {
 int faudes_system(const std::string& cmd) {
   std::flush(std::cout);
   std::flush(std::cerr);
-  std::string xcmd= "\"" + cmd + "\"";
+  std::string xcmd= "cmd /c \"" + cmd + "\"";
   std::system(xcmd.c_str());
 }
 #else
