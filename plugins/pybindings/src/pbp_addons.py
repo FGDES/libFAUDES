@@ -233,7 +233,7 @@ def __ProcessDot(dotfile,imgfile, opts=[]):
     else:
       raise Exception("__ProcessDot: cannot figure image format.")
   # assemble command and run
-  dotcmd= [DotExecPath()]
+  dotcmd= [DotPath()]
   dotcmd += opts
   dotcmd += [dotfile,'-o', imgfile]
   # prevent console window

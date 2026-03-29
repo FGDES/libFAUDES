@@ -4,7 +4,7 @@
 faudes.MakeGlobal()
 
 -- Disable graph output
-faudes.DotExecPath("none")  
+faudes.DotPath("none")  
 
 -- Run low level synthesis scripts
 dofile("op_fsmsynth_ds.lua")

@@ -199,7 +199,7 @@ extern FAUDES_API void ProcessDot(const std::string& rDotFile, const std::string
  *   path/name of executable
  *
  */
-extern FAUDES_API bool DotReady(const std::string& rDotExec = "dot");
+extern FAUDES_API bool DotReady(const std::string& rDotExec = FAUDES_DOTPATH);
 
   
  

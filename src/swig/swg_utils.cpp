@@ -34,19 +34,19 @@ void faudes_throw_exception(const std::string& msg) {
 
 // global switches
 bool faudes_statenames = true;
-std::string faudes_dotpath = "dot";
+std::string faudes_dotpath_def = FAUDES_DOTPATH;
 
 // access functions
 void faudes_statenames_on(void) {faudes_statenames=true; Generator::StateNamesEnabledDefault(true); }
 void faudes_statenames_off(void) {faudes_statenames=false; Generator::StateNamesEnabledDefault(false); }
-void faudes_dotexecpath(const std::string& filename)  { faudes_dotpath=filename; }
-std::string faudes_dotexecpath()  { return faudes_dotpath; }
+void faudes_dotpath(const std::string& filename)  { faudes_dotpath_def=filename; }
+std::string faudes_dotpath()  { return faudes_dotpath_def; }
 std::string  faudes_version(void) { return VersionString()+" "+PluginsString(); }
 std::string  faudes_build(void) { return BuildString(); }
 
 // helper: run dot for test
 bool faudes_dotready(void) {
-  return DotReady(faudes_dotpath);
+  return DotReady(faudes_dotpath_def);
 }
 
 //global help dictionary topic -> key -> text
@@ -100,7 +100,7 @@ void faudes_help(void) {
     << std::endl
     << "  faudes.StateNamesOn()              enable automatic state names" << std::endl
     << "  faudes.StateNamesOff()             disable automatic state names" << std::endl
-    << "  faudes.DotExecPath(\"filename\")     path of dot executable" << std::endl
+    << "  faudes.DotPath(\"filename\")         path of dot executable" << std::endl
     << "  faudes.Version()                   return libFAUDES version string" << std::endl
     << "  faudes.Build()                     return libFAUDES build string" << std::endl
     << std::endl

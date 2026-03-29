@@ -95,7 +95,7 @@ Interface [extract]:
   faudes.Help(&quot;Synthesis&quot;)           Synthesis PlugIn
 
 Configuration [extract]:
-  faudes.DotExecPath(&quot;filename&quot;)     path of dot executable
+  faudes.DotPath(&quot;filename&quot;)         path of dot executable
   faudes.Version()                   report libFAUDES version string
 
 Console Commands [extract]:
@@ -174,11 +174,11 @@ the location of the  binary <tt>dot</tt> must either be in the <tt>PATH</tt> env
 specified within as follows:
 </p>
 <pre>
-&gt;&gt;&gt; DotExecPath("/usr/bin/dot")                                   # eg Linux  
-&gt;&gt;&gt; DotExecPath("c:\\Programs\Graphviz\dot")                      # eg Windows
-&gt;&gt;&gt; DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot"); # eg MacOS
-&gt;&gt;&gt; gen=Generator("data/simplemachine.gen")                       # read generator
-&gt;&gt;&gt; gen.GraphWrite("tmp_simplemachine.png");                      # write image 
+&gt;&gt;&gt; DotPath("/usr/bin/dot")                                   # eg Linux  
+&gt;&gt;&gt; DotPath("c:\\Program Files\\Graphviz\\dot")               # eg Windows
+&gt;&gt;&gt; DotPath("/Applications/Graphviz.app/Contents/MacOS/dot"); # eg MacOS
+&gt;&gt;&gt; gen=Generator("data/simplemachine.gen")                   # read generator
+&gt;&gt;&gt; gen.GraphWrite("tmp_simplemachine.png");                  # write image 
 </pre>
 
 

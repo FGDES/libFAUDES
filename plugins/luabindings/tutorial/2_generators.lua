@@ -61,9 +61,9 @@ FAUDES_TEST_DUMP("generator",gen)
 print("################# Running Graphviz/dot")
 
 -- Set dot path (or specify in PATH environment variable)
--- eg MacOS -- faudes.DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot")
--- eg linux -- faudes.DotExecPath("dot")
--- eg MsWin -- faudes.DotExecPath("c:\\Programs\\Graphviz\\dot.exe")
+-- eg MacOS -- faudes.DotPath("/Applications/Graphviz.app/Contents/MacOS/dot")
+-- eg linux -- faudes.DotPath("dot")
+-- eg MsWin -- faudes.DotPath("c:\\Program Files\\Graphviz\\dot.exe")
 
 -- Run dot
 gen:GraphWrite("tmp_simplemachine.jpg")

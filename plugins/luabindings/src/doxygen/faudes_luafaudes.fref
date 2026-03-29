@@ -93,7 +93,7 @@ libFAUDES Configuration:
 
   faudes.StatenamesOn()              enable automatic state names
   faudes.StatenamesOff()             disable automatic state names
-  faudes.DotExecPath(&quot;filename&quot;)     path of dot executable
+  faudes.DotPath(&quot;filename&quot;)         path of dot executable
   faudes.Version()                   report libFAUDES version string
 
 luafaudes Console Commands:
@@ -440,12 +440,12 @@ specified within <tt>luafaudes</tt> as follows:
 Welcome to luafaudes console 
 [...]
 &gt;
-faudes.DotExecPath("/usr/bin/dot")                                   -- eg Linux  
-faudes.DotExecPath("c:\\Programs\Graphviz\dot")                      -- eg Windows
-faudes.DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot"); -- eg MacOS
+faudes.DotPath("/usr/bin/dot")                                   -- eg Linux  
+faudes.DotPath("c:\\Program Files\\Graphviz\\dot")               -- eg Windows
+faudes.DotPath("/Applications/Graphviz.app/Contents/MacOS/dot"); -- eg MacOS
 &gt;
-gen=faudes.Generator("data/simplemachine.gen")                       -- read generator
-gen:GraphWrite("tmp_simplemachine.jpg");                             -- write image 
+gen=faudes.Generator("data/simplemachine.gen")                   -- read generator
+gen:GraphWrite("tmp_simplemachine.jpg");                         -- write image 
 </pre>
 
 

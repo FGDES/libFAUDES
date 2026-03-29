@@ -68,9 +68,9 @@ pd:Write()
 print("################# Running Graphviz/dot")
 
 -- Set dot path (or specify in PATH environment variable)
--- eg MacOS -- faudes.DotExecPath("/Applications/Graphviz.app/Contents/MacOS/dot")
--- eg linux -- faudes.DotExecPath("dot")
--- eg MsWin -- faudes.DotExecPath("c:\\Programs\Graphviz\dot")
+-- eg MacOS -- faudes.DotPath("/Applications/Graphviz.app/Contents/MacOS/dot")
+-- eg linux -- faudes.DotPath("dot")
+-- eg MsWin -- faudes.DotPath("c:\\Programs\\Graphviz\\dot")
 
 -- Run dot
 pd:GraphWrite("tmp_examplepushdown.png")

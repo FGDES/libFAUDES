@@ -36,8 +36,8 @@ extern FAUDES_API void faudes_throw_exception(const std::string& msg);
 // behavioural features
 extern FAUDES_API void faudes_statenames_on(void);
 extern FAUDES_API void faudes_statenames_off(void);
-extern FAUDES_API void faudes_dotexecpath(const std::string& filename);
-extern FAUDES_API std::string faudes_dotexecpath();
+extern FAUDES_API void faudes_dotpath(const std::string& filename);
+extern FAUDES_API std::string faudes_dotpath();
 extern FAUDES_API std::string  faudes_version(void);
 extern FAUDES_API std::string  faudes_build(void);
 extern FAUDES_API bool faudes_dotready(void);
