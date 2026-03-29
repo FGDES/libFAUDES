@@ -130,6 +130,10 @@ $(PBP_OBJDIR)/libfaudes.i: $(SWGINTERFACES)
 	echo "// ##### load all rti definied functions " >> $@
 	echo "%include \"rtiloader.i\" " >> $@
 	echo " " >> $@
+	echo " " >> $@
+	echo "// ##### extra python code " >> $@
+	echo "%pythoncode \"pbp_addons.py\"  " >> $@
+	echo " " >> $@
 
 #
 # run swig for faudes.py and pywrapper.cpp

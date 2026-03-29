@@ -70,7 +70,7 @@
   #endif
 #endif
 
-/* Interface export/import symbols: posix/gcc */
+/* Interface export/import symbols: gcc/clang */
 #ifdef FAUDES_POSIX
 #ifdef FAUDES_BUILD_DSO
   #if __GNUC__ >= 4
@@ -132,7 +132,7 @@
 #include <pthread.h>
 #endif
 
-#endif // include POSIX headers
+#endif // Extra POSIX headers
 
 
 // Extra Windows headers
@@ -175,6 +175,17 @@
 #undef min
 #endif
 
+#endif // End extra Windows headers
+
+
+// Path to dot executable
+#ifndef FAUDES_DOTPATH
+#ifdef FAUDES_WINDOWS
+#define FAUDES_DOTPATH "C:\\Program Files\\Graphviz\\bin\\dot.exe"
+#endif
+#endif
+#ifndef FAUDES_DOTPATH
+#define FAUDES_DOTPATH "dot"
 #endif
 
 
@@ -191,24 +202,24 @@ extern FAUDES_API const std::string& faudes_pathseps(void);
 extern FAUDES_API const std::string& faudes_pathsep(void);
 
 
-// Extanal vs internal paths conversion -- we are so bored
+// External vs internal paths conversion -- we are so bored
 //
 // Internal is as of v2.32  posix style, i.e., '/' is the only separtor, no
 // drive letters whatsowever. Is need be, they are converted along the
-// pattern "C:\ ==> /c/". libFAUDES should not operate on absolute oaths anyway.
+// pattern "C:\ ==> /c/". libFAUDES should not operate on absolute paths anyway.
 // Occasionally (when a libFAUDES tool needs to invoke a shell), we need to
-// convery back to external representaion. Likewise, libFAUDES tools may be
+// convert back to external representaion. Likewise, libFAUDES tools may be
 // invoked with posix style argumetns and may need to convert. Henve the following
 // two conversion functons (which should be identity on posix systems)
 extern FAUDES_API std::string faudes_normpath(const std::string& rExtPath);
 extern FAUDES_API std::string faudes_extpath(const std::string& rNormIntPath);
 
-
-
-
 // uniform get/set dir (use posix style interface)
 extern FAUDES_API std::string faudes_getwd(void);
 extern FAUDES_API int faudes_chdir(const std::string& nwd);
+
+// uniform sytem call
+extern FAUDES_API int faudes_system(const std::string& cmd, const std::string& args);
 
 // Uniform exit-signalhandler for POSIX/Windows (see e.g. simfaudes.cpp)
 extern FAUDES_API void faudes_termsignal(void (*sighandler)(int));

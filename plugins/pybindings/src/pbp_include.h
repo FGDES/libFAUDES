@@ -25,10 +25,19 @@
 @ingroup AllPlugins
 
 <p>
-This plug-in implements libFAUDES bindings for the scripting language Python; 
-see https://www.python.org. Relevant libFAUDES data types and functions
-can be accessed from the Python interpreter. The most convenient method
-to make the faudes module available is to install it via <tt>pip</tt>; i.e., for
+This plug-in implements libFAUDES bindings for the scripting language
+<a href="https://www.python.org">Python</a>. 
+Relevant libFAUDES data types and functions as documented via the <a href="https://fgdes.tf.fau.de/faudes/reference">libFAUDES User Reference</a>
+can be accessed from within the Python interpreter.
+For user documentation/introduction specifically for the faudes Python module,
+see the
+<a href="https://fgdes.tf.fau.de/faudes/pythonmod">libFAUDES Python API</a>.
+<p>
+
+
+</p>
+The most convenient method
+to make the faudes Python module available is to install it via <tt>pip</tt>; i.e., for
 Linux and macOS
 </p>
 
@@ -45,10 +54,10 @@ or, for native Windows
 @endcode
 
 <p>
-This will search the index pypi.org for a binary distribution that fits your
-platform/archirectur. In the case that no such matching binary is present,
-please let us know. Instructions on how to compile
-your own binary are below.
+This will search the index <a href="https://pypi.org">PyPI</a>
+for a binary distribution that fits your platform/archirectur. In the case
+no such matching binary is present, please let us know. Instructions on how
+to compile your own binary are below.
 </p>
 
 
@@ -56,87 +65,38 @@ your own binary are below.
 
 @subsection SecPybindingsIntro1 Example Script
 
-<p>
-In large, libFAUDES Python bindings follow the same conventions as the Lua bindingins.
-Thus, you may want to inspect the documentation of the latter;
-see https://fgdes.tf.fau.de/faudes/luafaudes/index.html.
-libFAUDES specific Python tutorial ship with the sourcse distribution;
-see <tt>./libFAUDES/pybindings/tutorial</tt>.
-</p>
-
-<p>
-Example Python script:
-</p>
-
 @code{.unparsed}
-
 # load libFAUDES bindings
-import faudes
+from faudes import *
 
 # test
-faudes.Version()
+Version()
+Build()
 
-# machine 1
-gL1=faudes.Generator()
-gL1.InsInitState("Idle")
-gL1.SetMarkedState("Idle")
-gL1.InsState("Busy")
-gL1.InsEvent("alpha1")
-gL1.InsEvent("beta1")
-gL1.SetTransition("Idle","alpha1","Busy")
-gL1.SetTransition("Busy","beta1","Idle")
+# instantiate generator from Python lists                                                
+g = Generator.NewFromLists(
+  delta=[
+    ['idle', 'alpha', 'busy'],
+    ['busy', 'beta',  'idle']],
+  Q0 =[ 'idle' ],
+  Qm =[ 'idle' ]
+)
 
-# machine 2
-gL2=faudes.Generator()
-gL2.InsInitState("Idle")
-gL2.SetMarkedState("Idle")
-gL2.InsState("Busy")
-gL2.InsEvent("alpha2")
-gL2.InsEvent("beta2")
-gL2.SetTransition("Idle","alpha2","Busy")
-gL2.SetTransition("Busy","beta2","Idle")
+# show on console
+g.Write()
 
-# overall plant
-gL=faudes.Generator()
-faudes.Parallel(gL1,gL2,gL)
-
-# controllable events
-sCtrl=faudes.EventSet()
-sCtrl.Insert("alpha1")
-sCtrl.Insert("alpha2")
-
-# specification aka buffer
-gE=faudes.Generator()
-gE.InsInitState("Empty")
-gE.SetMarkedState("Empty")
-gE.InsState("Full")
-gE.InsEvent("beta1")
-gE.InsEvent("alpha2")
-gE.SetTransition("Empty","beta1","Full")
-gE.SetTransition("Full","alpha2","Empty")
-
-# lift specification to overall eventset
-sAll=faudes.EventSet()
-sAll=gL.Alphabet()
-faudes.InvProject(gE,sAll)
-
-# supremal closed loop
-gK=faudes.Generator()
-faudes.SupCon(gL,sCtrl,gE,gK)
-
-# show result on console
-gK.Write()
-
-# save result as graphics
-gK.GraphWrite("K.png")
-
+# show graphically, i.e., in Jupyter notebook
+g.GraphShow()
 @endcode
 
 <p>
 Note: for graphics output you must have installed <tt>dot</tt> from the GraphViz package.
 If <tt>dot</tt> is not in the systems path, you may direct libfaudes via
-<tt>faudes.DocExecPath("/wherever_dot_is/dot")</tt>.
 </p>
+
+@code{.unparsed}
+DocExecPath("/wherever_dot_is/dot").
+@endcode
 
 
 
@@ -166,14 +126,24 @@ Example for the overall build process incl. copy/rename:
 @endcode
 
 <p>
-The libFAUDES build system also has a dedicated target <tt>pybindings-wheel</tt>
-that utilises the Python module <tt>build</tt> to generate a Python package <tt>faudes-*.whl</tt>
-for binary distribution. The latter can be installed via <tt>pip</tt>.
+The above method is specifically recommended for MSYS environments where pip install
+from PyPI.org will fail.
+</p>
+
+
+@subsection SecPybindingsIntro3 Building the libFAUDES as Wheels
+
+<p>
+A <i>Python wheel</i> is an archive in a clearly defined format/layout which
+among others facilitates binary distribution of Python extenstions e.g. via PyPI.org.
+The libFAUDES build system has a dedicated target <tt>pybindings-wheel</tt>
+that utilises the Python module <tt>build</tt> to generate a Python wheel
+<tt>faudes-*.whl</tt>. The latter can be installed via <tt>pip</tt>.
 The benefit of this approach is that Python <tt>build</tt> takes care of matching
-toolchains etc. and that after installing the wheel the module files do not need
+toolchains etc. and that after installing the the module files do not need
 to be copied to each relevant project folder.
-The downside is that Python <tt>build</tt> wont use parallel jobs and therefore can take quite
-some time. 
+The downside is that Python <tt>build</tt> wont use parallel jobs and therefore
+can take quite some time. 
 </p>
 
 <p>
@@ -189,8 +159,7 @@ Example for the overall build process incl. installation:
 
 <p>
 Alternatively, you may download the configured source from PyPI and invoke <tt>build</tt>
-directly; e.g. for Windows with official Python distribution and MSVC installed, but no MSYS
-avialable:
+directly; e.g. for Windows with official Python distribution and MSVC installed
 </p>
 @code{.unparsed}
 ./faudes-2.34> py -m build --wheel --outdir=./

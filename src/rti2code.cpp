@@ -206,8 +206,11 @@ int main(int argc, char *argv[]) {
       size_t pos=ctype.find("faudes::");
       if(pos!=std::string::npos) 
         ctype=ctype.substr(std::string("faudes::").length());
-      // Bail out if programmatically registered (default as of libFAUDES 2.34a
-      if(tit->second->AutoRegistered()) continue;
+      // Bail out if programmatically registered
+      // if(tit->second->AutoRegistered()) continue;
+      // ^^^^ Note: this is the default as of libFAUDES 2.34a; but autoregistration is not
+      // functional with MS VC optimisation; see cfl_cgenerator.h/cpp; a pragmatic fix to
+      // tyhe issue is to "autoregister again". Unhappy :-(
       // report
       std::cout << "rti2code: generating auto-registration code for \"" << ftype << "\"" << std::endl;
       // Produce c code

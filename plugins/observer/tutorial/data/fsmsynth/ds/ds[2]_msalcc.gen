@@ -12,7 +12,7 @@
 % 
 
 <Alphabet>
-cb2-13        +C+           cb3-12        +C+           cb1-3         +C+          
+cb2-13         +C+            cb3-12         +C+            cb1-3          +C+           
 </Alphabet>
 
 <States>
@@ -20,13 +20,13 @@ cb2-13        +C+           cb3-12        +C+           cb1-3         +C+
 </States>
 
 <TransRel>
-1              cb1-3         2             
-2              cb3-12        5             
-3              cb2-13        2             
-4              cb2-13        1             
-4              cb1-3         3             
-5              cb1-3         6             
-6              cb3-12        4             
+1              cb1-3          2             
+2              cb3-12         5             
+3              cb2-13         2             
+4              cb2-13         1             
+4              cb1-3          3             
+5              cb1-3          6             
+6              cb3-12         4             
 </TransRel>
 
 <InitStates>

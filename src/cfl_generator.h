@@ -2885,7 +2885,7 @@ class FAUDES_API vGenerator : public ExtType  {
    *   - error during systemcall for dot (id 3)
    */
   void GraphWrite(const std::string& rFileName, const std::string& rOutFormat="", 
-    const std::string& rDotExec="dot") const;
+    const std::string& rDotExec=FAUDES_DOTPATH) const;
 
   /** 
    * Order for sorting containers of generators 

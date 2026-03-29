@@ -12,9 +12,9 @@
 % 
 
 <Alphabet>
-cb2-13        +C+           cb13-6        +C+           cb6-13        +C+          
-cb13-5        +C+           cb9-13        +C+           cb13+y+x      +C+          
-cb13-y-x      +C+           cb13stp       +C+          
+cb2-13         +C+            cb13-6         +C+            cb6-13         +C+           
+cb13-5         +C+            cb9-13         +C+            cb13+y+x       +C+           
+cb13-y-x       +C+            cb13stp        +C+           
 </Alphabet>
 
 <States>
@@ -24,19 +24,19 @@ cb13-y-x      +C+           cb13stp       +C+
 </States>
 
 <TransRel>
-1              cb2-13        2             
-1              cb6-13        11            
-1              cb9-13        8             
-2              cb13-y-x      10            
-3              cb13-6        5             
-4              cb13-5        9             
-5              cb13+y+x      7             
-6              cb13stp       4             
-7              cb13stp       1             
-8              cb13+y+x      10            
-9              cb13-y-x      7             
-10             cb13stp       3             
-11             cb13-y-x      6             
+1              cb2-13         2             
+1              cb6-13         11            
+1              cb9-13         8             
+2              cb13-y-x       10            
+3              cb13-6         5             
+4              cb13-5         9             
+5              cb13+y+x       7             
+6              cb13stp        4             
+7              cb13stp        1             
+8              cb13+y+x       10            
+9              cb13-y-x       7             
+10             cb13stp        3             
+11             cb13-y-x       6             
 </TransRel>
 
 <InitStates>

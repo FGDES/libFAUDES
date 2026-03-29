@@ -2420,7 +2420,7 @@ void vGenerator::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type
   Token btag;
   btag.SetBegin(label);
   if(mObjectName!=label) btag.InsAttributeString("name",mObjectName);
-  if(ftype!=label && ftype!="") btag.InsAttributeString("ftype",ftype); // semi mandatory type v2.33j   
+  if(ftype!=label && ftype!="") btag.InsAttributeString("ftype",ftype); // mandatory type v2.33j   
   rTw.Write(btag);
   rTw << "\n";
   // write body
@@ -2978,7 +2978,7 @@ void vGenerator::XWriteTransRel(TokenWriter& rTw) const {
 // DoSWrite(rTw&)
 void vGenerator::DoSWrite(TokenWriter& rTw) const
 {
-  Type::DoSWrite(rTw);
+  ExtType::DoSWrite(rTw);
   rTw.WriteComment(" States:        " + ToStringInteger(Size()) );
   rTw.WriteComment(" Init/Marked:   " + ToStringInteger(mInitStates.Size()) 
 	      + "/" + ToStringInteger(mMarkedStates.Size()));
@@ -3998,7 +3998,7 @@ void vGenerator::GraphWrite(const std::string& rFileName, const std::string& rOu
   catch (faudes::Exception& exception) {  
     FileDelete(dotin);
     std::stringstream errstr;
-    errstr << "Exception processing dot file";
+    errstr << "Exception processing dot file: " << exception.What();
     throw Exception("vGenerator::GraphWrite", errstr.str(), 3);
   }
   FileDelete(dotin);
@@ -4169,6 +4169,15 @@ void ApplyRelabelMap(const RelabelMap& rMap, const vGenerator& rGen, vGenerator&
   
 } // name space
 
+
+// prevent Ms VC from removing my prototypes
+#include "cfl_cgenerator.h"
+namespace faudes {
+AutoRegisterType<Alphabet>* gRtiAlphabet_ref =&gRtiAlphabet;
+AutoRegisterType<System>* gRtiSystem_ref = &gRtiSystem;
+AutoRegisterType<AlphabetVector>* gRtiAlphabetVector_ref =&gRtiAlphabetVector;
+AutoRegisterType<SystemVector>* gRtiSystemVector_ref= &gRtiSystemVector;
+}
 
 /***** NOTES ****/
 

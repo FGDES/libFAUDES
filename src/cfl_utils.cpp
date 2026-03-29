@@ -35,6 +35,7 @@
 
 // c++ file io
 #include <fstream>
+#include <cstdlib>
 
 
 namespace faudes {
@@ -220,10 +221,9 @@ void ProcessDot(const std::string& rDotFile,
     errstr << "Dot output format \"" << format << "\" unknown";
     throw Exception("faudes::ProcessDot", errstr.str(), 3);
   }
-  std::string dotcommand = rDotExec + " -T"+format+" \""+rDotFile+"\" -o \""+rOutFile+"\"";
-  if(system(dotcommand.c_str()) != 0) {
-    throw Exception("faudes::ProcessDot", 
-        "Error in running " + dotcommand, 3);
+  std::string args = "-T"+format+" \""+rDotFile+"\" -o \""+rOutFile+"\"";
+  if(faudes_system(rDotExec,args) != 0) {
+    throw Exception("faudes::ProcessDot", "Error in running " + rDotExec + " " + args, 3);
   }
 }
 
@@ -231,13 +231,21 @@ void ProcessDot(const std::string& rDotFile,
 // test executable  
 bool DotReady(const std::string& rDotExec) {  
   // cache value
-  static bool ready=false;  
-  static bool known=false;
-  if(known) return ready;    
+  static std::string knowngood="";
+  static std::string knownbad="";
+  if(rDotExec=="") return false;
+  if(rDotExec==knowngood) return true;
+  if(rDotExec==knownbad) return false;
   // test for dot binary
-  std::string testdot = rDotExec + " -V";
-  ready = (system(testdot.c_str()) == 0);
-  known = true;
+  std::string args = "-V";  
+  bool ready = (faudes_system(rDotExec,args) == 0);
+  if(ready) {
+    knowngood=rDotExec;
+    knownbad="";
+  } else {
+    knowngood="";
+    knownbad=rDotExec;
+  }  
   return ready;
 }
   
@@ -475,7 +483,7 @@ void ConsoleOut::Write(const std::string& message,long int cntnow, long int cntd
   DoWrite(message,cntnow,cntdone,verb);
 }
 void ConsoleOut::DoWrite(const std::string& message,long int cntnow, long int cntdone, int verb) {
-  (void) cntnow; (void) cntdone; 
+  (void) cntnow; (void) cntdone;
   if(mVerb<verb) return;
   std::ostream* sout=pStream;
   if(!sout) sout=&std::cout; // tmoor: used to be std::cerr, using std::cout to facilitate emscripten/js
@@ -534,17 +542,18 @@ void  ObjectCount::Dec(const std::string& rTypeName) {
 // debugging: report on exit function
 void ExitFunction(void){
 #ifdef FAUDES_DEBUG_CODE
-  FAUDES_WRITE_CONSOLE("faudes::ExitFunction():");
+  FAUDES_WRITE_DIRECT("faudes::ExitFunction():");
   // be sure its up and running
   ObjectCount::Init();
   // get rid of all registry prototypes
-  //TypeRegistry::G()->ClearAll();  
-  //FunctionRegistry::G()->Clear();  
+  FAUDES_WRITE_DIRECT("faudes::ExitFunction(): clear registry");
+  TypeRegistry::G()->ClearAll();  
+  FunctionRegistry::G()->Clear();  
   // prepare report
   std::map<std::string,long int>::iterator cit;
   cit=ObjectCount::mspCount->begin();
   for(;cit!=ObjectCount::mspCount->end();cit++) {
-    FAUDES_WRITE_CONSOLE( cit->first << ": #" << ToStringInteger(cit->second) <<
+    FAUDES_WRITE_DIRECT( cit->first << ": #" << ToStringInteger(cit->second) <<
      " (max #" << (*ObjectCount::mspMax)[cit->first] << ")");
   }
 #endif

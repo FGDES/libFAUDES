@@ -10,7 +10,7 @@ namespace faudes {
     
 // write to Python's sys.stdout
 void faudes_pprint(const char* msg) {
-  PySys_FormatStdout(msg);
+  PySys_FormatStdout("%s",msg);
 }
 
   

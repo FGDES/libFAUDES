@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-cb2-13        +C+           cb13-6        +C+           cb6-13        +C+          
-cb13-5        +C+           cb9-13        +C+           rt3xy         +C+          
+cb2-13         +C+            cb13-6         +C+            cb6-13         +C+           
+cb13-5         +C+            cb9-13         +C+            rt3xy          +C+           
 </Alphabet>
 
 <States>
@@ -21,12 +21,12 @@ cb13-5        +C+           cb9-13        +C+           rt3xy         +C+
 </States>
 
 <TransRel>
-1              cb2-13        2             
-1              cb9-13        2             
-2              cb13-6        3             
-3              cb6-13        4             
-3              rt3xy         1             
-4              cb13-5        3             
+1              cb2-13         2             
+1              cb9-13         2             
+2              cb13-6         3             
+3              cb6-13         4             
+3              rt3xy          1             
+4              cb13-5         3             
 </TransRel>
 
 <InitStates>

@@ -12,9 +12,9 @@
 % 
 
 <Alphabet>
-rt2xy         +C+           rt2yx         +C+           rt2arx        rt2ary       
-rt2f          rt2lvx        rt2lvy        rt2mvx        +C+           rt2mvy       
-+C+           rt2stp        +C+           t_rt2-cb12\rt2  +C+          
+rt2xy          +C+            rt2yx          +C+            rt2arx         rt2ary        
+rt2f           rt2lvx         rt2lvy         rt2mvx         +C+            rt2mvy        
++C+            rt2stp         +C+            t_rt2-cb12\rt2   +C+           
 </Alphabet>
 
 <States>
@@ -25,20 +25,20 @@ rt2f          rt2lvx        rt2lvy        rt2mvx        +C+           rt2mvy
 </States>
 
 <TransRel>
-1              rt2yx         2             
-2              rt2mvx        3             
-3              t_rt2-cb12\rt2  4             
-4              rt2lvy        5             
-5              t_rt2-cb12\rt2  6             
-6              rt2arx        7             
-7              rt2stp        8             
-8              rt2xy         11            
-11             rt2mvy        12            
-12             t_rt2-cb12\rt2  13            
-13             rt2lvx        14            
-14             t_rt2-cb12\rt2  15            
-15             rt2ary        16            
-16             rt2stp        1             
+1              rt2yx          2             
+2              rt2mvx         3             
+3              t_rt2-cb12\rt2   4             
+4              rt2lvy         5             
+5              t_rt2-cb12\rt2   6             
+6              rt2arx         7             
+7              rt2stp         8             
+8              rt2xy          11            
+11             rt2mvy         12            
+12             t_rt2-cb12\rt2   13            
+13             rt2lvx         14            
+14             t_rt2-cb12\rt2   15            
+15             rt2ary         16            
+16             rt2stp         1             
 </TransRel>
 
 <InitStates>

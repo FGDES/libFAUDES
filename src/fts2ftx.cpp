@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
   }  
 
   // read input file
-  Type* fobject=NewFaudesObject(mType);
+  Type* fobject=faudes::NewObject(mType);
   fobject->Read(mInFile,mLabel);
 
   // verify: report

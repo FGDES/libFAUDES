@@ -228,7 +228,7 @@ vDevice* vDevice::FromTokenReader(TokenReader& rTr) {
   // instantiate typed faudes object
   std::string ftype=token.StringValue();
   FD_DHV("vDevice::FromFile(" << rTr.FileName() <<"): device type " << ftype);
-  Type* fobject= NewFaudesObject(ftype);
+  Type* fobject= faudes::NewObject(ftype);
   if(!fobject) {
     std::stringstream errstr;
     errstr << "Unknown type \"" << ftype << "\" at  \"" << rTr.FileLine()  << "\"";

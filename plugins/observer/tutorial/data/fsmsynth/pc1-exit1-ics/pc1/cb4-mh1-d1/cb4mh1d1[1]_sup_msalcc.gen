@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-cb4-11        +C+           cb12-4        +C+           cb4stp        +C+          
-mh1end        mh1start      +C+           mh1stp        +C+          
+cb4-11         +C+            cb12-4         +C+            cb4stp         +C+           
+mh1end         mh1start       +C+            mh1stp         +C+           
 </Alphabet>
 
 <States>
@@ -22,14 +22,14 @@ mh1end        mh1start      +C+           mh1stp        +C+
 </States>
 
 <TransRel>
-1              cb12-4        2             
-2              cb4stp        3             
-3              mh1start      8             
-8              mh1stp        9             
-9              mh1stp        10            
-10             mh1end        11            
-11             cb4-11        12            
-12             cb4stp        1             
+1              cb12-4         2             
+2              cb4stp         3             
+3              mh1start       8             
+8              mh1stp         9             
+9              mh1stp         10            
+10             mh1end         11            
+11             cb4-11         12            
+12             cb4stp         1             
 </TransRel>
 
 <InitStates>

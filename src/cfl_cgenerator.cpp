@@ -34,11 +34,14 @@ template class FAUDES_API TaNameSet<AttributeCFlags>;
 template class FAUDES_TAPI TcGenerator<AttributeVoid, AttributeVoid, AttributeCFlags,AttributeVoid>; 
 */
 
-// register  
+// Register
+// MS VC will remove unreferenced objects by optomisation; so this is only
+// functional because we explicite use a reference in cfl_generator.cpp
 AutoRegisterType<Alphabet> gRtiAlphabet("Alphabet");
 AutoRegisterType<AlphabetVector> gRtiAlphabetVector("AlphabetVector");
 AutoRegisterType<System> gRtiSystem("System");
 AutoRegisterType<SystemVector> gRtiSystemVector("SystemVector");
-  
+
+
 
 } // end namespace

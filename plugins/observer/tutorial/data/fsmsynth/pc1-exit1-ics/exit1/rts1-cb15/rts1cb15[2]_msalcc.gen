@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-cb7-15        +C+           cb15-9        +C+           cb15-rc1      +C+          
-rts1_2-1      +C+           rts1_2-3      +C+          
+cb7-15         +C+            cb15-9         +C+            cb15-rc1       +C+           
+rts1_2-1       +C+            rts1_2-3       +C+           
 </Alphabet>
 
 <States>
@@ -21,11 +21,11 @@ rts1_2-1      +C+           rts1_2-3      +C+
 </States>
 
 <TransRel>
-1              cb7-15        3             
-2              cb15-9        1             
-3              rts1_2-1      4             
-3              rts1_2-3      2             
-4              cb15-rc1      1             
+1              cb7-15         3             
+2              cb15-9         1             
+3              rts1_2-1       4             
+3              rts1_2-3       2             
+4              cb15-rc1       1             
 </TransRel>
 
 <InitStates>

@@ -125,7 +125,7 @@ public:
   /**
    * Virtual destructor
    */
-  virtual ~IndexSet(void) {};
+  virtual ~IndexSet(void);
 
   /**
    * Get maximum index used in this set (0 for emptyset)

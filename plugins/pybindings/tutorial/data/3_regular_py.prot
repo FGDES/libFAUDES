@@ -105,7 +105,7 @@
 
 %%% test mark: lang. inclusion [at 3_regular.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
@@ -113,7 +113,7 @@ true
 
 %%% test mark: lang. disjoint [at 3_regular.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
@@ -121,7 +121,7 @@ true
 
 %%% test mark: lang. equality [at 3_regular.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
@@ -159,7 +159,7 @@ true
 
 %%% test mark: lang. concat [at 3_regular.py]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 

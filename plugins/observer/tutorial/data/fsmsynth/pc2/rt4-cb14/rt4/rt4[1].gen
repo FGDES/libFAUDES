@@ -12,7 +12,7 @@
 % 
 
 <Alphabet>
-rt4stp        +C+           rt4xy         +C+           rt4yx         +C+          
+rt4stp         +C+            rt4xy          +C+            rt4yx          +C+           
 </Alphabet>
 
 <States>
@@ -20,10 +20,10 @@ rt4stp        +C+           rt4xy         +C+           rt4yx         +C+
 </States>
 
 <TransRel>
-1              rt4xy         3             
-2              rt4yx         4             
-3              rt4stp        2             
-4              rt4stp        1             
+1              rt4xy          3             
+2              rt4yx          4             
+3              rt4stp         2             
+4              rt4stp         1             
 </TransRel>
 
 <InitStates>

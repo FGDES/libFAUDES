@@ -1,4 +1,4 @@
-%%% test mark: set difference [at 2_containers.cpp:157]
+%%% test mark: set difference [at 2_containers.cpp:165]
 % 
 %  Statistics for NameSet
 % 
@@ -8,7 +8,7 @@
 % 
 % 
 
-%%% test mark: set union [at 2_containers.cpp:158]
+%%% test mark: set union [at 2_containers.cpp:166]
 % 
 %  Statistics for NameSet
 % 
@@ -18,7 +18,7 @@
 % 
 % 
 
-%%% test mark: set intersection [at 2_containers.cpp:159]
+%%% test mark: set intersection [at 2_containers.cpp:167]
 % 
 %  Statistics for NameSet
 % 
@@ -28,47 +28,47 @@
 % 
 % 
 
-%%% test mark: attrbibutes eq0 [at 2_containers.cpp:293]
+%%% test mark: attrbibutes eq0 [at 2_containers.cpp:301]
 <Boolean>
-false        
+false         
 </Boolean>
 % 
 % 
 % 
 
-%%% test mark: attrbibutes eq1 [at 2_containers.cpp:294]
+%%% test mark: attrbibutes eq1 [at 2_containers.cpp:302]
 <Boolean>
-false        
+false         
 </Boolean>
 % 
 % 
 % 
 
-%%% test mark: attrbibutes eq2 [at 2_containers.cpp:295]
+%%% test mark: attrbibutes eq2 [at 2_containers.cpp:303]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
 % 
 
-%%% test mark: attrbibutes eq3 [at 2_containers.cpp:296]
+%%% test mark: attrbibutes eq3 [at 2_containers.cpp:304]
 <Boolean>
-true         
+true          
 </Boolean>
 % 
 % 
 % 
 
-%%% test mark: vect element cast [at 2_containers.cpp:341]
+%%% test mark: vect element cast [at 2_containers.cpp:349]
 <Boolean>
-false        
+false         
 </Boolean>
 % 
 % 
 % 
 
-%%% test mark: deferred copy A [at 2_containers.cpp:367]
+%%% test mark: deferred copy A [at 2_containers.cpp:375]
 % 
 %  Statistics for IndexSet
 % 
@@ -78,7 +78,7 @@ false
 % 
 % 
 
-%%% test mark: deferred copy B [at 2_containers.cpp:368]
+%%% test mark: deferred copy B [at 2_containers.cpp:376]
 % 
 %  Statistics for IndexSet
 % 
@@ -88,7 +88,7 @@ false
 % 
 % 
 
-%%% test mark: deferred copy A - 2 [at 2_containers.cpp:381]
+%%% test mark: deferred copy A - 2 [at 2_containers.cpp:389]
 % 
 %  Statistics for IndexSet
 % 
@@ -98,7 +98,7 @@ false
 % 
 % 
 
-%%% test mark: deferred copy B - 2 [at 2_containers.cpp:382]
+%%% test mark: deferred copy B - 2 [at 2_containers.cpp:390]
 % 
 %  Statistics for IndexSet
 % 
@@ -108,7 +108,7 @@ false
 % 
 % 
 
-%%% test mark: deferred copy A - 3 [at 2_containers.cpp:421]
+%%% test mark: deferred copy A - 3 [at 2_containers.cpp:429]
 % 
 %  Statistics for IndexSet
 % 
@@ -118,7 +118,7 @@ false
 % 
 % 
 
-%%% test mark: deferred copy B - 3 [at 2_containers.cpp:422]
+%%% test mark: deferred copy B - 3 [at 2_containers.cpp:430]
 % 
 %  Statistics for IndexSet
 % 
@@ -128,7 +128,7 @@ false
 % 
 % 
 
-%%% test mark: deferred copy C - 3 [at 2_containers.cpp:423]
+%%% test mark: deferred copy C - 3 [at 2_containers.cpp:431]
 % 
 %  Statistics for IndexSet
 % 

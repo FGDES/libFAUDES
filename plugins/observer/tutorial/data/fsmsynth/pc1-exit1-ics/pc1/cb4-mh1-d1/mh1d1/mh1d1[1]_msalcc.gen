@@ -12,7 +12,7 @@
 % 
 
 <Alphabet>
-mh1end        mh1start      +C+           mh1stp        +C+          
+mh1end         mh1start       +C+            mh1stp         +C+           
 </Alphabet>
 
 <States>
@@ -20,10 +20,10 @@ mh1end        mh1start      +C+           mh1stp        +C+
 </States>
 
 <TransRel>
-1              mh1start      4             
-2              mh1stp        3             
-3              mh1end        1             
-4              mh1stp        2             
+1              mh1start       4             
+2              mh1stp         3             
+3              mh1end         1             
+4              mh1stp         2             
 </TransRel>
 
 <InitStates>

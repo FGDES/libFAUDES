@@ -3,7 +3,7 @@
 
 /* FAU Discrete Event Systems Library (libfaudes)
 
-   Copyright (C) 2008  Thomas Moor
+   Copyright (C) 2008-2026  Thomas Moor
    Exclusive copyright is granted to Klaus Schmidt
 
    This library is free software; you can redistribute it and/or
@@ -202,7 +202,7 @@ public:
   /** 
    * Iterator class for high-level api to TBaseSet.
    *
-   * This is a convenoience typedef --- faudes set iterators are const anyway.
+   * This is a convenience typedef --- faudes set iterators are const anyway.
    *
    */
   typedef Iterator CIterator;
@@ -226,6 +226,20 @@ public:
   Iterator End(void) const;
 
   /**
+   * Test validty of an iterator
+   *
+   * This test whether the provided iterator matches the end of
+   * the set, aka, whether it is the std "out of range" indicator.
+   * The implementation is slightly more efficient the "pos==End()".
+   *
+   * @param pos
+   *    Iterator to test
+   * @return
+   *    True if iterator is out of range
+   */
+  bool IsEnd(const Iterator& pos) const;
+  
+  /**
    * Test validty of candidate element.
    *
    * Reimplement this function for particular type T of elements,
@@ -237,8 +251,8 @@ public:
    *    True if element is valid
    */
   virtual bool Valid(const T& rElem) const;
-   
 
+  
   /** 
    * Erase element by reference
    *
@@ -248,7 +262,6 @@ public:
    *    True if element used to exist
    */
   virtual bool Erase(const T& rElem);
-
 
   /** 
    * Erase element by iterator 
@@ -390,22 +403,21 @@ public:
   enum DetachMode { SetOnly, AttrIncl };  
   void Detach(DetachMode flag=AttrIncl) const;
 
-  /** Detach and lock any further reallocation */
+  /** Detach and lock any further reallocation (not reversable)*/
   void Lock(void) const;
 
   /** 
    * Iterator class for high-level API to TBaseSet.
-   * This class is derived from STL iterators to additionally provide
-   * a reference of the container to iterate on. This feature
-   * is used to adjust iterators when the actual set gets reallocated due to a Detach()
-   * operation. Inheritance is private to ensure that all high-level api functions maintain
-   * iteretor refernces consistently. Currently, high-level api iterators support
-   * the operators -&gt; ,*,  =, ++, --, ==, !=.
+   * This class is derived from STL iterators to additionally provide a reference of the
+   * container to iterate on. This feature is used to adjust iterators when the actual set
+   * gets reallocated due to a Detach() operation. Inheritance is private to ensure that
+   * all high-level API functions maintain iteretor refernces consistently. Currently,
+   * high-level API iterators support the operators -&gt; ,*,  =, ++, --, ==, !=.
    * 
-   * Technical detail: the private inheritance prohibits the direct use of stl algorithms on
-   * faudes Iterators. If you need direct access to stl algorithms from outside the faudes set
+   * Technical detail: the private inheritance prohibits the direct use of STL algorithms on
+   * faudes Iterators. If you need direct access to STL algorithms from outside the faudes set
    * class, you may turn to public inheritance. Make sure to Lock the relevant sets befor
-   * applying any stl algorithms.
+   * applying any STL algorithms.
    */
    class Iterator : private std::set<T,Cmp>::const_iterator {
      public: 
@@ -483,7 +495,7 @@ public:
        return *this;
      };
 
-     /** Copy STL iterator only */
+     /** Set STL iterator only */
      void  StlIterator(const typename std::set<T,Cmp>::const_iterator& sit) {
        std::set<T,Cmp>::const_iterator::operator= (sit);
      };
@@ -494,7 +506,7 @@ public:
      };
 
      /** Invalidate */
-     void  Invalidate(void) {
+     void Invalidate(void) {
        pBaseSet=NULL;
        mAttached=false;
      }; 
@@ -504,18 +516,23 @@ public:
        mAttached=false;
      }; 
 
+     /** Check validity (no exception/abort*/
+     bool Valid(void) const {
+       if(pBaseSet==NULL) return false;
+       return !pBaseSet->IsEnd(*this);
+     }; 
 
      /** Check validity (provoke abort error) */
      void DValid(void) const {
       if(pBaseSet==NULL) {
-         FD_ERR("TBaseSet<T,Cmp>::Iterator(" << this << "):DValid(): invalid iterator: no baseset");
+         FD_ERR("TBaseSet<T,Cmp>::Iterator(" << this << "):DValid(): invalid iterator: no BaseSet");
          abort();
        }
        pBaseSet->DValid("Iterator");
      }; 
 
      /** Reimplement dereference */ 
-      const T* operator-> (void) const {
+     const T* operator-> (void) const {
 #ifdef FAUDES_DEBUG_CODE
        if(pBaseSet==NULL) {
          FD_ERR("TBaseSet<T,Cmp>::Iterator(" << this << "):operator->: invalid iterator: no baseset");
@@ -525,7 +542,7 @@ public:
        return std::set<T,Cmp>::const_iterator::operator-> ();
      };
 
-     /** Reimplement derefernce */
+     /** Reimplement dereference */
      const T& operator* (void) const {
 #ifdef FAUDES_DEBUG_CODE
        if(pBaseSet==NULL) {
@@ -628,6 +645,7 @@ public:
   /** 
    * Iterator class for high-level api to TBaseSet.
    * This version is a dummy and does not provide any additional features.
+   * Note: As of v2.34e Python bindings need the ityerator to at least track their BaseSet.
    */
    class Iterator : public std::set<T,Cmp>::const_iterator {
      public:
@@ -664,9 +682,11 @@ public:
        return *this;
      };
 
-     /** Invalidate, compatibility */
+     /** Invalidate (compatibility, not implemented) */
      void  Invalidate(void) {};
 
+     /** Check validity (compatibitity, cannot tell) */
+     bool Valid(void) const {return false;};
    };
 
 #endif
@@ -829,6 +849,11 @@ public:
    */
    virtual void ToStl(std::set<T,Cmp>& rStlSet) const;
   
+  /** C++ naming convention (as pseudo aliases) */
+   typedef T value_type;
+   inline Iterator begin(void) const {return Begin();};
+   inline Iterator end(void) const {return End();};
+
 
 protected:
 
@@ -1224,7 +1249,7 @@ Implementation of TBaseSet
 /* convenience access to relevant scopes */
 #define THIS TBaseSet<T,Cmp> 
 #define TEMP template<class T, class Cmp>
-#define BASE Type
+#define BASE ExtType
 
 
 // faudes type std: new and cast
@@ -1293,43 +1318,8 @@ TEMP THIS::TBaseSet(void) :
 #endif
 }
 
-// TBaseSet(filename)
-TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel)  :
-  ExtType(),
-  pSet(GlobalEmptySet()),  
-  mpSet(NULL),
-  pAttributes(GlobalEmptyAttributes()),
-  mpAttributes(NULL),
-  pHostSet(this),
-  mpClients(new std::list< TBaseSet<T,Cmp>* >),
-  mDetached(false), 
-  mLocked(false),
-  pGes(GlobalEmptySet()),
-  pGea(GlobalEmptyAttributes())
-{
-  FAUDES_OBJCOUNT_INC("BaseSet");
-  FD_DC("TBaseSet(" << this << ")::TBaseSet()");
-  // other members
-  mElementTagDef="Element";
-  mObjectName="BaseSet";
-  // do read etc ... this is a dummy anyway
-  Read(rFileName,rLabel);  
-}
-
 // TBaseSet(rOtherSet)
-TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) : 
-  ExtType(rOtherSet),
-  pSet(GlobalEmptySet()),  
-  mpSet(NULL),
-  pAttributes(GlobalEmptyAttributes()),
-  mpAttributes(NULL),
-  pHostSet(this),
-  mpClients(new std::list< TBaseSet<T,Cmp>* >),
-  mDetached(false), 
-  mLocked(false),
-  pGes(GlobalEmptySet()),
-  pGea(GlobalEmptyAttributes())
-{
+TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) : TBaseSet() {
   FAUDES_OBJCOUNT_INC("BaseSet");
   FD_DC("TBaseSet(" << this << ")::TBaseSet(rOtherSet " << &rOtherSet << "): fake copy construct");
   // overwrite base defaults
@@ -1341,6 +1331,18 @@ TEMP THIS::TBaseSet(const TBaseSet& rOtherSet) :
   DValid("CopyConstruct");
 #endif
 }
+
+// TBaseSet(filename)
+TEMP THIS::TBaseSet(const std::string& rFileName, const std::string& rLabel) : TBaseSet() {
+  FAUDES_OBJCOUNT_INC("BaseSet");
+  FD_DC("TBaseSet(" << this << ")::TBaseSet()");
+  // other members
+  mElementTagDef="Element";
+  mObjectName="BaseSet";
+  // do read etc ... this is a dummy anyway
+  Read(rFileName,rLabel);  
+}
+
 
 // destructor
 TEMP THIS::~TBaseSet(void) {
@@ -2030,7 +2032,7 @@ TEMP void THIS::DoSWrite(TokenWriter& rTw) const {
     rTw.WriteComment(" Attributes: " +ToStringInteger((Idx) pAttributes->size()));
   if(pAttributes->size()!=0) {
     AttributeVoid* attr = pAttributes->begin()->second;
-    rTw.WriteComment(" Attribute Type: " +FaudesTypeName(*attr));
+    rTw.WriteComment(" Attribute Type: " +faudes::TypeName(*attr));
   } 
 }
 
@@ -2088,7 +2090,7 @@ TEMP void THIS::DoRead(TokenReader& rTr, const std::string& rLabel, const Type* 
     }
     // cannot process token
     std::stringstream errstr;
-    errstr << "Invalid token of type " << token.Type() << " at " << rTr.FileLine();
+    errstr << "Invalid token of type " << token.Str() << " at " << rTr.FileLine();
     throw Exception("BaseSet::DoRead", errstr.str(), 50);
   }
   rTr.ReadEnd(label);
@@ -2163,7 +2165,7 @@ TEMP void THIS::Clear(void) {
 }
 
 
-//test for default configuration
+// test for default configuration
 TEMP bool THIS::IsDefault(void) const {
   return pSet->empty();
 }
@@ -2173,6 +2175,11 @@ TEMP inline bool  THIS::Valid(const T& rElem) const {
   (void) rElem;
   return true;
 }
+
+//Valid(pos) 
+TEMP inline bool THIS::IsEnd(const Iterator& pos) const {
+  return pos.StlIterator()==pSet->end();
+} 
 
 //Insert(elem)
 TEMP bool THIS::Insert(const T& rElem) {

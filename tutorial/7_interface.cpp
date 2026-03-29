@@ -27,14 +27,14 @@ int main(){
   LoadRegistry("../include/libfaudes.rti");
 
   // report to console
-  std::cout << "################################\n";
+  std::cout << "#################################\n";
   std::cout << "# tutorial, faudes types \n";
 
   // instatiate an object by faudes type
-  Type* fobject = NewFaudesObject("System");  
-
+  Type* fobject = NewObject("System");  
+  
   // query type of an object
-  std::cout << " faudes type of object: " << FaudesTypeName(*fobject) << "\n";
+  std::cout << " faudes type of object: " << TypeName(*fobject) << "\n";
 
   // type test: can we cast this to a plain generator?
   Generator gen;
@@ -53,7 +53,7 @@ int main(){
     std::cout << " faudes object cast to EventSet: failed [expected]\n";
 
   // Record test case
-  FAUDES_TEST_DUMP("faudes type",FaudesTypeName(*fobject));
+  FAUDES_TEST_DUMP("faudes type",TypeName(*fobject));
   FAUDES_TEST_DUMP("cast to generator",isvg);
   FAUDES_TEST_DUMP("cast to eventset",ises);
 
@@ -63,16 +63,16 @@ int main(){
   // ******************** basic ussage of the function registry
 
   // instatiate some generators via the registry 
-  Type* data0 = NewFaudesObject("Generator");  
-  Type* data1 = NewFaudesObject("Generator");  
-  Type* data2 = NewFaudesObject("Generator");  
+  Type* data0 = NewObject("Generator");  
+  Type* data1 = NewObject("Generator");  
+  Type* data2 = NewObject("Generator");  
 
   // load input data from files
   data0->Read("./data/simplemachine.gen");
   data1->Read("./data/buffer.gen");
 
   // instantiate a function via registry 
-  Function* funct = NewFaudesFunction("Parallel");  
+  Function* funct = NewFunction("Parallel");  
   
   // set parameter values (exception on accessing positional parameter out of range)
   funct->ParamValue(0,data0);
@@ -208,7 +208,7 @@ int main(){
   std::cout << "################################\n";
 
   // use the registry to construct an object by its type name
-  Type* generator = NewFaudesObject("System");  
+  Type* generator = NewObject("System");  
 
   // test generator object
   if(dynamic_cast<System*>(generator)) 
@@ -217,7 +217,7 @@ int main(){
     std::cout << "Faudes object does not casts to System: ERR [test case error]\n";
 
   // recover faudes type name from object
-  std::cout << "Its a \"" << FaudesTypeName(*generator) << "\"\n";
+  std::cout << "Its a \"" << TypeName(*generator) << "\"\n";
 
   // delete my objects
   delete generator;

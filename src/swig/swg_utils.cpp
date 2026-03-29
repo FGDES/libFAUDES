@@ -34,19 +34,19 @@ void faudes_throw_exception(const std::string& msg) {
 
 // global switches
 bool faudes_statenames = true;
-std::string faudes_dotpath = "dot";
+std::string faudes_dotpath_def = FAUDES_DOTPATH;
 
 // access functions
 void faudes_statenames_on(void) {faudes_statenames=true; Generator::StateNamesEnabledDefault(true); }
 void faudes_statenames_off(void) {faudes_statenames=false; Generator::StateNamesEnabledDefault(false); }
-void faudes_dotexecpath(const std::string& filename)  { faudes_dotpath=filename; }
-std::string faudes_dotexecpath()  { return faudes_dotpath; }
+void faudes_dotpath(const std::string& filename)  { faudes_dotpath_def=filename; }
+std::string faudes_dotpath()  { return faudes_dotpath_def; }
 std::string  faudes_version(void) { return VersionString()+" "+PluginsString(); }
 std::string  faudes_build(void) { return BuildString(); }
 
 // helper: run dot for test
 bool faudes_dotready(void) {
-  return DotReady(faudes_dotpath);
+  return DotReady(faudes_dotpath_def);
 }
 
 //global help dictionary topic -> key -> text
@@ -100,9 +100,15 @@ void faudes_help(void) {
     << std::endl
     << "  faudes.StateNamesOn()              enable automatic state names" << std::endl
     << "  faudes.StateNamesOff()             disable automatic state names" << std::endl
-    << "  faudes.DotExecPath(\"filename\")     path of dot executable" << std::endl
+    << "  faudes.DotPath(\"filename\")         path of dot executable" << std::endl
     << "  faudes.Version()                   return libFAUDES version string" << std::endl
     << "  faudes.Build()                     return libFAUDES build string" << std::endl
+    << std::endl
+    << "Convenience Functions:" << std::endl
+    << std::endl
+    << "  faudes.New(\"type\")                 instantiate object by class name" << std::endl
+    << "  faudes.NewFromString(\"type\",\"str\") instantiate object from string" << std::endl
+    << "  faudes.NewFromFile(\"type\",\"file\")  instantiate object from file" << std::endl
     << std::endl
     << "Console Commands:" << std::endl
     << std::endl
@@ -111,27 +117,37 @@ void faudes_help(void) {
     << "  faudes.Print(int,\"message\")            conditional debugging message" << std::endl
     << "  faudes.Error(\"message\")            abort script with error message" << std::endl;
 
+
   // do print to stderr
   Print(0,sstr.str()); // verb 0 <> always
 }
 
 // section text
 void faudes_help(const std::string& topic) {
+
+  // find topic
+  std::string abstract;
+  std::map< std::string, std::string >::iterator tit;
+  tit=faudes_dictionary_topics.find(topic);
+  if(tit!=faudes_dictionary_topics.end()) 
+    abstract=tit->second;
+
+  // prepare
   std::stringstream sstr;
 
   // section: intro
   sstr  
     << std::endl
-    << "libFAUDES help topic: \"" << topic << "\"" << std::endl
+    << "libFAUDES help topic: \"" << topic << "\": " << abstract << std::endl
     << std::endl;
 
   // section: list entries
-  std::map< std::string, std::map< std::string, std::vector<std::string> > >::iterator tit; 
-  tit = faudes_dictionary_entries.find(topic);
-  if(tit!=faudes_dictionary_entries.end()) {
+  std::map< std::string, std::map< std::string, std::vector<std::string> > >::iterator sit; 
+  sit = faudes_dictionary_entries.find(topic);
+  if(sit!=faudes_dictionary_entries.end()) {
     std::map< std::string, std::vector<std::string> >::iterator kit;   
-    for(kit = tit->second.begin(); kit != tit->second.end(); kit++) {
-      if(kit != tit->second.begin()) sstr << std::endl;
+    for(kit = sit->second.begin(); kit != sit->second.end(); kit++) {
+      if(kit != sit->second.begin()) sstr << std::endl;
       const std::string& line = kit->first;
       sstr << "                 *** " << line << " ***" << std::endl;
       for(unsigned int i=0; i< kit->second.size(); i++) {

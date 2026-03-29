@@ -1,7 +1,7 @@
 ## Test/demonstrate composition functions
 
-## import our module
-import faudes
+## import our module (lazy aka all global)
+from faudes import *
 
 ## ##########################################
 ## Prepare two simple machines
@@ -11,17 +11,17 @@ import faudes
 print("################# Prepare two simple machines");
 
 ## Read original machine
-machine  = faudes.System("data/verysimplemachine.gen")
+m  = System("data/vsmachine.gen")
 
 ## Prepare two copies
-machine1 = faudes.System()
-machine2 = faudes.System()
-faudes.Version(machine,"1",machine1)
-faudes.Version(machine,"2",machine2)
+m1 = System()
+m2 = System()
+Version(m,"1",m1)
+Version(m,"2",m2)
 
 ## Report
-machine1.Write()
-machine2.Write()
+m1.Write()
+m2.Write()
 
 ## ##########################################
 ## Std parallel
@@ -32,14 +32,13 @@ print("################# Std parallel composition (here: shuffle product)");
 
 
 ## Compose overall plant
-machines = faudes.Generator()
-faudes.Parallel(machine1,machine2,machines)
+m12 = Parallel(m1,m2)
 
 ## Report
-machines.Write()
+m12.Write()
 
 ## Record test case
-faudes.TestDump("parallel",machines)
+TestDump("parallel",m12)
 
 ## ##########################################
 ## Std parallel with attributes
@@ -50,14 +49,14 @@ print("################# Std parallel composition (here: shuffle product, incl a
 
 
 ## Compose overall plant
-cmachines = faudes.System()
-faudes.Parallel(machine1,machine2,cmachines)
+cm12 = System()
+Parallel(m1,m2,cm12)
 
 ## Report
-cmachines.Write()
+cm12.Write()
 
 ## Record test case
-faudes.TestDump("parallel incl. attr.",cmachines)
+TestDump("parallel incl. attr.",cm12)
 
 ## ##########################################
 ## Std parallel with composition map 
@@ -68,8 +67,8 @@ print("################# Std parallel composition (here: incl. comp. map)");
 
 
 ## Compose overall plant
-compmap = faudes.ProductCompositionMap();
-faudes.Parallel(machine1,machine2,compmap,cmachines)
+compmap = ProductCompositionMap();
+Parallel(m1,m2,compmap,cm12)
 
 ## Report
 print("Comp. map:", compmap)
@@ -79,13 +78,13 @@ sc_21 = compmap.CompState(2,1)
 s1_3  = compmap.Arg1State(3)
 s2_3  = compmap.Arg2State(3)
 print("Composed state (2,1) is indexed ",sc_21)
-print("Composed state 3 corresponds to machine1 state",s1_3)
-print("Composed state 3 corresponds to machine2 state",s2_3)
+print("Composed state 3 corresponds to m1 state",s1_3)
+print("Composed state 3 corresponds to m2 state",s2_3)
 
 ## Record test case
-faudes.TestDump("parallel incl. comp. map a", sc_21)
-faudes.TestDump("parallel incl. comp. map b", s1_3)
-faudes.TestDump("parallel incl. comp. map c", s2_3)
+TestDump("parallel incl. comp. map a", sc_21)
+TestDump("parallel incl. comp. map b", s1_3)
+TestDump("parallel incl. comp. map c", s2_3)
 
 ## ##########################################
 ## Std parallel, funny cases
@@ -94,34 +93,34 @@ faudes.TestDump("parallel incl. comp. map c", s2_3)
 ## Announce
 print("################# Std parallel composition (empty alphabets)");
 
-## Intentionally break machine1
-sigma1=machine1.Alphabet();
-machine1.DelEvents(sigma1);
+## Intentionally break m1
+sigma1=m1.Alphabet();
+m1.DelEvents(sigma1);
 
 ## Compose overall plant
-machines = faudes.Generator()
-faudes.Parallel(machine1,machine2,machines)
+m12 = Generator()
+Parallel(m1,m2,m12)
 
 ## Report
-machines.Write()
+m12.Write()
 
 ## Record test case
-faudes.TestDump("parallel empty alphabet a",machines)
+TestDump("parallel empty alphabet a",m12)
 
-## Intentionally break machine1 even worse
-machine1.ClearMarkedStates();
+## Intentionally break m1 even worse
+m1.ClearMarkedStates();
 
 ## Compose overall plant
-machines = faudes.Generator()
-faudes.Parallel(machine1,machine2,machines)
+m12 = Generator()
+Parallel(m1,m2,m12)
 
 ## Report
-machines.Write()
+m12.Write()
 
 ## Record test case
-faudes.TestDump("parallel empty alphabet b",machines)
+TestDump("parallel empty alphabet b",m12)
 
 ## validate test case
-faudes.TestDiff()
+TestDiff()
 
 

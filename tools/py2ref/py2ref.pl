@@ -66,11 +66,14 @@ $fhead
 <p>
 To run the below Python script, <tt>cd</tt> to the tutorial
 section of the respective plug-in and enter
-<tt>python3
-$fhead
-</tt>
+</p>
+<pre>
+&dollar; python3 $fhead
+</pre>
+<p>
 at the command prompt. The script will read input data
-from <tt>./tutorial/data/</tt>.
+from <tt>./tutorial/data/</tt> and write its output to
+<tt>./tutorial/tmp_*</tt>.
 </p>
 $txt
 

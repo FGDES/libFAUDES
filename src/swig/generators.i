@@ -47,9 +47,10 @@ Generator: introduce common base
   GEN(const GEN& rOtherGen);
   GEN(const std::string& rFileName);
   virtual ~GEN(void);
-  virtual GEN* New(void);
-  %rename(Copy) NewCpy;
-  virtual GEN* NewCpy(void);
+  %extend {  
+    %newobject Copy;
+    GEN* Copy(void) const { return $self->NewCpy();}; 
+  }
   %extend {
     GEN* Version(const std::string& pattern, const std::string& replace) const {
       GEN* res=$self->New();
@@ -127,10 +128,10 @@ Generator: introduce common base
     void GraphWrite(const std::string& rFileName, const std::string& rOutFormat="") const {
       // dont crash on missing dot
       if(!faudes_dotready()) {
-        FD_WARN("faudes.Generator::GraphWrite(...): failed to run graphviz/dot \"" << faudes_dotexecpath() << "\"");
+        FD_WARN("faudes.Generator::GraphWrite(...): failed to run graphviz/dot \"" << faudes_dotpath() << "\"");
         return;
       }
-      $self->GraphWrite(rFileName,rOutFormat,faudes_dotexecpath());
+      $self->GraphWrite(rFileName,rOutFormat,faudes_dotpath());
     }
   }
 
@@ -538,23 +539,21 @@ System: parametrised attributes
   EventSet ForcibleEvents(void) const;
   EventSet UnforcibleEvents(void) const;
 
-  // Abstraction events
-  void InsHighlevelEvent(Idx index);
-  Idx InsHighlevelEvent(const std::string& rName);
-  void InsLowlevelEvent(Idx index);
-  Idx InsLowlevelEvent(const std::string& rName);
-  void SetHighlevel(Idx index);
-  void SetHighlevel(const std::string& rName);
-  void SetHighlevel(const EventSet& rEvents);
-  void SetLowlevel(Idx index);
-  void SetLowlevel(const std::string& rName);
-  void SetLowlevel(const EventSet& rEvents);
-  bool Highlevel(Idx index) const;
-  bool Highlevel(const std::string& rName) const;
-  bool Lowlevel(Idx index) const;
-  bool Lowlevel(const std::string& rName) const;
-  EventSet HighlevelEvents(void) const;
-  EventSet LowlevelEvents(void) const;
+  // Preemptible events
+  void InsPreemptibleEvent(Idx index);
+  Idx InsPreemptibleEvent(const std::string& rName);
+  void InsUnpreemptibleEvent(Idx index);
+  Idx InsUnpreemptibleEvent(const std::string& rName);
+  void SetPreemptible(Idx index);
+  void SetPreemptible(const std::string& rName);
+  void SetPreemptible(const EventSet& rEvents);
+  void ClrPreemptible(Idx index);
+  void ClrPreemptible(const std::string& rName);
+  void ClrPreemptible(const EventSet& rEvents);
+  bool Preemptible(Idx index) const;
+  bool Preemptible(const std::string& rName) const;
+  EventSet PreemptibleEvents(void) const;
+  EventSet UnpreemptibleEvents(void) const;
 
 %enddef
 
@@ -835,21 +834,18 @@ SwigHelpEntry("System","Forcible events"," ClrForcible(evenset)");
 SwigHelpEntry("System","Forcible events","eventset ForcibleEvents()");
 SwigHelpEntry("System","Forcible events","eventset UnforcibleEvents()");
 
-SwigHelpEntry("System","Abstraction events","bool Highlevel(idx)");
-SwigHelpEntry("System","Abstraction events","bool Highlevel(name)");
-SwigHelpEntry("System","Abstraction events","bool Lowlevel(idx)");
-SwigHelpEntry("System","Abstraction events","bool Lowlevel(name)");
-SwigHelpEntry("System","Abstraction events"," InsHighlevelEvent(idx)");
-SwigHelpEntry("System","Abstraction events","idx InsLowlevelEvent(name)");
-SwigHelpEntry("System","Abstraction events"," InsLowlevelEvent(idx)");
-SwigHelpEntry("System","Abstraction events","idx InsLowlevelEvent(name)");
-SwigHelpEntry("System","Abstraction events"," SetHighlevel(idx)");
-SwigHelpEntry("System","Abstraction events"," SetHighlevel(name)");
-SwigHelpEntry("System","Abstraction events"," SetHighlevel(evenset)");
-SwigHelpEntry("System","Abstraction events"," SetLowlevel(idx)");
-SwigHelpEntry("System","Abstraction events"," SetLowlevel(name)");
-SwigHelpEntry("System","Abstraction events"," SetLowlevel(evenset)");
-SwigHelpEntry("System","Abstraction events","eventset HighlevelEvents()");
-SwigHelpEntry("System","Abstraction events","eventset LowlevelEvents()");
-    
+SwigHelpEntry("System","Preemptible events","bool Preemptible(idx)");
+SwigHelpEntry("System","Preemptible events","bool Preemptible(name)");
+SwigHelpEntry("System","Preemptible events"," InsPreemptibleEvent(idx)");
+SwigHelpEntry("System","Preemptible events","idx InsPreemptibleEvent(name)");
+SwigHelpEntry("System","Preemptible events"," InsUncontrollableEvent(idx)");
+SwigHelpEntry("System","Preemptible events","idx InsUncontrollableEvent(name)");
+SwigHelpEntry("System","Preemptible events"," SetPreemptible(idx)");
+SwigHelpEntry("System","Preemptible events"," SetPreemptible(name)");
+SwigHelpEntry("System","Preemptible events"," SetPreemptible(evenset)");
+SwigHelpEntry("System","Preemptible events"," ClrPreemptible(idx)");
+SwigHelpEntry("System","Preemptible events"," ClrPreemptible(name)");
+SwigHelpEntry("System","Preemptible events"," ClrPreemptible(evenset)");
+SwigHelpEntry("System","Preemptible events","eventset PreemptibleEvents()");
+SwigHelpEntry("System","Preemptible events","eventset UnpreemptibleEvents()");
 

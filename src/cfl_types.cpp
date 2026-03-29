@@ -308,7 +308,8 @@ void Type::FromString(const std::string& rString, const std::string& rLabel, con
 //DoWrite(rTr,rLabel,pContext)
 void Type::DoWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pContext) const {
   (void) rTw; (void) rLabel; (void) pContext;
-  FD_DC("Type::DoWrite(): not re-implemented in " << typeid(*this).name());
+  //rTw.WriteComment("serialisation not implemented for this type");
+  //FD_WARN("Type::DoWrite(): not re-implemented in " << typeid(*this).name());
 }
 
 //DoXWrite(rTr,rLabel,pContext)
@@ -326,7 +327,7 @@ void Type::DoDWrite(TokenWriter& rTw, const std::string& rLabel, const Type* pCo
 void Type::DoSWrite(TokenWriter& rTw) const {
   FD_DC("Type::DoSWrite(): not re-implemented in " << typeid(*this).name());
   rTw.WriteComment("");
-  rTw.WriteComment(" Statistics for " + Name());
+  rTw.WriteComment(" Statistics not available " + Name());
   rTw.WriteComment("");
 }
 
@@ -361,7 +362,7 @@ Token Type::XBeginTag(const std::string& rLabel,const std::string& rFallbackLabe
 ********************************************************************
 ********************************************************************
 
-Implementation of class ExtType
+Implementation of class AttrType
 
 ********************************************************************
 ********************************************************************
@@ -414,6 +415,11 @@ void AttrType::Skip(TokenReader& rTr) {
   }
 }
 
+//Skip(rTr)
+std::string AttrType::Str(void) const {
+  return std::string();
+}
+  
 
 /*
 ********************************************************************
@@ -516,6 +522,13 @@ const std::string& ExtType::ElementType(void) const {
 }
 
   
+//DoSWrite(rTr,rLabel,pContext)
+void ExtType::DoSWrite(TokenWriter& rTw) const {
+  FD_DC("ExtType::DoSWrite(): not re-implemented in " << typeid(*this).name());
+  rTw.WriteComment("");
+  rTw.WriteComment(" Statistics for " + Name());
+  rTw.WriteComment("");
+}
 
 
 
@@ -1048,6 +1061,7 @@ void TypeDefinition::Prototype(faudes::Type* pType){
 // construct new object with faudes type
 Type* TypeDefinition::NewObject() const{
   FD_DRTI("TypeDefinition::NewObject()");
+  FD_WARN("TypeDefinition::NewObject(): type name " << Name() << " prototype " << mpType);
   // bail out 
   if(!mpType) return NULL;
   // use prototype

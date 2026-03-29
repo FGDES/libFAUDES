@@ -12,8 +12,8 @@
 % 
 
 <Alphabet>
-cb11-7        +C+           cb4-11        +C+           cb11stp       +C+          
-rt1stp        +C+           rt1xy         +C+           rt1yx         +C+          
+cb11-7         +C+            cb4-11         +C+            cb11stp        +C+           
+rt1stp         +C+            rt1xy          +C+            rt1yx          +C+           
 </Alphabet>
 
 <States>
@@ -23,14 +23,14 @@ rt1stp        +C+           rt1xy         +C+           rt1yx         +C+
 </States>
 
 <TransRel>
-1              cb4-11        2             
-2              cb11stp       3             
-3              rt1xy         4             
-4              rt1stp        5             
-5              cb11-7        6             
-6              cb11stp       7             
-7              rt1yx         8             
-8              rt1stp        1             
+1              cb4-11         2             
+2              cb11stp        3             
+3              rt1xy          4             
+4              rt1stp         5             
+5              cb11-7         6             
+6              cb11stp        7             
+7              rt1yx          8             
+8              rt1stp         1             
 </TransRel>
 
 <InitStates>

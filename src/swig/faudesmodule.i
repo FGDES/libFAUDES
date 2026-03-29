@@ -101,5 +101,10 @@ print("faudes bindings: loading", SwigModule)
 #endif
 #endif
 
+// Extra Python feature: abstract base classes for containers
+#ifdef SWIGPYTHON
+%include <pyabc.i>
+#endif
+
 // guard faudesmodule.i
 #endif

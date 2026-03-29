@@ -12,10 +12,10 @@
 % 
 
 <Alphabet>
-cb3-12        +C+           cb12-4        +C+           cb4-12        +C+          
-cb5-12        +C+           cb12-5        +C+           cb12-3        +C+          
-cb12-8        +C+           cb12stp       +C+           cb8-12        +C+          
-rt2xy         +C+           rt2yx         +C+           rt2stp        +C+          
+cb3-12         +C+            cb12-4         +C+            cb4-12         +C+           
+cb5-12         +C+            cb12-5         +C+            cb12-3         +C+           
+cb12-8         +C+            cb12stp        +C+            cb8-12         +C+           
+rt2xy          +C+            rt2yx          +C+            rt2stp         +C+           
 </Alphabet>
 
 <States>
@@ -24,18 +24,18 @@ rt2xy         +C+           rt2yx         +C+           rt2stp        +C+
 </States>
 
 <TransRel>
-1              cb3-12        2             
-2              cb12stp       3             
-2              rt2yx         4             
-3              rt2yx         16            
-4              rt2stp        5             
-5              cb12stp       6             
-6              cb12-4        9             
-9              cb12stp       12            
-12             cb5-12        5             
-12             rt2xy         15            
-15             rt2stp        1             
-16             rt2stp        6             
+1              cb3-12         2             
+2              cb12stp        3             
+2              rt2yx          4             
+3              rt2yx          16            
+4              rt2stp         5             
+5              cb12stp        6             
+6              cb12-4         9             
+9              cb12stp        12            
+12             cb5-12         5             
+12             rt2xy          15            
+15             rt2stp         1             
+16             rt2stp         6             
 </TransRel>
 
 <InitStates>

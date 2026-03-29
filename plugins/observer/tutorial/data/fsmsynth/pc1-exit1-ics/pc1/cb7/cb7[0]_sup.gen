@@ -12,10 +12,10 @@
 % 
 
 <Alphabet>
-cb11-7        +C+           cb7-11        +C+           cb15-7        +C+          
-cb7+y         +C+           cb7-15        +C+           cb7-y         +C+          
-cb7stp        +C+           cb7wpar       cb7wplv11     cb7wplv15     t_modul3\cb7 
-+C+          
+cb11-7         +C+            cb7-11         +C+            cb15-7         +C+           
+cb7+y          +C+            cb7-15         +C+            cb7-y          +C+           
+cb7stp         +C+            cb7wpar        cb7wplv11      cb7wplv15      t_modul3\cb7  
++C+           
 </Alphabet>
 
 <States>
@@ -24,16 +24,16 @@ cb7stp        +C+           cb7wpar       cb7wplv11     cb7wplv15     t_modul3\c
 </States>
 
 <TransRel>
-1              cb11-7        2             
-2              cb7-y         7             
-7              t_modul3\cb7  8             
-8              cb7wpar       9             
-9              cb7stp        10            
-10             cb7-15        14            
-14             cb7-y         15            
-15             t_modul3\cb7  16            
-16             cb7wplv15     17            
-17             cb7stp        1             
+1              cb11-7         2             
+2              cb7-y          7             
+7              t_modul3\cb7   8             
+8              cb7wpar        9             
+9              cb7stp         10            
+10             cb7-15         14            
+14             cb7-y          15            
+15             t_modul3\cb7   16            
+16             cb7wplv15      17            
+17             cb7stp         1             
 </TransRel>
 
 <InitStates>
