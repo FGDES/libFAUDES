@@ -27,7 +27,7 @@ jobs:
     - name: Configure libFAUDES v${{ env.VMAJOR }}.${{ env.VMINOR }}
       run: |
         #export FAUDES_PLUGINS="synthesis luabindings pybindings"
-        make -j configure
+        make configure
         make clean
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
@@ -61,7 +61,7 @@ jobs:
       run: |
         # all excep pybindings
         export FAUDES_PLUGINS="omegaaut synthesis observer multitasking diagnosis hiosys iosystem coordinationcontrol priorities timed simulator iodevice luabindings"
-        make -j configure
+        make configure
         make clean
         rm -rf ./bin/*
         echo "notempty" > ./obj/notempty
