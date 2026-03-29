@@ -1300,7 +1300,8 @@ TEMP THIS* THIS::NewCpy(void) const {
 #undef BASE
 #undef THIS
 
-// MsVC will remove my prototypes if we dont use them somehere else  
+// MSVC will remove registrars if we dont use them somehere else
+// So we do so in cfl_generator.cpp  
 extern FAUDES_API AutoRegisterType<Alphabet> gRtiAlphabet;
 extern FAUDES_API AutoRegisterType<AlphabetVector> gRtiAlphabetVector;
 extern FAUDES_API AutoRegisterType<System> gRtiSystem;
