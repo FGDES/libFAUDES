@@ -25,7 +25,8 @@ the Python module <tt>faudes</tt>. Further instructions are organised as follows
   </p></li>
 </ul>
 <p>
-Also note the provided tutorials that demonstrate the intened usage.
+Intended usage is also demontrated by a number of tutorials distributed
+with the libFAUDES sources.
 </p>
 
 <h2 id="installation">
@@ -62,6 +63,15 @@ please let us know. Instructions on how to compile your own binary are provided
 </p>
 
 <p>
+<strong class="text_important">Note.</strong>
+Your Python environment may be externaly managed e.g. on Linux by the distribution
+package manager. Consequently installation of any modules via <tt>pip</tt> will be blocked.
+In such a case you will need to set up a virtual environment and then use <tt>pip</tt>
+and/or <tt>python3</tt> within that environment;
+<a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments">detailed instructions</a>.
+</p>
+
+<p>
 As a basic test, the below Python commands will report the libFAUDES version and available plug-ins:
 </p>
 <pre>
@@ -79,7 +89,7 @@ or, for "lazy" import to the current namespace
 </pre>
 
 <p>
-For the sake of concise esamples, we use lazy import throughout this documententation.
+For the sake of concise examples, we use lazy import throughout this documententation.
 E.g. <tt>faudes.Help()</tt> is convenientliy accessed by plain 
 </p>
 <pre>&gt;&gt;&gt; Help()</pre>
@@ -125,7 +135,7 @@ Tests/Tutorials
 libFAUDES sources include tutorials that further demonstrate the intended ussage. They also
 serve as test cases to validate a libFAUDES installation.
 For the Python module, the tutorials are included in the Python project sources used to compile the
-pip-installable binary distribution aka wheel. You can download those sources
+pip-installable binary distributions aka wheels. You can download those sources
 manually from <a href="https://pypi.org/project/faudes">PyPI</a> or by <tt>pip</tt>, e.g.:
 </p>
 <pre>

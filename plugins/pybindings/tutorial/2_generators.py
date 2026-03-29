@@ -93,8 +93,8 @@ gen.GraphWrite('tmp_simplemachine.jpg')
 ## gen.GraphShow()
 
 ## Comments: The method GraphShow() is meant for quick inspection e.g. in a
-## Jupyter notebook. It is implemented in Python an uses the modeul
-## mathplotlib to display an image rendered by GraphViz dot. You may inspect
+## Jupyter notebook. It is implemented in Python an uses the modul
+## mathplotlib to display the image rendered by GraphViz dot. You may inspect
 ## ./libFAUDES/plygins/pybindings/src/py_addons.py to derive alternive
 ## variants to best fit your needs
 
