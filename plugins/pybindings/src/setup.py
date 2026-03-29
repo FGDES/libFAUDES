@@ -24,6 +24,8 @@ nowstr = datetime.now().strftime('"%Y-%m-%dT%H-%M-%S"')
 syslibs=[]
 if "win" in platform:
   syslibs=["winmm", "wsock32"]
+if "mingw" in platform:
+  syslibs=["winmm", "wsock32"]
 
 ext = Extension(
   name="_faudes",
