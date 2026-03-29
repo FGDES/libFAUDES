@@ -21,17 +21,20 @@ buildstr = '"' + platform + '-for-python-' + pyver + '"'
 nowstr = datetime.now().strftime('"%Y-%m-%dT%H-%M-%S"')
 
 # figure relevant system  libraries
-syslibs=[]
+syslibs=None
+sysdirs=None
 if "win" in platform:
   syslibs=["winmm", "wsock32"]
 if "mingw" in platform:
   syslibs=["winmm", "wsock32"]
+  sysdirs=["/mingw64/lib"]
 
 ext = Extension(
   name="_faudes",
   sources=srcfiles,
   include_dirs=["src"],
   libraries=syslibs,
+  libraries_dirs=sysdirs,
   define_macros=[
     ("FAUDES_BUILD_DSO","1"),
     ("FAUDES_BUILDENV",buildstr),

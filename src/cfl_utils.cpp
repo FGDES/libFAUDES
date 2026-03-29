@@ -483,7 +483,7 @@ void ConsoleOut::Write(const std::string& message,long int cntnow, long int cntd
   DoWrite(message,cntnow,cntdone,verb);
 }
 void ConsoleOut::DoWrite(const std::string& message,long int cntnow, long int cntdone, int verb) {
-  (void) cntnow; (void) cntdone; 
+  (void) cntnow; (void) cntdone;
   if(mVerb<verb) return;
   std::ostream* sout=pStream;
   if(!sout) sout=&std::cout; // tmoor: used to be std::cerr, using std::cout to facilitate emscripten/js
