@@ -34,7 +34,7 @@ var luafaudes=function() {
 
 
 <div class="warning">
-<p><strong>Z E R O &nbsp;&nbsp;&nbsp; I N S T A L L</strong></p>
+<p><strong>Z E R O &nbsp;-&nbsp; I N S T A L L</strong></p>
 <p>Access libFAUDES locally via the <a fhref="javascript:luafaudes();">Lua-Console</a>,</p>
 <p>
 or cloud-based within a <a href="https://colab.research.google.com/drive/1hFvYPlgLv9zwhWL5gQ0s8aQJXCbEk3ml?usp=sharing">Google Colab Notebook</a>
@@ -213,7 +213,7 @@ Copyright (C) 2011 - 2026 Thomas Moor, Klaus Schmidt<br/>
   <tr>
     <td>19.09.2014</td>
     <td>libFAUDES 2.25a</td>
-    <td>browser-based Lua-Console</td>
+    <td>browser-based (aka zero-install) Lua-Console</td>
   </tr>
   <tr>
     <td>03.04.2014&nbsp;</td>
