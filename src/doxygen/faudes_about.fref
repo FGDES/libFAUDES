@@ -34,10 +34,11 @@ var luafaudes=function() {
 
 
 <div class="warning">
-<p><strong>G E T T I N G  &nbsp;&nbsp;&nbsp;   S T A R T E D</strong></p>
-<p>Access libFAUDES within your browser via the <a fhref="javascript:luafaudes();">Lua-Console</a>,</p>
-<p>from within Python by the <tt>pip</tt>-installable module <a href="https://pypi.org/project/faudes"><tt>faudes</tt></a>, or</p>
-<p>install as the desktop application <a fhref="DESTOOL_ONLINE">DESTool</a></p> 
+<p><strong>Z E R O &nbsp;&nbsp;&nbsp; I N S T A L L</strong></p>
+<p>Access libFAUDES locally via the <a fhref="javascript:luafaudes();">Lua-Console</a>,</p>
+<p>
+or cloud-based within a <a href="https://colab.research.google.com/drive/1hFvYPlgLv9zwhWL5gQ0s8aQJXCbEk3ml?usp=sharing">Google Colab Notebook</a>
+</p>
 </div>
 
 
@@ -67,18 +68,20 @@ libFAUDES is written in C++ with use of the Standard Template Library (STL).
 The libFAUDES generator classes are set-based models, that resemble the definition of 
 the quintuple automaton G = (Q, Sigma, delta, Qo, Qm). 
 Using libFAUDES to implement algorithms originally stated in terms of automata 
-is straight forward and benefits from general infrastructure, like file I/O and
-visualisation via <a href="http://www.graphviz.org" target="_top">Graphviz/<tt>dot</tt></a>.
+is straight forward and benefits from general infrastructure, like serialisation (aka file I/O)
+and visualisation via <a href="http://www.graphviz.org" target="_top">Graphviz/<tt>dot</tt></a>.
 </p>
 </li>
 
 <li>
 <p><strong>User Reference</strong></p>
 <p>
-The libFAUDES build system can organise an optional <a fhref="FAUDES_REFERENCE/index.html">user reference</a>, to complement the <a href="http://www.doxygen.org" target="_top">doxygen</a>-generated 
+The libFAUDES build system organises the <a fhref="FAUDES_REFERENCE/index.html">user reference</a>, to complement the <a href="http://www.doxygen.org" target="_top">doxygen</a>-generated 
 <a fhref="FAUDES_CSOURCE/main.html">C++ API</a> documentation.
 Thus, developers who wish to illustrate, motivate or explain their algorithms by examples, informative text or formal definitions can directly address the end-user of libFAUDES based
-applications, e.g. <a fhref="FAUDES_LUAFAUDES">luafaudes</a>
+applications, e.g.
+<a fhref="FAUDES_LUAFAUDES/">luafaudes</a>,
+<a fhref="FAUDES_PYTHONMOD/">the Python module</a>
 or <a fhref="DESTOOL_ONLINE">DESTool</a>.
 </p>
 </li>
@@ -103,10 +106,10 @@ control of discrete event systems.
 <p><strong>libFAUDES as a Python Module</strong></p>
 <p>
 The build system can compile libFAUDES as a Python C/C++ extension;
-i.e., a module that can be imported to Python by <tt>import faudes</tt>.  
+i.e., a module that can be imported within Python by <tt>import faudes</tt>.  
 The wrapper code is generated automatically by the identical <a href="http://www.swig.org">SWIG</a>
 interface definitions used for <a fhref="FAUDES_LUAFAUDES">luafaudes</a>; no extra coding effort
-to make libFAUDES functionality available to Python users. Allthough our original reasoningt to
+to make libFAUDES functionality available to Python users. Allthough our original reasoning to
 go for Lua as a light weight scripting language is still applicable, we appreaciate the wide acceptance of Python as an environment for scientific computing.
 </p>
 </li>
