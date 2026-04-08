@@ -49,12 +49,12 @@ $ python3 -c "import faudes; print(faudes.Version())"
 or, for native Windows
 
 @code{.unparsed}
-> py -m pip  install faudes
+> py -m pip install faudes
 > py -c "import faudes; print(faudes.Version())"
 @endcode
 
 <p>
-This will search the index <a href="https://pypi.org">PyPI</a>
+This will search the index <a href="https://pypi.org/project/faudes/">PyPI</a>
 for a binary distribution that fits your platform/archirectur. In the case
 no such matching binary is present, please let us know. Instructions on how
 to compile your own binary are below.
@@ -91,16 +91,16 @@ g.GraphShow()
 
 <p>
 Note: for graphics output you must have installed <tt>dot</tt> from the GraphViz package.
-If <tt>dot</tt> is not in the systems path, you may direct libfaudes via
+If <tt>dot</tt> is not in the systems path, you may direct libFAUDES via
 </p>
 
 @code{.unparsed}
-DocExecPath("/wherever_dot_is/dot").
+DocPath("/wherever_dot_is/dot").
 @endcode
 
 
 
-@subsection SecPybindingsIntro3 Building the libFAUDES Python module
+@subsection SecPybindingsIntro3 Building the libFAUDES Python Modeul
 
 <p>
 The faudes Python module consists of the glue code <tt>faudes.py</tt> and a suitably
@@ -131,12 +131,12 @@ from PyPI.org will fail.
 </p>
 
 
-@subsection SecPybindingsIntro3 Building the libFAUDES as Wheels
+@subsection SecPybindingsIntro4 Building the Module as Python Wheel
 
 <p>
 A <i>Python wheel</i> is an archive in a clearly defined format/layout which
 among others facilitates binary distribution of Python extenstions e.g. via PyPI.org.
-The libFAUDES build system has a dedicated target <tt>pybindings-wheel</tt>
+The libFAUDES build system has the dedicated target <tt>pybindings-wheel</tt>
 that utilises the Python module <tt>build</tt> to generate a Python wheel
 <tt>faudes-*.whl</tt>. The latter can be installed via <tt>pip</tt>.
 The benefit of this approach is that Python <tt>build</tt> takes care of matching
@@ -164,6 +164,12 @@ directly; e.g. for Windows with official Python distribution and MSVC installed
 @code{.unparsed}
 ./faudes-2.34> py -m build --wheel --outdir=./
 @endcode
+
+
+<p>
+Again, this method is of specific interest for MSYS environments where pip install
+from PyPI.org will fail. You will need to install the matching Python module <tt>build</tt>
+via the MSYS package manager <tt>pacman</tt>.
 </p>
 
 

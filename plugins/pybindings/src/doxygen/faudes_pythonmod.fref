@@ -25,8 +25,8 @@ the Python module <tt>faudes</tt>. Further instructions are organised as follows
   </p></li>
 </ul>
 <p>
-For zero-install/first-inspection we share a simple demo as a
-<a href="https://colab.research.google.com/drive/1hFvYPlgLv9zwhWL5gQ0s8aQJXCbEk3ml?usp=sharing">Google Colab Notebook</a>.
+For zero-install/first-inspection we share a simple 
+<a href="https://colab.research.google.com/drive/1hFvYPlgLv9zwhWL5gQ0s8aQJXCbEk3ml?usp=sharing">demo</a> as a Google Colab Notebook.
 More detailed demonstration of the intended usage is provided
 by the tutorials distributed with the libFAUDES sources. 
 </p>
