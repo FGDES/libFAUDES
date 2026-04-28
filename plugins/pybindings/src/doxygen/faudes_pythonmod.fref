@@ -25,8 +25,10 @@ the Python module <tt>faudes</tt>. Further instructions are organised as follows
   </p></li>
 </ul>
 <p>
-Intended usage is also demontrated by a number of tutorials distributed
-with the libFAUDES sources.
+For zero-install/first-inspection we share a simple 
+<a href="https://colab.research.google.com/drive/1hFvYPlgLv9zwhWL5gQ0s8aQJXCbEk3ml?usp=sharing">demo</a> as a Google Colab Notebook.
+More detailed demonstration of the intended usage is provided
+by the tutorials distributed with the libFAUDES sources. 
 </p>
 
 <h2 id="installation">
@@ -35,7 +37,7 @@ Installation
 
 <p>
 If you are using an official Python distribution (i.e., either dowloaded/installed from
-<a href="https://www.python.org">www.pytgon.org</a> or,
+<a href="https://www.python.org">www.python.org</a> or,
 for Linux, via the default package manager), you can most likely
 install the <tt>faudes</tt> module via <tt>pip</tt>. On Linux and macOS, this is done
 via the command line by
@@ -70,6 +72,10 @@ In such a case you will need to set up a virtual environment and then use <tt>pi
 and/or <tt>python3</tt> within that environment;
 <a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments">detailed instructions</a>.
 </p>
+
+<h2 id="inspection">
+First Test
+</h2>
 
 <p>
 As a basic test, the below Python commands will report the libFAUDES version and available plug-ins:
@@ -128,11 +134,11 @@ for functions related to classical supervisory control theory.
 </p>
 
 <h2 id="tests">
-Tests/Tutorials
+Validation
 </h2>
 
 <p>
-libFAUDES sources include tutorials that further demonstrate the intended ussage. They also
+libFAUDES sources include tutorials that demonstrate the intended ussage. They also
 serve as test cases to validate a libFAUDES installation.
 For the Python module, the tutorials are included in the Python project sources used to compile the
 pip-installable binary distributions aka wheels. You can download those sources
@@ -179,16 +185,26 @@ For image output of generator graphs libFAUDES relies on the
 the tool <tt>dot</tt> from the <a href="http://www.graphviz.org" target="_top">Graphviz package</a>.
 For most Linux distributions, <tt>dot</tt> can be installed by the package manager or is
 included anyway. For Mac OsX and MS Windows, installers are available from 
-the <a href="http://www.graphviz.org" target="_top">Graphviz site</a>. For all systems,
-the location of the  binary <tt>dot</tt> must either be in the <tt>PATH</tt> environtment variable or  
-specified within as follows:
+the <a href="http://www.graphviz.org" target="_top">Graphviz site</a>.
+</p>
+<p>
+Example: reading a generator from a faudes formated file, writing
+a graphical representation in <tt>.png</tt> format, and/or showing the image
+on screen::
+</p>
+<pre>
+&gt;&gt;&gt; gen=Generator("data/simplemachine.gen")       # read generator
+&gt;&gt;&gt; gen.GraphWrite("tmp_simplemachine.png");      # write image 
+&gt;&gt;&gt; gen.GraphShow();                              # or show image 
+</pre>
+<p>
+For the above code snipped to work, libFAUDES needs to locate the executable <tt>dot</tt>.
+If libFAUDES fails in this regard, you may specify the location programatically.
 </p>
 <pre>
 &gt;&gt;&gt; DotPath("/usr/bin/dot")                                   # eg Linux  
 &gt;&gt;&gt; DotPath("c:\\Program Files\\Graphviz\\dot")               # eg Windows
 &gt;&gt;&gt; DotPath("/Applications/Graphviz.app/Contents/MacOS/dot"); # eg MacOS
-&gt;&gt;&gt; gen=Generator("data/simplemachine.gen")                   # read generator
-&gt;&gt;&gt; gen.GraphWrite("tmp_simplemachine.png");                  # write image 
 </pre>
 
 

@@ -30,22 +30,18 @@ In earlier days, we used to link the precomiled binaries
 against so called <i>LSB 3.2 system library stubs</i> which we considered
 a great approach for cross-distribution binary compatibility.
 However, LSB was last updated in 2015 and common Linux distributions
-stepped out from then on. If you want/need to run early versions of libFAUDES
-or derived software, you may need to install the LSB loader. Depending on your
-Linux distribution, packagenames are just <tt>lsb</tt> (e.g. Debian) or
-<tt>redhat-lsb</tt> (e.g. Fedora). All theese issues are readily resolved if you
-are prepared to re-compile.
+stepped out from then on. We regret the decease of LSB but we understand the
+rational.
 </p>
 </li>  
 <li>
 <p>
 <strong>macOS:</strong>
-There is no dedicated libFAUDES distribution for macOS, compilation follows the same
-path as for Linux, see below. Alternatively, you may download one of the application packages
-(e.g. DESTool or FlexFact) and extract the relevant binaries from the
-bundle file. Our current test target is macOS 12 (dated 2021) and binaries should be compatible
-back to the introduction of Apple Silicon M1. Earlier application packages have been compiled
-on OS X 10.7 64-bit (x86 archiracture, dated approx
+Precompiled packages for macOS come a <tt>tar.gz</tt> archives just as for Linux but perhaps
+not quite that frequently.
+Our current test target is macOS 12 (dated 2021) and binaries should be compatible
+back to the introduction of Apple Silicon M1. Earlier application packages (DESTool etc)
+have been compiled on OS X 10.7 64-bit (x86 archiracture, dated approx
 2011) or even OS X 10.4 32-bit (dated approx 2006); see our archive.
 </p>
 </li>
@@ -146,7 +142,7 @@ project provides
 a variant of the GNU-toolchain toolchain for native MS Windows development and it includes
 a compatible make tool. The easiest way to get this going is to first install
 <a href="https://www.msys2.org">MSYS2</a>
-and then to obtain the GNU-toolchain within this environment; e.g., run the package manager
+and then to obtain the GNU-toolchain within that environment; e.g., run the package manager
 from an MSYS2 terminal window:
 </p>
 <pre>
@@ -189,7 +185,7 @@ The fourth platform <strong>cl_win</strong> addresses the MS compiler
 <tt>cl.exe</tt> provided by MS Visual Studio. To use MS Visual C 
 for the development of a libFAUDES based application, it is strongly recommended
 to compile libFAUDES with the same version of <tt>cl.exe</tt> as it will be used for application developement,
-an specically to do so with matching compiler/linker options. Among the vast number of precivable usecases, libFAUDES 
+and specifically to do so with matching compiler/linker options. Among the vast number of precivable usecases, libFAUDES 
 is currently distributed in two orthogonal shapes that can be selected with the  
 FAUDES_LINKING switch as demonstrated below and that have both been tested to compile with the community 
 edition of MSVC 2015 and MSVC 2022. Example for the MS Windows commandline: 
@@ -305,7 +301,7 @@ Since we migrated our sources to <a hreh="https://github.com/FGDES">GitHub</a> a
 we also use <a href="https://brew.sh">HomeBrew</a>
 to obtain <tt>SWIG</tt> and other tools to run GitHub actions. This likewise works out fine,
 so there is some robustness to report on this end.
-Regarding the versions of the respective tools, the same concerns as apply as for Linux.
+Regarding the versions of the respective tools, the same concerns apply as for Linux.
 Try to use fairly recent
 versions and report back any issues.
 </p>
@@ -323,7 +319,7 @@ from a MSYS2 terminal window, e.g.:
 pacman -S swig perl doxygen ncurses-devel libreadline-devel 
 </pre>
 <p>
-Reagding versions of the respective tools, the same concerns as apply as for Linux and/or macOS.
+Regarding versions of the respective tools, the same concerns as apply as for Linux and/or macOS.
 </p>
 
 
@@ -340,7 +336,7 @@ To re-configure and compile libFAUDES sources from scratch, you may run
 
 <p>
 When developing a plug-in, it is advisable to
-edit the main <tt>Makefile</tt> to only eanable a minimal set of plug-ins.
+edit the main <tt>Makefile</tt> to only enable a minimal set of plug-ins.
 This will keep compilation
 times reasonably short. In particular, the luabindings plug-in depends on every
 single header file and the build process will recreate all luabindings
@@ -359,12 +355,12 @@ from scratch when you edit any one header file.
 <p>
 libFAUDES uses doxygen as a professional tool to generate the C++ API documentation.
 However,  
-we did not yet find a similar tool for the user-reference. In order to still have some
-systematic approach to a user-level documentation, the libFAUDES build-system
-uses the <a href="csource/group__RunTimeInterface.html">run-time-interface</a>
-as a basis. The compilation process invokes a number of home-grown tools which may 
-need a re-design in due course. However, some care has been taken to have a consistent 
-input format that encodes relevant structural data. In the meanwhile,
+we did not find a similar tool for the user-reference. In order to still have some
+systematic approach to a user-level documentation, libFAUDES implements
+its own <a href="csource/group__RunTimeInterface.html">run-time-interface</a>.
+The compilation process invokes a number of home-grown tools which may 
+need a re-design in due course. However, some care has been taken to have a stable 
+XML conform input format that encodes relevant structural data. In the meanwhile,
 we would like to encourage developers to
 (a) contribute to the user-reference to advertise their plug-ins and
 (b) stick to the below conventions where ever possible to ease
