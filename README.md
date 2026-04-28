@@ -30,7 +30,8 @@ are distributed at
 
 https://fgdes.tf.fau.de/download.html
 
-Alternatively, you may install the faudes Python module via pip
+Alternatively, you may install the [faudes](https://pypi.org/project/faudes)
+Python module via pip
 
 https://pypi.org/project/faudes
 
