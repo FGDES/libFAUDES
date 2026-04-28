@@ -17,16 +17,22 @@ General Public License.  Different terms may apply to libFAUDES plug-ins.
 
 
 
-## Documentation
+## Usage
 
 libFAUDES ships with auto-generated HTML documentaion which can be
 accessed via ./doc/index.html. An online version is available at
 
 https://fgdes.tf.fau.de/faudes
 
-For your convenience, precompiled binaries are distributed at
+For your convenience, precompiled binaries incl. the interpreter
+[luafaudes](https://fgdes.tf.fau.de/faudes/luafaudes/index.html)
+are distributed at
 
 https://fgdes.tf.fau.de/download.html
+
+Alternatively, you may install the faudes Python module via pip
+
+https://pypi.org/project/faudes
 
 If you want to build your own, see the build process documentation
 

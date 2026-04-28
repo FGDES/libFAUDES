@@ -37,7 +37,7 @@ Installation
 
 <p>
 If you are using an official Python distribution (i.e., either dowloaded/installed from
-<a href="https://www.python.org">www.pytgon.org</a> or,
+<a href="https://www.python.org">www.python.org</a> or,
 for Linux, via the default package manager), you can most likely
 install the <tt>faudes</tt> module via <tt>pip</tt>. On Linux and macOS, this is done
 via the command line by
